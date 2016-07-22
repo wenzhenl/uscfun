@@ -1,4 +1,4 @@
 usc日常
 ======
 
-![alt uscfun](https://github.com/wenzhenl/uscfun/raw/master/src/resources/uscfun.png)
+![alt uscfun](https://github.com/wenzhenl/uscfun/blob/master/resources/uscfun.png)
