@@ -1,4 +1,4 @@
 usc日常
 ======
 
-![alt uscfun](./resources/resize_uscfun.png)
+<img align="center" src="./resources/resize_uscfun.png" alt="uscfun_logo">
