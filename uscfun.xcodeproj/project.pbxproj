@@ -12,6 +12,8 @@
 		0A7CE0F81D439A0900431642 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A7CE0F61D439A0900431642 /* Main.storyboard */; };
 		0A7CE0FA1D439A0900431642 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A7CE0F91D439A0900431642 /* Assets.xcassets */; };
 		0A7CE0FD1D439A0900431642 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A7CE0FB1D439A0900431642 /* LaunchScreen.storyboard */; };
+		0AB69AEF1D43A8C900AFA9BF /* appnameBanner.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AB69AEE1D43A8C900AFA9BF /* appnameBanner.png */; };
+		0AB69AF11D43A8D500AFA9BF /* iTunesArtwork@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AB69AF01D43A8D500AFA9BF /* iTunesArtwork@1x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		0A7CE0F91D439A0900431642 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A7CE0FC1D439A0900431642 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0A7CE0FE1D439A0900431642 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0AB69AEE1D43A8C900AFA9BF /* appnameBanner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = appnameBanner.png; sourceTree = "<group>"; };
+		0AB69AF01D43A8D500AFA9BF /* iTunesArtwork@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@1x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +44,7 @@
 			children = (
 				0A7CE0F11D439A0900431642 /* uscfun */,
 				0A7CE0F01D439A0900431642 /* Products */,
+				0AB69AEC1D43A89800AFA9BF /* Supporting Files */,
 			);
 			sourceTree = "<group>";
 		};
@@ -62,6 +67,23 @@
 				0A7CE0FE1D439A0900431642 /* Info.plist */,
 			);
 			path = uscfun;
+			sourceTree = "<group>";
+		};
+		0AB69AEC1D43A89800AFA9BF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0AB69AED1D43A8B800AFA9BF /* Images */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0AB69AED1D43A8B800AFA9BF /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				0AB69AEE1D43A8C900AFA9BF /* appnameBanner.png */,
+				0AB69AF01D43A8D500AFA9BF /* iTunesArtwork@1x.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -122,6 +144,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AB69AEF1D43A8C900AFA9BF /* appnameBanner.png in Resources */,
+				0AB69AF11D43A8D500AFA9BF /* iTunesArtwork@1x.png in Resources */,
 				0A7CE0FD1D439A0900431642 /* LaunchScreen.storyboard in Resources */,
 				0A7CE0FA1D439A0900431642 /* Assets.xcassets in Resources */,
 				0A7CE0F81D439A0900431642 /* Main.storyboard in Resources */,
@@ -252,6 +276,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = uscfun/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Leeyukuang.uscfun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -263,6 +288,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = uscfun/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Leeyukuang.uscfun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -288,6 +314,7 @@
 				0A7CE1031D439A0900431642 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

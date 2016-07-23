@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8150" systemVersion="15A204g" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8122"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -15,13 +16,53 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="appnameBanner.png" translatesAutoresizingMaskIntoConstraints="NO" id="AVk-5B-UAq">
+                                <rect key="frame" x="0.0" y="280" width="600" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="d9E-iB-2oc"/>
+                                    <constraint firstAttribute="height" constant="40" id="i99-mA-C3b"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="i99-mA-C3b"/>
+                                    </mask>
+                                </variation>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iTunesArtwork@1x.png" translatesAutoresizingMaskIntoConstraints="NO" id="gs2-bW-FXp">
+                                <rect key="frame" x="0.0" y="504" width="600" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="QmK-jw-dmw"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright © 2015-2016 留学日常联盟" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B3X-Es-TPp">
+                                <rect key="frame" x="0.0" y="562" width="600" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="AVk-5B-UAq" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="B8g-w6-rDU"/>
+                            <constraint firstItem="gs2-bW-FXp" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" id="KvO-ai-4jO"/>
+                            <constraint firstItem="B3X-Es-TPp" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" id="aMg-Ic-P4f"/>
+                            <constraint firstItem="gs2-bW-FXp" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="f1u-xR-6wD"/>
+                            <constraint firstItem="AVk-5B-UAq" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" id="jee-68-2KR"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="B3X-Es-TPp" secondAttribute="bottom" constant="20" id="kKt-Pg-i24"/>
+                            <constraint firstItem="B3X-Es-TPp" firstAttribute="top" secondItem="gs2-bW-FXp" secondAttribute="bottom" constant="8" symbolic="YES" id="ktQ-Jt-IVr"/>
+                            <constraint firstItem="AVk-5B-UAq" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="s48-ft-zUI"/>
+                            <constraint firstItem="B3X-Es-TPp" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="yj8-Wg-HOk"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="298" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="appnameBanner.png" width="1700" height="416"/>
+        <image name="iTunesArtwork@1x.png" width="512" height="512"/>
+    </resources>
 </document>
