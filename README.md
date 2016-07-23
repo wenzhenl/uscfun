@@ -1,4 +1,4 @@
-usc日常
-======
+![]("./resources/logo.png")
 
-<img src="./resources/resize_uscfun.png" alt="uscfun_logo" style="margin: auto;">
+USC日常客户端
+============
