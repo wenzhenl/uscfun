@@ -1,0 +1,4 @@
+Color specification for USCFun icon
+Background yellow: fffc00
+Fill color for U: 29abe2
+U POS: x512, y568.55,w680
