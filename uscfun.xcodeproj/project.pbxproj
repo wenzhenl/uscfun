@@ -12,9 +12,12 @@
 		0A6834C31D56858C002E9B0D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A6834C11D56858C002E9B0D /* Main.storyboard */; };
 		0A6834C51D56858C002E9B0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A6834C41D56858C002E9B0D /* Assets.xcassets */; };
 		0A6834C81D56858C002E9B0D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A6834C61D56858C002E9B0D /* LaunchScreen.storyboard */; };
+		735BE8253448C87F145DDF95 /* libPods-uscfun.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 046E8B00EF1A5D6490FD4CFD /* libPods-uscfun.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		046E8B00EF1A5D6490FD4CFD /* libPods-uscfun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-uscfun.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		08F35232E5951BB14F9E57FA /* Pods-uscfun.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uscfun.release.xcconfig"; path = "Pods/Target Support Files/Pods-uscfun/Pods-uscfun.release.xcconfig"; sourceTree = "<group>"; };
 		0A6834BA1D56858C002E9B0D /* uscfun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = uscfun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A6834BD1D56858C002E9B0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0A6834BF1D56858C002E9B0D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +25,8 @@
 		0A6834C41D56858C002E9B0D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A6834C71D56858C002E9B0D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0A6834C91D56858C002E9B0D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0AF847991D6812730015C5AB /* uscfun-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "uscfun-Bridging-Header.h"; sourceTree = "<group>"; };
+		75E54CBF6FB6E8B58159D318 /* Pods-uscfun.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uscfun.debug.xcconfig"; path = "Pods/Target Support Files/Pods-uscfun/Pods-uscfun.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				735BE8253448C87F145DDF95 /* libPods-uscfun.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +46,8 @@
 			children = (
 				0A6834BC1D56858C002E9B0D /* uscfun */,
 				0A6834BB1D56858C002E9B0D /* Products */,
+				6B9364B2497E6D322436E689 /* Pods */,
+				3F1C918CE9A3604DE99E8313 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,8 +68,26 @@
 				0A6834C41D56858C002E9B0D /* Assets.xcassets */,
 				0A6834C61D56858C002E9B0D /* LaunchScreen.storyboard */,
 				0A6834C91D56858C002E9B0D /* Info.plist */,
+				0AF847991D6812730015C5AB /* uscfun-Bridging-Header.h */,
 			);
 			path = uscfun;
+			sourceTree = "<group>";
+		};
+		3F1C918CE9A3604DE99E8313 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				046E8B00EF1A5D6490FD4CFD /* libPods-uscfun.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6B9364B2497E6D322436E689 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				75E54CBF6FB6E8B58159D318 /* Pods-uscfun.debug.xcconfig */,
+				08F35232E5951BB14F9E57FA /* Pods-uscfun.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +97,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0A6834CC1D56858C002E9B0D /* Build configuration list for PBXNativeTarget "uscfun" */;
 			buildPhases = (
+				E0E166FF5437230A89E1E349 /* [CP] Check Pods Manifest.lock */,
 				0A6834B61D56858C002E9B0D /* Sources */,
 				0A6834B71D56858C002E9B0D /* Frameworks */,
 				0A6834B81D56858C002E9B0D /* Resources */,
+				C4A7A75ED504B42CA51505D9 /* [CP] Embed Pods Frameworks */,
+				457F183FA3632C258EF4004B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -129,6 +158,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		457F183FA3632C258EF4004B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-uscfun/Pods-uscfun-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C4A7A75ED504B42CA51505D9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-uscfun/Pods-uscfun-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E0E166FF5437230A89E1E349 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0A6834B61D56858C002E9B0D /* Sources */ = {
@@ -249,23 +326,30 @@
 		};
 		0A6834CD1D56858C002E9B0D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 75E54CBF6FB6E8B58159D318 /* Pods-uscfun.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = uscfun/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.richang.uscfun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "uscfun/uscfun-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		0A6834CE1D56858C002E9B0D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 08F35232E5951BB14F9E57FA /* Pods-uscfun.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = uscfun/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.richang.uscfun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "uscfun/uscfun-Bridging-Header.h";
 			};
 			name = Release;
 		};
