@@ -8,6 +8,10 @@
 
 import Foundation
 
+class USCFunConstants {
+    static let minimumPasswordLength = 5
+}
+
 extension UIColor {
     class func themeYellow() -> UIColor {
         return UIColor(red: 1.0, green: 0.988, blue: 0.0, alpha: 1.0)
@@ -28,5 +32,23 @@ extension UIColor {
     class func backgroundGray() -> UIColor {
         let grayLevel = CGFloat(240.0)
         return UIColor(red: grayLevel/255, green: grayLevel/255, blue: grayLevel/250, alpha: 1.0)
+    }
+}
+
+extension String {
+    func isValidEmail() -> Bool {
+        
+        let emailRegEx = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+        
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluateWithObject(self)
+    }
+    
+    func isEmpty() -> Bool {
+        let patternForEmptyString = "^\\s*$"
+        if self.rangeOfString(patternForEmptyString, options: .RegularExpressionSearch) != nil {
+            return true
+        }
+        return false
     }
 }

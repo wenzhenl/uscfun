@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     AVOSCloud.setApplicationId("pDLnf6MjL1vIgRw6b2WWWVCJ-MdYXbMMI", clientKey: "zpbYwzEe5c6Cw4Ecmfr745C2")
     AVAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
     
-    if !Me.hasLoggedIn {
+    if !User.hasLoggedIn {
       window = UIWindow(frame: UIScreen.mainScreen().bounds)
       let storyboard = UIStoryboard(name: "Login", bundle: nil)
       let initialViewController = storyboard.instantiateInitialViewController()

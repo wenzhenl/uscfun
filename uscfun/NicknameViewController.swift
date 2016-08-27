@@ -12,6 +12,17 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var nicknameView: UIView!
     @IBOutlet weak var nicknameTextField: UITextField!
+    
+    @IBOutlet weak var errorLabel: UILabel!
+    var nickname: String? {
+        get {
+            return nicknameTextField.text
+        }
+        set {
+            nicknameTextField.text = newValue
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -24,6 +35,7 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
         nicknameView.layer.borderWidth = 3
         nicknameView.layer.borderColor = UIColor.whiteColor().CGColor
         nicknameTextField.delegate = self
+        errorLabel.hidden = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -33,11 +45,23 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
+        nickname = User.nickname
         nicknameTextField.becomeFirstResponder()
     }
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        nicknameTextField.resignFirstResponder()
-        performSegueWithIdentifier("go to password", sender: self)
+        
+        guard let nickname = nickname else {
+            errorLabel.hidden = false
+            return true
+        }
+        if !nickname.isEmpty() {
+            User.nickname = nickname.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            errorLabel.hidden = true
+            nicknameTextField.resignFirstResponder()
+            performSegueWithIdentifier("go to password", sender: self)
+        } else {
+            errorLabel.hidden = false
+        }
         return true
     }
     /*

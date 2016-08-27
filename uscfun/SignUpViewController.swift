@@ -12,8 +12,19 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     
     @IBOutlet weak var emailInputView: UIView!
     @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var errorLabel: UILabel!
     
     @IBOutlet weak var noticeTextView: UITextView!
+    
+    var email: String? {
+        get {
+            return emailTextField.text == nil ? "" : emailTextField.text! + "@usc.edu"
+        }
+        set {
+            emailTextField.text = newValue
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -37,6 +48,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         noticeTextView.textAlignment = .Center
         emailTextField.delegate = self
 //        emailTextField.attributedPlaceholder = NSAttributedString(string: "在这里输入你的USC邮箱", attributes: [NSFontAttributeName: UIFont.systemFontOfSize(10)])
+        errorLabel.hidden = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -46,6 +58,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
+        email = User.email
         emailTextField.becomeFirstResponder()
     }
     @IBAction func goBack(sender: UIBarButtonItem) {
@@ -59,8 +72,14 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        performSegueWithIdentifier("go to nickname", sender: self)
+        if email != nil && email!.isValidEmail() {
+            User.email = email!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            textField.resignFirstResponder()
+            errorLabel.hidden = true
+            performSegueWithIdentifier("go to nickname", sender: self)
+        } else {
+            errorLabel.hidden = false
+        }
         return true
     }
     /*
