@@ -24,4 +24,9 @@ extension UIColor {
     class func themeUSCRed(alpha: CGFloat) -> UIColor {
         return UIColor(red: 153.0/255, green: 27.0/255, blue: 30.0/250, alpha: alpha)
     }
+    
+    class func backgroundGray() -> UIColor {
+        let grayLevel = CGFloat(240.0)
+        return UIColor(red: grayLevel/255, green: grayLevel/255, blue: grayLevel/250, alpha: 1.0)
+    }
 }
