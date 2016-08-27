@@ -23,7 +23,6 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
         
         nicknameView.layer.borderWidth = 3
         nicknameView.layer.borderColor = UIColor.whiteColor().CGColor
-        nicknameTextField.becomeFirstResponder()
         nicknameTextField.delegate = self
     }
 
@@ -32,6 +31,10 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+        nicknameTextField.becomeFirstResponder()
+    }
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         nicknameTextField.resignFirstResponder()
         performSegueWithIdentifier("go to password", sender: self)

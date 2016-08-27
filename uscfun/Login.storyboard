@@ -180,14 +180,14 @@
                                             <constraint firstAttribute="width" constant="50" id="m4b-Co-Uy6"/>
                                         </constraints>
                                     </imageView>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="在这里输入USC邮箱" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0lN-0b-rMI">
-                                        <rect key="frame" x="78" y="34" width="373" height="22"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="在这里输入USC邮箱" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0lN-0b-rMI">
+                                        <rect key="frame" x="78" y="33" width="373" height="24"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" keyboardAppearance="light" returnKeyType="next"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="@usc.edu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2VU-MF-EHV">
-                                        <rect key="frame" x="451" y="32" width="89" height="24"/>
+                                        <rect key="frame" x="451" y="33" width="89" height="24"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -203,12 +203,15 @@
                                     <constraint firstItem="2VU-MF-EHV" firstAttribute="baseline" secondItem="0lN-0b-rMI" secondAttribute="baseline" id="gtG-gO-0hs"/>
                                     <constraint firstItem="0lN-0b-rMI" firstAttribute="baseline" secondItem="ckM-pZ-zWw" secondAttribute="baseline" id="o22-rH-ckU"/>
                                     <constraint firstItem="ckM-pZ-zWw" firstAttribute="top" secondItem="LJN-JQ-dIf" secondAttribute="top" constant="20" symbolic="YES" id="qcx-4b-LOr"/>
+                                    <constraint firstItem="0lN-0b-rMI" firstAttribute="bottom" secondItem="2VU-MF-EHV" secondAttribute="bottom" id="qhi-0Z-Cc0"/>
                                     <constraint firstAttribute="bottom" secondItem="ckM-pZ-zWw" secondAttribute="bottom" constant="20" symbolic="YES" id="sfc-IF-7bu"/>
                                     <constraint firstAttribute="trailing" secondItem="2VU-MF-EHV" secondAttribute="trailing" constant="20" symbolic="YES" id="xZS-d1-BLs"/>
                                     <constraint firstItem="2VU-MF-EHV" firstAttribute="centerY" secondItem="LJN-JQ-dIf" secondAttribute="centerY" id="y3V-lN-xwu"/>
+                                    <constraint firstItem="0lN-0b-rMI" firstAttribute="top" secondItem="2VU-MF-EHV" secondAttribute="top" id="yx5-HX-L6w"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
+                                        <exclude reference="YTy-4G-Y3Q"/>
                                         <exclude reference="o22-rH-ckU"/>
                                         <exclude reference="gtG-gO-0hs"/>
                                         <exclude reference="y3V-lN-xwu"/>

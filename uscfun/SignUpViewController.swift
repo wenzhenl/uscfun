@@ -22,7 +22,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         self.navigationController!.navigationBar.tintColor = UIColor.darkGrayColor()
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGrayColor(), NSFontAttributeName: UIFont.systemFontOfSize(20)]
         self.view.backgroundColor = UIColor.backgroundGray()
-        emailTextField.becomeFirstResponder()
+//        emailTextField.becomeFirstResponder()
         emailInputView.layer.borderWidth = 3
         emailInputView.layer.borderColor = UIColor.whiteColor().CGColor
         
@@ -44,13 +44,16 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+        emailTextField.becomeFirstResponder()
+    }
     @IBAction func goBack(sender: UIBarButtonItem) {
         emailTextField.resignFirstResponder()
         self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool {
-        print("link clicked")
         UIApplication.sharedApplication().openURL(URL)
         return false
     }
