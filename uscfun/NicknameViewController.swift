@@ -16,7 +16,7 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var errorLabel: UILabel!
     var nickname: String? {
         get {
-            return nicknameTextField.text
+            return (nicknameTextField.text ?? "").stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         }
         set {
             nicknameTextField.text = newValue
@@ -50,12 +50,8 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
     }
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         
-        guard let nickname = nickname else {
-            errorLabel.hidden = false
-            return true
-        }
-        if !nickname.isEmpty() {
-            User.nickname = nickname.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        if !(nickname ?? "").isEmpty() {
+            User.nickname = nickname
             errorLabel.hidden = true
             nicknameTextField.resignFirstResponder()
             performSegueWithIdentifier("go to password", sender: self)

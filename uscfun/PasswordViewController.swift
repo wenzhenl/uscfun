@@ -16,7 +16,7 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     
     var password: String? {
         get {
-            return passwordTextField.text
+            return (passwordTextField.text ?? "").stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         }
         set {
             passwordTextField.text = newValue
@@ -47,6 +47,7 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if password?.characters.count >= USCFunConstants.minimumPasswordLength {
+            User.password = password
             passwordTextField.resignFirstResponder()
             performSegueWithIdentifier("go to confirmation", sender: self)
             errorLabel.hidden = true

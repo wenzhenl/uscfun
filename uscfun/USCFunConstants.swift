@@ -51,4 +51,14 @@ extension String {
         }
         return false
     }
+    
+    func emailPrefix() -> String? {
+        let delimiter = "@"
+        let token = self.componentsSeparatedByString(delimiter)
+        if token.count > 1 {
+            return token[0]
+        } else {
+            return nil
+        }
+    }
 }

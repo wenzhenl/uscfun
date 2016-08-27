@@ -18,7 +18,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     
     var email: String? {
         get {
-            return emailTextField.text == nil ? "" : emailTextField.text! + "@usc.edu"
+            return (emailTextField.text ?? "").stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) + "@usc.edu"
         }
         set {
             emailTextField.text = newValue
@@ -58,7 +58,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
-        email = User.email
+        email = User.email?.emailPrefix()
         emailTextField.becomeFirstResponder()
     }
     @IBAction func goBack(sender: UIBarButtonItem) {
@@ -73,7 +73,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if email != nil && email!.isValidEmail() {
-            User.email = email!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            User.email = email
             textField.resignFirstResponder()
             errorLabel.hidden = true
             performSegueWithIdentifier("go to nickname", sender: self)
