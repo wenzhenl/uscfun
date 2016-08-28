@@ -136,7 +136,7 @@
                                         </variation>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YfC-QH-e6X">
-                                        <rect key="frame" x="20" y="80" width="560" height="108"/>
+                                        <rect key="frame" x="20" y="88" width="560" height="108"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="paper-plane-1" translatesAutoresizingMaskIntoConstraints="NO" id="1qI-Lk-BId">
                                                 <rect key="frame" x="20" y="20" width="30" height="30"/>
@@ -158,15 +158,6 @@
                                                     <constraint firstAttribute="width" constant="30" id="oac-2G-Aiv"/>
                                                 </constraints>
                                             </imageView>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入密码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cCW-P9-gjU">
-                                                <rect key="frame" x="58" y="48" width="482" height="50"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="50" id="d8L-70-TJP"/>
-                                                </constraints>
-                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" keyboardAppearance="light" returnKeyType="next"/>
-                                            </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="在这里输入USC邮箱" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KR5-am-Z5U">
                                                 <rect key="frame" x="58" y="10" width="393" height="50"/>
                                                 <constraints>
@@ -175,6 +166,15 @@
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" keyboardAppearance="light" returnKeyType="next"/>
+                                            </textField>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入密码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cCW-P9-gjU">
+                                                <rect key="frame" x="58" y="48" width="482" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="d8L-70-TJP"/>
+                                                </constraints>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" keyboardAppearance="light" returnKeyType="next"/>
                                             </textField>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -212,13 +212,13 @@
                                         </variation>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="💔也不能什么都不填吧" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ePc-St-HOt">
-                                        <rect key="frame" x="0.0" y="196" width="600" height="18"/>
+                                        <rect key="frame" x="0.0" y="204" width="600" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="daY-3i-byf">
-                                        <rect key="frame" x="40" y="222" width="520" height="50"/>
+                                        <rect key="frame" x="40" y="230" width="520" height="50"/>
                                         <color key="backgroundColor" red="0.035794551072492187" green="0.63124459695253754" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="1gt-Ib-dLz"/>
@@ -228,7 +228,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="signIn:" destination="646-JI-Kur" eventType="touchUpInside" id="xYZ-o0-a71"/>
+                                            <action selector="signIn" destination="646-JI-Kur" eventType="touchUpInside" id="HW7-tR-b4d"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -240,7 +240,7 @@
                                     <constraint firstItem="daY-3i-byf" firstAttribute="leading" secondItem="VeZ-Mb-y6A" secondAttribute="leading" constant="40" id="KQM-Ln-jTi"/>
                                     <constraint firstItem="ePc-St-HOt" firstAttribute="centerX" secondItem="VeZ-Mb-y6A" secondAttribute="centerX" id="KgH-K6-KFL"/>
                                     <constraint firstItem="YfC-QH-e6X" firstAttribute="leading" secondItem="VeZ-Mb-y6A" secondAttribute="leading" constant="20" symbolic="YES" id="MAV-Rc-Ldf"/>
-                                    <constraint firstItem="YfC-QH-e6X" firstAttribute="top" secondItem="hNt-p2-dq6" secondAttribute="bottom" id="RYc-0M-eSV"/>
+                                    <constraint firstItem="YfC-QH-e6X" firstAttribute="top" secondItem="hNt-p2-dq6" secondAttribute="bottom" constant="8" symbolic="YES" id="RYc-0M-eSV"/>
                                     <constraint firstItem="daY-3i-byf" firstAttribute="top" secondItem="ePc-St-HOt" secondAttribute="bottom" constant="8" symbolic="YES" id="Xkp-cs-AvI"/>
                                     <constraint firstItem="hNt-p2-dq6" firstAttribute="top" secondItem="VeZ-Mb-y6A" secondAttribute="top" id="Ycx-eK-8dj"/>
                                     <constraint firstItem="hNt-p2-dq6" firstAttribute="centerX" secondItem="VeZ-Mb-y6A" secondAttribute="centerX" id="foX-9w-H2f"/>

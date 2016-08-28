@@ -15,6 +15,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
             emailTextField.delegate = self
         }
     }
+    
     @IBOutlet weak var passwordTextField: UITextField! {
         didSet {
             passwordTextField.delegate = self
@@ -25,7 +26,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var signInButton: UIButton!
     
-    var email: String? {
+    var email: String {
         get {
             return (emailTextField.text ?? "") + "@usc.edu"
         }
@@ -34,9 +35,9 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    var password: String? {
+    var password: String {
         get {
-            return passwordTextField.text
+            return passwordTextField.text ?? ""
         }
         set {
             passwordTextField.text = newValue
@@ -47,15 +48,23 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.navigationController!.navigationBar.barTintColor = UIColor.themeYellow()
+        // self.navigationController!.navigationBar.barTintColor = UIColor.themeYellow()
         self.navigationController!.navigationBar.tintColor = UIColor.darkGrayColor()
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGrayColor(), NSFontAttributeName: UIFont.systemFontOfSize(17)]
         self.view.backgroundColor = UIColor.backgroundGray()
         
-//        inputView.layer.cornerRadius = 8
+        // inputView.layer.cornerRadius = 8
         errorLabel.hidden = true
         emailTextField.becomeFirstResponder()
         signInButton.layer.cornerRadius = 25
+        
+        if DeviceType.IS_IPHONE_4_OR_LESS || DeviceType.IS_IPHONE_5 {
+            emailTextField.placeholder = "你的USC邮箱"
+        }
+        
+        if DeviceType.IS_IPHONE_4_OR_LESS {
+            containerView.transform = CGAffineTransformMakeTranslation(0,-80)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -71,39 +80,47 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+        switch textField {
+        case emailTextField:
+            if email.isValidEmail() {
+                emailTextField.resignFirstResponder()
+                errorLabel.hidden = true
+                passwordTextField.becomeFirstResponder()
+            } else {
+                errorLabel.text = "邮箱格式貌似不太对劲"
+                errorLabel.hidden = false
+            }
+        case passwordTextField:
+            if password.characters.count < USCFunConstants.minimumPasswordLength  {
+                errorLabel.text = "密码不足5位"
+                errorLabel.hidden = false
+            }
+            else if password.characters.contains(" ") {
+                errorLabel.text = "密码不应含有空格"
+                errorLabel.hidden = false
+            }
+            else {
+                passwordTextField.resignFirstResponder()
+                errorLabel.hidden = true
+                signIn()
+            }
+        default:
+            break
+        }
         return true
     }
     
-    @IBAction func signIn(sender: UIButton) {
+    @IBAction func signIn() {
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
         let myKeychainWrapper = KeychainWrapper()
-        print(email)
-        print(User.email)
-        print(password)
-        print(myKeychainWrapper.myObjectForKey("v_Data") as? String)
-        print(kSecValueData)
         if email == User.email && password == myKeychainWrapper.myObjectForKey(kSecValueData) as? String {
             User.hasLoggedIn = true
-            
             let appDelegate = UIApplication.sharedApplication().delegate! as! AppDelegate
             UIApplication.sharedApplication().statusBarStyle = .LightContent
             let initialViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
             appDelegate.window?.rootViewController = initialViewController
             appDelegate.window?.makeKeyAndVisible()
-        } else {
-            print("not login")
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

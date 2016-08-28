@@ -29,7 +29,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.navigationController!.navigationBar.barTintColor = UIColor.themeYellow()
+//        self.navigationController!.navigationBar.barTintColor = UIColor.themeYellow()
         self.navigationController!.navigationBar.tintColor = UIColor.darkGrayColor()
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGrayColor(), NSFontAttributeName: UIFont.systemFontOfSize(17)]
         self.view.backgroundColor = UIColor.backgroundGray()
