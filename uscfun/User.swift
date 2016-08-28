@@ -1,5 +1,5 @@
 //
-//  Me.swift
+//  User.swift
 //  uscfun
 //
 //  Created by Wenzheng Li on 8/25/16.
@@ -7,6 +7,13 @@
 //
 
 import Foundation
+
+enum SignUpError: ErrorType {
+    case EmailNotValid
+    case NicknameNotValid
+    case PasswordNotValid
+    case ServerError
+}
 
 class User {
     static var hasLoggedIn = false
@@ -30,4 +37,20 @@ class User {
     }
     
     static var password: String?
+    
+    static func signUp(){
+//        if email == nil || !email!.isValidEmail() {
+//            throw SignUpError.EmailNotValid
+//        }
+//        if nickname == nil || nickname!.isEmpty {
+//            throw SignUpError.NicknameNotValid
+//        }
+//        if password == nil || password!.isEmpty {
+//            throw SignUpError.PasswordNotValid
+//        }
+        
+        let myKeychainWrapper = KeychainWrapper()
+        myKeychainWrapper.mySetObject(password, forKey: kSecValueData)
+        myKeychainWrapper.writeToKeychain()
+    }
 }

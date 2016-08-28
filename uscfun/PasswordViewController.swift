@@ -49,6 +49,7 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
         if password?.characters.count >= USCFunConstants.minimumPasswordLength {
             User.password = password
             passwordTextField.resignFirstResponder()
+            User.signUp()
             performSegueWithIdentifier("go to confirmation", sender: self)
             errorLabel.hidden = true
         } else {
