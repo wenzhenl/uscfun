@@ -15,12 +15,15 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
             emailTextField.delegate = self
         }
     }
-    
     @IBOutlet weak var passwordTextField: UITextField! {
         didSet {
             passwordTextField.delegate = self
         }
     }
+    
+    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var signInButton: UIButton!
     
     var email: String? {
         get {
@@ -40,20 +43,16 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    @IBOutlet weak var containerView: UIView!
-    
-    @IBOutlet weak var errorLabel: UILabel!
-    
-    @IBOutlet weak var signInButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         self.navigationController!.navigationBar.barTintColor = UIColor.themeYellow()
         self.navigationController!.navigationBar.tintColor = UIColor.darkGrayColor()
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGrayColor(), NSFontAttributeName: UIFont.systemFontOfSize(20)]
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGrayColor(), NSFontAttributeName: UIFont.systemFontOfSize(17)]
         self.view.backgroundColor = UIColor.backgroundGray()
-        containerView.layer.cornerRadius = 8
+        
+//        inputView.layer.cornerRadius = 8
         errorLabel.hidden = true
         emailTextField.becomeFirstResponder()
         signInButton.layer.cornerRadius = 25

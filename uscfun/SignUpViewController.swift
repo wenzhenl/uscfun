@@ -16,7 +16,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     @IBOutlet weak var noticeTextView: UITextView!
     @IBOutlet weak var containerView: UIView!
     
-    var email: String? {
+    var email: String {
         get {
             return (emailTextField.text ?? "").stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) + "@usc.edu"
         }
@@ -31,22 +31,28 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         // Do any additional setup after loading the view.
         self.navigationController!.navigationBar.barTintColor = UIColor.themeYellow()
         self.navigationController!.navigationBar.tintColor = UIColor.darkGrayColor()
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGrayColor(), NSFontAttributeName: UIFont.systemFontOfSize(20)]
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGrayColor(), NSFontAttributeName: UIFont.systemFontOfSize(17)]
         self.view.backgroundColor = UIColor.backgroundGray()
-//        emailTextField.becomeFirstResponder()
-        emailInputView.layer.borderWidth = 3
-        emailInputView.layer.borderColor = UIColor.whiteColor().CGColor
         
         noticeTextView.delegate = self
         let notice = NSMutableAttributedString(string: "继续注册流程代表你已阅读并同意用户使用协议")
         notice.addAttribute(NSLinkAttributeName, value: "http://www.google.com", range: NSRange(location: 15, length: 6))
         notice.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.StyleSingle.rawValue, range: NSRange(location: 15, length: 6))
-        notice.addAttribute(NSFontAttributeName, value: UIFont.systemFontOfSize(14), range: NSRange(location: 0, length: 21))
+        if DeviceType.IS_IPHONE_4_OR_LESS || DeviceType.IS_IPHONE_5 {
+            notice.addAttribute(NSFontAttributeName, value: UIFont.systemFontOfSize(14), range: NSRange(location: 0, length: 21))
+        } else {
+            notice.addAttribute(NSFontAttributeName, value: UIFont.systemFontOfSize(15), range: NSRange(location: 0, length: 21))
+        }
         notice.addAttribute(NSForegroundColorAttributeName, value: UIColor.darkGrayColor(), range: NSRange(location: 0, length: 21))
         noticeTextView.tintColor = UIColor.darkGrayColor()
         noticeTextView.attributedText = notice
         noticeTextView.textAlignment = .Center
+        
         emailTextField.delegate = self
+        if DeviceType.IS_IPHONE_4_OR_LESS || DeviceType.IS_IPHONE_5 {
+            emailTextField.placeholder = "你的USC邮箱"
+        }
+        
         errorLabel.hidden = true
         
         if DeviceType.IS_IPHONE_4_OR_LESS {
@@ -61,9 +67,9 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
-        email = User.email?.emailPrefix()
         emailTextField.becomeFirstResponder()
     }
+    
     @IBAction func goBack(sender: UIBarButtonItem) {
         emailTextField.resignFirstResponder()
         self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
@@ -75,7 +81,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if email != nil && email!.isValidEmail() {
+        if email.isValidEmail() {
             User.email = email
             textField.resignFirstResponder()
             errorLabel.hidden = true
@@ -85,14 +91,4 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         }
         return true
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

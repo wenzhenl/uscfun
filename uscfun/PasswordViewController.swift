@@ -14,7 +14,8 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var containerView: UIView!
-    var password: String? {
+    
+    var password: String {
         get {
             return (passwordTextField.text ?? "").stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         }
@@ -28,13 +29,15 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
 
         // Do any additional setup after loading the view.
         self.view.backgroundColor = UIColor.backgroundGray()
-        passwordView.layer.borderWidth = 3
-        passwordView.layer.borderColor = UIColor.whiteColor().CGColor
+
         passwordTextField.delegate = self
         errorLabel.hidden = true
         
         if DeviceType.IS_IPHONE_4_OR_LESS {
             containerView.transform = CGAffineTransformMakeTranslation(0,-80)
+        }
+        if DeviceType.IS_IPHONE_4_OR_LESS || DeviceType.IS_IPHONE_5 {
+            passwordTextField.placeholder = "设置密码"
         }
     }
 
@@ -45,31 +48,28 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
-        password = User.password
         passwordTextField.becomeFirstResponder()
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if password?.characters.count >= USCFunConstants.minimumPasswordLength {
+        if password.characters.count >= USCFunConstants.minimumPasswordLength && !password.characters.contains(" ") {
             User.password = password
             passwordTextField.resignFirstResponder()
-            User.signUp()
-            performSegueWithIdentifier("go to confirmation", sender: self)
             errorLabel.hidden = true
-        } else {
+            
+            let appDelegate = UIApplication.sharedApplication().delegate! as! AppDelegate
+            let initialViewController = self.storyboard?.instantiateViewControllerWithIdentifier("Confirm email")
+            appDelegate.window?.rootViewController = initialViewController
+            appDelegate.window?.makeKeyAndVisible()
+        }
+        else if password.characters.count < USCFunConstants.minimumPasswordLength {
+            errorLabel.text = "😂说好了至少要5个字符的呀"
+            errorLabel.hidden = false
+        }
+        else {
+            errorLabel.text = "😂说好了不要空格的呀"
             errorLabel.hidden = false
         }
         return true
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

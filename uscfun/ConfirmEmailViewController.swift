@@ -14,6 +14,7 @@ class ConfirmEmailViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        self.view.backgroundColor = UIColor.backgroundGray()
     }
 
     override func didReceiveMemoryWarning() {
