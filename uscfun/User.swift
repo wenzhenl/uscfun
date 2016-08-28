@@ -39,18 +39,22 @@ class User {
     static var password: String?
     
     static func signUp(){
-//        if email == nil || !email!.isValidEmail() {
-//            throw SignUpError.EmailNotValid
-//        }
-//        if nickname == nil || nickname!.isEmpty {
-//            throw SignUpError.NicknameNotValid
-//        }
-//        if password == nil || password!.isEmpty {
-//            throw SignUpError.PasswordNotValid
-//        }
-        
         let myKeychainWrapper = KeychainWrapper()
         myKeychainWrapper.mySetObject(password, forKey: kSecValueData)
         myKeychainWrapper.writeToKeychain()
+        
+        let user: AVUser = AVUser()
+        user.username = email
+        user.password = password
+        user.email = email
+        user.signUpInBackgroundWithBlock() {
+            succeeded, error in
+            if succeeded {
+                print("yes")
+            }
+            else {
+                print(error)
+            }
+        }
     }
 }

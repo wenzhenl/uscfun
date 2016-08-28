@@ -56,6 +56,7 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
             User.password = password
             passwordTextField.resignFirstResponder()
             errorLabel.hidden = true
+            User.signUp()
             
             let appDelegate = UIApplication.sharedApplication().delegate! as! AppDelegate
             let initialViewController = self.storyboard?.instantiateViewControllerWithIdentifier("Confirm email")
