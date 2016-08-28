@@ -13,8 +13,8 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     @IBOutlet weak var emailInputView: UIView!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
-    
     @IBOutlet weak var noticeTextView: UITextView!
+    @IBOutlet weak var containerView: UIView!
     
     var email: String? {
         get {
@@ -41,14 +41,17 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         let notice = NSMutableAttributedString(string: "继续注册流程代表你已阅读并同意用户使用协议")
         notice.addAttribute(NSLinkAttributeName, value: "http://www.google.com", range: NSRange(location: 15, length: 6))
         notice.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.StyleSingle.rawValue, range: NSRange(location: 15, length: 6))
-        notice.addAttribute(NSFontAttributeName, value: UIFont.systemFontOfSize(15), range: NSRange(location: 0, length: 21))
+        notice.addAttribute(NSFontAttributeName, value: UIFont.systemFontOfSize(14), range: NSRange(location: 0, length: 21))
         notice.addAttribute(NSForegroundColorAttributeName, value: UIColor.darkGrayColor(), range: NSRange(location: 0, length: 21))
         noticeTextView.tintColor = UIColor.darkGrayColor()
         noticeTextView.attributedText = notice
         noticeTextView.textAlignment = .Center
         emailTextField.delegate = self
-//        emailTextField.attributedPlaceholder = NSAttributedString(string: "在这里输入你的USC邮箱", attributes: [NSFontAttributeName: UIFont.systemFontOfSize(10)])
         errorLabel.hidden = true
+        
+        if DeviceType.IS_IPHONE_4_OR_LESS {
+            containerView.transform = CGAffineTransformMakeTranslation(0,-80)
+        }
     }
 
     override func didReceiveMemoryWarning() {

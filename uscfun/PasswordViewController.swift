@@ -13,7 +13,7 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordView: UIView!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
-    
+    @IBOutlet weak var containerView: UIView!
     var password: String? {
         get {
             return (passwordTextField.text ?? "").stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
@@ -32,6 +32,10 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
         passwordView.layer.borderColor = UIColor.whiteColor().CGColor
         passwordTextField.delegate = self
         errorLabel.hidden = true
+        
+        if DeviceType.IS_IPHONE_4_OR_LESS {
+            containerView.transform = CGAffineTransformMakeTranslation(0,-80)
+        }
     }
 
     override func didReceiveMemoryWarning() {

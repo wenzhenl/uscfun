@@ -14,6 +14,7 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var nicknameTextField: UITextField!
     
     @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var containerView: UIView!
     var nickname: String? {
         get {
             return (nicknameTextField.text ?? "").stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
@@ -36,6 +37,10 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
         nicknameView.layer.borderColor = UIColor.whiteColor().CGColor
         nicknameTextField.delegate = self
         errorLabel.hidden = true
+        
+        if DeviceType.IS_IPHONE_4_OR_LESS {
+            containerView.transform = CGAffineTransformMakeTranslation(0,-80)
+        }
     }
 
     override func didReceiveMemoryWarning() {
