@@ -10,33 +10,20 @@ import UIKit
 
 class PreLoginViewController: UIViewController {
 
-    @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signupButton: UIButton!
+    @IBOutlet weak var signupView: UIView!
+    @IBOutlet weak var loginView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        // Make the background image dynamic
-        let horizontalMotionEffect = UIInterpolatingMotionEffect(keyPath: "center.x", type: .TiltAlongHorizontalAxis)
-        horizontalMotionEffect.minimumRelativeValue = -50
-        horizontalMotionEffect.maximumRelativeValue = 50
-        
-        let verticalMotionEffect = UIInterpolatingMotionEffect(keyPath: "center.y", type: .TiltAlongVerticalAxis)
-        verticalMotionEffect.minimumRelativeValue = -50
-        verticalMotionEffect.maximumRelativeValue = 50
-        
-        let motionEffectGroup = UIMotionEffectGroup()
-        motionEffectGroup.motionEffects = [horizontalMotionEffect, verticalMotionEffect]
-        
-        imageView.addMotionEffect(motionEffectGroup)
-        
-        // Use standard theme colors for buttons
-        loginButton.backgroundColor = UIColor.themeYellow(0.7)
-        signupButton.backgroundColor = UIColor.themeUSCRed(0.7)
-        
-        // UIApplication.sharedApplication().statusBarHidden = true
+        self.view.backgroundColor = UIColor.themeYellow()
+        signupView.layer.cornerRadius = signupView.bounds.size.height / 2.0
+        loginView.layer.cornerRadius = loginView.bounds.size.height / 2.0
+        signupView.backgroundColor = UIColor.buttonPink()
+        loginView.backgroundColor = UIColor.buttonBlue()
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,7 +31,15 @@ class PreLoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+        UIApplication.sharedApplication().statusBarHidden = true
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(true)
+        UIApplication.sharedApplication().statusBarHidden = false
+    }
     /*
     // MARK: - Navigation
 

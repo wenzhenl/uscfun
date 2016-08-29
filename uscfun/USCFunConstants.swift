@@ -54,6 +54,14 @@ extension UIColor {
         let grayLevel = CGFloat(240.0)
         return UIColor(red: grayLevel/255, green: grayLevel/255, blue: grayLevel/250, alpha: 1.0)
     }
+    
+    class func buttonPink() -> UIColor {
+        return UIColor(red: 239.0/255, green: 31.0/255, blue: 85.0/250, alpha: 1.0)
+    }
+    
+    class func buttonBlue() -> UIColor {
+        return UIColor(red: 13.0/255, green: 179.0/255, blue: 224.0/250, alpha: 1.0)
+    }
 }
 
 extension String {
