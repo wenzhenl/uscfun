@@ -129,6 +129,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                 if updatedUser != nil {
                     // TODO: preload contents before going to the homepage
                     print(updatedUser.email)
+                    User.hasLoggedIn = true
                     let appDelegate = UIApplication.sharedApplication().delegate! as! AppDelegate
                     let initialViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
                     appDelegate.window?.rootViewController = initialViewController
