@@ -15,6 +15,8 @@ class PreLoginViewController: UIViewController {
     @IBOutlet weak var signupView: UIView!
     @IBOutlet weak var loginView: UIView!
     
+    @IBOutlet weak var signupConstraint: NSLayoutConstraint!
+    @IBOutlet weak var loginContraint: NSLayoutConstraint!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,6 +31,15 @@ class PreLoginViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(true)
+        UIView.animateWithDuration(1.5, animations: {
+            self.signupConstraint.constant = -170.0
+            self.loginContraint.constant = -170.0
+            self.view.layoutIfNeeded()
+        })
     }
     
     override func viewWillAppear(animated: Bool) {
