@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blackfish" translatesAutoresizingMaskIntoConstraints="NO" id="MCp-PH-sUh">
-                                <rect key="frame" x="250" y="200" width="100" height="100"/>
+                                <rect key="frame" x="250" y="100" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="5aN-KQ-Wrg"/>
                                     <constraint firstAttribute="width" constant="100" id="LE0-LY-VFY"/>
@@ -89,7 +89,7 @@
                             <constraint firstItem="MCp-PH-sUh" firstAttribute="centerX" secondItem="Lso-vh-MKJ" secondAttribute="centerX" id="FLM-aq-L6Z"/>
                             <constraint firstItem="Y3P-c3-OoD" firstAttribute="top" secondItem="JA8-2D-qrP" secondAttribute="bottom" constant="8" symbolic="YES" id="JXu-2e-zgc"/>
                             <constraint firstItem="Kpu-A8-8cM" firstAttribute="top" secondItem="JA8-2D-qrP" secondAttribute="top" id="Ndv-vE-kyH"/>
-                            <constraint firstItem="Y3P-c3-OoD" firstAttribute="top" secondItem="MCp-PH-sUh" secondAttribute="bottom" multiplier="2" id="TWb-Kx-uRd"/>
+                            <constraint firstItem="Y3P-c3-OoD" firstAttribute="top" secondItem="MCp-PH-sUh" secondAttribute="bottom" multiplier="2" constant="200" id="TWb-Kx-uRd"/>
                             <constraint firstItem="Kpu-A8-8cM" firstAttribute="bottom" secondItem="JA8-2D-qrP" secondAttribute="bottom" id="UST-TQ-JeH"/>
                             <constraint firstItem="JA8-2D-qrP" firstAttribute="leading" secondItem="Lso-vh-MKJ" secondAttribute="leadingMargin" constant="-240" id="UzM-yi-cyy"/>
                             <constraint firstItem="MCp-PH-sUh" firstAttribute="top" secondItem="R9s-Uw-lSa" secondAttribute="bottom" id="Wuy-Wi-jJP"/>
@@ -102,6 +102,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="blackfishConstraint" destination="TWb-Kx-uRd" id="Pua-zE-iL5"/>
                         <outlet property="loginButton" destination="Hn6-TB-mj9" id="YCb-5Q-LL4"/>
                         <outlet property="loginContraint" destination="8WN-iv-ZKF" id="e9P-Cr-yCj"/>
                         <outlet property="loginView" destination="Kpu-A8-8cM" id="ENk-5y-AOV"/>

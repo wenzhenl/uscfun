@@ -17,6 +17,7 @@ class PreLoginViewController: UIViewController {
     
     @IBOutlet weak var signupConstraint: NSLayoutConstraint!
     @IBOutlet weak var loginContraint: NSLayoutConstraint!
+    @IBOutlet weak var blackfishConstraint: NSLayoutConstraint!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -38,6 +39,7 @@ class PreLoginViewController: UIViewController {
         UIView.animateWithDuration(1.5, animations: {
             self.signupConstraint.constant = -170.0
             self.loginContraint.constant = -170.0
+            self.blackfishConstraint.constant = 0
             self.view.layoutIfNeeded()
         })
     }
