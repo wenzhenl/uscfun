@@ -110,7 +110,7 @@
         <!--登录-->
         <scene sceneID="rYD-ha-8Ba">
             <objects>
-                <viewController id="646-JI-Kur" customClass="SignInViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignIn View Controller" id="646-JI-Kur" customClass="SignInViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="WlG-au-giF"/>
                         <viewControllerLayoutGuide type="bottom" id="TH1-Kb-3OJ"/>
@@ -661,16 +661,17 @@
                         <outlet property="errorLabel" destination="8kj-Th-WiE" id="z3P-l6-PX4"/>
                         <outlet property="passwordTextField" destination="xsA-vX-nSG" id="kxI-Zm-fZ6"/>
                         <outlet property="passwordView" destination="358-Hx-tTg" id="piM-5C-8Mg"/>
+                        <segue destination="qUg-YM-xNX" kind="show" identifier="go to confirm email" id="h25-j2-0IX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N7v-1X-Tc4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2199" y="-310"/>
         </scene>
-        <!--Confirm Email View Controller-->
+        <!--验证邮箱-->
         <scene sceneID="0nh-XY-V39">
             <objects>
-                <viewController storyboardIdentifier="Confirm email" id="qUg-YM-xNX" customClass="ConfirmEmailViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Confirm email" id="qUg-YM-xNX" userLabel="验证邮箱" customClass="ConfirmEmailViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="aqN-iv-jxq"/>
                         <viewControllerLayoutGuide type="bottom" id="fmo-wU-2Wm"/>
@@ -679,20 +680,58 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jtE-HF-L7L">
-                                <rect key="frame" x="40" y="279" width="520" height="42"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchscreen" translatesAutoresizingMaskIntoConstraints="NO" id="fyg-9h-Wam">
+                                <rect key="frame" x="0.0" y="64" width="600" height="80"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="Z1F-3o-cOD"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="80" id="mWj-8P-XtC"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="mWj-8P-XtC"/>
+                                    </mask>
+                                </variation>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="正在跳转到登录页面......" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TNp-Hk-Lp2">
+                                <rect key="frame" x="20" y="330" width="560" height="16"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <state key="normal" title="验证邮箱"/>
-                            </button>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="你已经完成注册流程，为了保护用户隐私，请您在24小时之内验证你的邮箱地址。没有验证邮箱是不可以登录的。" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BG0-HI-jIB">
+                                <rect key="frame" x="20" y="271" width="560" height="59"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" red="0.03579455107" green="0.63124459700000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="jtE-HF-L7L" firstAttribute="centerY" secondItem="6sJ-91-ncP" secondAttribute="centerY" id="ItH-V3-O4I"/>
-                            <constraint firstItem="jtE-HF-L7L" firstAttribute="leading" secondItem="6sJ-91-ncP" secondAttribute="leadingMargin" constant="20" id="LCv-1J-FWY"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="jtE-HF-L7L" secondAttribute="trailing" constant="20" id="uTh-9T-lFZ"/>
+                            <constraint firstItem="TNp-Hk-Lp2" firstAttribute="leading" secondItem="6sJ-91-ncP" secondAttribute="leadingMargin" id="3gn-xL-dFc"/>
+                            <constraint firstItem="BG0-HI-jIB" firstAttribute="centerY" secondItem="6sJ-91-ncP" secondAttribute="centerY" id="A65-eC-1MB"/>
+                            <constraint firstItem="BG0-HI-jIB" firstAttribute="leading" secondItem="6sJ-91-ncP" secondAttribute="leadingMargin" id="FHn-Fb-Z4l"/>
+                            <constraint firstItem="BG0-HI-jIB" firstAttribute="top" secondItem="fyg-9h-Wam" secondAttribute="bottom" id="LxZ-Pa-VJx"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="TNp-Hk-Lp2" secondAttribute="trailing" id="PKg-B7-0Lx"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="BG0-HI-jIB" secondAttribute="trailing" id="Xlc-w6-wHS"/>
+                            <constraint firstItem="TNp-Hk-Lp2" firstAttribute="top" secondItem="BG0-HI-jIB" secondAttribute="bottom" id="YLe-JC-opV"/>
+                            <constraint firstItem="fyg-9h-Wam" firstAttribute="width" secondItem="6sJ-91-ncP" secondAttribute="width" id="b6N-QB-afk"/>
+                            <constraint firstItem="fyg-9h-Wam" firstAttribute="centerX" secondItem="6sJ-91-ncP" secondAttribute="centerX" id="nlB-oN-dDU"/>
+                            <constraint firstItem="fyg-9h-Wam" firstAttribute="top" secondItem="aqN-iv-jxq" secondAttribute="bottom" id="qdW-k4-C0p"/>
+                            <constraint firstItem="BG0-HI-jIB" firstAttribute="centerY" secondItem="6sJ-91-ncP" secondAttribute="centerY" id="wQr-Qs-yiA"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="A65-eC-1MB"/>
+                                <exclude reference="LxZ-Pa-VJx"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <connections>
+                        <segue destination="646-JI-Kur" kind="show" identifier="from confirm to signin" id="v5C-OX-Q7w"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J6i-hv-noq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -724,4 +763,7 @@
         <image name="paper-plane-1" width="512" height="512"/>
         <image name="user-4" width="512" height="512"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="v5C-OX-Q7w"/>
+    </inferredMetricsTieBreakers>
 </document>

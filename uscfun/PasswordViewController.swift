@@ -59,10 +59,7 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
             do {
                 let signUpSucceeded = try User.signUp()
                 if signUpSucceeded {
-                    let appDelegate = UIApplication.sharedApplication().delegate! as! AppDelegate
-                    let initialViewController = self.storyboard?.instantiateViewControllerWithIdentifier("Confirm email")
-                    appDelegate.window?.rootViewController = initialViewController
-                    appDelegate.window?.makeKeyAndVisible()
+                    self.performSegueWithIdentifier("go to confirm email", sender: self)
                 }
             } catch let error as NSError {
                 print("SignUp\(error)")
