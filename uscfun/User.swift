@@ -52,6 +52,7 @@ class User {
         user.password = password
         user.email = email
         user.setObject(nickname, forKey: "nickname")
+        user.setObject("usc", forKey: "school")
         var error: NSError?
         if user.signUp(&error) {
             return true

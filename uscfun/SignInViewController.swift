@@ -72,6 +72,13 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+        if AVUser.currentUser() != nil {
+            email = AVUser.currentUser().email.emailPrefix()!
+        }
+    }
+    
     @IBAction func goBack(sender: UIBarButtonItem) {
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()

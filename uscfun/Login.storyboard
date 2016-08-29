@@ -174,7 +174,7 @@
                                                 </constraints>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" keyboardAppearance="light" returnKeyType="go"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" keyboardAppearance="light" returnKeyType="go" secureTextEntry="YES"/>
                                             </textField>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -520,8 +520,8 @@
                                         </constraints>
                                         <variation key="default">
                                             <mask key="constraints">
-                                                <exclude reference="QJf-hV-tTM"/>
                                                 <exclude reference="Ltu-7z-zJn"/>
+                                                <exclude reference="QJf-hV-tTM"/>
                                                 <exclude reference="P7f-FS-oDn"/>
                                                 <exclude reference="aBX-p2-kfX"/>
                                             </mask>
@@ -533,8 +533,8 @@
                                         <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="scaleToFill" misplaced="YES" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vy6-Kb-1nZ">
-                                        <rect key="frame" x="0.0" y="213" width="600" height="159"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vy6-Kb-1nZ">
+                                        <rect key="frame" x="0.0" y="213" width="600" height="142"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -611,7 +611,7 @@
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TbU-OI-Dxn">
-                                        <rect key="frame" x="20" y="80" width="560" height="70"/>
+                                        <rect key="frame" x="20" y="88" width="560" height="70"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user-4" translatesAutoresizingMaskIntoConstraints="NO" id="cSQ-8g-mCE">
                                                 <rect key="frame" x="20" y="20" width="30" height="30"/>
@@ -644,7 +644,7 @@
                                         </variation>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="💔也不能什么都不填吧" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rEs-Pj-PfI">
-                                        <rect key="frame" x="0.0" y="158" width="600" height="16"/>
+                                        <rect key="frame" x="0.0" y="166" width="600" height="16"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -669,7 +669,7 @@
                                     <constraint firstItem="rEs-Pj-PfI" firstAttribute="width" secondItem="VOd-81-y2C" secondAttribute="width" id="Bjo-LH-rwO"/>
                                     <constraint firstItem="rEs-Pj-PfI" firstAttribute="top" secondItem="TbU-OI-Dxn" secondAttribute="bottom" constant="8" symbolic="YES" id="IjS-At-dvO"/>
                                     <constraint firstItem="rEs-Pj-PfI" firstAttribute="centerX" secondItem="VOd-81-y2C" secondAttribute="centerX" id="OP8-wt-9F0"/>
-                                    <constraint firstItem="TbU-OI-Dxn" firstAttribute="top" secondItem="xEi-Dj-ef2" secondAttribute="bottom" id="SUr-bE-9cI"/>
+                                    <constraint firstItem="TbU-OI-Dxn" firstAttribute="top" secondItem="xEi-Dj-ef2" secondAttribute="bottom" constant="8" symbolic="YES" id="SUr-bE-9cI"/>
                                     <constraint firstItem="xEi-Dj-ef2" firstAttribute="width" secondItem="VOd-81-y2C" secondAttribute="width" id="V9p-OX-7qn"/>
                                     <constraint firstItem="xEi-Dj-ef2" firstAttribute="centerX" secondItem="VOd-81-y2C" secondAttribute="centerX" id="WRk-SV-XWX"/>
                                     <constraint firstItem="xEi-Dj-ef2" firstAttribute="top" secondItem="VOd-81-y2C" secondAttribute="top" id="h6H-Ov-E8P"/>
@@ -714,13 +714,13 @@
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="密码至少包含5个字符，不允许空格" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yay-db-0sG">
-                                        <rect key="frame" x="20" y="80" width="560" height="15"/>
+                                        <rect key="frame" x="20" y="88" width="560" height="15"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="358-Hx-tTg">
-                                        <rect key="frame" x="20" y="103" width="560" height="70"/>
+                                        <rect key="frame" x="20" y="111" width="560" height="70"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alarm-clock" translatesAutoresizingMaskIntoConstraints="NO" id="HJ8-We-cQv">
                                                 <rect key="frame" x="20" y="20" width="30" height="30"/>
@@ -729,7 +729,7 @@
                                                     <constraint firstAttribute="height" constant="30" id="mcK-FN-Vf0"/>
                                                 </constraints>
                                             </imageView>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请设置一个可靠密码" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="xsA-vX-nSG">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请设置密码" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="xsA-vX-nSG">
                                                 <rect key="frame" x="58" y="25" width="482" height="20"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -753,7 +753,7 @@
                                         </variation>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="😂说好了至少要五位的呀" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8kj-Th-WiE">
-                                        <rect key="frame" x="0.0" y="181" width="600" height="16"/>
+                                        <rect key="frame" x="0.0" y="189" width="600" height="16"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -776,7 +776,7 @@
                                 <constraints>
                                     <constraint firstItem="8kj-Th-WiE" firstAttribute="top" secondItem="358-Hx-tTg" secondAttribute="bottom" constant="8" symbolic="YES" id="4Fa-AB-tb7"/>
                                     <constraint firstItem="8qd-OF-uwb" firstAttribute="width" secondItem="YRA-5H-qUk" secondAttribute="width" id="9Qd-lY-C3A"/>
-                                    <constraint firstItem="Yay-db-0sG" firstAttribute="top" secondItem="8qd-OF-uwb" secondAttribute="bottom" id="ANS-VQ-AHK"/>
+                                    <constraint firstItem="Yay-db-0sG" firstAttribute="top" secondItem="8qd-OF-uwb" secondAttribute="bottom" constant="8" symbolic="YES" id="ANS-VQ-AHK"/>
                                     <constraint firstAttribute="trailing" secondItem="Yay-db-0sG" secondAttribute="trailing" constant="20" symbolic="YES" id="C3b-ga-6Km"/>
                                     <constraint firstItem="358-Hx-tTg" firstAttribute="top" secondItem="Yay-db-0sG" secondAttribute="bottom" constant="8" symbolic="YES" id="DSR-XS-YgW"/>
                                     <constraint firstItem="8qd-OF-uwb" firstAttribute="top" secondItem="YRA-5H-qUk" secondAttribute="top" id="J7G-0y-tWC"/>
@@ -842,17 +842,17 @@
                                 </variation>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="正在跳转到登录页面......" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TNp-Hk-Lp2">
-                                <rect key="frame" x="20" y="330" width="560" height="16"/>
+                                <rect key="frame" x="20" y="326" width="560" height="16"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="你已经完成注册流程，为了保护用户隐私，请您在24小时之内验证你的邮箱地址。没有验证邮箱是不可以登录的。" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BG0-HI-jIB">
-                                <rect key="frame" x="20" y="271" width="560" height="59"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="你已经完成注册流程，为了保护用户隐私，请您在24小时之内验证你的邮箱地址。没有验证邮箱是不可以登录的。" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BG0-HI-jIB">
+                                <rect key="frame" x="20" y="274" width="560" height="52"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="textColor" red="0.03579455107" green="0.63124459700000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>

@@ -17,7 +17,7 @@ class ConfirmEmailViewController: UIViewController {
         self.view.backgroundColor = UIColor.backgroundGray()
         self.navigationItem.hidesBackButton = true
         
-        let delay = 3 * Double(NSEC_PER_SEC)
+        let delay = 4 * Double(NSEC_PER_SEC)
         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
         dispatch_after(time, dispatch_get_main_queue()) {
             // After 5 seconds this line will be executed
