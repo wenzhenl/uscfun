@@ -56,12 +56,19 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
             User.password = password
             passwordTextField.resignFirstResponder()
             errorLabel.hidden = true
-            User.signUp()
-            
-            let appDelegate = UIApplication.sharedApplication().delegate! as! AppDelegate
-            let initialViewController = self.storyboard?.instantiateViewControllerWithIdentifier("Confirm email")
-            appDelegate.window?.rootViewController = initialViewController
-            appDelegate.window?.makeKeyAndVisible()
+            do {
+                let signUpSucceeded = try User.signUp()
+                if signUpSucceeded {
+                    let appDelegate = UIApplication.sharedApplication().delegate! as! AppDelegate
+                    let initialViewController = self.storyboard?.instantiateViewControllerWithIdentifier("Confirm email")
+                    appDelegate.window?.rootViewController = initialViewController
+                    appDelegate.window?.makeKeyAndVisible()
+                }
+            } catch let error as NSError {
+                print("SignUp\(error)")
+                errorLabel.text = error.localizedDescription
+                errorLabel.hidden = false
+            }
         }
         else if password.characters.count < USCFunConstants.minimumPasswordLength {
             errorLabel.text = "😂说好了至少要5个字符的呀"

@@ -8,15 +8,15 @@
 
 import Foundation
 
-enum SignUpError: ErrorType {
-    case EmailNotValid
-    case NicknameNotValid
-    case PasswordNotValid
-    case ServerError
-}
-
 class User {
-    static var hasLoggedIn = false
+    static var hasLoggedIn: Bool {
+        get {
+            return NSUserDefaults.standardUserDefaults().boolForKey("User_HasLoggIn_Key")
+        }
+        set {
+            NSUserDefaults.standardUserDefaults().setValue(newValue, forKey: "User_HasLoggIn_Key")
+        }
+    }
     
     static var email: String? {
         get {
@@ -38,23 +38,25 @@ class User {
     
     static var password: String?
     
-    static func signUp(){
+    static func signUp() throws -> Bool {
+        
+        // save account and password in keychain
         let myKeychainWrapper = KeychainWrapper()
         myKeychainWrapper.mySetObject(password, forKey: kSecValueData)
+        myKeychainWrapper.mySetObject(email, forKey: kSecAttrAccount)
         myKeychainWrapper.writeToKeychain()
         
+        // save user info in server
         let user: AVUser = AVUser()
         user.username = email
         user.password = password
         user.email = email
-        user.signUpInBackgroundWithBlock() {
-            succeeded, error in
-            if succeeded {
-                print("yes")
-            }
-            else {
-                print(error)
-            }
+        user.setObject(nickname, forKey: "nickname")
+        var error: NSError?
+        if user.signUp(&error) {
+            return true
+        } else {
+            throw error!
         }
     }
 }

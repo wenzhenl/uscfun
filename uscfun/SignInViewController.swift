@@ -72,7 +72,6 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-
     @IBAction func goBack(sender: UIBarButtonItem) {
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
@@ -113,14 +112,36 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     @IBAction func signIn() {
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
-        let myKeychainWrapper = KeychainWrapper()
-        if email == User.email && password == myKeychainWrapper.myObjectForKey(kSecValueData) as? String {
-            User.hasLoggedIn = true
-            let appDelegate = UIApplication.sharedApplication().delegate! as! AppDelegate
-            UIApplication.sharedApplication().statusBarStyle = .LightContent
-            let initialViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
-            appDelegate.window?.rootViewController = initialViewController
-            appDelegate.window?.makeKeyAndVisible()
+        if !email.isValidEmail() {
+            errorLabel.text = "邮箱格式貌似不太对劲"
+            errorLabel.hidden = false
+        }
+        else if password.characters.count < USCFunConstants.minimumPasswordLength  {
+            errorLabel.text = "密码不足5位"
+            errorLabel.hidden = false
+        }
+        else if password.characters.contains(" ") {
+            errorLabel.text = "密码不应含有空格"
+            errorLabel.hidden = false
+        } else {
+            AVUser.logInWithUsernameInBackground(email, password: password) {
+                updatedUser, error in
+                if updatedUser != nil {
+                    // TODO: preload contents before going to the homepage
+                    print(updatedUser.email)
+                    let appDelegate = UIApplication.sharedApplication().delegate! as! AppDelegate
+                    UIApplication.sharedApplication().statusBarStyle = .LightContent
+                    let initialViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+                    appDelegate.window?.rootViewController = initialViewController
+                    appDelegate.window?.makeKeyAndVisible()
+                }
+                
+                if error != nil {
+                    print(error.localizedDescription)
+                    self.errorLabel.text = error.localizedDescription
+                    self.errorLabel.hidden = false
+                }
+            }
         }
     }
 }

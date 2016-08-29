@@ -22,15 +22,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     AVOSCloud.setApplicationId("pDLnf6MjL1vIgRw6b2WWWVCJ-MdYXbMMI", clientKey: "zpbYwzEe5c6Cw4Ecmfr745C2")
     AVAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
     
-    if !User.hasLoggedIn {
-      window = UIWindow(frame: UIScreen.mainScreen().bounds)
-      let storyboard = UIStoryboard(name: "Login", bundle: nil)
+    
+    // choose login scene or home scene based on if loggedin
+    window = UIWindow(frame: UIScreen.mainScreen().bounds)
+    if User.hasLoggedIn {
+      let storyboard = UIStoryboard(name: "Main", bundle: nil)
       let initialViewController = storyboard.instantiateInitialViewController()
       window?.rootViewController = initialViewController
       window?.makeKeyAndVisible()
     } else {
-        window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: "Login", bundle: nil)
         let initialViewController = storyboard.instantiateInitialViewController()
         window?.rootViewController = initialViewController
         window?.makeKeyAndVisible()
