@@ -20,6 +20,13 @@ class ViewController: UIViewController {
     // Dispose of any resources that can be recreated.
   }
 
+    @IBAction func signOut(sender: UIButton) {
+        User.hasLoggedIn = false
+        let appDelegate = UIApplication.sharedApplication().delegate! as! AppDelegate
+        let initialViewController = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController()
+        appDelegate.window?.rootViewController = initialViewController
+        appDelegate.window?.makeKeyAndVisible()
+    }
 
 }
 

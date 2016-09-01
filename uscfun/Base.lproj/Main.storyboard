@@ -16,7 +16,24 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ny2-jC-7Kj">
+                                <rect key="frame" x="0.0" y="285" width="600" height="30"/>
+                                <color key="backgroundColor" red="0.03579455107" green="0.63124459700000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="退出">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="signOut:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Yuz-sQ-A0c"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Ny2-jC-7Kj" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="HPO-Ff-5SQ"/>
+                            <constraint firstItem="Ny2-jC-7Kj" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Suw-lS-27P"/>
+                            <constraint firstItem="Ny2-jC-7Kj" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="z8x-UX-f0x"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
