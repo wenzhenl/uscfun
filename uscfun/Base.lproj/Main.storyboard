@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" indicatorStyle="white" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="156" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tnK-1v-zuz">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" indicatorStyle="white" dataMode="prototypes" style="plain" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="156" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tnK-1v-zuz">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -26,25 +26,25 @@
                                         <rect key="frame" x="0.0" y="92" width="600" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lTO-9d-gCF" id="HRs-aM-MwU">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="199"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="创建于2016-09-08" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QBT-hR-5Fx">
-                                                    <rect key="frame" x="8" y="8" width="584" height="12"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="创建于2016-09-08" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QBT-hR-5Fx">
+                                                    <rect key="frame" x="8" y="179" width="584" height="12"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XMS-gJ-i2Q">
-                                                    <rect key="frame" x="8" y="28" width="584" height="164"/>
+                                                    <rect key="frame" x="8" y="8" width="584" height="163"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="周末去大华购物有人去么周末去大华购物有人去么" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sdO-Rc-gcZ">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="周末去大华购物有人去么，还可以顺便吃个饭" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sdO-Rc-gcZ">
                                                             <rect key="frame" x="20" y="20" width="436" height="21"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add-1" translatesAutoresizingMaskIntoConstraints="NO" id="chg-zR-9Ab">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="map-location" translatesAutoresizingMaskIntoConstraints="NO" id="chg-zR-9Ab">
                                                             <rect key="frame" x="464" y="32" width="100" height="100"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="100" id="L3e-JM-vYn"/>
@@ -68,7 +68,7 @@
                                                                         <constraint firstAttribute="height" constant="30" id="i5n-QQ-VfA"/>
                                                                     </constraints>
                                                                 </imageView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="大华超市坚实的缴费时间记得发就发了" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UhI-Rv-1Tx">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="中国城全统广场大华超市" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UhI-Rv-1Tx">
                                                                     <rect key="frame" x="38" y="38" width="398" height="30"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -124,15 +124,21 @@
                                                 <constraint firstItem="XMS-gJ-i2Q" firstAttribute="top" secondItem="QBT-hR-5Fx" secondAttribute="bottom" constant="8" symbolic="YES" id="13E-tB-BlR"/>
                                                 <constraint firstItem="XMS-gJ-i2Q" firstAttribute="leading" secondItem="HRs-aM-MwU" secondAttribute="leadingMargin" id="1s0-cB-FMH"/>
                                                 <constraint firstItem="QBT-hR-5Fx" firstAttribute="leading" secondItem="HRs-aM-MwU" secondAttribute="leadingMargin" id="4b8-8c-VkJ"/>
+                                                <constraint firstItem="QBT-hR-5Fx" firstAttribute="top" secondItem="XMS-gJ-i2Q" secondAttribute="bottom" constant="8" symbolic="YES" id="Bd1-v2-zdz"/>
                                                 <constraint firstItem="XMS-gJ-i2Q" firstAttribute="top" secondItem="HRs-aM-MwU" secondAttribute="topMargin" id="EQX-wn-MVO"/>
                                                 <constraint firstItem="QBT-hR-5Fx" firstAttribute="top" secondItem="HRs-aM-MwU" secondAttribute="topMargin" id="Ibg-Zv-9SH"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="XMS-gJ-i2Q" secondAttribute="bottom" id="Ogp-sv-2FW"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="QBT-hR-5Fx" secondAttribute="trailing" id="a3P-As-iyl"/>
+                                                <constraint firstItem="XMS-gJ-i2Q" firstAttribute="top" secondItem="HRs-aM-MwU" secondAttribute="topMargin" id="lOS-t8-VZT"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="QBT-hR-5Fx" secondAttribute="bottom" id="nIh-GQ-DTx"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="XMS-gJ-i2Q" secondAttribute="trailing" id="p9K-MY-5IV"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
+                                                    <exclude reference="13E-tB-BlR"/>
                                                     <exclude reference="EQX-wn-MVO"/>
+                                                    <exclude reference="Ogp-sv-2FW"/>
+                                                    <exclude reference="Ibg-Zv-9SH"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -169,7 +175,7 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="日常活动" id="W5V-f0-SZ0">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="2WV-js-taI"/>
+                        <barButtonItem key="rightBarButtonItem" image="settings" id="2WV-js-taI"/>
                     </navigationItem>
                     <connections>
                         <outlet property="eventTableView" destination="tnK-1v-zuz" id="0xK-tJ-XUW"/>
@@ -199,8 +205,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="add-1" width="512" height="512"/>
         <image name="alarm-clock" width="512" height="512"/>
         <image name="map-location" width="512" height="512"/>
+        <image name="settings" width="22" height="22"/>
     </resources>
 </document>
