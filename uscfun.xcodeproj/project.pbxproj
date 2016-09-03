@@ -9,12 +9,13 @@
 /* Begin PBXBuildFile section */
 		0A022FA71D73D066004077A4 /* FindBackPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A022FA61D73D066004077A4 /* FindBackPasswordViewController.swift */; };
 		0A6834BE1D56858C002E9B0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6834BD1D56858C002E9B0D /* AppDelegate.swift */; };
-		0A6834C01D56858C002E9B0D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6834BF1D56858C002E9B0D /* ViewController.swift */; };
 		0A6834C31D56858C002E9B0D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A6834C11D56858C002E9B0D /* Main.storyboard */; };
 		0A6834C51D56858C002E9B0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A6834C41D56858C002E9B0D /* Assets.xcassets */; };
 		0A6834C81D56858C002E9B0D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A6834C61D56858C002E9B0D /* LaunchScreen.storyboard */; };
 		0A845BD41D7206FE00287DEB /* ConfirmEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A845BD31D7206FE00287DEB /* ConfirmEmailViewController.swift */; };
 		0A845BDA1D724D8100287DEB /* KeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A845BD81D724D8100287DEB /* KeychainWrapper.m */; };
+		0A936CA41D7A59490055094F /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A936CA31D7A59490055094F /* EventViewController.swift */; };
+		0A936CA61D7A9EDF0055094F /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A936CA51D7A9EDF0055094F /* EventTableViewCell.swift */; };
 		0A963DB31D7122D000E0532F /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A963DB21D7122D000E0532F /* SignInViewController.swift */; };
 		0A963DB51D7122E200E0532F /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A963DB41D7122E200E0532F /* SignUpViewController.swift */; };
 		0A963DB71D716E6400E0532F /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A963DB61D716E6400E0532F /* NicknameViewController.swift */; };
@@ -32,7 +33,6 @@
 		0A022FA61D73D066004077A4 /* FindBackPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindBackPasswordViewController.swift; sourceTree = "<group>"; };
 		0A6834BA1D56858C002E9B0D /* uscfun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = uscfun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A6834BD1D56858C002E9B0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0A6834BF1D56858C002E9B0D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		0A6834C21D56858C002E9B0D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0A6834C41D56858C002E9B0D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A6834C71D56858C002E9B0D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -40,6 +40,8 @@
 		0A845BD31D7206FE00287DEB /* ConfirmEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewController.swift; sourceTree = "<group>"; };
 		0A845BD71D724D8100287DEB /* KeychainWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainWrapper.h; sourceTree = "<group>"; };
 		0A845BD81D724D8100287DEB /* KeychainWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainWrapper.m; sourceTree = "<group>"; };
+		0A936CA31D7A59490055094F /* EventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
+		0A936CA51D7A9EDF0055094F /* EventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
 		0A963DB21D7122D000E0532F /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		0A963DB41D7122E200E0532F /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		0A963DB61D716E6400E0532F /* NicknameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
@@ -87,7 +89,8 @@
 			children = (
 				0A9CB44B1D6FF5C500608D27 /* Login */,
 				0A6834BD1D56858C002E9B0D /* AppDelegate.swift */,
-				0A6834BF1D56858C002E9B0D /* ViewController.swift */,
+				0A936CA31D7A59490055094F /* EventViewController.swift */,
+				0A936CA51D7A9EDF0055094F /* EventTableViewCell.swift */,
 				0A6834C11D56858C002E9B0D /* Main.storyboard */,
 				0A6834C41D56858C002E9B0D /* Assets.xcassets */,
 				0A6834C61D56858C002E9B0D /* LaunchScreen.storyboard */,
@@ -258,11 +261,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A845BD41D7206FE00287DEB /* ConfirmEmailViewController.swift in Sources */,
-				0A6834C01D56858C002E9B0D /* ViewController.swift in Sources */,
 				0A963DB51D7122E200E0532F /* SignUpViewController.swift in Sources */,
 				0A022FA71D73D066004077A4 /* FindBackPasswordViewController.swift in Sources */,
 				0A9CB4511D6FFAA500608D27 /* User.swift in Sources */,
+				0A936CA61D7A9EDF0055094F /* EventTableViewCell.swift in Sources */,
 				0A963DB31D7122D000E0532F /* SignInViewController.swift in Sources */,
+				0A936CA41D7A59490055094F /* EventViewController.swift in Sources */,
 				0A963DB71D716E6400E0532F /* NicknameViewController.swift in Sources */,
 				0A9CB44F1D6FF8D800608D27 /* USCFunConstants.swift in Sources */,
 				0A845BDA1D724D8100287DEB /* KeychainWrapper.m in Sources */,
