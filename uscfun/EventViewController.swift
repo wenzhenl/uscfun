@@ -42,9 +42,10 @@ class EventViewController: UIViewController, UITableViewDataSource, UITableViewD
         cell.backgroundColor = UIColor.clearColor()
     }
     
-//    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 200
 //        return UITableViewAutomaticDimension
-//    }
+    }
     
 //    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 //        return UITableViewAutomaticDimension

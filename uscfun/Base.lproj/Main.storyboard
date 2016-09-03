@@ -81,6 +81,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstItem="F9P-Nj-1gX" firstAttribute="top" secondItem="V1X-iz-XXQ" secondAttribute="top" id="6cz-ZP-94y"/>
                                                                 <constraint firstAttribute="trailing" secondItem="V1X-iz-XXQ" secondAttribute="trailing" id="JYQ-JA-r4I"/>
@@ -98,7 +99,7 @@
                                                             </constraints>
                                                         </view>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" red="1" green="0.994123702" blue="0.037139914650000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstItem="chg-zR-9Ab" firstAttribute="leading" secondItem="sdO-Rc-gcZ" secondAttribute="trailing" constant="8" symbolic="YES" id="0Vu-2o-4XV"/>
                                                         <constraint firstItem="EBp-gZ-agd" firstAttribute="leading" secondItem="XMS-gJ-i2Q" secondAttribute="leading" constant="20" symbolic="YES" id="EEJ-SY-nJb"/>
@@ -135,7 +136,7 @@
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="containerView" destination="XMS-gJ-i2Q" id="liR-Sc-PqG"/>
                                         </connections>
