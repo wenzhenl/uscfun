@@ -35,6 +35,13 @@ class EventViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("Event Display Cell") as! EventTableViewCell
+        cell.selectionStyle = .None
+        // randomize view color
+        let blueColor = CGFloat(Int(arc4random() % 255)) / 255.0
+        let greenColor = CGFloat(Int(arc4random() % 255)) / 255.0
+        let redColor = CGFloat(Int(arc4random() % 255)) / 255.0
+        
+        cell.containerView.backgroundColor = UIColor(red: redColor, green: greenColor, blue: blueColor, alpha: 0.7)
         return cell
     }
     
