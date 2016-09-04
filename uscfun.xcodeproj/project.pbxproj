@@ -27,6 +27,7 @@
 		0A9CB44F1D6FF8D800608D27 /* USCFunConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB44E1D6FF8D800608D27 /* USCFunConstants.swift */; };
 		0A9CB4511D6FFAA500608D27 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB4501D6FFAA500608D27 /* User.swift */; };
 		0A9CB4531D7006F400608D27 /* PreLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB4521D7006F400608D27 /* PreLoginViewController.swift */; };
+		0AD127101D7C1CEB00333F78 /* AttendingEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */; };
 		0ADF53FB1D7BD732003157EA /* EventListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADF53FA1D7BD732003157EA /* EventListTableViewCell.swift */; };
 		0ADF53FD1D7BD7B1003157EA /* EventHangingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADF53FC1D7BD7B1003157EA /* EventHangingView.swift */; };
 		735BE8253448C87F145DDF95 /* libPods-uscfun.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 046E8B00EF1A5D6490FD4CFD /* libPods-uscfun.a */; };
@@ -58,6 +59,7 @@
 		0A9CB44E1D6FF8D800608D27 /* USCFunConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USCFunConstants.swift; sourceTree = "<group>"; };
 		0A9CB4501D6FFAA500608D27 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		0A9CB4521D7006F400608D27 /* PreLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreLoginViewController.swift; sourceTree = "<group>"; };
+		0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttendingEventTableViewCell.swift; sourceTree = "<group>"; };
 		0ADF53FA1D7BD732003157EA /* EventListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListTableViewCell.swift; sourceTree = "<group>"; };
 		0ADF53FC1D7BD7B1003157EA /* EventHangingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHangingView.swift; sourceTree = "<group>"; };
 		0AF847991D6812730015C5AB /* uscfun-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "uscfun-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 				0A3D2B5E1D7B938B004F57EF /* MeViewController.swift */,
 				0ADF53FA1D7BD732003157EA /* EventListTableViewCell.swift */,
 				0ADF53FC1D7BD7B1003157EA /* EventHangingView.swift */,
+				0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */,
 			);
 			name = Event;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 				0A022FA71D73D066004077A4 /* FindBackPasswordViewController.swift in Sources */,
 				0A9CB4511D6FFAA500608D27 /* User.swift in Sources */,
 				0A3D2B5D1D7B9351004F57EF /* EventDetailViewController.swift in Sources */,
+				0AD127101D7C1CEB00333F78 /* AttendingEventTableViewCell.swift in Sources */,
 				0A3D2B621D7B941F004F57EF /* Event.swift in Sources */,
 				0ADF53FD1D7BD7B1003157EA /* EventHangingView.swift in Sources */,
 				0ADF53FB1D7BD732003157EA /* EventListTableViewCell.swift in Sources */,

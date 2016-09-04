@@ -20,7 +20,8 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.view.backgroundColor = UIColor.themeYellow()
+        self.view.backgroundColor = UIColor.buttonPink()
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
         self.backgroundView.backgroundColor = UIColor.backgroundGray()
         self.leftButton.layer.cornerRadius = leftButton.frame.size.height / 2.0
         self.rightButton.layer.cornerRadius = rightButton.frame.size.height / 2.0
@@ -28,11 +29,12 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         self.rightButton.backgroundColor = UIColor.buttonBlue()
         self.startEventButton.layer.cornerRadius = startEventButton.frame.size.height / 2.0
         self.tableView.backgroundColor = UIColor.backgroundGray()
+        self.tableView.contentInset = UIEdgeInsetsMake(35, 0, 0, 0)
 //        self.backgroundView.layer.cornerRadius = 15
         self.backgroundView.layer.borderWidth = 1
         self.backgroundView.layer.borderColor = UIColor.lightGrayColor().CGColor
-        self.leftButton.layer.borderWidth = 1
-        self.leftButton.layer.borderColor = UIColor.lightGrayColor().CGColor
+//        self.leftButton.layer.borderWidth = 1
+//        self.leftButton.layer.borderColor = UIColor.lightGrayColor().CGColor
         self.rightButton.layer.borderWidth = 1
         self.rightButton.layer.borderColor = UIColor.lightGrayColor().CGColor
         self.startEventButton.layer.borderWidth = 1
@@ -47,50 +49,86 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 300
+        if indexPath.section == 0 {
+            return UITableViewAutomaticDimension
+        }
+        return 200
     }
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 300
+        if indexPath.section == 0 {
+            return UITableViewAutomaticDimension
+        }
+        return 200
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 10
     }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        if section == 0 {
+            return 5
+        } else {
+            return 1
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("EventListCell") as! EventListTableViewCell
-        cell.selectionStyle = .None
-        return cell
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCellWithIdentifier("AttendingEventCell") as! AttendingEventTableViewCell
+            cell.selectionStyle = .None
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCellWithIdentifier("EventListCell") as! EventListTableViewCell
+            cell.selectionStyle = .None
+            return cell
+        }
     }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         cell.backgroundColor = UIColor.clearColor()
     }
+    
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 13
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
-            return 50
+            return 15
+        }
+        else if section == 1 {
+            return 15
         } else {
             return 0
         }
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView(frame: CGRectMake(0, 0, tableView.bounds.size.width, 30))
-        headerView.backgroundColor = UIColor.clearColor()
-        return headerView
+    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        view.tintColor = UIColor.clearColor()
+        let title = UILabel()
+        title.font = UIFont(name: "Futura", size: 10)!
+        title.textColor = UIColor.lightGrayColor()
+        
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.font=title.font
+        header.textLabel?.textColor=title.textColor
+        header.textLabel?.textAlignment = .Left
     }
     
-    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footerView = UIView(frame: CGRectMake(0, 0, tableView.bounds.size.width, 30))
-        footerView.backgroundColor = UIColor.clearColor()
-        return footerView
+    func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        view.tintColor = UIColor.clearColor()
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "你正在参加的活动"
+        }
+        else if section == 1 {
+            return "当前活动"
+        } else {
+            return nil
+        }
     }
 }
