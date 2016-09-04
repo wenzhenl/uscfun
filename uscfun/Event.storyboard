@@ -46,6 +46,14 @@
                                     <constraint firstItem="CCV-dY-D7Y" firstAttribute="leading" secondItem="Yv8-ed-2TI" secondAttribute="leading" constant="20" symbolic="YES" id="x0b-55-sm6"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZlJ-l0-F51">
+                                <rect key="frame" x="530" y="525" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="7C7-NB-Y8b"/>
+                                    <constraint firstAttribute="width" constant="50" id="eX7-oS-SfO"/>
+                                </constraints>
+                                <state key="normal" image="plus"/>
+                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v4m-dJ-R1K">
                                 <rect key="frame" x="0.0" y="45" width="600" height="555"/>
                             </view>
@@ -120,6 +128,8 @@
                             <constraint firstItem="ss7-Ne-KSf" firstAttribute="leading" secondItem="iTf-wD-Ez0" secondAttribute="leadingMargin" id="2Ar-M4-1iH"/>
                             <constraint firstItem="ss7-Ne-KSf" firstAttribute="width" secondItem="iTf-wD-Ez0" secondAttribute="width" id="6df-5A-fmk"/>
                             <constraint firstItem="ss7-Ne-KSf" firstAttribute="top" secondItem="tGq-CL-lzP" secondAttribute="bottom" constant="25" id="9nZ-2A-FHy"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ZlJ-l0-F51" secondAttribute="trailing" id="Axn-jv-Yck"/>
+                            <constraint firstItem="EwJ-fR-3fp" firstAttribute="top" secondItem="ZlJ-l0-F51" secondAttribute="bottom" constant="25" id="Bpj-p1-JdF"/>
                             <constraint firstItem="v4m-dJ-R1K" firstAttribute="width" secondItem="iTf-wD-Ez0" secondAttribute="width" id="Ibj-Ij-ydW"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ss7-Ne-KSf" secondAttribute="trailing" id="KoM-mY-6gh"/>
                             <constraint firstItem="Yv8-ed-2TI" firstAttribute="width" secondItem="iTf-wD-Ez0" secondAttribute="width" id="Obg-WB-1rc"/>
@@ -155,6 +165,7 @@
                         <outlet property="buttonContainerView" destination="Yv8-ed-2TI" id="dev-5m-ZEV"/>
                         <outlet property="leftButton" destination="CCV-dY-D7Y" id="Xmf-xx-BG8"/>
                         <outlet property="rightButton" destination="v5n-wd-ipV" id="TeO-3V-DHe"/>
+                        <outlet property="startEventButton" destination="ZlJ-l0-F51" id="6hM-2R-xQ2"/>
                         <outlet property="tableView" destination="ss7-Ne-KSf" id="iDC-GG-ZMe"/>
                     </connections>
                 </viewController>
@@ -218,6 +229,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="plus" width="512" height="512"/>
         <image name="user-4" width="512" height="512"/>
     </resources>
 </document>
