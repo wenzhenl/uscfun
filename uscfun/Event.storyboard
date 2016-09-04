@@ -29,12 +29,10 @@
                                         <constraints>
                                             <constraint firstAttribute="width" constant="50" id="gXI-KW-CET"/>
                                         </constraints>
-                                        <state key="normal" image="repeat-1"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v5n-wd-ipV">
                                         <rect key="frame" x="530" y="0.0" width="50" height="50"/>
                                         <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" image="user-4"/>
                                         <connections>
                                             <segue destination="gvJ-BP-rzp" kind="presentation" id="5Vp-g2-jZ1"/>
                                         </connections>
@@ -62,7 +60,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v4m-dJ-R1K">
                                 <rect key="frame" x="0.0" y="45" width="600" height="555"/>
                             </view>
-                            <tableView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" rowHeight="125" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ss7-Ne-KSf">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" rowHeight="125" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ss7-Ne-KSf">
                                 <rect key="frame" x="20" y="45" width="560" height="555"/>
                                 <color key="backgroundColor" red="0.1423776252" green="0.39793669869999998" blue="0.11561009160000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
@@ -118,7 +116,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="containerView" destination="HR9-z4-iEt" id="dcU-bt-kCl"/>
-                                            <segue destination="nvQ-YZ-kHk" kind="show" id="dv6-36-DLR"/>
+                                            <segue destination="9e8-wJ-w9K" kind="show" id="dv6-36-DLR"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AttendingEventCell" id="C76-wQ-x1W" customClass="AttendingEventTableViewCell" customModule="uscfun" customModuleProvider="target">
@@ -177,6 +175,9 @@
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="9e8-wJ-w9K" kind="show" id="Haf-pk-NOB"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -283,36 +284,44 @@
                     <view key="view" contentMode="scaleToFill" id="wZa-0p-8mV">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C4P-cw-eyh">
-                                <rect key="frame" x="20" y="20" width="40" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="Ip6-Ee-c4f"/>
-                                    <constraint firstAttribute="height" constant="40" id="YOv-IA-n1s"/>
-                                </constraints>
-                                <state key="normal" image="error"/>
-                                <connections>
-                                    <action selector="close:" destination="nvQ-YZ-kHk" eventType="touchUpInside" id="FPG-cs-Cpe"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="C4P-cw-eyh" firstAttribute="top" secondItem="U0m-Gz-5VD" secondAttribute="bottom" id="M97-7D-YYW"/>
-                            <constraint firstItem="C4P-cw-eyh" firstAttribute="leading" secondItem="wZa-0p-8mV" secondAttribute="leadingMargin" id="VgQ-hU-59P"/>
-                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="TdA-AP-EMn">
+                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="PbE-jG-Z7Y">
+                            <connections>
+                                <action selector="close" destination="nvQ-YZ-kHk" id="kDe-QS-KKS"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y9J-Ob-CXo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1554" y="749"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="byH-mO-yzt">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9e8-wJ-w9K" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="SR6-aL-b4s">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="nvQ-YZ-kHk" kind="relationship" relationship="rootViewController" id="Xxg-rm-DS2"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZtN-yV-8e8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="742" y="749"/>
         </scene>
     </scenes>
     <resources>
         <image name="alarm-clock" width="512" height="512"/>
-        <image name="error" width="512" height="512"/>
         <image name="plus" width="512" height="512"/>
-        <image name="repeat-1" width="512" height="512"/>
-        <image name="user-4" width="512" height="512"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="dv6-36-DLR"/>
+    </inferredMetricsTieBreakers>
 </document>

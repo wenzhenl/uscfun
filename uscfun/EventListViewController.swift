@@ -26,7 +26,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         self.leftButton.layer.cornerRadius = leftButton.frame.size.height / 2.0
         self.rightButton.layer.cornerRadius = rightButton.frame.size.height / 2.0
         self.leftButton.backgroundColor = UIColor.buttonPink()
-        self.rightButton.backgroundColor = UIColor.buttonBlue()
+        self.rightButton.backgroundColor = UIColor.buttonPink()
         self.startEventButton.layer.cornerRadius = startEventButton.frame.size.height / 2.0
         self.tableView.backgroundColor = UIColor.backgroundGray()
         self.tableView.contentInset = UIEdgeInsetsMake(35, 0, 0, 0)
@@ -35,8 +35,8 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         self.backgroundView.layer.borderColor = UIColor.lightGrayColor().CGColor
 //        self.leftButton.layer.borderWidth = 1
 //        self.leftButton.layer.borderColor = UIColor.lightGrayColor().CGColor
-        self.rightButton.layer.borderWidth = 1
-        self.rightButton.layer.borderColor = UIColor.lightGrayColor().CGColor
+//        self.rightButton.layer.borderWidth = 1
+//        self.rightButton.layer.borderColor = UIColor.lightGrayColor().CGColor
         self.startEventButton.layer.borderWidth = 1
         self.startEventButton.layer.borderColor = UIColor.buttonBlue().CGColor
         self.view.bringSubviewToFront(buttonContainerView)
@@ -77,11 +77,11 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCellWithIdentifier("AttendingEventCell") as! AttendingEventTableViewCell
-            cell.selectionStyle = .None
+            cell.selectionStyle = .Default
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("EventListCell") as! EventListTableViewCell
-            cell.selectionStyle = .None
+            cell.selectionStyle = .Default
             return cell
         }
     }
@@ -130,5 +130,9 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         } else {
             return nil
         }
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: false)
     }
 }
