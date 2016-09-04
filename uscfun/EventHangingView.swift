@@ -21,7 +21,7 @@ class EventHangingView: UIView {
     
     override func drawRect(rect: CGRect) {
         let path = UIBezierPath()
-        UIColor.darkGrayColor().set()
+        UIColor.lightGrayColor().set()
         path.lineWidth = 2
         let topLeft = CGPoint(x: self.bounds.minX, y: self.bounds.minY)
         let topRight = CGPoint(x: self.bounds.maxX, y: self.bounds.minY)

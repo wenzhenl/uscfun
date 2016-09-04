@@ -60,41 +60,51 @@
                                             <rect key="frame" x="0.0" y="0.0" width="560" height="299"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="attachment" translatesAutoresizingMaskIntoConstraints="NO" id="Uy3-iz-6XL">
-                                                    <rect key="frame" x="522" y="8" width="30" height="30"/>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7ad-nP-r9E" customClass="EventHangingView" customModule="uscfun" customModuleProvider="target">
+                                                    <rect key="frame" x="56" y="8" width="448" height="45"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="3yI-rD-mAc"/>
-                                                        <constraint firstAttribute="width" constant="30" id="41N-fY-g6B"/>
+                                                        <constraint firstAttribute="height" constant="128" id="GIX-GO-dTD"/>
                                                     </constraints>
-                                                </imageView>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="GIX-GO-dTD"/>
+                                                        </mask>
+                                                    </variation>
+                                                </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HR9-z4-iEt">
-                                                    <rect key="frame" x="0.0" y="8" width="560" height="283"/>
+                                                    <rect key="frame" x="0.0" y="53" width="560" height="238"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="attachment-1" translatesAutoresizingMaskIntoConstraints="NO" id="wWk-Ax-FSD">
-                                                    <rect key="frame" x="8" y="8" width="30" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="bc0-2I-VIZ"/>
-                                                        <constraint firstAttribute="width" constant="30" id="xx6-CT-I6E"/>
-                                                    </constraints>
-                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
+                                                <constraint firstItem="7ad-nP-r9E" firstAttribute="top" secondItem="cSi-jH-rIj" secondAttribute="topMargin" id="2H5-9S-Yh4"/>
+                                                <constraint firstItem="7ad-nP-r9E" firstAttribute="width" secondItem="cSi-jH-rIj" secondAttribute="width" multiplier="0.8" id="3Go-YC-gkF"/>
                                                 <constraint firstItem="HR9-z4-iEt" firstAttribute="centerX" secondItem="cSi-jH-rIj" secondAttribute="centerX" id="6Cx-Pe-l72"/>
+                                                <constraint firstItem="7ad-nP-r9E" firstAttribute="height" secondItem="cSi-jH-rIj" secondAttribute="height" multiplier="0.15" id="D1l-hP-Tfn"/>
                                                 <constraint firstItem="HR9-z4-iEt" firstAttribute="width" secondItem="cSi-jH-rIj" secondAttribute="width" id="GxM-nh-WQH"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="Uy3-iz-6XL" secondAttribute="trailing" id="Ngi-xY-MVa"/>
-                                                <constraint firstItem="wWk-Ax-FSD" firstAttribute="top" secondItem="cSi-jH-rIj" secondAttribute="topMargin" id="Ryx-R3-zc4"/>
+                                                <constraint firstItem="7ad-nP-r9E" firstAttribute="top" secondItem="HR9-z4-iEt" secondAttribute="bottom" constant="-205" id="UoO-ga-xxe"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="HR9-z4-iEt" secondAttribute="bottom" id="a3v-x7-ctB"/>
-                                                <constraint firstItem="Uy3-iz-6XL" firstAttribute="top" secondItem="cSi-jH-rIj" secondAttribute="topMargin" id="bG4-ED-B2T"/>
-                                                <constraint firstItem="HR9-z4-iEt" firstAttribute="top" secondItem="Uy3-iz-6XL" secondAttribute="bottom" constant="-30" id="ver-Pt-t5v"/>
-                                                <constraint firstItem="wWk-Ax-FSD" firstAttribute="leading" secondItem="cSi-jH-rIj" secondAttribute="leadingMargin" id="zn0-23-Exk"/>
+                                                <constraint firstItem="7ad-nP-r9E" firstAttribute="top" secondItem="cSi-jH-rIj" secondAttribute="topMargin" constant="78" id="agI-dZ-WFJ"/>
+                                                <constraint firstItem="7ad-nP-r9E" firstAttribute="top" secondItem="HR9-z4-iEt" secondAttribute="bottom" id="cuV-ma-iGc"/>
+                                                <constraint firstItem="7ad-nP-r9E" firstAttribute="leading" secondItem="cSi-jH-rIj" secondAttribute="leadingMargin" id="mjb-rr-Jgl"/>
+                                                <constraint firstItem="HR9-z4-iEt" firstAttribute="top" secondItem="7ad-nP-r9E" secondAttribute="bottom" id="o32-hc-JPJ"/>
+                                                <constraint firstItem="7ad-nP-r9E" firstAttribute="centerX" secondItem="cSi-jH-rIj" secondAttribute="centerX" id="ub3-wx-k6e"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="7ad-nP-r9E" secondAttribute="trailing" id="zjr-X6-GTM"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="UoO-ga-xxe"/>
+                                                    <exclude reference="agI-dZ-WFJ"/>
+                                                    <exclude reference="cuV-ma-iGc"/>
+                                                    <exclude reference="mjb-rr-Jgl"/>
+                                                    <exclude reference="zjr-X6-GTM"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="containerView" destination="HR9-z4-iEt" id="dcU-bt-kCl"/>
-                                            <outlet property="leftImageView" destination="wWk-Ax-FSD" id="4C0-MD-E7j"/>
-                                            <outlet property="rightImageView" destination="Uy3-iz-6XL" id="Csf-aD-u6M"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -208,8 +218,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="attachment" width="512" height="512"/>
-        <image name="attachment-1" width="512" height="512"/>
         <image name="user-4" width="512" height="512"/>
     </resources>
 </document>

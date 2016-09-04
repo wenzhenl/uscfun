@@ -26,7 +26,13 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         self.leftButton.backgroundColor = UIColor.buttonPink()
         self.rightButton.backgroundColor = UIColor.buttonBlue()
         self.tableView.backgroundColor = UIColor.backgroundGray()
-        self.backgroundView.layer.cornerRadius = 15
+//        self.backgroundView.layer.cornerRadius = 15
+        self.backgroundView.layer.borderWidth = 1
+        self.backgroundView.layer.borderColor = UIColor.lightGrayColor().CGColor
+        self.leftButton.layer.borderWidth = 1
+        self.leftButton.layer.borderColor = UIColor.lightGrayColor().CGColor
+        self.rightButton.layer.borderWidth = 1
+        self.rightButton.layer.borderColor = UIColor.lightGrayColor().CGColor
         self.view.bringSubviewToFront(buttonContainerView)
     }
 

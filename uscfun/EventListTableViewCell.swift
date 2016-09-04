@@ -10,14 +10,10 @@ import UIKit
 
 class EventListTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var leftImageView: UIImageView!
-    @IBOutlet weak var rightImageView: UIImageView!
     @IBOutlet weak var containerView: UIView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        contentView.bringSubviewToFront(leftImageView)
-        contentView.bringSubviewToFront(rightImageView)
         containerView.layer.cornerRadius = 13
         containerView.layer.borderWidth = 1
         containerView.layer.borderColor = UIColor.lightGrayColor().CGColor
