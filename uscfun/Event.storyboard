@@ -41,12 +41,30 @@
                     <view key="view" contentMode="scaleToFill" id="sVg-4E-a6Q">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wd5-TJ-Qo9">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="gvJ-BP-rzp" id="d7s-ct-TSd"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="wd5-TJ-Qo9" firstAttribute="width" secondItem="sVg-4E-a6Q" secondAttribute="width" id="Gvy-RC-QkH"/>
+                            <constraint firstItem="wd5-TJ-Qo9" firstAttribute="height" secondItem="sVg-4E-a6Q" secondAttribute="height" id="IWt-KI-Z18"/>
+                            <constraint firstItem="wd5-TJ-Qo9" firstAttribute="centerX" secondItem="sVg-4E-a6Q" secondAttribute="centerX" id="Isv-tV-tnl"/>
+                            <constraint firstItem="wd5-TJ-Qo9" firstAttribute="centerY" secondItem="sVg-4E-a6Q" secondAttribute="centerY" id="mLU-ww-JlX"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="wd5-TJ-Qo9" id="M1J-k2-TuR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uq2-v7-fgb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1888" y="-20"/>
+            <point key="canvasLocation" x="1946" y="-18"/>
         </scene>
         <!--Event Detail View Controller-->
         <scene sceneID="OBR-Vi-A3T">
