@@ -12,7 +12,7 @@ class MeViewController: UIViewController, UITableViewDataSource, UITableViewDele
 
     @IBOutlet weak var tableView: UITableView!
     
-    let numberOfRowInSection = [1,2,2,1]
+    let numberOfRowInSection = [1,2,3,2,1]
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,12 +48,25 @@ class MeViewController: UIViewController, UITableViewDataSource, UITableViewDele
             return cell
         }
         else if indexPath.section == numberOfRowInSection.count - 1 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("SignOutCell") as! SignOutTableViewCell
+            let cell = UITableViewCell()
+            cell.textLabel?.textAlignment = .Center
+            cell.textLabel?.text = "退出登录"
+            cell.textLabel?.textColor = UIColor.darkGrayColor()
             return cell
         }
-        let cell = UITableViewCell()
-        cell.textLabel
-        return UITableViewCell()
+        else if indexPath.section == 2 || indexPath.section == 3 {
+            let cell = tableView.dequeueReusableCellWithIdentifier("AttendedEventCell") as! AttendedTableViewCell
+            return cell
+        }
+        else {
+            let cell = tableView.dequeueReusableCellWithIdentifier("SettingCell") as! SettingTableViewCell
+            if indexPath.row == 0 {
+                cell.textLabel?.text = "给USC日常评分"
+            } else {
+                cell.textLabel?.text = "反馈问题或建议"
+            }
+            return cell
+        }
     }
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -64,6 +77,9 @@ class MeViewController: UIViewController, UITableViewDataSource, UITableViewDele
         if indexPath.section == 0 {
             return UITableViewAutomaticDimension
         }
+        else if indexPath.section == 2 || indexPath.section == 3 {
+            return UITableViewAutomaticDimension
+        }
         else {
             return 50
         }
@@ -71,6 +87,9 @@ class MeViewController: UIViewController, UITableViewDataSource, UITableViewDele
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.section == 0 {
+            return UITableViewAutomaticDimension
+        }
+        else if indexPath.section == 2 || indexPath.section == 3 {
             return UITableViewAutomaticDimension
         }
         else {
@@ -96,7 +115,40 @@ class MeViewController: UIViewController, UITableViewDataSource, UITableViewDele
             appDelegate.window?.makeKeyAndVisible()
         }
         
+        else if indexPath.section == 1 && indexPath.row == 0 {
+            UIApplication.sharedApplication().openURL(NSURL(string : "itms-apps://itunes.apple.com/app/id1073401869")!)
+        }
+        
         tableView.deselectRowAtIndexPath(indexPath, animated: false)
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 2 {
+            return "我发起过的活动"
+        }
+        else if section == 3 {
+            return "我参加过的活动"
+        }
+        return ""
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 2 || section == 3 {
+            return 15
+        }
+        return 0
+    }
+    
+    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        view.tintColor = UIColor.clearColor()
+        let title = UILabel()
+        title.font = UIFont(name: "Futura", size: 10)!
+        title.textColor = UIColor.lightGrayColor()
+        
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.font=title.font
+        header.textLabel?.textColor=title.textColor
+        header.textLabel?.textAlignment = .Left
     }
     
     @IBAction func close() {

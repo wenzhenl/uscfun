@@ -1,5 +1,5 @@
 //
-//  SignOutTableViewCell.swift
+//  AttendedTableViewCell.swift
 //  uscfun
 //
 //  Created by Wenzheng Li on 9/4/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SignOutTableViewCell: UITableViewCell {
+class AttendedTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
