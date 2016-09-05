@@ -86,23 +86,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0A3D2B571D7B9215004F57EF /* Event */ = {
+		0A3D2B571D7B9215004F57EF /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				0AFA61AA1D7DF65800042EFA /* EventViewControllers */,
+				0AFA61A91D7DF60800042EFA /* MeViewControllers */,
 				0A3D2B601D7B9408004F57EF /* Models */,
 				0A3D2B581D7B9256004F57EF /* Event.storyboard */,
-				0A3D2B5A1D7B9299004F57EF /* EventListViewController.swift */,
-				0A3D2B5C1D7B9351004F57EF /* EventDetailViewController.swift */,
-				0A3D2B5E1D7B938B004F57EF /* MeViewController.swift */,
-				0ADF53FA1D7BD732003157EA /* EventListTableViewCell.swift */,
-				0ADF53FC1D7BD7B1003157EA /* EventHangingView.swift */,
-				0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */,
-				0A497EDE1D7CC7770099A883 /* StartEventViewController.swift */,
-				0A497EE01D7CDB9D0099A883 /* UserProfileTableViewCell.swift */,
-				0A497EE61D7CF1390099A883 /* AttendedTableViewCell.swift */,
-				0A497EE81D7CF54E0099A883 /* SettingTableViewCell.swift */,
 			);
-			name = Event;
+			name = Home;
 			sourceTree = "<group>";
 		};
 		0A3D2B601D7B9408004F57EF /* Models */ = {
@@ -143,7 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				0A9CB44B1D6FF5C500608D27 /* Login */,
-				0A3D2B571D7B9215004F57EF /* Event */,
+				0A3D2B571D7B9215004F57EF /* Home */,
 				0A6834BD1D56858C002E9B0D /* AppDelegate.swift */,
 				0A6834C41D56858C002E9B0D /* Assets.xcassets */,
 				0A6834C61D56858C002E9B0D /* LaunchScreen.storyboard */,
@@ -171,6 +163,30 @@
 				0A022FA61D73D066004077A4 /* FindBackPasswordViewController.swift */,
 			);
 			name = Login;
+			sourceTree = "<group>";
+		};
+		0AFA61A91D7DF60800042EFA /* MeViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				0A3D2B5E1D7B938B004F57EF /* MeViewController.swift */,
+				0A497EE81D7CF54E0099A883 /* SettingTableViewCell.swift */,
+				0A497EE61D7CF1390099A883 /* AttendedTableViewCell.swift */,
+				0A497EE01D7CDB9D0099A883 /* UserProfileTableViewCell.swift */,
+			);
+			name = MeViewControllers;
+			sourceTree = "<group>";
+		};
+		0AFA61AA1D7DF65800042EFA /* EventViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				0A3D2B5A1D7B9299004F57EF /* EventListViewController.swift */,
+				0A3D2B5C1D7B9351004F57EF /* EventDetailViewController.swift */,
+				0ADF53FA1D7BD732003157EA /* EventListTableViewCell.swift */,
+				0ADF53FC1D7BD7B1003157EA /* EventHangingView.swift */,
+				0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */,
+				0A497EDE1D7CC7770099A883 /* StartEventViewController.swift */,
+			);
+			name = EventViewControllers;
 			sourceTree = "<group>";
 		};
 		3F1C918CE9A3604DE99E8313 /* Frameworks */ = {

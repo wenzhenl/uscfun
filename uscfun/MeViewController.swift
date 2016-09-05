@@ -17,7 +17,7 @@ class MeViewController: UIViewController, UITableViewDataSource, UITableViewDele
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.navigationController!.navigationBar.barTintColor = UIColor.buttonPink()
+        self.navigationController!.navigationBar.barTintColor = UIColor.buttonBlue()
         self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.systemFontOfSize(20)]
 //        self.navigationController!.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)

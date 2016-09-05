@@ -14,8 +14,9 @@ class UserProfileTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        avatarButton.layer.cornerRadius = avatarButton.frame.size.height / 2.0
-        avatarButton.backgroundColor = UIColor.buttonPink()
+//        avatarButton.layer.cornerRadius = avatarButton.frame.size.height / 2.0
+        avatarButton.layer.cornerRadius = 4
+        avatarButton.backgroundColor = UIColor.buttonBlue()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
