@@ -33,6 +33,16 @@ class MeViewController: UIViewController, UITableViewDataSource, UITableViewDele
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+        self.navigationController!.navigationBarHidden = false
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(true)
+        self.navigationController!.navigationBarHidden = true
+    }
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return numberOfRowInSection.count
     }
@@ -151,7 +161,7 @@ class MeViewController: UIViewController, UITableViewDataSource, UITableViewDele
         header.textLabel?.textAlignment = .Left
     }
     
-    @IBAction func close() {
-        self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
-    }
+//    @IBAction func close() {
+//        self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+//    }
 }

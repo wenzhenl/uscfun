@@ -34,6 +34,7 @@
 		0AD127101D7C1CEB00333F78 /* AttendingEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */; };
 		0ADF53FB1D7BD732003157EA /* EventListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADF53FA1D7BD732003157EA /* EventListTableViewCell.swift */; };
 		0ADF53FD1D7BD7B1003157EA /* EventHangingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADF53FC1D7BD7B1003157EA /* EventHangingView.swift */; };
+		0AFA61AD1D7E161900042EFA /* MessageListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFA61AC1D7E161900042EFA /* MessageListViewController.swift */; };
 		735BE8253448C87F145DDF95 /* libPods-uscfun.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 046E8B00EF1A5D6490FD4CFD /* libPods-uscfun.a */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +72,7 @@
 		0ADF53FA1D7BD732003157EA /* EventListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListTableViewCell.swift; sourceTree = "<group>"; };
 		0ADF53FC1D7BD7B1003157EA /* EventHangingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHangingView.swift; sourceTree = "<group>"; };
 		0AF847991D6812730015C5AB /* uscfun-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "uscfun-Bridging-Header.h"; sourceTree = "<group>"; };
+		0AFA61AC1D7E161900042EFA /* MessageListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListViewController.swift; sourceTree = "<group>"; };
 		75E54CBF6FB6E8B58159D318 /* Pods-uscfun.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uscfun.debug.xcconfig"; path = "Pods/Target Support Files/Pods-uscfun/Pods-uscfun.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -89,6 +91,7 @@
 		0A3D2B571D7B9215004F57EF /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				0AFA61AB1D7E15FC00042EFA /* MessageViewControllers */,
 				0AFA61AA1D7DF65800042EFA /* EventViewControllers */,
 				0AFA61A91D7DF60800042EFA /* MeViewControllers */,
 				0A3D2B601D7B9408004F57EF /* Models */,
@@ -187,6 +190,14 @@
 				0A497EDE1D7CC7770099A883 /* StartEventViewController.swift */,
 			);
 			name = EventViewControllers;
+			sourceTree = "<group>";
+		};
+		0AFA61AB1D7E15FC00042EFA /* MessageViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				0AFA61AC1D7E161900042EFA /* MessageListViewController.swift */,
+			);
+			name = MessageViewControllers;
 			sourceTree = "<group>";
 		};
 		3F1C918CE9A3604DE99E8313 /* Frameworks */ = {
@@ -343,6 +354,7 @@
 				0AD127101D7C1CEB00333F78 /* AttendingEventTableViewCell.swift in Sources */,
 				0A3D2B621D7B941F004F57EF /* Event.swift in Sources */,
 				0A497EE71D7CF1390099A883 /* AttendedTableViewCell.swift in Sources */,
+				0AFA61AD1D7E161900042EFA /* MessageListViewController.swift in Sources */,
 				0ADF53FD1D7BD7B1003157EA /* EventHangingView.swift in Sources */,
 				0ADF53FB1D7BD732003157EA /* EventListTableViewCell.swift in Sources */,
 				0A963DB31D7122D000E0532F /* SignInViewController.swift in Sources */,

@@ -20,16 +20,18 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.view.backgroundColor = UIColor.buttonPink()
+        self.navigationController!.navigationBarHidden = true
+        
+        self.view.backgroundColor = UIColor.buttonBlue()
         UIApplication.sharedApplication().statusBarStyle = .LightContent
         self.backgroundView.backgroundColor = UIColor.backgroundGray()
         self.leftButton.layer.cornerRadius = leftButton.frame.size.height / 2.0
         self.rightButton.layer.cornerRadius = rightButton.frame.size.height / 2.0
-        self.leftButton.backgroundColor = UIColor.buttonPink()
+        self.leftButton.backgroundColor = UIColor.buttonBlue()
         self.rightButton.backgroundColor = UIColor.buttonPink()
         self.startEventButton.layer.cornerRadius = startEventButton.frame.size.height / 2.0
         self.tableView.backgroundColor = UIColor.backgroundGray()
-        self.tableView.contentInset = UIEdgeInsetsMake(35, 0, 0, 0)
+        self.tableView.contentInset = UIEdgeInsetsMake(80, 0, 0, 0)
 //        self.backgroundView.layer.cornerRadius = 15
         self.backgroundView.layer.borderWidth = 1
         self.backgroundView.layer.borderColor = UIColor.lightGrayColor().CGColor
@@ -37,8 +39,8 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
 //        self.leftButton.layer.borderColor = UIColor.lightGrayColor().CGColor
 //        self.rightButton.layer.borderWidth = 1
 //        self.rightButton.layer.borderColor = UIColor.lightGrayColor().CGColor
-        self.startEventButton.layer.borderWidth = 1
-        self.startEventButton.layer.borderColor = UIColor.buttonBlue().CGColor
+//        self.startEventButton.layer.borderWidth = 1
+//        self.startEventButton.layer.borderColor = UIColor.buttonBlue().CGColor
         self.view.bringSubviewToFront(buttonContainerView)
         self.view.bringSubviewToFront(startEventButton)
     }
@@ -91,7 +93,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 13
+        return 15
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -123,10 +125,10 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
-            return "你正在参加的活动"
+            return "我加入的活动"
         }
         else if section == 1 {
-            return "当前活动"
+            return "当前活动列表"
         } else {
             return nil
         }

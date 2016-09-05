@@ -1,14 +1,14 @@
 //
-//  EventDetailViewController.swift
+//  MessageListViewController.swift
 //  uscfun
 //
-//  Created by Wenzheng Li on 9/3/16.
+//  Created by Wenzheng Li on 9/5/16.
 //  Copyright © 2016 Wenzheng Li. All rights reserved.
 //
 
 import UIKit
 
-class EventDetailViewController: UIViewController {
+class MessageListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +33,7 @@ class EventDetailViewController: UIViewController {
         super.viewWillDisappear(true)
         self.navigationController!.navigationBarHidden = true
     }
+
     /*
     // MARK: - Navigation
 
