@@ -77,6 +77,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         if AVUser.currentUser() != nil {
             email = AVUser.currentUser().email.emailPrefix()!
         }
+        UIApplication.sharedApplication().statusBarStyle = .Default
     }
     
     @IBAction func goBack(sender: UIBarButtonItem) {

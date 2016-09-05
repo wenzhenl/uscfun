@@ -16,6 +16,8 @@
 		0A3D2B671D7BA6ED004F57EF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A3D2B661D7BA6ED004F57EF /* Main.storyboard */; };
 		0A497EDF1D7CC7770099A883 /* StartEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A497EDE1D7CC7770099A883 /* StartEventViewController.swift */; };
 		0A497EE11D7CDB9D0099A883 /* UserProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A497EE01D7CDB9D0099A883 /* UserProfileTableViewCell.swift */; };
+		0A497EE31D7CED700099A883 /* SignOutTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A497EE21D7CED700099A883 /* SignOutTableViewCell.swift */; };
+		0A497EE51D7CEEEB0099A883 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A497EE41D7CEEEB0099A883 /* SettingTableViewCell.swift */; };
 		0A6834BE1D56858C002E9B0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6834BD1D56858C002E9B0D /* AppDelegate.swift */; };
 		0A6834C51D56858C002E9B0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A6834C41D56858C002E9B0D /* Assets.xcassets */; };
 		0A6834C81D56858C002E9B0D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A6834C61D56858C002E9B0D /* LaunchScreen.storyboard */; };
@@ -47,6 +49,8 @@
 		0A3D2B661D7BA6ED004F57EF /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		0A497EDE1D7CC7770099A883 /* StartEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartEventViewController.swift; sourceTree = "<group>"; };
 		0A497EE01D7CDB9D0099A883 /* UserProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileTableViewCell.swift; sourceTree = "<group>"; };
+		0A497EE21D7CED700099A883 /* SignOutTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignOutTableViewCell.swift; sourceTree = "<group>"; };
+		0A497EE41D7CEEEB0099A883 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		0A6834BA1D56858C002E9B0D /* uscfun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = uscfun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A6834BD1D56858C002E9B0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0A6834C41D56858C002E9B0D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -95,6 +99,8 @@
 				0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */,
 				0A497EDE1D7CC7770099A883 /* StartEventViewController.swift */,
 				0A497EE01D7CDB9D0099A883 /* UserProfileTableViewCell.swift */,
+				0A497EE21D7CED700099A883 /* SignOutTableViewCell.swift */,
+				0A497EE41D7CEEEB0099A883 /* SettingTableViewCell.swift */,
 			);
 			name = Event;
 			sourceTree = "<group>";
@@ -309,9 +315,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A497EE51D7CEEEB0099A883 /* SettingTableViewCell.swift in Sources */,
 				0A845BD41D7206FE00287DEB /* ConfirmEmailViewController.swift in Sources */,
 				0A3D2B5B1D7B9299004F57EF /* EventListViewController.swift in Sources */,
 				0A3D2B5F1D7B938B004F57EF /* MeViewController.swift in Sources */,
+				0A497EE31D7CED700099A883 /* SignOutTableViewCell.swift in Sources */,
 				0A963DB51D7122E200E0532F /* SignUpViewController.swift in Sources */,
 				0A497EE11D7CDB9D0099A883 /* UserProfileTableViewCell.swift in Sources */,
 				0A022FA71D73D066004077A4 /* FindBackPasswordViewController.swift in Sources */,

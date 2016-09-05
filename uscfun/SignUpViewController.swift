@@ -67,6 +67,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
+        UIApplication.sharedApplication().statusBarStyle = .Default
         emailTextField.becomeFirstResponder()
     }
     

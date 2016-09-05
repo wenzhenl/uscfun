@@ -1,5 +1,5 @@
 //
-//  UserProfileTableViewCell.swift
+//  SignOutTableViewCell.swift
 //  uscfun
 //
 //  Created by Wenzheng Li on 9/4/16.
@@ -8,14 +8,11 @@
 
 import UIKit
 
-class UserProfileTableViewCell: UITableViewCell {
+class SignOutTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var avatarButton: UIButton!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        avatarButton.layer.cornerRadius = avatarButton.frame.size.height / 2.0
-        avatarButton.backgroundColor = UIColor.buttonPink()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
