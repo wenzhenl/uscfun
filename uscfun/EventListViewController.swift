@@ -16,14 +16,17 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var rightButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var startEventButton: UIButton!
+    
+    var delegate: EventListViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.navigationController!.navigationBarHidden = true
+//        self.navigationController!.navigationBarHidden = true
         
         self.view.backgroundColor = UIColor.buttonBlue()
-        UIApplication.sharedApplication().statusBarStyle = .LightContent
+//        UIApplication.sharedApplication().statusBarStyle = .LightContent
         self.backgroundView.backgroundColor = UIColor.backgroundGray()
         self.leftButton.layer.cornerRadius = leftButton.frame.size.height / 2.0
         self.rightButton.layer.cornerRadius = rightButton.frame.size.height / 2.0
@@ -48,6 +51,14 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func goToMessage(sender: UIButton) {
+        delegate?.goToMessage()
+    }
+    
+    @IBAction func goToMe(sender: UIButton) {
+        delegate?.goToMe()
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -137,4 +148,9 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: false)
     }
+}
+
+protocol EventListViewControllerDelegate {
+    func goToMessage()
+    func goToMe()
 }

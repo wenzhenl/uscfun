@@ -14,9 +14,9 @@ class MessageListViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.navigationController!.navigationBar.barTintColor = UIColor.buttonBlue()
-        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.systemFontOfSize(20)]
+//        self.navigationController!.navigationBar.barTintColor = UIColor.buttonBlue()
+//        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
+//        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.systemFontOfSize(20)]
     }
 
     override func didReceiveMemoryWarning() {
@@ -26,12 +26,12 @@ class MessageListViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
-        self.navigationController!.navigationBarHidden = false
+//        self.navigationController!.navigationBarHidden = false
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(true)
-        self.navigationController!.navigationBarHidden = true
+//        self.navigationController!.navigationBarHidden = true
     }
 
     /*

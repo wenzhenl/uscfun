@@ -30,6 +30,7 @@
 		0A9CB44F1D6FF8D800608D27 /* USCFunConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB44E1D6FF8D800608D27 /* USCFunConstants.swift */; };
 		0A9CB4511D6FFAA500608D27 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB4501D6FFAA500608D27 /* User.swift */; };
 		0A9CB4531D7006F400608D27 /* PreLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB4521D7006F400608D27 /* PreLoginViewController.swift */; };
+		0AC1ED051D7FD57100E8F5EE /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC1ED041D7FD57100E8F5EE /* MainViewController.swift */; };
 		0AD127101D7C1CEB00333F78 /* AttendingEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */; };
 		0ADF53FB1D7BD732003157EA /* EventListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADF53FA1D7BD732003157EA /* EventListTableViewCell.swift */; };
 		0ADF53FD1D7BD7B1003157EA /* EventHangingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADF53FC1D7BD7B1003157EA /* EventHangingView.swift */; };
@@ -66,6 +67,7 @@
 		0A9CB44E1D6FF8D800608D27 /* USCFunConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USCFunConstants.swift; sourceTree = "<group>"; };
 		0A9CB4501D6FFAA500608D27 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		0A9CB4521D7006F400608D27 /* PreLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreLoginViewController.swift; sourceTree = "<group>"; };
+		0AC1ED041D7FD57100E8F5EE /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttendingEventTableViewCell.swift; sourceTree = "<group>"; };
 		0ADF53FA1D7BD732003157EA /* EventListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListTableViewCell.swift; sourceTree = "<group>"; };
 		0ADF53FC1D7BD7B1003157EA /* EventHangingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHangingView.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				0AFA61A91D7DF60800042EFA /* MeViewControllers */,
 				0A3D2B601D7B9408004F57EF /* Models */,
 				0A3D2B581D7B9256004F57EF /* Main.storyboard */,
+				0AC1ED041D7FD57100E8F5EE /* MainViewController.swift */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 				0AFA61AD1D7E161900042EFA /* MessageListViewController.swift in Sources */,
 				0ADF53FD1D7BD7B1003157EA /* EventHangingView.swift in Sources */,
 				0ADF53FB1D7BD732003157EA /* EventListTableViewCell.swift in Sources */,
+				0AC1ED051D7FD57100E8F5EE /* MainViewController.swift in Sources */,
 				0A963DB31D7122D000E0532F /* SignInViewController.swift in Sources */,
 				0A497EDF1D7CC7770099A883 /* StartEventViewController.swift in Sources */,
 				0A963DB71D716E6400E0532F /* NicknameViewController.swift in Sources */,
