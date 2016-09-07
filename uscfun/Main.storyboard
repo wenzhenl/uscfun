@@ -27,6 +27,14 @@
             </objects>
             <point key="canvasLocation" x="2294" y="-1175"/>
         </scene>
+        <!--Page View Controller-->
+        <scene sceneID="Ur9-Zk-r6U">
+            <objects>
+                <pageViewController storyboardIdentifier="GeneralPageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="lLU-VK-u8c" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1VP-0E-3ZK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1324" y="-2110"/>
+        </scene>
         <!--Main View Controller-->
         <scene sceneID="GHs-1Z-L6x">
             <objects>
@@ -38,35 +46,9 @@
                     <view key="view" contentMode="scaleToFill" id="HQ4-bS-FCf">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" indicatorStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="Dnf-7J-UBb">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                            </scrollView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="Dnf-7J-UBb" firstAttribute="bottom" secondItem="por-yH-9Nh" secondAttribute="top" id="4xa-QR-Uo0"/>
-                            <constraint firstItem="Dnf-7J-UBb" firstAttribute="centerY" secondItem="HQ4-bS-FCf" secondAttribute="centerY" id="5bg-8d-f96"/>
-                            <constraint firstItem="Dnf-7J-UBb" firstAttribute="height" secondItem="HQ4-bS-FCf" secondAttribute="height" id="Dd2-VW-wUs"/>
-                            <constraint firstAttribute="trailing" secondItem="Dnf-7J-UBb" secondAttribute="trailing" id="cUE-Nk-fEr"/>
-                            <constraint firstItem="Dnf-7J-UBb" firstAttribute="centerX" secondItem="HQ4-bS-FCf" secondAttribute="centerX" id="fWe-oe-ib9"/>
-                            <constraint firstItem="Dnf-7J-UBb" firstAttribute="width" secondItem="HQ4-bS-FCf" secondAttribute="width" id="ueL-L4-rP8"/>
-                            <constraint firstItem="Dnf-7J-UBb" firstAttribute="top" secondItem="HQ4-bS-FCf" secondAttribute="top" id="vo8-ae-FXm"/>
-                            <constraint firstItem="Dnf-7J-UBb" firstAttribute="leading" secondItem="HQ4-bS-FCf" secondAttribute="leading" id="zjo-m7-wcV"/>
-                        </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="4xa-QR-Uo0"/>
-                                <exclude reference="cUE-Nk-fEr"/>
-                                <exclude reference="vo8-ae-FXm"/>
-                                <exclude reference="zjo-m7-wcV"/>
-                            </mask>
-                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="N7u-LD-o3p"/>
-                    <connections>
-                        <outlet property="scrollView" destination="Dnf-7J-UBb" id="GlU-Qb-Kxf"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Xg-gf-Eca" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -8,25 +8,31 @@
 
 import UIKit
 
-class MainViewController: UIViewController, EventListViewControllerDelegate {
-
-    @IBOutlet weak var scrollView: UIScrollView!
+class MainViewController: UIViewController, UIPageViewControllerDataSource {
     
     var meViewController: MeViewController!
     var eventListViewController: EventListViewController!
     var messageListViewController: MessageListViewController!
     
+    var pageViewController: UIPageViewController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-//        UIApplication.sharedApplication().statusBarStyle = .LightContent
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
         self.navigationController?.navigationBarHidden = true
-//        self.view.backgroundColor = UIColor.buttonBlue()
         
-        meViewController = self.storyboard!.instantiateViewControllerWithIdentifier("MeViewController") as! MeViewController
-        eventListViewController = self.storyboard!.instantiateViewControllerWithIdentifier("EventListViewController") as! EventListViewController
-        messageListViewController = self.storyboard!.instantiateViewControllerWithIdentifier("MessageListViewController") as! MessageListViewController
+        self.automaticallyAdjustsScrollViewInsets = false
+        self.pageViewController = self.storyboard!.instantiateViewControllerWithIdentifier("GeneralPageViewController") as! UIPageViewController
+        self.pageViewController.dataSource = self
+        let eventListViewController = self.storyboard!.instantiateViewControllerWithIdentifier("EventListViewController") as! EventListViewController
+        let viewControllers = [eventListViewController]
+        self.pageViewController.setViewControllers(viewControllers, direction: .Forward, animated: true, completion: nil)
+        self.pageViewController.view.frame = self.view.frame
+        self.addChildViewController(self.pageViewController)
+        self.view.addSubview(self.pageViewController.view)
+        self.pageViewController.didMoveToParentViewController(self)
     }
     
     override func didReceiveMemoryWarning() {
@@ -34,44 +40,30 @@ class MainViewController: UIViewController, EventListViewControllerDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(true)
+    //MARK: - Page View Data Source
+    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
         
+        switch viewController {
+        case is EventListViewController:
+            let messageListViewController = self.storyboard!.instantiateViewControllerWithIdentifier("MessageListViewController") as! MessageListViewController
+            return messageListViewController
+        case is MeViewController:
+            let eventListViewController = self.storyboard!.instantiateViewControllerWithIdentifier("EventListViewController") as! EventListViewController
+            return eventListViewController
+        default: return nil
+        }
     }
     
-    override func viewDidLayoutSubviews() {
-        self.addChildViewController(meViewController)
-        self.scrollView.addSubview(meViewController.view)
-        meViewController.didMoveToParentViewController(self)
-        
-        self.addChildViewController(eventListViewController)
-        self.scrollView.addSubview(eventListViewController.view)
-        eventListViewController.didMoveToParentViewController(self)
-        eventListViewController.delegate = self
-        
-        self.addChildViewController(messageListViewController)
-        self.scrollView.addSubview(messageListViewController.view)
-        messageListViewController.didMoveToParentViewController(self)
-        
-        eventListViewController.view.frame.origin.x = self.view.frame.size.width
-        eventListViewController.view.frame.size.width = self.view.frame.size.width
-        meViewController.view.frame.origin.x = self.view.frame.size.width * 2
-        self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width * 3, self.view.frame.size.height - 44)
-        self.scrollView.contentOffset.x = self.view.frame.size.width
-        print("view will appear")
-    }
-    
-    func goToMessage() {
-        UIView.animateWithDuration(0.35, animations: {
-            self.scrollView.contentOffset.x = 0
-            self.view.layoutIfNeeded()
-        })
-    }
-    
-    func goToMe() {
-        UIView.animateWithDuration(0.35, animations: {
-            self.scrollView.contentOffset.x = self.view.frame.size.width * 2
-            self.view.layoutIfNeeded()
-        })
+    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+        switch viewController {
+        case is EventListViewController:
+            let meViewController = self.storyboard!.instantiateViewControllerWithIdentifier("MeViewController") as! MeViewController
+            return meViewController
+        case is MessageListViewController:
+            let eventListViewController = self.storyboard!.instantiateViewControllerWithIdentifier("EventListViewController") as! EventListViewController
+            return eventListViewController
+        default: return nil
+
+        }
     }
 }
