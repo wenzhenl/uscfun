@@ -17,6 +17,11 @@ class MainViewController: UIViewController, EventListViewControllerDelegate {
 
         // Do any additional setup after loading the view.
         UIApplication.sharedApplication().statusBarStyle = .LightContent
+        self.navigationController!.navigationBar.barTintColor = UIColor.buttonBlue()
+        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.systemFontOfSize(20)]
+        self.navigationController!.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
+        self.navigationController!.navigationBar.shadowImage = UIImage()
     }
     
     override func didReceiveMemoryWarning() {
@@ -47,7 +52,7 @@ class MainViewController: UIViewController, EventListViewControllerDelegate {
         meViewController.view.frame.origin.x = self.view.frame.size.width * 2
         eventListViewController.delegate = self
         
-        self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width * 3, self.view.frame.size.height - 22)
+        self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width * 3, self.view.frame.size.height - 66)
         self.scrollView.contentOffset = CGPointMake(self.view.frame.size.width, 0)
         print("view did layout subviews")
     }
