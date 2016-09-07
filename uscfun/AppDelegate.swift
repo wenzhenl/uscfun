@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // choose login scene or home scene based on if loggedin
     window = UIWindow(frame: UIScreen.mainScreen().bounds)
     if User.hasLoggedIn {
-      let storyboard = UIStoryboard(name: "Event", bundle: nil)
+      let storyboard = UIStoryboard(name: "Main", bundle: nil)
       let initialViewController = storyboard.instantiateInitialViewController()
       window?.rootViewController = initialViewController
       window?.makeKeyAndVisible()

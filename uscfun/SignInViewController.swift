@@ -139,7 +139,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                     print(updatedUser.email)
                     User.hasLoggedIn = true
                     let appDelegate = UIApplication.sharedApplication().delegate! as! AppDelegate
-                    let initialViewController = UIStoryboard(name: "Event", bundle: nil).instantiateInitialViewController()
+                    let initialViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
                     appDelegate.window?.rootViewController = initialViewController
                     appDelegate.window?.makeKeyAndVisible()
                 }
