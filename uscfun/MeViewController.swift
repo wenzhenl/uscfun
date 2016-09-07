@@ -22,7 +22,8 @@ class MeViewController: UIViewController, UITableViewDataSource, UITableViewDele
 //        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.systemFontOfSize(20)]
 //        self.navigationController!.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
 //        self.navigationController!.navigationBar.shadowImage = UIImage()
-        self.view.backgroundColor = UIColor.backgroundGray()
+        self.view.backgroundColor = UIColor.buttonBlue()
+        self.tableView.backgroundColor = UIColor.backgroundGray()
         self.tableView.layer.borderWidth = 1
         self.tableView.layer.borderColor = UIColor.whiteColor().CGColor
         self.tableView.layer.cornerRadius = 13

@@ -16,6 +16,7 @@ class MainViewController: UIViewController, EventListViewControllerDelegate {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
     }
     
     override func didReceiveMemoryWarning() {
