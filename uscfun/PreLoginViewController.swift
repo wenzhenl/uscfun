@@ -27,6 +27,8 @@ class PreLoginViewController: UIViewController {
         loginView.layer.cornerRadius = loginView.bounds.size.height / 2.0
         signupView.backgroundColor = UIColor.buttonPink()
         loginView.backgroundColor = UIColor.buttonBlue()
+        
+        print("view did load")
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,15 +36,27 @@ class PreLoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(true)
-        UIView.animateWithDuration(1.5, animations: {
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        UIView.animateWithDuration(1.0, animations: {
             self.signupConstraint.constant = -170.0
             self.loginContraint.constant = -170.0
             self.blackfishConstraint.constant = 0
             self.view.layoutIfNeeded()
         })
+        print("view did layout subviews")
     }
+    
+//    override func viewDidAppear(animated: Bool) {
+//        super.viewDidAppear(true)
+//        UIView.animateWithDuration(1.0, animations: {
+//            self.signupConstraint.constant = -170.0
+//            self.loginContraint.constant = -170.0
+//            self.blackfishConstraint.constant = 0
+//            self.view.layoutIfNeeded()
+//        })
+//        print("view did appear")
+//    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
@@ -53,13 +67,4 @@ class PreLoginViewController: UIViewController {
         super.viewWillDisappear(true)
         UIApplication.sharedApplication().statusBarHidden = false
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 }

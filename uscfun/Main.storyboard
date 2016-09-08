@@ -652,7 +652,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="活动详情" id="TdA-AP-EMn"/>
+                    <navigationItem key="navigationItem" title="活动详情" id="TdA-AP-EMn">
+                        <barButtonItem key="backBarButtonItem" title="  " id="1yn-RK-aqT"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y9J-Ob-CXo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -672,11 +674,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="发起活动" id="imA-g0-IXZ">
-                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="RUH-HE-B7d">
+                        <barButtonItem key="leftBarButtonItem" title="取消" id="RUH-HE-B7d">
                             <connections>
                                 <action selector="close" destination="Tr5-Xu-7ZN" id="lKP-y7-l2r"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="确认" id="RVu-Ns-Lqi"/>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9gW-GB-soP" userLabel="First Responder" sceneMemberID="firstResponder"/>
