@@ -8,11 +8,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController, UIPageViewControllerDataSource {
-    
-    var meViewController: MeViewController!
-    var eventListViewController: EventListViewController!
-    var messageListViewController: MessageListViewController!
+class MainViewController: UIViewController, UIPageViewControllerDataSource, MainViewControllerDelegate {
     
     var pageViewController: UIPageViewController!
     
@@ -27,6 +23,7 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource {
         self.pageViewController = self.storyboard!.instantiateViewControllerWithIdentifier("GeneralPageViewController") as! UIPageViewController
         self.pageViewController.dataSource = self
         let eventListViewController = self.storyboard!.instantiateViewControllerWithIdentifier("EventListViewController") as! EventListViewController
+        eventListViewController.delegate = self
         let viewControllers = [eventListViewController]
         self.pageViewController.setViewControllers(viewControllers, direction: .Forward, animated: true, completion: nil)
         self.pageViewController.view.frame = self.view.frame
@@ -46,9 +43,12 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource {
         switch viewController {
         case is EventListViewController:
             let messageListViewController = self.storyboard!.instantiateViewControllerWithIdentifier("MessageListViewController") as! MessageListViewController
+            messageListViewController.delegate = self
+            
             return messageListViewController
         case is MeViewController:
             let eventListViewController = self.storyboard!.instantiateViewControllerWithIdentifier("EventListViewController") as! EventListViewController
+            eventListViewController.delegate = self
             return eventListViewController
         default: return nil
         }
@@ -58,12 +58,51 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource {
         switch viewController {
         case is EventListViewController:
             let meViewController = self.storyboard!.instantiateViewControllerWithIdentifier("MeViewController") as! MeViewController
+            meViewController.delegate = self
+            
             return meViewController
         case is MessageListViewController:
             let eventListViewController = self.storyboard!.instantiateViewControllerWithIdentifier("EventListViewController") as! EventListViewController
+            eventListViewController.delegate = self
             return eventListViewController
         default: return nil
 
         }
     }
+    
+    // Main View Controller Delegates
+    func goToMe() {
+        print("go to me")
+        let meViewController = self.storyboard!.instantiateViewControllerWithIdentifier("MeViewController") as! MeViewController
+        meViewController.delegate = self
+        
+        self.pageViewController.setViewControllers([meViewController], direction: .Forward, animated: true, completion: nil)
+    }
+    
+    func goToEvent(from vc: UIViewController) {
+        let eventListViewController = self.storyboard!.instantiateViewControllerWithIdentifier("EventListViewController") as! EventListViewController
+        eventListViewController.delegate = self
+        
+        switch vc {
+        case is MeViewController:
+            self.pageViewController.setViewControllers([eventListViewController], direction: .Reverse, animated: true, completion: nil)
+        case is MessageListViewController:
+            self.pageViewController.setViewControllers([eventListViewController], direction: .Forward, animated: true, completion: nil)
+        default: break
+        }
+    }
+    
+    func goToMessage() {
+        print("go to message")
+        let messageListViewController = self.storyboard!.instantiateViewControllerWithIdentifier("MessageListViewController") as! MessageListViewController
+        messageListViewController.delegate = self
+        
+        self.pageViewController.setViewControllers([messageListViewController], direction: .Reverse, animated: true, completion: nil)
+    }
+}
+
+protocol MainViewControllerDelegate {
+    func goToMessage()
+    func goToMe()
+    func goToEvent(from vc: UIViewController)
 }

@@ -12,21 +12,19 @@ class MeViewController: UIViewController, UITableViewDataSource, UITableViewDele
 
     @IBOutlet weak var tableView: UITableView!
     
+    var delegate: MainViewControllerDelegate?
+    
     let numberOfRowInSection = [1,2,3,2,1]
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-//        self.navigationController!.navigationBar.barTintColor = UIColor.buttonBlue()
-//        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
-//        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.systemFontOfSize(20)]
-//        self.navigationController!.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
-//        self.navigationController!.navigationBar.shadowImage = UIImage()
-        self.view.backgroundColor = UIColor.buttonBlue()
+        self.view.backgroundColor = UIColor.buttonPink()
         self.tableView.backgroundColor = UIColor.backgroundGray()
-        self.tableView.layer.borderWidth = 1
-        self.tableView.layer.borderColor = UIColor.whiteColor().CGColor
-        self.tableView.layer.cornerRadius = 13
+//        self.tableView.layer.borderWidth = 1
+//        self.tableView.layer.borderColor = UIColor.whiteColor().CGColor
+//        self.tableView.layer.cornerRadius = 13
+        
+        self.tableView.contentInset = UIEdgeInsetsMake(30, 0, 0, 0)
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,6 +40,10 @@ class MeViewController: UIViewController, UITableViewDataSource, UITableViewDele
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(true)
 //        self.navigationController!.navigationBarHidden = true
+    }
+    
+    @IBAction func goEvent(sender: UIButton) {
+        delegate?.goToEvent(from: self)
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {

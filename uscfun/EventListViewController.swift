@@ -17,7 +17,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var startEventButton: UIButton!
     
-    var delegate: EventListViewControllerDelegate?
+    var delegate: MainViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,8 +36,8 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         self.tableView.backgroundColor = UIColor.backgroundGray()
         self.tableView.contentInset = UIEdgeInsetsMake(80, 0, 0, 0)
 //        self.backgroundView.layer.cornerRadius = 15
-        self.backgroundView.layer.borderWidth = 1
-        self.backgroundView.layer.borderColor = UIColor.lightGrayColor().CGColor
+//        self.backgroundView.layer.borderWidth = 1
+//        self.backgroundView.layer.borderColor = UIColor.lightGrayColor().CGColor
 //        self.leftButton.layer.borderWidth = 1
 //        self.leftButton.layer.borderColor = UIColor.lightGrayColor().CGColor
 //        self.rightButton.layer.borderWidth = 1
@@ -148,9 +148,4 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: false)
     }
-}
-
-protocol EventListViewControllerDelegate {
-    func goToMessage()
-    func goToMe()
 }

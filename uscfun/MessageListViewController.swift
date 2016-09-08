@@ -10,13 +10,12 @@ import UIKit
 
 class MessageListViewController: UIViewController {
 
+    var delegate: MainViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-//        self.navigationController!.navigationBar.barTintColor = UIColor.buttonBlue()
-//        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
-//        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.systemFontOfSize(20)]
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,6 +33,9 @@ class MessageListViewController: UIViewController {
 //        self.navigationController!.navigationBarHidden = true
     }
 
+    @IBAction func goEvent(sender: UIButton) {
+        delegate?.goToEvent(from: self)
+    }
     /*
     // MARK: - Navigation
 
