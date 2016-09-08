@@ -99,7 +99,12 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UIPa
         let meViewController = self.storyboard!.instantiateViewControllerWithIdentifier("MeViewController") as! MeViewController
         meViewController.delegate = self
         
-        self.pageViewController.setViewControllers([meViewController], direction: .Forward, animated: true, completion: nil)
+        self.pageViewController.setViewControllers([meViewController], direction: .Forward, animated: true) {
+            completed in
+            if completed {
+                self.currentViewController = meViewController
+            }
+        }
     }
     
     func goToEvent(from vc: UIViewController) {
@@ -108,19 +113,34 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UIPa
         
         switch vc {
         case is MeViewController:
-            self.pageViewController.setViewControllers([eventListViewController], direction: .Reverse, animated: true, completion: nil)
+            self.pageViewController.setViewControllers([eventListViewController], direction: .Reverse, animated: true) {
+                completed in
+                if completed {
+                    self.currentViewController = eventListViewController
+                }
+            }
         case is MessageListViewController:
-            self.pageViewController.setViewControllers([eventListViewController], direction: .Forward, animated: true, completion: nil)
+            self.pageViewController.setViewControllers([eventListViewController], direction: .Forward, animated: true) {
+                completed in
+                if completed {
+                    self.currentViewController = eventListViewController
+                }
+            }
         default: break
         }
+        print(self.currentViewController)
     }
     
     func goToMessage() {
         print("go to message")
         let messageListViewController = self.storyboard!.instantiateViewControllerWithIdentifier("MessageListViewController") as! MessageListViewController
         messageListViewController.delegate = self
-        
-        self.pageViewController.setViewControllers([messageListViewController], direction: .Reverse, animated: true, completion: nil)
+        self.pageViewController.setViewControllers([messageListViewController], direction: .Reverse, animated: true) {
+            completed in
+            if completed {
+                self.currentViewController = messageListViewController
+            }
+        }
     }
     
     // MARK: - UIScrollView delegate
