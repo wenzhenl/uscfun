@@ -8,9 +8,10 @@
 
 import UIKit
 
-class MainViewController: UIViewController, UIPageViewControllerDataSource, MainViewControllerDelegate {
+class MainViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, MainViewControllerDelegate, UIScrollViewDelegate {
     
     var pageViewController: UIPageViewController!
+    var currentViewController: UIViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +23,7 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, Main
         self.automaticallyAdjustsScrollViewInsets = false
         self.pageViewController = self.storyboard!.instantiateViewControllerWithIdentifier("GeneralPageViewController") as! UIPageViewController
         self.pageViewController.dataSource = self
+        self.pageViewController.delegate = self
         let eventListViewController = self.storyboard!.instantiateViewControllerWithIdentifier("EventListViewController") as! EventListViewController
         eventListViewController.delegate = self
         let viewControllers = [eventListViewController]
@@ -32,6 +34,18 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, Main
         self.pageViewController.didMoveToParentViewController(self)
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+        
+        for someview in self.pageViewController.view.subviews {
+            if someview is UIScrollView {
+                print("yes")
+                let sv = someview as! UIScrollView
+                sv.delegate = self
+//                sv.bounces = false
+            }
+        }
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -70,7 +84,16 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, Main
         }
     }
     
-    // Main View Controller Delegates
+    //MARK: - Page View Delegate
+    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if !completed {
+            return
+        }
+        self.currentViewController = pageViewController.viewControllers!.first!
+        print(self.currentViewController)
+    }
+    
+    //MARK: - Main View Controller Delegates
     func goToMe() {
         print("go to me")
         let meViewController = self.storyboard!.instantiateViewControllerWithIdentifier("MeViewController") as! MeViewController
@@ -98,6 +121,34 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, Main
         messageListViewController.delegate = self
         
         self.pageViewController.setViewControllers([messageListViewController], direction: .Reverse, animated: true, completion: nil)
+    }
+    
+    // MARK: - UIScrollView delegate
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        print("yes, it enters")
+        if let currentVC = currentViewController {
+            if currentVC is MessageListViewController && (scrollView.contentOffset.x < scrollView.bounds.size.width) {
+                scrollView.contentOffset = CGPointMake(scrollView.bounds.size.width, 0)
+                print("label1")
+            } else if currentVC is MeViewController && (scrollView.contentOffset.x > scrollView.bounds.size.width) {
+                scrollView.contentOffset = CGPointMake(scrollView.bounds.size.width, 0)
+                print("label2")
+            }
+        }
+    }
+    
+    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        print("yes, it ends")
+        if let currentVC = currentViewController {
+            if currentVC is MessageListViewController && (scrollView.contentOffset.x < scrollView.bounds.size.width) {
+                scrollView.contentOffset = CGPointMake(scrollView.bounds.size.width, 0)
+                print("label3")
+            } else if currentVC is MeViewController && (scrollView.contentOffset.x > scrollView.bounds.size.width) {
+                scrollView.contentOffset = CGPointMake(scrollView.bounds.size.width, 0)
+                print("label4")
+            }
+        }
+
     }
 }
 
