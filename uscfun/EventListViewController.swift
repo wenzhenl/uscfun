@@ -38,10 +38,10 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
 //        self.backgroundView.layer.cornerRadius = 15
 //        self.backgroundView.layer.borderWidth = 1
 //        self.backgroundView.layer.borderColor = UIColor.lightGrayColor().CGColor
-//        self.leftButton.layer.borderWidth = 1
-//        self.leftButton.layer.borderColor = UIColor.lightGrayColor().CGColor
-//        self.rightButton.layer.borderWidth = 1
-//        self.rightButton.layer.borderColor = UIColor.lightGrayColor().CGColor
+//        self.leftButton.layer.borderWidth = 5
+//        self.leftButton.layer.borderColor = UIColor.buttonPink().CGColor
+//        self.rightButton.layer.borderWidth = 5
+//        self.rightButton.layer.borderColor = UIColor.buttonPink().CGColor
 //        self.startEventButton.layer.borderWidth = 1
 //        self.startEventButton.layer.borderColor = UIColor.buttonBlue().CGColor
         self.view.bringSubviewToFront(buttonContainerView)
@@ -64,12 +64,16 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.section == 0 {
             return UITableViewAutomaticDimension
+        } else if indexPath.section == 1 && indexPath.row == 0 {
+            return UITableViewAutomaticDimension
         }
         return 200
     }
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.section == 0 {
+            return UITableViewAutomaticDimension
+        } else if indexPath.section == 1 && indexPath.row == 0 {
             return UITableViewAutomaticDimension
         }
         return 200
@@ -82,6 +86,8 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 5
+        } else if section == 1 {
+            return 2
         } else {
             return 1
         }
@@ -89,8 +95,20 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("AttendingEventCell") as! AttendingEventTableViewCell
-            cell.selectionStyle = .Default
+            if indexPath.row == 0 {
+                let cell = UITableViewCell()
+                cell.textLabel?.text = "我加入的活动"
+                cell.selectionStyle = .None
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCellWithIdentifier("AttendingEventCell") as! AttendingEventTableViewCell
+                cell.selectionStyle = .Default
+                return cell
+            }
+        } else if indexPath.section == 1 && indexPath.row == 0 {
+            let cell = UITableViewCell()
+            cell.textLabel?.text = "当前活动列表"
+            cell.selectionStyle = .None
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("EventListCell") as! EventListTableViewCell
@@ -101,22 +119,26 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         cell.backgroundColor = UIColor.clearColor()
+        if (indexPath.section == 0 && indexPath.row == 0) || (indexPath.section == 1 && indexPath.row == 0) {
+            cell.textLabel?.font = UIFont.systemFontOfSize(13)
+            cell.textLabel?.textColor = UIColor.lightGrayColor()
+        }
     }
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 15
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 {
-            return 15
-        }
-        else if section == 1 {
-            return 15
-        } else {
-            return 0
-        }
-    }
+//    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        if section == 0 {
+//            return 15
+//        }
+//        else if section == 1 {
+//            return 15
+//        } else {
+//            return 0
+//        }
+//    }
     
     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         view.tintColor = UIColor.clearColor()
@@ -134,16 +156,16 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         view.tintColor = UIColor.clearColor()
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return "我加入的活动"
-        }
-        else if section == 1 {
-            return "当前活动列表"
-        } else {
-            return nil
-        }
-    }
+//    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        if section == 0 {
+//            return "我加入的活动"
+//        }
+//        else if section == 1 {
+//            return "当前活动列表"
+//        } else {
+//            return nil
+//        }
+//    }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: false)

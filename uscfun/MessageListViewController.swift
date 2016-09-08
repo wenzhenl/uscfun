@@ -25,12 +25,12 @@ class MessageListViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
-//        self.navigationController!.navigationBarHidden = false
+        UIApplication.sharedApplication().statusBarStyle = .Default
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(true)
-//        self.navigationController!.navigationBarHidden = true
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
     }
 
     @IBAction func goEvent(sender: UIButton) {
