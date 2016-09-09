@@ -13,7 +13,6 @@ class StartEventViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     
     let eventTitleTextViewTag = 1
-    let eventTitleTextViewPlaceHolder = "活动名称"
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -36,15 +35,15 @@ class StartEventViewController: UIViewController, UITextViewDelegate {
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 100
+        return 150
     }
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 100
+        return 150
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -55,8 +54,6 @@ class StartEventViewController: UIViewController, UITextViewDelegate {
         let cell = tableView.dequeueReusableCellWithIdentifier("EventTitleCell") as! EventTitleTableViewCell
         cell.textView.delegate = self
         cell.textView.tag = eventTitleTextViewTag
-        cell.textView.text = eventTitleTextViewPlaceHolder
-        cell.textView.textColor = UIColor.lightGrayColor()
         return cell
     }
     
@@ -78,56 +75,64 @@ class StartEventViewController: UIViewController, UITextViewDelegate {
     }
     
     // MARK: - TextView delegate
-    
-    func textViewDidBeginEditing(textView: UITextView) {
-        if textView.textColor == UIColor.lightGrayColor() {
-            textView.text = nil
-            textView.textColor = UIColor.darkGrayColor()
-        }
-    }
-    
-    func textViewDidEndEditing(textView: UITextView) {
-        if textView.text.isEmpty {
-            textView.text = eventTitleTextViewPlaceHolder
-            textView.textColor = UIColor.lightGrayColor()
-        }
-    }
-    
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
-        
+
         if(text == "\n") {
             textView.resignFirstResponder()
             return false
         }
-        
-        // Combine the textView text and the replacement text to
-        // create the updated text string
-        let currentText: NSString = textView.text
-        let updatedText = currentText.stringByReplacingCharactersInRange(range, withString:text)
-        
-        // If updated text view will be empty, add the placeholder
-        // and set the cursor to the beginning of the text view
-        if updatedText.isEmpty {
-            
-            textView.text = eventTitleTextViewPlaceHolder
-            textView.textColor = UIColor.lightGrayColor()
-            
-            textView.selectedTextRange = textView.textRangeFromPosition(textView.beginningOfDocument, toPosition: textView.beginningOfDocument)
-            
-            return false
-        }
-            
-            // Else if the text view's placeholder is showing and the
-            // length of the replacement string is greater than 0, clear
-            // the text view and set its color to black to prepare for
-            // the user's entry
-        else if textView.textColor == UIColor.lightGrayColor() && !text.isEmpty {
-            textView.text = nil
-            textView.textColor = UIColor.blackColor()
-        }
-        
         return true
     }
+    
+//    func textViewDidBeginEditing(textView: UITextView) {
+//        if textView.textColor == UIColor.lightGrayColor() {
+//            textView.text = nil
+//            textView.textColor = UIColor.darkGrayColor()
+//        }
+//    }
+    
+//    func textViewDidEndEditing(textView: UITextView) {
+//        if textView.text.isEmpty {
+//            textView.text = eventTitleTextViewPlaceHolder
+//            textView.textColor = UIColor.lightGrayColor()
+//        }
+//    }
+    
+//    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+//        
+//        if(text == "\n") {
+//            textView.resignFirstResponder()
+//            return false
+//        }
+//        
+//        // Combine the textView text and the replacement text to
+//        // create the updated text string
+//        let currentText: NSString = textView.text
+//        let updatedText = currentText.stringByReplacingCharactersInRange(range, withString:text)
+//        
+//        // If updated text view will be empty, add the placeholder
+//        // and set the cursor to the beginning of the text view
+//        if updatedText.isEmpty {
+//            
+//            textView.text = eventTitleTextViewPlaceHolder
+//            textView.textColor = UIColor.lightGrayColor()
+//            
+//            textView.selectedTextRange = textView.textRangeFromPosition(textView.beginningOfDocument, toPosition: textView.beginningOfDocument)
+//            
+//            return false
+//        }
+//            
+//            // Else if the text view's placeholder is showing and the
+//            // length of the replacement string is greater than 0, clear
+//            // the text view and set its color to black to prepare for
+//            // the user's entry
+//        else if textView.textColor == UIColor.lightGrayColor() && !text.isEmpty {
+//            textView.text = nil
+//            textView.textColor = UIColor.blackColor()
+//        }
+//        
+//        return true
+//    }
     
 //    func textViewDidChangeSelection(textView: UITextView) {
 //        if textView.textColor == UIColor.lightGrayColor() {
