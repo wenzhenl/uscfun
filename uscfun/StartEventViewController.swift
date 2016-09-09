@@ -13,7 +13,7 @@ class StartEventViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     
     let eventTitleTextViewTag = 1
-    let numberOfRowInSection = [1,3]
+    let numberOfRowInSection = [1,1,1,1]
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -39,7 +39,7 @@ class StartEventViewController: UIViewController, UITextViewDelegate {
         if indexPath.section == 0 {
             return 150
         } else {
-            return UITableViewAutomaticDimension
+            return 100
         }
     }
     
@@ -47,7 +47,7 @@ class StartEventViewController: UIViewController, UITextViewDelegate {
         if indexPath.section == 0 {
             return 150
         } else {
-            return UITableViewAutomaticDimension
+            return 100
         }
     }
     
@@ -65,7 +65,7 @@ class StartEventViewController: UIViewController, UITextViewDelegate {
             cell.textView.delegate = self
             cell.textView.tag = eventTitleTextViewTag
             return cell
-        } else if indexPath.section == 1 {
+        } else if indexPath.section == 1 || indexPath.section == 2 || indexPath.section == 3 {
             let cell = tableView.dequeueReusableCellWithIdentifier("NumberTableViewCell") as! NumberTableViewCell
             return cell
         } else {
@@ -74,9 +74,7 @@ class StartEventViewController: UIViewController, UITextViewDelegate {
     }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 0 {
-            cell.backgroundColor = UIColor.clearColor()
-        }
+        cell.backgroundColor = UIColor.clearColor()
     }
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
