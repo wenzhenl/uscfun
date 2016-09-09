@@ -671,7 +671,63 @@
                     <view key="view" contentMode="scaleToFill" id="SLN-7X-O9Q">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Mby-WJ-H4w">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" red="0.1423776252" green="0.39793669869999998" blue="0.11561009160000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EventTitleCell" rowHeight="200" id="vps-AD-XuH" customClass="EventTitleTableViewCell" customModule="uscfun" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="92" width="600" height="200"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="vps-AD-XuH" id="Frh-N8-tBl">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="199"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="活动名称" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6oC-gc-jFf">
+                                                    <rect key="frame" x="15" y="10" width="570" height="180"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                                                </textView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="6oC-gc-jFf" firstAttribute="leading" secondItem="Frh-N8-tBl" secondAttribute="leadingMargin" id="1VO-7x-Gie"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="6oC-gc-jFf" secondAttribute="bottom" id="Qin-rP-vUf"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="6oC-gc-jFf" secondAttribute="bottom" id="UjM-aM-mqE"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="6oC-gc-jFf" secondAttribute="trailing" id="W3Z-Uo-KBT"/>
+                                                <constraint firstItem="6oC-gc-jFf" firstAttribute="top" secondItem="Frh-N8-tBl" secondAttribute="topMargin" id="gHg-4U-Raz"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="6oC-gc-jFf" secondAttribute="trailing" id="oDs-De-ZCy"/>
+                                                <constraint firstItem="6oC-gc-jFf" firstAttribute="leading" secondItem="Frh-N8-tBl" secondAttribute="leadingMargin" id="pNS-cJ-Y1G"/>
+                                                <constraint firstItem="6oC-gc-jFf" firstAttribute="top" secondItem="Frh-N8-tBl" secondAttribute="topMargin" id="zwu-OB-Xvc"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="UjM-aM-mqE"/>
+                                                    <exclude reference="W3Z-Uo-KBT"/>
+                                                    <exclude reference="gHg-4U-Raz"/>
+                                                    <exclude reference="pNS-cJ-Y1G"/>
+                                                </mask>
+                                            </variation>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="textView" destination="6oC-gc-jFf" id="3RE-Vd-MWU"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Tr5-Xu-7ZN" id="vNp-BS-98P"/>
+                                    <outlet property="delegate" destination="Tr5-Xu-7ZN" id="VSH-HW-Luq"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Mby-WJ-H4w" firstAttribute="centerX" secondItem="SLN-7X-O9Q" secondAttribute="centerX" id="ZEq-Bs-Jax"/>
+                            <constraint firstItem="Mby-WJ-H4w" firstAttribute="height" secondItem="SLN-7X-O9Q" secondAttribute="height" id="fnl-27-UTX"/>
+                            <constraint firstItem="Mby-WJ-H4w" firstAttribute="centerY" secondItem="SLN-7X-O9Q" secondAttribute="centerY" id="h6v-cW-uta"/>
+                            <constraint firstItem="Mby-WJ-H4w" firstAttribute="width" secondItem="SLN-7X-O9Q" secondAttribute="width" id="ivR-ZS-IJ4"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="发起活动" id="imA-g0-IXZ">
                         <barButtonItem key="leftBarButtonItem" title="取消" id="RUH-HE-B7d">
@@ -681,10 +737,13 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="确认" id="RVu-Ns-Lqi"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="Mby-WJ-H4w" id="H48-IY-GzB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9gW-GB-soP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1096" y="565"/>
+            <point key="canvasLocation" x="961" y="338"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Lb4-9C-X5B">
