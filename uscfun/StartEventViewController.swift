@@ -13,6 +13,7 @@ class StartEventViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     
     let eventTitleTextViewTag = 1
+    let numberOfRowInSection = [1,3]
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -35,30 +36,47 @@ class StartEventViewController: UIViewController, UITextViewDelegate {
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 150
+        if indexPath.section == 0 {
+            return 150
+        } else {
+            return UITableViewAutomaticDimension
+        }
     }
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 150
+        if indexPath.section == 0 {
+            return 150
+        } else {
+            return UITableViewAutomaticDimension
+        }
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return numberOfRowInSection.count
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return numberOfRowInSection[section]
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("EventTitleCell") as! EventTitleTableViewCell
-        cell.textView.delegate = self
-        cell.textView.tag = eventTitleTextViewTag
-        return cell
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCellWithIdentifier("EventTitleCell") as! EventTitleTableViewCell
+            cell.textView.delegate = self
+            cell.textView.tag = eventTitleTextViewTag
+            return cell
+        } else if indexPath.section == 1 {
+            let cell = tableView.dequeueReusableCellWithIdentifier("NumberTableViewCell") as! NumberTableViewCell
+            return cell
+        } else {
+            return UITableViewCell()
+        }
     }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        cell.backgroundColor = UIColor.clearColor()
+        if indexPath.section == 0 {
+            cell.backgroundColor = UIColor.clearColor()
+        }
     }
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

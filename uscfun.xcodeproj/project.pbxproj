@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0A022FA71D73D066004077A4 /* FindBackPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A022FA61D73D066004077A4 /* FindBackPasswordViewController.swift */; };
 		0A27CFED1D826E2F00263B35 /* EventTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A27CFEC1D826E2F00263B35 /* EventTitleTableViewCell.swift */; };
+		0A2BA8771D82AB0A00F8A23F /* NumberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2BA8761D82AB0A00F8A23F /* NumberTableViewCell.swift */; };
+		0A2BA8791D82AC5B00F8A23F /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2BA8781D82AC5B00F8A23F /* RadioButton.swift */; };
 		0A3D2B591D7B9256004F57EF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A3D2B581D7B9256004F57EF /* Main.storyboard */; };
 		0A3D2B5B1D7B9299004F57EF /* EventListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3D2B5A1D7B9299004F57EF /* EventListViewController.swift */; };
 		0A3D2B5D1D7B9351004F57EF /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3D2B5C1D7B9351004F57EF /* EventDetailViewController.swift */; };
@@ -44,6 +46,8 @@
 		08F35232E5951BB14F9E57FA /* Pods-uscfun.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uscfun.release.xcconfig"; path = "Pods/Target Support Files/Pods-uscfun/Pods-uscfun.release.xcconfig"; sourceTree = "<group>"; };
 		0A022FA61D73D066004077A4 /* FindBackPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindBackPasswordViewController.swift; sourceTree = "<group>"; };
 		0A27CFEC1D826E2F00263B35 /* EventTitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTitleTableViewCell.swift; sourceTree = "<group>"; };
+		0A2BA8761D82AB0A00F8A23F /* NumberTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberTableViewCell.swift; sourceTree = "<group>"; };
+		0A2BA8781D82AC5B00F8A23F /* RadioButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		0A3D2B581D7B9256004F57EF /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		0A3D2B5A1D7B9299004F57EF /* EventListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListViewController.swift; sourceTree = "<group>"; };
 		0A3D2B5C1D7B9351004F57EF /* EventDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
@@ -191,6 +195,8 @@
 				0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */,
 				0A497EDE1D7CC7770099A883 /* StartEventViewController.swift */,
 				0A27CFEC1D826E2F00263B35 /* EventTitleTableViewCell.swift */,
+				0A2BA8761D82AB0A00F8A23F /* NumberTableViewCell.swift */,
+				0A2BA8781D82AC5B00F8A23F /* RadioButton.swift */,
 			);
 			name = EventViewControllers;
 			sourceTree = "<group>";
@@ -353,6 +359,7 @@
 				0A022FA71D73D066004077A4 /* FindBackPasswordViewController.swift in Sources */,
 				0A9CB4511D6FFAA500608D27 /* User.swift in Sources */,
 				0A3D2B5D1D7B9351004F57EF /* EventDetailViewController.swift in Sources */,
+				0A2BA8791D82AC5B00F8A23F /* RadioButton.swift in Sources */,
 				0AD127101D7C1CEB00333F78 /* AttendingEventTableViewCell.swift in Sources */,
 				0A3D2B621D7B941F004F57EF /* Event.swift in Sources */,
 				0A497EE71D7CF1390099A883 /* AttendedTableViewCell.swift in Sources */,
@@ -364,6 +371,7 @@
 				0A497EDF1D7CC7770099A883 /* StartEventViewController.swift in Sources */,
 				0A963DB71D716E6400E0532F /* NicknameViewController.swift in Sources */,
 				0A9CB44F1D6FF8D800608D27 /* USCFunConstants.swift in Sources */,
+				0A2BA8771D82AB0A00F8A23F /* NumberTableViewCell.swift in Sources */,
 				0A845BDA1D724D8100287DEB /* KeychainWrapper.m in Sources */,
 				0A6834BE1D56858C002E9B0D /* AppDelegate.swift in Sources */,
 				0A27CFED1D826E2F00263B35 /* EventTitleTableViewCell.swift in Sources */,
