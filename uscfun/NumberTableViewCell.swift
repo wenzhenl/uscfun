@@ -10,12 +10,12 @@ import UIKit
 
 class NumberTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var pickerView: UIPickerView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var footnoteLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        containerView.layer.borderWidth = 1
-        containerView.layer.borderColor = UIColor.lightGrayColor().CGColor
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
