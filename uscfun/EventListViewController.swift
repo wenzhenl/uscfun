@@ -34,7 +34,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         self.rightButton.backgroundColor = UIColor.buttonPink()
         self.startEventButton.layer.cornerRadius = startEventButton.frame.size.height / 2.0
         self.tableView.backgroundColor = UIColor.backgroundGray()
-        self.tableView.contentInset = UIEdgeInsetsMake(80, 0, 0, 0)
+        self.tableView.contentInset = UIEdgeInsetsMake(30, 0, 0, 0)
 //        self.backgroundView.layer.cornerRadius = 15
 //        self.backgroundView.layer.borderWidth = 1
 //        self.backgroundView.layer.borderColor = UIColor.lightGrayColor().CGColor
