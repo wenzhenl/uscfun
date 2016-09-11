@@ -6,5 +6,6 @@ target 'uscfun' do
     pod 'AVOSCloudIM'
     pod 'AVOSCloudCrashReporting'
     pod 'Eureka', '~>1.7'
+    pod 'SVProgressHUD'
 end
 
