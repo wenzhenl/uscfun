@@ -39,10 +39,8 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UIPa
         
         for someview in self.pageViewController.view.subviews {
             if someview is UIScrollView {
-                print("yes")
                 let sv = someview as! UIScrollView
                 sv.delegate = self
-//                sv.bounces = false
             }
         }
     }
