@@ -110,6 +110,18 @@ class StartEventViewController: FormViewController {
         print("\(expectedFee)")
         print("\(transportationMethod)")
         print("\(note)")
+        
+        let event = AVObject(className: "Event")
+        event.setObject(eventTitle, forKey: "title")
+        event.setObject(due, forKey: "due")
+        event.saveInBackgroundWithBlock() {
+            succceeded, error in
+                if succceeded {
+                    print("successful")
+                } else {
+                    print(error)
+                }
+        }
     }
     //MARK: - values for all rows
     var eventTitle: String? {
