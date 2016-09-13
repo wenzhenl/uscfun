@@ -1,4 +1,4 @@
-# Privacy Policy USCFUN
+# Privacy Policy
 
 Last Modified: September 12, 2016
 
@@ -16,7 +16,7 @@ There are three basic ways we collect information:
 2. Information we get when you use our services.
 2. Information we get from third parties.
 
-Here’s a little more detail on each of these categories.
+Here's a little more detail on each of these categories.
 
 ### Information You Choose to Give Us
 
@@ -30,11 +30,12 @@ some additional information that will be publicly visible on our services,
 such as profile pictures, or other useful identifying information.
 
 Of course, you’ll also provide us whatever information you send through the
-services, such as posters and Chats to your friends. Keep in mind that the
-users you send Snaps, Chats, and any other content to can always save that
-content or copy it outside the app. So, the same common sense that applies to
-the Internet at large applies to USCFUN as well: Don’t send messages or share
-content that you wouldn’t want someone to save or share.
+services, such as posters, comments and messages to your friends. 
+Keep in mind that the users you send messages and any other content to 
+can always save that content or copy it outside the app. So, the same common
+sense that applies to the Internet at large applies to USCFUN as well: 
+Don’t send messages or share content that you wouldn’t want someone to save or 
+share.
 
 ### Information We Get When You Use Our Services
 
@@ -44,7 +45,7 @@ you’ve used and how you’ve used them.
 * Usage Information. We collect information about your activity through our
 services. For example, we may collect information about: how you interact with
 the services, such as which poster you view or apply to USCFUN; 
-how you communicate with other Snapchatters, such as their names, the time and
+how you communicate with other users, such as their names, the time and
 date of your communications, the number of messages you exchange with your
 friends, which friends you exchange messages with the most, and your
 interactions with posters. 
@@ -73,10 +74,9 @@ Most web browsers are set to accept cookies by default. If you prefer, you can
 usually remove or reject browser cookies through the settings on your browser or
 device. Keep in mind, though, that removing or rejecting cookies could affect
 the availability and functionality of our services. To learn more about how we
-use cookies and your choices, please check out our Cookie Statement. 
-[To learn more about how third parties use these technologies on our services, be sure to read the Analytics and Advertising Services Provided by Others section of our privacy policy]
+use cookies and your choices, please check out our Cookie Statement.
 
-* Information We Collect from Third Parties
+### Information We Collect from Third Parties
 
 We may collect information that other users provide about you when they use our
 services. For example, if another user allows us to collect information from
@@ -88,20 +88,19 @@ collected about you.
 ### How We Use Information
 
 What do we do with the information we collect? The short answer is: 
-Provide you with an amazing set of products and services that we relentlessly
+provide you with an amazing set of products and services that we relentlessly
 improve. But we do a lot more as well, such as:
 
 * develop, operate, improve, deliver, maintain, and protect our products and 
 services
 * communicate with you
 * monitor and analyze trends and usage
-* personalize the services by, among other things, suggesting friends or
-profile information, or customizing the content we show you
+* personalize the services by, among other things, customizing the content we show you
 * enhance the safety and security of our products and services
 * verify your identity and prevent fraud or other unauthorized or illegal activity
 * use information we’ve collected from cookies and other technology to enhance
-the services and your experience with them
-enforce our Terms of Service and other usage polices
+the services and your experience with them enforce our Terms of Service and other
+usage polices
 * We may also store some information locally on your device. For example,
 we may store information as local cache so that you can open the app and view
 content faster.
@@ -111,21 +110,20 @@ content faster.
 We may share information about you in the following ways:
 
 * With other users. We may share the following information with other Users:
-information about you, such as your username and profile picture and other
+information about you, such as your username, profile picture and other
 information that will help users understand your connections with others
 using the services. For example, because it may not be clear whether a new
 friend request comes from someone you actually know, we may share whether you
 and the requestor have USCFUN friends in common;
 any additional information you have consented for us to share. For example,
 when you let us access your device phonebook, we may share information about you
-with other users who have your phone number in their device phonebook; and
-content you post or comment will be shared with other users.
+with other users who have your phone number in their device phonebook.
 
 * With third parties for legal reasons. We may share information about you if
 we reasonably believe that disclosing the information is needed to:
   + comply with any valid legal process, government request, or applicable law,
     rule, or regulation; investigate, remedy, or enforce potential Terms of Service violations;
-  + protect the rights, property, and safety of us, our users, or others; or
+  + protect the rights, property, and safety of us, our users, or others;
   + detect and resolve any fraud or security concerns. 
   
 ### Information You Choose to Share with Third Parties
@@ -155,8 +153,7 @@ account information right in the app by visiting the app’s Settings page.
 If you need to access, update, or delete any other personal information that
 we may have, you can put in a request here. Because your privacy is important
 to us, we may ask you to verify your identity or provide additional information
-before we let you access or update your personal information. We will try to
-update and access your information for free. 
+before we let you access or update your personal information.
 
 * Revoking Permissions. If you change your mind about our ongoing ability to
 collect information from certain sources that you have already consented to, 
@@ -172,7 +169,7 @@ During this period of time, your account will not be visible to other users.
 
 ### Users Outside the United States
 
-Although we welcome Snapchatters from all over the world, keep in mind that no
+Although we welcome users from all over the world, keep in mind that no
 matter where you live or where you happen to use our services, we operate our
 services from the United States. This means that we may collect your personal
 information from, transfer it to, and store and process it in the United States
