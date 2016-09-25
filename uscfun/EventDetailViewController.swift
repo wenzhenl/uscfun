@@ -8,8 +8,9 @@
 
 import UIKit
 
-class EventDetailViewController: UIViewController {
+class EventDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -17,6 +18,7 @@ class EventDetailViewController: UIViewController {
         self.navigationController!.navigationBar.barTintColor = UIColor.buttonBlue()
         self.navigationController!.navigationBar.tintColor = UIColor.white
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 20)]
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareEvent))
     }
 
     override func didReceiveMemoryWarning() {
@@ -33,14 +35,97 @@ class EventDetailViewController: UIViewController {
         super.viewWillDisappear(true)
         self.navigationController!.isNavigationBarHidden = true
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    func shareEvent() {
+        
     }
-    */
-
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return 200
+        }
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "imageViewCell") as! ImageTableViewCell
+            cell.customImageView.image = UIImage(named:"albums")
+            return cell
+        }
+        else if indexPath.row == 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "textViewCell") as! TextViewTableViewCell
+            cell.textView.text = "周末去大华活动及附加按附件是打发；就；收到了非计算机打发时间爱上的解决类似的方式"
+            return cell
+        }
+        else {
+            return UITableViewCell()
+        }
+    }
+    
+//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        cell.backgroundColor = UIColor.clear
+//        if ((indexPath as NSIndexPath).section == 0 && (indexPath as NSIndexPath).row == 0) || ((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 0) {
+//            cell.textLabel?.font = UIFont.systemFont(ofSize: 13)
+//            cell.textLabel?.textColor = UIColor.lightGray
+//        }
+//    }
+//    
+//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//        return 15
+//    }
+    
+    //    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    //        if section == 0 {
+    //            return 15
+    //        }
+    //        else if section == 1 {
+    //            return 15
+    //        } else {
+    //            return 0
+    //        }
+    //    }
+    
+//    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+//        view.tintColor = UIColor.clear
+//        let title = UILabel()
+//        title.font = UIFont(name: "Futura", size: 10)!
+//        title.textColor = UIColor.lightGray
+//        
+//        let header = view as! UITableViewHeaderFooterView
+//        header.textLabel?.font=title.font
+//        header.textLabel?.textColor=title.textColor
+//        header.textLabel?.textAlignment = .left
+//    }
+//    
+//    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+//        view.tintColor = UIColor.clear
+//    }
+    
+    //    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    //        if section == 0 {
+    //            return "我加入的活动"
+    //        }
+    //        else if section == 1 {
+    //            return "当前活动列表"
+    //        } else {
+    //            return nil
+    //        }
+    //    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+    }
 }

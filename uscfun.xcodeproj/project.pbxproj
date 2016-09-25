@@ -29,6 +29,8 @@
 		0A9CB44F1D6FF8D800608D27 /* USCFunConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB44E1D6FF8D800608D27 /* USCFunConstants.swift */; };
 		0A9CB4511D6FFAA500608D27 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB4501D6FFAA500608D27 /* User.swift */; };
 		0A9CB4531D7006F400608D27 /* PreLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB4521D7006F400608D27 /* PreLoginViewController.swift */; };
+		0AB3FFCE1D97CAA10088B8C0 /* ImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB3FFCD1D97CAA10088B8C0 /* ImageTableViewCell.swift */; };
+		0AB3FFD01D97CAAC0088B8C0 /* TextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB3FFCF1D97CAAC0088B8C0 /* TextViewTableViewCell.swift */; };
 		0AC1ED051D7FD57100E8F5EE /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC1ED041D7FD57100E8F5EE /* MainViewController.swift */; };
 		0AD127101D7C1CEB00333F78 /* AttendingEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */; };
 		0ADF53FB1D7BD732003157EA /* EventListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADF53FA1D7BD732003157EA /* EventListTableViewCell.swift */; };
@@ -64,6 +66,8 @@
 		0A9CB4501D6FFAA500608D27 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		0A9CB4521D7006F400608D27 /* PreLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreLoginViewController.swift; sourceTree = "<group>"; };
 		0AB3FFC71D97B30B0088B8C0 /* uscfun-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "uscfun-Bridging-Header.h"; sourceTree = "<group>"; };
+		0AB3FFCD1D97CAA10088B8C0 /* ImageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageTableViewCell.swift; sourceTree = "<group>"; };
+		0AB3FFCF1D97CAAC0088B8C0 /* TextViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewTableViewCell.swift; sourceTree = "<group>"; };
 		0AC1ED041D7FD57100E8F5EE /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttendingEventTableViewCell.swift; sourceTree = "<group>"; };
 		0ADF53FA1D7BD732003157EA /* EventListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListTableViewCell.swift; sourceTree = "<group>"; };
@@ -163,6 +167,18 @@
 			name = Login;
 			sourceTree = "<group>";
 		};
+		0AB3FFC81D97C16E0088B8C0 /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				0AB3FFCF1D97CAAC0088B8C0 /* TextViewTableViewCell.swift */,
+				0AB3FFCD1D97CAA10088B8C0 /* ImageTableViewCell.swift */,
+				0ADF53FC1D7BD7B1003157EA /* EventHangingView.swift */,
+				0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */,
+				0ADF53FA1D7BD732003157EA /* EventListTableViewCell.swift */,
+			);
+			name = TableViewCells;
+			sourceTree = "<group>";
+		};
 		0AFA61A91D7DF60800042EFA /* MeViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -177,11 +193,9 @@
 		0AFA61AA1D7DF65800042EFA /* EventViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				0AB3FFC81D97C16E0088B8C0 /* TableViewCells */,
 				0A3D2B5A1D7B9299004F57EF /* EventListViewController.swift */,
 				0A3D2B5C1D7B9351004F57EF /* EventDetailViewController.swift */,
-				0ADF53FA1D7BD732003157EA /* EventListTableViewCell.swift */,
-				0ADF53FC1D7BD7B1003157EA /* EventHangingView.swift */,
-				0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */,
 				0A497EDE1D7CC7770099A883 /* StartEventViewController.swift */,
 			);
 			name = EventViewControllers;
@@ -341,11 +355,13 @@
 				0A845BD41D7206FE00287DEB /* ConfirmEmailViewController.swift in Sources */,
 				0A3D2B5B1D7B9299004F57EF /* EventListViewController.swift in Sources */,
 				0A3D2B5F1D7B938B004F57EF /* MeViewController.swift in Sources */,
+				0AB3FFD01D97CAAC0088B8C0 /* TextViewTableViewCell.swift in Sources */,
 				0A963DB51D7122E200E0532F /* SignUpViewController.swift in Sources */,
 				0A497EE11D7CDB9D0099A883 /* UserProfileTableViewCell.swift in Sources */,
 				0A022FA71D73D066004077A4 /* FindBackPasswordViewController.swift in Sources */,
 				0A9CB4511D6FFAA500608D27 /* User.swift in Sources */,
 				0A3D2B5D1D7B9351004F57EF /* EventDetailViewController.swift in Sources */,
+				0AB3FFCE1D97CAA10088B8C0 /* ImageTableViewCell.swift in Sources */,
 				0AD127101D7C1CEB00333F78 /* AttendingEventTableViewCell.swift in Sources */,
 				0A3D2B621D7B941F004F57EF /* Event.swift in Sources */,
 				0A497EE71D7CF1390099A883 /* AttendedTableViewCell.swift in Sources */,
