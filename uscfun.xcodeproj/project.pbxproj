@@ -13,6 +13,10 @@
 		0A3D2B5D1D7B9351004F57EF /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3D2B5C1D7B9351004F57EF /* EventDetailViewController.swift */; };
 		0A3D2B5F1D7B938B004F57EF /* MeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3D2B5E1D7B938B004F57EF /* MeViewController.swift */; };
 		0A3D2B621D7B941F004F57EF /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3D2B611D7B941F004F57EF /* Event.swift */; };
+		0A427FAD1D97F579007A96BE /* TextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A427FAB1D97F579007A96BE /* TextViewTableViewCell.swift */; };
+		0A427FAE1D97F579007A96BE /* TextViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A427FAC1D97F579007A96BE /* TextViewTableViewCell.xib */; };
+		0A427FB11D97F627007A96BE /* ImageViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A427FAF1D97F627007A96BE /* ImageViewTableViewCell.swift */; };
+		0A427FB21D97F627007A96BE /* ImageViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A427FB01D97F627007A96BE /* ImageViewTableViewCell.xib */; };
 		0A497EDF1D7CC7770099A883 /* StartEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A497EDE1D7CC7770099A883 /* StartEventViewController.swift */; };
 		0A497EE11D7CDB9D0099A883 /* UserProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A497EE01D7CDB9D0099A883 /* UserProfileTableViewCell.swift */; };
 		0A497EE71D7CF1390099A883 /* AttendedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A497EE61D7CF1390099A883 /* AttendedTableViewCell.swift */; };
@@ -29,8 +33,6 @@
 		0A9CB44F1D6FF8D800608D27 /* USCFunConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB44E1D6FF8D800608D27 /* USCFunConstants.swift */; };
 		0A9CB4511D6FFAA500608D27 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB4501D6FFAA500608D27 /* User.swift */; };
 		0A9CB4531D7006F400608D27 /* PreLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB4521D7006F400608D27 /* PreLoginViewController.swift */; };
-		0AB3FFCE1D97CAA10088B8C0 /* ImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB3FFCD1D97CAA10088B8C0 /* ImageTableViewCell.swift */; };
-		0AB3FFD01D97CAAC0088B8C0 /* TextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB3FFCF1D97CAAC0088B8C0 /* TextViewTableViewCell.swift */; };
 		0AC1ED051D7FD57100E8F5EE /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC1ED041D7FD57100E8F5EE /* MainViewController.swift */; };
 		0AD127101D7C1CEB00333F78 /* AttendingEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */; };
 		0ADF53FB1D7BD732003157EA /* EventListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADF53FA1D7BD732003157EA /* EventListTableViewCell.swift */; };
@@ -47,6 +49,10 @@
 		0A3D2B5C1D7B9351004F57EF /* EventDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
 		0A3D2B5E1D7B938B004F57EF /* MeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeViewController.swift; sourceTree = "<group>"; };
 		0A3D2B611D7B941F004F57EF /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		0A427FAB1D97F579007A96BE /* TextViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewTableViewCell.swift; sourceTree = "<group>"; };
+		0A427FAC1D97F579007A96BE /* TextViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextViewTableViewCell.xib; sourceTree = "<group>"; };
+		0A427FAF1D97F627007A96BE /* ImageViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewTableViewCell.swift; sourceTree = "<group>"; };
+		0A427FB01D97F627007A96BE /* ImageViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageViewTableViewCell.xib; sourceTree = "<group>"; };
 		0A497EDE1D7CC7770099A883 /* StartEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartEventViewController.swift; sourceTree = "<group>"; };
 		0A497EE01D7CDB9D0099A883 /* UserProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileTableViewCell.swift; sourceTree = "<group>"; };
 		0A497EE61D7CF1390099A883 /* AttendedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttendedTableViewCell.swift; sourceTree = "<group>"; };
@@ -66,8 +72,6 @@
 		0A9CB4501D6FFAA500608D27 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		0A9CB4521D7006F400608D27 /* PreLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreLoginViewController.swift; sourceTree = "<group>"; };
 		0AB3FFC71D97B30B0088B8C0 /* uscfun-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "uscfun-Bridging-Header.h"; sourceTree = "<group>"; };
-		0AB3FFCD1D97CAA10088B8C0 /* ImageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageTableViewCell.swift; sourceTree = "<group>"; };
-		0AB3FFCF1D97CAAC0088B8C0 /* TextViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewTableViewCell.swift; sourceTree = "<group>"; };
 		0AC1ED041D7FD57100E8F5EE /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttendingEventTableViewCell.swift; sourceTree = "<group>"; };
 		0ADF53FA1D7BD732003157EA /* EventListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListTableViewCell.swift; sourceTree = "<group>"; };
@@ -92,6 +96,7 @@
 		0A3D2B571D7B9215004F57EF /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				0A427FAA1D97F555007A96BE /* TableViewCells */,
 				0AFA61AB1D7E15FC00042EFA /* MessageViewControllers */,
 				0AFA61AA1D7DF65800042EFA /* EventViewControllers */,
 				0AFA61A91D7DF60800042EFA /* MeViewControllers */,
@@ -118,6 +123,30 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
+		0A427FA91D97F44A007A96BE /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				0A6834BD1D56858C002E9B0D /* AppDelegate.swift */,
+				0AB3FFC71D97B30B0088B8C0 /* uscfun-Bridging-Header.h */,
+				0A9CB44E1D6FF8D800608D27 /* USCFunConstants.swift */,
+				0A6834C91D56858C002E9B0D /* Info.plist */,
+				0A6834C61D56858C002E9B0D /* LaunchScreen.storyboard */,
+				0A6834C41D56858C002E9B0D /* Assets.xcassets */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
+		0A427FAA1D97F555007A96BE /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				0A427FAB1D97F579007A96BE /* TextViewTableViewCell.swift */,
+				0A427FAC1D97F579007A96BE /* TextViewTableViewCell.xib */,
+				0A427FAF1D97F627007A96BE /* ImageViewTableViewCell.swift */,
+				0A427FB01D97F627007A96BE /* ImageViewTableViewCell.xib */,
+			);
+			name = TableViewCells;
+			sourceTree = "<group>";
+		};
 		0A6834B11D56858C002E9B0D = {
 			isa = PBXGroup;
 			children = (
@@ -141,12 +170,7 @@
 			children = (
 				0A9CB44B1D6FF5C500608D27 /* Login */,
 				0A3D2B571D7B9215004F57EF /* Home */,
-				0A6834BD1D56858C002E9B0D /* AppDelegate.swift */,
-				0A6834C41D56858C002E9B0D /* Assets.xcassets */,
-				0A6834C61D56858C002E9B0D /* LaunchScreen.storyboard */,
-				0A6834C91D56858C002E9B0D /* Info.plist */,
-				0A9CB44E1D6FF8D800608D27 /* USCFunConstants.swift */,
-				0AB3FFC71D97B30B0088B8C0 /* uscfun-Bridging-Header.h */,
+				0A427FA91D97F44A007A96BE /* Support */,
 			);
 			path = uscfun;
 			sourceTree = "<group>";
@@ -167,18 +191,6 @@
 			name = Login;
 			sourceTree = "<group>";
 		};
-		0AB3FFC81D97C16E0088B8C0 /* TableViewCells */ = {
-			isa = PBXGroup;
-			children = (
-				0AB3FFCF1D97CAAC0088B8C0 /* TextViewTableViewCell.swift */,
-				0AB3FFCD1D97CAA10088B8C0 /* ImageTableViewCell.swift */,
-				0ADF53FC1D7BD7B1003157EA /* EventHangingView.swift */,
-				0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */,
-				0ADF53FA1D7BD732003157EA /* EventListTableViewCell.swift */,
-			);
-			name = TableViewCells;
-			sourceTree = "<group>";
-		};
 		0AFA61A91D7DF60800042EFA /* MeViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -193,7 +205,9 @@
 		0AFA61AA1D7DF65800042EFA /* EventViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				0AB3FFC81D97C16E0088B8C0 /* TableViewCells */,
+				0ADF53FC1D7BD7B1003157EA /* EventHangingView.swift */,
+				0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */,
+				0ADF53FA1D7BD732003157EA /* EventListTableViewCell.swift */,
 				0A3D2B5A1D7B9299004F57EF /* EventListViewController.swift */,
 				0A3D2B5C1D7B9351004F57EF /* EventDetailViewController.swift */,
 				0A497EDE1D7CC7770099A883 /* StartEventViewController.swift */,
@@ -290,8 +304,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A9CB44D1D6FF5FC00608D27 /* Login.storyboard in Resources */,
+				0A427FAE1D97F579007A96BE /* TextViewTableViewCell.xib in Resources */,
 				0A3D2B591D7B9256004F57EF /* Main.storyboard in Resources */,
 				0A6834C81D56858C002E9B0D /* LaunchScreen.storyboard in Resources */,
+				0A427FB21D97F627007A96BE /* ImageViewTableViewCell.xib in Resources */,
 				0A6834C51D56858C002E9B0D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -355,13 +371,12 @@
 				0A845BD41D7206FE00287DEB /* ConfirmEmailViewController.swift in Sources */,
 				0A3D2B5B1D7B9299004F57EF /* EventListViewController.swift in Sources */,
 				0A3D2B5F1D7B938B004F57EF /* MeViewController.swift in Sources */,
-				0AB3FFD01D97CAAC0088B8C0 /* TextViewTableViewCell.swift in Sources */,
 				0A963DB51D7122E200E0532F /* SignUpViewController.swift in Sources */,
 				0A497EE11D7CDB9D0099A883 /* UserProfileTableViewCell.swift in Sources */,
 				0A022FA71D73D066004077A4 /* FindBackPasswordViewController.swift in Sources */,
 				0A9CB4511D6FFAA500608D27 /* User.swift in Sources */,
+				0A427FB11D97F627007A96BE /* ImageViewTableViewCell.swift in Sources */,
 				0A3D2B5D1D7B9351004F57EF /* EventDetailViewController.swift in Sources */,
-				0AB3FFCE1D97CAA10088B8C0 /* ImageTableViewCell.swift in Sources */,
 				0AD127101D7C1CEB00333F78 /* AttendingEventTableViewCell.swift in Sources */,
 				0A3D2B621D7B941F004F57EF /* Event.swift in Sources */,
 				0A497EE71D7CF1390099A883 /* AttendedTableViewCell.swift in Sources */,
@@ -370,6 +385,7 @@
 				0ADF53FB1D7BD732003157EA /* EventListTableViewCell.swift in Sources */,
 				0AC1ED051D7FD57100E8F5EE /* MainViewController.swift in Sources */,
 				0A963DB31D7122D000E0532F /* SignInViewController.swift in Sources */,
+				0A427FAD1D97F579007A96BE /* TextViewTableViewCell.swift in Sources */,
 				0A497EDF1D7CC7770099A883 /* StartEventViewController.swift in Sources */,
 				0A963DB71D716E6400E0532F /* NicknameViewController.swift in Sources */,
 				0A9CB44F1D6FF8D800608D27 /* USCFunConstants.swift in Sources */,

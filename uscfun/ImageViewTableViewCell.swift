@@ -1,5 +1,5 @@
 //
-//  TextViewTableViewCell.swift
+//  ImageViewTableViewCell.swift
 //  uscfun
 //
 //  Created by Wenzheng Li on 9/25/16.
@@ -8,6 +8,6 @@
 
 import UIKit
 
-class TextViewTableViewCell: UITableViewCell {
-    @IBOutlet weak var textView: UITextView!
+class ImageViewTableViewCell: UITableViewCell {
+    @IBOutlet weak var mainImageView: UIImageView!
 }

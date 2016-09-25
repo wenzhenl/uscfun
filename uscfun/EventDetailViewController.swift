@@ -19,6 +19,8 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
         self.navigationController!.navigationBar.tintColor = UIColor.white
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 20)]
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareEvent))
+        self.view.backgroundColor = UIColor.backgroundGray()
+        self.tableView.backgroundColor = UIColor.backgroundGray()
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,6 +50,10 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return 200
+        }
+
         return UITableViewAutomaticDimension
     }
     
@@ -56,17 +62,20 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "imageViewCell") as! ImageTableViewCell
-            cell.customImageView.image = UIImage(named:"albums")
+            print("Do you see me")
+
+            let cell = Bundle.main.loadNibNamed("ImageViewTableViewCell", owner: self, options: nil)?.first as! ImageViewTableViewCell
+            cell.mainImageView.image = #imageLiteral(resourceName: "calendar-6")
             return cell
         }
         else if indexPath.row == 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "textViewCell") as! TextViewTableViewCell
+            print("Do you see me")
+            let cell = Bundle.main.loadNibNamed("TextViewTableViewCell", owner: self, options: nil)?.first as! TextViewTableViewCell
             cell.textView.text = "周末去大华活动及附加按附件是打发；就；收到了非计算机打发时间爱上的解决类似的方式"
             return cell
         }
@@ -75,14 +84,10 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
     
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        cell.backgroundColor = UIColor.clear
-//        if ((indexPath as NSIndexPath).section == 0 && (indexPath as NSIndexPath).row == 0) || ((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 0) {
-//            cell.textLabel?.font = UIFont.systemFont(ofSize: 13)
-//            cell.textLabel?.textColor = UIColor.lightGray
-//        }
-//    }
-//    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.white
+    }
+    
 //    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
 //        return 15
 //    }
@@ -110,9 +115,9 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
 //        header.textLabel?.textAlignment = .left
 //    }
 //    
-//    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
-//        view.tintColor = UIColor.clear
-//    }
+    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        view.tintColor = UIColor.clear
+    }
     
     //    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     //        if section == 0 {
