@@ -18,7 +18,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     
     var email: String {
         get {
-            return (emailTextField.text ?? "").stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) + "@usc.edu"
+            return (emailTextField.text ?? "").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) + "@usc.edu"
         }
         set {
             emailTextField.text = newValue
@@ -30,33 +30,33 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
 
         // Do any additional setup after loading the view.
 //        self.navigationController!.navigationBar.barTintColor = UIColor.themeYellow()
-        self.navigationController!.navigationBar.tintColor = UIColor.darkGrayColor()
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGrayColor(), NSFontAttributeName: UIFont.systemFontOfSize(17)]
+        self.navigationController!.navigationBar.tintColor = UIColor.darkGray
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray, NSFontAttributeName: UIFont.systemFont(ofSize: 17)]
         self.view.backgroundColor = UIColor.backgroundGray()
         
         noticeTextView.delegate = self
         let notice = NSMutableAttributedString(string: "继续注册流程代表你已阅读并同意用户使用协议")
         notice.addAttribute(NSLinkAttributeName, value: "http://www.google.com", range: NSRange(location: 15, length: 6))
-        notice.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.StyleSingle.rawValue, range: NSRange(location: 15, length: 6))
+        notice.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.styleSingle.rawValue, range: NSRange(location: 15, length: 6))
         if DeviceType.IS_IPHONE_4_OR_LESS || DeviceType.IS_IPHONE_5 {
-            notice.addAttribute(NSFontAttributeName, value: UIFont.systemFontOfSize(14), range: NSRange(location: 0, length: 21))
+            notice.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 14), range: NSRange(location: 0, length: 21))
         } else {
-            notice.addAttribute(NSFontAttributeName, value: UIFont.systemFontOfSize(15), range: NSRange(location: 0, length: 21))
+            notice.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 15), range: NSRange(location: 0, length: 21))
         }
-        notice.addAttribute(NSForegroundColorAttributeName, value: UIColor.darkGrayColor(), range: NSRange(location: 0, length: 21))
-        noticeTextView.tintColor = UIColor.darkGrayColor()
+        notice.addAttribute(NSForegroundColorAttributeName, value: UIColor.darkGray, range: NSRange(location: 0, length: 21))
+        noticeTextView.tintColor = UIColor.darkGray
         noticeTextView.attributedText = notice
-        noticeTextView.textAlignment = .Center
+        noticeTextView.textAlignment = .center
         
         emailTextField.delegate = self
         if DeviceType.IS_IPHONE_4_OR_LESS || DeviceType.IS_IPHONE_5 {
             emailTextField.placeholder = "你的USC邮箱"
         }
         
-        errorLabel.hidden = true
+        errorLabel.isHidden = true
         
         if DeviceType.IS_IPHONE_4_OR_LESS {
-            containerView.transform = CGAffineTransformMakeTranslation(0,-80)
+            containerView.transform = CGAffineTransform(translationX: 0,y: -80)
         }
     }
 
@@ -65,30 +65,30 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        UIApplication.sharedApplication().statusBarStyle = .Default
+        UIApplication.shared.statusBarStyle = .default
         emailTextField.becomeFirstResponder()
     }
     
-    @IBAction func goBack(sender: UIBarButtonItem) {
+    @IBAction func goBack(_ sender: UIBarButtonItem) {
         emailTextField.resignFirstResponder()
-        self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+        self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
-    func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool {
-        UIApplication.sharedApplication().openURL(URL)
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
+        UIApplication.shared.openURL(URL)
         return false
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if email.isValidEmail() {
             User.email = email
             textField.resignFirstResponder()
-            errorLabel.hidden = true
-            performSegueWithIdentifier("go to nickname", sender: self)
+            errorLabel.isHidden = true
+            performSegue(withIdentifier: "go to nickname", sender: self)
         } else {
-            errorLabel.hidden = false
+            errorLabel.isHidden = false
         }
         return true
     }

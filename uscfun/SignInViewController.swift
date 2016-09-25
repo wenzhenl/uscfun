@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVOSCloud
 
 class SignInViewController: UIViewController, UITextFieldDelegate {
     
@@ -49,12 +50,12 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
 
         // Do any additional setup after loading the view.
         // self.navigationController!.navigationBar.barTintColor = UIColor.themeYellow()
-        self.navigationController!.navigationBar.tintColor = UIColor.darkGrayColor()
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGrayColor(), NSFontAttributeName: UIFont.systemFontOfSize(17)]
+        self.navigationController!.navigationBar.tintColor = UIColor.darkGray
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray, NSFontAttributeName: UIFont.systemFont(ofSize: 17)]
         self.view.backgroundColor = UIColor.backgroundGray()
         
         // inputView.layer.cornerRadius = 8
-        errorLabel.hidden = true
+        errorLabel.isHidden = true
         emailTextField.becomeFirstResponder()
         signInButton.layer.cornerRadius = 25
         
@@ -63,7 +64,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         }
         
         if DeviceType.IS_IPHONE_4_OR_LESS {
-            containerView.transform = CGAffineTransformMakeTranslation(0,-80)
+            containerView.transform = CGAffineTransform(translationX: 0,y: -80)
         }
     }
 
@@ -72,43 +73,43 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        if AVUser.currentUser() != nil {
-            email = AVUser.currentUser().email.emailPrefix()!
+        if AVUser.current() != nil {
+            email = AVUser.current().email.emailPrefix()!
         }
-        UIApplication.sharedApplication().statusBarStyle = .Default
+        UIApplication.shared.statusBarStyle = .default
     }
     
-    @IBAction func goBack(sender: UIBarButtonItem) {
+    @IBAction func goBack(_ sender: UIBarButtonItem) {
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
-        self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+        self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case emailTextField:
             if email.isValidEmail() {
                 emailTextField.resignFirstResponder()
-                errorLabel.hidden = true
+                errorLabel.isHidden = true
                 passwordTextField.becomeFirstResponder()
             } else {
                 errorLabel.text = "邮箱格式貌似不太对劲"
-                errorLabel.hidden = false
+                errorLabel.isHidden = false
             }
         case passwordTextField:
             if password.characters.count < USCFunConstants.minimumPasswordLength  {
                 errorLabel.text = "密码不足5位"
-                errorLabel.hidden = false
+                errorLabel.isHidden = false
             }
             else if password.characters.contains(" ") {
                 errorLabel.text = "密码不应含有空格"
-                errorLabel.hidden = false
+                errorLabel.isHidden = false
             }
             else {
                 passwordTextField.resignFirstResponder()
-                errorLabel.hidden = true
+                errorLabel.isHidden = true
                 signIn()
             }
         default:
@@ -122,32 +123,33 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         passwordTextField.resignFirstResponder()
         if !email.isValidEmail() {
             errorLabel.text = "邮箱格式貌似不太对劲"
-            errorLabel.hidden = false
+            errorLabel.isHidden = false
         }
         else if password.characters.count < USCFunConstants.minimumPasswordLength  {
             errorLabel.text = "密码不足5位"
-            errorLabel.hidden = false
+            errorLabel.isHidden = false
         }
         else if password.characters.contains(" ") {
             errorLabel.text = "密码不应含有空格"
-            errorLabel.hidden = false
+            errorLabel.isHidden = false
         } else {
-            AVUser.logInWithUsernameInBackground(email, password: password) {
+            
+            AVUser.logInWithUsername(inBackground: email, password: password) {
                 updatedUser, error in
                 if updatedUser != nil {
                     // TODO: preload contents before going to the homepage
-                    print(updatedUser.email)
+                    print(updatedUser!.email)
                     User.hasLoggedIn = true
-                    let appDelegate = UIApplication.sharedApplication().delegate! as! AppDelegate
+                    let appDelegate = UIApplication.shared.delegate! as! AppDelegate
                     let initialViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
                     appDelegate.window?.rootViewController = initialViewController
                     appDelegate.window?.makeKeyAndVisible()
                 }
                 
                 if error != nil {
-                    print(error.localizedDescription)
-                    self.errorLabel.text = error.localizedDescription
-                    self.errorLabel.hidden = false
+                    print(error?.localizedDescription)
+                    self.errorLabel.text = error?.localizedDescription
+                    self.errorLabel.isHidden = false
                 }
             }
         }

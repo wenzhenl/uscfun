@@ -21,7 +21,6 @@
 		0A6834C51D56858C002E9B0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A6834C41D56858C002E9B0D /* Assets.xcassets */; };
 		0A6834C81D56858C002E9B0D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A6834C61D56858C002E9B0D /* LaunchScreen.storyboard */; };
 		0A845BD41D7206FE00287DEB /* ConfirmEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A845BD31D7206FE00287DEB /* ConfirmEmailViewController.swift */; };
-		0A845BDA1D724D8100287DEB /* KeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A845BD81D724D8100287DEB /* KeychainWrapper.m */; };
 		0A963DB31D7122D000E0532F /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A963DB21D7122D000E0532F /* SignInViewController.swift */; };
 		0A963DB51D7122E200E0532F /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A963DB41D7122E200E0532F /* SignUpViewController.swift */; };
 		0A963DB71D716E6400E0532F /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A963DB61D716E6400E0532F /* NicknameViewController.swift */; };
@@ -56,8 +55,6 @@
 		0A6834C71D56858C002E9B0D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0A6834C91D56858C002E9B0D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A845BD31D7206FE00287DEB /* ConfirmEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewController.swift; sourceTree = "<group>"; };
-		0A845BD71D724D8100287DEB /* KeychainWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainWrapper.h; sourceTree = "<group>"; };
-		0A845BD81D724D8100287DEB /* KeychainWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainWrapper.m; sourceTree = "<group>"; };
 		0A963DB21D7122D000E0532F /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		0A963DB41D7122E200E0532F /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		0A963DB61D716E6400E0532F /* NicknameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
@@ -70,7 +67,6 @@
 		0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttendingEventTableViewCell.swift; sourceTree = "<group>"; };
 		0ADF53FA1D7BD732003157EA /* EventListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListTableViewCell.swift; sourceTree = "<group>"; };
 		0ADF53FC1D7BD7B1003157EA /* EventHangingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHangingView.swift; sourceTree = "<group>"; };
-		0AF847991D6812730015C5AB /* uscfun-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "uscfun-Bridging-Header.h"; sourceTree = "<group>"; };
 		0AFA61AC1D7E161900042EFA /* MessageListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListViewController.swift; sourceTree = "<group>"; };
 		75E54CBF6FB6E8B58159D318 /* Pods-uscfun.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uscfun.debug.xcconfig"; path = "Pods/Target Support Files/Pods-uscfun/Pods-uscfun.debug.xcconfig"; sourceTree = "<group>"; };
 		A62BDE070B2A84EE2B17BF91 /* Pods_uscfun.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uscfun.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -144,9 +140,6 @@
 				0A6834C41D56858C002E9B0D /* Assets.xcassets */,
 				0A6834C61D56858C002E9B0D /* LaunchScreen.storyboard */,
 				0A6834C91D56858C002E9B0D /* Info.plist */,
-				0A845BD71D724D8100287DEB /* KeychainWrapper.h */,
-				0A845BD81D724D8100287DEB /* KeychainWrapper.m */,
-				0AF847991D6812730015C5AB /* uscfun-Bridging-Header.h */,
 				0A9CB44E1D6FF8D800608D27 /* USCFunConstants.swift */,
 			);
 			path = uscfun;
@@ -253,6 +246,7 @@
 					0A6834B91D56858C002E9B0D = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 7Y7WGEG363;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -361,7 +355,6 @@
 				0A497EDF1D7CC7770099A883 /* StartEventViewController.swift in Sources */,
 				0A963DB71D716E6400E0532F /* NicknameViewController.swift in Sources */,
 				0A9CB44F1D6FF8D800608D27 /* USCFunConstants.swift in Sources */,
-				0A845BDA1D724D8100287DEB /* KeychainWrapper.m in Sources */,
 				0A6834BE1D56858C002E9B0D /* AppDelegate.swift in Sources */,
 				0A9CB4531D7006F400608D27 /* PreLoginViewController.swift in Sources */,
 				0A963DB91D717A5F00E0532F /* PasswordViewController.swift in Sources */,
@@ -481,6 +474,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "uscfun/uscfun-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -497,6 +491,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.richang.uscfun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "uscfun/uscfun-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

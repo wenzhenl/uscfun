@@ -17,7 +17,7 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
     
     var nickname: String {
         get {
-            return (nicknameTextField.text ?? "").stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            return (nicknameTextField.text ?? "").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         }
         set {
             nicknameTextField.text = newValue
@@ -31,10 +31,10 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
         self.view.backgroundColor = UIColor.backgroundGray()
         
         nicknameTextField.delegate = self
-        errorLabel.hidden = true
+        errorLabel.isHidden = true
         
         if DeviceType.IS_IPHONE_4_OR_LESS {
-            containerView.transform = CGAffineTransformMakeTranslation(0,-80)
+            containerView.transform = CGAffineTransform(translationX: 0,y: -80)
         }
         if DeviceType.IS_IPHONE_4_OR_LESS || DeviceType.IS_IPHONE_5 {
             nicknameTextField.placeholder = "该叫什么呢"
@@ -46,20 +46,20 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         nicknameTextField.becomeFirstResponder()
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         if !nickname.isEmpty() {
             User.nickname = nickname
-            errorLabel.hidden = true
+            errorLabel.isHidden = true
             nicknameTextField.resignFirstResponder()
-            performSegueWithIdentifier("go to password", sender: self)
+            performSegue(withIdentifier: "go to password", sender: self)
         } else {
-            errorLabel.hidden = false
+            errorLabel.isHidden = false
         }
         return true
     }

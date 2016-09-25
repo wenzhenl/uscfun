@@ -17,7 +17,7 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     
     var password: String {
         get {
-            return (passwordTextField.text ?? "").stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            return (passwordTextField.text ?? "").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         }
         set {
             passwordTextField.text = newValue
@@ -31,10 +31,10 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
         self.view.backgroundColor = UIColor.backgroundGray()
 
         passwordTextField.delegate = self
-        errorLabel.hidden = true
+        errorLabel.isHidden = true
         
         if DeviceType.IS_IPHONE_4_OR_LESS {
-            containerView.transform = CGAffineTransformMakeTranslation(0,-80)
+            containerView.transform = CGAffineTransform(translationX: 0,y: -80)
         }
         if DeviceType.IS_IPHONE_4_OR_LESS || DeviceType.IS_IPHONE_5 {
             passwordTextField.placeholder = "设置密码"
@@ -46,34 +46,34 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         passwordTextField.becomeFirstResponder()
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if password.characters.count >= USCFunConstants.minimumPasswordLength && !password.characters.contains(" ") {
             User.password = password
             passwordTextField.resignFirstResponder()
-            errorLabel.hidden = true
+            errorLabel.isHidden = true
             do {
                 let signUpSucceeded = try User.signUp()
                 if signUpSucceeded {
-                    self.performSegueWithIdentifier("go to confirm email", sender: self)
+                    self.performSegue(withIdentifier: "go to confirm email", sender: self)
                 }
             } catch let error as NSError {
                 print("SignUp\(error)")
                 errorLabel.text = error.localizedDescription
-                errorLabel.hidden = false
+                errorLabel.isHidden = false
             }
         }
         else if password.characters.count < USCFunConstants.minimumPasswordLength {
             errorLabel.text = "😂说好了至少要5个字符的呀"
-            errorLabel.hidden = false
+            errorLabel.isHidden = false
         }
         else {
             errorLabel.text = "😂说好了不要空格的呀"
-            errorLabel.hidden = false
+            errorLabel.isHidden = false
         }
         return true
     }

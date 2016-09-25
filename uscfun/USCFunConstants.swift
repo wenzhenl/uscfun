@@ -7,30 +7,31 @@
 //
 
 import Foundation
+import UIKit
 
 class USCFunConstants {
     static let minimumPasswordLength = 5
 }
 
 enum UIUserInterfaceIdiom : Int {
-    case Unspecified
-    case Phone
-    case Pad
+    case unspecified
+    case phone
+    case pad
 }
 
 struct ScreenSize {
-    static let SCREEN_WIDTH         = UIScreen.mainScreen().bounds.size.width
-    static let SCREEN_HEIGHT        = UIScreen.mainScreen().bounds.size.height
+    static let SCREEN_WIDTH         = UIScreen.main.bounds.size.width
+    static let SCREEN_HEIGHT        = UIScreen.main.bounds.size.height
     static let SCREEN_MAX_LENGTH    = max(ScreenSize.SCREEN_WIDTH, ScreenSize.SCREEN_HEIGHT)
     static let SCREEN_MIN_LENGTH    = min(ScreenSize.SCREEN_WIDTH, ScreenSize.SCREEN_HEIGHT)
 }
 
 struct DeviceType {
-    static let IS_IPHONE_4_OR_LESS  = UIDevice.currentDevice().userInterfaceIdiom == .Phone && ScreenSize.SCREEN_MAX_LENGTH < 568.0
-    static let IS_IPHONE_5          = UIDevice.currentDevice().userInterfaceIdiom == .Phone && ScreenSize.SCREEN_MAX_LENGTH == 568.0
-    static let IS_IPHONE_6          = UIDevice.currentDevice().userInterfaceIdiom == .Phone && ScreenSize.SCREEN_MAX_LENGTH == 667.0
-    static let IS_IPHONE_6P         = UIDevice.currentDevice().userInterfaceIdiom == .Phone && ScreenSize.SCREEN_MAX_LENGTH == 736.0
-    static let IS_IPAD              = UIDevice.currentDevice().userInterfaceIdiom == .Pad && ScreenSize.SCREEN_MAX_LENGTH == 1024.0
+    static let IS_IPHONE_4_OR_LESS  = UIDevice.current.userInterfaceIdiom == .phone && ScreenSize.SCREEN_MAX_LENGTH < 568.0
+    static let IS_IPHONE_5          = UIDevice.current.userInterfaceIdiom == .phone && ScreenSize.SCREEN_MAX_LENGTH == 568.0
+    static let IS_IPHONE_6          = UIDevice.current.userInterfaceIdiom == .phone && ScreenSize.SCREEN_MAX_LENGTH == 667.0
+    static let IS_IPHONE_6P         = UIDevice.current.userInterfaceIdiom == .phone && ScreenSize.SCREEN_MAX_LENGTH == 736.0
+    static let IS_IPAD              = UIDevice.current.userInterfaceIdiom == .pad && ScreenSize.SCREEN_MAX_LENGTH == 1024.0
 }
 
 extension UIColor {
@@ -38,7 +39,7 @@ extension UIColor {
         return UIColor(red: 1.0, green: 0.988, blue: 0.0, alpha: 1.0)
     }
     
-    class func themeYellow(alpha: CGFloat) -> UIColor {
+    class func themeYellow(_ alpha: CGFloat) -> UIColor {
         return UIColor(red: 1.0, green: 0.988, blue: 0.0, alpha: alpha)
     }
     
@@ -46,7 +47,7 @@ extension UIColor {
         return UIColor(red: 153.0/255, green: 27.0/255, blue: 30.0/250, alpha: 1.0)
     }
     
-    class func themeUSCRed(alpha: CGFloat) -> UIColor {
+    class func themeUSCRed(_ alpha: CGFloat) -> UIColor {
         return UIColor(red: 153.0/255, green: 27.0/255, blue: 30.0/250, alpha: alpha)
     }
     
@@ -70,12 +71,12 @@ extension String {
         let emailRegEx = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
         
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailTest.evaluateWithObject(self)
+        return emailTest.evaluate(with: self)
     }
     
     func isEmpty() -> Bool {
         let patternForEmptyString = "^\\s*$"
-        if self.rangeOfString(patternForEmptyString, options: .RegularExpressionSearch) != nil {
+        if self.range(of: patternForEmptyString, options: .regularExpression) != nil {
             return true
         }
         return false
@@ -83,7 +84,7 @@ extension String {
     
     func emailPrefix() -> String? {
         let delimiter = "@"
-        let token = self.componentsSeparatedByString(delimiter)
+        let token = self.components(separatedBy: delimiter)
         if token.count > 1 {
             return token[0]
         } else {

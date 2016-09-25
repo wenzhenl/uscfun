@@ -38,7 +38,7 @@ class PreLoginViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        UIView.animateWithDuration(1.0, animations: {
+        UIView.animate(withDuration: 1.0, animations: {
             self.signupConstraint.constant = -170.0
             self.loginContraint.constant = -170.0
             self.blackfishConstraint.constant = 0
@@ -58,13 +58,13 @@ class PreLoginViewController: UIViewController {
 //        print("view did appear")
 //    }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        UIApplication.sharedApplication().statusBarHidden = true
+        UIApplication.shared.isStatusBarHidden = true
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        UIApplication.sharedApplication().statusBarHidden = false
+        UIApplication.shared.isStatusBarHidden = false
     }
 }

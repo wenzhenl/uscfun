@@ -16,7 +16,7 @@ class EventListTableViewCell: UITableViewCell {
         // Initialization code
         containerView.layer.cornerRadius = 13
         containerView.layer.borderWidth = 1
-        containerView.layer.borderColor = UIColor.lightGrayColor().CGColor
+        containerView.layer.borderColor = UIColor.lightGray.cgColor
 //        let blueColor = CGFloat(Int(arc4random() % 255)) / 255.0
 //        let greenColor = CGFloat(Int(arc4random() % 255)) / 255.0
 //        let redColor = CGFloat(Int(arc4random() % 255)) / 255.0
@@ -24,7 +24,7 @@ class EventListTableViewCell: UITableViewCell {
 //        bannerView.backgroundColor = UIColor.clearColor()
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state

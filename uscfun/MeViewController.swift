@@ -32,48 +32,48 @@ class MeViewController: UIViewController, UITableViewDataSource, UITableViewDele
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
 //        self.navigationController!.navigationBarHidden = false
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
 //        self.navigationController!.navigationBarHidden = true
     }
     
-    @IBAction func goEvent(sender: UIButton) {
+    @IBAction func goEvent(_ sender: UIButton) {
         delegate?.goToEvent(from: self)
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return numberOfRowInSection.count
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return numberOfRowInSection[section]
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("UserProfileCell") as! UserProfileTableViewCell
+        if (indexPath as NSIndexPath).section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "UserProfileCell") as! UserProfileTableViewCell
             return cell
         }
-        else if indexPath.section == numberOfRowInSection.count - 1 {
+        else if (indexPath as NSIndexPath).section == numberOfRowInSection.count - 1 {
             let cell = UITableViewCell()
-            cell.textLabel?.textAlignment = .Center
+            cell.textLabel?.textAlignment = .center
             cell.textLabel?.text = "退出登录"
-            cell.textLabel?.textColor = UIColor.darkGrayColor()
+            cell.textLabel?.textColor = UIColor.darkGray
             return cell
         }
-        else if indexPath.section == 2 || indexPath.section == 3 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("AttendedEventCell") as! AttendedTableViewCell
+        else if (indexPath as NSIndexPath).section == 2 || (indexPath as NSIndexPath).section == 3 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AttendedEventCell") as! AttendedTableViewCell
             return cell
         }
         else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("SettingCell") as! SettingTableViewCell
-            if indexPath.row == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell") as! SettingTableViewCell
+            if (indexPath as NSIndexPath).row == 0 {
                 cell.textLabel?.text = "给USC日常评分"
             } else {
                 cell.textLabel?.text = "反馈问题或建议"
@@ -82,27 +82,15 @@ class MeViewController: UIViewController, UITableViewDataSource, UITableViewDele
         }
     }
     
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 20
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.section == 0 {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (indexPath as NSIndexPath).section == 0 {
             return UITableViewAutomaticDimension
         }
-        else if indexPath.section == 2 || indexPath.section == 3 {
-            return UITableViewAutomaticDimension
-        }
-        else {
-            return 50
-        }
-    }
-    
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            return UITableViewAutomaticDimension
-        }
-        else if indexPath.section == 2 || indexPath.section == 3 {
+        else if (indexPath as NSIndexPath).section == 2 || (indexPath as NSIndexPath).section == 3 {
             return UITableViewAutomaticDimension
         }
         else {
@@ -110,32 +98,44 @@ class MeViewController: UIViewController, UITableViewDataSource, UITableViewDele
         }
     }
     
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        cell.backgroundColor = UIColor.whiteColor()
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (indexPath as NSIndexPath).section == 0 {
+            return UITableViewAutomaticDimension
+        }
+        else if (indexPath as NSIndexPath).section == 2 || (indexPath as NSIndexPath).section == 3 {
+            return UITableViewAutomaticDimension
+        }
+        else {
+            return 50
+        }
     }
     
-    func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
-        view.tintColor = UIColor.clearColor()
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.white
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        view.tintColor = UIColor.clear
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if indexPath.section == numberOfRowInSection.count - 1 {
+        if (indexPath as NSIndexPath).section == numberOfRowInSection.count - 1 {
             User.hasLoggedIn = false
-            let appDelegate = UIApplication.sharedApplication().delegate! as! AppDelegate
+            let appDelegate = UIApplication.shared.delegate! as! AppDelegate
             let initialViewController = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController()
             appDelegate.window?.rootViewController = initialViewController
             appDelegate.window?.makeKeyAndVisible()
         }
         
-        else if indexPath.section == 1 && indexPath.row == 0 {
-            UIApplication.sharedApplication().openURL(NSURL(string : "itms-apps://itunes.apple.com/app/id1073401869")!)
+        else if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 0 {
+            UIApplication.shared.openURL(URL(string : "itms-apps://itunes.apple.com/app/id1073401869")!)
         }
         
-        tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        tableView.deselectRow(at: indexPath, animated: false)
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 2 {
             return "我发起过的活动"
         }
@@ -145,23 +145,23 @@ class MeViewController: UIViewController, UITableViewDataSource, UITableViewDele
         return ""
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 2 || section == 3 {
             return 15
         }
         return 0
     }
     
-    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        view.tintColor = UIColor.clearColor()
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        view.tintColor = UIColor.clear
         let title = UILabel()
         title.font = UIFont(name: "Futura", size: 10)!
-        title.textColor = UIColor.lightGrayColor()
+        title.textColor = UIColor.lightGray
         
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.font=title.font
         header.textLabel?.textColor=title.textColor
-        header.textLabel?.textAlignment = .Left
+        header.textLabel?.textAlignment = .left
     }
     
 //    @IBAction func close() {

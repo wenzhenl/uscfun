@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVOSCloud
 
 class FindBackPasswordViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
 
@@ -18,7 +19,7 @@ class FindBackPasswordViewController: UIViewController, UITextViewDelegate, UITe
     
     var email: String {
         get {
-            return (emailTextField.text ?? "").stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) + "@usc.edu"
+            return (emailTextField.text ?? "").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) + "@usc.edu"
         }
         set {
             emailTextField.text = newValue
@@ -30,12 +31,12 @@ class FindBackPasswordViewController: UIViewController, UITextViewDelegate, UITe
         
         // Do any additional setup after loading the view.
         //        self.navigationController!.navigationBar.barTintColor = UIColor.themeYellow()
-        self.navigationController!.navigationBar.tintColor = UIColor.darkGrayColor()
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGrayColor(), NSFontAttributeName: UIFont.systemFontOfSize(17)]
+        self.navigationController!.navigationBar.tintColor = UIColor.darkGray
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray, NSFontAttributeName: UIFont.systemFont(ofSize: 17)]
         self.view.backgroundColor = UIColor.backgroundGray()
         
-        noticeTextView.tintColor = UIColor.darkGrayColor()
-        noticeTextView.textAlignment = .Center
+        noticeTextView.tintColor = UIColor.darkGray
+        noticeTextView.textAlignment = .center
         noticeTextView.text = ""
         
         emailTextField.delegate = self
@@ -43,10 +44,10 @@ class FindBackPasswordViewController: UIViewController, UITextViewDelegate, UITe
             emailTextField.placeholder = "你的USC邮箱"
         }
         
-        errorLabel.hidden = true
+        errorLabel.isHidden = true
         
         if DeviceType.IS_IPHONE_4_OR_LESS {
-            containerView.transform = CGAffineTransformMakeTranslation(0,-80)
+            containerView.transform = CGAffineTransform(translationX: 0,y: -80)
         }
     }
     
@@ -55,36 +56,36 @@ class FindBackPasswordViewController: UIViewController, UITextViewDelegate, UITe
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        if AVUser.currentUser() != nil {
-            self.email = AVUser.currentUser().email.emailPrefix()!
+        if AVUser.current() != nil {
+            self.email = AVUser.current().email.emailPrefix()!
         }
         emailTextField.becomeFirstResponder()
     }
     
-    @IBAction func goBack(sender: UIBarButtonItem) {
+    @IBAction func goBack(_ sender: UIBarButtonItem) {
         emailTextField.resignFirstResponder()
-        self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+        self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if email.isValidEmail() {
             User.email = email
             textField.resignFirstResponder()
-            errorLabel.hidden = true
-            AVUser.requestPasswordResetForEmailInBackground(email) {
+            errorLabel.isHidden = true
+            AVUser.requestPasswordResetForEmail(inBackground: email) {
                 succeeded, error in
                 if succeeded {
                     self.noticeTextView.text = "我们已经收到你的重置密码请求，一封邮件已经发送到\(self.email), 请按照邮件的指导操作"
                 } else {
                     print(error)
-                    self.errorLabel.text = error.localizedDescription
-                    self.errorLabel.hidden = false
+                    self.errorLabel.text = error?.localizedDescription
+                    self.errorLabel.isHidden = false
                 }
             }
         } else {
-            errorLabel.hidden = false
+            errorLabel.isHidden = false
         }
         return true
     }

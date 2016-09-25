@@ -15,8 +15,8 @@ class EventDetailViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         self.navigationController!.navigationBar.barTintColor = UIColor.buttonBlue()
-        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.systemFontOfSize(20)]
+        self.navigationController!.navigationBar.tintColor = UIColor.white
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 20)]
     }
 
     override func didReceiveMemoryWarning() {
@@ -24,14 +24,14 @@ class EventDetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.navigationController!.navigationBarHidden = false
+        self.navigationController!.isNavigationBarHidden = false
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        self.navigationController!.navigationBarHidden = true
+        self.navigationController!.isNavigationBarHidden = true
     }
     /*
     // MARK: - Navigation
