@@ -28,10 +28,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         self.view.backgroundColor = UIColor.buttonBlue()
 //        UIApplication.sharedApplication().statusBarStyle = .LightContent
         self.backgroundView.backgroundColor = UIColor.backgroundGray()
-        self.leftButton.layer.cornerRadius = leftButton.frame.size.height / 2.0
-        self.rightButton.layer.cornerRadius = rightButton.frame.size.height / 2.0
-        self.leftButton.backgroundColor = UIColor.buttonBlue()
-        self.rightButton.backgroundColor = UIColor.buttonPink()
+       
         self.startEventButton.layer.cornerRadius = startEventButton.frame.size.height / 2.0
         self.tableView.backgroundColor = UIColor.backgroundGray()
         self.tableView.contentInset = UIEdgeInsetsMake(30, 0, 0, 0)
@@ -44,10 +41,18 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
 //        self.rightButton.layer.borderColor = UIColor.buttonPink().CGColor
 //        self.startEventButton.layer.borderWidth = 1
 //        self.startEventButton.layer.borderColor = UIColor.buttonBlue().CGColor
-        self.view.bringSubview(toFront: buttonContainerView)
+//        self.view.bringSubview(toFront: leftButton)
+//        self.view.bringSubview(toFront: rightButton)
         self.view.bringSubview(toFront: startEventButton)
     }
-
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.leftButton.layer.cornerRadius = leftButton.frame.size.height / 2.0
+        self.rightButton.layer.cornerRadius = rightButton.frame.size.height / 2.0
+        self.leftButton.backgroundColor = UIColor.buttonBlue()
+        self.rightButton.backgroundColor = UIColor.buttonPink()
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

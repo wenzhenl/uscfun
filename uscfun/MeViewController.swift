@@ -88,7 +88,7 @@ class MeViewController: UIViewController, UITableViewDataSource, UITableViewDele
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if (indexPath as NSIndexPath).section == 0 {
-            return UITableViewAutomaticDimension
+            return 80
         }
         else if (indexPath as NSIndexPath).section == 2 || (indexPath as NSIndexPath).section == 3 {
             return UITableViewAutomaticDimension
