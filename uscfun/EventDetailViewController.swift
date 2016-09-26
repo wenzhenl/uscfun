@@ -18,9 +18,16 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
         self.navigationController!.navigationBar.barTintColor = UIColor.buttonBlue()
         self.navigationController!.navigationBar.tintColor = UIColor.white
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 20)]
+        
+        let negtivespacer = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: self, action: nil)
+        negtivespacer.width = -16
+        let backButton = UIBarButtonItem(image: #imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(back))
+        self.navigationItem.setLeftBarButtonItems([negtivespacer, backButton], animated: true)
+
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareEvent))
         self.view.backgroundColor = UIColor.backgroundGray()
         self.tableView.backgroundColor = UIColor.backgroundGray()
+        self.tableView.tableFooterView = UIView()
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,6 +49,11 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
         
     }
     
+    func back() {
+        let cv = self.navigationController?.popViewController(animated: true)
+        cv?.navigationController?.navigationBar.barTintColor = UIColor.clear
+    }
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
             return 200
@@ -62,19 +74,16 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 6
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-            print("Do you see me")
-
             let cell = Bundle.main.loadNibNamed("ImageViewTableViewCell", owner: self, options: nil)?.first as! ImageViewTableViewCell
             cell.mainImageView.image = #imageLiteral(resourceName: "calendar-6")
             return cell
         }
-        else if indexPath.row == 1 {
-            print("Do you see me")
+        else if indexPath.row >= 1 {
             let cell = Bundle.main.loadNibNamed("TextViewTableViewCell", owner: self, options: nil)?.first as! TextViewTableViewCell
             cell.textView.text = "周末去大华活动及附加按附件是打发；就；收到了非计算机打发时间爱上的解决类似的方式"
             return cell
