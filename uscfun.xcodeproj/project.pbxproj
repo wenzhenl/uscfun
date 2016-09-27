@@ -33,6 +33,10 @@
 		0A9CB44F1D6FF8D800608D27 /* USCFunConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB44E1D6FF8D800608D27 /* USCFunConstants.swift */; };
 		0A9CB4511D6FFAA500608D27 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB4501D6FFAA500608D27 /* User.swift */; };
 		0A9CB4531D7006F400608D27 /* PreLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB4521D7006F400608D27 /* PreLoginViewController.swift */; };
+		0AAE42DF1D9A289D00B34601 /* ImgKeyValueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE42DD1D9A289D00B34601 /* ImgKeyValueTableViewCell.swift */; };
+		0AAE42E01D9A289D00B34601 /* ImgKeyValueTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AAE42DE1D9A289D00B34601 /* ImgKeyValueTableViewCell.xib */; };
+		0AAE42E21D9A2CC500B34601 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAE42E11D9A2CC500B34601 /* MapKit.framework */; };
+		0AAE42E41D9A2F8B00B34601 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE42E31D9A2F8B00B34601 /* MapViewController.swift */; };
 		0AC1ED051D7FD57100E8F5EE /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC1ED041D7FD57100E8F5EE /* MainViewController.swift */; };
 		0AD127101D7C1CEB00333F78 /* AttendingEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */; };
 		0ADF53FB1D7BD732003157EA /* EventListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADF53FA1D7BD732003157EA /* EventListTableViewCell.swift */; };
@@ -71,6 +75,10 @@
 		0A9CB44E1D6FF8D800608D27 /* USCFunConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USCFunConstants.swift; sourceTree = "<group>"; };
 		0A9CB4501D6FFAA500608D27 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		0A9CB4521D7006F400608D27 /* PreLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreLoginViewController.swift; sourceTree = "<group>"; };
+		0AAE42DD1D9A289D00B34601 /* ImgKeyValueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImgKeyValueTableViewCell.swift; sourceTree = "<group>"; };
+		0AAE42DE1D9A289D00B34601 /* ImgKeyValueTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImgKeyValueTableViewCell.xib; sourceTree = "<group>"; };
+		0AAE42E11D9A2CC500B34601 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		0AAE42E31D9A2F8B00B34601 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		0AB3FFC71D97B30B0088B8C0 /* uscfun-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "uscfun-Bridging-Header.h"; sourceTree = "<group>"; };
 		0AC1ED041D7FD57100E8F5EE /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttendingEventTableViewCell.swift; sourceTree = "<group>"; };
@@ -86,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AAE42E21D9A2CC500B34601 /* MapKit.framework in Frameworks */,
 				DB889CF86399770785616C19 /* Pods_uscfun.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -143,6 +152,8 @@
 				0A427FAC1D97F579007A96BE /* TextViewTableViewCell.xib */,
 				0A427FAF1D97F627007A96BE /* ImageViewTableViewCell.swift */,
 				0A427FB01D97F627007A96BE /* ImageViewTableViewCell.xib */,
+				0AAE42DD1D9A289D00B34601 /* ImgKeyValueTableViewCell.swift */,
+				0AAE42DE1D9A289D00B34601 /* ImgKeyValueTableViewCell.xib */,
 			);
 			name = TableViewCells;
 			sourceTree = "<group>";
@@ -211,6 +222,7 @@
 				0A3D2B5A1D7B9299004F57EF /* EventListViewController.swift */,
 				0A3D2B5C1D7B9351004F57EF /* EventDetailViewController.swift */,
 				0A497EDE1D7CC7770099A883 /* StartEventViewController.swift */,
+				0AAE42E31D9A2F8B00B34601 /* MapViewController.swift */,
 			);
 			name = EventViewControllers;
 			sourceTree = "<group>";
@@ -226,6 +238,7 @@
 		3F1C918CE9A3604DE99E8313 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0AAE42E11D9A2CC500B34601 /* MapKit.framework */,
 				A62BDE070B2A84EE2B17BF91 /* Pods_uscfun.framework */,
 			);
 			name = Frameworks;
@@ -277,6 +290,11 @@
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 7Y7WGEG363;
 						LastSwiftMigration = 0800;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -305,6 +323,7 @@
 			files = (
 				0A9CB44D1D6FF5FC00608D27 /* Login.storyboard in Resources */,
 				0A427FAE1D97F579007A96BE /* TextViewTableViewCell.xib in Resources */,
+				0AAE42E01D9A289D00B34601 /* ImgKeyValueTableViewCell.xib in Resources */,
 				0A3D2B591D7B9256004F57EF /* Main.storyboard in Resources */,
 				0A6834C81D56858C002E9B0D /* LaunchScreen.storyboard in Resources */,
 				0A427FB21D97F627007A96BE /* ImageViewTableViewCell.xib in Resources */,
@@ -389,9 +408,11 @@
 				0A497EDF1D7CC7770099A883 /* StartEventViewController.swift in Sources */,
 				0A963DB71D716E6400E0532F /* NicknameViewController.swift in Sources */,
 				0A9CB44F1D6FF8D800608D27 /* USCFunConstants.swift in Sources */,
+				0AAE42E41D9A2F8B00B34601 /* MapViewController.swift in Sources */,
 				0A6834BE1D56858C002E9B0D /* AppDelegate.swift in Sources */,
 				0A9CB4531D7006F400608D27 /* PreLoginViewController.swift in Sources */,
 				0A963DB91D717A5F00E0532F /* PasswordViewController.swift in Sources */,
+				0AAE42DF1D9A289D00B34601 /* ImgKeyValueTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

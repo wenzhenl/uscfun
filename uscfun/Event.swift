@@ -8,6 +8,12 @@
 
 import Foundation
 
+struct Location {
+    var placename: String
+    var latitude: Double
+    var longitude: Double
+}
+
 class Event {
     
 }

@@ -14,8 +14,7 @@ class MeViewController: UIViewController, UITableViewDataSource, UITableViewDele
     
     var delegate: MainViewControllerDelegate?
     
-//    let numberOfRowInSection = [1,2,3,2,1]
-    let numberOfRowInSection = [1,2]
+    let numberOfRowInSection = [1,2,3,2,1]
     override func viewDidLoad() {
         super.viewDidLoad()
 
