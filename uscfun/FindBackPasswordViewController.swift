@@ -33,7 +33,7 @@ class FindBackPasswordViewController: UIViewController, UITextViewDelegate, UITe
         //        self.navigationController!.navigationBar.barTintColor = UIColor.themeYellow()
         self.navigationController!.navigationBar.tintColor = UIColor.darkGray
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray, NSFontAttributeName: UIFont.systemFont(ofSize: 17)]
-        self.view.backgroundColor = UIColor.backgroundGray()
+        self.view.backgroundColor = UIColor.backgroundGray
         
         noticeTextView.tintColor = UIColor.darkGray
         noticeTextView.textAlignment = .center

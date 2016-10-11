@@ -52,7 +52,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         // self.navigationController!.navigationBar.barTintColor = UIColor.themeYellow()
         self.navigationController!.navigationBar.tintColor = UIColor.darkGray
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray, NSFontAttributeName: UIFont.systemFont(ofSize: 17)]
-        self.view.backgroundColor = UIColor.backgroundGray()
+        self.view.backgroundColor = UIColor.backgroundGray
         
         // inputView.layer.cornerRadius = 8
         errorLabel.isHidden = true

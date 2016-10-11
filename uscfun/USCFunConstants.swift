@@ -35,7 +35,7 @@ struct DeviceType {
 }
 
 extension UIColor {
-    class func themeYellow() -> UIColor {
+    class var themeYellow: UIColor {
         return UIColor(red: 1.0, green: 0.988, blue: 0.0, alpha: 1.0)
     }
     
@@ -43,7 +43,7 @@ extension UIColor {
         return UIColor(red: 1.0, green: 0.988, blue: 0.0, alpha: alpha)
     }
     
-    class func themeUSCRed() -> UIColor {
+    class var themeUSCRed: UIColor {
         return UIColor(red: 153.0/255, green: 27.0/255, blue: 30.0/250, alpha: 1.0)
     }
     
@@ -51,16 +51,16 @@ extension UIColor {
         return UIColor(red: 153.0/255, green: 27.0/255, blue: 30.0/250, alpha: alpha)
     }
     
-    class func backgroundGray() -> UIColor {
+    class var backgroundGray: UIColor {
         let grayLevel = CGFloat(240.0)
         return UIColor(red: grayLevel/255, green: grayLevel/255, blue: grayLevel/250, alpha: 1.0)
     }
     
-    class func buttonPink() -> UIColor {
+    class var buttonPink: UIColor {
         return UIColor(red: 239.0/255, green: 31.0/255, blue: 85.0/250, alpha: 1.0)
     }
     
-    class func buttonBlue() -> UIColor {
+    class var buttonBlue: UIColor {
         return UIColor(red: 13.0/255, green: 179.0/255, blue: 224.0/250, alpha: 1.0)
     }
 }

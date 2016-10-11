@@ -25,12 +25,12 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         // Do any additional setup after loading the view.
 //        self.navigationController!.navigationBarHidden = true
         
-        self.view.backgroundColor = UIColor.buttonBlue()
+        self.view.backgroundColor = UIColor.buttonBlue
 //        UIApplication.sharedApplication().statusBarStyle = .LightContent
-        self.backgroundView.backgroundColor = UIColor.backgroundGray()
+        self.backgroundView.backgroundColor = UIColor.backgroundGray
        
         self.startEventButton.layer.cornerRadius = startEventButton.frame.size.height / 2.0
-        self.tableView.backgroundColor = UIColor.backgroundGray()
+        self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.contentInset = UIEdgeInsetsMake(30, 0, 0, 0)
 //        self.backgroundView.layer.cornerRadius = 15
 //        self.backgroundView.layer.borderWidth = 1
@@ -50,8 +50,8 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         super.viewDidLayoutSubviews()
         self.leftButton.layer.cornerRadius = leftButton.frame.size.height / 2.0
         self.rightButton.layer.cornerRadius = rightButton.frame.size.height / 2.0
-        self.leftButton.backgroundColor = UIColor.buttonBlue()
-        self.rightButton.backgroundColor = UIColor.buttonPink()
+        self.leftButton.backgroundColor = UIColor.buttonBlue
+        self.rightButton.backgroundColor = UIColor.buttonPink
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

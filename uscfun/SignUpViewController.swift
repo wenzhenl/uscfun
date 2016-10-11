@@ -32,7 +32,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
 //        self.navigationController!.navigationBar.barTintColor = UIColor.themeYellow()
         self.navigationController!.navigationBar.tintColor = UIColor.darkGray
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray, NSFontAttributeName: UIFont.systemFont(ofSize: 17)]
-        self.view.backgroundColor = UIColor.backgroundGray()
+        self.view.backgroundColor = UIColor.backgroundGray
         
         noticeTextView.delegate = self
         let notice = NSMutableAttributedString(string: "继续注册流程代表你已阅读并同意用户使用协议")

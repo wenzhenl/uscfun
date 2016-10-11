@@ -18,8 +18,8 @@ class MeViewController: UIViewController, UITableViewDataSource, UITableViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = UIColor.buttonPink()
-        self.tableView.backgroundColor = UIColor.backgroundGray()
+        self.view.backgroundColor = UIColor.buttonPink
+        self.tableView.backgroundColor = UIColor.backgroundGray
 //        self.tableView.layer.borderWidth = 1
 //        self.tableView.layer.borderColor = UIColor.whiteColor().CGColor
 //        self.tableView.layer.cornerRadius = 13

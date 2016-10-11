@@ -14,7 +14,7 @@ class ConfirmEmailViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.view.backgroundColor = UIColor.backgroundGray()
+        self.view.backgroundColor = UIColor.backgroundGray
         self.navigationItem.hidesBackButton = true
         
         let delay = 4 * Double(NSEC_PER_SEC)

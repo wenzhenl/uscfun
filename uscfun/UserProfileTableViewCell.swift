@@ -16,7 +16,7 @@ class UserProfileTableViewCell: UITableViewCell {
         // Initialization code
 //        avatarButton.layer.cornerRadius = avatarButton.frame.size.height / 2.0
         avatarButton.layer.cornerRadius = 4
-        avatarButton.backgroundColor = UIColor.buttonBlue()
+        avatarButton.backgroundColor = UIColor.buttonBlue
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

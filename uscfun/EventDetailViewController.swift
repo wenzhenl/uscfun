@@ -27,18 +27,13 @@ class EventDetailViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.navigationController!.navigationBar.barTintColor = UIColor.buttonBlue()
-        self.navigationController!.navigationBar.tintColor = UIColor.white
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 20)]
+        self.navigationController!.navigationBar.barTintColor = UIColor.buttonBlue
+        self.navigationController!.navigationBar.tintColor = UIColor.themeYellow
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.themeYellow, NSFontAttributeName: UIFont.systemFont(ofSize: 20)]
         
-        let negtivespacer = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: self, action: nil)
-        negtivespacer.width = -16
-        let backButton = UIBarButtonItem(image: #imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(back))
-        self.navigationItem.setLeftBarButtonItems([negtivespacer, backButton], animated: true)
-
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareEvent))
-        self.view.backgroundColor = UIColor.backgroundGray()
-        self.tableView.backgroundColor = UIColor.backgroundGray()
+        self.view.backgroundColor = UIColor.backgroundGray
+        self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.tableFooterView = UIView()
         self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0)
         
@@ -56,6 +51,11 @@ class EventDetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.navigationController!.isNavigationBarHidden = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        self.navigationController!.isNavigationBarHidden = true
     }
     
     func shareEvent() {

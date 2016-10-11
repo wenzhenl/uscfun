@@ -21,7 +21,7 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         
         self.title = "地图"
-        self.navigationController!.navigationBar.barTintColor = UIColor.buttonBlue()
+        self.navigationController!.navigationBar.barTintColor = UIColor.buttonBlue
         self.navigationController!.navigationBar.tintColor = UIColor.white
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 20)]
         

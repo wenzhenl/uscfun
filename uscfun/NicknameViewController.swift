@@ -28,7 +28,7 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.view.backgroundColor = UIColor.backgroundGray()
+        self.view.backgroundColor = UIColor.backgroundGray
         
         nicknameTextField.delegate = self
         errorLabel.isHidden = true

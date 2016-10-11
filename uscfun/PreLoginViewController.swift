@@ -22,12 +22,12 @@ class PreLoginViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.view.backgroundColor = UIColor.themeYellow()
+        self.view.backgroundColor = UIColor.themeYellow
         self.view.layoutIfNeeded()
         signupView.layer.cornerRadius = signupView.bounds.size.height / 2.0
         loginView.layer.cornerRadius = loginView.bounds.size.height / 2.0
-        signupView.backgroundColor = UIColor.buttonPink()
-        loginView.backgroundColor = UIColor.buttonBlue()
+        signupView.backgroundColor = UIColor.buttonPink
+        loginView.backgroundColor = UIColor.buttonBlue
         print("view did load")
     }
 
