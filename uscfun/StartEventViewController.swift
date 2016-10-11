@@ -1,13 +1,24 @@
-////
-////  StartEventViewController.swift
-////  uscfun
-////
-////  Created by Wenzheng Li on 9/4/16.
-////  Copyright © 2016 Wenzheng Li. All rights reserved.
-////
 //
-//import UIKit
+//  StartEventViewController.swift
+//  uscfun
+//
+//  Created by Wenzheng Li on 9/4/16.
+//  Copyright © 2016 Wenzheng Li. All rights reserved.
+//
+
+import UIKit
+import AVOSCloud
 //import Eureka
+
+class StartEventViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let event = Event(name: "Let's go places", type: EventType.entertainment, totalSeats: 20, remainingSeats: 12, minimumMoreAttendingPeople: 9, due: Date(), creator: AVUser.current(), conversationId: "123455667")
+        event.expectedFee = 12.34
+        event.transportationMethod = .uber
+        event.post()
+    }
+}
 
 //class StartEventViewController: FormViewController {
 //
