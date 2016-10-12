@@ -18,7 +18,8 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UIPa
 
         // Do any additional setup after loading the view.
         UIApplication.shared.statusBarStyle = .lightContent
-        self.navigationController?.isNavigationBarHidden = true
+//        self.navigationController?.isNavigationBarHidden = true
+        self.title = ""
         
         self.automaticallyAdjustsScrollViewInsets = false
         self.pageViewController = self.storyboard!.instantiateViewController(withIdentifier: "GeneralPageViewController") as! UIPageViewController
@@ -36,6 +37,7 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UIPa
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        self.navigationController?.isNavigationBarHidden = true
         
         for someview in self.pageViewController.view.subviews {
             if someview is UIScrollView {
@@ -44,9 +46,10 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UIPa
             }
         }
     }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        self.navigationController?.isNavigationBarHidden = false
     }
     
     //MARK: - Page View Data Source

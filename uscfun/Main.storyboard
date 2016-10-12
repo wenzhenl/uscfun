@@ -21,13 +21,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Uq-uZ-sy1">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Uq-uZ-sy1">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="ArM-iB-HdW"/>
                                     <constraint firstAttribute="width" constant="40" id="cgv-zE-NJh"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
-                                <state key="normal" title="&gt;"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <state key="normal" title="&gt;">
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
                                     <action selector="goEvent:" destination="DB4-0m-umf" eventType="touchUpInside" id="FMl-hl-dW8"/>
                                 </connections>
@@ -405,10 +407,10 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserProfileCell" rowHeight="95" id="mvh-iF-4hI" customClass="UserProfileTableViewCell" customModule="uscfun" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="95"/>
+                                        <rect key="frame" x="0.0" y="28" width="1000" height="95"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mvh-iF-4hI" id="8WZ-sj-2lL">
-                                            <frame key="frameInset" width="375" height="94"/>
+                                            <frame key="frameInset" width="1000" height="94"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fri-zh-PnZ">
@@ -461,10 +463,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AttendedEventCell" id="zLd-cP-BUq" customClass="AttendedTableViewCell" customModule="uscfun" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="123" width="375" height="95"/>
+                                        <rect key="frame" x="0.0" y="123" width="1000" height="95"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="zLd-cP-BUq" id="CV2-TC-DwR">
-                                            <frame key="frameInset" width="375" height="94"/>
+                                            <frame key="frameInset" width="1000" height="94"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="周末去大华买菜顺便吃个饭" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qB2-nx-GuG">
@@ -491,10 +493,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SettingCell" id="qKN-pG-UrQ" customClass="SettingTableViewCell" customModule="uscfun" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="218" width="375" height="95"/>
+                                        <rect key="frame" x="0.0" y="218" width="1000" height="95"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="qKN-pG-UrQ" id="Vp1-zV-KlN">
-                                            <frame key="frameInset" width="375" height="94"/>
+                                            <frame key="frameInset" width="1000" height="94"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&gt;" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fUE-ad-6Dt">
@@ -531,13 +533,13 @@
                                     <outlet property="delegate" destination="gvJ-BP-rzp" id="tmb-27-W77"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k5e-RI-yYm">
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k5e-RI-yYm">
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="9yy-09-mg5"/>
-                                    <constraint firstAttribute="width" constant="40" id="b4d-0u-ngZ"/>
+                                    <constraint firstAttribute="height" constant="20" id="9yy-09-mg5"/>
+                                    <constraint firstAttribute="width" constant="20" id="b4d-0u-ngZ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
-                                <state key="normal" title="&lt;">
+                                <state key="normal" image="arrow-left">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -749,6 +751,7 @@
     <resources>
         <image name="alarm-clock" width="512" height="512"/>
         <image name="albums" width="512" height="512"/>
+        <image name="arrow-left" width="30" height="30"/>
         <image name="map-location" width="512" height="512"/>
         <image name="plus" width="512" height="512"/>
         <image name="share" width="512" height="512"/>

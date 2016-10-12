@@ -30,7 +30,7 @@
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2667 Ellendale Pl" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W1e-TT-pj5">
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
@@ -39,7 +39,7 @@
                     <constraint firstItem="W1e-TT-pj5" firstAttribute="leading" secondItem="aqy-Ku-xjh" secondAttribute="trailing" constant="8" symbolic="YES" id="6MG-ks-tUR"/>
                     <constraint firstItem="91W-Wb-9m7" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="6m8-oY-0v3"/>
                     <constraint firstItem="W1e-TT-pj5" firstAttribute="baseline" secondItem="aqy-Ku-xjh" secondAttribute="baseline" id="GiM-m7-qtH"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="W1e-TT-pj5" secondAttribute="trailing" id="Gnw-CN-NyH"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="W1e-TT-pj5" secondAttribute="trailing" constant="15" id="Gnw-CN-NyH"/>
                     <constraint firstItem="aqy-Ku-xjh" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="UUX-pj-yNn"/>
                     <constraint firstItem="aqy-Ku-xjh" firstAttribute="leading" secondItem="91W-Wb-9m7" secondAttribute="trailing" constant="8" symbolic="YES" id="rUi-P8-oO3"/>
                 </constraints>

@@ -25,11 +25,6 @@ class MapViewController: UIViewController {
         self.navigationController!.navigationBar.tintColor = UIColor.white
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 20)]
         
-        let negtivespacer = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: self, action: nil)
-        negtivespacer.width = -16
-        let backButton = UIBarButtonItem(image: #imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(back))
-        self.navigationItem.setLeftBarButtonItems([negtivespacer, backButton], animated: true)
-        
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(route))
         
         locationManager.delegate = self
