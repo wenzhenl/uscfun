@@ -17,6 +17,7 @@ class StartEventViewController: UIViewController {
         event.expectedFee = 12.34
         event.transportationMethod = .uber
         event.post()
+        event.join(newMember: AVUser.current())
     }
 }
 

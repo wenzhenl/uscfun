@@ -49,6 +49,7 @@ class Event {
     //--MARK: system properties of event
     var creator: AVUser
     var conversationId: String
+    var members: [AVUser]
     
     init(name: String, type: EventType, totalSeats: Int, remainingSeats: Int, minimumMoreAttendingPeople: Int, due: Date, creator: AVUser, conversationId: String) {
         self.name = name
@@ -59,10 +60,12 @@ class Event {
         self.due = due
         self.creator = creator
         self.conversationId = conversationId
+        self.members = [AVUser]()
+        members.append(creator)
     }
     
     func post() {
-        if let eventObject = AVObject(className: "Event") {
+        if let eventObject = AVObject(className: classNameOfEvent) {
             eventObject.setObject(name, forKey: "name")
             eventObject.setObject(type.rawValue, forKey: "type")
             eventObject.setObject(totalSeats, forKey: "totalSeats")
@@ -72,6 +75,7 @@ class Event {
             
             eventObject.setObject(creator, forKey: "creator")
             eventObject.setObject(conversationId, forKey: "conversationId")
+            eventObject.setObject(members, forKey: "members")
             
             if startTime != nil {
                 eventObject.setObject(startTime!, forKey: "startTime")
@@ -96,4 +100,16 @@ class Event {
         }
         
     }
+    
+    func join(newMember: AVUser) {
+        members.append(newMember)
+        if let eventObject = AVObject(className: classNameOfEvent) {
+            eventObject.setObject(members, forKey: "members")
+            eventObject.fetchWhenSave = true
+            eventObject.incrementKey("remainingSeats")
+        }
+    }
+    
+    //--MARK: constants
+    private let classNameOfEvent = "Event"
 }
