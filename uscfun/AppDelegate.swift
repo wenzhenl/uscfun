@@ -10,13 +10,16 @@ import UIKit
 import AVOSCloud
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
 
   var window: UIWindow?
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    // Override point for customization after application launch.
     
+    //--MARK: register wechat account
+    WXApi.registerApp("wx8f761834a81e3579")
+    
+    //--MARK: register leanclound account
     AVOSCloud.setServiceRegion(.US)
     
     AVOSCloud.setApplicationId("pDLnf6MjL1vIgRw6b2WWWVCJ-MdYXbMMI", clientKey: "zpbYwzEe5c6Cw4Ecmfr745C2")
@@ -61,7 +64,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func applicationWillTerminate(_ application: UIApplication) {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
   }
-
-
+    func application(_ application: UIApplication, handleOpen url: URL) -> Bool {
+        return WXApi.handleOpen(url, delegate: self)
+    }
+    
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        return WXApi.handleOpen(url, delegate: self)
+    }
+    
+    func onReq(_ req: BaseReq!) {
+    }
+    
+    func onResp(_ resp: BaseResp!) {
+    }
 }
 

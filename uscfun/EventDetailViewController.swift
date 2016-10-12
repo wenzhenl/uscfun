@@ -50,7 +50,28 @@ class EventDetailViewController: UIViewController {
     }
 
     func shareEvent() {
+        let image = #imageLiteral(resourceName: "albums")
+        let ext = WXImageObject()
+        ext.imageData = UIImagePNGRepresentation(image)
         
+        let message = WXMediaMessage()
+        message.title = "I am title"
+        message.description = "I am description"
+        message.mediaObject = ext
+        message.mediaTagName = "MyPic"
+        
+        UIGraphicsBeginImageContext(CGSize(width: 100, height: 100))
+        image.draw(in: CGRect(x: 0, y: 0, width: 100, height: 100))
+        let thumbImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        message.thumbData = UIImagePNGRepresentation(thumbImage!)
+        
+        let req = SendMessageToWXReq()
+        req.text = "I am text for req"
+        req.message = message
+        req.bText = false
+        req.scene = 1
+        WXApi.send(req)
     }
     
     func back() {
