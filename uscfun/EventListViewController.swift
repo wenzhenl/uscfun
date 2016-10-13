@@ -72,7 +72,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         } else if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 0 {
             return UITableViewAutomaticDimension
         }
-        return 200
+        return 250
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -81,7 +81,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         } else if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 0 {
             return UITableViewAutomaticDimension
         }
-        return 200
+        return 250
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -116,6 +116,8 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EventListCell") as! EventListTableViewCell
             cell.selectionStyle = .default
+            cell.due = Date(timeIntervalSinceNow: 123456)
+            cell.timerStarted()
             return cell
         }
     }

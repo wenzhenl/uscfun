@@ -10,7 +10,10 @@ import UIKit
 
 class EventListTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var containerView: UIView!
+    var due: Date?
+    var timer: Timer?
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -28,6 +31,18 @@ class EventListTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    func timerStarted() {
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(update), userInfo: nil, repeats: true)
+    }
+    
+    func update() {
+        if let due = due {
+            let currentDate = Date()
+            let diffDateComponents = Calendar.current.dateComponents([Calendar.Component.day,.hour,.minute,.second], from: currentDate, to: due)
+            self.timeLabel.text = "还剩\(diffDateComponents.day!)天\(diffDateComponents.hour!)时\(diffDateComponents.minute!)分\(diffDateComponents.second!)秒"
+        }
     }
 
 }
