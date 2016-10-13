@@ -8,9 +8,13 @@
 
 import UIKit
 import AVOSCloud
+import SVProgressHUD
 //import Eureka
 
 class StartEventViewController: UIViewController {
+    @IBOutlet weak var cancleButton: UIBarButtonItem!
+    @IBOutlet weak var postButton: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -35,16 +39,21 @@ class StartEventViewController: UIViewController {
         event.transportationMethod = .uber
         let place = Location(placename: "haha", latitude: 12, longitude: 12)
         event.location = place
-        do {
-            try event.post()
-        } catch CreatingEventError.cannotCreateConversation(let reason) {
-            print(reason)
-        } catch {
-            
-        }
+        event.delegate = self
+        event.post()
+        cancleButton.isEnabled = false
+        postButton.isEnabled = false
+        SVProgressHUD.show()
     }
 }
 
+extension StartEventViewController: EventDelegate {
+    func eventDidPost(succeed: Bool, errorReason: String?) {
+        cancleButton.isEnabled = true
+        postButton.isEnabled = true
+        SVProgressHUD.dismiss()
+    }
+}
 //class StartEventViewController: FormViewController {
 //
 //    override func viewDidLoad() {

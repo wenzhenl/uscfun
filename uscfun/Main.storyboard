@@ -704,6 +704,10 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="cancleButton" destination="RUH-HE-B7d" id="Gt7-QH-X6r"/>
+                        <outlet property="postButton" destination="RVu-Ns-Lqi" id="aeE-Ck-Hsg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9gW-GB-soP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

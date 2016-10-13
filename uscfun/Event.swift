@@ -30,8 +30,8 @@ enum TransportationMethod: String {
     case metro = "metro"
 }
 
-enum CreatingEventError: Error {
-    case cannotCreateConversation(reason: String)
+protocol EventDelegate {
+    func eventDidPost(succeed: Bool, errorReason: String?)
 }
 
 class Event {
@@ -56,8 +56,8 @@ class Event {
     var conversationId: String?
     var members: [AVUser]
     
-    //--MARK: temporary variable for status
-    var successfullyPosted = false
+    //--MARK: delegate for handling posting process
+    var delegate: EventDelegate?
     
     init(name: String, type: EventType, totalSeats: Int, remainingSeats: Int, minimumMoreAttendingPeople: Int, due: Date, creator: AVUser) {
         self.name = name
@@ -71,8 +71,8 @@ class Event {
         members.append(creator)
     }
     
-    func post() throws {
-        print("===================POSTING EVENT==================================")
+    func post() {
+        print("=================== POSTING EVENT ==================================")
         if let client = AVIMClient(clientId: AVUser.current().username) {
             client.open() {
                 succeeded, error in
@@ -88,18 +88,18 @@ class Event {
                                 self.conversationId = conversation.conversationId
                                 self.saveDataToSever()
                             } else {
-                                print("莫名其妙的原因")
+                                self.delegate?.eventDidPost(succeed: false, errorReason: "莫名其妙的原因")
                             }
                         } else {
-                            print(error?.localizedDescription)
+                            self.delegate?.eventDidPost(succeed: false, errorReason: error?.localizedDescription)
                         }
                     }
                 } else {
-                    print(error?.localizedDescription)
+                    self.delegate?.eventDidPost(succeed: false, errorReason: error?.localizedDescription)
                 }
             }
         } else {
-            print("cannot open AVIMClient")
+            self.delegate?.eventDidPost(succeed: false, errorReason: "cannot open AVIMClient")
         }
     }
     
@@ -118,30 +118,39 @@ class Event {
             
             if conversationId != nil {
                 eventObject.setObject(conversationId!, forKey: "conversationId")
+            } else {
+                self.delegate?.eventDidPost(succeed: false, errorReason: "cannot create conversation")
+                return
             }
+            
             if startTime != nil {
                 eventObject.setObject(startTime!, forKey: "startTime")
             }
+            
             if endTime != nil {
                 eventObject.setObject(endTime!, forKey: "endTime")
             }
+            
             if location != nil {
                 eventObject.setObject(location!.placename, forKey: "locationName")
                 let geoPoint = AVGeoPoint(latitude: location!.latitude, longitude: location!.longitude)
                 eventObject.setObject(geoPoint, forKey: "location")
             }
+            
             if expectedFee != nil {
                 eventObject.setObject(expectedFee!, forKey: "expectedFee")
             }
+            
             if transportationMethod != nil {
                 eventObject.setObject(transportationMethod!.rawValue, forKey: "transportationMethod")
             }
+            
             if note != nil {
                 eventObject.setObject(note!, forKey: "note")
             }
             
             eventObject.save()
-            self.successfullyPosted = true
+            self.delegate?.eventDidPost(succeed: true, errorReason: nil)
         }
         print("===================END POSTING EVENT===============================")
     }
