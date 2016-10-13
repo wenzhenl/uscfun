@@ -50,6 +50,7 @@ class Event {
     var expectedFee: Double?
     var transportationMethod: TransportationMethod?
     var note: String?
+    var imageUrl: String?
     
     //--MARK: system properties of event
     var creator: AVUser

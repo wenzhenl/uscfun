@@ -110,7 +110,7 @@ extension EventDetailViewController: UITableViewDataSource {
             return cell
         case .singleButtonTableCell:
             let cell = Bundle.main.loadNibNamed("SingleButtonTableViewCell", owner: self, options: nil)?.first as! SingleButtonTableViewCell
-            cell.button.layer.cornerRadius = 13
+            // cell.button.layer.cornerRadius = 13
             cell.button.setTitle("报名参加", for: .normal)
             return cell
         case .textViewTableCell(let text):

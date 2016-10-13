@@ -23,9 +23,9 @@ class MapViewController: UIViewController {
         self.title = "地图"
         self.navigationController!.navigationBar.barTintColor = UIColor.buttonBlue
         self.navigationController!.navigationBar.tintColor = UIColor.white
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 20)]
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(route))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(route))
         
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
