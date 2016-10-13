@@ -8,6 +8,7 @@
 
 import Foundation
 import AVOSCloud
+import AVOSCloudIM
 
 struct Location {
     var placename: String
@@ -29,6 +30,10 @@ enum TransportationMethod: String {
     case metro = "metro"
 }
 
+enum CreatingEventError: Error {
+    case cannotCreateConversation(reason: String)
+}
+
 class Event {
     //--MARK: required information
     var name: String
@@ -48,10 +53,10 @@ class Event {
     
     //--MARK: system properties of event
     var creator: AVUser
-    var conversationId: String
+    var conversationId: String?
     var members: [AVUser]
     
-    init(name: String, type: EventType, totalSeats: Int, remainingSeats: Int, minimumMoreAttendingPeople: Int, due: Date, creator: AVUser, conversationId: String) {
+    init(name: String, type: EventType, totalSeats: Int, remainingSeats: Int, minimumMoreAttendingPeople: Int, due: Date, creator: AVUser) {
         self.name = name
         self.type = type
         self.totalSeats = totalSeats
@@ -59,12 +64,88 @@ class Event {
         self.minimumMoreAttendingPeople = minimumMoreAttendingPeople
         self.due = due
         self.creator = creator
-        self.conversationId = conversationId
         self.members = [AVUser]()
         members.append(creator)
     }
     
-    func post() {
+    
+    private func createChatRoom() throws {
+        var eventConversationId: String?
+        var errorReason: String?
+        
+        if let client = AVIMClient(clientId: AVUser.current().username) {
+            client.open() {
+                succeeded, error in
+                if succeeded {
+                    client.createConversation(withName: self.name, clientIds: [], attributes: nil, options: AVIMConversationOption.transient) {
+                        conversation, error in
+                        if(error == nil) {
+                            print("create conversation successfully")
+                            if let conversation = conversation {
+                                print("---------------create conversation-------------")
+                                print("----conversation id \(conversation.conversationId)----------")
+                                print("----conversation name \(conversation.name)")
+                                eventConversationId = conversation.conversationId
+                            } else {
+                                errorReason = "莫名其妙的原因"
+                            }
+                        } else {
+                            errorReason = error!.localizedDescription
+                        }
+                    }
+                } else {
+                    errorReason = error?.localizedDescription
+                }
+            }
+        } else {
+            errorReason = "cannot open AVIMClient"
+        }
+        
+        if errorReason == nil && eventConversationId != nil {
+            self.conversationId = eventConversationId!
+        } else if errorReason != nil {
+            throw CreatingEventError.cannotCreateConversation(reason: errorReason!)
+        } else {
+            throw CreatingEventError.cannotCreateConversation(reason: "莫名其妙的原因")
+        }
+    }
+    
+    func post() throws {
+        if let client = AVIMClient(clientId: AVUser.current().username) {
+            client.open() {
+                succeeded, error in
+                if succeeded {
+                    client.createConversation(withName: self.name, clientIds: [], attributes: nil, options: AVIMConversationOption.transient) {
+                        conversation, error in
+                        if(error == nil) {
+                            print("create conversation successfully")
+                            if let conversation = conversation {
+                                print("---------------create conversation-------------")
+                                print("----conversation id \(conversation.conversationId)----------")
+                                print("----conversation name \(conversation.name)")
+                                self.conversationId = conversation.conversationId
+                                self.saveDataToSever()
+                            } else {
+                                print("莫名其妙的原因")
+                            }
+                        } else {
+                            print(error?.localizedDescription)
+                        }
+                    }
+                } else {
+                    print(error?.localizedDescription)
+                }
+            }
+        } else {
+            print("cannot open AVIMClient")
+        }
+        
+        
+        
+        
+    }
+    
+    private func saveDataToSever() {
         if let eventObject = AVObject(className: classNameOfEvent) {
             eventObject.setObject(name, forKey: "name")
             eventObject.setObject(type.rawValue, forKey: "type")
@@ -74,9 +155,11 @@ class Event {
             eventObject.setObject(due, forKey: "due")
             
             eventObject.setObject(creator, forKey: "creator")
-            eventObject.setObject(conversationId, forKey: "conversationId")
             eventObject.setObject(members, forKey: "members")
             
+            if conversationId != nil {
+                eventObject.setObject(conversationId!, forKey: "conversationId")
+            }
             if startTime != nil {
                 eventObject.setObject(startTime!, forKey: "startTime")
             }
@@ -98,7 +181,6 @@ class Event {
             
             eventObject.save()
         }
-        
     }
     
     func join(newMember: AVUser) {

@@ -13,11 +13,23 @@ import AVOSCloud
 class StartEventViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        let event = Event(name: "Let's go places", type: EventType.entertainment, totalSeats: 20, remainingSeats: 12, minimumMoreAttendingPeople: 9, due: Date(), creator: AVUser.current(), conversationId: "123455667")
+    }
+    
+    @IBAction func close() {
+        self.presentingViewController?.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func postEvent() {
+        let event = Event(name: "Let's go places", type: EventType.entertainment, totalSeats: 20, remainingSeats: 12, minimumMoreAttendingPeople: 9, due: Date(), creator: AVUser.current())
         event.expectedFee = 12.34
         event.transportationMethod = .uber
-        event.post()
-        event.join(newMember: AVUser.current())
+        do {
+            try event.post()
+        } catch CreatingEventError.cannotCreateConversation(let reason) {
+            print(reason)
+        } catch {
+            
+        }
     }
 }
 

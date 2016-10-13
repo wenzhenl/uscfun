@@ -698,9 +698,9 @@
                                 <action selector="close" destination="Tr5-Xu-7ZN" id="lKP-y7-l2r"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="确认" id="RVu-Ns-Lqi">
+                        <barButtonItem key="rightBarButtonItem" title="发布" id="RVu-Ns-Lqi">
                             <connections>
-                                <action selector="postEvent:" destination="Tr5-Xu-7ZN" id="Ebk-T9-VY4"/>
+                                <action selector="postEvent" destination="Tr5-Xu-7ZN" id="D9W-b3-bdn"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
