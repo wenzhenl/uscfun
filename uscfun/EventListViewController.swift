@@ -91,8 +91,6 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 5
-        } else if section == 1 {
-            return 2
         } else {
             return 1
         }
@@ -110,7 +108,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
                 cell.selectionStyle = .default
                 return cell
             }
-        } else if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 0 {
+        } else if (indexPath as NSIndexPath).section == 1 {
             let cell = UITableViewCell()
             cell.textLabel?.text = "当前活动列表"
             cell.selectionStyle = .none

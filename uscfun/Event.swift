@@ -56,6 +56,9 @@ class Event {
     var conversationId: String?
     var members: [AVUser]
     
+    //--MARK: temporary variable for status
+    var successfullyPosted = false
+    
     init(name: String, type: EventType, totalSeats: Int, remainingSeats: Int, minimumMoreAttendingPeople: Int, due: Date, creator: AVUser) {
         self.name = name
         self.type = type
@@ -68,49 +71,8 @@ class Event {
         members.append(creator)
     }
     
-    
-    private func createChatRoom() throws {
-        var eventConversationId: String?
-        var errorReason: String?
-        
-        if let client = AVIMClient(clientId: AVUser.current().username) {
-            client.open() {
-                succeeded, error in
-                if succeeded {
-                    client.createConversation(withName: self.name, clientIds: [], attributes: nil, options: AVIMConversationOption.transient) {
-                        conversation, error in
-                        if(error == nil) {
-                            print("create conversation successfully")
-                            if let conversation = conversation {
-                                print("---------------create conversation-------------")
-                                print("----conversation id \(conversation.conversationId)----------")
-                                print("----conversation name \(conversation.name)")
-                                eventConversationId = conversation.conversationId
-                            } else {
-                                errorReason = "莫名其妙的原因"
-                            }
-                        } else {
-                            errorReason = error!.localizedDescription
-                        }
-                    }
-                } else {
-                    errorReason = error?.localizedDescription
-                }
-            }
-        } else {
-            errorReason = "cannot open AVIMClient"
-        }
-        
-        if errorReason == nil && eventConversationId != nil {
-            self.conversationId = eventConversationId!
-        } else if errorReason != nil {
-            throw CreatingEventError.cannotCreateConversation(reason: errorReason!)
-        } else {
-            throw CreatingEventError.cannotCreateConversation(reason: "莫名其妙的原因")
-        }
-    }
-    
     func post() throws {
+        print("===================POSTING EVENT==================================")
         if let client = AVIMClient(clientId: AVUser.current().username) {
             client.open() {
                 succeeded, error in
@@ -120,9 +82,9 @@ class Event {
                         if(error == nil) {
                             print("create conversation successfully")
                             if let conversation = conversation {
-                                print("---------------create conversation-------------")
-                                print("----conversation id \(conversation.conversationId)----------")
-                                print("----conversation name \(conversation.name)")
+                                print("CREATED CONVERSATION")
+                                print("conversation_id: \(conversation.conversationId)----------")
+                                print("conversation_name: \(conversation.name)")
                                 self.conversationId = conversation.conversationId
                                 self.saveDataToSever()
                             } else {
@@ -139,13 +101,10 @@ class Event {
         } else {
             print("cannot open AVIMClient")
         }
-        
-        
-        
-        
     }
     
     private func saveDataToSever() {
+        print("SAVING DATA TO SERVER")
         if let eventObject = AVObject(className: classNameOfEvent) {
             eventObject.setObject(name, forKey: "name")
             eventObject.setObject(type.rawValue, forKey: "type")
@@ -167,7 +126,9 @@ class Event {
                 eventObject.setObject(endTime!, forKey: "endTime")
             }
             if location != nil {
-                eventObject.setObject(location!, forKey: "location")
+                eventObject.setObject(location!.placename, forKey: "locationName")
+                let geoPoint = AVGeoPoint(latitude: location!.latitude, longitude: location!.longitude)
+                eventObject.setObject(geoPoint, forKey: "location")
             }
             if expectedFee != nil {
                 eventObject.setObject(expectedFee!, forKey: "expectedFee")
@@ -180,7 +141,9 @@ class Event {
             }
             
             eventObject.save()
+            self.successfullyPosted = true
         }
+        print("===================END POSTING EVENT===============================")
     }
     
     func join(newMember: AVUser) {

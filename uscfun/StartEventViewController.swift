@@ -15,6 +15,16 @@ class StartEventViewController: UIViewController {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        UIApplication.shared.statusBarStyle = .default
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        UIApplication.shared.statusBarStyle = .lightContent
+    }
+    
     @IBAction func close() {
         self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
@@ -23,6 +33,8 @@ class StartEventViewController: UIViewController {
         let event = Event(name: "Let's go places", type: EventType.entertainment, totalSeats: 20, remainingSeats: 12, minimumMoreAttendingPeople: 9, due: Date(), creator: AVUser.current())
         event.expectedFee = 12.34
         event.transportationMethod = .uber
+        let place = Location(placename: "haha", latitude: 12, longitude: 12)
+        event.location = place
         do {
             try event.post()
         } catch CreatingEventError.cannotCreateConversation(let reason) {
