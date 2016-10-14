@@ -57,7 +57,7 @@ class EventDetailViewController: UIViewController {
             }
             
             if let locationName = event.locationName {
-                 optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "location"), key: "活动地点", value: locationName))
+                 optionalSection.append(EventDetailCell.imgKeyValueArrowTableCell(image: #imageLiteral(resourceName: "location"), key: eventLocationKey, value: locationName))
             }
             
             if let expectedFee = event.expectedFee {
@@ -211,16 +211,18 @@ extension EventDetailViewController: UITableViewDelegate {
                 }
             }
         }
-        
-        switch detailCells[indexPath.section][indexPath.row] {
-        case .imgKeyValueArrowTableCell(_, let key, _):
-            if key == eventLocationKey {
-                performSegue(withIdentifier: mapSegueIdentifier, sender: self)
+        else {
+            switch detailCells[indexPath.section][indexPath.row] {
+            case .imgKeyValueArrowTableCell(_, let key, _):
+                print("go to map")
+                if key == eventLocationKey {
+                    performSegue(withIdentifier: mapSegueIdentifier, sender: self)
+                }
+            default:
+                print("don't go to map")
+                break
             }
-        default:
-            break
         }
-        
         tableView.deselectRow(at: indexPath, animated: false)
     }
 }

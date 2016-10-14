@@ -422,10 +422,10 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserProfileCell" rowHeight="95" id="mvh-iF-4hI" customClass="UserProfileTableViewCell" customModule="uscfun" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="1000" height="95"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="95"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mvh-iF-4hI" id="8WZ-sj-2lL">
-                                            <frame key="frameInset" width="1000" height="95"/>
+                                            <frame key="frameInset" width="375" height="94"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fri-zh-PnZ">
@@ -439,35 +439,32 @@
                                                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="bottomRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="男" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="91J-at-bZA">
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wenzheng Li" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y9M-th-3rI">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Wenzheng Li" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y9M-th-3rI">
+                                                    <frame key="frameInset" minX="96" minY="17" width="248" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow-forward" translatesAutoresizingMaskIntoConstraints="NO" id="yuI-e5-fBa">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="15" id="WRM-5f-jxm"/>
+                                                        <constraint firstAttribute="width" secondItem="yuI-e5-fBa" secondAttribute="height" id="dMu-Mr-70H"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Y9M-th-3rI" firstAttribute="top" secondItem="8WZ-sj-2lL" secondAttribute="topMargin" id="4L4-11-Ap1"/>
+                                                <constraint firstItem="yuI-e5-fBa" firstAttribute="centerY" secondItem="8WZ-sj-2lL" secondAttribute="centerY" id="5DU-vL-em5"/>
                                                 <constraint firstItem="fri-zh-PnZ" firstAttribute="leading" secondItem="8WZ-sj-2lL" secondAttribute="leadingMargin" id="82B-Xt-gJA"/>
-                                                <constraint firstItem="91J-at-bZA" firstAttribute="top" secondItem="Y9M-th-3rI" secondAttribute="bottom" constant="8" symbolic="YES" id="Ftp-dX-ffM"/>
                                                 <constraint firstItem="Y9M-th-3rI" firstAttribute="centerY" secondItem="fri-zh-PnZ" secondAttribute="centerY" id="Tkw-rP-pjf"/>
-                                                <constraint firstItem="91J-at-bZA" firstAttribute="leading" secondItem="Y9M-th-3rI" secondAttribute="leading" id="VAH-Cf-yXN"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="91J-at-bZA" secondAttribute="bottom" id="ebw-ch-62F"/>
+                                                <constraint firstItem="Y9M-th-3rI" firstAttribute="centerY" secondItem="fri-zh-PnZ" secondAttribute="centerY" id="Xhl-Ce-OPl"/>
                                                 <constraint firstItem="Y9M-th-3rI" firstAttribute="leading" secondItem="fri-zh-PnZ" secondAttribute="trailing" constant="8" symbolic="YES" id="f2r-dD-eIu"/>
-                                                <constraint firstItem="Y9M-th-3rI" firstAttribute="centerY" secondItem="8WZ-sj-2lL" secondAttribute="centerY" multiplier="0.6" id="g0B-hk-wpn"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="91J-at-bZA" secondAttribute="trailing" constant="225" id="mI4-xD-O8r"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="Y9M-th-3rI" secondAttribute="trailing" id="v9t-Rs-Xi1"/>
-                                                <constraint firstItem="91J-at-bZA" firstAttribute="width" secondItem="Y9M-th-3rI" secondAttribute="width" id="yIe-LO-uv8"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="yuI-e5-fBa" secondAttribute="trailing" id="paL-B4-frn"/>
+                                                <constraint firstItem="yuI-e5-fBa" firstAttribute="leading" secondItem="Y9M-th-3rI" secondAttribute="trailing" constant="8" symbolic="YES" id="tzH-yz-Wby"/>
                                                 <constraint firstItem="fri-zh-PnZ" firstAttribute="centerY" secondItem="8WZ-sj-2lL" secondAttribute="centerY" id="z3Y-uq-7VN"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="ebw-ch-62F"/>
-                                                    <exclude reference="mI4-xD-O8r"/>
                                                     <exclude reference="4L4-11-Ap1"/>
                                                     <exclude reference="Tkw-rP-pjf"/>
                                                 </mask>
@@ -475,13 +472,14 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="avatarButton" destination="fri-zh-PnZ" id="eFY-vq-EUB"/>
+                                            <outlet property="nicknameLabel" destination="Y9M-th-3rI" id="50s-KQ-f8Y"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AttendedEventCell" id="zLd-cP-BUq" customClass="AttendedTableViewCell" customModule="uscfun" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="123" width="1000" height="95"/>
+                                        <rect key="frame" x="0.0" y="123" width="375" height="95"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="zLd-cP-BUq" id="CV2-TC-DwR">
-                                            <frame key="frameInset" width="1000" height="95"/>
+                                            <frame key="frameInset" width="375" height="95"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="周末去大华买菜顺便吃个饭" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qB2-nx-GuG">
@@ -508,10 +506,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SettingCell" id="qKN-pG-UrQ" customClass="SettingTableViewCell" customModule="uscfun" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="218" width="1000" height="95"/>
+                                        <rect key="frame" x="0.0" y="218" width="375" height="95"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="qKN-pG-UrQ" id="Vp1-zV-KlN">
-                                            <frame key="frameInset" width="1000" height="95"/>
+                                            <frame key="frameInset" width="375" height="95"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&gt;" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fUE-ad-6Dt">
@@ -768,6 +766,7 @@
     <resources>
         <image name="alarm-clock" width="512" height="512"/>
         <image name="albums" width="512" height="512"/>
+        <image name="arrow-forward" width="30" height="30"/>
         <image name="map-location" width="512" height="512"/>
         <image name="plus" width="512" height="512"/>
         <image name="share" width="512" height="512"/>

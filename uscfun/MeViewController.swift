@@ -58,6 +58,7 @@ class MeViewController: UIViewController, UITableViewDataSource, UITableViewDele
         
         if (indexPath as NSIndexPath).section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "UserProfileCell") as! UserProfileTableViewCell
+            cell.nicknameLabel.text = AVUser.current().email
             return cell
         }
         else if (indexPath as NSIndexPath).section == numberOfRowInSection.count - 1 {

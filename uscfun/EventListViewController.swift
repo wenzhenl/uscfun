@@ -54,6 +54,23 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
 //        self.view.bringSubview(toFront: rightButton)
         self.view.bringSubview(toFront: startEventButton)
         self.tableView.addSubview(self.refreshControl)
+        
+        EventRequest.fetch() {
+            error, results in
+            if error != nil {
+                print(error)
+                return
+            }
+            if let events = results {
+                for event in events {
+                    self.events.append(event)
+                }
+                self.events.sort {
+                    $0.updatedAt! < $1.updatedAt!
+                }
+                self.tableView.reloadData()
+            }
+        }
     }
     
     override func viewDidLayoutSubviews() {

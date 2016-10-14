@@ -11,6 +11,7 @@ import UIKit
 class UserProfileTableViewCell: UITableViewCell {
 
     @IBOutlet weak var avatarButton: UIButton!
+    @IBOutlet weak var nicknameLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
