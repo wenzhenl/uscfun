@@ -19,6 +19,14 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var delegate: MainViewControllerDelegate?
     
+    var events = [Event]()
+    
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
+        return refreshControl
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -44,6 +52,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
 //        self.view.bringSubview(toFront: leftButton)
 //        self.view.bringSubview(toFront: rightButton)
         self.view.bringSubview(toFront: startEventButton)
+        self.tableView.addSubview(self.refreshControl)
     }
     
     override func viewDidLayoutSubviews() {
@@ -66,6 +75,26 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         delegate?.goToMe()
     }
     
+    func handleRefresh() {
+        print("pull refresh")
+        if events.count == 0 {
+            EventRequest.fetch() {
+                error, results in
+                if error != nil {
+                    print(error)
+                    return
+                }
+                if let events = results {
+                    for event in events {
+                        self.events.append(event)
+                    }
+                    self.tableView.reloadData()
+                }
+            }
+        }
+        self.refreshControl.endRefreshing()
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if (indexPath as NSIndexPath).section == 0 {
             return UITableViewAutomaticDimension
@@ -85,7 +114,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 10
+        return 2 + events.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -116,7 +145,11 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EventListCell") as! EventListTableViewCell
             cell.selectionStyle = .default
-            cell.due = Date(timeIntervalSinceNow: 123456)
+            let event = events[indexPath.section - 2]
+            cell.nameLabel.text = event.name
+            cell.startTimeLabel.text = event.startTime?.description
+            cell.locationNameLabel.text = event.locationName
+            cell.due = event.due
             cell.timerStarted()
             return cell
         }

@@ -114,7 +114,7 @@
                                         <rect key="frame" x="0.0" y="28" width="343" height="300"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dHD-iP-esQ" id="cSi-jH-rIj">
-                                            <frame key="frameInset" width="343" height="299"/>
+                                            <frame key="frameInset" width="343" height="300"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="还剩03天13时20分" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oe2-b4-5n3">
@@ -235,15 +235,18 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="containerView" destination="HR9-z4-iEt" id="dcU-bt-kCl"/>
-                                            <outlet property="timeLabel" destination="Oe2-b4-5n3" id="4Re-9W-hFv"/>
+                                            <outlet property="locationNameLabel" destination="X3i-cu-8qj" id="NyI-Rc-yus"/>
+                                            <outlet property="mainImageView" destination="wCV-X8-qTF" id="adi-Xs-TZT"/>
+                                            <outlet property="nameLabel" destination="JkM-ym-4ZM" id="ziQ-fN-jSV"/>
+                                            <outlet property="startTimeLabel" destination="Ra3-uB-jHY" id="4ix-CA-d4G"/>
                                             <segue destination="nvQ-YZ-kHk" kind="show" id="1wy-Qq-M6H"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AttendingEventCell" id="C76-wQ-x1W" customClass="AttendingEventTableViewCell" customModule="uscfun" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="328" width="1000" height="125"/>
+                                        <rect key="frame" x="0.0" y="328" width="343" height="125"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="C76-wQ-x1W" id="1v3-QV-nOo">
-                                            <frame key="frameInset" width="1000" height="125"/>
+                                            <frame key="frameInset" width="343" height="125"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alarm-clock" translatesAutoresizingMaskIntoConstraints="NO" id="3dw-SM-HA3">
@@ -419,7 +422,7 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserProfileCell" rowHeight="95" id="mvh-iF-4hI" customClass="UserProfileTableViewCell" customModule="uscfun" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="95"/>
+                                        <rect key="frame" x="0.0" y="28" width="1000" height="95"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mvh-iF-4hI" id="8WZ-sj-2lL">
                                             <frame key="frameInset" width="1000" height="95"/>
@@ -475,7 +478,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AttendedEventCell" id="zLd-cP-BUq" customClass="AttendedTableViewCell" customModule="uscfun" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="123" width="375" height="95"/>
+                                        <rect key="frame" x="0.0" y="123" width="1000" height="95"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="zLd-cP-BUq" id="CV2-TC-DwR">
                                             <frame key="frameInset" width="1000" height="95"/>
@@ -505,7 +508,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SettingCell" id="qKN-pG-UrQ" customClass="SettingTableViewCell" customModule="uscfun" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="218" width="375" height="95"/>
+                                        <rect key="frame" x="0.0" y="218" width="1000" height="95"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="qKN-pG-UrQ" id="Vp1-zV-KlN">
                                             <frame key="frameInset" width="1000" height="95"/>

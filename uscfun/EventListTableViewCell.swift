@@ -12,6 +12,10 @@ class EventListTableViewCell: UITableViewCell {
 
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var mainImageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var startTimeLabel: UILabel!
+    @IBOutlet weak var locationNameLabel: UILabel!
     var due: Date?
     var timer: Timer?
     override func awakeFromNib() {
@@ -20,17 +24,6 @@ class EventListTableViewCell: UITableViewCell {
         containerView.layer.cornerRadius = 13
         containerView.layer.borderWidth = 1
         containerView.layer.borderColor = UIColor.lightGray.cgColor
-//        let blueColor = CGFloat(Int(arc4random() % 255)) / 255.0
-//        let greenColor = CGFloat(Int(arc4random() % 255)) / 255.0
-//        let redColor = CGFloat(Int(arc4random() % 255)) / 255.0
-//        bannerView.backgroundColor = UIColor(red: redColor, green: greenColor, blue: blueColor, alpha: 1.0)
-//        bannerView.backgroundColor = UIColor.clearColor()
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     func timerStarted() {
@@ -41,7 +34,7 @@ class EventListTableViewCell: UITableViewCell {
         if let due = due {
             let currentDate = Date()
             let diffDateComponents = Calendar.current.dateComponents([Calendar.Component.day,.hour,.minute,.second], from: currentDate, to: due)
-            self.timeLabel.text = "还剩\(diffDateComponents.day!)天\(diffDateComponents.hour!)时\(diffDateComponents.minute!)分\(diffDateComponents.second!)秒"
+//            self.timeLabel.text = "还剩\(diffDateComponents.day!)天\(diffDateComponents.hour!)时\(diffDateComponents.minute!)分\(diffDateComponents.second!)秒"
         }
     }
 

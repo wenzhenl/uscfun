@@ -54,6 +54,12 @@ class Event {
     var active: Bool
     var finished: Bool
     
+    
+    //--MARK: properties added by Leancloud
+    var objectId: String?
+    var createdAt: Date?
+    var updatedAt: Date?
+    
     //--MARK: delegate for handling posting process
     var delegate: EventDelegate?
     
@@ -75,6 +81,7 @@ class Event {
         print("called")
         if let data = data {
             if let allKeys = data.allKeys() as? [String] {
+                print(allKeys)
                 guard allKeys.contains(keyOfName), let name = data.value(forKey: keyOfName) as? String else {
                     print("no name")
                     return nil
@@ -174,6 +181,10 @@ class Event {
                         self.note = note
                     }
                 }
+                self.objectId = data.objectId
+                self.createdAt = data.createdAt
+                self.updatedAt = data.updatedAt
+
                 return
             }
             print("no keys")
@@ -223,7 +234,7 @@ class Event {
     
     private func saveDataToSever() {
         print("SAVING DATA TO SERVER")
-        if let eventObject = AVObject(className: classNameOfEvent) {
+        if let eventObject = AVObject(className: Event.classNameOfEvent) {
             eventObject.setObject(name, forKey: keyOfName)
             eventObject.setObject(type.rawValue, forKey: keyOfType)
             eventObject.setObject(totalSeats, forKey: keyOfTotalSeats)
@@ -282,7 +293,7 @@ class Event {
     
     func join(newMember: AVUser) {
         members.append(newMember)
-        if let eventObject = AVObject(className: classNameOfEvent) {
+        if let eventObject = AVObject(className: Event.classNameOfEvent) {
             eventObject.setObject(members, forKey: "members")
             eventObject.fetchWhenSave = true
             eventObject.incrementKey("remainingSeats")
@@ -290,7 +301,7 @@ class Event {
     }
     
     //--MARK: constants
-    private let classNameOfEvent = "Event"
+    public static let classNameOfEvent = "Event"
     private let keyOfName = "name"
     private let keyOfType = "type"
     private let keyOfTotalSeats = "totalSeats"
@@ -311,4 +322,8 @@ class Event {
     private let keyOfExpectedFee = "expectedFee"
     private let keyOfTransportationMethod = "transportationMethod"
     private let keyOfNote = "note"
+    
+    private let keyOfObjectId = "objectId"
+    private let keyOfCreatedAt = "createdAt"
+    private let keyOfUpdatedAt = "updatedAt"
 }
