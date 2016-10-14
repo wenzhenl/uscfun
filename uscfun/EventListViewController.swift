@@ -29,7 +29,8 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        print("EVENT LIST VIEW DID LOAD")
         // Do any additional setup after loading the view.
 //        self.navigationController!.navigationBarHidden = true
         
@@ -208,4 +209,27 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            switch identifier {
+            case identifierToEventDetail:
+                let destination = segue.destination
+                if let eventDetailVC = destination as? EventDetailViewController {
+                    switch sender {
+                    case is AttendingEventTableViewCell:
+                        eventDetailVC.event = self.events[(self.tableView.indexPathForSelectedRow?.row)! - 1]
+                    case is EventListTableViewCell:
+                        eventDetailVC.event = self.events[(self.tableView.indexPathForSelectedRow?.section)! - 2]
+                    default:
+                        break
+                    }
+                }
+            default:
+                break
+            }
+        }
+    }
+    
+    let identifierToEventDetail = "go to event detail"
 }

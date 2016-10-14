@@ -81,7 +81,6 @@ class Event {
         print("called")
         if let data = data {
             if let allKeys = data.allKeys() as? [String] {
-                print(allKeys)
                 guard allKeys.contains(keyOfName), let name = data.value(forKey: keyOfName) as? String else {
                     print("no name")
                     return nil
@@ -322,8 +321,4 @@ class Event {
     private let keyOfExpectedFee = "expectedFee"
     private let keyOfTransportationMethod = "transportationMethod"
     private let keyOfNote = "note"
-    
-    private let keyOfObjectId = "objectId"
-    private let keyOfCreatedAt = "createdAt"
-    private let keyOfUpdatedAt = "updatedAt"
 }

@@ -239,7 +239,7 @@
                                             <outlet property="mainImageView" destination="wCV-X8-qTF" id="adi-Xs-TZT"/>
                                             <outlet property="nameLabel" destination="JkM-ym-4ZM" id="ziQ-fN-jSV"/>
                                             <outlet property="startTimeLabel" destination="Ra3-uB-jHY" id="4ix-CA-d4G"/>
-                                            <segue destination="nvQ-YZ-kHk" kind="show" id="1wy-Qq-M6H"/>
+                                            <segue destination="nvQ-YZ-kHk" kind="show" identifier="go to event detail" id="1wy-Qq-M6H"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AttendingEventCell" id="C76-wQ-x1W" customClass="AttendingEventTableViewCell" customModule="uscfun" customModuleProvider="target">
@@ -297,7 +297,7 @@
                                             </variation>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="nvQ-YZ-kHk" kind="show" id="Dds-CA-tqB"/>
+                                            <segue destination="nvQ-YZ-kHk" kind="show" identifier="go to event detail" id="Dds-CA-tqB"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -774,6 +774,6 @@
         <image name="user-4" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="1wy-Qq-M6H"/>
+        <segue reference="Dds-CA-tqB"/>
     </inferredMetricsTieBreakers>
 </document>

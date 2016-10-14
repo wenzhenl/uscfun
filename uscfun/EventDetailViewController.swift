@@ -19,10 +19,8 @@ enum EventDetailCell {
 class EventDetailViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    var event: Event?
     var detailCells = [[EventDetailCell]]()
-    
-    let eventLocationKey = "活动地点"
-    let mapSegueIdentifier = "SHOWMAP"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,14 +37,41 @@ class EventDetailViewController: UIViewController {
         self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0)
         
         // Populate the cells
-        let firstSection = [EventDetailCell.imageViewTableCell(image: #imageLiteral(resourceName: "add-3")), .textViewTableCell(text: "Happy birthday to Jing Li")]
-        let secondSection = [EventDetailCell.singleButtonTableCell]
-        let thirdSection = [EventDetailCell.imgKeyValueArrowTableCell(image: #imageLiteral(resourceName: "location"), key: "参与讨论", value: "")]
-        let forthSection = [EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "alarm-clock"), key: "活动时间", value: "星期天上午"), .imgKeyValueArrowTableCell(image: #imageLiteral(resourceName: "paper-plane-1"), key: eventLocationKey, value: "中国城大华超市")]
-        detailCells.append(firstSection)
-        detailCells.append(secondSection)
-        detailCells.append(thirdSection)
-        detailCells.append(forthSection)
+        if let event = event {
+            let profileSection = [EventDetailCell.imageViewTableCell(image: #imageLiteral(resourceName: "add-3")), .textViewTableCell(text: event.name)]
+            let joinButtonSection = [EventDetailCell.singleButtonTableCell]
+            let chatSection = [EventDetailCell.imgKeyValueArrowTableCell(image: #imageLiteral(resourceName: "location"), key: "参与讨论", value: "")]
+            detailCells.append(profileSection)
+            detailCells.append(joinButtonSection)
+            detailCells.append(chatSection)
+            
+            // handle optional information
+            var optionalSection = [EventDetailCell]()
+            if let startTime = event.startTime {
+                optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "alarm-clock"), key: "活动开始时间", value: startTime.description))
+            }
+            
+            if let endTime = event.endTime {
+                optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "alarm-clock"), key: "活动结束时间", value: endTime.description))
+            }
+            
+            if let locationName = event.locationName {
+                 optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "location"), key: "活动地点", value: locationName))
+            }
+            
+            if let expectedFee = event.expectedFee {
+                optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "location"), key: "预计费用", value: expectedFee.description))
+            }
+            
+            if optionalSection.count > 0 {
+                detailCells.append(optionalSection)
+            }
+            
+            if let note = event.note {
+                let noteSection = [EventDetailCell.textViewTableCell(text: note)]
+                detailCells.append(noteSection)
+            }
+        }
     }
 
     func shareEvent() {
@@ -78,6 +103,11 @@ class EventDetailViewController: UIViewController {
         let cv = self.navigationController?.popViewController(animated: true)
         cv?.navigationController?.isNavigationBarHidden = true
     }
+    
+    
+    //--MARK: global constants
+    let eventLocationKey = "活动地点"
+    let mapSegueIdentifier = "SHOWMAP"
 }
 
 extension EventDetailViewController: UITableViewDataSource {
