@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="6zw-Mk-56v">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="6zw-Mk-56v">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -150,7 +150,7 @@
                                                 <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alarm-clock" translatesAutoresizingMaskIntoConstraints="NO" id="Gtc-c4-Cpa">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="locked" translatesAutoresizingMaskIntoConstraints="NO" id="Gtc-c4-Cpa">
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="4M5-n3-PMT"/>
                                                     <constraint firstAttribute="width" constant="30" id="oac-2G-Aiv"/>
@@ -690,7 +690,7 @@
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="358-Hx-tTg">
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alarm-clock" translatesAutoresizingMaskIntoConstraints="NO" id="HJ8-We-cQv">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="locked" translatesAutoresizingMaskIntoConstraints="NO" id="HJ8-We-cQv">
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="30" id="TH4-U0-Jnp"/>
                                                     <constraint firstAttribute="height" constant="30" id="mcK-FN-Vf0"/>
@@ -884,9 +884,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="alarm-clock" width="512" height="512"/>
         <image name="blackfish" width="165" height="165"/>
         <image name="launchscreen" width="375" height="120"/>
+        <image name="locked" width="512" height="512"/>
         <image name="paper-plane-1" width="512" height="512"/>
         <image name="user-4" width="512" height="512"/>
     </resources>

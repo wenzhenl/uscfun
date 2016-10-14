@@ -8,6 +8,7 @@
 
 import UIKit
 import AVOSCloud
+import SVProgressHUD
 
 class SignInViewController: UIViewController, UITextFieldDelegate {
     
@@ -48,13 +49,10 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        // self.navigationController!.navigationBar.barTintColor = UIColor.themeYellow()
         self.navigationController!.navigationBar.tintColor = UIColor.darkGray
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray, NSFontAttributeName: UIFont.systemFont(ofSize: 17)]
         self.view.backgroundColor = UIColor.backgroundGray
         
-        // inputView.layer.cornerRadius = 8
         errorLabel.isHidden = true
         emailTextField.becomeFirstResponder()
         signInButton.layer.cornerRadius = 25
@@ -64,13 +62,8 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         }
         
         if DeviceType.IS_IPHONE_4_OR_LESS {
-            containerView.transform = CGAffineTransform(translationX: 0,y: -80)
+            containerView.transform = CGAffineTransform(translationX: 0, y: -80)
         }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -133,9 +126,12 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
             errorLabel.text = "密码不应含有空格"
             errorLabel.isHidden = false
         } else {
-            
+            SVProgressHUD.show()
             AVUser.logInWithUsername(inBackground: email, password: password) {
                 updatedUser, error in
+                
+                SVProgressHUD.dismiss()
+                
                 if updatedUser != nil {
                     // TODO: preload contents before going to the homepage
                     print(updatedUser!.email)
