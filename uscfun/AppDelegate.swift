@@ -8,6 +8,7 @@
 
 import UIKit
 import AVOSCloud
+import ChatKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
@@ -22,39 +23,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         //--MARK: register leanclound account
         AVOSCloud.setServiceRegion(.US)
         
+        LCChatKit.setAppId("pDLnf6MjL1vIgRw6b2WWWVCJ-MdYXbMMI", appKey: "zpbYwzEe5c6Cw4Ecmfr745C2")
         AVOSCloud.setApplicationId("pDLnf6MjL1vIgRw6b2WWWVCJ-MdYXbMMI", clientKey: "zpbYwzEe5c6Cw4Ecmfr745C2")
         AVAnalytics.trackAppOpened(launchOptions: launchOptions)
         
-//        let query = AVQuery(className: "Event")
-////        query?.findObjectsInBackground() {
-////            objects, error in
-////            for object in objects! {
-////                let avObj = object as! AVObject
-////                print("myname:")
-////                print(avObj["name"])
-////            }
-////        }
-//        let objects = query?.findObjects()
-//        for obj in objects! as! [AVObject]{
-////            print("name:")
-////            print(event.allKeys())
-////            print(event.object(forKey: "name"))
-//            
-//            if (obj.allKeys() as! [String]).contains("creator") {
-//                let userQuery = AVQuery(className: "_User")
-//                userQuery?.whereKey("objectId", equalTo: (obj.object(forKey: "creator") as! AVObject).object(forKey: "objectId"))
-//                let users = userQuery?.findObjects() as! [AVObject]
-//                print(users.first?.object(forKey: "username"))
-//            }
-//            
-//            if let event = Event(data: obj) {
-//                print(event.name)
-//                print(event.due)
-//                print(event.creator)
-//            } else {
-//                print("cannot create event")
-//            }
-//        }
+        LCCKInputViewPluginTakePhoto.registerSubclass()
+        LCCKInputViewPluginPickImage.registerSubclass()
+        LCCKInputViewPluginLocation.registerSubclass()
+        LCChatKit.sharedInstance().fetchProfilesBlock = {
+            userIds, completionHandler in
+            var users = [LCCKUser]()
+            if let userIds = userIds {
+                for id in userIds {
+                    print(id)
+                    let user = LCCKUser(clientId: id)
+                    users.append(user!)
+                }
+            }
+            
+            if completionHandler != nil {
+                print("pass users")
+                completionHandler!(users, nil)
+            }
+            
+        }
+        
+        LCChatKit.sharedInstance().conversationInvalidedHandler = {
+            conversationId, vc, user, error in
+            print(error)
+        }
         
         // choose login scene or home scene based on if loggedin
         window = UIWindow(frame: UIScreen.main.bounds)

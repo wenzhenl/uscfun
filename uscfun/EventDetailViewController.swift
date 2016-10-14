@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ChatKit
 
 enum EventDetailCell {
     case imageViewTableCell(image: UIImage)
@@ -189,6 +190,27 @@ extension EventDetailViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if indexPath.section == 2 {
+            if let event = self.event {
+                LCChatKit.sharedInstance().open(withClientId: AVUser.current().username, force: true) {
+                    succeed, error in
+                    if let conversationVC = LCCKConversationViewController(conversationId: event.conversationId) {
+                        conversationVC.isEnableAutoJoin = true
+                        
+                        conversationVC.setFetchConversationHandler() {
+                            conversation, error in
+                            if conversation == nil {
+                                print("Serious error happened")
+                            } else {
+                                print("successfully fetched conversation")
+                            }
+                        }
+                        self.navigationController?.pushViewController(conversationVC, animated: true)
+                    }
+                }
+            }
+        }
         
         switch detailCells[indexPath.section][indexPath.row] {
         case .imgKeyValueArrowTableCell(_, let key, _):
