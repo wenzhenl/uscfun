@@ -25,30 +25,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         AVOSCloud.setApplicationId("pDLnf6MjL1vIgRw6b2WWWVCJ-MdYXbMMI", clientKey: "zpbYwzEe5c6Cw4Ecmfr745C2")
         AVAnalytics.trackAppOpened(launchOptions: launchOptions)
         
-        let query = AVQuery(className: "Event")
-//        query?.findObjectsInBackground() {
-//            objects, error in
-//            for object in objects! {
-//                let avObj = object as! AVObject
-//                print("myname:")
-//                print(avObj["name"])
+//        let query = AVQuery(className: "Event")
+////        query?.findObjectsInBackground() {
+////            objects, error in
+////            for object in objects! {
+////                let avObj = object as! AVObject
+////                print("myname:")
+////                print(avObj["name"])
+////            }
+////        }
+//        let objects = query?.findObjects()
+//        for obj in objects! as! [AVObject]{
+////            print("name:")
+////            print(event.allKeys())
+////            print(event.object(forKey: "name"))
+//            
+//            if (obj.allKeys() as! [String]).contains("creator") {
+//                let userQuery = AVQuery(className: "_User")
+//                userQuery?.whereKey("objectId", equalTo: (obj.object(forKey: "creator") as! AVObject).object(forKey: "objectId"))
+//                let users = userQuery?.findObjects() as! [AVObject]
+//                print(users.first?.object(forKey: "username"))
+//            }
+//            
+//            if let event = Event(data: obj) {
+//                print(event.name)
+//                print(event.due)
+//                print(event.creator)
+//            } else {
+//                print("cannot create event")
 //            }
 //        }
-        let objects = query?.findObjects()
-        for obj in objects! as! [AVObject]{
-//            print("name:")
-//            print(event.allKeys())
-//            print(event.object(forKey: "name"))
-            
-//            if (event.allKeys() as! [String]).contains("name") {
-//                print(event.object(forKey: "name"))
-//            }
-            if let event = Event(data: obj) {
-                print(event.name)
-            } else {
-                print("cannot create event")
-            }
-        }
         
         // choose login scene or home scene based on if loggedin
         window = UIWindow(frame: UIScreen.main.bounds)

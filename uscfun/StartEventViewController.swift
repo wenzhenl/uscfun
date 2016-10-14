@@ -34,14 +34,14 @@ class StartEventViewController: UIViewController {
     }
     
     @IBAction func postEvent() {
-        let event = Event(name: "周末去滑雪有人去么，大概玩一到两天", type: EventType.entertainment, totalSeats: 20, remainingSeats: 12, minimumMoreAttendingPeople: 9, due: Date(), creator: AVUser.current())
-        event.startTime = Date(timeIntervalSinceNow: 1234)
-        event.endTime = Date(timeIntervalSinceNow: 3456)
+        let event = Event(name: "周末去滑雪有人去么，大概玩一到两天", type: EventType.entertainment, totalSeats: 20, remainingSeats: 12, minimumMoreAttendingPeople: 9, due: Date(timeIntervalSinceNow: 12345), creator: AVUser.current())
+        event.startTime = Date(timeIntervalSinceNow: 45678)
+        event.endTime = Date(timeIntervalSinceNow: 55890)
         event.note = "需要3-4人，准备Airbnb，希望大家多穿些衣服注意保暖。另外我们还可以一起打打牌什么的，会玩牌的更加好了。重要的事情说三遍：需要3-4人，准备Airbnb，希望大家多穿些衣服注意保暖。另外我们还可以一起打打牌什么的，会玩牌的更加好了。需要3-4人，准备Airbnb，希望大家多穿些衣服注意保暖。另外我们还可以一起打打牌什么的，会玩牌的更加好了"
         event.expectedFee = 12.34
         event.transportationMethod = .uber
         event.locationName = "jiuzaiwojia"
-        event.location = AVGeoPoint(latitude: 123, longitude: 343)
+        event.location = AVGeoPoint(latitude: 34.0090, longitude: -118.4974)
         event.delegate = self
         event.post()
         cancleButton.isEnabled = false

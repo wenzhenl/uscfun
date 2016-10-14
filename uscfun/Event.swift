@@ -271,8 +271,11 @@ class Event {
                 eventObject.setObject(note!, forKey: keyOfNote)
             }
             
-            eventObject.save()
-            self.delegate?.eventDidPost(succeed: true, errorReason: nil)
+            if eventObject.save() {
+                self.delegate?.eventDidPost(succeed: true, errorReason: nil)
+            } else {
+                self.delegate?.eventDidPost(succeed: false, errorReason: "cannot save data")
+            }
         }
         print("===================END POSTING EVENT===============================")
     }
