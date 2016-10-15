@@ -431,11 +431,50 @@
                         <outlet property="errorLabel" destination="73O-df-5gv" id="oFs-dt-Hy9"/>
                         <outlet property="noticeTextView" destination="18K-x5-m9r" id="EZF-C7-v7M"/>
                         <segue destination="mHR-oD-qzp" kind="show" identifier="go to nickname" id="V7q-er-Bdc"/>
+                        <segue destination="2L3-yG-kYd" kind="show" identifier="check privacy policy" id="0f4-D4-acE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xlY-fw-47v" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="746" y="-340"/>
+        </scene>
+        <!--Web View Controller-->
+        <scene sceneID="mX2-lS-L9D">
+            <objects>
+                <viewController id="2L3-yG-kYd" customClass="WebViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9Pc-nP-zUH"/>
+                        <viewControllerLayoutGuide type="bottom" id="vRU-TP-FRb"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="tcu-N5-clp">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QVJ-Cb-97x">
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </webView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="tAN-6O-ePx">
+                                <color key="color" red="1" green="0.15074102580000001" blue="0.59386622519999999" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="tAN-6O-ePx" firstAttribute="centerX" secondItem="tcu-N5-clp" secondAttribute="centerX" id="0qk-S4-eAl"/>
+                            <constraint firstItem="QVJ-Cb-97x" firstAttribute="centerY" secondItem="tcu-N5-clp" secondAttribute="centerY" id="CsN-v0-6WD"/>
+                            <constraint firstItem="QVJ-Cb-97x" firstAttribute="height" secondItem="tcu-N5-clp" secondAttribute="height" id="GFg-f0-mB3"/>
+                            <constraint firstItem="QVJ-Cb-97x" firstAttribute="centerX" secondItem="tcu-N5-clp" secondAttribute="centerX" id="sul-56-yNT"/>
+                            <constraint firstItem="QVJ-Cb-97x" firstAttribute="width" secondItem="tcu-N5-clp" secondAttribute="width" id="uGc-hP-baf"/>
+                            <constraint firstItem="tAN-6O-ePx" firstAttribute="centerY" secondItem="tcu-N5-clp" secondAttribute="centerY" id="yJe-vk-A9h"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="indicatorView" destination="tAN-6O-ePx" id="jD3-2P-hOQ"/>
+                        <outlet property="webView" destination="QVJ-Cb-97x" id="e7R-rF-c3v"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VK8-Di-rNS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="745" y="352"/>
         </scene>
         <!--重置密码-->
         <scene sceneID="U0b-JW-8n1">

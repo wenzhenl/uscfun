@@ -50,7 +50,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
 
         self.navigationController!.navigationBar.tintColor = UIColor.darkGray
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray, NSFontAttributeName: UIFont.systemFont(ofSize: 17)]
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
         self.view.backgroundColor = UIColor.backgroundGray
         
         errorLabel.isHidden = true
@@ -134,7 +134,6 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                 
                 if updatedUser != nil {
                     // TODO: preload contents before going to the homepage
-                    print(updatedUser!.email)
                     User.hasLoggedIn = true
                     let appDelegate = UIApplication.shared.delegate! as! AppDelegate
                     let initialViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()

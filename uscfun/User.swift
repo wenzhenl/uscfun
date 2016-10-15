@@ -39,7 +39,7 @@ class User {
     
     static var password: String?
     
-    static func signUp() throws -> Bool {
+    static func signUp(handler: (_ succeed: Bool, _ error: NSError?) -> Void){
         
         // save user info in server
         let user: AVUser = AVUser()
@@ -50,9 +50,9 @@ class User {
         user.setObject("usc", forKey: "school")
         var error: NSError?
         if user.signUp(&error) {
-            return true
+            handler(true, nil)
         } else {
-            throw error!
+            handler(false, error)
         }
     }
 }

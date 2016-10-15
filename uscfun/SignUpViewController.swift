@@ -31,7 +31,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         // Do any additional setup after loading the view.
 //        self.navigationController!.navigationBar.barTintColor = UIColor.themeYellow()
         self.navigationController!.navigationBar.tintColor = UIColor.darkGray
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray, NSFontAttributeName: UIFont.systemFont(ofSize: 17)]
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
         self.view.backgroundColor = UIColor.backgroundGray
         
         noticeTextView.delegate = self
@@ -59,11 +59,6 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
             containerView.transform = CGAffineTransform(translationX: 0,y: -80)
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -77,7 +72,8 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     }
     
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
-        UIApplication.shared.openURL(URL)
+        // UIApplication.shared.openURL(URL)
+        self.performSegue(withIdentifier: "check privacy policy", sender: self)
         return false
     }
     

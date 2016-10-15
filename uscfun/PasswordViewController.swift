@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 class PasswordViewController: UIViewController, UITextFieldDelegate {
 
@@ -41,11 +42,6 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         passwordTextField.becomeFirstResponder()
@@ -56,15 +52,17 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
             User.password = password
             passwordTextField.resignFirstResponder()
             errorLabel.isHidden = true
-            do {
-                let signUpSucceeded = try User.signUp()
-                if signUpSucceeded {
+            SVProgressHUD.show()
+
+            User.signUp() {
+                succeed, error in
+                SVProgressHUD.dismiss()
+                if succeed {
                     self.performSegue(withIdentifier: "go to confirm email", sender: self)
+                } else {
+                    errorLabel.text = error?.localizedDescription
+                    errorLabel.isHidden = false
                 }
-            } catch let error as NSError {
-                print("SignUp\(error)")
-                errorLabel.text = error.localizedDescription
-                errorLabel.isHidden = false
             }
         }
         else if password.characters.count < USCFunConstants.minimumPasswordLength {
