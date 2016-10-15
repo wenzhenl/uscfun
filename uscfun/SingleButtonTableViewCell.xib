@@ -19,7 +19,7 @@
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9uf-BF-Ann">
                         <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="60" id="U8W-s8-epo"/>
+                            <constraint firstAttribute="height" constant="50" id="U8W-s8-epo"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <state key="normal" title="Button">
@@ -29,8 +29,8 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="9uf-BF-Ann" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="JUJ-oK-74v"/>
-                    <constraint firstItem="9uf-BF-Ann" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="i7C-U7-bEk"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="9uf-BF-Ann" secondAttribute="trailing" id="s2e-SJ-NaQ"/>
+                    <constraint firstItem="9uf-BF-Ann" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="40" id="i7C-U7-bEk"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="9uf-BF-Ann" secondAttribute="trailing" constant="40" id="s2e-SJ-NaQ"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

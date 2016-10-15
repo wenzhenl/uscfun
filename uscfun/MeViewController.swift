@@ -73,6 +73,7 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
         case .profileTableCell(_, let text, _):
             let cell = Bundle.main.loadNibNamed("ProfileTableViewCell", owner: self, options: nil)?.first as! ProfileTableViewCell
             cell.mainImageView.setImageWith(text, color: UIColor.buttonBlue)
+            cell.mainImageView.layer.cornerRadius = 4
             cell.mainLabel.text = text
             return cell
         case .labelArrowTableCell(let text, _):
@@ -95,14 +96,14 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if (indexPath as NSIndexPath).section == 0 {
-            return 80
+            return 90
         }
         return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         if (indexPath as NSIndexPath).section == 0 {
-            return 80
+            return 90
         }
         return UITableViewAutomaticDimension
     }

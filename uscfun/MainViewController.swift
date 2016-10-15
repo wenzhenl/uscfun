@@ -91,12 +91,10 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UIPa
             return
         }
         self.currentViewController = pageViewController.viewControllers!.first!
-        print(self.currentViewController)
     }
     
     //MARK: - Main View Controller Delegates
     func goToMe() {
-        print("go to me")
         let meViewController = self.storyboard!.instantiateViewController(withIdentifier: "MeViewController") as! MeViewController
         meViewController.delegate = self
         
@@ -129,11 +127,9 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UIPa
             }
         default: break
         }
-        print(self.currentViewController)
     }
     
     func goToMessage() {
-        print("go to message")
         let messageListViewController = self.storyboard!.instantiateViewController(withIdentifier: "MessageListViewController") as! MessageListViewController
         messageListViewController.delegate = self
         self.pageViewController.setViewControllers([messageListViewController], direction: .reverse, animated: true) {
@@ -146,27 +142,21 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UIPa
     
     // MARK: - UIScrollView delegate
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print("yes, it enters")
         if let currentVC = currentViewController {
             if currentVC is MessageListViewController && (scrollView.contentOffset.x < scrollView.bounds.size.width) {
                 scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: 0)
-                print("label1")
             } else if currentVC is MeViewController && (scrollView.contentOffset.x > scrollView.bounds.size.width) {
                 scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: 0)
-                print("label2")
             }
         }
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        print("yes, it ends")
         if let currentVC = currentViewController {
             if currentVC is MessageListViewController && (scrollView.contentOffset.x < scrollView.bounds.size.width) {
                 scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: 0)
-                print("label3")
             } else if currentVC is MeViewController && (scrollView.contentOffset.x > scrollView.bounds.size.width) {
                 scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: 0)
-                print("label4")
             }
         }
 

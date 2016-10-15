@@ -78,7 +78,6 @@ class Event {
     }
     
     init?(data: AVObject?) {
-        print("called")
         if let data = data {
             if let allKeys = data.allKeys() as? [String] {
                 guard allKeys.contains(keyOfName), let name = data.value(forKey: keyOfName) as? String else {

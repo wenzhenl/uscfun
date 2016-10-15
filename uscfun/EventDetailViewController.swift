@@ -39,7 +39,7 @@ class EventDetailViewController: UIViewController {
         
         // Populate the cells
         if let event = event {
-            let profileSection = [EventDetailCell.imageViewTableCell(image: #imageLiteral(resourceName: "add-3")), .textViewTableCell(text: event.name)]
+            let profileSection = [EventDetailCell.imageViewTableCell(image: #imageLiteral(resourceName: "launchscreen")), .textViewTableCell(text: event.name)]
             let joinButtonSection = [EventDetailCell.singleButtonTableCell]
             let chatSection = [EventDetailCell.imgKeyValueArrowTableCell(image: #imageLiteral(resourceName: "location"), key: "参与讨论", value: "")]
             detailCells.append(profileSection)
@@ -141,7 +141,7 @@ extension EventDetailViewController: UITableViewDataSource {
             return cell
         case .singleButtonTableCell:
             let cell = Bundle.main.loadNibNamed("SingleButtonTableViewCell", owner: self, options: nil)?.first as! SingleButtonTableViewCell
-             cell.button.layer.cornerRadius = 30
+             cell.button.layer.cornerRadius = 25
             cell.button.setTitle("报名参加", for: .normal)
             return cell
         case .textViewTableCell(let text):
