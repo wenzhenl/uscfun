@@ -7,78 +7,84 @@
 //
 
 import UIKit
+import UIImageView_Letters
 
-class MeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+enum MeCell {
+    case profileTableCell(image: UIImage, text: String, segueId: String)
+    case labelArrowTableCell(text: String, segueId: String)
+    case regularTableCell(text: String, segueId: String)
+}
+
+class MeViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
     var delegate: MainViewControllerDelegate?
     
-    let numberOfRowInSection = [1,2,3,2,1]
+    var meSections = [[MeCell]]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.view.backgroundColor = UIColor.buttonPink
         self.tableView.backgroundColor = UIColor.backgroundGray
-//        self.tableView.layer.borderWidth = 1
-//        self.tableView.layer.borderColor = UIColor.whiteColor().CGColor
-//        self.tableView.layer.cornerRadius = 13
-        
         self.tableView.contentInset = UIEdgeInsetsMake(30, 0, 0, 0)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-//        self.navigationController!.navigationBarHidden = false
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-//        self.navigationController!.navigationBarHidden = true
+        
+        //--MARK: populate the cells
+        let tempImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
+        tempImageView.setImageWith(User.nickname, color: UIColor.white)
+        let profileSection = [MeCell.profileTableCell(image: tempImageView.image!, text: User.nickname!, segueId: segueIdOfUpdateProfile)]
+        meSections.append(profileSection)
+        
+        let eventHistorySection = [MeCell.labelArrowTableCell(text: "我发起过的活动", segueId: segueIdOfCheckEventDetail), MeCell.labelArrowTableCell(text: "我参加过的活动", segueId: segueIdOfCheckEventDetail)]
+        meSections.append(eventHistorySection)
+        
+        let appInfoSection = [MeCell.labelArrowTableCell(text: "给USC日常评分", segueId: segueIdOfRateUSCFun), MeCell.labelArrowTableCell(text: "反馈问题或建议", segueId: segueIdOfGiveComments), MeCell.labelArrowTableCell(text: "关于USC日常", segueId: segueIdOfAboutUSCFun)]
+        meSections.append(appInfoSection)
+        
+        let signOutSection = [MeCell.regularTableCell(text: "退出登录", segueId: segueIdOfSignOut)]
+        meSections.append(signOutSection)
     }
     
     @IBAction func goEvent(_ sender: UIButton) {
         delegate?.goToEvent(from: self)
     }
     
+    let segueIdOfUpdateProfile = "go to update profile"
+    let segueIdOfGiveComments = "go to feedback"
+    let segueIdOfCheckEventDetail = "go to event history"
+    let segueIdOfRateUSCFun = "go to rate app"
+    let segueIdOfAboutUSCFun = "go to about uscfun"
+    let segueIdOfSignOut = "sign out usc fun"
+}
+
+extension MeViewController: UITableViewDataSource, UITableViewDelegate{
     func numberOfSections(in tableView: UITableView) -> Int {
-        return numberOfRowInSection.count
+        return meSections.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numberOfRowInSection[section]
+        return meSections[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if (indexPath as NSIndexPath).section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "UserProfileCell") as! UserProfileTableViewCell
-            cell.nicknameLabel.text = AVUser.current().email
+        switch meSections[indexPath.section][indexPath.row] {
+        case .profileTableCell(_, let text, _):
+            let cell = Bundle.main.loadNibNamed("ProfileTableViewCell", owner: self, options: nil)?.first as! ProfileTableViewCell
+            cell.mainImageView.setImageWith(text, color: UIColor.buttonBlue)
+            cell.mainLabel.text = text
             return cell
-        }
-        else if (indexPath as NSIndexPath).section == numberOfRowInSection.count - 1 {
+        case .labelArrowTableCell(let text, _):
+            let cell = Bundle.main.loadNibNamed("LabelArrowTableViewCell", owner: self, options: nil)?.first as! LabelArrowTableViewCell
+            cell.mainTextLabel.text = text
+            cell.mainTextLabel.textColor = UIColor.darkGray
+            return cell
+        case .regularTableCell(let text, _):
             let cell = UITableViewCell()
             cell.textLabel?.textAlignment = .center
-            cell.textLabel?.text = "退出登录"
+            cell.textLabel?.text = text
             cell.textLabel?.textColor = UIColor.darkGray
-            return cell
-        }
-        else if (indexPath as NSIndexPath).section == 2 || (indexPath as NSIndexPath).section == 3 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "AttendedEventCell") as! AttendedTableViewCell
-            return cell
-        }
-        else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell") as! SettingTableViewCell
-            if (indexPath as NSIndexPath).row == 0 {
-                cell.textLabel?.text = "给USC日常评分"
-            } else {
-                cell.textLabel?.text = "反馈问题或建议"
-            }
             return cell
         }
     }
@@ -91,24 +97,14 @@ class MeViewController: UIViewController, UITableViewDataSource, UITableViewDele
         if (indexPath as NSIndexPath).section == 0 {
             return 80
         }
-        else if (indexPath as NSIndexPath).section == 2 || (indexPath as NSIndexPath).section == 3 {
-            return UITableViewAutomaticDimension
-        }
-        else {
-            return 50
-        }
+        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         if (indexPath as NSIndexPath).section == 0 {
-            return UITableViewAutomaticDimension
+            return 80
         }
-        else if (indexPath as NSIndexPath).section == 2 || (indexPath as NSIndexPath).section == 3 {
-            return UITableViewAutomaticDimension
-        }
-        else {
-            return 50
-        }
+        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -121,7 +117,16 @@ class MeViewController: UIViewController, UITableViewDataSource, UITableViewDele
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if (indexPath as NSIndexPath).section == numberOfRowInSection.count - 1 {
+        switch meSections[indexPath.section][indexPath.row] {
+        case .profileTableCell( _ , _ , let segueId):
+            self.performSegue(withIdentifier: segueId, sender: self)
+        case .labelArrowTableCell(_, let segueId):
+            if segueId == segueIdOfRateUSCFun {
+                UIApplication.shared.openURL(URL(string : "itms-apps://itunes.apple.com/app/id1073401869")!)
+            } else {
+                self.performSegue(withIdentifier: segueId, sender: self)
+            }
+        default:
             User.hasLoggedIn = false
             let appDelegate = UIApplication.shared.delegate! as! AppDelegate
             let initialViewController = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController()
@@ -129,43 +134,6 @@ class MeViewController: UIViewController, UITableViewDataSource, UITableViewDele
             appDelegate.window?.makeKeyAndVisible()
         }
         
-        else if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 0 {
-            UIApplication.shared.openURL(URL(string : "itms-apps://itunes.apple.com/app/id1073401869")!)
-        }
-        
         tableView.deselectRow(at: indexPath, animated: false)
     }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 2 {
-            return "我发起过的活动"
-        }
-        else if section == 3 {
-            return "我参加过的活动"
-        }
-        return ""
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 2 || section == 3 {
-            return 15
-        }
-        return 0
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        view.tintColor = UIColor.clear
-        let title = UILabel()
-        title.font = UIFont(name: "Futura", size: 10)!
-        title.textColor = UIColor.lightGray
-        
-        let header = view as! UITableViewHeaderFooterView
-        header.textLabel?.font=title.font
-        header.textLabel?.textColor=title.textColor
-        header.textLabel?.textAlignment = .left
-    }
-    
-//    @IBAction func close() {
-//        self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
-//    }
 }

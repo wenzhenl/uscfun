@@ -25,9 +25,6 @@
 		0A427FB11D97F627007A96BE /* ImageViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A427FAF1D97F627007A96BE /* ImageViewTableViewCell.swift */; };
 		0A427FB21D97F627007A96BE /* ImageViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A427FB01D97F627007A96BE /* ImageViewTableViewCell.xib */; };
 		0A497EDF1D7CC7770099A883 /* StartEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A497EDE1D7CC7770099A883 /* StartEventViewController.swift */; };
-		0A497EE11D7CDB9D0099A883 /* UserProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A497EE01D7CDB9D0099A883 /* UserProfileTableViewCell.swift */; };
-		0A497EE71D7CF1390099A883 /* AttendedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A497EE61D7CF1390099A883 /* AttendedTableViewCell.swift */; };
-		0A497EE91D7CF54E0099A883 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A497EE81D7CF54E0099A883 /* SettingTableViewCell.swift */; };
 		0A52FD681DB098F8000D17D8 /* LCCKUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A52FD671DB098F8000D17D8 /* LCCKUser.m */; };
 		0A6834BE1D56858C002E9B0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6834BD1D56858C002E9B0D /* AppDelegate.swift */; };
 		0A6834C51D56858C002E9B0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A6834C41D56858C002E9B0D /* Assets.xcassets */; };
@@ -52,8 +49,16 @@
 		0AD127101D7C1CEB00333F78 /* AttendingEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */; };
 		0ADA4D2D1D9A46970001A376 /* SingleButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADA4D2B1D9A46970001A376 /* SingleButtonTableViewCell.swift */; };
 		0ADA4D2E1D9A46970001A376 /* SingleButtonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0ADA4D2C1D9A46970001A376 /* SingleButtonTableViewCell.xib */; };
+		0ADE0C9D1DB1F140009F89A0 /* UpdateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE0C9C1DB1F140009F89A0 /* UpdateProfileViewController.swift */; };
+		0ADE0C9F1DB1F173009F89A0 /* EventHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE0C9E1DB1F173009F89A0 /* EventHistoryViewController.swift */; };
+		0ADE0CA11DB1F18A009F89A0 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE0CA01DB1F18A009F89A0 /* FeedbackViewController.swift */; };
+		0ADE0CA31DB1F19D009F89A0 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE0CA21DB1F19D009F89A0 /* AboutViewController.swift */; };
 		0ADF53FB1D7BD732003157EA /* EventListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADF53FA1D7BD732003157EA /* EventListTableViewCell.swift */; };
 		0ADF53FD1D7BD7B1003157EA /* EventHangingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADF53FC1D7BD7B1003157EA /* EventHangingView.swift */; };
+		0AE5C5491DB1DFB500B455F4 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5C5471DB1DFB500B455F4 /* ProfileTableViewCell.swift */; };
+		0AE5C54A1DB1DFB500B455F4 /* ProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AE5C5481DB1DFB500B455F4 /* ProfileTableViewCell.xib */; };
+		0AE5C54D1DB1E2CC00B455F4 /* LabelArrowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5C54B1DB1E2CC00B455F4 /* LabelArrowTableViewCell.swift */; };
+		0AE5C54E1DB1E2CC00B455F4 /* LabelArrowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AE5C54C1DB1E2CC00B455F4 /* LabelArrowTableViewCell.xib */; };
 		0AFA61AD1D7E161900042EFA /* MessageListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFA61AC1D7E161900042EFA /* MessageListViewController.swift */; };
 		DB889CF86399770785616C19 /* Pods_uscfun.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A62BDE070B2A84EE2B17BF91 /* Pods_uscfun.framework */; };
 /* End PBXBuildFile section */
@@ -80,9 +85,6 @@
 		0A427FAF1D97F627007A96BE /* ImageViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewTableViewCell.swift; sourceTree = "<group>"; };
 		0A427FB01D97F627007A96BE /* ImageViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageViewTableViewCell.xib; sourceTree = "<group>"; };
 		0A497EDE1D7CC7770099A883 /* StartEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartEventViewController.swift; sourceTree = "<group>"; };
-		0A497EE01D7CDB9D0099A883 /* UserProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileTableViewCell.swift; sourceTree = "<group>"; };
-		0A497EE61D7CF1390099A883 /* AttendedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttendedTableViewCell.swift; sourceTree = "<group>"; };
-		0A497EE81D7CF54E0099A883 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		0A52FD661DB098F8000D17D8 /* LCCKUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCCKUser.h; sourceTree = "<group>"; };
 		0A52FD671DB098F8000D17D8 /* LCCKUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCCKUser.m; sourceTree = "<group>"; };
 		0A6834BA1D56858C002E9B0D /* uscfun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = uscfun.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,8 +113,16 @@
 		0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttendingEventTableViewCell.swift; sourceTree = "<group>"; };
 		0ADA4D2B1D9A46970001A376 /* SingleButtonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleButtonTableViewCell.swift; sourceTree = "<group>"; };
 		0ADA4D2C1D9A46970001A376 /* SingleButtonTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SingleButtonTableViewCell.xib; sourceTree = "<group>"; };
+		0ADE0C9C1DB1F140009F89A0 /* UpdateProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateProfileViewController.swift; sourceTree = "<group>"; };
+		0ADE0C9E1DB1F173009F89A0 /* EventHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHistoryViewController.swift; sourceTree = "<group>"; };
+		0ADE0CA01DB1F18A009F89A0 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
+		0ADE0CA21DB1F19D009F89A0 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		0ADF53FA1D7BD732003157EA /* EventListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListTableViewCell.swift; sourceTree = "<group>"; };
 		0ADF53FC1D7BD7B1003157EA /* EventHangingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHangingView.swift; sourceTree = "<group>"; };
+		0AE5C5471DB1DFB500B455F4 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
+		0AE5C5481DB1DFB500B455F4 /* ProfileTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileTableViewCell.xib; sourceTree = "<group>"; };
+		0AE5C54B1DB1E2CC00B455F4 /* LabelArrowTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelArrowTableViewCell.swift; sourceTree = "<group>"; };
+		0AE5C54C1DB1E2CC00B455F4 /* LabelArrowTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelArrowTableViewCell.xib; sourceTree = "<group>"; };
 		0AFA61AC1D7E161900042EFA /* MessageListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListViewController.swift; sourceTree = "<group>"; };
 		75E54CBF6FB6E8B58159D318 /* Pods-uscfun.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uscfun.debug.xcconfig"; path = "Pods/Target Support Files/Pods-uscfun/Pods-uscfun.debug.xcconfig"; sourceTree = "<group>"; };
 		A62BDE070B2A84EE2B17BF91 /* Pods_uscfun.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uscfun.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -196,6 +206,10 @@
 				0ADA4D2C1D9A46970001A376 /* SingleButtonTableViewCell.xib */,
 				0A96D3CF1DADBF5B00AB272A /* ImgKeyValueArrowTableViewCell.swift */,
 				0A96D3D01DADBF5B00AB272A /* ImgKeyValueArrowTableViewCell.xib */,
+				0AE5C5471DB1DFB500B455F4 /* ProfileTableViewCell.swift */,
+				0AE5C5481DB1DFB500B455F4 /* ProfileTableViewCell.xib */,
+				0AE5C54B1DB1E2CC00B455F4 /* LabelArrowTableViewCell.swift */,
+				0AE5C54C1DB1E2CC00B455F4 /* LabelArrowTableViewCell.xib */,
 			);
 			name = TableViewCells;
 			sourceTree = "<group>";
@@ -249,9 +263,10 @@
 			isa = PBXGroup;
 			children = (
 				0A3D2B5E1D7B938B004F57EF /* MeViewController.swift */,
-				0A497EE81D7CF54E0099A883 /* SettingTableViewCell.swift */,
-				0A497EE61D7CF1390099A883 /* AttendedTableViewCell.swift */,
-				0A497EE01D7CDB9D0099A883 /* UserProfileTableViewCell.swift */,
+				0ADE0C9C1DB1F140009F89A0 /* UpdateProfileViewController.swift */,
+				0ADE0C9E1DB1F173009F89A0 /* EventHistoryViewController.swift */,
+				0ADE0CA01DB1F18A009F89A0 /* FeedbackViewController.swift */,
+				0ADE0CA21DB1F19D009F89A0 /* AboutViewController.swift */,
 			);
 			name = MeViewControllers;
 			sourceTree = "<group>";
@@ -381,6 +396,8 @@
 				0A427FB21D97F627007A96BE /* ImageViewTableViewCell.xib in Resources */,
 				0A6834C51D56858C002E9B0D /* Assets.xcassets in Resources */,
 				0ADA4D2E1D9A46970001A376 /* SingleButtonTableViewCell.xib in Resources */,
+				0AE5C54E1DB1E2CC00B455F4 /* LabelArrowTableViewCell.xib in Resources */,
+				0AE5C54A1DB1DFB500B455F4 /* ProfileTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,12 +456,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A497EE91D7CF54E0099A883 /* SettingTableViewCell.swift in Sources */,
 				0A845BD41D7206FE00287DEB /* ConfirmEmailViewController.swift in Sources */,
 				0A3D2B5B1D7B9299004F57EF /* EventListViewController.swift in Sources */,
 				0A3D2B5F1D7B938B004F57EF /* MeViewController.swift in Sources */,
+				0ADE0CA31DB1F19D009F89A0 /* AboutViewController.swift in Sources */,
+				0AE5C5491DB1DFB500B455F4 /* ProfileTableViewCell.swift in Sources */,
 				0A963DB51D7122E200E0532F /* SignUpViewController.swift in Sources */,
-				0A497EE11D7CDB9D0099A883 /* UserProfileTableViewCell.swift in Sources */,
 				0A022FA71D73D066004077A4 /* FindBackPasswordViewController.swift in Sources */,
 				0A9CB4511D6FFAA500608D27 /* User.swift in Sources */,
 				0A96D3D11DADBF5B00AB272A /* ImgKeyValueArrowTableViewCell.swift in Sources */,
@@ -453,18 +470,21 @@
 				0AD127101D7C1CEB00333F78 /* AttendingEventTableViewCell.swift in Sources */,
 				0ADA4D2D1D9A46970001A376 /* SingleButtonTableViewCell.swift in Sources */,
 				0A3D2B621D7B941F004F57EF /* Event.swift in Sources */,
-				0A497EE71D7CF1390099A883 /* AttendedTableViewCell.swift in Sources */,
+				0ADE0C9D1DB1F140009F89A0 /* UpdateProfileViewController.swift in Sources */,
 				0A2506A81DB1A8E80099E812 /* WebViewController.swift in Sources */,
 				0A52FD681DB098F8000D17D8 /* LCCKUser.m in Sources */,
 				0AFA61AD1D7E161900042EFA /* MessageListViewController.swift in Sources */,
 				0ADF53FD1D7BD7B1003157EA /* EventHangingView.swift in Sources */,
 				0ADF53FB1D7BD732003157EA /* EventListTableViewCell.swift in Sources */,
+				0ADE0CA11DB1F18A009F89A0 /* FeedbackViewController.swift in Sources */,
 				0AC1ED051D7FD57100E8F5EE /* MainViewController.swift in Sources */,
 				0A963DB31D7122D000E0532F /* SignInViewController.swift in Sources */,
 				0A427FAD1D97F579007A96BE /* TextViewTableViewCell.swift in Sources */,
 				0A497EDF1D7CC7770099A883 /* StartEventViewController.swift in Sources */,
 				0A963DB71D716E6400E0532F /* NicknameViewController.swift in Sources */,
 				0A9CB44F1D6FF8D800608D27 /* USCFunConstants.swift in Sources */,
+				0AE5C54D1DB1E2CC00B455F4 /* LabelArrowTableViewCell.swift in Sources */,
+				0ADE0C9F1DB1F173009F89A0 /* EventHistoryViewController.swift in Sources */,
 				0AAE42E41D9A2F8B00B34601 /* MapViewController.swift in Sources */,
 				0A6834BE1D56858C002E9B0D /* AppDelegate.swift in Sources */,
 				0A9CB4531D7006F400608D27 /* PreLoginViewController.swift in Sources */,

@@ -172,7 +172,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AttendingEventCell") as! AttendingEventTableViewCell
-                cell.selectionStyle = .default
+                cell.selectionStyle = .none
                 return cell
             }
         } else if (indexPath as NSIndexPath).section == 1 {
@@ -182,7 +182,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EventListCell") as! EventListTableViewCell
-            cell.selectionStyle = .default
+            cell.selectionStyle = .none
             let event = events[indexPath.section - 2]
             cell.nameLabel.text = event.name
             cell.startTimeLabel.text = event.startTime?.description
