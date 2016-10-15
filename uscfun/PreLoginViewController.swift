@@ -27,6 +27,8 @@ class PreLoginViewController: UIViewController {
         loginView.layer.cornerRadius = loginView.bounds.size.height / 2.0
         signupView.backgroundColor = UIColor.buttonPink
         loginView.backgroundColor = UIColor.buttonBlue
+        
+        AudioServicesPlaySystemSound(1003)
     }
     
     override func viewDidLayoutSubviews() {

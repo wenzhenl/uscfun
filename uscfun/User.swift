@@ -46,8 +46,8 @@ class User {
         user.username = email
         user.password = password
         user.email = email
-        user.setObject(nickname, forKey: "nickname")
-        user.setObject("usc", forKey: "school")
+        user.setObject(nickname, forKey: keyOfNickname)
+        user.setObject("usc", forKey: keyOfSchool)
         var error: NSError?
         if user.signUp(&error) {
             handler(true, nil)
@@ -55,4 +55,27 @@ class User {
             handler(false, error)
         }
     }
+    
+    static func signIn(email: String, password: String, handler: @escaping (_ succeed: Bool, _ error: Error?) -> Void){
+        
+        AVUser.logInWithUsername(inBackground: email, password: password) {
+            updatedUser, error in
+            if updatedUser != nil {
+                self.hasLoggedIn = true
+                if let allkeys = updatedUser!.allKeys() as? [String] {
+                    if allkeys.contains(keyOfNickname) {
+                        if let nickname = updatedUser?.value(forKey: keyOfNickname) as? String {
+                            self.nickname = nickname
+                        }
+                    }
+                }
+                handler(true, nil)
+            } else {
+                handler(false, error)
+            }
+        }
+    }
+    
+    static let keyOfNickname = "nickname"
+    static let keyOfSchool = "school"
 }

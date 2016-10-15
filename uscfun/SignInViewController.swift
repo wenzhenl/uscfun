@@ -127,14 +127,14 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
             errorLabel.isHidden = false
         } else {
             SVProgressHUD.show()
-            AVUser.logInWithUsername(inBackground: email, password: password) {
-                updatedUser, error in
+            
+            User.signIn(email: email, password: password) {
+                succeed, error in
                 
                 SVProgressHUD.dismiss()
                 
-                if updatedUser != nil {
+                if succeed {
                     // TODO: preload contents before going to the homepage
-                    User.hasLoggedIn = true
                     let appDelegate = UIApplication.shared.delegate! as! AppDelegate
                     let initialViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
                     appDelegate.window?.rootViewController = initialViewController
@@ -142,8 +142,8 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                 }
                 
                 if error != nil {
-                    print(error?.localizedDescription)
-                    self.errorLabel.text = error?.localizedDescription
+                    print(error!.localizedDescription)
+                    self.errorLabel.text = error!.localizedDescription
                     self.errorLabel.isHidden = false
                 }
             }
