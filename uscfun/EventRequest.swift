@@ -35,7 +35,7 @@ class EventRequest {
     
     static func fetchNewer(currentlyNewestUpdatedTime: Date, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
         if let query = AVQuery(className: Event.classNameOfEvent) {
-            query.whereKey(EventRequest.keyOfUpdatedAt, greaterThanOrEqualTo: currentlyNewestUpdatedTime)
+            query.whereKey(EventRequest.keyOfUpdatedAt, greaterThan: currentlyNewestUpdatedTime)
             query.findObjectsInBackground() {
                 objects, error in
                 if error != nil {
@@ -58,7 +58,7 @@ class EventRequest {
     
     static func fetchOlder(currentlyOldestUpdatedTime: Date, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
         if let query = AVQuery(className: Event.classNameOfEvent) {
-            query.whereKey(EventRequest.keyOfUpdatedAt, lessThanOrEqualTo: currentlyOldestUpdatedTime)
+            query.whereKey(EventRequest.keyOfUpdatedAt, lessThan: currentlyOldestUpdatedTime)
             query.findObjectsInBackground() {
                 objects, error in
                 if error != nil {

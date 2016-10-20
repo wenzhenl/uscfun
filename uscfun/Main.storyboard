@@ -275,37 +275,6 @@
                                     <outlet property="delegate" destination="gyw-rr-MOZ" id="zuk-As-8cA"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yv8-ed-2TI">
-                                <subviews>
-                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CCV-dY-D7Y">
-                                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="gXI-KW-CET"/>
-                                        </constraints>
-                                        <state key="normal" image="share"/>
-                                        <connections>
-                                            <action selector="goToMessage:" destination="gyw-rr-MOZ" eventType="touchUpInside" id="uys-1U-nUc"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v5n-wd-ipV">
-                                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" image="user-4"/>
-                                        <connections>
-                                            <action selector="goToMe:" destination="gyw-rr-MOZ" eventType="touchUpInside" id="fdS-xC-fJd"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="CCV-dY-D7Y" firstAttribute="height" secondItem="Yv8-ed-2TI" secondAttribute="height" id="7Yd-Pl-PZb"/>
-                                    <constraint firstAttribute="trailing" secondItem="v5n-wd-ipV" secondAttribute="trailing" constant="20" symbolic="YES" id="8Fu-3M-jtm"/>
-                                    <constraint firstItem="v5n-wd-ipV" firstAttribute="height" secondItem="Yv8-ed-2TI" secondAttribute="height" id="MRX-te-p2E"/>
-                                    <constraint firstAttribute="height" constant="50" id="ZSn-UA-NaZ"/>
-                                    <constraint firstItem="v5n-wd-ipV" firstAttribute="width" secondItem="CCV-dY-D7Y" secondAttribute="width" id="mDd-W9-aPZ"/>
-                                    <constraint firstItem="CCV-dY-D7Y" firstAttribute="centerY" secondItem="Yv8-ed-2TI" secondAttribute="centerY" id="rYQ-5C-X3M"/>
-                                    <constraint firstItem="v5n-wd-ipV" firstAttribute="centerY" secondItem="Yv8-ed-2TI" secondAttribute="centerY" id="vT7-qn-tCo"/>
-                                    <constraint firstItem="CCV-dY-D7Y" firstAttribute="leading" secondItem="Yv8-ed-2TI" secondAttribute="leading" constant="20" symbolic="YES" id="x0b-55-sm6"/>
-                                </constraints>
-                            </view>
                             <view alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y3N-c7-Ud4">
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sgD-zb-B6r">
@@ -328,6 +297,7 @@
                         <constraints>
                             <constraint firstItem="ss7-Ne-KSf" firstAttribute="leading" secondItem="iTf-wD-Ez0" secondAttribute="leadingMargin" id="2Ar-M4-1iH"/>
                             <constraint firstItem="Y3N-c7-Ud4" firstAttribute="width" secondItem="ss7-Ne-KSf" secondAttribute="width" id="4Cx-kK-qGj"/>
+                            <constraint firstItem="Y3N-c7-Ud4" firstAttribute="top" secondItem="tGq-CL-lzP" secondAttribute="bottom" constant="-35" id="4HO-GD-1rO"/>
                             <constraint firstItem="ZlJ-l0-F51" firstAttribute="top" secondItem="ss7-Ne-KSf" secondAttribute="bottom" constant="-75" id="54b-qn-E9S"/>
                             <constraint firstItem="ss7-Ne-KSf" firstAttribute="width" secondItem="iTf-wD-Ez0" secondAttribute="width" id="6df-5A-fmk"/>
                             <constraint firstItem="ss7-Ne-KSf" firstAttribute="top" secondItem="tGq-CL-lzP" secondAttribute="bottom" constant="47" id="9nZ-2A-FHy"/>
@@ -335,47 +305,35 @@
                             <constraint firstItem="EwJ-fR-3fp" firstAttribute="top" secondItem="ZlJ-l0-F51" secondAttribute="bottom" constant="25" id="Bpj-p1-JdF"/>
                             <constraint firstItem="Y3N-c7-Ud4" firstAttribute="centerX" secondItem="ss7-Ne-KSf" secondAttribute="centerX" id="KX9-6C-TbR"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ss7-Ne-KSf" secondAttribute="trailing" id="KoM-mY-6gh"/>
-                            <constraint firstItem="ss7-Ne-KSf" firstAttribute="top" secondItem="Yv8-ed-2TI" secondAttribute="bottom" constant="-25" id="Mwc-pK-Tp1"/>
-                            <constraint firstItem="Yv8-ed-2TI" firstAttribute="width" secondItem="iTf-wD-Ez0" secondAttribute="width" id="Obg-WB-1rc"/>
                             <constraint firstItem="ss7-Ne-KSf" firstAttribute="width" secondItem="iTf-wD-Ez0" secondAttribute="width" id="SIL-Dc-XNO"/>
-                            <constraint firstItem="Yv8-ed-2TI" firstAttribute="top" secondItem="tGq-CL-lzP" secondAttribute="bottom" id="Sbh-Uw-VTu"/>
                             <constraint firstItem="EwJ-fR-3fp" firstAttribute="top" secondItem="ss7-Ne-KSf" secondAttribute="bottom" id="bvQ-mW-JJH"/>
                             <constraint firstItem="ss7-Ne-KSf" firstAttribute="centerX" secondItem="iTf-wD-Ez0" secondAttribute="centerX" id="ckw-2Z-IU9"/>
                             <constraint firstItem="EwJ-fR-3fp" firstAttribute="top" secondItem="ss7-Ne-KSf" secondAttribute="bottom" id="efK-C7-vuT"/>
                             <constraint firstItem="ss7-Ne-KSf" firstAttribute="top" secondItem="tGq-CL-lzP" secondAttribute="bottom" id="h4Z-vE-SZl"/>
                             <constraint firstItem="ss7-Ne-KSf" firstAttribute="leading" secondItem="iTf-wD-Ez0" secondAttribute="leadingMargin" id="lCw-ci-aLS"/>
                             <constraint firstItem="ss7-Ne-KSf" firstAttribute="centerY" secondItem="iTf-wD-Ez0" secondAttribute="centerY" id="mJp-6F-2cN"/>
-                            <constraint firstItem="Yv8-ed-2TI" firstAttribute="top" secondItem="tGq-CL-lzP" secondAttribute="bottom" constant="22" id="n4B-Sf-2XM"/>
-                            <constraint firstItem="Y3N-c7-Ud4" firstAttribute="top" secondItem="Yv8-ed-2TI" secondAttribute="bottom" id="qV0-OJ-nQa"/>
                             <constraint firstItem="ss7-Ne-KSf" firstAttribute="height" secondItem="iTf-wD-Ez0" secondAttribute="height" id="qeZ-Ic-Lnr"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ss7-Ne-KSf" secondAttribute="trailing" id="qvn-3H-eBc"/>
-                            <constraint firstItem="Yv8-ed-2TI" firstAttribute="centerX" secondItem="iTf-wD-Ez0" secondAttribute="centerX" id="ty2-ws-FVP"/>
-                            <constraint firstItem="ss7-Ne-KSf" firstAttribute="top" secondItem="Yv8-ed-2TI" secondAttribute="bottom" multiplier="0.5" id="xZW-k1-N6Z"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="n4B-Sf-2XM"/>
-                                <exclude reference="54b-qn-E9S"/>
                                 <exclude reference="6df-5A-fmk"/>
                                 <exclude reference="9nZ-2A-FHy"/>
                                 <exclude reference="KoM-mY-6gh"/>
-                                <exclude reference="Mwc-pK-Tp1"/>
                                 <exclude reference="SIL-Dc-XNO"/>
                                 <exclude reference="lCw-ci-aLS"/>
                                 <exclude reference="mJp-6F-2cN"/>
                                 <exclude reference="qeZ-Ic-Lnr"/>
-                                <exclude reference="xZW-k1-N6Z"/>
                                 <exclude reference="efK-C7-vuT"/>
+                                <exclude reference="54b-qn-E9S"/>
                             </mask>
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="W3h-uh-6eO"/>
                     <connections>
-                        <outlet property="buttonContainerView" destination="Yv8-ed-2TI" id="dev-5m-ZEV"/>
-                        <outlet property="leftButton" destination="CCV-dY-D7Y" id="Xmf-xx-BG8"/>
                         <outlet property="newEventReminderLabel" destination="sgD-zb-B6r" id="Zm5-5E-Rue"/>
                         <outlet property="newEventReminderView" destination="Y3N-c7-Ud4" id="kXT-iB-FJa"/>
-                        <outlet property="rightButton" destination="v5n-wd-ipV" id="TeO-3V-DHe"/>
+                        <outlet property="newEventReminderViewConstraint" destination="4HO-GD-1rO" id="6Bv-RN-LNE"/>
                         <outlet property="startEventButton" destination="ZlJ-l0-F51" id="6hM-2R-xQ2"/>
                         <outlet property="tableView" destination="ss7-Ne-KSf" id="iDC-GG-ZMe"/>
                     </connections>
@@ -677,8 +635,6 @@
         <image name="albums" width="512" height="512"/>
         <image name="map-location" width="512" height="512"/>
         <image name="plus" width="512" height="512"/>
-        <image name="share" width="512" height="512"/>
-        <image name="user-4" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Dds-CA-tqB"/>

@@ -10,13 +10,12 @@ import UIKit
 
 class EventListViewController: UIViewController {
 
-    @IBOutlet weak var buttonContainerView: UIView!
-    @IBOutlet weak var leftButton: UIButton!
-    @IBOutlet weak var rightButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var startEventButton: UIButton!
     @IBOutlet weak var newEventReminderView: UIView!
     @IBOutlet weak var newEventReminderLabel: UILabel!
+    
+    @IBOutlet weak var newEventReminderViewConstraint: NSLayoutConstraint!
     
     var delegate: MainViewControllerDelegate?
     
@@ -31,41 +30,16 @@ class EventListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("EVENT LIST VIEW DID LOAD")
-        
         self.view.backgroundColor = UIColor.backgroundGray
         self.startEventButton.layer.cornerRadius = startEventButton.frame.size.height / 2.0
         self.tableView.backgroundColor = UIColor.backgroundGray
-//        self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0)
 
         self.view.bringSubview(toFront: startEventButton)
         self.tableView.addSubview(self.refreshControl)
-        self.newEventReminderView.isHidden = true
-        
-//        EventRequest.fetch() {
-//            error, results in
-//            if error != nil {
-//                print(error)
-//                return
-//            }
-//            if let events = results {
-//                for event in events {
-//                    self.events.append(event)
-//                }
-//                self.events.sort {
-//                    $0.updatedAt! > $1.updatedAt!
-//                }
-//                self.tableView.reloadData()
-//            }
-//        }
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.leftButton.layer.cornerRadius = leftButton.frame.size.height / 2.0
-        self.rightButton.layer.cornerRadius = rightButton.frame.size.height / 2.0
-        self.leftButton.backgroundColor = UIColor.buttonBlue
-        self.rightButton.backgroundColor = UIColor.buttonPink
         self.newEventReminderView.layer.cornerRadius = newEventReminderView.frame.size.height / 2.0
     }
     
@@ -97,19 +71,13 @@ class EventListViewController: UIViewController {
                     self.events.sort {
                         $0.updatedAt! > $1.updatedAt!
                     }
-                    AudioServicesPlaySystemSound(1002)
-                    self.newEventReminderLabel.text = "更新了\(results!.count)个小活动"
-                    UIView.animate(withDuration: 1.0) {
-                        _ in
-                        self.newEventReminderView.isHidden = false
-//                        self.newEventReminderView.isHidden = true
-                    }
-
+                    
+                    self.showUpdateReminder(numberOfNewUpdates: results!.count)
                     self.tableView.reloadData()
                 }
             }
         } else {
-            EventRequest.fetchNewer(currentlyNewestUpdatedTime: self.events.last!.updatedAt!) {
+            EventRequest.fetchNewer(currentlyNewestUpdatedTime: self.events.first!.updatedAt!) {
                 error, results in
                 if error != nil {
                     print(error)
@@ -122,6 +90,8 @@ class EventListViewController: UIViewController {
                     self.events.sort {
                         $0.updatedAt! > $1.updatedAt!
                     }
+                    
+                    self.showUpdateReminder(numberOfNewUpdates: results!.count)
                     self.tableView.reloadData()
                 }
             }
@@ -129,6 +99,32 @@ class EventListViewController: UIViewController {
         self.refreshControl.endRefreshing()
     }
     
+    func showUpdateReminder(numberOfNewUpdates: Int) {
+        
+        guard numberOfNewUpdates >= 0 else {
+            return
+        }
+        AudioServicesPlaySystemSound(1002)
+        if numberOfNewUpdates > 0 {
+            self.newEventReminderLabel.text = "更新了\(numberOfNewUpdates)个小活动"
+        } else {
+            self.newEventReminderLabel.text = "没有更新的小活动"
+        }
+        UIView.animate(withDuration: 1.0) {
+            _ in
+            self.newEventReminderViewConstraint.constant = 8
+        }
+        
+        let delay = 1.5 * Double(NSEC_PER_SEC)
+        let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time) {
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+                _ in
+                self.newEventReminderViewConstraint.constant = -35
+                }, completion: nil)
+        }
+
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
@@ -157,29 +153,29 @@ class EventListViewController: UIViewController {
 extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath as NSIndexPath).section == 0 {
+        if (indexPath as NSIndexPath).section == 0  || (indexPath as NSIndexPath).section == 1 {
             return UITableViewAutomaticDimension
-        } else if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 0 {
+        } else if (indexPath as NSIndexPath).section == 2 && (indexPath as NSIndexPath).row == 0 {
             return UITableViewAutomaticDimension
         }
         return 250
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath as NSIndexPath).section == 0 {
+        if (indexPath as NSIndexPath).section == 0  || (indexPath as NSIndexPath).section == 1 {
             return UITableViewAutomaticDimension
-        } else if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 0 {
+        } else if (indexPath as NSIndexPath).section == 2 && (indexPath as NSIndexPath).row == 0 {
             return UITableViewAutomaticDimension
         }
         return 250
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2 + events.count
+        return 3 + events.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
+        if section == 1 {
             return 5
         } else {
             return 1
@@ -188,17 +184,18 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if (indexPath as NSIndexPath).section == 0 {
-            if (indexPath as NSIndexPath).row == 0 {
-                let cell = UITableViewCell()
-                cell.textLabel?.text = "我加入的活动"
-                cell.selectionStyle = .none
-                return cell
-            } else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "AttendingEventCell") as! AttendingEventTableViewCell
-                cell.selectionStyle = .none
-                return cell
-            }
-        } else if (indexPath as NSIndexPath).section == 1 {
+            let cell = UITableViewCell()
+            cell.textLabel?.text = "我加入的活动"
+            cell.selectionStyle = .none
+            return cell
+        }
+        
+        else if (indexPath as NSIndexPath).section == 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AttendingEventCell") as! AttendingEventTableViewCell
+            cell.selectionStyle = .none
+            return cell
+        }
+        else if (indexPath as NSIndexPath).section == 2 {
             let cell = UITableViewCell()
             cell.textLabel?.text = "当前活动列表"
             cell.selectionStyle = .none
@@ -218,26 +215,18 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = UIColor.clear
-        if ((indexPath as NSIndexPath).section == 0 && (indexPath as NSIndexPath).row == 0) || ((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 0) {
+        if ((indexPath as NSIndexPath).section == 0 && (indexPath as NSIndexPath).row == 0) || ((indexPath as NSIndexPath).section == 2 && (indexPath as NSIndexPath).row == 0) {
             cell.textLabel?.font = UIFont.systemFont(ofSize: 13)
             cell.textLabel?.textColor = UIColor.lightGray
         }
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return 5
+        }
         return 15
     }
-    
-    //    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    //        if section == 0 {
-    //            return 15
-    //        }
-    //        else if section == 1 {
-    //            return 15
-    //        } else {
-    //            return 0
-    //        }
-    //    }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         view.tintColor = UIColor.clear
@@ -254,17 +243,6 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         view.tintColor = UIColor.clear
     }
-    
-    //    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    //        if section == 0 {
-    //            return "我加入的活动"
-    //        }
-    //        else if section == 1 {
-    //            return "当前活动列表"
-    //        } else {
-    //            return nil
-    //        }
-    //    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
