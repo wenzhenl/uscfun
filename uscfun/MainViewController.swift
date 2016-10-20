@@ -54,19 +54,6 @@ class MainViewController: UIViewController {
             }
         }
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-//        self.navigationController?.navigationBar.isTranslucent = false
-//        self.title = "主页"
-//        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
-//        self.navigationController?.navigationBar.tintColor = UIColor.buttonBlue
-//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(justDoIt))
-    }
-    
-    func justDoIt() {
-        
-    }
 }
 
 extension MainViewController: UIPageViewControllerDataSource {
@@ -103,6 +90,14 @@ extension MainViewController: UIPageViewControllerDelegate {
             return
         }
         self.currentViewController = pageViewController.viewControllers!.first!
+        switch self.currentViewController {
+        case is EventListViewController:
+            self.title = "USC日常"
+        case is MessageListViewController:
+            self.title = "消息队列"
+        default:
+            self.title = "我"
+        }
     }
 }
 

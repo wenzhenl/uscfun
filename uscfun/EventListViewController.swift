@@ -10,7 +10,6 @@ import UIKit
 
 class EventListViewController: UIViewController {
 
-    @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var buttonContainerView: UIView!
     @IBOutlet weak var leftButton: UIButton!
     @IBOutlet weak var rightButton: UIButton!
@@ -34,12 +33,10 @@ class EventListViewController: UIViewController {
         
         print("EVENT LIST VIEW DID LOAD")
         
-        self.view.backgroundColor = UIColor.buttonBlue
-        self.backgroundView.backgroundColor = UIColor.backgroundGray
-       
+        self.view.backgroundColor = UIColor.backgroundGray
         self.startEventButton.layer.cornerRadius = startEventButton.frame.size.height / 2.0
         self.tableView.backgroundColor = UIColor.backgroundGray
-        self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
+//        self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0)
 
         self.view.bringSubview(toFront: startEventButton)
         self.tableView.addSubview(self.refreshControl)

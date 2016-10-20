@@ -14,6 +14,7 @@ class MessageListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor.backgroundGray
     }
 
     @IBAction func goEvent(_ sender: UIButton) {
