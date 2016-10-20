@@ -8,26 +8,35 @@
 
 import UIKit
 
-class MainViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, MainViewControllerDelegate, UIScrollViewDelegate {
+class MainViewController: UIViewController {
     
     var pageViewController: UIPageViewController!
     var currentViewController: UIViewController?
+    var eventListViewController: EventListViewController!
+    var messageListViewController: MessageListViewController!
+    var meViewController: MeViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        UIApplication.shared.statusBarStyle = .lightContent
-//        self.navigationController?.isNavigationBarHidden = true
-        self.title = ""
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.title = "USC日常"
         
         self.automaticallyAdjustsScrollViewInsets = false
         self.pageViewController = self.storyboard!.instantiateViewController(withIdentifier: "GeneralPageViewController") as! UIPageViewController
         self.pageViewController.dataSource = self
         self.pageViewController.delegate = self
-        let eventListViewController = self.storyboard!.instantiateViewController(withIdentifier: "EventListViewController") as! EventListViewController
+        
+        messageListViewController = self.storyboard!.instantiateViewController(withIdentifier: "MessageListViewController") as! MessageListViewController
+        messageListViewController.delegate = self
+        
+        eventListViewController = self.storyboard!.instantiateViewController(withIdentifier: "EventListViewController") as! EventListViewController
         eventListViewController.delegate = self
-        let viewControllers = [eventListViewController]
+        
+        meViewController = self.storyboard!.instantiateViewController(withIdentifier: "MeViewController") as! MeViewController
+        meViewController.delegate = self
+        
+        let viewControllers = [eventListViewController!]
         self.pageViewController.setViewControllers(viewControllers, direction: .forward, animated: true, completion: nil)
         self.pageViewController.view.frame = self.view.frame
         self.addChildViewController(self.pageViewController)
@@ -37,34 +46,39 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UIPa
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.navigationController?.isNavigationBarHidden = true
         
         for someview in self.pageViewController.view.subviews {
             if someview is UIScrollView {
-                let sv = someview as! UIScrollView
-                sv.delegate = self
+                let scrollview = someview as! UIScrollView
+                scrollview.delegate = self
             }
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        self.navigationController?.isNavigationBarHidden = false
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+//        self.navigationController?.navigationBar.isTranslucent = false
+//        self.title = "主页"
+//        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
+//        self.navigationController?.navigationBar.tintColor = UIColor.buttonBlue
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(justDoIt))
     }
     
-    //MARK: - Page View Data Source
+    func justDoIt() {
+        
+    }
+}
+
+extension MainViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
         switch viewController {
         case is EventListViewController:
-            let messageListViewController = self.storyboard!.instantiateViewController(withIdentifier: "MessageListViewController") as! MessageListViewController
-            messageListViewController.delegate = self
-            
             return messageListViewController
+            
         case is MeViewController:
-            let eventListViewController = self.storyboard!.instantiateViewController(withIdentifier: "EventListViewController") as! EventListViewController
-            eventListViewController.delegate = self
             return eventListViewController
+            
         default: return nil
         }
     }
@@ -72,75 +86,27 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UIPa
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         switch viewController {
         case is EventListViewController:
-            let meViewController = self.storyboard!.instantiateViewController(withIdentifier: "MeViewController") as! MeViewController
-            meViewController.delegate = self
-            
             return meViewController
+            
         case is MessageListViewController:
-            let eventListViewController = self.storyboard!.instantiateViewController(withIdentifier: "EventListViewController") as! EventListViewController
-            eventListViewController.delegate = self
             return eventListViewController
+            
         default: return nil
-
+            
         }
     }
-    
-    //MARK: - Page View Delegate
+}
+
+extension MainViewController: UIPageViewControllerDelegate {
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if !completed {
             return
         }
         self.currentViewController = pageViewController.viewControllers!.first!
     }
-    
-    //MARK: - Main View Controller Delegates
-    func goToMe() {
-        let meViewController = self.storyboard!.instantiateViewController(withIdentifier: "MeViewController") as! MeViewController
-        meViewController.delegate = self
-        
-        self.pageViewController.setViewControllers([meViewController], direction: .forward, animated: true) {
-            completed in
-            if completed {
-                self.currentViewController = meViewController
-            }
-        }
-    }
-    
-    func goToEvent(from vc: UIViewController) {
-        let eventListViewController = self.storyboard!.instantiateViewController(withIdentifier: "EventListViewController") as! EventListViewController
-        eventListViewController.delegate = self
-        
-        switch vc {
-        case is MeViewController:
-            self.pageViewController.setViewControllers([eventListViewController], direction: .reverse, animated: true) {
-                completed in
-                if completed {
-                    self.currentViewController = eventListViewController
-                }
-            }
-        case is MessageListViewController:
-            self.pageViewController.setViewControllers([eventListViewController], direction: .forward, animated: true) {
-                completed in
-                if completed {
-                    self.currentViewController = eventListViewController
-                }
-            }
-        default: break
-        }
-    }
-    
-    func goToMessage() {
-        let messageListViewController = self.storyboard!.instantiateViewController(withIdentifier: "MessageListViewController") as! MessageListViewController
-        messageListViewController.delegate = self
-        self.pageViewController.setViewControllers([messageListViewController], direction: .reverse, animated: true) {
-            completed in
-            if completed {
-                self.currentViewController = messageListViewController
-            }
-        }
-    }
-    
-    // MARK: - UIScrollView delegate
+}
+
+extension MainViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if let currentVC = currentViewController {
             if currentVC is MessageListViewController && (scrollView.contentOffset.x < scrollView.bounds.size.width) {
@@ -159,7 +125,7 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UIPa
                 scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: 0)
             }
         }
-
+        
     }
 }
 
@@ -167,4 +133,47 @@ protocol MainViewControllerDelegate {
     func goToMessage()
     func goToMe()
     func goToEvent(from vc: UIViewController)
+}
+
+extension MainViewController: MainViewControllerDelegate {
+    func goToMessage() {
+        
+        self.pageViewController.setViewControllers([messageListViewController], direction: .reverse, animated: true) {
+            completed in
+            if completed {
+                self.currentViewController = self.messageListViewController
+            }
+        }
+    }
+    
+    func goToMe() {
+        
+        self.pageViewController.setViewControllers([meViewController], direction: .forward, animated: true) {
+            completed in
+            if completed {
+                self.currentViewController = self.meViewController
+            }
+        }
+    }
+    
+    func goToEvent(from vc: UIViewController) {
+        
+        switch vc {
+        case is MeViewController:
+            self.pageViewController.setViewControllers([eventListViewController], direction: .reverse, animated: true) {
+                completed in
+                if completed {
+                    self.currentViewController = self.eventListViewController
+                }
+            }
+        case is MessageListViewController:
+            self.pageViewController.setViewControllers([eventListViewController], direction: .forward, animated: true) {
+                completed in
+                if completed {
+                    self.currentViewController = self.eventListViewController
+                }
+            }
+        default: break
+        }
+    }
 }
