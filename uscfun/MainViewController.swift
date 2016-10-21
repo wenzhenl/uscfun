@@ -93,15 +93,15 @@ extension MainViewController: EZSwipeControllerDataSource {
             navigationItem.rightBarButtonItem = rightButtonItem
             
         } else if index == 1 {
-            var messageImage = #imageLiteral(resourceName: "arrow-forward")
+            var messageImage = #imageLiteral(resourceName: "message")
             messageImage = scaleTo(image: messageImage, w: 22, h: 22)
-            let rightButtonItem = UIBarButtonItem(image: messageImage, style: .plain, target: self, action: nil)
-            rightButtonItem.tintColor = UIColor.white
-            
-            var meImage = #imageLiteral(resourceName: "arrow-backward")
-            meImage = scaleTo(image: meImage, w: 22, h: 22)
-            let leftButtonItem = UIBarButtonItem(image: meImage, style: .plain, target: self, action: nil)
+            let leftButtonItem = UIBarButtonItem(image: messageImage, style: .plain, target: self, action: nil)
             leftButtonItem.tintColor = UIColor.white
+            
+            var meImage = #imageLiteral(resourceName: "fatuser")
+            meImage = scaleTo(image: meImage, w: 22, h: 22)
+            let rightButtonItem = UIBarButtonItem(image: meImage, style: .plain, target: self, action: nil)
+            rightButtonItem.tintColor = UIColor.white
             
             navigationItem.leftBarButtonItem = leftButtonItem
             navigationItem.rightBarButtonItem = rightButtonItem
@@ -122,28 +122,6 @@ extension MainViewController: EZSwipeControllerDataSource {
     func indexOfStartingPage() -> Int {
         return 1
     }
-    
-//    func disableSwipingForLeftButtonAtPageIndex(_ index: Int) -> Bool {
-//        return true
-//    }
-//    
-//    func disableSwipingForRightButtonAtPageIndex(_ index: Int) -> Bool {
-//        return true
-//    }
-//    
-//    func clickedLeftButtonFromPageIndex(_ index: Int) {
-//        guard index > 0 else {
-//            return
-//        }
-//        moveToPage(index - 1)
-//    }
-//    
-//    func clickedRightButtonFromPageIndex(_ index: Int) {
-//        guard index < titles.count - 1 else {
-//            return
-//        }
-//        moveToPage(index + 1)
-//    }
 }
 
 extension MainViewController: UIScrollViewDelegate {
