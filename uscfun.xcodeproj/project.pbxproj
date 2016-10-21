@@ -154,7 +154,6 @@
 				0AFA61AB1D7E15FC00042EFA /* MessageViewControllers */,
 				0AFA61AA1D7DF65800042EFA /* EventViewControllers */,
 				0AFA61A91D7DF60800042EFA /* MeViewControllers */,
-				0A3D2B601D7B9408004F57EF /* Models */,
 				0A3D2B581D7B9256004F57EF /* Main.storyboard */,
 				0AC1ED041D7FD57100E8F5EE /* MainViewController.swift */,
 			);
@@ -164,18 +163,12 @@
 		0A3D2B601D7B9408004F57EF /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				0A3D2B611D7B941F004F57EF /* Event.swift */,
-				0A68D7FA1DB07F2000DDF3A5 /* EventRequest.swift */,
-			);
-			name = Models;
-			sourceTree = "<group>";
-		};
-		0A3D2B631D7B9459004F57EF /* Models */ = {
-			isa = PBXGroup;
-			children = (
 				0A52FD661DB098F8000D17D8 /* LCCKUser.h */,
 				0A52FD671DB098F8000D17D8 /* LCCKUser.m */,
 				0A9CB4501D6FFAA500608D27 /* User.swift */,
+				0A3D2B611D7B941F004F57EF /* Event.swift */,
+				0A68D7FA1DB07F2000DDF3A5 /* EventRequest.swift */,
+				0A9CB44E1D6FF8D800608D27 /* USCFunConstants.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -185,7 +178,6 @@
 			children = (
 				0A6834BD1D56858C002E9B0D /* AppDelegate.swift */,
 				0AB3FFC71D97B30B0088B8C0 /* uscfun-Bridging-Header.h */,
-				0A9CB44E1D6FF8D800608D27 /* USCFunConstants.swift */,
 				0A6834C91D56858C002E9B0D /* Info.plist */,
 				0A6834C61D56858C002E9B0D /* LaunchScreen.storyboard */,
 				0A6834C41D56858C002E9B0D /* Assets.xcassets */,
@@ -235,6 +227,7 @@
 		0A6834BC1D56858C002E9B0D /* uscfun */ = {
 			isa = PBXGroup;
 			children = (
+				0A3D2B601D7B9408004F57EF /* Models */,
 				0A9CB44B1D6FF5C500608D27 /* Login */,
 				0A3D2B571D7B9215004F57EF /* Home */,
 				0A427FA91D97F44A007A96BE /* Support */,
@@ -245,7 +238,6 @@
 		0A9CB44B1D6FF5C500608D27 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				0A3D2B631D7B9459004F57EF /* Models */,
 				0A9CB44C1D6FF5FC00608D27 /* Login.storyboard */,
 				0A9CB4521D7006F400608D27 /* PreLoginViewController.swift */,
 				0A963DB21D7122D000E0532F /* SignInViewController.swift */,

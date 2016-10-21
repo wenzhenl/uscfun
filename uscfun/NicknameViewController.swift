@@ -54,7 +54,7 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         if !nickname.isEmpty() {
-            User.nickname = nickname
+            UserDefaults.nickname = nickname
             errorLabel.isHidden = true
             nicknameTextField.resignFirstResponder()
             performSegue(withIdentifier: "go to password", sender: self)

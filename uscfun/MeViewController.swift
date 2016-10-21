@@ -32,8 +32,8 @@ class MeViewController: UIViewController {
         
         //--MARK: populate the cells
         let tempImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
-        tempImageView.setImageWith(User.nickname, color: UIColor.white)
-        let profileSection = [MeCell.profileTableCell(image: tempImageView.image!, text: User.nickname!, segueId: segueIdOfUpdateProfile)]
+        tempImageView.setImageWith(UserDefaults.nickname, color: UIColor.white)
+        let profileSection = [MeCell.profileTableCell(image: tempImageView.image!, text: UserDefaults.nickname!, segueId: segueIdOfUpdateProfile)]
         meSections.append(profileSection)
         
         let eventHistorySection = [MeCell.labelArrowTableCell(text: "我发起过的活动", segueId: segueIdOfCheckEventDetail), MeCell.labelArrowTableCell(text: "我参加过的活动", segueId: segueIdOfCheckEventDetail)]
@@ -128,7 +128,7 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
                 self.performSegue(withIdentifier: segueId, sender: self)
             }
         default:
-            User.hasLoggedIn = false
+            UserDefaults.hasLoggedIn = false
             let appDelegate = UIApplication.shared.delegate! as! AppDelegate
             let initialViewController = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController()
             appDelegate.window?.rootViewController = initialViewController

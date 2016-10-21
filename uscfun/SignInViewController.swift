@@ -128,7 +128,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         } else {
             SVProgressHUD.show()
             
-            User.signIn(email: email, password: password) {
+            USCFunConstants.signIn(email: email, password: password) {
                 succeed, error in
                 
                 SVProgressHUD.dismiss()

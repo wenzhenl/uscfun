@@ -11,6 +11,48 @@ import UIKit
 
 class USCFunConstants {
     static let minimumPasswordLength = 5
+    
+    static var password: String?
+
+    static func signUp(handler: (_ succeed: Bool, _ error: NSError?) -> Void) {
+        
+        // save user info in server
+        let user: AVUser = AVUser()
+        user.username = UserDefaults.email
+        user.password = USCFunConstants.password
+        user.email = UserDefaults.email
+        user.setObject(UserDefaults.nickname, forKey: keyOfNickname)
+        user.setObject("usc", forKey: keyOfSchool)
+        var error: NSError?
+        if user.signUp(&error) {
+            handler(true, nil)
+        } else {
+            handler(false, error)
+        }
+    }
+    
+    static func signIn(email: String, password: String, handler: @escaping (_ succeed: Bool, _ error: Error?) -> Void) {
+        
+        AVUser.logInWithUsername(inBackground: email, password: password) {
+            updatedUser, error in
+            if updatedUser != nil {
+                UserDefaults.hasLoggedIn = true
+                if let allkeys = updatedUser!.allKeys() as? [String] {
+                    if allkeys.contains(keyOfNickname) {
+                        if let nickname = updatedUser?.value(forKey: keyOfNickname) as? String {
+                            UserDefaults.nickname = nickname
+                        }
+                    }
+                }
+                handler(true, nil)
+            } else {
+                handler(false, error)
+            }
+        }
+    }
+    
+    static let keyOfNickname = "nickname"
+    static let keyOfSchool = "school"
 }
 
 enum UIUserInterfaceIdiom : Int {
@@ -89,6 +131,35 @@ extension String {
             return token[0]
         } else {
             return nil
+        }
+    }
+}
+
+extension UserDefaults {
+    class var hasLoggedIn: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "User_HasLoggIn_Key")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "User_HasLoggIn_Key")
+        }
+    }
+    
+    class var email: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "User_Email_Key")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "User_Email_Key")
+        }
+    }
+    
+    class var nickname: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "User_Nickname_Key")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "User_Nickname_Key")
         }
     }
 }

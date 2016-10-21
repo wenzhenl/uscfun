@@ -71,7 +71,7 @@ class FindBackPasswordViewController: UIViewController, UITextViewDelegate, UITe
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if email.isValidEmail() {
-            User.email = email
+            UserDefaults.email = email
             textField.resignFirstResponder()
             errorLabel.isHidden = true
             AVUser.requestPasswordResetForEmail(inBackground: email) {

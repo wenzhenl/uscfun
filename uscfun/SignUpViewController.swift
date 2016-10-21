@@ -79,7 +79,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if email.isValidEmail() {
-            User.email = email
+            UserDefaults.email = email
             textField.resignFirstResponder()
             errorLabel.isHidden = true
             performSegue(withIdentifier: "go to nickname", sender: self)
