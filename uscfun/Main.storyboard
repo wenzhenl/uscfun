@@ -111,7 +111,7 @@
                                                                 <constraint firstAttribute="height" constant="150" id="xtq-zf-ajM"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.69999999999999996" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="周末去看最新出的电影从你的全世界路过周末去看最新出的电影从你的全世界路过" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="f5B-k1-3Jz">
+                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.69999999999999996" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="周末去看最新出的电影从你的全世界路过周末去看最新出的电影从你的全世界路过" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f5B-k1-3Jz">
                                                             <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
@@ -219,7 +219,7 @@
                                             <frame key="frameInset" width="343" height="124"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="周末去看最新出的电影从你的全世界路过" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="aEA-mO-iJU">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="周末去看最新出的电影从你的全世界路过" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aEA-mO-iJU">
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>

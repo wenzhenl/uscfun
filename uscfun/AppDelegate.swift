@@ -19,6 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     
         UIApplication.shared.statusBarStyle = .lightContent
         
+        
+        //--MARK: register for notification
+        registerForPushNotifications(application: application)
         //--MARK: register wechat account
         WXApi.registerApp("wx8f761834a81e3579")
         
@@ -94,12 +97,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
+    func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
+        if notificationSettings.types.contains(.alert) {
+            application.registerForRemoteNotifications()
+        }
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print(error)
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        
+        print("deviceToken: \(deviceToken)")
+        AVOSCloud.handleRemoteNotifications(withDeviceToken: deviceToken)
+    }
+    
     func application(_ application: UIApplication, handleOpen url: URL) -> Bool {
         return WXApi.handleOpen(url, delegate: self)
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         return WXApi.handleOpen(url, delegate: self)
+    }
+    
+    func registerForPushNotifications(application: UIApplication) {
+        let notificationSettings = UIUserNotificationSettings(types: [UIUserNotificationType.badge, .sound, .alert], categories: nil)
+        application.registerUserNotificationSettings(notificationSettings)
     }
     
     func onReq(_ req: BaseReq!) {

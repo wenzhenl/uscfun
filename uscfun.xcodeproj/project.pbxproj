@@ -112,6 +112,7 @@
 		0AAE42E31D9A2F8B00B34601 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		0AB3FFC71D97B30B0088B8C0 /* uscfun-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "uscfun-Bridging-Header.h"; sourceTree = "<group>"; };
 		0AC1ED041D7FD57100E8F5EE /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		0ACFD5971DBAD14200E33E53 /* uscfun.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = uscfun.entitlements; sourceTree = "<group>"; };
 		0AD1270F1D7C1CEB00333F78 /* AttendingEventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttendingEventTableViewCell.swift; sourceTree = "<group>"; };
 		0ADA4D2B1D9A46970001A376 /* SingleButtonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleButtonTableViewCell.swift; sourceTree = "<group>"; };
 		0ADA4D2C1D9A46970001A376 /* SingleButtonTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SingleButtonTableViewCell.xib; sourceTree = "<group>"; };
@@ -179,6 +180,7 @@
 		0A427FA91D97F44A007A96BE /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				0ACFD5971DBAD14200E33E53 /* uscfun.entitlements */,
 				0A6834BD1D56858C002E9B0D /* AppDelegate.swift */,
 				0AB3FFC71D97B30B0088B8C0 /* uscfun-Bridging-Header.h */,
 				0A6834C91D56858C002E9B0D /* Info.plist */,
@@ -353,6 +355,9 @@
 						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
@@ -600,6 +605,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = uscfun/uscfun.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = uscfun/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -608,11 +614,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.richang.uscfun;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeyukuang.uscfun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "uscfun/uscfun-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -622,6 +629,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = uscfun/uscfun.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = uscfun/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -630,10 +638,11 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.richang.uscfun;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeyukuang.uscfun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "uscfun/uscfun-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
