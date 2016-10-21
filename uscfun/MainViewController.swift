@@ -7,46 +7,25 @@
 //
 
 import UIKit
+import EZSwipeController
 
-class MainViewController: UIViewController {
+class MainViewController: EZSwipeController {
     
-    var pageViewController: UIPageViewController!
-    var currentViewController: UIViewController?
-    var eventListViewController: EventListViewController!
-    var messageListViewController: MessageListViewController!
-    var meViewController: MeViewController!
+    let titles = ["消息队列", "USC日常", "我"]
+    let barColors = [UIColor.buttonBlue, UIColor.buttonBlue, UIColor.buttonBlue]
+    
+    override func setupView() {
+        datasource = self
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.title = "USC日常"
-        
-        self.automaticallyAdjustsScrollViewInsets = false
-        self.pageViewController = self.storyboard!.instantiateViewController(withIdentifier: "GeneralPageViewController") as! UIPageViewController
-        self.pageViewController.dataSource = self
-        self.pageViewController.delegate = self
-        
-        messageListViewController = self.storyboard!.instantiateViewController(withIdentifier: "MessageListViewController") as! MessageListViewController
-        messageListViewController.delegate = self
-        
-        eventListViewController = self.storyboard!.instantiateViewController(withIdentifier: "EventListViewController") as! EventListViewController
-        eventListViewController.delegate = self
-        
-        meViewController = self.storyboard!.instantiateViewController(withIdentifier: "MeViewController") as! MeViewController
-        meViewController.delegate = self
-        
-        let viewControllers = [eventListViewController!]
-        self.pageViewController.setViewControllers(viewControllers, direction: .forward, animated: true, completion: nil)
-        self.pageViewController.view.frame = self.view.frame
-        self.addChildViewController(self.pageViewController)
-        self.view.addSubview(self.pageViewController.view)
-        self.pageViewController.didMove(toParentViewController: self)
+        self.view.backgroundColor = UIColor.buttonBlue
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
+        self.navigationController?.isNavigationBarHidden = true
         for someview in self.pageViewController.view.subviews {
             if someview is UIScrollView {
                 let scrollview = someview as! UIScrollView
@@ -54,121 +33,99 @@ class MainViewController: UIViewController {
             }
         }
     }
-}
-
-extension MainViewController: UIPageViewControllerDataSource {
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        
-        switch viewController {
-        case is EventListViewController:
-            return messageListViewController
-            
-        case is MeViewController:
-            return eventListViewController
-            
-        default: return nil
-        }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.barTintColor = barColors[self.currentVCIndex]
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
     }
     
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        switch viewController {
-        case is EventListViewController:
-            return meViewController
-            
-        case is MessageListViewController:
-            return eventListViewController
-            
-        default: return nil
-            
-        }
+    func a() {
+        
     }
 }
 
-extension MainViewController: UIPageViewControllerDelegate {
-    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        if !completed {
-            return
+extension MainViewController: EZSwipeControllerDataSource {
+    func viewControllerData() -> [UIViewController] {
+        
+        let messageListViewController = self.storyboard!.instantiateViewController(withIdentifier: "MessageListViewController") as! MessageListViewController
+        let  eventListViewController = self.storyboard!.instantiateViewController(withIdentifier: "EventListViewController") as! EventListViewController
+        let meViewController = self.storyboard!.instantiateViewController(withIdentifier: "MeViewController") as! MeViewController
+        return [messageListViewController, eventListViewController, meViewController]
+    }
+    
+    func titlesForPages() -> [String] {
+        return ["消息队列", "USC日常", "我"]
+    }
+    
+    func navigationBarDataForPageIndex(_ index: Int) -> UINavigationBar {
+        
+   
+        guard index >= 0, index < titles.count else {
+            return UINavigationBar()
         }
-        self.currentViewController = pageViewController.viewControllers!.first!
-        switch self.currentViewController {
-        case is EventListViewController:
-            self.title = "USC日常"
-        case is MessageListViewController:
-            self.title = "消息队列"
-        default:
-            self.title = "我"
+        title = titles[index]
+        
+        let navigationBar = UINavigationBar()
+        navigationBar.barStyle = UIBarStyle.default
+        navigationBar.barTintColor = barColors[index]
+        print(navigationBar.barTintColor)
+        navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        
+        let navigationItem = UINavigationItem(title: title!)
+        navigationItem.hidesBackButton = true
+        
+        if index == 0 {
+            let rightButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.search, target: self, action: #selector(a))
+            rightButtonItem.tintColor = UIColor.white
+            
+            navigationItem.leftBarButtonItem = nil
+            navigationItem.rightBarButtonItem = rightButtonItem
+        } else if index == 1 {
+            let rightButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.bookmarks, target: self, action: #selector(a))
+            rightButtonItem.tintColor = UIColor.white
+            
+            let leftButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.camera, target: self, action: #selector(a))
+            leftButtonItem.tintColor = UIColor.white
+            
+            navigationItem.leftBarButtonItem = leftButtonItem
+            navigationItem.rightBarButtonItem = rightButtonItem
+        } else if index == 2 {
+            let leftButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.search, target: self, action: #selector(a))
+            leftButtonItem.tintColor = UIColor.white
+            
+            navigationItem.leftBarButtonItem = leftButtonItem
+            navigationItem.rightBarButtonItem = nil
         }
+        navigationBar.pushItem(navigationItem, animated: false)
+        return navigationBar
+    }
+    
+    func indexOfStartingPage() -> Int {
+        return 1
+    }
+    
+    func changedToPageIndex(_ index: Int) {
+//        self.view.backgroundColor = barColors[index]
     }
 }
 
 extension MainViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if let currentVC = currentViewController {
-            if currentVC is MessageListViewController && (scrollView.contentOffset.x < scrollView.bounds.size.width) {
-                scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: 0)
-            } else if currentVC is MeViewController && (scrollView.contentOffset.x > scrollView.bounds.size.width) {
-                scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: 0)
-            }
+        if self.currentVCIndex == 0 && (scrollView.contentOffset.x < scrollView.bounds.size.width) {
+            scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: 0)
+        } else if self.currentVCIndex == self.stackVC.count - 1 && (scrollView.contentOffset.x > scrollView.bounds.size.width) {
+            scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: 0)
         }
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        if let currentVC = currentViewController {
-            if currentVC is MessageListViewController && (scrollView.contentOffset.x < scrollView.bounds.size.width) {
-                scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: 0)
-            } else if currentVC is MeViewController && (scrollView.contentOffset.x > scrollView.bounds.size.width) {
-                scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: 0)
-            }
-        }
-        
-    }
-}
-
-protocol MainViewControllerDelegate {
-    func goToMessage()
-    func goToMe()
-    func goToEvent(from vc: UIViewController)
-}
-
-extension MainViewController: MainViewControllerDelegate {
-    func goToMessage() {
-        
-        self.pageViewController.setViewControllers([messageListViewController], direction: .reverse, animated: true) {
-            completed in
-            if completed {
-                self.currentViewController = self.messageListViewController
-            }
-        }
-    }
-    
-    func goToMe() {
-        
-        self.pageViewController.setViewControllers([meViewController], direction: .forward, animated: true) {
-            completed in
-            if completed {
-                self.currentViewController = self.meViewController
-            }
-        }
-    }
-    
-    func goToEvent(from vc: UIViewController) {
-        
-        switch vc {
-        case is MeViewController:
-            self.pageViewController.setViewControllers([eventListViewController], direction: .reverse, animated: true) {
-                completed in
-                if completed {
-                    self.currentViewController = self.eventListViewController
-                }
-            }
-        case is MessageListViewController:
-            self.pageViewController.setViewControllers([eventListViewController], direction: .forward, animated: true) {
-                completed in
-                if completed {
-                    self.currentViewController = self.eventListViewController
-                }
-            }
-        default: break
+        if self.currentVCIndex == 0 && (scrollView.contentOffset.x < scrollView.bounds.size.width) {
+            scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: 0)
+        } else if self.currentVCIndex == self.stackVC.count - 1 && (scrollView.contentOffset.x > scrollView.bounds.size.width) {
+            scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: 0)
         }
     }
 }

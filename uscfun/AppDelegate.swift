@@ -17,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     
+        UIApplication.shared.statusBarStyle = .lightContent
+        
         //--MARK: register wechat account
         WXApi.registerApp("wx8f761834a81e3579")
         

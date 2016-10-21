@@ -9,15 +9,9 @@
 import UIKit
 
 class MessageListViewController: UIViewController {
-
-    var delegate: MainViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.backgroundGray
-    }
-
-    @IBAction func goEvent(_ sender: UIButton) {
-        delegate?.goToEvent(from: self)
     }
 }

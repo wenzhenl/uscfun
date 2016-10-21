@@ -17,8 +17,6 @@ class EventListViewController: UIViewController {
     
     @IBOutlet weak var newEventReminderViewConstraint: NSLayoutConstraint!
     
-    var delegate: MainViewControllerDelegate?
-    
     var events = [Event]()
     
     lazy var refreshControl: UIRefreshControl = {
@@ -47,15 +45,7 @@ class EventListViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    @IBAction func goToMessage(_ sender: UIButton) {
-        delegate?.goToMessage()
-    }
-    
-    @IBAction func goToMe(_ sender: UIButton) {
-        delegate?.goToMe()
-    }
-    
+
     func handleRefresh() {
         if events.count == 0 {
             EventRequest.fetch() {

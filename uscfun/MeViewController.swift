@@ -19,8 +19,6 @@ class MeViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    var delegate: MainViewControllerDelegate?
-    
     var meSections = [[MeCell]]()
     
     override func viewDidLoad() {
@@ -44,10 +42,6 @@ class MeViewController: UIViewController {
         
         let signOutSection = [MeCell.regularTableCell(text: "退出登录", segueId: segueIdOfSignOut)]
         meSections.append(signOutSection)
-    }
-    
-    @IBAction func goEvent(_ sender: UIButton) {
-        delegate?.goToEvent(from: self)
     }
     
     let segueIdOfUpdateProfile = "go to update profile"
