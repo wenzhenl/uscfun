@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import EZSwipeController
 
 class MainViewController: EZSwipeController {
     
@@ -77,7 +76,6 @@ extension MainViewController: EZSwipeControllerDataSource {
         let navigationBar = UINavigationBar()
         navigationBar.barStyle = UIBarStyle.default
         navigationBar.barTintColor = barColors[index]
-        print(navigationBar.barTintColor)
         navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         
         let navigationItem = UINavigationItem(title: title!)
