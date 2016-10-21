@@ -24,7 +24,7 @@ class StartEventViewController: UIViewController {
     }
     
     @IBAction func postEvent() {
-        let event = Event(name: "周末去滑雪有人去么，大概玩一到两天", type: EventType.entertainment, totalSeats: 20, remainingSeats: 12, minimumMoreAttendingPeople: 9, due: Date(timeIntervalSinceNow: 12345), creator: AVUser.current())
+        let event = Event(name: "周末去滑雪有人去么，大概玩一到两天周末去滑雪有人去么，大概玩一到两天周末去滑雪有人去么，大概玩一到两天", type: EventType.entertainment, totalSeats: 20, remainingSeats: 12, minimumMoreAttendingPeople: 9, due: Date(timeIntervalSinceNow: 12345), creator: AVUser.current())
         event.startTime = Date(timeIntervalSinceNow: 45678)
         event.endTime = Date(timeIntervalSinceNow: 55890)
         event.note = "需要3-4人，准备Airbnb，希望大家多穿些衣服注意保暖。另外我们还可以一起打打牌什么的，会玩牌的更加好了。重要的事情说三遍：需要3-4人，准备Airbnb，希望大家多穿些衣服注意保暖。另外我们还可以一起打打牌什么的，会玩牌的更加好了。需要3-4人，准备Airbnb，希望大家多穿些衣服注意保暖。另外我们还可以一起打打牌什么的，会玩牌的更加好了"

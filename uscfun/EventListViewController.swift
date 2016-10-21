@@ -143,19 +143,15 @@ class EventListViewController: UIViewController {
 extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath as NSIndexPath).section == 0  || (indexPath as NSIndexPath).section == 1 {
-            return UITableViewAutomaticDimension
-        } else if (indexPath as NSIndexPath).section == 2 && (indexPath as NSIndexPath).row == 0 {
-            return UITableViewAutomaticDimension
-        }
-        return 250
+        
+        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         if (indexPath as NSIndexPath).section == 0  || (indexPath as NSIndexPath).section == 1 {
-            return UITableViewAutomaticDimension
+            return 44
         } else if (indexPath as NSIndexPath).section == 2 && (indexPath as NSIndexPath).row == 0 {
-            return UITableViewAutomaticDimension
+            return 44
         }
         return 250
     }
@@ -194,7 +190,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EventListCell") as! EventListTableViewCell
             cell.selectionStyle = .none
             let event = events[indexPath.section - 3]
-            cell.nameLabel.text = event.name
+            cell.nameTextView.text = event.name
             cell.startTimeLabel.text = event.startTime?.description
             cell.locationNameLabel.text = event.locationName
             cell.due = event.due

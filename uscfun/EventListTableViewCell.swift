@@ -13,28 +13,29 @@ class EventListTableViewCell: UITableViewCell {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var mainImageView: UIImageView!
-    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var nameTextView: UITextView!
     @IBOutlet weak var startTimeLabel: UILabel!
     @IBOutlet weak var locationNameLabel: UILabel!
     var due: Date?
     var timer: Timer?
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        timeLabel.layer.cornerRadius = 4
         containerView.layer.cornerRadius = 13
         containerView.layer.borderWidth = 1
         containerView.layer.borderColor = UIColor.lightGray.cgColor
+        update()
     }
     
     func timerStarted() {
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(update), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(update), userInfo: nil, repeats: true)
     }
     
     func update() {
         if let due = due {
             let currentDate = Date()
-            let diffDateComponents = Calendar.current.dateComponents([Calendar.Component.day,.hour,.minute,.second], from: currentDate, to: due)
-//            self.timeLabel.text = "还剩\(diffDateComponents.day!)天\(diffDateComponents.hour!)时\(diffDateComponents.minute!)分\(diffDateComponents.second!)秒"
+            let diffDateComponents = Calendar.current.dateComponents([Calendar.Component.day,.hour,.minute], from: currentDate, to: due)
+            self.timeLabel.text = "还剩\(diffDateComponents.day ?? 0)天\(diffDateComponents.hour ?? 0)时\(diffDateComponents.minute ?? 0)分"
         }
     }
 
