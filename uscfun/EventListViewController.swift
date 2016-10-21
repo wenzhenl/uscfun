@@ -203,7 +203,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EventListCell") as! EventListTableViewCell
             cell.selectionStyle = .none
-            let event = events[indexPath.section - 2]
+            let event = events[indexPath.section - 3]
             cell.nameLabel.text = event.name
             cell.startTimeLabel.text = event.startTime?.description
             cell.locationNameLabel.text = event.locationName
