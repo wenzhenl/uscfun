@@ -15,6 +15,7 @@ class MainViewController: EZSwipeController {
     let barColors = [UIColor.buttonBlue, UIColor.buttonBlue, UIColor.buttonBlue]
     
     override func setupView() {
+        super.setupView()
         datasource = self
     }
     
@@ -42,8 +43,13 @@ class MainViewController: EZSwipeController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
     }
     
-    func a() {
-        
+    func scaleTo(image: UIImage, w: CGFloat, h: CGFloat) -> UIImage {
+        let newSize = CGSize(width: w, height: h)
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
+        image.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage
     }
 }
 
@@ -78,24 +84,34 @@ extension MainViewController: EZSwipeControllerDataSource {
         navigationItem.hidesBackButton = true
         
         if index == 0 {
-            let rightButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.search, target: self, action: #selector(a))
+            var messageImage = #imageLiteral(resourceName: "arrow-forward")
+            messageImage = scaleTo(image: messageImage, w: 22, h: 22)
+            let rightButtonItem = UIBarButtonItem(image: messageImage, style: .plain, target: self, action: nil)
             rightButtonItem.tintColor = UIColor.white
             
             navigationItem.leftBarButtonItem = nil
             navigationItem.rightBarButtonItem = rightButtonItem
+            
         } else if index == 1 {
-            let rightButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.bookmarks, target: self, action: #selector(a))
+            var messageImage = #imageLiteral(resourceName: "arrow-forward")
+            messageImage = scaleTo(image: messageImage, w: 22, h: 22)
+            let rightButtonItem = UIBarButtonItem(image: messageImage, style: .plain, target: self, action: nil)
             rightButtonItem.tintColor = UIColor.white
             
-            let leftButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.camera, target: self, action: #selector(a))
+            var meImage = #imageLiteral(resourceName: "arrow-backward")
+            meImage = scaleTo(image: meImage, w: 22, h: 22)
+            let leftButtonItem = UIBarButtonItem(image: meImage, style: .plain, target: self, action: nil)
             leftButtonItem.tintColor = UIColor.white
             
             navigationItem.leftBarButtonItem = leftButtonItem
             navigationItem.rightBarButtonItem = rightButtonItem
-        } else if index == 2 {
-            let leftButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.search, target: self, action: #selector(a))
-            leftButtonItem.tintColor = UIColor.white
             
+        } else if index == 2 {
+            var meImage = #imageLiteral(resourceName: "arrow-backward")
+            meImage = scaleTo(image: meImage, w: 22, h: 22)
+            let leftButtonItem = UIBarButtonItem(image: meImage, style: .plain, target: self, action: nil)
+            leftButtonItem.tintColor = UIColor.white
+         
             navigationItem.leftBarButtonItem = leftButtonItem
             navigationItem.rightBarButtonItem = nil
         }
@@ -107,9 +123,27 @@ extension MainViewController: EZSwipeControllerDataSource {
         return 1
     }
     
-    func changedToPageIndex(_ index: Int) {
-//        self.view.backgroundColor = barColors[index]
-    }
+//    func disableSwipingForLeftButtonAtPageIndex(_ index: Int) -> Bool {
+//        return true
+//    }
+//    
+//    func disableSwipingForRightButtonAtPageIndex(_ index: Int) -> Bool {
+//        return true
+//    }
+//    
+//    func clickedLeftButtonFromPageIndex(_ index: Int) {
+//        guard index > 0 else {
+//            return
+//        }
+//        moveToPage(index - 1)
+//    }
+//    
+//    func clickedRightButtonFromPageIndex(_ index: Int) {
+//        guard index < titles.count - 1 else {
+//            return
+//        }
+//        moveToPage(index + 1)
+//    }
 }
 
 extension MainViewController: UIScrollViewDelegate {
