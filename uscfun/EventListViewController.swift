@@ -57,7 +57,6 @@ class EventListViewController: UIViewController {
                 if let events = results {
                     for event in events {
                         if let creator = User(user: event.creator) {
-                            print("========\(creator.username)====================")
                             if creator.username == UserDefaults.email {
                                 self.myevents.append(event)
                             } else {
@@ -82,7 +81,13 @@ class EventListViewController: UIViewController {
                 }
                 if let events = results {
                     for event in events {
-                        self.events.append(event)
+                        if let creator = User(user: event.creator) {
+                            if creator.username == UserDefaults.email {
+                                self.myevents.append(event)
+                            } else {
+                                self.events.append(event)
+                            }
+                        }
                     }
                     self.events.sort {
                         $0.updatedAt! > $1.updatedAt!

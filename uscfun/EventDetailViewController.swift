@@ -192,7 +192,7 @@ extension EventDetailViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if indexPath.section == 2 {
+        if indexPath.section == 3 {
             if let event = self.event {
                 LCChatKit.sharedInstance().open(withClientId: AVUser.current().username, force: true) {
                     succeed, error in
