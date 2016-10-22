@@ -30,25 +30,26 @@ class EventDetailViewController: UIViewController {
         self.view.backgroundColor = UIColor.backgroundGray
         self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.tableFooterView = UIView()
-        self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0)
         
         // Populate the cells
         if let event = event {
-            let profileSection = [EventDetailCell.imageViewTableCell(image: #imageLiteral(resourceName: "launchscreen")), .textViewTableCell(text: event.name)]
+            let profileSection = [EventDetailCell.imageViewTableCell(image: event.type.image)]
+            let nameSection = [EventDetailCell.textViewTableCell(text: event.name)]
             let joinButtonSection = [EventDetailCell.singleButtonTableCell]
-            let chatSection = [EventDetailCell.imgKeyValueArrowTableCell(image: #imageLiteral(resourceName: "location"), key: "参与讨论", value: "")]
+            let chatSection = [EventDetailCell.imgKeyValueArrowTableCell(image: #imageLiteral(resourceName: "chat"), key: "参与讨论", value: "")]
             detailCells.append(profileSection)
+            detailCells.append(nameSection)
             detailCells.append(joinButtonSection)
             detailCells.append(chatSection)
             
             // handle optional information
             var optionalSection = [EventDetailCell]()
             if let startTime = event.startTime {
-                optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "alarm-clock"), key: "活动开始时间", value: startTime.description))
+                optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "clock"), key: "活动开始时间", value: startTime.description))
             }
             
             if let endTime = event.endTime {
-                optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "alarm-clock"), key: "活动结束时间", value: endTime.description))
+                optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "clock"), key: "活动结束时间", value: endTime.description))
             }
             
             if let locationName = event.locationName {
@@ -56,7 +57,7 @@ class EventDetailViewController: UIViewController {
             }
             
             if let expectedFee = event.expectedFee {
-                optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "location"), key: "预计费用", value: expectedFee.description))
+                optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "dollar"), key: "预计费用", value: expectedFee.description))
             }
             
             if optionalSection.count > 0 {
@@ -121,6 +122,7 @@ extension EventDetailViewController: UITableViewDataSource {
         case .imageViewTableCell(let image):
             let cell = Bundle.main.loadNibNamed("ImageViewTableViewCell", owner: self, options: nil)?.first as! ImageViewTableViewCell
             cell.mainImageView.image = image
+            cell.mainImageView.contentMode = .scaleToFill
             return cell
         case .imgKeyValueTableCell(let image, let key, let value):
             let cell = Bundle.main.loadNibNamed("ImgKeyValueTableViewCell", owner: self, options: nil)?.first as! ImgKeyValueTableViewCell
@@ -142,6 +144,7 @@ extension EventDetailViewController: UITableViewDataSource {
         case .textViewTableCell(let text):
             let cell = Bundle.main.loadNibNamed("TextViewTableViewCell", owner: self, options: nil)?.first as! TextViewTableViewCell
             cell.textView.text = text
+            cell.textView.textColor = UIColor.darkText
             return cell
         }
     }
@@ -152,18 +155,17 @@ extension EventDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch detailCells[indexPath.section][indexPath.row] {
         case .imageViewTableCell(_):
-            return 200
+            return 150
         default:
             return UITableViewAutomaticDimension
-        }
-    }
+        }    }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         switch detailCells[indexPath.section][indexPath.row] {
         case .imageViewTableCell(_):
             return 200
         default:
-            return UITableViewAutomaticDimension
+            return 44
         }
     }
     
@@ -181,6 +183,10 @@ extension EventDetailViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        
+        if section == 0 {
+            return 0
+        }
         return 30
     }
     

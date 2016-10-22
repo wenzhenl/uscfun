@@ -180,11 +180,11 @@
 		0A427FA91D97F44A007A96BE /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				0ACFD5971DBAD14200E33E53 /* uscfun.entitlements */,
 				0A6834BD1D56858C002E9B0D /* AppDelegate.swift */,
 				0AB3FFC71D97B30B0088B8C0 /* uscfun-Bridging-Header.h */,
 				0A6834C91D56858C002E9B0D /* Info.plist */,
 				0A6834C61D56858C002E9B0D /* LaunchScreen.storyboard */,
+				0ACFD5971DBAD14200E33E53 /* uscfun.entitlements */,
 				0A6834C41D56858C002E9B0D /* Assets.xcassets */,
 			);
 			name = Support;

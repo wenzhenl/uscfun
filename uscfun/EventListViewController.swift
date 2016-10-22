@@ -190,6 +190,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EventListCell") as! EventListTableViewCell
             cell.selectionStyle = .none
             let event = events[indexPath.section - 3]
+            cell.mainImageView.image = event.type.image
             cell.nameTextView.text = event.name
             cell.startTimeLabel.text = event.startTime?.description
             cell.locationNameLabel.text = event.locationName

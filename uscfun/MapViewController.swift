@@ -21,8 +21,8 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         
         self.title = "地图"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(route))
-        
+        let navigationImage = #imageLiteral(resourceName: "navigation").scaleTo(width: 22, height: 22)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: navigationImage, style: .plain, target: self, action: #selector(route))
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()

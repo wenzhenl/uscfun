@@ -41,15 +41,6 @@ class MainViewController: EZSwipeController {
         self.navigationController?.navigationBar.tintColor = UIColor.white
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
     }
-    
-    func scaleTo(image: UIImage, w: CGFloat, h: CGFloat) -> UIImage {
-        let newSize = CGSize(width: w, height: h)
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
-        image.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
-        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        return newImage
-    }
 }
 
 extension MainViewController: EZSwipeControllerDataSource {
@@ -82,8 +73,7 @@ extension MainViewController: EZSwipeControllerDataSource {
         navigationItem.hidesBackButton = true
         
         if index == 0 {
-            var messageImage = #imageLiteral(resourceName: "arrow-forward")
-            messageImage = scaleTo(image: messageImage, w: 22, h: 22)
+            let messageImage = #imageLiteral(resourceName: "arrow-forward").scaleTo(width: 22, height: 22)
             let rightButtonItem = UIBarButtonItem(image: messageImage, style: .plain, target: self, action: nil)
             rightButtonItem.tintColor = UIColor.white
             
@@ -91,13 +81,11 @@ extension MainViewController: EZSwipeControllerDataSource {
             navigationItem.rightBarButtonItem = rightButtonItem
             
         } else if index == 1 {
-            var messageImage = #imageLiteral(resourceName: "message")
-            messageImage = scaleTo(image: messageImage, w: 22, h: 22)
+            let messageImage = #imageLiteral(resourceName: "message").scaleTo(width: 22, height: 22)
             let leftButtonItem = UIBarButtonItem(image: messageImage, style: .plain, target: self, action: nil)
             leftButtonItem.tintColor = UIColor.white
             
-            var meImage = #imageLiteral(resourceName: "fatuser")
-            meImage = scaleTo(image: meImage, w: 22, h: 22)
+            let meImage = #imageLiteral(resourceName: "fatuser").scaleTo(width: 22, height: 22)
             let rightButtonItem = UIBarButtonItem(image: meImage, style: .plain, target: self, action: nil)
             rightButtonItem.tintColor = UIColor.white
             
@@ -105,8 +93,7 @@ extension MainViewController: EZSwipeControllerDataSource {
             navigationItem.rightBarButtonItem = rightButtonItem
             
         } else if index == 2 {
-            var meImage = #imageLiteral(resourceName: "arrow-backward")
-            meImage = scaleTo(image: meImage, w: 22, h: 22)
+            let meImage = #imageLiteral(resourceName: "arrow-backward").scaleTo(width: 22, height: 22)
             let leftButtonItem = UIBarButtonItem(image: meImage, style: .plain, target: self, action: nil)
             leftButtonItem.tintColor = UIColor.white
          

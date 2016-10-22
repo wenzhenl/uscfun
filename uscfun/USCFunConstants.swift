@@ -135,6 +135,17 @@ extension String {
     }
 }
 
+extension UIImage {
+    func scaleTo(width: CGFloat, height: CGFloat) -> UIImage {
+        let newSize = CGSize(width: width, height: height)
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
+        self.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+}
+
 extension UserDefaults {
     class var hasLoggedIn: Bool {
         get {

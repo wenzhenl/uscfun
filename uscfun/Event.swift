@@ -14,8 +14,26 @@ enum EventType: String {
     case foodAndDrink = "foodAndDrink"
     case shopping = "shopping"
     case entertainment = "entertainment"
+    case travel = "travel"
     case study = "study"
     case other = "other"
+    
+    var image: UIImage {
+        switch self {
+        case .foodAndDrink:
+            return #imageLiteral(resourceName: "foodAndDrink")
+        case .shopping:
+            return #imageLiteral(resourceName: "shopping")
+        case .entertainment:
+            return #imageLiteral(resourceName: "recreation")
+        case .travel:
+            return #imageLiteral(resourceName: "travel")
+        case .study:
+            return #imageLiteral(resourceName: "seasons")
+        default:
+            return #imageLiteral(resourceName: "party")
+        }
+    }
 }
 
 enum TransportationMethod: String {
