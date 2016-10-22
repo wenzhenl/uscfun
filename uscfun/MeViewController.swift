@@ -69,7 +69,7 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
             if UserDefaults.avatar != nil {
                 cell.mainImageView.image = UserDefaults.avatar
             } else {
-                cell.mainImageView.setImageWith(text, color: UIColor.buttonBlue)
+                cell.mainImageView.setImageWith(text, color: USCFunConstants.avatarColorOptions[UserDefaults.avatarColor ?? "blue"])
             }
             cell.mainImageView.layer.cornerRadius = 4
             cell.mainLabel.text = text

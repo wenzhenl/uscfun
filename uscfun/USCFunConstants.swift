@@ -53,6 +53,15 @@ extension UserDefaults {
         }
     }
     
+    class var avatarColor: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "User_AvatarColor_Key")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "User_AvatarColor_Key")
+        }
+    }
+    
     class var gender: String? {
         get {
             return UserDefaults.standard.string(forKey: "User_Gender_Key")
@@ -64,7 +73,18 @@ extension UserDefaults {
 }
 
 class USCFunConstants {
+    
     static let minimumPasswordLength = 5
+    
+    static let avatarColorOptions : [String: UIColor] = [
+        "blue": UIColor.avatarBlue,
+        "cyan": UIColor.avatarCyan,
+        "pink": UIColor.avatarPink,
+        "golden": UIColor.avatarGolden,
+        "orange": UIColor.avatarOrange,
+        "tomato": UIColor.avatarTomato,
+        "green": UIColor.avatarGreen,
+    ]
     
     static var password: String?
 
@@ -77,6 +97,13 @@ class USCFunConstants {
         user.email = UserDefaults.email
         user.setObject(UserDefaults.nickname, forKey: UserKeyConstants.keyOfNickname)
         user.setObject("usc", forKey: UserKeyConstants.keyOfSchool)
+        
+        // randomly generate avatar color
+        let randomIndex = Int(arc4random_uniform(UInt32(USCFunConstants.avatarColorOptions.count)))
+        let randomAvatarColorName = Array(USCFunConstants.avatarColorOptions.keys)[randomIndex]
+        UserDefaults.avatarColor = randomAvatarColorName
+        user.setObject(randomAvatarColorName, forKey: UserKeyConstants.keyOfAvatarColor)
+        
         var error: NSError?
         if user.signUp(&error) {
             handler(true, nil)
@@ -102,6 +129,12 @@ class USCFunConstants {
                     if allkeys.contains(UserKeyConstants.keyOfGender) {
                         if let gender = updatedUser!.value(forKey: UserKeyConstants.keyOfGender) as? String {
                             UserDefaults.gender = gender
+                        }
+                    }
+                    
+                    if allkeys.contains(UserKeyConstants.keyOfAvatarColor) {
+                        if let avatarColor = updatedUser!.value(forKey: UserKeyConstants.keyOfAvatarColor) as? String {
+                            UserDefaults.avatarColor = avatarColor
                         }
                     }
                     
@@ -133,6 +166,7 @@ class USCFunConstants {
 struct UserKeyConstants {
     static let keyOfNickname = "nickname"
     static let keyOfAvatarUrl = "avatarUrl"
+    static let keyOfAvatarColor = "avatarColor"
     static let keyOfSchool = "school"
     static let keyOfGender = "gender"
 }
@@ -194,24 +228,48 @@ extension UIColor {
     }
     
     class var themeUSCRed: UIColor {
-        return UIColor(red: 153.0/255, green: 27.0/255, blue: 30.0/250, alpha: 1.0)
+        return UIColor(red: 153.0/255, green: 27.0/255, blue: 30.0/255, alpha: 1.0)
     }
     
     class func themeUSCRed(_ alpha: CGFloat) -> UIColor {
-        return UIColor(red: 153.0/255, green: 27.0/255, blue: 30.0/250, alpha: alpha)
+        return UIColor(red: 153.0/255, green: 27.0/255, blue: 30.0/255, alpha: alpha)
     }
     
     class var backgroundGray: UIColor {
         let grayLevel = CGFloat(240.0)
-        return UIColor(red: grayLevel/255, green: grayLevel/255, blue: grayLevel/250, alpha: 1.0)
+        return UIColor(red: grayLevel/255, green: grayLevel/255, blue: grayLevel/255, alpha: 1.0)
     }
     
     class var buttonPink: UIColor {
-        return UIColor(red: 239.0/255, green: 31.0/255, blue: 85.0/250, alpha: 1.0)
+        return UIColor(red: 239.0/255, green: 31.0/255, blue: 85.0/255, alpha: 1.0)
     }
     
     class var buttonBlue: UIColor {
-        return UIColor(red: 13.0/255, green: 179.0/255, blue: 224.0/250, alpha: 1.0)
+        return UIColor(red: 13.0/255, green: 179.0/255, blue: 224.0/255, alpha: 1.0)
+    }
+    
+    //--MARK: Avatar background colors
+    class var avatarGolden: UIColor {
+        return UIColor(red: 255.0/255, green: 153.0/255, blue: 51/255, alpha: 1.0)
+    }
+    class var avatarBlue: UIColor {
+        return UIColor(red: 0, green: 102.0/255, blue: 153.0/255, alpha: 1.0)
+    }
+    class var avatarCyan: UIColor {
+        return UIColor(red: 2.0/255, green: 132.0/255, blue: 128.0/255, alpha: 1.0)
+
+    }
+    class var avatarOrange: UIColor {
+        return UIColor(red: 255.0/255, green: 102.0/255, blue: 0, alpha: 1.0)
+    }
+    class var avatarPink: UIColor {
+        return UIColor(red: 239.0/255, green: 31.0/255, blue: 85.0/255, alpha: 1.0)
+    }
+    class var avatarGreen: UIColor {
+        return UIColor(red: 1.0/255, green: 153.0/255, blue: 51/255, alpha: 1.0)
+    }
+    class var avatarTomato: UIColor {
+        return UIColor(red: 255.0/255, green: 99.0/255, blue: 71.0/255, alpha: 1.0)
     }
 }
 
