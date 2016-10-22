@@ -59,6 +59,32 @@ struct UserKeyConstants {
     static let keyOfGender = "gender"
 }
 
+struct EventKeyConstants {
+    static let classNameOfEvent = "Event"
+    static let keyOfName = "name"
+    static let keyOfType = "type"
+    static let keyOfTotalSeats = "totalSeats"
+    static let keyOfRemainingSeats = "remainingSeats"
+    static let keyOfMinimumMoreAttendingPeople = "minimumMoreAttendingPeople"
+    static let keyOfDue = "due"
+    
+    static let keyOfCreator = "creator"
+    static let keyOfMembers = "members"
+    static let keyOfActive = "active"
+    static let keyOfFinished = "finished"
+    static let keyOfConversationId = "conversationId"
+    
+    static let keyOfStartTime = "startTime"
+    static let keyOfEndTime = "endTime"
+    static let keyOfLocationName = "locationName"
+    static let keyOfLocation = "location"
+    static let keyOfExpectedFee = "expectedFee"
+    static let keyOfTransportationMethod = "transportationMethod"
+    static let keyOfNote = "note"
+    
+    static let keyOfUpdatedAt = "updatedAt"
+}
+
 enum UIUserInterfaceIdiom : Int {
     case unspecified
     case phone

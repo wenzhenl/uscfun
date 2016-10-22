@@ -98,102 +98,104 @@ class Event {
     init?(data: AVObject?) {
         if let data = data {
             if let allKeys = data.allKeys() as? [String] {
-                guard allKeys.contains(keyOfName), let name = data.value(forKey: keyOfName) as? String else {
+                guard allKeys.contains(EventKeyConstants.keyOfName), let name = data.value(forKey: EventKeyConstants.keyOfName) as? String else {
                     print("no name")
                     return nil
                 }
                 self.name = name
 
-                guard allKeys.contains(keyOfType), let type = data.value(forKey: keyOfType) as? String else {
+                guard allKeys.contains(EventKeyConstants.keyOfType), let type = data.value(forKey: EventKeyConstants.keyOfType) as? String else {
                     print("no type")
                     return nil
                 }
                 self.type = EventType(rawValue: type)!
 
-                guard allKeys.contains(keyOfTotalSeats), let totalSeats = data.value(forKey: keyOfTotalSeats) as? Int else {
+                guard allKeys.contains(EventKeyConstants.keyOfTotalSeats), let totalSeats = data.value(forKey: EventKeyConstants.keyOfTotalSeats) as? Int else {
                     print("no total seats")
                     return nil
                 }
                 self.totalSeats = totalSeats
 
-                guard allKeys.contains(keyOfRemainingSeats), let remainingSeats = data.value(forKey: keyOfRemainingSeats) as? Int else {
+                guard allKeys.contains(EventKeyConstants.keyOfRemainingSeats), let remainingSeats = data.value(forKey: EventKeyConstants.keyOfRemainingSeats) as? Int else {
                     print("no remaining seats")
                     return nil
                 }
                 self.remainingSeats = remainingSeats
 
-                guard allKeys.contains(keyOfMinimumMoreAttendingPeople), let minimumMoreAttendingPeople = data.value(forKey: keyOfMinimumMoreAttendingPeople) as? Int else {
+                guard allKeys.contains(EventKeyConstants.keyOfMinimumMoreAttendingPeople), let minimumMoreAttendingPeople = data.value(forKey: EventKeyConstants.keyOfMinimumMoreAttendingPeople) as? Int else {
                     print("no minimum more")
                     return nil
                 }
                 self.minimumMoreAttendingPeople = minimumMoreAttendingPeople
 
-                guard allKeys.contains(keyOfDue), let due = data.value(forKey: keyOfDue) as? Date else {
+                guard allKeys.contains(EventKeyConstants.keyOfDue), let due = data.value(forKey: EventKeyConstants.keyOfDue) as? Date else {
                     print("no due")
                     return nil
                 }
                 self.due = due
 
-                guard allKeys.contains(keyOfCreator), let creator = data.value(forKey: keyOfCreator) as? AVUser else {
+                guard allKeys.contains(EventKeyConstants.keyOfCreator), let creator = data.object(forKey: EventKeyConstants.keyOfCreator) as? AVUser else {
                     print("no user")
                     return nil
                 }
                 self.creator = creator
-                guard allKeys.contains(keyOfMembers), let members = data.value(forKey: keyOfMembers) as? [AVUser] else {
+                print(self.creator)
+                
+                guard allKeys.contains(EventKeyConstants.keyOfMembers), let members = data.value(forKey: EventKeyConstants.keyOfMembers) as? [AVUser] else {
                     print("no members")
                     return nil
                 }
                 self.members = members
 
-                guard allKeys.contains(keyOfActive), let active = data.value(forKey: keyOfActive) as? Bool else {
+                guard allKeys.contains(EventKeyConstants.keyOfActive), let active = data.value(forKey: EventKeyConstants.keyOfActive) as? Bool else {
                     print("no active")
                     return nil
                 }
                 self.active = active
 
-                guard allKeys.contains(keyOfFinished), let finished = data.value(forKey: keyOfFinished) as? Bool else {
+                guard allKeys.contains(EventKeyConstants.keyOfFinished), let finished = data.value(forKey: EventKeyConstants.keyOfFinished) as? Bool else {
                     print("no finished")
                     return nil
                 }
                 self.finished = finished
 
-                guard allKeys.contains(keyOfConversationId), let conversationId = data.value(forKey: keyOfConversationId) as? String else {
+                guard allKeys.contains(EventKeyConstants.keyOfConversationId), let conversationId = data.value(forKey: EventKeyConstants.keyOfConversationId) as? String else {
                     return nil
                 }
                 self.conversationId = conversationId
 
-                if allKeys.contains(keyOfStartTime) {
-                    if let startTime = data.value(forKey: keyOfStartTime) as? Date {
+                if allKeys.contains(EventKeyConstants.keyOfStartTime) {
+                    if let startTime = data.value(forKey: EventKeyConstants.keyOfStartTime) as? Date {
                         self.startTime = startTime
                     }
                 }
-                if allKeys.contains(keyOfEndTime) {
-                    if let endTime = data.value(forKey: keyOfEndTime) as? Date {
+                if allKeys.contains(EventKeyConstants.keyOfEndTime) {
+                    if let endTime = data.value(forKey: EventKeyConstants.keyOfEndTime) as? Date {
                         self.endTime = endTime
                     }
                 }
-                if allKeys.contains(keyOfLocationName) {
-                    if let locationName = data.value(forKey: keyOfLocationName) as? String {
+                if allKeys.contains(EventKeyConstants.keyOfLocationName) {
+                    if let locationName = data.value(forKey: EventKeyConstants.keyOfLocationName) as? String {
                         self.locationName = locationName
                     }
                 }
-                if allKeys.contains(keyOfLocation) {
-                    if let location = data.value(forKey: keyOfLocation) as? AVGeoPoint {
+                if allKeys.contains(EventKeyConstants.keyOfLocation) {
+                    if let location = data.value(forKey: EventKeyConstants.keyOfLocation) as? AVGeoPoint {
                         self.location = location
                     }
                 }
-                if allKeys.contains(keyOfExpectedFee) {
-                    if let expectedFee = data.value(forKey: keyOfExpectedFee) as? Double {
+                if allKeys.contains(EventKeyConstants.keyOfExpectedFee) {
+                    if let expectedFee = data.value(forKey: EventKeyConstants.keyOfExpectedFee) as? Double {
                         self.expectedFee = expectedFee
                     }
                 }
-                if allKeys.contains(keyOfTransportationMethod) {
-                    if let transportationMethod = data.value(forKey: keyOfTransportationMethod) as? String {
+                if allKeys.contains(EventKeyConstants.keyOfTransportationMethod) {
+                    if let transportationMethod = data.value(forKey: EventKeyConstants.keyOfTransportationMethod) as? String {
                         self.transportationMethod = TransportationMethod(rawValue: transportationMethod)
                     }
                 }
-                if allKeys.contains(keyOfNote) {
-                    if let note = data.value(forKey: keyOfNote) as? String {
+                if allKeys.contains(EventKeyConstants.keyOfNote) {
+                    if let note = data.value(forKey: EventKeyConstants.keyOfNote) as? String {
                         self.note = note
                     }
                 }
@@ -250,52 +252,52 @@ class Event {
     
     private func saveDataToSever() {
         print("SAVING DATA TO SERVER")
-        if let eventObject = AVObject(className: Event.classNameOfEvent) {
-            eventObject.setObject(name, forKey: keyOfName)
-            eventObject.setObject(type.rawValue, forKey: keyOfType)
-            eventObject.setObject(totalSeats, forKey: keyOfTotalSeats)
-            eventObject.setObject(remainingSeats, forKey: keyOfRemainingSeats)
-            eventObject.setObject(minimumMoreAttendingPeople, forKey: keyOfMinimumMoreAttendingPeople)
-            eventObject.setObject(due, forKey: keyOfDue)
+        if let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent) {
+            eventObject.setObject(name, forKey: EventKeyConstants.keyOfName)
+            eventObject.setObject(type.rawValue, forKey: EventKeyConstants.keyOfType)
+            eventObject.setObject(totalSeats, forKey: EventKeyConstants.keyOfTotalSeats)
+            eventObject.setObject(remainingSeats, forKey: EventKeyConstants.keyOfRemainingSeats)
+            eventObject.setObject(minimumMoreAttendingPeople, forKey: EventKeyConstants.keyOfMinimumMoreAttendingPeople)
+            eventObject.setObject(due, forKey: EventKeyConstants.keyOfDue)
             
-            eventObject.setObject(creator, forKey: keyOfCreator)
-            eventObject.setObject(members, forKey: keyOfMembers)
-            eventObject.setObject(active, forKey: keyOfActive)
-            eventObject.setObject(finished, forKey: keyOfFinished)
+            eventObject.setObject(creator, forKey: EventKeyConstants.keyOfCreator)
+            eventObject.setObject(members, forKey: EventKeyConstants.keyOfMembers)
+            eventObject.setObject(active, forKey: EventKeyConstants.keyOfActive)
+            eventObject.setObject(finished, forKey: EventKeyConstants.keyOfFinished)
             
             if conversationId != nil {
-                eventObject.setObject(conversationId!, forKey: keyOfConversationId)
+                eventObject.setObject(conversationId!, forKey: EventKeyConstants.keyOfConversationId)
             } else {
                 self.delegate?.eventDidPost(succeed: false, errorReason: "cannot create conversation")
                 return
             }
             
             if startTime != nil {
-                eventObject.setObject(startTime!, forKey: keyOfStartTime)
+                eventObject.setObject(startTime!, forKey: EventKeyConstants.keyOfStartTime)
             }
             
             if endTime != nil {
-                eventObject.setObject(endTime!, forKey: keyOfEndTime)
+                eventObject.setObject(endTime!, forKey: EventKeyConstants.keyOfEndTime)
             }
             
             if locationName != nil {
-                eventObject.setObject(locationName!, forKey: keyOfLocationName)
+                eventObject.setObject(locationName!, forKey: EventKeyConstants.keyOfLocationName)
             }
             
             if location != nil {
-                eventObject.setObject(location!, forKey: keyOfLocation)
+                eventObject.setObject(location!, forKey: EventKeyConstants.keyOfLocation)
             }
             
             if expectedFee != nil {
-                eventObject.setObject(expectedFee!, forKey: keyOfExpectedFee)
+                eventObject.setObject(expectedFee!, forKey: EventKeyConstants.keyOfExpectedFee)
             }
             
             if transportationMethod != nil {
-                eventObject.setObject(transportationMethod!.rawValue, forKey: keyOfTransportationMethod)
+                eventObject.setObject(transportationMethod!.rawValue, forKey: EventKeyConstants.keyOfTransportationMethod)
             }
             
             if note != nil {
-                eventObject.setObject(note!, forKey: keyOfNote)
+                eventObject.setObject(note!, forKey: EventKeyConstants.keyOfNote)
             }
             
             if eventObject.save() {
@@ -309,33 +311,10 @@ class Event {
     
     func join(newMember: AVUser) {
         members.append(newMember)
-        if let eventObject = AVObject(className: Event.classNameOfEvent) {
+        if let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent) {
             eventObject.setObject(members, forKey: "members")
             eventObject.fetchWhenSave = true
             eventObject.incrementKey("remainingSeats")
         }
     }
-    
-    //--MARK: constants
-    public static let classNameOfEvent = "Event"
-    private let keyOfName = "name"
-    private let keyOfType = "type"
-    private let keyOfTotalSeats = "totalSeats"
-    private let keyOfRemainingSeats = "remainingSeats"
-    private let keyOfMinimumMoreAttendingPeople = "minimumMoreAttendingPeople"
-    private let keyOfDue = "due"
-    
-    private let keyOfCreator = "creator"
-    private let keyOfMembers = "members"
-    private let keyOfActive = "active"
-    private let keyOfFinished = "finished"
-    private let keyOfConversationId = "conversationId"
-    
-    private let keyOfStartTime = "startTime"
-    private let keyOfEndTime = "endTime"
-    private let keyOfLocationName = "locationName"
-    private let keyOfLocation = "location"
-    private let keyOfExpectedFee = "expectedFee"
-    private let keyOfTransportationMethod = "transportationMethod"
-    private let keyOfNote = "note"
 }

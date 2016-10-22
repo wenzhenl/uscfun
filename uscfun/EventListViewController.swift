@@ -18,7 +18,7 @@ class EventListViewController: UIViewController {
     @IBOutlet weak var newEventReminderViewConstraint: NSLayoutConstraint!
     
     var events = [Event]()
-    
+    var myevents = [Event]()
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
@@ -56,7 +56,14 @@ class EventListViewController: UIViewController {
                 }
                 if let events = results {
                     for event in events {
-                        self.events.append(event)
+                        if let creator = User(user: event.creator) {
+                            print("========\(creator.username)====================")
+                            if creator.username == AVUser.current().username {
+                                self.myevents.append(event)
+                            } else {
+                                self.events.append(event)
+                            }
+                        }
                     }
                     self.events.sort {
                         $0.updatedAt! > $1.updatedAt!
@@ -124,9 +131,9 @@ class EventListViewController: UIViewController {
                 if let eventDetailVC = destination as? EventDetailViewController {
                     switch sender {
                     case is AttendingEventTableViewCell:
-                        eventDetailVC.event = self.events[(self.tableView.indexPathForSelectedRow?.row)! - 1]
+                        eventDetailVC.event = self.myevents[(self.tableView.indexPathForSelectedRow?.row)!]
                     case is EventListTableViewCell:
-                        eventDetailVC.event = self.events[(self.tableView.indexPathForSelectedRow?.section)! - 2]
+                        eventDetailVC.event = self.events[(self.tableView.indexPathForSelectedRow?.section)! - 3]
                     default:
                         break
                     }
@@ -162,7 +169,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 1 {
-            return 5
+            return myevents.count
         } else {
             return 1
         }
@@ -178,9 +185,13 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
         
         else if (indexPath as NSIndexPath).section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AttendingEventCell") as! AttendingEventTableViewCell
+            let event = myevents[indexPath.row]
             cell.selectionStyle = .none
+            cell.nameTextView.text = event.name
+            cell.eventImageView.image = event.type.image
             return cell
         }
+            
         else if (indexPath as NSIndexPath).section == 2 {
             let cell = UITableViewCell()
             cell.textLabel?.text = "当前活动列表"

@@ -12,7 +12,10 @@ import AVOSCloud
 class EventRequest {
     
     static func fetch(handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
-        if let query = AVQuery(className: Event.classNameOfEvent) {
+        if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
+            query.order(byDescending: EventKeyConstants.keyOfUpdatedAt)
+            query.includeKey(EventKeyConstants.keyOfCreator)
+            query.includeKey(EventKeyConstants.keyOfMembers)
             query.findObjectsInBackground() {
                 objects, error in
                 if error != nil {
@@ -34,8 +37,11 @@ class EventRequest {
     }
     
     static func fetchNewer(currentlyNewestUpdatedTime: Date, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
-        if let query = AVQuery(className: Event.classNameOfEvent) {
-            query.whereKey(EventRequest.keyOfUpdatedAt, greaterThan: currentlyNewestUpdatedTime)
+        if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
+            query.order(byDescending: EventKeyConstants.keyOfUpdatedAt)
+            query.includeKey(EventKeyConstants.keyOfCreator)
+            query.includeKey(EventKeyConstants.keyOfMembers)
+            query.whereKey(EventKeyConstants.keyOfUpdatedAt, greaterThan: currentlyNewestUpdatedTime)
             query.findObjectsInBackground() {
                 objects, error in
                 if error != nil {
@@ -57,8 +63,11 @@ class EventRequest {
     }
     
     static func fetchOlder(currentlyOldestUpdatedTime: Date, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
-        if let query = AVQuery(className: Event.classNameOfEvent) {
-            query.whereKey(EventRequest.keyOfUpdatedAt, lessThan: currentlyOldestUpdatedTime)
+        if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
+            query.order(byDescending: EventKeyConstants.keyOfUpdatedAt)
+            query.includeKey(EventKeyConstants.keyOfCreator)
+            query.includeKey(EventKeyConstants.keyOfMembers)
+            query.whereKey(EventKeyConstants.keyOfUpdatedAt, lessThan: currentlyOldestUpdatedTime)
             query.findObjectsInBackground() {
                 objects, error in
                 if error != nil {
@@ -78,6 +87,4 @@ class EventRequest {
             }
         }
     }
-    
-    private static let keyOfUpdatedAt = "updatedAt"
 }

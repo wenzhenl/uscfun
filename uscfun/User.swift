@@ -22,4 +22,45 @@ class User {
         self.username = username
         self.nickname = nickname
     }
+    
+    init?(user: AVUser?) {
+        if let user = user {
+            if let allkeys = user.allKeys() as? [String] {
+                self.username = user.username
+                
+                guard allkeys.contains(UserKeyConstants.keyOfNickname), let nickname = user.value(forKey: UserKeyConstants.keyOfNickname) as? String else {
+                    print("no nickname")
+                    return nil
+                }
+                self.nickname = nickname
+                
+                if allkeys.contains(UserKeyConstants.keyOfGender) {
+                    if let gender = user.value(forKey: UserKeyConstants.keyOfGender) as? String {
+                        self.gender = gender
+                    }
+                }
+                
+                if allkeys.contains(UserKeyConstants.keyOfAvatarUrl), let avatarUrl = user.value(forKey: UserKeyConstants.keyOfAvatarUrl) as? String {
+                    if let avatarFile = AVFile(url: avatarUrl) {
+                        avatarFile.getThumbnail(true, width: 100, height: 100) {
+                            image, error in
+                            if image != nil {
+                                self.avatar = image
+                            }
+                            if error != nil {
+                                print(error)
+                            }
+                        }
+                    }
+                }
+                
+                return
+            }
+        }
+        
+        print("======Cannot even see AVUser========")
+        self.username = ""
+        self.nickname = ""
+        return nil
+    }
 }

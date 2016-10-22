@@ -83,7 +83,7 @@
                                         <rect key="frame" x="0.0" y="28" width="343" height="300"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dHD-iP-esQ" id="cSi-jH-rIj">
-                                            <frame key="frameInset" width="343" height="300"/>
+                                            <frame key="frameInset" width="343" height="299"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="770" text="还剩03天13时20分" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oe2-b4-5n3">
@@ -216,7 +216,7 @@
                                         <rect key="frame" x="0.0" y="328" width="343" height="125"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="C76-wQ-x1W" id="1v3-QV-nOo">
-                                            <frame key="frameInset" width="343" height="125"/>
+                                            <frame key="frameInset" width="343" height="124"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="周末去看最新出的电影从你的全世界路过" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aEA-mO-iJU">
@@ -243,6 +243,8 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="eventImageView" destination="NIr-70-aci" id="bXl-en-jrJ"/>
+                                            <outlet property="nameTextView" destination="aEA-mO-iJU" id="Hid-Zn-acj"/>
                                             <segue destination="nvQ-YZ-kHk" kind="show" identifier="go to event detail" id="Dds-CA-tqB"/>
                                         </connections>
                                     </tableViewCell>
