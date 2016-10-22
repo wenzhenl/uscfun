@@ -66,7 +66,11 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
         switch meSections[indexPath.section][indexPath.row] {
         case .profileTableCell(_, let text, _):
             let cell = Bundle.main.loadNibNamed("ProfileTableViewCell", owner: self, options: nil)?.first as! ProfileTableViewCell
-            cell.mainImageView.setImageWith(text, color: UIColor.buttonBlue)
+            if UserDefaults.avatar != nil {
+                cell.mainImageView.image = UserDefaults.avatar
+            } else {
+                cell.mainImageView.setImageWith(text, color: UIColor.buttonBlue)
+            }
             cell.mainImageView.layer.cornerRadius = 4
             cell.mainLabel.text = text
             return cell

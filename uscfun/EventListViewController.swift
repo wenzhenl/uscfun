@@ -58,7 +58,7 @@ class EventListViewController: UIViewController {
                     for event in events {
                         if let creator = User(user: event.creator) {
                             print("========\(creator.username)====================")
-                            if creator.username == AVUser.current().username {
+                            if creator.username == UserDefaults.email {
                                 self.myevents.append(event)
                             } else {
                                 self.events.append(event)

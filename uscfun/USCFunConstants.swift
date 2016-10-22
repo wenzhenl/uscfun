@@ -9,6 +9,60 @@
 import Foundation
 import UIKit
 
+extension UserDefaults {
+    class var hasLoggedIn: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "User_HasLoggIn_Key")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "User_HasLoggIn_Key")
+        }
+    }
+    
+    class var email: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "User_Email_Key")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "User_Email_Key")
+        }
+    }
+    
+    class var nickname: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "User_Nickname_Key")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "User_Nickname_Key")
+        }
+    }
+    
+    class var avatar: UIImage? {
+        get {
+            let imageData = UserDefaults.standard.object(forKey: "User_Avatar_Key")
+            if imageData != nil {
+                return UIImage(data: imageData as! Data)
+            }
+            return nil
+        }
+        set {
+            if let newImage = newValue {
+                let imageData = UIImagePNGRepresentation(newImage)
+                UserDefaults.standard.setValue(imageData, forKey: "User_Avatar_Key")
+            }
+        }
+    }
+    
+    class var gender: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "User_Gender_Key")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "User_Gender_Key")
+        }
+    }
+}
+
 class USCFunConstants {
     static let minimumPasswordLength = 5
     
@@ -37,10 +91,34 @@ class USCFunConstants {
             updatedUser, error in
             if updatedUser != nil {
                 UserDefaults.hasLoggedIn = true
+                UserDefaults.email = updatedUser!.email
                 if let allkeys = updatedUser!.allKeys() as? [String] {
                     if allkeys.contains(UserKeyConstants.keyOfNickname) {
                         if let nickname = updatedUser?.value(forKey: UserKeyConstants.keyOfNickname) as? String {
                             UserDefaults.nickname = nickname
+                        }
+                    }
+                    
+                    if allkeys.contains(UserKeyConstants.keyOfGender) {
+                        if let gender = updatedUser!.value(forKey: UserKeyConstants.keyOfGender) as? String {
+                            UserDefaults.gender = gender
+                        }
+                    }
+                    
+                    if UserDefaults.avatar == nil {
+                        if allkeys.contains(UserKeyConstants.keyOfAvatarUrl) {
+                            if let avatarUrl = updatedUser!.value(forKey: UserKeyConstants.keyOfAvatarUrl) as? String {
+                                if let file = AVFile(url: avatarUrl) {
+                                    file.getDataInBackground() {
+                                        data, error in
+                                        if data != nil {
+                                            UserDefaults.avatar = UIImage(data: data!)
+                                        } else {
+                                            print(error)
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -173,34 +251,5 @@ extension UIImage {
         let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         return newImage
-    }
-}
-
-extension UserDefaults {
-    class var hasLoggedIn: Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: "User_HasLoggIn_Key")
-        }
-        set {
-            UserDefaults.standard.setValue(newValue, forKey: "User_HasLoggIn_Key")
-        }
-    }
-    
-    class var email: String? {
-        get {
-            return UserDefaults.standard.string(forKey: "User_Email_Key")
-        }
-        set {
-            UserDefaults.standard.setValue(newValue, forKey: "User_Email_Key")
-        }
-    }
-    
-    class var nickname: String? {
-        get {
-            return UserDefaults.standard.string(forKey: "User_Nickname_Key")
-        }
-        set {
-            UserDefaults.standard.setValue(newValue, forKey: "User_Nickname_Key")
-        }
     }
 }
