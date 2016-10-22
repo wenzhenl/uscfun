@@ -20,11 +20,9 @@ class EventListTableViewCell: UITableViewCell {
     var timer: Timer?
     override func awakeFromNib() {
         super.awakeFromNib()
-        timeLabel.layer.cornerRadius = 4
         containerView.layer.cornerRadius = 13
         containerView.layer.borderWidth = 1
         containerView.layer.borderColor = UIColor.lightGray.cgColor
-        update()
     }
     
     func timerStarted() {

@@ -17,6 +17,17 @@ class StartEventViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.isTranslucent = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        UIApplication.shared.statusBarStyle = .default
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        UIApplication.shared.statusBarStyle = .lightContent
     }
     
     @IBAction func close() {
@@ -30,7 +41,7 @@ class StartEventViewController: UIViewController {
         event.note = "需要3-4人，准备Airbnb，希望大家多穿些衣服注意保暖。另外我们还可以一起打打牌什么的，会玩牌的更加好了。重要的事情说三遍：需要3-4人，准备Airbnb，希望大家多穿些衣服注意保暖。另外我们还可以一起打打牌什么的，会玩牌的更加好了。需要3-4人，准备Airbnb，希望大家多穿些衣服注意保暖。另外我们还可以一起打打牌什么的，会玩牌的更加好了"
         event.expectedFee = 12.34
         event.transportationMethod = .uber
-        event.locationName = "jiuzaiwojia"
+        event.locationName = "Ellendale Pl"
         event.location = AVGeoPoint(latitude: 34.0090, longitude: -118.4974)
         event.delegate = self
         event.post()
