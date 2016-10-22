@@ -21,8 +21,8 @@ class USCFunConstants {
         user.username = UserDefaults.email
         user.password = USCFunConstants.password
         user.email = UserDefaults.email
-        user.setObject(UserDefaults.nickname, forKey: keyOfNickname)
-        user.setObject("usc", forKey: keyOfSchool)
+        user.setObject(UserDefaults.nickname, forKey: UserKeyConstants.keyOfNickname)
+        user.setObject("usc", forKey: UserKeyConstants.keyOfSchool)
         var error: NSError?
         if user.signUp(&error) {
             handler(true, nil)
@@ -38,8 +38,8 @@ class USCFunConstants {
             if updatedUser != nil {
                 UserDefaults.hasLoggedIn = true
                 if let allkeys = updatedUser!.allKeys() as? [String] {
-                    if allkeys.contains(keyOfNickname) {
-                        if let nickname = updatedUser?.value(forKey: keyOfNickname) as? String {
+                    if allkeys.contains(UserKeyConstants.keyOfNickname) {
+                        if let nickname = updatedUser?.value(forKey: UserKeyConstants.keyOfNickname) as? String {
                             UserDefaults.nickname = nickname
                         }
                     }
@@ -50,9 +50,13 @@ class USCFunConstants {
             }
         }
     }
-    
+}
+
+struct UserKeyConstants {
     static let keyOfNickname = "nickname"
+    static let keyOfAvatarUrl = "avatarUrl"
     static let keyOfSchool = "school"
+    static let keyOfGender = "gender"
 }
 
 enum UIUserInterfaceIdiom : Int {
