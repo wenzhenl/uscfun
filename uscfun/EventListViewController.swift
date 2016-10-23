@@ -122,12 +122,25 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (indexPath as NSIndexPath).section == 1 && EventRequest.eventsCurrentUserIsIn.count == 0 {
+            return 150
+        }
         if (indexPath as NSIndexPath).section == 0  || (indexPath as NSIndexPath).section == 1 {
             return 44
         } else if (indexPath as NSIndexPath).section == 2 && (indexPath as NSIndexPath).row == 0 {
             return 44
         }
         return 250
+//        switch tableView.cellForRow(at: indexPath) {
+//        case is AttendingEventTableViewCell:
+//            return 44
+//        case is EmptySectionPlaceholderTableViewCell:
+//            return 150
+//        case is EventListTableViewCell:
+//            return 250
+//        default:
+//            return 44
+//        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -136,7 +149,11 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 1 {
-            return EventRequest.eventsCurrentUserIsIn.count
+            if EventRequest.eventsCurrentUserIsIn.count == 0 {
+                return 1
+            } else {
+                return EventRequest.eventsCurrentUserIsIn.count
+            }
         } else {
             return 1
         }
@@ -151,12 +168,17 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         else if (indexPath as NSIndexPath).section == 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "AttendingEventCell") as! AttendingEventTableViewCell
-            let event = EventRequest.eventsCurrentUserIsIn[indexPath.row]
-            cell.selectionStyle = .none
-            cell.nameTextView.text = event.name
-            cell.eventImageView.image = event.type.image
-            return cell
+            if EventRequest.eventsCurrentUserIsIn.count > 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AttendingEventCell") as! AttendingEventTableViewCell
+                let event = EventRequest.eventsCurrentUserIsIn[indexPath.row]
+                cell.selectionStyle = .none
+                cell.nameTextView.text = event.name
+                cell.eventImageView.image = event.type.image
+                return cell
+            } else {
+                let cell = Bundle.main.loadNibNamed("EmptySectionPlaceholderTableViewCell", owner: self, options: nil)?.first as! EmptySectionPlaceholderTableViewCell
+                return cell
+            }
         }
             
         else if (indexPath as NSIndexPath).section == 2 {
