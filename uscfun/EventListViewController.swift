@@ -29,7 +29,7 @@ class EventListViewController: UIViewController {
         self.view.backgroundColor = UIColor.backgroundGray
         self.startEventButton.layer.cornerRadius = startEventButton.frame.size.height / 2.0
         self.tableView.backgroundColor = UIColor.backgroundGray
-
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 120, 0)
         self.view.bringSubview(toFront: startEventButton)
         self.tableView.addSubview(self.refreshControl)
     }
@@ -45,11 +45,22 @@ class EventListViewController: UIViewController {
     }
 
     func handleRefresh() {
+        
+        EventRequest.loadNewerData {
+            numberOfNewUpdates in
+            self.showUpdateReminder(numberOfNewUpdates: numberOfNewUpdates)
+            self.tableView.reloadData()
+        }
+        
         self.refreshControl.endRefreshing()
     }
     
     func handleLoadMoreData() {
-        
+        EventRequest.loadOlderData {
+            numberOfNewUpdates in
+            self.showUpdateReminder(numberOfNewUpdates: numberOfNewUpdates)
+            self.tableView.reloadData()
+        }
     }
     
     func showUpdateReminder(numberOfNewUpdates: Int) {
@@ -177,6 +188,9 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if section == 0 {
+            return 5
+        }
+        if section == 2 {
             return 5
         }
         return 15

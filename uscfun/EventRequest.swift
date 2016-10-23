@@ -94,7 +94,22 @@ class EventRequest {
         }
     }
     
-    static func fetchNewer(currentlyNewestUpdatedTime: Date, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
+    static func handleLoadedData(error: Error?, events: [Event]?, completion: ((_ numberOfNewUpdates: Int) -> Void)?) {
+        EventRequest.handleLoadedData(error: error, events: events)
+        if completion != nil {
+            completion!(events?.count ?? 0)
+        }
+    }
+    
+    static func loadNewerData(completion: ((_ numberOfNewUpdates: Int) -> Void)?) {
+        EventRequest.fetchNewer(currentlyNewestUpdatedTime: EventRequest.newestUpdatedAt, handler: handleLoadedData, completion: completion)
+    }
+    
+    static func loadOlderData(completion: ((_ numberOfNewUpdates: Int) -> Void)?) {
+        EventRequest.fetchOlder(currentlyOldestUpdatedTime: EventRequest.oldestUpdatedAt, handler: handleLoadedData, completion: completion)
+    }
+    
+    static func fetchNewer(currentlyNewestUpdatedTime: Date, handler: @escaping (_ error: Error?, _ results: [Event]?, ((_ numberOfNewUpdates: Int) -> Void)?) -> Void, completion: ((_ numberOfNewUpdates: Int) -> Void)?) {
         if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
             query.order(byDescending: EventKeyConstants.keyOfUpdatedAt)
             query.includeKey(EventKeyConstants.keyOfCreator)
@@ -106,7 +121,7 @@ class EventRequest {
                 objects, error in
                 if error != nil {
                     print(error!.localizedDescription)
-                    handler(error!, nil)
+                    handler(error!, nil, completion)
                     return
                 }
                 if objects != nil {
@@ -116,13 +131,13 @@ class EventRequest {
                             newerEvents.append(event)
                         }
                     }
-                    handler(nil, newerEvents)
+                    handler(nil, newerEvents, completion)
                 }
             }
         }
     }
     
-    static func fetchOlder(currentlyOldestUpdatedTime: Date, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
+    static func fetchOlder(currentlyOldestUpdatedTime: Date, handler: @escaping (_ error: Error?, _ results: [Event]?, ((_ numberOfNewUpdates: Int) -> Void)?) -> Void, completion: ((_ numberOfNewUpdates: Int) -> Void)?) {
         if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
             query.order(byDescending: EventKeyConstants.keyOfUpdatedAt)
             query.includeKey(EventKeyConstants.keyOfCreator)
@@ -134,7 +149,7 @@ class EventRequest {
                 objects, error in
                 if error != nil {
                     print(error!.localizedDescription)
-                    handler(error!, nil)
+                    handler(error!, nil, completion)
                     return
                 }
                 if objects != nil {
@@ -144,7 +159,7 @@ class EventRequest {
                             newerEvents.append(event)
                         }
                     }
-                    handler(nil, newerEvents)
+                    handler(nil, newerEvents, completion)
                 }
             }
         }

@@ -162,6 +162,17 @@ class USCFunConstants {
             }
         }
     }
+    
+    static func signOut() {
+        UserDefaults.hasLoggedIn = false
+        EventRequest.events.removeAll()
+        EventRequest.eventsCurrentUserIsIn.removeAll()
+        
+        let appDelegate = UIApplication.shared.delegate! as! AppDelegate
+        let initialViewController = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController()
+        appDelegate.window?.rootViewController = initialViewController
+        appDelegate.window?.makeKeyAndVisible()
+    }
 }
 
 struct UserKeyConstants {

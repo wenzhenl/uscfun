@@ -126,11 +126,7 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
                 self.performSegue(withIdentifier: segueId, sender: self)
             }
         default:
-            UserDefaults.hasLoggedIn = false
-            let appDelegate = UIApplication.shared.delegate! as! AppDelegate
-            let initialViewController = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController()
-            appDelegate.window?.rootViewController = initialViewController
-            appDelegate.window?.makeKeyAndVisible()
+            USCFunConstants.signOut()
         }
         
         tableView.deselectRow(at: indexPath, animated: false)
