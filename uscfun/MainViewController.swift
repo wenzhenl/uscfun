@@ -49,6 +49,8 @@ extension MainViewController: EZSwipeControllerDataSource {
         let messageListViewController = self.storyboard!.instantiateViewController(withIdentifier: "MessageListViewController") as! MessageListViewController
         let  eventListViewController = self.storyboard!.instantiateViewController(withIdentifier: "EventListViewController") as! EventListViewController
         let meViewController = self.storyboard!.instantiateViewController(withIdentifier: "MeViewController") as! MeViewController
+        meViewController.delegate = eventListViewController
+        
         return [messageListViewController, eventListViewController, meViewController]
     }
     
@@ -58,7 +60,6 @@ extension MainViewController: EZSwipeControllerDataSource {
     
     func navigationBarDataForPageIndex(_ index: Int) -> UINavigationBar {
         
-   
         guard index >= 0, index < titles.count else {
             return UINavigationBar()
         }

@@ -76,6 +76,16 @@
                                     <segue destination="S4L-W6-5Jr" kind="presentation" id="Un6-wo-Dgr"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7rQ-h2-4me">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="i7b-xW-DD5"/>
+                                    <constraint firstAttribute="width" constant="50" id="xM1-5k-XaZ"/>
+                                </constraints>
+                                <state key="normal" image="plus"/>
+                                <connections>
+                                    <segue destination="S4L-W6-5Jr" kind="show" id="t50-Fu-9cH"/>
+                                </connections>
+                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" rowHeight="125" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ss7-Ne-KSf">
                                 <color key="backgroundColor" red="0.1423776252" green="0.39793669869999998" blue="0.11561009160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
@@ -281,7 +291,9 @@
                             <constraint firstItem="ss7-Ne-KSf" firstAttribute="width" secondItem="iTf-wD-Ez0" secondAttribute="width" id="6df-5A-fmk"/>
                             <constraint firstItem="ss7-Ne-KSf" firstAttribute="top" secondItem="tGq-CL-lzP" secondAttribute="bottom" constant="47" id="9nZ-2A-FHy"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ZlJ-l0-F51" secondAttribute="trailing" constant="8" id="Axn-jv-Yck"/>
+                            <constraint firstItem="EwJ-fR-3fp" firstAttribute="top" secondItem="7rQ-h2-4me" secondAttribute="bottom" constant="60" id="Bg0-zD-JEE"/>
                             <constraint firstItem="EwJ-fR-3fp" firstAttribute="top" secondItem="ZlJ-l0-F51" secondAttribute="bottom" constant="60" id="Bpj-p1-JdF"/>
+                            <constraint firstItem="7rQ-h2-4me" firstAttribute="leading" secondItem="iTf-wD-Ez0" secondAttribute="leadingMargin" constant="8" id="G0p-CB-rtq"/>
                             <constraint firstItem="Y3N-c7-Ud4" firstAttribute="centerX" secondItem="ss7-Ne-KSf" secondAttribute="centerX" id="KX9-6C-TbR"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ss7-Ne-KSf" secondAttribute="trailing" id="KoM-mY-6gh"/>
                             <constraint firstItem="ss7-Ne-KSf" firstAttribute="width" secondItem="iTf-wD-Ez0" secondAttribute="width" id="SIL-Dc-XNO"/>
@@ -296,7 +308,6 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="54b-qn-E9S"/>
                                 <exclude reference="6df-5A-fmk"/>
                                 <exclude reference="9nZ-2A-FHy"/>
                                 <exclude reference="KoM-mY-6gh"/>
@@ -304,12 +315,14 @@
                                 <exclude reference="lCw-ci-aLS"/>
                                 <exclude reference="mJp-6F-2cN"/>
                                 <exclude reference="qeZ-Ic-Lnr"/>
+                                <exclude reference="54b-qn-E9S"/>
                                 <exclude reference="efK-C7-vuT"/>
                             </mask>
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="W3h-uh-6eO"/>
                     <connections>
+                        <outlet property="leftStartEventButton" destination="7rQ-h2-4me" id="kYb-p8-B2h"/>
                         <outlet property="newEventReminderLabel" destination="sgD-zb-B6r" id="Zm5-5E-Rue"/>
                         <outlet property="newEventReminderView" destination="Y3N-c7-Ud4" id="kXT-iB-FJa"/>
                         <outlet property="newEventReminderViewConstraint" destination="4HO-GD-1rO" id="6Bv-RN-LNE"/>
@@ -618,5 +631,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Dds-CA-tqB"/>
+        <segue reference="Un6-wo-Dgr"/>
     </inferredMetricsTieBreakers>
 </document>

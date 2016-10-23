@@ -33,6 +33,8 @@
 		0A68D7FB1DB07F2000DDF3A5 /* EventRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A68D7FA1DB07F2000DDF3A5 /* EventRequest.swift */; };
 		0A70C09B1DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A70C0991DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.swift */; };
 		0A70C09C1DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A70C09A1DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.xib */; };
+		0A70C09F1DBD3B4000C06354 /* LabelSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A70C09D1DBD3B4000C06354 /* LabelSwitchTableViewCell.swift */; };
+		0A70C0A01DBD3B4000C06354 /* LabelSwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A70C09E1DBD3B4000C06354 /* LabelSwitchTableViewCell.xib */; };
 		0A845BD41D7206FE00287DEB /* ConfirmEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A845BD31D7206FE00287DEB /* ConfirmEmailViewController.swift */; };
 		0A963DB31D7122D000E0532F /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A963DB21D7122D000E0532F /* SignInViewController.swift */; };
 		0A963DB51D7122E200E0532F /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A963DB41D7122E200E0532F /* SignUpViewController.swift */; };
@@ -99,6 +101,8 @@
 		0A68D7FA1DB07F2000DDF3A5 /* EventRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventRequest.swift; sourceTree = "<group>"; };
 		0A70C0991DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptySectionPlaceholderTableViewCell.swift; sourceTree = "<group>"; };
 		0A70C09A1DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmptySectionPlaceholderTableViewCell.xib; sourceTree = "<group>"; };
+		0A70C09D1DBD3B4000C06354 /* LabelSwitchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelSwitchTableViewCell.swift; sourceTree = "<group>"; };
+		0A70C09E1DBD3B4000C06354 /* LabelSwitchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelSwitchTableViewCell.xib; sourceTree = "<group>"; };
 		0A845BD31D7206FE00287DEB /* ConfirmEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewController.swift; sourceTree = "<group>"; };
 		0A963DB21D7122D000E0532F /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		0A963DB41D7122E200E0532F /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -213,6 +217,8 @@
 				0AE5C54C1DB1E2CC00B455F4 /* LabelArrowTableViewCell.xib */,
 				0A70C0991DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.swift */,
 				0A70C09A1DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.xib */,
+				0A70C09D1DBD3B4000C06354 /* LabelSwitchTableViewCell.swift */,
+				0A70C09E1DBD3B4000C06354 /* LabelSwitchTableViewCell.xib */,
 			);
 			name = TableViewCells;
 			sourceTree = "<group>";
@@ -397,6 +403,7 @@
 				0A427FAE1D97F579007A96BE /* TextViewTableViewCell.xib in Resources */,
 				0A96D3D21DADBF5B00AB272A /* ImgKeyValueArrowTableViewCell.xib in Resources */,
 				0AAE42E01D9A289D00B34601 /* ImgKeyValueTableViewCell.xib in Resources */,
+				0A70C0A01DBD3B4000C06354 /* LabelSwitchTableViewCell.xib in Resources */,
 				0A3D2B591D7B9256004F57EF /* Main.storyboard in Resources */,
 				0A6834C81D56858C002E9B0D /* LaunchScreen.storyboard in Resources */,
 				0A427FB21D97F627007A96BE /* ImageViewTableViewCell.xib in Resources */,
@@ -465,6 +472,7 @@
 			files = (
 				0A845BD41D7206FE00287DEB /* ConfirmEmailViewController.swift in Sources */,
 				0A3D2B5B1D7B9299004F57EF /* EventListViewController.swift in Sources */,
+				0A70C09F1DBD3B4000C06354 /* LabelSwitchTableViewCell.swift in Sources */,
 				0A3D2B5F1D7B938B004F57EF /* MeViewController.swift in Sources */,
 				0A70C09B1DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.swift in Sources */,
 				0ADE0CA31DB1F19D009F89A0 /* AboutViewController.swift in Sources */,

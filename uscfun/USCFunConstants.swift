@@ -70,6 +70,15 @@ extension UserDefaults {
             UserDefaults.standard.setValue(newValue, forKey: "User_Gender_Key")
         }
     }
+    
+    class var isLefthanded: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "User_Lefthanded_Key")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "User_Lefthanded_Key")
+        }
+    }
 }
 
 class USCFunConstants {
@@ -139,6 +148,14 @@ class USCFunConstants {
                         }
                     }
                     
+                    if allkeys.contains(UserKeyConstants.keyOfLeftHanded) {
+                        if let isLefthanded = updatedUser!.value(forKey: UserKeyConstants.keyOfLeftHanded) as? Bool {
+                            UserDefaults.isLefthanded = isLefthanded
+                        }
+                    } else {
+                        UserDefaults.isLefthanded = false
+                    }
+                    
                     if UserDefaults.avatar == nil {
                         if allkeys.contains(UserKeyConstants.keyOfAvatarUrl) {
                             if let avatarUrl = updatedUser!.value(forKey: UserKeyConstants.keyOfAvatarUrl) as? String {
@@ -173,6 +190,12 @@ class USCFunConstants {
         appDelegate.window?.rootViewController = initialViewController
         appDelegate.window?.makeKeyAndVisible()
     }
+    
+    static func updateIsLefthanded(isLefthanded: Bool) {
+        UserDefaults.isLefthanded = isLefthanded
+        AVUser.current().setObject(UserDefaults.isLefthanded, forKey: UserKeyConstants.keyOfLeftHanded)
+        AVUser.current().saveInBackground()
+    }
 }
 
 struct UserKeyConstants {
@@ -181,6 +204,7 @@ struct UserKeyConstants {
     static let keyOfAvatarColor = "avatarColor"
     static let keyOfSchool = "school"
     static let keyOfGender = "gender"
+    static let keyOfLeftHanded = "leftHanded"
 }
 
 struct EventKeyConstants {

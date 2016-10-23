@@ -12,6 +12,7 @@ class EventListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var startEventButton: UIButton!
+    @IBOutlet weak var leftStartEventButton: UIButton!
     @IBOutlet weak var newEventReminderView: UIView!
     @IBOutlet weak var newEventReminderLabel: UILabel!
     
@@ -28,9 +29,16 @@ class EventListViewController: UIViewController {
         
         self.view.backgroundColor = UIColor.backgroundGray
         self.startEventButton.layer.cornerRadius = startEventButton.frame.size.height / 2.0
+        self.leftStartEventButton.layer.cornerRadius = leftStartEventButton.frame.size.height / 2.0
         self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 120, 0)
         self.view.bringSubview(toFront: startEventButton)
+        self.view.bringSubview(toFront: leftStartEventButton)
+        if UserDefaults.isLefthanded {
+            self.startEventButton.isHidden = true
+        } else {
+            self.leftStartEventButton.isHidden = true
+        }
         self.tableView.addSubview(self.refreshControl)
     }
     
@@ -114,6 +122,18 @@ class EventListViewController: UIViewController {
     let identifierToEventDetail = "go to event detail"
 }
 
+extension EventListViewController: UserSettingDelegate {
+    func userDidChangeLefthandMode() {
+        if UserDefaults.isLefthanded {
+            self.leftStartEventButton.isHidden = false
+            self.startEventButton.isHidden = true
+        } else {
+            self.leftStartEventButton.isHidden = true
+            self.startEventButton.isHidden = false
+        }
+    }
+}
+
 extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -131,16 +151,6 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             return 44
         }
         return 250
-//        switch tableView.cellForRow(at: indexPath) {
-//        case is AttendingEventTableViewCell:
-//            return 44
-//        case is EmptySectionPlaceholderTableViewCell:
-//            return 150
-//        case is EventListTableViewCell:
-//            return 250
-//        default:
-//            return 44
-//        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

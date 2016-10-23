@@ -12,7 +12,12 @@ import UIImageView_Letters
 enum MeCell {
     case profileTableCell(image: UIImage, text: String, segueId: String)
     case labelArrowTableCell(text: String, segueId: String)
+    case labelSwitchTableCell(text: String)
     case regularTableCell(text: String, segueId: String)
+}
+
+protocol UserSettingDelegate {
+    func userDidChangeLefthandMode()
 }
 
 class MeViewController: UIViewController {
@@ -20,6 +25,7 @@ class MeViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var meSections = [[MeCell]]()
+    var delegate: UserSettingDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,11 +43,20 @@ class MeViewController: UIViewController {
         let eventHistorySection = [MeCell.labelArrowTableCell(text: "我发起过的活动", segueId: segueIdOfCheckEventDetail), MeCell.labelArrowTableCell(text: "我参加过的活动", segueId: segueIdOfCheckEventDetail)]
         meSections.append(eventHistorySection)
         
+        let userHabitSectin = [MeCell.labelSwitchTableCell(text: "左手模式")]
+        meSections.append(userHabitSectin)
+        
         let appInfoSection = [MeCell.labelArrowTableCell(text: "给USC日常评分", segueId: segueIdOfRateUSCFun), MeCell.labelArrowTableCell(text: "反馈问题或建议", segueId: segueIdOfGiveComments), MeCell.labelArrowTableCell(text: "关于USC日常", segueId: segueIdOfAboutUSCFun)]
         meSections.append(appInfoSection)
         
         let signOutSection = [MeCell.regularTableCell(text: "退出登录", segueId: segueIdOfSignOut)]
         meSections.append(signOutSection)
+    }
+    
+    func switchToLefthandMode(switchElement: UISwitch) {
+        print(switchElement.isOn)
+        USCFunConstants.updateIsLefthanded(isLefthanded: switchElement.isOn)
+        delegate?.userDidChangeLefthandMode()
     }
     
     let segueIdOfUpdateProfile = "go to update profile"
@@ -78,6 +93,13 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
             let cell = Bundle.main.loadNibNamed("LabelArrowTableViewCell", owner: self, options: nil)?.first as! LabelArrowTableViewCell
             cell.mainTextLabel.text = text
             cell.mainTextLabel.textColor = UIColor.darkGray
+            return cell
+        case .labelSwitchTableCell(let text):
+            let cell = Bundle.main.loadNibNamed("LabelSwitchTableViewCell", owner: self, options: nil)?.first as! LabelSwitchTableViewCell
+            cell.mainLabel.text = text
+            cell.mainLabel.textColor = UIColor.darkGray
+            cell.mainSwitch.isOn = UserDefaults.isLefthanded
+            cell.mainSwitch.addTarget(self, action: #selector(switchToLefthandMode(switchElement:)), for: UIControlEvents.valueChanged)
             return cell
         case .regularTableCell(let text, _):
             let cell = UITableViewCell()
@@ -125,6 +147,8 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
             } else {
                 self.performSegue(withIdentifier: segueId, sender: self)
             }
+        case .labelSwitchTableCell(_):
+            break
         default:
             USCFunConstants.signOut()
         }
