@@ -154,6 +154,9 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        if EventRequest.events.count == 0 {
+            return 4
+        }
         return 3 + EventRequest.events.count
     }
     
@@ -187,6 +190,8 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
                 return cell
             } else {
                 let cell = Bundle.main.loadNibNamed("EmptySectionPlaceholderTableViewCell", owner: self, options: nil)?.first as! EmptySectionPlaceholderTableViewCell
+                cell.mainTextView.text = "(￣▽￣) 少年你今天好像还没有参加任何小活动，快去参加一波吧"
+                cell.selectionStyle = .none
                 return cell
             }
         }
@@ -197,16 +202,23 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             cell.selectionStyle = .none
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "EventListCell") as! EventListTableViewCell
-            cell.selectionStyle = .none
-            let event = EventRequest.events[indexPath.section - 3]
-            cell.mainImageView.image = event.type.image
-            cell.nameTextView.text = event.name
-            cell.startTimeLabel.text = event.startTime?.description
-            cell.locationNameLabel.text = event.locationName
-            cell.due = event.due
-            cell.timerStarted()
-            return cell
+            if EventRequest.events.count > 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "EventListCell") as! EventListTableViewCell
+                cell.selectionStyle = .none
+                let event = EventRequest.events[indexPath.section - 3]
+                cell.mainImageView.image = event.type.image
+                cell.nameTextView.text = event.name
+                cell.startTimeLabel.text = event.startTime?.description
+                cell.locationNameLabel.text = event.locationName
+                cell.due = event.due
+                cell.timerStarted()
+                return cell
+            } else {
+                let cell = Bundle.main.loadNibNamed("EmptySectionPlaceholderTableViewCell", owner: self, options: nil)?.first as! EmptySectionPlaceholderTableViewCell
+                cell.mainTextView.text = " щ(ﾟДﾟщ)好像活动都被参加完了，少年快去发起一波小活动吧！"
+                cell.selectionStyle = .none
+                return cell
+            }
         }
     }
     

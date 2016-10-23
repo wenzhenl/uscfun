@@ -226,7 +226,7 @@ class Event {
             client.open() {
                 succeeded, error in
                 if succeeded {
-                    client.createConversation(withName: self.name, clientIds: [], attributes: nil, options: AVIMConversationOption.transient) {
+                    client.createConversation(withName: "讨论", clientIds: [], attributes: nil, options: AVIMConversationOption.transient) {
                         conversation, error in
                         if(error == nil) {
                             print("create conversation successfully")
@@ -255,6 +255,7 @@ class Event {
     private func saveDataToSever() {
         print("SAVING DATA TO SERVER")
         if let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent) {
+            
             eventObject.setObject(name, forKey: EventKeyConstants.keyOfName)
             eventObject.setObject(type.rawValue, forKey: EventKeyConstants.keyOfType)
             eventObject.setObject(totalSeats, forKey: EventKeyConstants.keyOfTotalSeats)
@@ -312,12 +313,18 @@ class Event {
         print("===================END POSTING EVENT===============================")
     }
     
-    func join(newMember: AVUser) {
+    func add(newMember: AVUser, handler: (_ succeed: Bool, _ error: Error?) -> Void) {
         members.append(newMember)
-        if let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent) {
-            eventObject.setObject(members, forKey: "members")
-            eventObject.fetchWhenSave = true
-            eventObject.incrementKey("remainingSeats")
+        if let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId) {
+            eventObject.setObject(members, forKey: EventKeyConstants.keyOfMembers)
+            eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: -1)
+            
+            var error: NSError?
+            if eventObject.save(&error) {
+                handler(true, nil)
+            } else {
+                handler(false, error)
+            }
         }
     }
 }

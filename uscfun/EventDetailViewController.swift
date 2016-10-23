@@ -71,6 +71,18 @@ class EventDetailViewController: UIViewController {
         }
     }
 
+    func joinEvent(sender: UIButton) {
+        sender.isEnabled = false
+        self.event?.add(newMember: AVUser.current()) {
+            succeed, error in
+            if succeed {
+                sender.setTitle("已经参加", for: .normal)
+                sender.backgroundColor = UIColor.lightGray
+                sender.isEnabled = true
+            }
+        }
+    }
+    
     func shareEvent() {
         let image = #imageLiteral(resourceName: "albums")
         let ext = WXImageObject()
@@ -140,6 +152,7 @@ extension EventDetailViewController: UITableViewDataSource {
             let cell = Bundle.main.loadNibNamed("SingleButtonTableViewCell", owner: self, options: nil)?.first as! SingleButtonTableViewCell
              cell.button.layer.cornerRadius = 25
             cell.button.setTitle("报名参加", for: .normal)
+            cell.button.addTarget(self, action: #selector(joinEvent(sender:)), for: .touchUpInside)
             return cell
         case .textViewTableCell(let text):
             let cell = Bundle.main.loadNibNamed("TextViewTableViewCell", owner: self, options: nil)?.first as! TextViewTableViewCell
