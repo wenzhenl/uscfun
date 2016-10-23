@@ -135,6 +135,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                 
                 if succeed {
                     // TODO: preload contents before going to the homepage
+                    EventRequest.preLoadData()
                     let appDelegate = UIApplication.shared.delegate! as! AppDelegate
                     let initialViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
                     UIApplication.shared.statusBarStyle = .lightContent

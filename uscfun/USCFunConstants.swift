@@ -75,6 +75,7 @@ extension UserDefaults {
 class USCFunConstants {
     
     static let minimumPasswordLength = 5
+    static let nameOfUSC = "usc"
     
     static let avatarColorOptions : [String: UIColor] = [
         "blue": UIColor.avatarBlue,
@@ -96,7 +97,7 @@ class USCFunConstants {
         user.password = USCFunConstants.password
         user.email = UserDefaults.email
         user.setObject(UserDefaults.nickname, forKey: UserKeyConstants.keyOfNickname)
-        user.setObject("usc", forKey: UserKeyConstants.keyOfSchool)
+        user.setObject(USCFunConstants.nameOfUSC, forKey: UserKeyConstants.keyOfSchool)
         
         // randomly generate avatar color
         let randomIndex = Int(arc4random_uniform(UInt32(USCFunConstants.avatarColorOptions.count)))
@@ -185,6 +186,7 @@ struct EventKeyConstants {
     static let keyOfActive = "active"
     static let keyOfFinished = "finished"
     static let keyOfConversationId = "conversationId"
+    static let keyOfSchool = "school"
     
     static let keyOfStartTime = "startTime"
     static let keyOfEndTime = "endTime"

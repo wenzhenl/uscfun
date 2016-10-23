@@ -71,7 +71,7 @@ class Event {
     var members: [AVUser]
     var active: Bool
     var finished: Bool
-    
+    var school: String
     
     //--MARK: properties added by Leancloud
     var objectId: String?
@@ -93,6 +93,7 @@ class Event {
         members.append(creator)
         self.active = true
         self.finished = false
+        self.school = USCFunConstants.nameOfUSC
     }
     
     init?(data: AVObject?) {
@@ -199,6 +200,7 @@ class Event {
                         self.note = note
                     }
                 }
+                self.school = USCFunConstants.nameOfUSC
                 self.objectId = data.objectId
                 self.createdAt = data.createdAt
                 self.updatedAt = data.updatedAt
@@ -264,7 +266,8 @@ class Event {
             eventObject.setObject(members, forKey: EventKeyConstants.keyOfMembers)
             eventObject.setObject(active, forKey: EventKeyConstants.keyOfActive)
             eventObject.setObject(finished, forKey: EventKeyConstants.keyOfFinished)
-            
+            eventObject.setObject(school, forKey: EventKeyConstants.keyOfSchool)
+
             if conversationId != nil {
                 eventObject.setObject(conversationId!, forKey: EventKeyConstants.keyOfConversationId)
             } else {

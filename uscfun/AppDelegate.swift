@@ -58,6 +58,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
             print(error)
         }
         
+        // PRE-LOAD DATA
+        if UserDefaults.hasLoggedIn {
+            EventRequest.preLoadData()
+        }
+        
         // choose login scene or home scene based on if loggedin
         window = UIWindow(frame: UIScreen.main.bounds)
         if UserDefaults.hasLoggedIn {
@@ -90,7 +95,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-
+        
+        print("APPLICATION DID BECOME ACTIVE")
         let num = application.applicationIconBadgeNumber
         if num != 0 {
             if let currentInstallation = AVInstallation.current() {
