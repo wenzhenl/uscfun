@@ -100,6 +100,7 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
             cell.mainLabel.textColor = UIColor.darkGray
             cell.mainSwitch.isOn = UserDefaults.isLefthanded
             cell.mainSwitch.addTarget(self, action: #selector(switchToLefthandMode(switchElement:)), for: UIControlEvents.valueChanged)
+            cell.selectionStyle = .none
             return cell
         case .regularTableCell(let text, _):
             let cell = UITableViewCell()
