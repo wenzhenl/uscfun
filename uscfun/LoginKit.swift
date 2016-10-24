@@ -8,31 +8,15 @@
 
 import Foundation
 
-enum SignUpError: Error, CustomNSError {
+enum SignUpError: Error {
     case cannotCreateAvatar(reason: String)
     case cannotUploadAvatar(reason: String)
-    
-    static var errorDomain: String {
-        return "SignUpError"
-    }
-    
-    var errorCode: Int {
-        switch self {
-        case .cannotCreateAvatar(_):
-            return 1
-        case .cannotUploadAvatar(_):
-            return 2
-        }
-    }
-    
-    var errorUserInfo: [String : Any] {
-        switch self {
-        case .cannotCreateAvatar(let reason):
-            return ["avatar": reason]
-        case .cannotUploadAvatar(let reason):
-            return ["avatar": reason]
-        }
-    }
+}
+
+enum LoginError: Error {
+    case cannotFetchKeys(reason: String)
+    case cannotFindNickname(reason: String)
+    case cannotFetchAvatar(reason: String)
 }
 
 class LoginKit {
@@ -83,48 +67,52 @@ class LoginKit {
         AVUser.logInWithUsername(inBackground: email, password: password) {
             updatedUser, error in
             if updatedUser != nil {
-                print("updatedUser:\(updatedUser!.username)")
-                print("currentUser:\(AVUser.current().username)")
-                if let allkeys = updatedUser!.allKeys() as? [String] {
-                    if allkeys.contains(UserKeyConstants.keyOfNickname) {
-                        if let nickname = updatedUser?.value(forKey: UserKeyConstants.keyOfNickname) as? String {
-                            UserDefaults.nickname = nickname
-                        }
-                    }
-                    
-                    if allkeys.contains(UserKeyConstants.keyOfGender) {
-                        if let gender = updatedUser!.value(forKey: UserKeyConstants.keyOfGender) as? String {
-                            UserDefaults.gender = gender
-                        }
-                    }
-                    
-                    if allkeys.contains(UserKeyConstants.keyOfLeftHanded) {
-                        if let isLefthanded = updatedUser!.value(forKey: UserKeyConstants.keyOfLeftHanded) as? Bool {
-                            UserDefaults.isLefthanded = isLefthanded
-                        }
-                    } else {
-                        UserDefaults.isLefthanded = false
-                    }
-                    
-                    if AVUser.current() == nil || updatedUser!.email != UserDefaults.email {
-                        if allkeys.contains(UserKeyConstants.keyOfAvatarUrl) {
-                            if let avatarUrl = updatedUser!.value(forKey: UserKeyConstants.keyOfAvatarUrl) as? String {
-                                if let file = AVFile(url: avatarUrl) {
-                                    var avatarError: NSError?
-                                    if let avatarData = file.getData(&avatarError) {
-                                        UserDefaults.avatar = UIImage(data: avatarData)
-                                    } else {
-                                        handler(false, error)
-                                        return
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                    UserDefaults.hasLoggedIn = true
-                    UserDefaults.email = updatedUser!.email
+                
+                guard let allkeys = updatedUser!.allKeys() as? [String] else {
+                    handler(false, LoginError.cannotFetchKeys(reason: "cannot fetch keys"))
+                    return
                 }
+                
+                guard allkeys.contains(UserKeyConstants.keyOfNickname),
+                    let nickname = updatedUser?.value(forKey: UserKeyConstants.keyOfNickname) as? String else {
+                    handler(false, LoginError.cannotFindNickname(reason: "cannot find nickname"))
+                    return
+                }
+                
+                if AVUser.current() == nil || updatedUser!.email != UserDefaults.email {
+                    guard allkeys.contains(UserKeyConstants.keyOfAvatarUrl),
+                        let avatarUrl = updatedUser!.value(forKey: UserKeyConstants.keyOfAvatarUrl) as? String,
+                        let file = AVFile(url: avatarUrl) else {
+                            handler(false, LoginError.cannotFetchAvatar(reason: "cannot fetch avatar"))
+                            return
+                    }
+                    
+                    var avatarError: NSError?
+                    guard let avatarData = file.getData(&avatarError) else {
+                        handler(false, avatarError)
+                        return
+                    }
+                    
+                    UserDefaults.avatar = UIImage(data: avatarData)
+                }
+                
+                if allkeys.contains(UserKeyConstants.keyOfGender) {
+                    if let gender = updatedUser!.value(forKey: UserKeyConstants.keyOfGender) as? String {
+                        UserDefaults.gender = gender
+                    }
+                }
+                
+                if allkeys.contains(UserKeyConstants.keyOfLeftHanded) {
+                    if let isLefthanded = updatedUser!.value(forKey: UserKeyConstants.keyOfLeftHanded) as? Bool {
+                        UserDefaults.isLefthanded = isLefthanded
+                    }
+                } else {
+                    UserDefaults.isLefthanded = false
+                }
+                
+                UserDefaults.nickname = nickname
+                UserDefaults.hasLoggedIn = true
+                UserDefaults.email = updatedUser!.email
                 handler(true, nil)
             } else {
                 handler(false, error)
