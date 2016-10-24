@@ -318,13 +318,16 @@ class Event {
     }
     
     func add(newMember: AVUser, handler: (_ succeed: Bool, _ error: Error?) -> Void) {
-        members.append(newMember)
         if let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId) {
-            eventObject.setObject(members, forKey: EventKeyConstants.keyOfMembers)
+            var membersCopy = members
+            membersCopy.append(newMember)
+            eventObject.setObject(membersCopy, forKey: EventKeyConstants.keyOfMembers)
             eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: -1)
             
             var error: NSError?
             if eventObject.save(&error) {
+                members.append(newMember)
+                remainingSeats -= 1
                 handler(true, nil)
             } else {
                 handler(false, error)
@@ -333,20 +336,23 @@ class Event {
     }
     
     func remove(member: AVUser, handler: (_ succeed: Bool, _ error: Error?) -> Void) {
-        if let memberIndex = members.index(of: member) {
-            members.remove(at: memberIndex)
-        } else {
+        
+        guard let memberIndex = members.index(of: member) else {
             let error = EventError.userNotAMember("这个人没有参加这个活动呀!")
             handler(false, error)
             return
         }
         
         if let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId) {
-            eventObject.setObject(members, forKey: EventKeyConstants.keyOfMembers)
+            var membersCopy = members
+            membersCopy.remove(at: memberIndex)
+            eventObject.setObject(membersCopy, forKey: EventKeyConstants.keyOfMembers)
             eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: 1)
             
             var error: NSError?
             if eventObject.save(&error) {
+                members.remove(at: memberIndex)
+                remainingSeats += 1
                 handler(true, nil)
             } else {
                 handler(false, error)
