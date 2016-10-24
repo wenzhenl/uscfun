@@ -49,12 +49,12 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if password.characters.count >= USCFunConstants.minimumPasswordLength && !password.characters.contains(" ") {
-            USCFunConstants.password = password
+            LoginKit.password = password
             passwordTextField.resignFirstResponder()
             errorLabel.isHidden = true
             SVProgressHUD.show()
 
-            USCFunConstants.signUp() {
+            LoginKit.signUp() {
                 succeed, error in
                 SVProgressHUD.dismiss()
                 if succeed {

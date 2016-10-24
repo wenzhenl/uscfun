@@ -144,7 +144,7 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
         case .labelSwitchTableCell(_):
             break
         default:
-            USCFunConstants.signOut()
+            LoginKit.signOut()
         }
         
         tableView.deselectRow(at: indexPath, animated: false)
