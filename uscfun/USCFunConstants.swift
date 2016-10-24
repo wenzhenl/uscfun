@@ -336,6 +336,35 @@ extension String {
             return nil
         }
     }
+    
+    func letterImage(textColor: UIColor, backgroundColor: UIColor, width: CGFloat, height: CGFloat) -> UIImage? {
+        let trimmedText = self.trimmingCharacters(in: .whitespaces)
+        guard !trimmedText.isEmpty else {   return nil }
+        var image = UIImage()
+        let label = UILabel()
+        label.frame.size = CGSize(width: width, height: height)
+        label.textColor = textColor
+        label.backgroundColor = backgroundColor
+        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: width / 3.0)
+        
+        let fullNameArray = self.components(separatedBy: " ")
+        guard fullNameArray.count > 0 else {
+            return nil
+        }
+        if fullNameArray.count == 1 {
+            label.text = String(self.characters.first!)
+        } else {
+            let firstName = fullNameArray.first
+            let lastName = fullNameArray.last
+            label.text = String(describing: firstName!.characters.first!) + String(describing: lastName!.characters.first!)
+        }
+        UIGraphicsBeginImageContext(label.frame.size)
+        label.layer.render(in: UIGraphicsGetCurrentContext()!)
+        image = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return image
+    }
 }
 
 extension UIImage {
