@@ -53,15 +53,6 @@ extension UserDefaults {
         }
     }
     
-    class var avatarColor: String? {
-        get {
-            return UserDefaults.standard.string(forKey: "User_AvatarColor_Key")
-        }
-        set {
-            UserDefaults.standard.setValue(newValue, forKey: "User_AvatarColor_Key")
-        }
-    }
-    
     class var gender: String? {
         get {
             return UserDefaults.standard.string(forKey: "User_Gender_Key")
@@ -86,15 +77,7 @@ class USCFunConstants {
     static let minimumPasswordLength = 5
     static let nameOfUSC = "usc"
     
-    static let avatarColorOptions : [String: UIColor] = [
-        "blue": UIColor.avatarBlue,
-        "cyan": UIColor.avatarCyan,
-        "pink": UIColor.avatarPink,
-        "golden": UIColor.avatarGolden,
-        "orange": UIColor.avatarOrange,
-        "tomato": UIColor.avatarTomato,
-        "green": UIColor.avatarGreen,
-    ]
+    static let avatarColorOptions = [UIColor.avatarBlue, UIColor.avatarCyan, UIColor.avatarPink, UIColor.avatarGolden, UIColor.avatarOrange, UIColor.avatarTomato, UIColor.avatarGreen]
     
     static var password: String?
 
@@ -110,15 +93,21 @@ class USCFunConstants {
         
         // randomly generate avatar color
         let randomIndex = Int(arc4random_uniform(UInt32(USCFunConstants.avatarColorOptions.count)))
-        let randomAvatarColorName = Array(USCFunConstants.avatarColorOptions.keys)[randomIndex]
-        UserDefaults.avatarColor = randomAvatarColorName
-        user.setObject(randomAvatarColorName, forKey: UserKeyConstants.keyOfAvatarColor)
-        
-        var error: NSError?
-        if user.signUp(&error) {
-            handler(true, nil)
-        } else {
-            handler(false, error)
+        if let avatar = UserDefaults.nickname!.letterImage(textColor: UIColor.white, backgroundColor: USCFunConstants.avatarColorOptions[randomIndex], width: 100, height: 100) {
+            UserDefaults.avatar = avatar
+            if let file = AVFile(data: UIImagePNGRepresentation(avatar)) {
+                var error: NSError?
+                if file.save(&error) {
+                    user.setObject(file.url, forKey: UserKeyConstants.keyOfAvatarUrl)
+                    if user.signUp(&error) {
+                        handler(true, nil)
+                    } else {
+                        handler(false, error)
+                    }
+                } else {
+                    handler(false, error)
+                }
+            }
         }
     }
     
@@ -127,8 +116,8 @@ class USCFunConstants {
         AVUser.logInWithUsername(inBackground: email, password: password) {
             updatedUser, error in
             if updatedUser != nil {
-                UserDefaults.hasLoggedIn = true
-                UserDefaults.email = updatedUser!.email
+                print("updatedUser:\(updatedUser!.username)")
+                print("currentUser:\(AVUser.current().username)")
                 if let allkeys = updatedUser!.allKeys() as? [String] {
                     if allkeys.contains(UserKeyConstants.keyOfNickname) {
                         if let nickname = updatedUser?.value(forKey: UserKeyConstants.keyOfNickname) as? String {
@@ -142,12 +131,6 @@ class USCFunConstants {
                         }
                     }
                     
-                    if allkeys.contains(UserKeyConstants.keyOfAvatarColor) {
-                        if let avatarColor = updatedUser!.value(forKey: UserKeyConstants.keyOfAvatarColor) as? String {
-                            UserDefaults.avatarColor = avatarColor
-                        }
-                    }
-                    
                     if allkeys.contains(UserKeyConstants.keyOfLeftHanded) {
                         if let isLefthanded = updatedUser!.value(forKey: UserKeyConstants.keyOfLeftHanded) as? Bool {
                             UserDefaults.isLefthanded = isLefthanded
@@ -156,22 +139,24 @@ class USCFunConstants {
                         UserDefaults.isLefthanded = false
                     }
                     
-                    if UserDefaults.avatar == nil {
+                    if AVUser.current() == nil || updatedUser!.email != UserDefaults.email {
                         if allkeys.contains(UserKeyConstants.keyOfAvatarUrl) {
                             if let avatarUrl = updatedUser!.value(forKey: UserKeyConstants.keyOfAvatarUrl) as? String {
                                 if let file = AVFile(url: avatarUrl) {
-                                    file.getDataInBackground() {
-                                        data, error in
-                                        if data != nil {
-                                            UserDefaults.avatar = UIImage(data: data!)
-                                        } else {
-                                            print(error)
-                                        }
+                                    var avatarError: NSError?
+                                    if let avatarData = file.getData(&avatarError) {
+                                        UserDefaults.avatar = UIImage(data: avatarData)
+                                    } else {
+                                        handler(false, error)
+                                        return
                                     }
                                 }
                             }
                         }
                     }
+                    
+                    UserDefaults.hasLoggedIn = true
+                    UserDefaults.email = updatedUser!.email
                 }
                 handler(true, nil)
             } else {
@@ -201,7 +186,6 @@ class USCFunConstants {
 struct UserKeyConstants {
     static let keyOfNickname = "nickname"
     static let keyOfAvatarUrl = "avatarUrl"
-    static let keyOfAvatarColor = "avatarColor"
     static let keyOfSchool = "school"
     static let keyOfGender = "gender"
     static let keyOfLeftHanded = "leftHanded"
@@ -346,7 +330,7 @@ extension String {
         label.textColor = textColor
         label.backgroundColor = backgroundColor
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: width / 3.0)
+        label.font = UIFont.boldSystemFont(ofSize: width / 2.0)
         
         let fullNameArray = self.components(separatedBy: " ")
         guard fullNameArray.count > 0 else {
@@ -359,7 +343,7 @@ extension String {
             let lastName = fullNameArray.last
             label.text = String(describing: firstName!.characters.first!) + String(describing: lastName!.characters.first!)
         }
-        UIGraphicsBeginImageContext(label.frame.size)
+        UIGraphicsBeginImageContextWithOptions(label.frame.size, true, 0.0)
         label.layer.render(in: UIGraphicsGetCurrentContext()!)
         image = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()

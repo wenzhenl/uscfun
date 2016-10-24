@@ -7,6 +7,5 @@ target 'uscfun' do
     pod 'AVOSCloudIM'
     pod 'AVOSCloudCrashReporting'
     pod 'SVProgressHUD'
-    pod 'UIImageView-Letters'
 end
 

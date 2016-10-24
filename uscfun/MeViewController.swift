@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import UIImageView_Letters
 
 enum MeCell {
     case profileTableCell(image: UIImage, text: String, segueId: String)
@@ -35,9 +34,7 @@ class MeViewController: UIViewController {
         self.tableView.contentInset = UIEdgeInsetsMake(30, 0, 0, 0)
         
         //--MARK: populate the cells
-        let tempImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
-        tempImageView.setImageWith(UserDefaults.nickname, color: UIColor.white)
-        let profileSection = [MeCell.profileTableCell(image: tempImageView.image!, text: UserDefaults.nickname!, segueId: segueIdOfUpdateProfile)]
+        let profileSection = [MeCell.profileTableCell(image: UserDefaults.avatar!, text: UserDefaults.nickname!, segueId: segueIdOfUpdateProfile)]
         meSections.append(profileSection)
         
         let eventHistorySection = [MeCell.labelArrowTableCell(text: "我发起过的活动", segueId: segueIdOfCheckEventDetail), MeCell.labelArrowTableCell(text: "我参加过的活动", segueId: segueIdOfCheckEventDetail)]
@@ -79,13 +76,9 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch meSections[indexPath.section][indexPath.row] {
-        case .profileTableCell(_, let text, _):
+        case .profileTableCell(let image, let text, _):
             let cell = Bundle.main.loadNibNamed("ProfileTableViewCell", owner: self, options: nil)?.first as! ProfileTableViewCell
-            if UserDefaults.avatar != nil {
-                cell.mainImageView.image = UserDefaults.avatar
-            } else {
-                cell.mainImageView.setImageWith(text, color: USCFunConstants.avatarColorOptions[UserDefaults.avatarColor ?? "blue"])
-            }
+            cell.mainImageView.image = image
             cell.mainImageView.layer.cornerRadius = 4
             cell.mainLabel.text = text
             return cell

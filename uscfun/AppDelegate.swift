@@ -39,13 +39,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
             userIds, completionHandler in
             var users = [LCCKUser]()
             if let userIds = userIds {
-                for id in userIds {
-                    print(id)
-                    let user = LCCKUser(clientId: id)
-                    users.append(user!)
+                if let query = AVQuery(className: "_User") {
+                    query.whereKey("username", containedIn: userIds)
+                    if let objects = query.findObjects() {
+                        for object in objects as! [AVUser] {
+                            let user = LCCKUser(userId: object.value(forKey: UserKeyConstants.keyOfNickname) as! String!, name: object.value(forKey: UserKeyConstants.keyOfNickname) as! String!, avatarURL: URL(string: object.value(forKey: UserKeyConstants.keyOfAvatarUrl) as! String))
+                            users.append(user!)
+                        }
+                    }
                 }
             }
-            
             if completionHandler != nil {
                 print("pass users")
                 completionHandler!(users, nil)
