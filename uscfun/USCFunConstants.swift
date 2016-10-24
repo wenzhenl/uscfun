@@ -348,3 +348,12 @@ extension UIImage {
         return newImage
     }
 }
+
+extension Date {
+    var humanReadable: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter.string(from: self)
+    }
+}

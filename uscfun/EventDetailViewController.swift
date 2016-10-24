@@ -45,11 +45,11 @@ class EventDetailViewController: UIViewController {
             // handle optional information
             var optionalSection = [EventDetailCell]()
             if let startTime = event.startTime {
-                optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "clock"), key: "活动开始时间", value: startTime.description))
+                optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "clock"), key: "活动开始时间", value: startTime.humanReadable))
             }
             
             if let endTime = event.endTime {
-                optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "clock"), key: "活动结束时间", value: endTime.description))
+                optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "clock"), key: "活动结束时间", value: endTime.humanReadable))
             }
             
             if let locationName = event.locationName {
@@ -57,7 +57,7 @@ class EventDetailViewController: UIViewController {
             }
             
             if let expectedFee = event.expectedFee {
-                optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "dollar"), key: "预计费用", value: expectedFee.description))
+                optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "dollar"), key: "预计费用", value: "$\(expectedFee.description)"))
             }
             
             if optionalSection.count > 0 {

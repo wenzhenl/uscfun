@@ -23,12 +23,10 @@ class EventRequest {
         }
         if let events = events {
             for event in events {
-                if let creator = User(user: event.creator) {
-                    if creator.username == UserDefaults.email {
-                        EventRequest.eventsCurrentUserIsIn.append(event)
-                    } else {
-                        EventRequest.events.append(event)
-                    }
+                if event.members.contains(AVUser.current()) {
+                    EventRequest.eventsCurrentUserIsIn.append(event)
+                } else {
+                    EventRequest.events.append(event)
                 }
                 if event.updatedAt! > EventRequest.newestUpdatedAt {
                     EventRequest.newestUpdatedAt = event.updatedAt!

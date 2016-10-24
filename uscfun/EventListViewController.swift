@@ -208,7 +208,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
                 let event = EventRequest.events[indexPath.section - 3]
                 cell.mainImageView.image = event.type.image
                 cell.nameTextView.text = event.name
-                cell.startTimeLabel.text = event.startTime?.description
+                cell.startTimeLabel.text = event.startTime?.humanReadable
                 cell.locationNameLabel.text = event.locationName
                 cell.due = event.due
                 cell.timerStarted()
