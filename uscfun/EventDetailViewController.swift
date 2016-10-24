@@ -21,39 +21,57 @@ class EventDetailViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     var event: Event?
-    var detailCells = [[EventDetailCell]]()
+    var detailSections = [[EventDetailCell]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareEvent))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(takeActions))
         self.view.backgroundColor = UIColor.backgroundGray
         self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.tableFooterView = UIView()
         
+        populateSections()
+    }
+
+    func populateSections() {
         // Populate the cells
+        detailSections.removeAll()
         if let event = event {
             let profileSection = [EventDetailCell.imageViewTableCell(image: event.type.image)]
+            detailSections.append(profileSection)
+            
             let nameSection = [EventDetailCell.textViewTableCell(text: event.name)]
-            let joinButtonSection = [EventDetailCell.singleButtonTableCell]
+            detailSections.append(nameSection)
+            
+            if event.members.contains(AVUser.current()) {
+                var memberShip = ""
+                if event.creator == AVUser.current() {
+                    memberShip = "作为发起人"
+                } else {
+                    memberShip = "作为参与者"
+                }
+                let memberStatusSection = [EventDetailCell.imgKeyValueArrowTableCell(image: #imageLiteral(resourceName: "fatuser"), key: memberStatusKey, value: memberShip)]
+                detailSections.append(memberStatusSection)
+            } else {
+                let joinButtonSection = [EventDetailCell.singleButtonTableCell]
+                detailSections.append(joinButtonSection)
+            }
             let chatSection = [EventDetailCell.imgKeyValueArrowTableCell(image: #imageLiteral(resourceName: "chat"), key: "参与讨论", value: "")]
-            detailCells.append(profileSection)
-            detailCells.append(nameSection)
-            detailCells.append(joinButtonSection)
-            detailCells.append(chatSection)
+            detailSections.append(chatSection)
             
             // handle optional information
             var optionalSection = [EventDetailCell]()
             if let startTime = event.startTime {
-                optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "clock"), key: "活动开始时间", value: startTime.humanReadable))
+                optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "clock"), key: "开始时间", value: startTime.humanReadable))
             }
             
             if let endTime = event.endTime {
-                optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "clock"), key: "活动结束时间", value: endTime.humanReadable))
+                optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "clock"), key: "结束时间", value: endTime.humanReadable))
             }
             
             if let locationName = event.locationName {
-                 optionalSection.append(EventDetailCell.imgKeyValueArrowTableCell(image: #imageLiteral(resourceName: "location"), key: eventLocationKey, value: locationName))
+                optionalSection.append(EventDetailCell.imgKeyValueArrowTableCell(image: #imageLiteral(resourceName: "location"), key: eventLocationKey, value: locationName))
             }
             
             if let expectedFee = event.expectedFee {
@@ -61,26 +79,47 @@ class EventDetailViewController: UIViewController {
             }
             
             if optionalSection.count > 0 {
-                detailCells.append(optionalSection)
+                detailSections.append(optionalSection)
             }
             
             if let note = event.note {
                 let noteSection = [EventDetailCell.textViewTableCell(text: note)]
-                detailCells.append(noteSection)
+                detailSections.append(noteSection)
             }
         }
     }
-
+    
     func joinEvent(sender: UIButton) {
         sender.isEnabled = false
         self.event?.add(newMember: AVUser.current()) {
             succeed, error in
             if succeed {
-                sender.setTitle("已经参加", for: .normal)
-                sender.backgroundColor = UIColor.lightGray
-                sender.isEnabled = true
+                populateSections()
+                self.tableView.reloadData()
             }
         }
+    }
+    
+    func quitEvent() {
+        let alertController = UIAlertController(title: "退出小活动", message: "你是否想退出此活动?", preferredStyle: .actionSheet)
+        let quit = UIAlertAction(title: "决定退出", style: .default) {
+            _ in
+            self.event?.remove(member: AVUser.current()) {
+                succeed, error in
+                if succeed {
+                    self.populateSections()
+                    self.tableView.reloadData()
+                }
+            }
+        }
+        let cancel = UIAlertAction(title: "原谅我的手滑", style: .cancel, handler: nil)
+        alertController.addAction(quit)
+        alertController.addAction(cancel)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func takeActions() {
+        
     }
     
     func shareEvent() {
@@ -116,21 +155,22 @@ class EventDetailViewController: UIViewController {
     
     //--MARK: global constants
     let eventLocationKey = "活动地点"
+    let memberStatusKey = "已经参加"
     let mapSegueIdentifier = "SHOWMAP"
 }
 
 extension EventDetailViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return detailCells.count
+        return detailSections.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return detailCells[section].count
+        return detailSections[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch detailCells[indexPath.section][indexPath.row] {
+        switch detailSections[indexPath.section][indexPath.row] {
         case .imageViewTableCell(let image):
             let cell = Bundle.main.loadNibNamed("ImageViewTableViewCell", owner: self, options: nil)?.first as! ImageViewTableViewCell
             cell.mainImageView.image = image
@@ -166,7 +206,7 @@ extension EventDetailViewController: UITableViewDataSource {
 extension EventDetailViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch detailCells[indexPath.section][indexPath.row] {
+        switch detailSections[indexPath.section][indexPath.row] {
         case .imageViewTableCell(_):
             return 150
         default:
@@ -174,7 +214,7 @@ extension EventDetailViewController: UITableViewDelegate {
         }    }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch detailCells[indexPath.section][indexPath.row] {
+        switch detailSections[indexPath.section][indexPath.row] {
         case .imageViewTableCell(_):
             return 200
         default:
@@ -183,7 +223,7 @@ extension EventDetailViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        switch detailCells[indexPath.section][indexPath.row] {
+        switch detailSections[indexPath.section][indexPath.row] {
         case .imageViewTableCell(_), .singleButtonTableCell:
             cell.backgroundColor = UIColor.clear
         default:
@@ -226,11 +266,13 @@ extension EventDetailViewController: UITableViewDelegate {
             }
         }
         else {
-            switch detailCells[indexPath.section][indexPath.row] {
+            switch detailSections[indexPath.section][indexPath.row] {
             case .imgKeyValueArrowTableCell(_, let key, _):
-                print("go to map")
                 if key == eventLocationKey {
                     performSegue(withIdentifier: mapSegueIdentifier, sender: self)
+                }
+                else if key == memberStatusKey {
+                    self.quitEvent()
                 }
             default:
                 print("don't go to map")

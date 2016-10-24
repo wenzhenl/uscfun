@@ -10,6 +10,10 @@ import Foundation
 import AVOSCloud
 import AVOSCloudIM
 
+enum EventError: Error {
+    case userNotAMember(String)
+}
+
 enum EventType: String {
     case foodAndDrink = "foodAndDrink"
     case shopping = "shopping"
@@ -318,6 +322,28 @@ class Event {
         if let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId) {
             eventObject.setObject(members, forKey: EventKeyConstants.keyOfMembers)
             eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: -1)
+            
+            var error: NSError?
+            if eventObject.save(&error) {
+                handler(true, nil)
+            } else {
+                handler(false, error)
+            }
+        }
+    }
+    
+    func remove(member: AVUser, handler: (_ succeed: Bool, _ error: Error?) -> Void) {
+        if let memberIndex = members.index(of: member) {
+            members.remove(at: memberIndex)
+        } else {
+            let error = EventError.userNotAMember("这个人没有参加这个活动呀!")
+            handler(false, error)
+            return
+        }
+        
+        if let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId) {
+            eventObject.setObject(members, forKey: EventKeyConstants.keyOfMembers)
+            eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: 1)
             
             var error: NSError?
             if eventObject.save(&error) {
