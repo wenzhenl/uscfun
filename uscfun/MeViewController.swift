@@ -52,7 +52,7 @@ class MeViewController: UIViewController {
     
     func switchToLefthandMode(switchElement: UISwitch) {
         print(switchElement.isOn)
-        USCFunConstants.updateIsLefthanded(isLefthanded: switchElement.isOn)
+        UserDefaults.updateIsLefthanded(isLefthanded: switchElement.isOn)
         delegate?.userDidChangeLefthandMode()
     }
     

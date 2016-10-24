@@ -69,4 +69,10 @@ extension UserDefaults {
             UserDefaults.standard.setValue(newValue, forKey: "User_Lefthanded_Key")
         }
     }
+    
+    static func updateIsLefthanded(isLefthanded: Bool) {
+        UserDefaults.isLefthanded = isLefthanded
+        AVUser.current().setObject(UserDefaults.isLefthanded, forKey: UserKeyConstants.keyOfLeftHanded)
+        AVUser.current().saveInBackground()
+    }
 }

@@ -15,12 +15,6 @@ class USCFunConstants {
     static let nameOfUSC = "usc"
     
     static let avatarColorOptions = [UIColor.avatarBlue, UIColor.avatarCyan, UIColor.avatarPink, UIColor.avatarGolden, UIColor.avatarOrange, UIColor.avatarTomato, UIColor.avatarGreen]
-       
-    static func updateIsLefthanded(isLefthanded: Bool) {
-        UserDefaults.isLefthanded = isLefthanded
-        AVUser.current().setObject(UserDefaults.isLefthanded, forKey: UserKeyConstants.keyOfLeftHanded)
-        AVUser.current().saveInBackground()
-    }
 }
 
 struct UserKeyConstants {
