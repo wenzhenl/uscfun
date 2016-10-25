@@ -57,17 +57,19 @@ class EventListViewController: UIViewController {
         EventRequest.fetchNewer(currentlyNewestUpdatedTime: EventRequest.newestUpdatedAt) {
             error, events in
             if error != nil {
-                self.showUpdateReminder(message: error!.localizedDescription, numberOfNewUpdates: 0)
+                self.showUpdateReminder(message: "网络无法连接，请检查你的网络", numberOfNewUpdates: 0)
                 return
             }
             
-            let numberOfEventsBeforeUpdate = EventRequest.events.count + EventRequest.myEvents.count
+            let numberOfEventsBeforeUpdate = EventRequest.events.count
             if let events = events {
                 for event in events {
                     if event.active {
                         if let index = EventRequest.indexOfEvents[event.objectId!] {
+                            print("already in event")
                             EventRequest.events[index] = event
                         } else {
+                            print("new event")
                             EventRequest.events.append(event)
                             EventRequest.indexOfEvents[event.objectId!] = EventRequest.events.count - 1
                         }
@@ -75,8 +77,10 @@ class EventListViewController: UIViewController {
                     
                     if event.members.contains(AVUser.current()) {
                         if let index = EventRequest.indexOfMyEvents[event.objectId!] {
+                            print("already in my event")
                             EventRequest.myEvents[index] = event
                         } else {
+                            print("new my event")
                             EventRequest.myEvents.append(event)
                             EventRequest.indexOfMyEvents[event.objectId!] = EventRequest.myEvents.count - 1
                         }
@@ -90,10 +94,13 @@ class EventListViewController: UIViewController {
                     }
                 }
             }
-            let numberOfEventsAfterUpdate = EventRequest.events.count + EventRequest.myEvents.count
+            let numberOfEventsAfterUpdate = EventRequest.events.count
             if numberOfEventsBeforeUpdate == numberOfEventsAfterUpdate {
                 self.showUpdateReminder(message: "没有发现新的微活动", numberOfNewUpdates: 0)
+            } else {
+                self.showUpdateReminder(message: "I have nothing to say", numberOfNewUpdates: numberOfEventsAfterUpdate - numberOfEventsBeforeUpdate)
             }
+            self.tableView.reloadData()
         }
         
         self.refreshControl.endRefreshing()
