@@ -94,12 +94,22 @@ class EventListViewController: UIViewController {
                     }
                 }
             }
+            
+            EventRequest.events.sort {
+                $0.due < $1.due
+            }
+            
+            EventRequest.myEvents.sort {
+                $0.due < $1.due
+            }
+            
             let numberOfEventsAfterUpdate = EventRequest.events.count
             if numberOfEventsBeforeUpdate == numberOfEventsAfterUpdate {
                 self.showUpdateReminder(message: "没有发现新的微活动", numberOfNewUpdates: 0)
             } else {
                 self.showUpdateReminder(message: "I have nothing to say", numberOfNewUpdates: numberOfEventsAfterUpdate - numberOfEventsBeforeUpdate)
             }
+            
             self.tableView.reloadData()
         }
         

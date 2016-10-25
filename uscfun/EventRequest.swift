@@ -58,7 +58,7 @@ class EventRequest {
     
     static func fetch(handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
         if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
-            query.order(byDescending: EventKeyConstants.keyOfDue)
+            query.order(byAscending: EventKeyConstants.keyOfDue)
             query.includeKey(EventKeyConstants.keyOfCreator)
             query.includeKey(EventKeyConstants.keyOfMembers)
             query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfUSC)
@@ -79,7 +79,7 @@ class EventRequest {
     
     static func fetchInBackground(handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
         if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
-            query.order(byDescending: EventKeyConstants.keyOfDue)
+            query.order(byAscending: EventKeyConstants.keyOfDue)
             query.includeKey(EventKeyConstants.keyOfCreator)
             query.includeKey(EventKeyConstants.keyOfMembers)
             query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfUSC)
@@ -108,7 +108,7 @@ class EventRequest {
     
     static func fetchNewer(currentlyNewestUpdatedTime: Date, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
         if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
-            query.order(byDescending: EventKeyConstants.keyOfDue)
+            query.order(byAscending: EventKeyConstants.keyOfDue)
             query.includeKey(EventKeyConstants.keyOfCreator)
             query.includeKey(EventKeyConstants.keyOfMembers)
             query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfUSC)
@@ -138,7 +138,7 @@ class EventRequest {
     
     static func fetchOlder(currentlyOldestUpdatedTime: Date, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
         if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
-            query.order(byDescending: EventKeyConstants.keyOfDue)
+            query.order(byAscending: EventKeyConstants.keyOfDue)
             query.includeKey(EventKeyConstants.keyOfCreator)
             query.includeKey(EventKeyConstants.keyOfMembers)
             query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfUSC)
