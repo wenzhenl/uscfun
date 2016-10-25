@@ -139,4 +139,41 @@ extension Date {
         formatter.timeStyle = .short
         return formatter.string(from: self)
     }
+    
+    var gapFromNow: String {
+        let currentDate = Date()
+         let diffDateComponents = Calendar.current.dateComponents([Calendar.Component.day,.hour,.minute], from: currentDate, to: self)
+        var days = "", hours = "", minutes = ""
+        if let day = diffDateComponents.day {
+            if day > 0 {
+                if day < 10 {
+                    days = "0\(day)天"
+                } else {
+                    days = "\(day)天"
+                }
+            }
+        }
+        
+        if let hour = diffDateComponents.hour {
+            if hour > 0 {
+                if hour < 10 {
+                    hours = "0\(hour)小时"
+                } else {
+                    hours = "\(hour)小时"
+                }
+            }
+        }
+        
+        if let minute = diffDateComponents.minute {
+            if minute > 0 {
+                if minute < 10 {
+                    minutes = "0\(minute)分钟"
+                } else {
+                    minutes = "\(minute)分钟"
+                }
+            }
+        }
+        
+        return days + hours + minutes
+    }
 }

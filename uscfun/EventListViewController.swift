@@ -31,7 +31,7 @@ class EventListViewController: UIViewController {
         self.startEventButton.layer.cornerRadius = startEventButton.frame.size.height / 2.0
         self.leftStartEventButton.layer.cornerRadius = leftStartEventButton.frame.size.height / 2.0
         self.tableView.backgroundColor = UIColor.backgroundGray
-        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 120, 0)
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 60, 0)
         self.view.bringSubview(toFront: startEventButton)
         self.view.bringSubview(toFront: leftStartEventButton)
         if UserDefaults.isLefthanded {
@@ -54,33 +54,62 @@ class EventListViewController: UIViewController {
 
     func handleRefresh() {
         
-        EventRequest.loadNewerData {
-            numberOfNewUpdates in
-            self.showUpdateReminder(numberOfNewUpdates: numberOfNewUpdates)
-            self.tableView.reloadData()
+        EventRequest.fetchNewer(currentlyNewestUpdatedTime: EventRequest.newestUpdatedAt) {
+            error, events in
+            if error != nil {
+                self.showUpdateReminder(message: error!.localizedDescription, numberOfNewUpdates: 0)
+                return
+            }
+            
+            let numberOfEventsBeforeUpdate = EventRequest.events.count + EventRequest.myEvents.count
+            if let events = events {
+                for event in events {
+                    if event.active {
+                        if let index = EventRequest.indexOfEvents[event.objectId!] {
+                            EventRequest.events[index] = event
+                        } else {
+                            EventRequest.events.append(event)
+                            EventRequest.indexOfEvents[event.objectId!] = EventRequest.events.count - 1
+                        }
+                    }
+                    
+                    if event.members.contains(AVUser.current()) {
+                        if let index = EventRequest.indexOfMyEvents[event.objectId!] {
+                            EventRequest.myEvents[index] = event
+                        } else {
+                            EventRequest.myEvents.append(event)
+                            EventRequest.indexOfMyEvents[event.objectId!] = EventRequest.myEvents.count - 1
+                        }
+                    }
+
+                    if event.updatedAt! > EventRequest.newestUpdatedAt {
+                        EventRequest.newestUpdatedAt = event.updatedAt!
+                    }
+                    if event.updatedAt! < EventRequest.oldestUpdatedAt {
+                        EventRequest.oldestUpdatedAt = event.updatedAt!
+                    }
+                }
+            }
+            let numberOfEventsAfterUpdate = EventRequest.events.count + EventRequest.myEvents.count
+            if numberOfEventsBeforeUpdate == numberOfEventsAfterUpdate {
+                self.showUpdateReminder(message: "没有发现新的微活动", numberOfNewUpdates: 0)
+            }
         }
         
         self.refreshControl.endRefreshing()
     }
-    
-    func handleLoadMoreData() {
-        EventRequest.loadOlderData {
-            numberOfNewUpdates in
-            self.showUpdateReminder(numberOfNewUpdates: numberOfNewUpdates)
-            self.tableView.reloadData()
-        }
-    }
-    
-    func showUpdateReminder(numberOfNewUpdates: Int) {
+
+    func showUpdateReminder(message: String, numberOfNewUpdates: Int) {
         
         guard numberOfNewUpdates >= 0 else {
             return
         }
-        AudioServicesPlaySystemSound(1002)
+        
         if numberOfNewUpdates > 0 {
+            AudioServicesPlaySystemSound(1002)
             self.newEventReminderLabel.text = "更新了\(numberOfNewUpdates)个微活动"
         } else {
-            self.newEventReminderLabel.text = "没有更新的微活动"
+            self.newEventReminderLabel.text = message
         }
         UIView.animate(withDuration: 1.0) {
             _ in
@@ -106,9 +135,14 @@ class EventListViewController: UIViewController {
                 if let eventDetailVC = destination as? EventDetailViewController {
                     switch sender {
                     case is AttendingEventTableViewCell:
-                        eventDetailVC.event = EventRequest.eventsCurrentUserIsIn[(self.tableView.indexPathForSelectedRow?.row)!]
+                        let attendingCell = sender as! AttendingEventTableViewCell
+                        let index = EventRequest.indexOfMyEvents[attendingCell.eventId]
+                        eventDetailVC.event = EventRequest.myEvents[index!]
+                        
                     case is EventListTableViewCell:
-                        eventDetailVC.event = EventRequest.events[(self.tableView.indexPathForSelectedRow?.section)! - 3]
+                        let eventListCell = sender as! EventListTableViewCell
+                        let index = EventRequest.indexOfEvents[eventListCell.eventId]
+                        eventDetailVC.event = EventRequest.events[index!]
                     default:
                         break
                     }
@@ -136,23 +170,6 @@ extension EventListViewController: UserSettingDelegate {
 
 extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        return UITableViewAutomaticDimension
-    }
-    
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath as NSIndexPath).section == 1 && EventRequest.eventsCurrentUserIsIn.count == 0 {
-            return 150
-        }
-        if (indexPath as NSIndexPath).section == 0  || (indexPath as NSIndexPath).section == 1 {
-            return 44
-        } else if (indexPath as NSIndexPath).section == 2 && (indexPath as NSIndexPath).row == 0 {
-            return 44
-        }
-        return 270
-    }
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         if EventRequest.events.count == 0 {
             return 4
@@ -162,14 +179,32 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 1 {
-            if EventRequest.eventsCurrentUserIsIn.count == 0 {
+            if EventRequest.myEvents.count == 0 {
                 return 1
             } else {
-                return EventRequest.eventsCurrentUserIsIn.count
+                return EventRequest.myEvents.count
             }
         } else {
             return 1
         }
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (indexPath as NSIndexPath).section == 1 && EventRequest.myEvents.count == 0 {
+            return 150
+        }
+        if (indexPath as NSIndexPath).section == 0  || (indexPath as NSIndexPath).section == 1 {
+            return 44
+        }
+        else if (indexPath as NSIndexPath).section == 2 && (indexPath as NSIndexPath).row == 0 {
+            return 44
+        }
+        return 270
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -181,10 +216,11 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         else if (indexPath as NSIndexPath).section == 1 {
-            if EventRequest.eventsCurrentUserIsIn.count > 0 {
+            if EventRequest.myEvents.count > 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AttendingEventCell") as! AttendingEventTableViewCell
-                let event = EventRequest.eventsCurrentUserIsIn[indexPath.row]
-                cell.selectionStyle = .none
+                let event = EventRequest.myEvents[indexPath.row]
+                cell.eventId = event.objectId
+                cell.selectionStyle = .default
                 cell.nameTextView.text = event.name
                 cell.eventImageView.image = event.type.image
                 return cell
@@ -201,19 +237,22 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             cell.textLabel?.text = "当前微活动列表"
             cell.selectionStyle = .none
             return cell
-        } else {
+        }
+        
+        else {
             if EventRequest.events.count > 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "EventListCell") as! EventListTableViewCell
                 cell.selectionStyle = .none
                 let event = EventRequest.events[indexPath.section - 3]
+                cell.eventId = event.objectId
                 cell.mainImageView.image = event.type.image
-                cell.mainImageView.contentMode = .scaleAspectFit
                 cell.creatorImageView.image = User(user: event.creator)?.avatar
                 cell.nameTextView.text = event.name
                 cell.startTimeLabel.text = event.startTime?.humanReadable ?? "待定"
                 cell.locationNameLabel.text = event.locationName ?? "待定"
                 cell.headCountLabel.text = "已参加\(event.totalSeats - event.remainingSeats)人，目标\(event.totalSeats)人"
                 cell.due = event.due
+                cell.timeLabel.text = "报名截止还有\(event.due.gapFromNow)"
                 cell.timerStarted()
                 return cell
             } else {

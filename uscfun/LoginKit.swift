@@ -123,7 +123,9 @@ class LoginKit {
     static func signOut() {
         UserDefaults.hasLoggedIn = false
         EventRequest.events.removeAll()
-        EventRequest.eventsCurrentUserIsIn.removeAll()
+        EventRequest.myEvents.removeAll()
+        EventRequest.indexOfMyEvents.removeAll()
+        EventRequest.indexOfEvents.removeAll()
         
         let appDelegate = UIApplication.shared.delegate! as! AppDelegate
         let initialViewController = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController()

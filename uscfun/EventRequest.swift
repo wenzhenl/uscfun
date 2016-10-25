@@ -11,8 +11,10 @@ import AVOSCloud
 
 class EventRequest {
     
-    static var eventsCurrentUserIsIn = [Event]()
+    static var myEvents = [Event]()
     static var events = [Event]()
+    static var indexOfMyEvents = [String: Int]()
+    static var indexOfEvents = [String: Int]()
     static var newestUpdatedAt = Date(timeIntervalSince1970: 0)
     static var oldestUpdatedAt = Date(timeIntervalSinceNow: 60*60*24*365*100)
     
@@ -23,10 +25,22 @@ class EventRequest {
         }
         if let events = events {
             for event in events {
+                if event.active {
+                    if let index = EventRequest.indexOfEvents[event.objectId!] {
+                        EventRequest.events[index] = event
+                    } else {
+                        EventRequest.events.append(event)
+                        EventRequest.indexOfEvents[event.objectId!] = EventRequest.events.count - 1
+                    }
+                }
+                
                 if event.members.contains(AVUser.current()) {
-                    EventRequest.eventsCurrentUserIsIn.append(event)
-                } else {
-                    EventRequest.events.append(event)
+                    if let index = EventRequest.indexOfMyEvents[event.objectId!] {
+                        EventRequest.myEvents[index] = event
+                    } else {
+                        EventRequest.myEvents.append(event)
+                        EventRequest.indexOfMyEvents[event.objectId!] = EventRequest.myEvents.count - 1
+                    }
                 }
                 if event.updatedAt! > EventRequest.newestUpdatedAt {
                     EventRequest.newestUpdatedAt = event.updatedAt!
@@ -48,7 +62,7 @@ class EventRequest {
             query.includeKey(EventKeyConstants.keyOfCreator)
             query.includeKey(EventKeyConstants.keyOfMembers)
             query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfUSC)
-            query.whereKey(EventKeyConstants.keyOfActive, equalTo: true)
+            query.whereKey(EventKeyConstants.keyOfFinished, equalTo: false)
             query.cachePolicy = .networkElseCache
             query.maxCacheAge = 24*3600
             if let objects = query.findObjects() {
@@ -69,7 +83,7 @@ class EventRequest {
             query.includeKey(EventKeyConstants.keyOfCreator)
             query.includeKey(EventKeyConstants.keyOfMembers)
             query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfUSC)
-            query.whereKey(EventKeyConstants.keyOfActive, equalTo: true)
+            query.whereKey(EventKeyConstants.keyOfFinished, equalTo: false)
             query.cachePolicy = .networkElseCache
             query.maxCacheAge = 24*3600
             query.findObjectsInBackground() {
@@ -92,34 +106,21 @@ class EventRequest {
         }
     }
     
-    static func handleLoadedData(error: Error?, events: [Event]?, completion: ((_ numberOfNewUpdates: Int) -> Void)?) {
-        EventRequest.handleLoadedData(error: error, events: events)
-        if completion != nil {
-            completion!(events?.count ?? 0)
-        }
-    }
-    
-    static func loadNewerData(completion: ((_ numberOfNewUpdates: Int) -> Void)?) {
-        EventRequest.fetchNewer(currentlyNewestUpdatedTime: EventRequest.newestUpdatedAt, handler: handleLoadedData, completion: completion)
-    }
-    
-    static func loadOlderData(completion: ((_ numberOfNewUpdates: Int) -> Void)?) {
-        EventRequest.fetchOlder(currentlyOldestUpdatedTime: EventRequest.oldestUpdatedAt, handler: handleLoadedData, completion: completion)
-    }
-    
-    static func fetchNewer(currentlyNewestUpdatedTime: Date, handler: @escaping (_ error: Error?, _ results: [Event]?, ((_ numberOfNewUpdates: Int) -> Void)?) -> Void, completion: ((_ numberOfNewUpdates: Int) -> Void)?) {
+    static func fetchNewer(currentlyNewestUpdatedTime: Date, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
         if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
-            query.order(byDescending: EventKeyConstants.keyOfUpdatedAt)
+            query.order(byDescending: EventKeyConstants.keyOfDue)
             query.includeKey(EventKeyConstants.keyOfCreator)
             query.includeKey(EventKeyConstants.keyOfMembers)
             query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfUSC)
-            query.whereKey(EventKeyConstants.keyOfActive, equalTo: true)
+            query.whereKey(EventKeyConstants.keyOfFinished, equalTo: false)
+            query.cachePolicy = .networkElseCache
+            query.maxCacheAge = 24*3600
             query.whereKey(EventKeyConstants.keyOfUpdatedAt, greaterThan: currentlyNewestUpdatedTime)
             query.findObjectsInBackground() {
                 objects, error in
                 if error != nil {
                     print(error!.localizedDescription)
-                    handler(error!, nil, completion)
+                    handler(error!, nil)
                     return
                 }
                 if objects != nil {
@@ -129,25 +130,27 @@ class EventRequest {
                             newerEvents.append(event)
                         }
                     }
-                    handler(nil, newerEvents, completion)
+                    handler(nil, newerEvents)
                 }
             }
         }
     }
     
-    static func fetchOlder(currentlyOldestUpdatedTime: Date, handler: @escaping (_ error: Error?, _ results: [Event]?, ((_ numberOfNewUpdates: Int) -> Void)?) -> Void, completion: ((_ numberOfNewUpdates: Int) -> Void)?) {
+    static func fetchOlder(currentlyOldestUpdatedTime: Date, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
         if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
-            query.order(byDescending: EventKeyConstants.keyOfUpdatedAt)
+            query.order(byDescending: EventKeyConstants.keyOfDue)
             query.includeKey(EventKeyConstants.keyOfCreator)
             query.includeKey(EventKeyConstants.keyOfMembers)
             query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfUSC)
-            query.whereKey(EventKeyConstants.keyOfActive, equalTo: true)
+            query.whereKey(EventKeyConstants.keyOfFinished, equalTo: false)
+            query.cachePolicy = .networkElseCache
+            query.maxCacheAge = 24*3600
             query.whereKey(EventKeyConstants.keyOfUpdatedAt, lessThan: currentlyOldestUpdatedTime)
             query.findObjectsInBackground() {
                 objects, error in
                 if error != nil {
                     print(error!.localizedDescription)
-                    handler(error!, nil, completion)
+                    handler(error!, nil)
                     return
                 }
                 if objects != nil {
@@ -157,7 +160,7 @@ class EventRequest {
                             newerEvents.append(event)
                         }
                     }
-                    handler(nil, newerEvents, completion)
+                    handler(nil, newerEvents)
                 }
             }
         }

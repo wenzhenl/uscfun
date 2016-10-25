@@ -18,8 +18,12 @@ class EventListTableViewCell: UITableViewCell {
     @IBOutlet weak var locationNameLabel: UILabel!
     @IBOutlet weak var creatorImageView: UIImageView!
     @IBOutlet weak var headCountLabel: UILabel!
+    
     var due: Date?
     var timer: Timer?
+    
+    var eventId: String!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         containerView.layer.cornerRadius = 13
@@ -35,9 +39,7 @@ class EventListTableViewCell: UITableViewCell {
     
     func update() {
         if let due = due {
-            let currentDate = Date()
-            let diffDateComponents = Calendar.current.dateComponents([Calendar.Component.day,.hour,.minute], from: currentDate, to: due)
-            self.timeLabel.text = "还剩\(diffDateComponents.day ?? 0)天\(diffDateComponents.hour ?? 0)时\(diffDateComponents.minute ?? 0)分"
+            self.timeLabel.text = "报名截止还有\(due.gapFromNow)"
         }
     }
 

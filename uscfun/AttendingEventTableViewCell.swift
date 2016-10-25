@@ -11,4 +11,6 @@ import UIKit
 class AttendingEventTableViewCell: UITableViewCell {
     @IBOutlet weak var nameTextView: UITextView!
     @IBOutlet weak var eventImageView: UIImageView!
+    
+    var eventId: String!
 }
