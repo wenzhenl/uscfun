@@ -78,9 +78,9 @@ class EventListViewController: UIViewController {
         }
         AudioServicesPlaySystemSound(1002)
         if numberOfNewUpdates > 0 {
-            self.newEventReminderLabel.text = "更新了\(numberOfNewUpdates)个小活动"
+            self.newEventReminderLabel.text = "更新了\(numberOfNewUpdates)个微活动"
         } else {
-            self.newEventReminderLabel.text = "没有更新的小活动"
+            self.newEventReminderLabel.text = "没有更新的微活动"
         }
         UIView.animate(withDuration: 1.0) {
             _ in
@@ -150,7 +150,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
         } else if (indexPath as NSIndexPath).section == 2 && (indexPath as NSIndexPath).row == 0 {
             return 44
         }
-        return 250
+        return 270
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -175,7 +175,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if (indexPath as NSIndexPath).section == 0 {
             let cell = UITableViewCell()
-            cell.textLabel?.text = "我加入的活动"
+            cell.textLabel?.text = "我加入的微活动"
             cell.selectionStyle = .none
             return cell
         }
@@ -190,7 +190,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
                 return cell
             } else {
                 let cell = Bundle.main.loadNibNamed("EmptySectionPlaceholderTableViewCell", owner: self, options: nil)?.first as! EmptySectionPlaceholderTableViewCell
-                cell.mainTextView.text = "(￣▽￣) 少年你今天好像还没有参加任何小活动，快去参加一波吧"
+                cell.mainTextView.text = "少年你今天好像还没有参加任何微活动，快去参加一波吧"
                 cell.selectionStyle = .none
                 return cell
             }
@@ -198,7 +198,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             
         else if (indexPath as NSIndexPath).section == 2 {
             let cell = UITableViewCell()
-            cell.textLabel?.text = "当前活动列表"
+            cell.textLabel?.text = "当前微活动列表"
             cell.selectionStyle = .none
             return cell
         } else {
@@ -208,15 +208,17 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
                 let event = EventRequest.events[indexPath.section - 3]
                 cell.mainImageView.image = event.type.image
                 cell.mainImageView.contentMode = .scaleAspectFit
+                cell.creatorImageView.image = User(user: event.creator)?.avatar
                 cell.nameTextView.text = event.name
-                cell.startTimeLabel.text = event.startTime?.humanReadable
-                cell.locationNameLabel.text = event.locationName
+                cell.startTimeLabel.text = event.startTime?.humanReadable ?? "待定"
+                cell.locationNameLabel.text = event.locationName ?? "待定"
+                cell.headCountLabel.text = "已参加\(event.totalSeats - event.remainingSeats)人，目标\(event.totalSeats)人"
                 cell.due = event.due
                 cell.timerStarted()
                 return cell
             } else {
                 let cell = Bundle.main.loadNibNamed("EmptySectionPlaceholderTableViewCell", owner: self, options: nil)?.first as! EmptySectionPlaceholderTableViewCell
-                cell.mainTextView.text = " щ(ﾟДﾟщ) 好像活动都被参加完了，少年快去发起一波小活动吧！"
+                cell.mainTextView.text = "好像微活动都被参加完了，少年快去发起一波吧！"
                 cell.selectionStyle = .none
                 return cell
             }

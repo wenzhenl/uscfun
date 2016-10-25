@@ -42,14 +42,17 @@ class User {
                 
                 if allkeys.contains(UserKeyConstants.keyOfAvatarUrl), let avatarUrl = user.value(forKey: UserKeyConstants.keyOfAvatarUrl) as? String {
                     if let avatarFile = AVFile(url: avatarUrl) {
-                        avatarFile.getThumbnail(true, width: 100, height: 100) {
-                            image, error in
-                            if image != nil {
-                                self.avatar = image
-                            }
-                            if error != nil {
-                                print(error)
-                            }
+//                        avatarFile.getThumbnail(true, width: 100, height: 100) {
+//                            image, error in
+//                            if image != nil {
+//                                self.avatar = image
+//                            }
+//                            if error != nil {
+//                                print(error)
+//                            }
+//                        }
+                        if let avtarData = avatarFile.getData() {
+                            self.avatar = UIImage(data: avtarData)
                         }
                     }
                 }
