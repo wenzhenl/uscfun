@@ -29,11 +29,11 @@ enum EventType: String {
         case .shopping:
             return #imageLiteral(resourceName: "shopping")
         case .entertainment:
-            return #imageLiteral(resourceName: "recreation")
+            return #imageLiteral(resourceName: "birthday")
         case .travel:
             return #imageLiteral(resourceName: "travel")
         case .study:
-            return #imageLiteral(resourceName: "seasons")
+            return #imageLiteral(resourceName: "birthday")
         default:
             return #imageLiteral(resourceName: "party")
         }

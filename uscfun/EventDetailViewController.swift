@@ -51,7 +51,7 @@ class EventDetailViewController: UIViewController {
                 } else {
                     memberShip = "作为参与者"
                 }
-                let memberStatusSection = [EventDetailCell.imgKeyValueArrowTableCell(image: #imageLiteral(resourceName: "fatuser"), key: memberStatusKey, value: memberShip)]
+                let memberStatusSection = [EventDetailCell.imgKeyValueArrowTableCell(image: #imageLiteral(resourceName: "user1"), key: memberStatusKey, value: memberShip)]
                 detailSections.append(memberStatusSection)
             } else {
                 let joinButtonSection = [EventDetailCell.singleButtonTableCell]
@@ -181,6 +181,7 @@ extension EventDetailViewController: UITableViewDataSource {
             cell.mainImageView.image = image
             cell.keyLabel.text = key
             cell.valueLabel.text = value
+            cell.selectionStyle = .none
             return cell
         case .imgKeyValueArrowTableCell(let image, let key, let value):
             let cell = Bundle.main.loadNibNamed("ImgKeyValueArrowTableViewCell", owner: self, options: nil)?.first as! ImgKeyValueArrowTableViewCell

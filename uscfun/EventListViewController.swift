@@ -207,6 +207,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.selectionStyle = .none
                 let event = EventRequest.events[indexPath.section - 3]
                 cell.mainImageView.image = event.type.image
+                cell.mainImageView.contentMode = .scaleAspectFit
                 cell.nameTextView.text = event.name
                 cell.startTimeLabel.text = event.startTime?.humanReadable
                 cell.locationNameLabel.text = event.locationName
@@ -215,7 +216,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
                 return cell
             } else {
                 let cell = Bundle.main.loadNibNamed("EmptySectionPlaceholderTableViewCell", owner: self, options: nil)?.first as! EmptySectionPlaceholderTableViewCell
-                cell.mainTextView.text = " щ(ﾟДﾟщ)好像活动都被参加完了，少年快去发起一波小活动吧！"
+                cell.mainTextView.text = " щ(ﾟДﾟщ) 好像活动都被参加完了，少年快去发起一波小活动吧！"
                 cell.selectionStyle = .none
                 return cell
             }

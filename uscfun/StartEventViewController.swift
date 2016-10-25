@@ -35,10 +35,26 @@ class StartEventViewController: UIViewController {
     }
     
     @IBAction func postEvent() {
-        let event = Event(name: "测试一下加入", type: EventType.entertainment, totalSeats: 20, remainingSeats: 12, minimumMoreAttendingPeople: 9, due: Date(timeIntervalSinceNow: 12345), creator: AVUser.current())
+        
+        let events = [("去滑雪有人有兴趣么", EventType.entertainment),
+                          ("准备去大华shopping，有兴趣的走起", EventType.shopping),
+                          ("暑假有人回国的么，想要组队", EventType.other),
+                          ("八月份阿黛尔演唱会有人有兴趣么，有兴趣大家组织一下吧，准备好了好一起买票", EventType.entertainment),
+                          ("有人还没有去过黄石的么， 这个春假有人要一起么", EventType.travel),
+                          ("打牌三缺一，有兴趣的速来", EventType.entertainment),
+                          ("过年了打个麻将有人会么", EventType.entertainment),
+                          ("新上映的电影《从你的全世界路过》，听过很不错，有人要一起去看吗", EventType.entertainment),
+                          ("中午有人有兴趣carpool一起去韩国城吃个饭么", EventType.foodAndDrink),
+                          ("新开的这家店石器时代很不错，有兴趣一起组个队去吃么，团购有优惠",EventType.foodAndDrink)]
+        
+        let randIndex = Int(arc4random_uniform(UInt32(events.count)))
+        let event = Event(name: events[randIndex].0, type: events[randIndex].1, totalSeats: 20, remainingSeats: 12, minimumMoreAttendingPeople: 9, due: Date(timeIntervalSinceNow: 12345), creator: AVUser.current())
         event.startTime = Date(timeIntervalSinceNow: 45678)
         event.endTime = Date(timeIntervalSinceNow: 55890)
-//        event.note = "需要3-4人，准备Airbnb，希望大家多穿些衣服注意保暖。另外我们还可以一起打打牌什么的，会玩牌的更加好了。重要的事情说三遍：需要3-4人，准备Airbnb，希望大家多穿些衣服注意保暖。另外我们还可以一起打打牌什么的，会玩牌的更加好了。需要3-4人，准备Airbnb，希望大家多穿些衣服注意保暖。另外我们还可以一起打打牌什么的，会玩牌的更加好了"
+        let yesorno = Int(arc4random_uniform(2))
+        if yesorno == 1 {
+        event.note = "需要3-4人，准备Airbnb，希望大家多穿些衣服注意保暖。另外我们还可以一起打打牌什么的，会玩牌的更加好了。重要的事情说三遍：需要3-4人，准备Airbnb，希望大家多穿些衣服注意保暖。另外我们还可以一起打打牌什么的，会玩牌的更加好了。需要3-4人，准备Airbnb，希望大家多穿些衣服注意保暖。另外我们还可以一起打打牌什么的，会玩牌的更加好了"
+        }
         event.expectedFee = 12.34
         event.transportationMethod = .uber
         event.locationName = "Ellendale Pl"
@@ -62,6 +78,7 @@ extension StartEventViewController: EventDelegate {
         }
     }
 }
+
 //class StartEventViewController: FormViewController {
 //
 //    override func viewDidLoad() {
