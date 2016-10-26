@@ -26,6 +26,7 @@ class MainViewController: EZSwipeController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.navigationController?.isNavigationBarHidden = true
+        self.title = titles[self.currentVCIndex]
         for someview in self.pageViewController.view.subviews {
             if someview is UIScrollView {
                 let scrollview = someview as! UIScrollView
@@ -36,6 +37,7 @@ class MainViewController: EZSwipeController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
+        self.title = ""
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.navigationBar.barTintColor = barColors[self.currentVCIndex]
         self.navigationController?.navigationBar.tintColor = UIColor.white

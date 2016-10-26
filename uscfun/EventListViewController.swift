@@ -233,6 +233,9 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.selectionStyle = .default
                 cell.nameTextView.text = event.name
                 cell.eventImageView.image = event.type.image
+                if event.finalized {
+                    cell.indicatorView.backgroundColor = UIColor.eventFinalized
+                }
                 
                 return cell
             } else {

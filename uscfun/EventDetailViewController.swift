@@ -15,6 +15,7 @@ enum EventDetailCell {
     case singleButtonTableCell
     case imgKeyValueTableCell(image: UIImage, key: String, value: String)
     case imgKeyValueArrowTableCell(image: UIImage, key: String, value: String)
+    case imgKeyScrollViewTableCell(image: UIImage, key: String, contentImages: [UIImage])
 }
 
 class EventDetailViewController: UIViewController {
@@ -43,6 +44,19 @@ class EventDetailViewController: UIViewController {
             
             let nameSection = [EventDetailCell.textViewTableCell(text: event.name)]
             detailSections.append(nameSection)
+            
+            let seatsSection = [EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "target"), key: "目标人数", value: "\(event.totalSeats)人"),
+                                EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "target"), key: "当前报名", value: "\(event.totalSeats - event.remainingSeats)人"),
+                                EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "target"), key: "最低成行", value: "\(event.minimumMoreAttendingPeople)人")]
+            detailSections.append(seatsSection)
+            
+            var memberAvatars = [UIImage]()
+            for i in 0 ..< event.members.count {
+                let avatar = User(user: event.members[i])?.avatar ?? #imageLiteral(resourceName: "user-4")
+                memberAvatars.append(avatar)
+            }
+            let memberSection = [EventDetailCell.imgKeyScrollViewTableCell(image: #imageLiteral(resourceName: "users"), key: "当前成员", contentImages: memberAvatars)]
+            detailSections.append(memberSection)
             
             if event.members.contains(AVUser.current()) {
                 var memberShip = ""
@@ -152,11 +166,31 @@ class EventDetailViewController: UIViewController {
         cv?.navigationController?.isNavigationBarHidden = true
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            switch identifier {
+            case mapSegueIdentifier:
+                let destination = segue.destination
+                if let _ = destination as? MapViewController {
+                    print("go to see map")
+                }
+            case memberSugueIdentifier:
+                let destination = segue.destination
+                if let memberDetailVC = destination as? MembersTableViewController {
+                    memberDetailVC.event = self.event
+                }
+            default:
+                break
+            }
+        }
+    }
     
     //--MARK: global constants
     let eventLocationKey = "活动地点"
+    let conversationKey = "参与讨论"
     let memberStatusKey = "已经参加"
     let mapSegueIdentifier = "SHOWMAP"
+    let memberSugueIdentifier = "see member detail"
 }
 
 extension EventDetailViewController: UITableViewDataSource {
@@ -201,6 +235,25 @@ extension EventDetailViewController: UITableViewDataSource {
             cell.textView.text = text
             cell.textView.textColor = UIColor.darkText
             return cell
+        case .imgKeyScrollViewTableCell(let image, let key, let contentImages):
+            let cell = Bundle.main.loadNibNamed("KeyScrollViewTableViewCell", owner: self, options: nil)?.first as! KeyScrollViewTableViewCell
+            cell.mainImageView.image = image
+            cell.mainLabel.text = key
+            for i in 0 ..< contentImages.count {
+                let imageView = UIImageView()
+                imageView.image = contentImages[i]
+                let imageWidth = CGFloat(30.0)
+                let overlapRatio = CGFloat(2.0/3.0)
+                let xPosition = imageWidth * overlapRatio * CGFloat(i)
+                imageView.frame = CGRect(x: xPosition, y: (44.0 - imageWidth) * 0.5, width: imageWidth, height: imageWidth)
+                imageView.layer.cornerRadius = imageWidth / 2.0
+                imageView.layer.masksToBounds = true
+                imageView.contentMode = .scaleAspectFit
+                cell.mainScrollView.contentSize.width = imageWidth * overlapRatio * CGFloat(i+1)
+                cell.mainScrollView.addSubview(imageView)
+            }
+            cell.mainScrollView.isUserInteractionEnabled = false
+            return cell
         }
     }
 }
@@ -239,48 +292,48 @@ extension EventDetailViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         
-        if section == 0 {
-            return 0
+        if section == 0 || section == 1 || section == 2 {
+            return 1
         }
         return 30
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if indexPath.section == 3 {
-            if let event = self.event {
-                LCChatKit.sharedInstance().open(withClientId: AVUser.current().username, force: true) {
-                    succeed, error in
-                    if let conversationVC = LCCKConversationViewController(conversationId: event.conversationId) {
-                        conversationVC.isEnableAutoJoin = true
-                        
-                        conversationVC.setFetchConversationHandler() {
-                            conversation, error in
-                            if conversation == nil {
-                                print("Serious error happened")
-                            } else {
-                                print("successfully fetched conversation")
+        switch detailSections[indexPath.section][indexPath.row] {
+        case .imgKeyValueArrowTableCell(_, let key, _):
+            if key == eventLocationKey {
+                performSegue(withIdentifier: mapSegueIdentifier, sender: self)
+            }
+            else if key == conversationKey {
+                if let event = self.event {
+                    LCChatKit.sharedInstance().open(withClientId: AVUser.current().username, force: true) {
+                        succeed, error in
+                        if let conversationVC = LCCKConversationViewController(conversationId: event.conversationId) {
+                            conversationVC.isEnableAutoJoin = true
+                            
+                            conversationVC.setFetchConversationHandler() {
+                                conversation, error in
+                                if conversation == nil {
+                                    print("Serious error happened")
+                                } else {
+                                    print("successfully fetched conversation")
+                                }
                             }
+                            self.navigationController?.pushViewController(conversationVC, animated: true)
                         }
-                        self.navigationController?.pushViewController(conversationVC, animated: true)
                     }
                 }
             }
-        }
-        else {
-            switch detailSections[indexPath.section][indexPath.row] {
-            case .imgKeyValueArrowTableCell(_, let key, _):
-                if key == eventLocationKey {
-                    performSegue(withIdentifier: mapSegueIdentifier, sender: self)
-                }
-                else if key == memberStatusKey {
-                    self.quitEvent()
-                }
-            default:
-                print("don't go to map")
-                break
+            else if key == memberStatusKey {
+                self.quitEvent()
             }
+        case .imgKeyScrollViewTableCell(_, _, _):
+            self.performSegue(withIdentifier: memberSugueIdentifier, sender: self)
+        default:
+            break
         }
+        
         tableView.deselectRow(at: indexPath, animated: false)
     }
 }

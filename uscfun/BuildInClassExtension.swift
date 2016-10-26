@@ -66,6 +66,10 @@ extension UIColor {
     class var eventHighlighted: UIColor {
         return themeYellow
     }
+    
+    class var eventFinalized: UIColor {
+        return UIColor.green
+    }
 }
 
 extension String {

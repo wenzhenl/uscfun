@@ -90,10 +90,10 @@
                                 <color key="backgroundColor" red="0.1423776252" green="0.39793669869999998" blue="0.11561009160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EventListCell" rowHeight="340" id="dHD-iP-esQ" customClass="EventListTableViewCell" customModule="uscfun" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="343" height="340"/>
+                                        <rect key="frame" x="0.0" y="28" width="1000" height="340"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dHD-iP-esQ" id="cSi-jH-rIj">
-                                            <frame key="frameInset" width="343" height="340"/>
+                                            <frame key="frameInset" width="1000" height="340"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="260" verticalCompressionResistancePriority="770" text="还剩03天13时20分" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oe2-b4-5n3">
@@ -250,12 +250,19 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AttendingEventCell" id="C76-wQ-x1W" customClass="AttendingEventTableViewCell" customModule="uscfun" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="368" width="343" height="130"/>
+                                        <rect key="frame" x="0.0" y="368" width="1000" height="130"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="C76-wQ-x1W" id="1v3-QV-nOo">
-                                            <frame key="frameInset" width="343" height="130"/>
+                                            <frame key="frameInset" width="1000" height="130"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wJi-dv-Lcf">
+                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="10" id="JcO-Ea-EuA"/>
+                                                        <constraint firstAttribute="width" secondItem="wJi-dv-Lcf" secondAttribute="height" id="mLH-WJ-ILc"/>
+                                                    </constraints>
+                                                </view>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="周末去看最新出的电影从你的全世界路过" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aEA-mO-iJU">
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -271,16 +278,19 @@
                                             </subviews>
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
+                                                <constraint firstItem="aEA-mO-iJU" firstAttribute="leading" secondItem="wJi-dv-Lcf" secondAttribute="trailing" constant="8" symbolic="YES" id="B5l-lN-VWw"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="NIr-70-aci" secondAttribute="trailing" id="GiJ-t5-u42"/>
                                                 <constraint firstItem="aEA-mO-iJU" firstAttribute="centerY" secondItem="NIr-70-aci" secondAttribute="centerY" id="KcX-S0-qg7"/>
                                                 <constraint firstItem="aEA-mO-iJU" firstAttribute="top" secondItem="1v3-QV-nOo" secondAttribute="topMargin" id="MjH-hT-srk"/>
+                                                <constraint firstItem="wJi-dv-Lcf" firstAttribute="leading" secondItem="1v3-QV-nOo" secondAttribute="leadingMargin" id="b0V-1k-44W"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="aEA-mO-iJU" secondAttribute="bottom" id="bmP-qi-tKd"/>
-                                                <constraint firstItem="aEA-mO-iJU" firstAttribute="leading" secondItem="1v3-QV-nOo" secondAttribute="leadingMargin" id="dDL-14-UoI"/>
+                                                <constraint firstItem="wJi-dv-Lcf" firstAttribute="centerY" secondItem="1v3-QV-nOo" secondAttribute="centerY" id="zdC-5N-dxG"/>
                                                 <constraint firstItem="NIr-70-aci" firstAttribute="leading" secondItem="aEA-mO-iJU" secondAttribute="trailing" constant="8" symbolic="YES" id="zhF-dq-DZZ"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="eventImageView" destination="NIr-70-aci" id="bXl-en-jrJ"/>
+                                            <outlet property="indicatorView" destination="wJi-dv-Lcf" id="isK-Ql-dX6"/>
                                             <outlet property="nameTextView" destination="aEA-mO-iJU" id="Hid-Zn-acj"/>
                                             <segue destination="nvQ-YZ-kHk" kind="show" identifier="go to event detail" id="Dds-CA-tqB"/>
                                         </connections>
@@ -541,6 +551,7 @@
                     <connections>
                         <outlet property="tableView" destination="VNM-N7-eAu" id="lw0-Dq-uwb"/>
                         <segue destination="jln-hf-hFc" kind="show" identifier="SHOWMAP" id="nRo-fV-YhR"/>
+                        <segue destination="97i-nA-FYj" kind="show" identifier="see member detail" id="IXM-mE-X7k"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y9J-Ob-CXo" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -576,7 +587,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dcE-1h-f1Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2578" y="-577"/>
+            <point key="canvasLocation" x="2577" y="-725"/>
         </scene>
         <!--发起微活动-->
         <scene sceneID="Hfp-dF-cSf">
@@ -611,6 +622,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9gW-GB-soP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1724" y="190"/>
+        </scene>
+        <!--Members Table View Controller-->
+        <scene sceneID="SdZ-5p-5Zt">
+            <objects>
+                <tableViewController id="97i-nA-FYj" customClass="MembersTableViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="ECP-u1-DVx">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="whatever" id="q8M-ah-D31">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="q8M-ah-D31" id="xfu-ip-YzV">
+                                    <frame key="frameInset" width="375" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="97i-nA-FYj" id="lhB-Ep-CVy"/>
+                            <outlet property="delegate" destination="97i-nA-FYj" id="lwb-Lc-VuB"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yQY-4p-hq8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2577" y="-282"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Lb4-9C-X5B">
