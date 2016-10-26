@@ -233,9 +233,6 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.selectionStyle = .default
                 cell.nameTextView.text = event.name
                 cell.eventImageView.image = event.type.image
-                if event.finalized {
-                    cell.contentView.backgroundColor = UIColor.eventHighlighted
-                }
                 
                 return cell
             } else {
@@ -256,11 +253,9 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
         else {
             if EventRequest.publicEvents.count > 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "EventListCell") as! EventListTableViewCell
-                cell.selectionStyle = .none
+                cell.selectionStyle = .blue
                 let event = EventRequest.publicEvents[indexPath.section - 3]
-                if event.members.contains(AVUser.current()) {
-                    cell.containerView.backgroundColor = UIColor.eventHighlighted
-                }
+                
                 cell.eventId = event.objectId
                 cell.mainImageView.image = event.type.image
                 cell.creatorImageView.image = User(user: event.creator)?.avatar
