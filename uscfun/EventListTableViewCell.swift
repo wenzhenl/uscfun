@@ -31,6 +31,8 @@ class EventListTableViewCell: UITableViewCell {
         containerView.layer.borderColor = UIColor.lightGray.cgColor
         creatorImageView.layer.cornerRadius = 20
         creatorImageView.layer.masksToBounds = true
+        timeLabel.layer.cornerRadius = 4
+        timeLabel.layer.masksToBounds = true
     }
     
     func timerStarted() {
