@@ -175,6 +175,7 @@ extension EventDetailViewController: UITableViewDataSource {
             let cell = Bundle.main.loadNibNamed("ImageViewTableViewCell", owner: self, options: nil)?.first as! ImageViewTableViewCell
             cell.mainImageView.image = image
             cell.mainImageView.contentMode = .scaleAspectFit
+            cell.selectionStyle = .none
             return cell
         case .imgKeyValueTableCell(let image, let key, let value):
             let cell = Bundle.main.loadNibNamed("ImgKeyValueTableViewCell", owner: self, options: nil)?.first as! ImgKeyValueTableViewCell
