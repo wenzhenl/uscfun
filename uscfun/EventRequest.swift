@@ -27,6 +27,7 @@ class EventRequest {
     }
     
     static func handleLoadedDataOfMyOngoingEvents(error: Error?, events: [Event]?) {
+        print("fetch my ongoing events")
         if error != nil {
             print(error)
             return
@@ -51,6 +52,7 @@ class EventRequest {
     }
     
     static func handleLoadedDataOfPublicEvents(error: Error?, events: [Event]?) {
+        print("fetch public events")
         if error != nil {
             print(error)
             return

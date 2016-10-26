@@ -94,6 +94,7 @@ class EventListViewController: UIViewController {
             error, events in
             if error != nil {
 //                self.showUpdateReminder(message: "网络无法连接，请检查你的网络")
+                self.refreshControl.endRefreshing()
                 return
             }
             let numberOfPublicEventsBeforeUpdate = EventRequest.publicEvents.count
