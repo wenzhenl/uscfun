@@ -57,19 +57,13 @@ class EventListViewController: UIViewController {
         EventRequest.fetchNewerDataForMyOngoingEvents(currentlyNewestUpdatedTime: EventRequest.newestUpdatedAtOfMyOngoingEvents) {
             error, events in
             if error != nil {
-//                self.showUpdateReminder(message: "网络无法连接，请检查你的网络")
                 return
             }
             
             if let events = events {
                 for event in events {
+                    EventRequest.indexOfMyOngoingEvents[event.objectId!] = event
                     
-                    if let index = EventRequest.indexOfMyOngoingEvents[event.objectId!] {
-                        EventRequest.myOngoingEvents[index] = event
-                    } else {
-                        EventRequest.myOngoingEvents.append(event)
-                        EventRequest.indexOfMyOngoingEvents[event.objectId!] = EventRequest.myOngoingEvents.count - 1
-                    }
                     if event.updatedAt! > EventRequest.newestUpdatedAtOfMyOngoingEvents {
                         EventRequest.newestUpdatedAtOfMyOngoingEvents = event.updatedAt!
                     }
@@ -78,11 +72,11 @@ class EventListViewController: UIViewController {
                     }
                 }
                 if events.count > 0 {
-                    EventRequest.myOngoingEvents.sort {
+                    
+                    EventRequest.myOngoingEvents = EventRequest.indexOfMyOngoingEvents.values.sorted {
                         if $0.finalized != $1.finalized {
                             return $0.finalized
                         }
-                        
                         return $0.due < $1.due
                     }
                     self.tableView.reloadData()
@@ -93,20 +87,14 @@ class EventListViewController: UIViewController {
         EventRequest.fetchNewerDataForPublicEvents(currentlyNewestUpdatedTime: EventRequest.newestUpdatedAtOfPublicEvents) {
             error, events in
             if error != nil {
-//                self.showUpdateReminder(message: "网络无法连接，请检查你的网络")
                 self.refreshControl.endRefreshing()
                 return
             }
             let numberOfPublicEventsBeforeUpdate = EventRequest.publicEvents.count
             if let events = events {
                 for event in events {
+                    EventRequest.indexOfPublicEvents[event.objectId!] = event
                     
-                    if let index = EventRequest.indexOfPublicEvents[event.objectId!] {
-                        EventRequest.publicEvents[index] = event
-                    } else {
-                        EventRequest.publicEvents.append(event)
-                        EventRequest.indexOfPublicEvents[event.objectId!] = EventRequest.publicEvents.count - 1
-                    }
                     if event.updatedAt! > EventRequest.newestUpdatedAtOfPublicEvents {
                         EventRequest.newestUpdatedAtOfPublicEvents = event.updatedAt!
                     }
@@ -116,9 +104,11 @@ class EventListViewController: UIViewController {
                 }
                 
                 if events.count > 0 {
-                    EventRequest.publicEvents.sort {
+                    
+                    EventRequest.publicEvents = EventRequest.indexOfPublicEvents.values.sorted {
                         $0.due < $1.due
                     }
+                    
                     let numberOfPublicEventsAfterUpdate = EventRequest.publicEvents.count
                     if numberOfPublicEventsAfterUpdate > numberOfPublicEventsBeforeUpdate {
                         self.showUpdateReminder(message: "发现了\(numberOfPublicEventsAfterUpdate - numberOfPublicEventsBeforeUpdate)个新的微活动")
@@ -158,13 +148,11 @@ class EventListViewController: UIViewController {
                     switch sender {
                     case is AttendingEventTableViewCell:
                         let attendingCell = sender as! AttendingEventTableViewCell
-                        let index = EventRequest.indexOfMyOngoingEvents[attendingCell.eventId]
-                        eventDetailVC.event = EventRequest.myOngoingEvents[index!]
+                        eventDetailVC.event = EventRequest.indexOfMyOngoingEvents[attendingCell.eventId]
                         
                     case is EventListTableViewCell:
                         let eventListCell = sender as! EventListTableViewCell
-                        let index = EventRequest.indexOfPublicEvents[eventListCell.eventId]
-                        eventDetailVC.event = EventRequest.publicEvents[index!]
+                        eventDetailVC.event = EventRequest.indexOfPublicEvents[eventListCell.eventId]
                     default:
                         break
                     }

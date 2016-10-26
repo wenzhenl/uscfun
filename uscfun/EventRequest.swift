@@ -12,12 +12,12 @@ import AVOSCloud
 class EventRequest {
     
     static var myOngoingEvents = [Event]()
-    static var indexOfMyOngoingEvents = [String: Int]()
+    static var indexOfMyOngoingEvents = [String: Event]()
     static var newestUpdatedAtOfMyOngoingEvents = Date(timeIntervalSince1970: 0)
     static var oldestUpdatedAtOfMyOngoingEvents = Date(timeIntervalSinceNow: 60*60*24*365*100)
 
     static var publicEvents = [Event]()
-    static var indexOfPublicEvents = [String: Int]()
+    static var indexOfPublicEvents = [String: Event]()
     static var newestUpdatedAtOfPublicEvents = Date(timeIntervalSince1970: 0)
     static var oldestUpdatedAtOfPublicEvents = Date(timeIntervalSinceNow: 60*60*24*365*100)
     
@@ -34,13 +34,9 @@ class EventRequest {
         }
         if let events = events {
             for event in events {
-            
-                if let index = EventRequest.indexOfMyOngoingEvents[event.objectId!] {
-                    EventRequest.myOngoingEvents[index] = event
-                } else {
-                    EventRequest.myOngoingEvents.append(event)
-                    EventRequest.indexOfMyOngoingEvents[event.objectId!] = EventRequest.myOngoingEvents.count - 1
-                }
+                EventRequest.indexOfMyOngoingEvents[event.objectId!] = event
+                EventRequest.myOngoingEvents.append(event)
+                
                 if event.updatedAt! > EventRequest.newestUpdatedAtOfMyOngoingEvents {
                     EventRequest.newestUpdatedAtOfMyOngoingEvents = event.updatedAt!
                 }
@@ -59,13 +55,9 @@ class EventRequest {
         }
         if let events = events {
             for event in events {
+                EventRequest.indexOfPublicEvents[event.objectId!] = event
+                EventRequest.publicEvents.append(event)
                 
-                if let index = EventRequest.indexOfPublicEvents[event.objectId!] {
-                    EventRequest.publicEvents[index] = event
-                } else {
-                    EventRequest.publicEvents.append(event)
-                    EventRequest.indexOfPublicEvents[event.objectId!] = EventRequest.publicEvents.count - 1
-                }
                 if event.updatedAt! > EventRequest.newestUpdatedAtOfPublicEvents {
                     EventRequest.newestUpdatedAtOfPublicEvents = event.updatedAt!
                 }
