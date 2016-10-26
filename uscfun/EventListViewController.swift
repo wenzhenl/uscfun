@@ -64,7 +64,7 @@ class EventListViewController: UIViewController {
             let numberOfEventsBeforeUpdate = EventRequest.events.count
             if let events = events {
                 for event in events {
-                    if event.active {
+                    if !event.finalized {
                         if let index = EventRequest.indexOfEvents[event.objectId!] {
                             print("already in event")
                             EventRequest.events[index] = event

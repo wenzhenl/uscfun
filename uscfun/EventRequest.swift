@@ -25,7 +25,7 @@ class EventRequest {
         }
         if let events = events {
             for event in events {
-                if event.active {
+                if !event.finalized {
                     if let index = EventRequest.indexOfEvents[event.objectId!] {
                         EventRequest.events[index] = event
                     } else {

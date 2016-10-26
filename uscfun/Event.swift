@@ -73,7 +73,7 @@ class Event {
     var creator: AVUser
     var conversationId: String?
     var members: [AVUser]
-    var active: Bool
+    var finalized: Bool
     var finished: Bool
     var school: String
     
@@ -95,7 +95,7 @@ class Event {
         self.creator = creator
         self.members = [AVUser]()
         members.append(creator)
-        self.active = true
+        self.finalized = false
         self.finished = false
         self.school = USCFunConstants.nameOfUSC
     }
@@ -152,11 +152,11 @@ class Event {
                 }
                 self.members = members
 
-                guard allKeys.contains(EventKeyConstants.keyOfActive), let active = data.value(forKey: EventKeyConstants.keyOfActive) as? Bool else {
-                    print("no active")
+                guard allKeys.contains(EventKeyConstants.keyOfFinalized), let finalized = data.value(forKey: EventKeyConstants.keyOfFinalized) as? Bool else {
+                    print("no finalized")
                     return nil
                 }
-                self.active = active
+                self.finalized = finalized
 
                 guard allKeys.contains(EventKeyConstants.keyOfFinished), let finished = data.value(forKey: EventKeyConstants.keyOfFinished) as? Bool else {
                     print("no finished")
@@ -269,7 +269,7 @@ class Event {
             
             eventObject.setObject(creator, forKey: EventKeyConstants.keyOfCreator)
             eventObject.setObject(members, forKey: EventKeyConstants.keyOfMembers)
-            eventObject.setObject(active, forKey: EventKeyConstants.keyOfActive)
+            eventObject.setObject(finalized, forKey: EventKeyConstants.keyOfFinalized)
             eventObject.setObject(finished, forKey: EventKeyConstants.keyOfFinished)
             eventObject.setObject(school, forKey: EventKeyConstants.keyOfSchool)
 
