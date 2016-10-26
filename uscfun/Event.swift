@@ -97,7 +97,7 @@ class Event {
         members.append(creator)
         self.finalized = false
         self.finished = false
-        self.school = USCFunConstants.nameOfUSC
+        self.school = USCFunConstants.nameOfSchool
     }
     
     init?(data: AVObject?) {
@@ -204,7 +204,7 @@ class Event {
                         self.note = note
                     }
                 }
-                self.school = USCFunConstants.nameOfUSC
+                self.school = USCFunConstants.nameOfSchool
                 self.objectId = data.objectId
                 self.createdAt = data.createdAt
                 self.updatedAt = data.updatedAt

@@ -30,7 +30,7 @@ class LoginKit {
         user.password = LoginKit.password
         user.email = UserDefaults.email
         user.setObject(UserDefaults.nickname, forKey: UserKeyConstants.keyOfNickname)
-        user.setObject(USCFunConstants.nameOfUSC, forKey: UserKeyConstants.keyOfSchool)
+        user.setObject(USCFunConstants.nameOfSchool, forKey: UserKeyConstants.keyOfSchool)
         
         // randomly generate avatar color
         let randomIndex = Int(arc4random_uniform(UInt32(USCFunConstants.avatarColorOptions.count)))
@@ -122,10 +122,10 @@ class LoginKit {
     
     static func signOut() {
         UserDefaults.hasLoggedIn = false
-        EventRequest.events.removeAll()
-        EventRequest.myEvents.removeAll()
-        EventRequest.indexOfMyEvents.removeAll()
-        EventRequest.indexOfEvents.removeAll()
+        EventRequest.publicEvents.removeAll()
+        EventRequest.myOngoingEvents.removeAll()
+        EventRequest.indexOfMyOngoingEvents.removeAll()
+        EventRequest.indexOfPublicEvents.removeAll()
         
         let appDelegate = UIApplication.shared.delegate! as! AppDelegate
         let initialViewController = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController()

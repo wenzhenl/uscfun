@@ -54,80 +54,85 @@ class EventListViewController: UIViewController {
 
     func handleRefresh() {
         
-        EventRequest.fetchNewer(currentlyNewestUpdatedTime: EventRequest.newestUpdatedAt) {
+        EventRequest.fetchNewerDataForMyOngoingEvents(currentlyNewestUpdatedTime: EventRequest.newestUpdatedAtOfMyOngoingEvents) {
             error, events in
             if error != nil {
-                self.showUpdateReminder(message: "网络无法连接，请检查你的网络", numberOfNewUpdates: 0)
+//                self.showUpdateReminder(message: "网络无法连接，请检查你的网络")
                 return
             }
             
-            let numberOfEventsBeforeUpdate = EventRequest.events.count
             if let events = events {
                 for event in events {
-                    if !event.finalized {
-                        if let index = EventRequest.indexOfEvents[event.objectId!] {
-                            print("already in event")
-                            EventRequest.events[index] = event
-                        } else {
-                            print("new event")
-                            EventRequest.events.append(event)
-                            EventRequest.indexOfEvents[event.objectId!] = EventRequest.events.count - 1
-                        }
-                    }
                     
-                    if event.members.contains(AVUser.current()) {
-                        if let index = EventRequest.indexOfMyEvents[event.objectId!] {
-                            print("already in my event")
-                            EventRequest.myEvents[index] = event
-                        } else {
-                            print("new my event")
-                            EventRequest.myEvents.append(event)
-                            EventRequest.indexOfMyEvents[event.objectId!] = EventRequest.myEvents.count - 1
-                        }
+                    if let index = EventRequest.indexOfMyOngoingEvents[event.objectId!] {
+                        EventRequest.myOngoingEvents[index] = event
+                    } else {
+                        EventRequest.myOngoingEvents.append(event)
+                        EventRequest.indexOfMyOngoingEvents[event.objectId!] = EventRequest.myOngoingEvents.count - 1
                     }
-
-                    if event.updatedAt! > EventRequest.newestUpdatedAt {
-                        EventRequest.newestUpdatedAt = event.updatedAt!
+                    if event.updatedAt! > EventRequest.newestUpdatedAtOfMyOngoingEvents {
+                        EventRequest.newestUpdatedAtOfMyOngoingEvents = event.updatedAt!
                     }
-                    if event.updatedAt! < EventRequest.oldestUpdatedAt {
-                        EventRequest.oldestUpdatedAt = event.updatedAt!
+                    if event.updatedAt! < EventRequest.oldestUpdatedAtOfMyOngoingEvents {
+                        EventRequest.oldestUpdatedAtOfMyOngoingEvents = event.updatedAt!
                     }
                 }
+                if events.count > 0 {
+                    EventRequest.myOngoingEvents.sort {
+                        if $0.finalized != $1.finalized {
+                            return $0.finalized
+                        }
+                        
+                        return $0.due < $1.due
+                    }
+                    self.tableView.reloadData()
+                }
             }
-            
-            EventRequest.events.sort {
-                $0.due < $1.due
-            }
-            
-            EventRequest.myEvents.sort {
-                $0.due < $1.due
-            }
-            
-            let numberOfEventsAfterUpdate = EventRequest.events.count
-            if numberOfEventsBeforeUpdate == numberOfEventsAfterUpdate {
-                self.showUpdateReminder(message: "没有发现新的微活动", numberOfNewUpdates: 0)
-            } else {
-                self.showUpdateReminder(message: "I have nothing to say", numberOfNewUpdates: numberOfEventsAfterUpdate - numberOfEventsBeforeUpdate)
-            }
-            
-            self.tableView.reloadData()
         }
         
-        self.refreshControl.endRefreshing()
+        EventRequest.fetchNewerDataForPublicEvents(currentlyNewestUpdatedTime: EventRequest.newestUpdatedAtOfPublicEvents) {
+            error, events in
+            if error != nil {
+//                self.showUpdateReminder(message: "网络无法连接，请检查你的网络")
+                return
+            }
+            let numberOfPublicEventsBeforeUpdate = EventRequest.publicEvents.count
+            if let events = events {
+                for event in events {
+                    
+                    if let index = EventRequest.indexOfPublicEvents[event.objectId!] {
+                        EventRequest.publicEvents[index] = event
+                    } else {
+                        EventRequest.publicEvents.append(event)
+                        EventRequest.indexOfPublicEvents[event.objectId!] = EventRequest.publicEvents.count - 1
+                    }
+                    if event.updatedAt! > EventRequest.newestUpdatedAtOfPublicEvents {
+                        EventRequest.newestUpdatedAtOfPublicEvents = event.updatedAt!
+                    }
+                    if event.updatedAt! < EventRequest.oldestUpdatedAtOfPublicEvents {
+                        EventRequest.oldestUpdatedAtOfPublicEvents = event.updatedAt!
+                    }
+                }
+                
+                if events.count > 0 {
+                    EventRequest.publicEvents.sort {
+                        $0.due < $1.due
+                    }
+                    let numberOfPublicEventsAfterUpdate = EventRequest.publicEvents.count
+                    if numberOfPublicEventsAfterUpdate > numberOfPublicEventsBeforeUpdate {
+                        self.showUpdateReminder(message: "发现了\(numberOfPublicEventsAfterUpdate - numberOfPublicEventsBeforeUpdate)个新的微活动")
+                    }
+                    self.tableView.reloadData()
+                }
+            }
+            self.refreshControl.endRefreshing()
+        }
     }
 
-    func showUpdateReminder(message: String, numberOfNewUpdates: Int) {
-        
-        guard numberOfNewUpdates >= 0 else {
-            return
-        }
-        
-        if numberOfNewUpdates > 0 {
-            AudioServicesPlaySystemSound(1002)
-            self.newEventReminderLabel.text = "更新了\(numberOfNewUpdates)个微活动"
-        } else {
-            self.newEventReminderLabel.text = message
-        }
+    func showUpdateReminder(message: String) {
+ 
+        AudioServicesPlaySystemSound(1002)
+        self.newEventReminderLabel.text = message
         UIView.animate(withDuration: 1.0) {
             _ in
             self.newEventReminderViewConstraint.constant = 8
@@ -141,7 +146,6 @@ class EventListViewController: UIViewController {
                 self.newEventReminderViewConstraint.constant = -35
                 }, completion: nil)
         }
-
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -153,13 +157,13 @@ class EventListViewController: UIViewController {
                     switch sender {
                     case is AttendingEventTableViewCell:
                         let attendingCell = sender as! AttendingEventTableViewCell
-                        let index = EventRequest.indexOfMyEvents[attendingCell.eventId]
-                        eventDetailVC.event = EventRequest.myEvents[index!]
+                        let index = EventRequest.indexOfMyOngoingEvents[attendingCell.eventId]
+                        eventDetailVC.event = EventRequest.myOngoingEvents[index!]
                         
                     case is EventListTableViewCell:
                         let eventListCell = sender as! EventListTableViewCell
-                        let index = EventRequest.indexOfEvents[eventListCell.eventId]
-                        eventDetailVC.event = EventRequest.events[index!]
+                        let index = EventRequest.indexOfPublicEvents[eventListCell.eventId]
+                        eventDetailVC.event = EventRequest.publicEvents[index!]
                     default:
                         break
                     }
@@ -188,18 +192,18 @@ extension EventListViewController: UserSettingDelegate {
 extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        if EventRequest.events.count == 0 {
+        if EventRequest.publicEvents.count == 0 {
             return 4
         }
-        return 3 + EventRequest.events.count
+        return 3 + EventRequest.publicEvents.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 1 {
-            if EventRequest.myEvents.count == 0 {
+            if EventRequest.myOngoingEvents.count == 0 {
                 return 1
             } else {
-                return EventRequest.myEvents.count
+                return EventRequest.myOngoingEvents.count
             }
         } else {
             return 1
@@ -212,7 +216,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath as NSIndexPath).section == 1 && EventRequest.myEvents.count == 0 {
+        if (indexPath as NSIndexPath).section == 1 && EventRequest.myOngoingEvents.count == 0 {
             return 150
         }
         if (indexPath as NSIndexPath).section == 0  || (indexPath as NSIndexPath).section == 1 {
@@ -233,9 +237,9 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         else if (indexPath as NSIndexPath).section == 1 {
-            if EventRequest.myEvents.count > 0 {
+            if EventRequest.myOngoingEvents.count > 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AttendingEventCell") as! AttendingEventTableViewCell
-                let event = EventRequest.myEvents[indexPath.row]
+                let event = EventRequest.myOngoingEvents[indexPath.row]
                 cell.eventId = event.objectId
                 cell.selectionStyle = .default
                 cell.nameTextView.text = event.name
@@ -257,10 +261,10 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         else {
-            if EventRequest.events.count > 0 {
+            if EventRequest.publicEvents.count > 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "EventListCell") as! EventListTableViewCell
                 cell.selectionStyle = .none
-                let event = EventRequest.events[indexPath.section - 3]
+                let event = EventRequest.publicEvents[indexPath.section - 3]
                 cell.eventId = event.objectId
                 cell.mainImageView.image = event.type.image
                 cell.creatorImageView.image = User(user: event.creator)?.avatar
