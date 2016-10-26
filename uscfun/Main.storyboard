@@ -106,7 +106,7 @@
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="128" id="GIX-GO-dTD"/>
-                                                        <constraint firstAttribute="height" constant="25" id="caT-LL-80E"/>
+                                                        <constraint firstAttribute="height" constant="35" id="caT-LL-80E"/>
                                                     </constraints>
                                                     <variation key="default">
                                                         <mask key="constraints">
@@ -169,7 +169,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
-                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstItem="2QN-Y1-5em" firstAttribute="leading" secondItem="p5H-50-tiS" secondAttribute="leading" id="1KJ-Ql-dXl"/>
                                                                 <constraint firstItem="lQ0-A1-pAa" firstAttribute="top" secondItem="Sjw-yQ-FBY" secondAttribute="bottom" constant="8" symbolic="YES" id="7Le-Wj-ynb"/>
@@ -257,7 +257,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="周末去看最新出的电影从你的全世界路过" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aEA-mO-iJU">
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>

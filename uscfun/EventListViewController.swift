@@ -233,10 +233,14 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.selectionStyle = .default
                 cell.nameTextView.text = event.name
                 cell.eventImageView.image = event.type.image
+                if event.finalized {
+                    cell.contentView.backgroundColor = UIColor.eventHighlighted
+                }
+                
                 return cell
             } else {
                 let cell = Bundle.main.loadNibNamed("EmptySectionPlaceholderTableViewCell", owner: self, options: nil)?.first as! EmptySectionPlaceholderTableViewCell
-                cell.mainTextView.text = "少年你今天好像还没有参加任何微活动，快去参加一波吧"
+                cell.mainTextView.text = "少年你好像还没有参加任何微活动，快去参加一波吧"
                 cell.selectionStyle = .none
                 return cell
             }
@@ -254,6 +258,9 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "EventListCell") as! EventListTableViewCell
                 cell.selectionStyle = .none
                 let event = EventRequest.publicEvents[indexPath.section - 3]
+                if event.members.contains(AVUser.current()) {
+                    cell.containerView.backgroundColor = UIColor.eventHighlighted
+                }
                 cell.eventId = event.objectId
                 cell.mainImageView.image = event.type.image
                 cell.creatorImageView.image = User(user: event.creator)?.avatar

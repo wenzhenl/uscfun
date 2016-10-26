@@ -61,6 +61,11 @@ extension UIColor {
     class var avatarTomato: UIColor {
         return UIColor(red: 255.0/255, green: 99.0/255, blue: 71.0/255, alpha: 1.0)
     }
+    
+    //--MARK: Color for highlighting my ongoing events
+    class var eventHighlighted: UIColor {
+        return themeYellow
+    }
 }
 
 extension String {
