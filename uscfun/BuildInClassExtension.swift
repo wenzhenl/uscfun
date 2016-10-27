@@ -70,6 +70,14 @@ extension UIColor {
     class var eventFinalized: UIColor {
         return UIColor.green
     }
+    
+    class var eventMeetsMinimum: UIColor {
+        return UIColor.themeYellow
+    }
+    
+    class var eventWaiting: UIColor {
+        return UIColor.darkGray
+    }
 }
 
 extension String {

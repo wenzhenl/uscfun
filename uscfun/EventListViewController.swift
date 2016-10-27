@@ -236,6 +236,12 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
                 if event.finalized {
                     cell.indicatorView.backgroundColor = UIColor.eventFinalized
                 }
+                else if event.totalSeats - event.remainingSeats >= event.minimumAttendingPeople {
+                    cell.indicatorView.backgroundColor = UIColor.eventMeetsMinimum
+                }
+                else {
+                    cell.indicatorView.backgroundColor = UIColor.eventWaiting
+                }
                 
                 return cell
             } else {

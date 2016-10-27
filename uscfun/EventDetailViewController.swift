@@ -47,7 +47,7 @@ class EventDetailViewController: UIViewController {
             
             let seatsSection = [EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "target"), key: "目标人数", value: "\(event.totalSeats)人"),
                                 EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "target"), key: "当前报名", value: "\(event.totalSeats - event.remainingSeats)人"),
-                                EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "target"), key: "最低成行", value: "\(event.minimumMoreAttendingPeople)人")]
+                                EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "target"), key: "最低成行", value: "\(event.minimumAttendingPeople)人")]
             detailSections.append(seatsSection)
             
             var memberAvatars = [UIImage]()

@@ -48,7 +48,7 @@ class StartEventViewController: UIViewController {
                           ("新开的这家店石器时代很不错，有兴趣一起组个队去吃么，团购有优惠",EventType.foodAndDrink)]
         
         let randIndex = Int(arc4random_uniform(UInt32(events.count)))
-        let event = Event(name: events[randIndex].0, type: events[randIndex].1, totalSeats: 20, remainingSeats: 12, minimumMoreAttendingPeople: 9, due: Date(timeIntervalSinceNow: 12345), creator: AVUser.current())
+        let event = Event(name: events[randIndex].0, type: events[randIndex].1, totalSeats: 20, remainingSeats: 12, minimumAttendingPeople: 9, due: Date(timeIntervalSinceNow: 12345), creator: AVUser.current())
         event.startTime = Date(timeIntervalSinceNow: 45678)
         event.endTime = Date(timeIntervalSinceNow: 55890)
         let yesorno = Int(arc4random_uniform(2))

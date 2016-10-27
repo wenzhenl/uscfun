@@ -31,7 +31,7 @@ struct EventKeyConstants {
     static let keyOfType = "type"
     static let keyOfTotalSeats = "totalSeats"
     static let keyOfRemainingSeats = "remainingSeats"
-    static let keyOfMinimumMoreAttendingPeople = "minimumMoreAttendingPeople"
+    static let keyOfMinimumAttendingPeople = "minimumAttendingPeople"
     static let keyOfDue = "due"
     
     static let keyOfCreator = "creator"

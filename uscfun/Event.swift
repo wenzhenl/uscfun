@@ -56,7 +56,7 @@ class Event {
     var type: EventType
     var totalSeats: Int
     var remainingSeats: Int
-    var minimumMoreAttendingPeople: Int
+    var minimumAttendingPeople: Int
     var due: Date
     
     //--MARK: optional settings
@@ -85,12 +85,12 @@ class Event {
     //--MARK: delegate for handling posting process
     var delegate: EventDelegate?
     
-    init(name: String, type: EventType, totalSeats: Int, remainingSeats: Int, minimumMoreAttendingPeople: Int, due: Date, creator: AVUser) {
+    init(name: String, type: EventType, totalSeats: Int, remainingSeats: Int, minimumAttendingPeople: Int, due: Date, creator: AVUser) {
         self.name = name
         self.type = type
         self.totalSeats = totalSeats
         self.remainingSeats = remainingSeats
-        self.minimumMoreAttendingPeople = minimumMoreAttendingPeople
+        self.minimumAttendingPeople = minimumAttendingPeople
         self.due = due
         self.creator = creator
         self.members = [AVUser]()
@@ -127,11 +127,11 @@ class Event {
                 }
                 self.remainingSeats = remainingSeats
 
-                guard allKeys.contains(EventKeyConstants.keyOfMinimumMoreAttendingPeople), let minimumMoreAttendingPeople = data.value(forKey: EventKeyConstants.keyOfMinimumMoreAttendingPeople) as? Int else {
+                guard allKeys.contains(EventKeyConstants.keyOfMinimumAttendingPeople), let minimumMoreAttendingPeople = data.value(forKey: EventKeyConstants.keyOfMinimumAttendingPeople) as? Int else {
                     print("no minimum more")
                     return nil
                 }
-                self.minimumMoreAttendingPeople = minimumMoreAttendingPeople
+                self.minimumAttendingPeople = minimumMoreAttendingPeople
 
                 guard allKeys.contains(EventKeyConstants.keyOfDue), let due = data.value(forKey: EventKeyConstants.keyOfDue) as? Date else {
                     print("no due")
@@ -219,7 +219,7 @@ class Event {
         self.type = EventType.entertainment
         self.totalSeats = 0
         self.remainingSeats = 0
-        self.minimumMoreAttendingPeople = 0
+        self.minimumAttendingPeople = 0
         self.due = Date()
         return nil
     }
@@ -264,7 +264,7 @@ class Event {
             eventObject.setObject(type.rawValue, forKey: EventKeyConstants.keyOfType)
             eventObject.setObject(totalSeats, forKey: EventKeyConstants.keyOfTotalSeats)
             eventObject.setObject(remainingSeats, forKey: EventKeyConstants.keyOfRemainingSeats)
-            eventObject.setObject(minimumMoreAttendingPeople, forKey: EventKeyConstants.keyOfMinimumMoreAttendingPeople)
+            eventObject.setObject(minimumAttendingPeople, forKey: EventKeyConstants.keyOfMinimumAttendingPeople)
             eventObject.setObject(due, forKey: EventKeyConstants.keyOfDue)
             
             eventObject.setObject(creator, forKey: EventKeyConstants.keyOfCreator)
