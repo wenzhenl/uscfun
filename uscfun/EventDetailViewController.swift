@@ -19,11 +19,24 @@ enum EventDetailCell {
     case imgKeyScrollViewTableCell(image: UIImage, key: String, contentImages: [UIImage])
 }
 
+protocol EventMemberStatusDelegate {
+    func userDidJoinEventWith(id: String)
+    func userDidQuitEventWith(id: String)
+    func userDidPostEvent()
+}
+
 class EventDetailViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var reminderView: UIView!
+    @IBOutlet weak var reminderLabel: UILabel!
+    
+    @IBOutlet weak var reminderViewConstraint: NSLayoutConstraint!
+    
     var event: Event?
     var detailSections = [[EventDetailCell]]()
+    
+    var delegate: EventMemberStatusDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +47,29 @@ class EventDetailViewController: UIViewController {
         self.tableView.tableFooterView = UIView()
         
         populateSections()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.reminderView.layer.cornerRadius = reminderView.frame.size.height / 2.0
+    }
+    
+    func showUpdateReminder(message: String) {
+        
+        self.reminderLabel.text = message
+        UIView.animate(withDuration: 1.0) {
+            _ in
+            self.reminderViewConstraint.constant = 0
+        }
+        
+        let delay = 1.5 * Double(NSEC_PER_SEC)
+        let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time) {
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+                _ in
+                self.reminderViewConstraint.constant = -35
+                }, completion: nil)
+        }
     }
 
     func populateSections() {
@@ -105,12 +141,17 @@ class EventDetailViewController: UIViewController {
     }
     
     func joinEvent(sender: UIButton) {
-        sender.isEnabled = false
+        SVProgressHUD.show()
         self.event?.add(newMember: AVUser.current()) {
             succeed, error in
+            SVProgressHUD.dismiss()
             if succeed {
                 populateSections()
                 self.tableView.reloadData()
+                delegate?.userDidJoinEventWith(id: self.event!.objectId!)
+            }
+            else if error != nil {
+                self.showUpdateReminder(message: error!.localizedDescription)
             }
         }
     }
@@ -119,11 +160,17 @@ class EventDetailViewController: UIViewController {
         let alertController = UIAlertController(title: "退出小活动", message: "你是否想退出此活动?", preferredStyle: .actionSheet)
         let quit = UIAlertAction(title: "决定退出", style: .default) {
             _ in
+            SVProgressHUD.show()
             self.event?.remove(member: AVUser.current()) {
                 succeed, error in
+                SVProgressHUD.dismiss()
                 if succeed {
                     self.populateSections()
                     self.tableView.reloadData()
+                    self.delegate?.userDidQuitEventWith(id: self.event!.objectId!)
+                }
+                else if error != nil {
+                    self.showUpdateReminder(message: error!.localizedDescription)
                 }
             }
         }

@@ -12,6 +12,8 @@ import AVOSCloudIM
 
 enum EventError: Error {
     case userNotAMember(String)
+    case noSeatsLeft(String)
+    case eventFinalized(String)
 }
 
 enum EventType: String {
@@ -127,11 +129,11 @@ class Event {
                 }
                 self.remainingSeats = remainingSeats
 
-                guard allKeys.contains(EventKeyConstants.keyOfMinimumAttendingPeople), let minimumMoreAttendingPeople = data.value(forKey: EventKeyConstants.keyOfMinimumAttendingPeople) as? Int else {
+                guard allKeys.contains(EventKeyConstants.keyOfMinimumAttendingPeople), let minimumAttendingPeople = data.value(forKey: EventKeyConstants.keyOfMinimumAttendingPeople) as? Int else {
                     print("no minimum more")
                     return nil
                 }
-                self.minimumAttendingPeople = minimumMoreAttendingPeople
+                self.minimumAttendingPeople = minimumAttendingPeople
 
                 guard allKeys.contains(EventKeyConstants.keyOfDue), let due = data.value(forKey: EventKeyConstants.keyOfDue) as? Date else {
                     print("no due")
@@ -323,12 +325,28 @@ class Event {
             membersCopy.append(newMember)
             eventObject.setObject(membersCopy, forKey: EventKeyConstants.keyOfMembers)
             eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: -1)
-            
+            eventObject.fetchWhenSave = true
+
             var error: NSError?
             if eventObject.save(&error) {
-                members.append(newMember)
-                remainingSeats -= 1
-                handler(true, nil)
+                let latestNumberOfRemainingSeats = eventObject.value(forKey: EventKeyConstants.keyOfRemainingSeats) as! Int
+                if latestNumberOfRemainingSeats == 0 {
+                    eventObject.setObject(true, forKey: EventKeyConstants.keyOfFinalized)
+                    if eventObject.save(&error) {
+                        members.append(newMember)
+                        remainingSeats -= 1
+                        handler(true, nil)
+                    } else {
+                        handler(false, error)
+                    }
+                }
+                else if latestNumberOfRemainingSeats < 0 {
+                    handler(false, EventError.noSeatsLeft("不好意思，人已经满了。"))
+                } else {
+                    members.append(newMember)
+                    remainingSeats -= 1
+                    handler(true, nil)
+                }
             } else {
                 handler(false, error)
             }
@@ -344,8 +362,17 @@ class Event {
         }
         
         if let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId) {
+            
+            if eventObject.fetch() {
+                if eventObject.value(forKey: EventKeyConstants.keyOfFinalized) as! Bool {
+                    handler(false, EventError.eventFinalized("微活动已经约定，需其他成员同意后才能退出"))
+                    return
+                }
+            }
+            
             var membersCopy = members
             membersCopy.remove(at: memberIndex)
+            
             eventObject.setObject(membersCopy, forKey: EventKeyConstants.keyOfMembers)
             eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: 1)
             

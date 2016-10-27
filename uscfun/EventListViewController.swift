@@ -32,6 +32,7 @@ class EventListViewController: UIViewController {
         self.leftStartEventButton.layer.cornerRadius = leftStartEventButton.frame.size.height / 2.0
         self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 60, 0)
+        self.tableView.scrollsToTop = true
         self.view.bringSubview(toFront: startEventButton)
         self.view.bringSubview(toFront: leftStartEventButton)
         if UserDefaults.isLefthanded {
@@ -52,8 +53,7 @@ class EventListViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    func handleRefresh() {
-        
+    func refreshMyOngoingEventsSilently() {
         EventRequest.fetchNewerDataForMyOngoingEvents(currentlyNewestUpdatedTime: EventRequest.newestUpdatedAtOfMyOngoingEvents) {
             error, events in
             if error != nil {
@@ -83,6 +83,11 @@ class EventListViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    func handleRefresh() {
+        
+        self.refreshMyOngoingEventsSilently()
         
         EventRequest.fetchNewerDataForPublicEvents(currentlyNewestUpdatedTime: EventRequest.newestUpdatedAtOfPublicEvents) {
             error, events in
@@ -149,13 +154,23 @@ class EventListViewController: UIViewController {
                     case is AttendingEventTableViewCell:
                         let attendingCell = sender as! AttendingEventTableViewCell
                         eventDetailVC.event = EventRequest.indexOfMyOngoingEvents[attendingCell.eventId]
+                        eventDetailVC.delegate = self
                         
                     case is EventListTableViewCell:
                         let eventListCell = sender as! EventListTableViewCell
                         eventDetailVC.event = EventRequest.indexOfPublicEvents[eventListCell.eventId]
+                        eventDetailVC.delegate = self
                     default:
                         break
                     }
+                }
+            case identifierToPostEvent:
+                var destination = segue.destination
+                if let nav = destination as? UINavigationController {
+                    destination = nav.topViewController!
+                }
+                if let startEventVC = destination as? StartEventViewController {
+                    startEventVC.delegate = self
                 }
             default:
                 break
@@ -164,6 +179,7 @@ class EventListViewController: UIViewController {
     }
     
     let identifierToEventDetail = "go to event detail"
+    let identifierToPostEvent = "go to post new event"
 }
 
 extension EventListViewController: UserSettingDelegate {
@@ -175,6 +191,27 @@ extension EventListViewController: UserSettingDelegate {
             self.leftStartEventButton.isHidden = true
             self.startEventButton.isHidden = false
         }
+    }
+}
+
+extension EventListViewController: EventMemberStatusDelegate {
+    func userDidJoinEventWith(id: String) {
+      self.handleRefresh()
+    }
+    
+    func userDidQuitEventWith(id: String) {
+        EventRequest.indexOfMyOngoingEvents.removeValue(forKey: id)
+        EventRequest.myOngoingEvents = EventRequest.indexOfMyOngoingEvents.values.sorted {
+            if $0.finalized != $1.finalized {
+                return $0.finalized
+            }
+            return $0.due < $1.due
+        }
+        self.tableView.reloadData()
+    }
+    
+    func userDidPostEvent() {
+        self.refreshMyOngoingEventsSilently()
     }
 }
 

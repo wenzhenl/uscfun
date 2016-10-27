@@ -35,13 +35,20 @@ class EventRequest {
         if let events = events {
             for event in events {
                 EventRequest.indexOfMyOngoingEvents[event.objectId!] = event
-                EventRequest.myOngoingEvents.append(event)
                 
                 if event.updatedAt! > EventRequest.newestUpdatedAtOfMyOngoingEvents {
                     EventRequest.newestUpdatedAtOfMyOngoingEvents = event.updatedAt!
                 }
                 if event.updatedAt! < EventRequest.oldestUpdatedAtOfMyOngoingEvents {
                     EventRequest.oldestUpdatedAtOfMyOngoingEvents = event.updatedAt!
+                }
+            }
+            if events.count > 0 {
+                EventRequest.myOngoingEvents = EventRequest.indexOfMyOngoingEvents.values.sorted {
+                    if $0.finalized != $1.finalized {
+                        return $0.finalized
+                    }
+                    return $0.due < $1.due
                 }
             }
         }

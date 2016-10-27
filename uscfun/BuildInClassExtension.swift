@@ -76,7 +76,7 @@ extension UIColor {
     }
     
     class var eventWaiting: UIColor {
-        return UIColor.darkGray
+        return UIColor.lightGray
     }
 }
 

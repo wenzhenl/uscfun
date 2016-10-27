@@ -15,6 +15,8 @@ class StartEventViewController: UIViewController {
     @IBOutlet weak var cancleButton: UIBarButtonItem!
     @IBOutlet weak var postButton: UIBarButtonItem!
     
+    var delegate: EventMemberStatusDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isTranslucent = true
@@ -48,7 +50,7 @@ class StartEventViewController: UIViewController {
                           ("新开的这家店石器时代很不错，有兴趣一起组个队去吃么，团购有优惠",EventType.foodAndDrink)]
         
         let randIndex = Int(arc4random_uniform(UInt32(events.count)))
-        let event = Event(name: events[randIndex].0, type: events[randIndex].1, totalSeats: 20, remainingSeats: 12, minimumAttendingPeople: 9, due: Date(timeIntervalSinceNow: 12345), creator: AVUser.current())
+        let event = Event(name: events[randIndex].0, type: events[randIndex].1, totalSeats: 4, remainingSeats: 1, minimumAttendingPeople: 4, due: Date(timeIntervalSinceNow: 12345), creator: AVUser.current())
         event.startTime = Date(timeIntervalSinceNow: 45678)
         event.endTime = Date(timeIntervalSinceNow: 55890)
         let yesorno = Int(arc4random_uniform(2))
@@ -71,6 +73,7 @@ extension StartEventViewController: EventDelegate {
     func eventDidPost(succeed: Bool, errorReason: String?) {
         SVProgressHUD.dismiss()
         if succeed {
+            delegate?.userDidPostEvent()
             self.presentingViewController?.dismiss(animated: true, completion: nil)
         } else {
             cancleButton.isEnabled = true
