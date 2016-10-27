@@ -8,6 +8,7 @@
 
 import UIKit
 import ChatKit
+import SVProgressHUD
 
 enum EventDetailCell {
     case imageViewTableCell(image: UIImage)
@@ -306,6 +307,9 @@ extension EventDetailViewController: UITableViewDelegate {
                 performSegue(withIdentifier: mapSegueIdentifier, sender: self)
             }
             else if key == conversationKey {
+                tableView.cellForRow(at: indexPath)?.isUserInteractionEnabled = false
+                SVProgressHUD.showInfo(withStatus: "正在加载")
+                
                 if let event = self.event {
                     LCChatKit.sharedInstance().open(withClientId: AVUser.current().username, force: true) {
                         succeed, error in
@@ -320,9 +324,17 @@ extension EventDetailViewController: UITableViewDelegate {
                                     print("successfully fetched conversation")
                                 }
                             }
+                            tableView.cellForRow(at: indexPath)?.isUserInteractionEnabled = true
+                            SVProgressHUD.dismiss()
                             self.navigationController?.pushViewController(conversationVC, animated: true)
+                        }  else {
+                            tableView.cellForRow(at: indexPath)?.isUserInteractionEnabled = true
+                            SVProgressHUD.dismiss()
                         }
                     }
+                } else {
+                    tableView.cellForRow(at: indexPath)?.isUserInteractionEnabled = true
+                    SVProgressHUD.dismiss()
                 }
             }
             else if key == memberStatusKey {

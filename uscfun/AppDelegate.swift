@@ -50,7 +50,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
                 }
             }
             if completionHandler != nil {
-                print("pass users")
                 completionHandler!(users, nil)
             }
             
