@@ -52,13 +52,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
             if completionHandler != nil {
                 completionHandler!(users, nil)
             }
-            
         }
-        
         LCChatKit.sharedInstance().conversationInvalidedHandler = {
             conversationId, vc, user, error in
             print(error)
         }
+        LCChatKit.sharedInstance().disableSingleSignOn = true
         
         // PRE-LOAD DATA
         if UserDefaults.hasLoggedIn {
