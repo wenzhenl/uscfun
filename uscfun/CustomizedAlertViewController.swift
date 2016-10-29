@@ -10,20 +10,45 @@ import UIKit
 
 protocol CustomizedAlertViewDelegate {
     func withdraw()
+    func shareEventToWechatFriend()
+    func shareEventToMoments()
+    func quitEvent()
+}
+
+enum CustomAlertType {
+    case quitEvent
+    case shareEvent
+}
+
+enum AlertCellType {
+    case imgKeyValueCell(image: UIImage, key: String, value: String)
+    case regularCell(text: String)
 }
 
 class CustomizedAlertViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     var delegate: CustomizedAlertViewDelegate?
+    var alertType: CustomAlertType!
+    var alertSections = [AlertCellType]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = UIColor.backgroundGray
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(withdraw(sender:)))
-        tapGesture.delegate = self
+        tapGesture.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tapGesture)
+        
+        switch alertType! {
+        case .quitEvent:
+            alertSections.append(AlertCellType.imgKeyValueCell(image: #imageLiteral(resourceName: "remove"), key: keyOfQuitEvent, value: ""))
+            alertSections.append(AlertCellType.imgKeyValueCell(image: #imageLiteral(resourceName: "cancel"), key: keyOfCancel, value: ""))
+        case .shareEvent:
+            alertSections.append(AlertCellType.imgKeyValueCell(image: #imageLiteral(resourceName: "wechat"), key: keyOfShareEventToWechatFriend, value: ""))
+            alertSections.append(AlertCellType.imgKeyValueCell(image: #imageLiteral(resourceName: "wechat"), key: keyOfShareEventToMoments, value: ""))
+            alertSections.append(AlertCellType.imgKeyValueCell(image: #imageLiteral(resourceName: "cancel"), key: keyOfCancel, value: ""))
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -34,6 +59,7 @@ class CustomizedAlertViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.tableView.frame = CGRect(x: tableView.frame.origin.x, y: self.view.frame.height - tableView.contentSize.height, width: tableView.frame.width, height: tableView.contentSize.height)
+        self.view.layoutIfNeeded()
         self.tableView.reloadData()
     }
     
@@ -44,16 +70,11 @@ class CustomizedAlertViewController: UIViewController {
             self.presentingViewController?.dismiss(animated: true, completion: nil)
         }
     }
-}
-
-extension CustomizedAlertViewController: UIGestureRecognizerDelegate {
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        if (gestureRecognizer.view!.isDescendant(of: self.tableView)) {
-            return true
-        } else {
-            return false
-        }
-    }
+    
+    let keyOfCancel = "取消"
+    let keyOfQuitEvent = "退出微活动"
+    let keyOfShareEventToWechatFriend = "分享给微信好友"
+    let keyOfShareEventToMoments = "分享到微信朋友圈"
 }
 
 extension CustomizedAlertViewController: UITableViewDelegate {
@@ -67,21 +88,35 @@ extension CustomizedAlertViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("selected")
-        if indexPath.section == 2 {
-            self.delegate?.withdraw()
-            self.presentingViewController?.dismiss(animated: true, completion: nil)
+        
+        switch alertSections[indexPath.section] {
+        case .imgKeyValueCell(_, let key, _):
+            switch key {
+            case keyOfCancel:
+                self.delegate?.withdraw()
+            case keyOfQuitEvent:
+                self.delegate?.quitEvent()
+            case keyOfShareEventToWechatFriend:
+                self.delegate?.shareEventToWechatFriend()
+            case keyOfShareEventToMoments:
+                self.delegate?.shareEventToMoments()
+            default:
+                break
+            }
+        default:
+            break
         }
+        self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
 }
 
 extension CustomizedAlertViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return alertSections.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -89,13 +124,17 @@ extension CustomizedAlertViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 2 {
+        switch alertSections[indexPath.section] {
+        case .imgKeyValueCell(let image, let key, let value):
+            let cell = Bundle.main.loadNibNamed("ImgKeyValueTableViewCell", owner: self, options: nil)?.first! as! ImgKeyValueTableViewCell
+            cell.mainImageView.image = image
+            cell.keyLabel.text = key
+            cell.valueLabel.text = value
+            return cell
+        case .regularCell(let text):
             let cell = UITableViewCell()
-            cell.textLabel?.text = "取消"
-            cell.textLabel?.textAlignment = .center
+            cell.textLabel?.text = text
             return cell
         }
-        let cell = tableView.dequeueReusableCell(withIdentifier: "button share cell") as! ButtonShareTableViewCell
-        return cell
     }
 }

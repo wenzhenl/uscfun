@@ -156,63 +156,24 @@ class EventDetailViewController: UIViewController {
         }
     }
     
-    func quitEvent() {
-        let alertController = UIAlertController(title: "退出小活动", message: "你是否想退出此活动?", preferredStyle: .actionSheet)
-        let quit = UIAlertAction(title: "决定退出", style: .default) {
-            _ in
-            SVProgressHUD.show()
-            self.event?.remove(member: AVUser.current()) {
-                succeed, error in
-                SVProgressHUD.dismiss()
-                if succeed {
-                    self.populateSections()
-                    self.tableView.reloadData()
-                    self.delegate?.userDidQuitEventWith(id: self.event!.objectId!)
-                }
-                else if error != nil {
-                    self.showUpdateReminder(message: error!.localizedDescription)
-                }
-            }
-        }
-        let cancel = UIAlertAction(title: "原谅我的手滑", style: .cancel, handler: nil)
-        alertController.addAction(quit)
-        alertController.addAction(cancel)
-        self.present(alertController, animated: true, completion: nil)
-    }
-    
-    func takeActions() {
+    func quitRequest() {
         
-        print("clicked")
         self.dimView.isHidden = false
         let actionViewController = self.storyboard!.instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentifierOfCustomizedAlertViewController) as! CustomizedAlertViewController
         actionViewController.delegate = self
+        actionViewController.alertType = CustomAlertType.quitEvent
         actionViewController.modalPresentationStyle = .overFullScreen
         self.present(actionViewController, animated: true, completion: nil)
     }
     
-    func shareEvent() {
-        let image = #imageLiteral(resourceName: "albums")
-        let ext = WXImageObject()
-        ext.imageData = UIImagePNGRepresentation(image)
+    func takeActions() {
         
-        let message = WXMediaMessage()
-        message.title = "I am title"
-        message.description = "I am description"
-        message.mediaObject = ext
-        message.mediaTagName = "MyPic"
-        
-        UIGraphicsBeginImageContext(CGSize(width: 100, height: 100))
-        image.draw(in: CGRect(x: 0, y: 0, width: 100, height: 100))
-        let thumbImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        message.thumbData = UIImagePNGRepresentation(thumbImage!)
-        
-        let req = SendMessageToWXReq()
-        req.text = "I am text for req"
-        req.message = message
-        req.bText = false
-        req.scene = 1
-        WXApi.send(req)
+        self.dimView.isHidden = false
+        let actionViewController = self.storyboard!.instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentifierOfCustomizedAlertViewController) as! CustomizedAlertViewController
+        actionViewController.delegate = self
+        actionViewController.alertType = CustomAlertType.shareEvent
+        actionViewController.modalPresentationStyle = .overFullScreen
+        self.present(actionViewController, animated: true, completion: nil)
     }
     
     func back() {
@@ -249,6 +210,46 @@ class EventDetailViewController: UIViewController {
 
 extension EventDetailViewController: CustomizedAlertViewDelegate {
     func withdraw() {
+        self.dimView.isHidden = true
+    }
+    
+    func shareEvent() {
+        let image = #imageLiteral(resourceName: "albums")
+        let ext = WXImageObject()
+        ext.imageData = UIImagePNGRepresentation(image)
+        
+        let message = WXMediaMessage()
+        message.title = "I am title"
+        message.description = "I am description"
+        message.mediaObject = ext
+        message.mediaTagName = "MyPic"
+        
+        UIGraphicsBeginImageContext(CGSize(width: 100, height: 100))
+        image.draw(in: CGRect(x: 0, y: 0, width: 100, height: 100))
+        let thumbImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        message.thumbData = UIImagePNGRepresentation(thumbImage!)
+        
+        let req = SendMessageToWXReq()
+        req.text = "I am text for req"
+        req.message = message
+        req.bText = false
+        req.scene = 1
+        WXApi.send(req)
+    }
+    
+    func shareEventToMoments() {
+        print("share event to moments")
+        self.dimView.isHidden = true
+    }
+    
+    func shareEventToWechatFriend() {
+        print("share event to friend")
+        self.dimView.isHidden = true
+    }
+    
+    func quitEvent() {
+        print("quit event")
         self.dimView.isHidden = true
     }
 }
@@ -397,7 +398,7 @@ extension EventDetailViewController: UITableViewDelegate {
                 }
             }
             else if key == memberStatusKey {
-                self.quitEvent()
+                self.quitRequest()
             }
         case .imgKeyScrollViewTableCell(_, _, _):
             self.performSegue(withIdentifier: memberSugueIdentifier, sender: self)

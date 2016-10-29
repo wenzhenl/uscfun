@@ -18,6 +18,8 @@ class MembersTableViewController: UITableViewController {
         self.view.backgroundColor = UIColor.backgroundGray
         self.tableView.tableFooterView = UIView()
         self.title = "当前成员"
+        self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0)
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
