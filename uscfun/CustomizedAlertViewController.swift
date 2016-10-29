@@ -32,6 +32,8 @@ class CustomizedAlertViewController: UIViewController {
     var alertType: CustomAlertType!
     var alertSections = [AlertCellType]()
     
+    @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
@@ -46,21 +48,14 @@ class CustomizedAlertViewController: UIViewController {
             alertSections.append(AlertCellType.imgKeyValueCell(image: #imageLiteral(resourceName: "cancel"), key: keyOfCancel, value: ""))
         case .shareEvent:
             alertSections.append(AlertCellType.imgKeyValueCell(image: #imageLiteral(resourceName: "wechat"), key: keyOfShareEventToWechatFriend, value: ""))
-            alertSections.append(AlertCellType.imgKeyValueCell(image: #imageLiteral(resourceName: "wechat"), key: keyOfShareEventToMoments, value: ""))
+            alertSections.append(AlertCellType.imgKeyValueCell(image: #imageLiteral(resourceName: "moments"), key: keyOfShareEventToMoments, value: ""))
             alertSections.append(AlertCellType.imgKeyValueCell(image: #imageLiteral(resourceName: "cancel"), key: keyOfCancel, value: ""))
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
+    override func updateViewConstraints() {
+        super.updateViewConstraints()
         self.tableView.frame = CGRect(x: tableView.frame.origin.x, y: self.view.frame.height - tableView.contentSize.height, width: tableView.frame.width, height: tableView.contentSize.height)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        self.tableView.frame = CGRect(x: tableView.frame.origin.x, y: self.view.frame.height - tableView.contentSize.height, width: tableView.frame.width, height: tableView.contentSize.height)
-        self.view.layoutIfNeeded()
-        self.tableView.reloadData()
     }
     
     func withdraw(sender: UITapGestureRecognizer) {
@@ -80,7 +75,7 @@ class CustomizedAlertViewController: UIViewController {
 extension CustomizedAlertViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return 50
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
