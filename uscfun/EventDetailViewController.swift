@@ -213,44 +213,59 @@ extension EventDetailViewController: CustomizedAlertViewDelegate {
         self.dimView.isHidden = true
     }
     
-    func shareEvent() {
-        let image = #imageLiteral(resourceName: "albums")
-        let ext = WXImageObject()
-        ext.imageData = UIImagePNGRepresentation(image)
-        
-        let message = WXMediaMessage()
-        message.title = "I am title"
-        message.description = "I am description"
-        message.mediaObject = ext
-        message.mediaTagName = "MyPic"
-        
-        UIGraphicsBeginImageContext(CGSize(width: 100, height: 100))
-        image.draw(in: CGRect(x: 0, y: 0, width: 100, height: 100))
-        let thumbImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        message.thumbData = UIImagePNGRepresentation(thumbImage!)
-        
-        let req = SendMessageToWXReq()
-        req.text = "I am text for req"
-        req.message = message
-        req.bText = false
-        req.scene = 1
-        WXApi.send(req)
-    }
-    
     func shareEventToMoments() {
         print("share event to moments")
         self.dimView.isHidden = true
+        let message = WXMediaMessage()
+        message.title = "我正在USC日常上参加活动--" + event!.name
+        message.setThumbImage(event!.type.image)
+        
+        let ext = WXWebpageObject()
+        ext.webpageUrl = "http://usrichange.com"
+        message.mediaObject = ext
+        
+        let req = SendMessageToWXReq()
+        req.bText = false
+        req.message = message
+        req.scene = Int32(WXSceneTimeline.rawValue)
+        WXApi.send(req)
     }
     
     func shareEventToWechatFriend() {
         print("share event to friend")
         self.dimView.isHidden = true
+        self.dimView.isHidden = true
+        let message = WXMediaMessage()
+        message.title = "我正在USC日常上参加活动--" + event!.name
+        message.setThumbImage(event!.type.image)
+        
+        let ext = WXWebpageObject()
+        ext.webpageUrl = "http://usrichange.com"
+        message.mediaObject = ext
+        
+        let req = SendMessageToWXReq()
+        req.bText = false
+        req.message = message
+        req.scene = Int32(WXSceneSession.rawValue)
+        WXApi.send(req)
     }
     
     func quitEvent() {
         print("quit event")
         self.dimView.isHidden = true
+        SVProgressHUD.show()
+        self.event?.remove(member: AVUser.current()) {
+            succeed, error in
+            SVProgressHUD.dismiss()
+            if succeed {
+                self.populateSections()
+                self.tableView.reloadData()
+                self.delegate?.userDidQuitEventWith(id: self.event!.objectId!)
+            }
+            else if error != nil {
+                self.showUpdateReminder(message: error!.localizedDescription)
+            }
+        }
     }
 }
 
