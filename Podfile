@@ -7,5 +7,6 @@ target 'uscfun' do
     pod 'AVOSCloudIM'
     pod 'AVOSCloudCrashReporting'
     pod 'SVProgressHUD'
+    pod 'LeanCloudFeedback'
 end
 

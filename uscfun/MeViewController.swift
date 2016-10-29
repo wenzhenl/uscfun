@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import LeanCloudFeedback
 
 enum MeCell {
     case profileTableCell(image: UIImage, text: String, segueId: String)
     case labelArrowTableCell(text: String, segueId: String)
+    case labelImgArrowTableCell(text: String, isIndicated: Bool, segueId: String)
     case labelSwitchTableCell(text: String)
     case regularTableCell(text: String, segueId: String)
 }
@@ -26,14 +28,42 @@ class MeViewController: UIViewController {
     var meSections = [[MeCell]]()
     var delegate: UserSettingDelegate?
     
+    var hasUnreadMessage = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.view.backgroundColor = UIColor.buttonPink
         self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.contentInset = UIEdgeInsetsMake(30, 0, 0, 0)
+        self.populateSections()
         
+        LCUserFeedbackAgent.sharedInstance().countUnreadFeedbackThreads() {
+            number, error in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+            else if number > 0 {
+                print("unread number\(number)")
+                self.hasUnreadMessage = true
+                self.populateSections()
+                self.tableView.reloadData()
+            }
+            else if number == 0 {
+                print("unread number\(number)")
+                self.hasUnreadMessage = false
+                self.populateSections()
+                self.tableView.reloadData()
+            }
+            else {
+                print("unread number\(number)")
+            }
+        }
+    }
+    
+    func populateSections() {
         //--MARK: populate the cells
+        meSections = [[MeCell]]()
         let profileSection = [MeCell.profileTableCell(image: UserDefaults.avatar!, text: UserDefaults.nickname!, segueId: segueIdOfUpdateProfile)]
         meSections.append(profileSection)
         
@@ -43,7 +73,7 @@ class MeViewController: UIViewController {
         let userHabitSectin = [MeCell.labelSwitchTableCell(text: "左手模式")]
         meSections.append(userHabitSectin)
         
-        let appInfoSection = [MeCell.labelArrowTableCell(text: "给USC日常评分", segueId: segueIdOfRateUSCFun), MeCell.labelArrowTableCell(text: "反馈问题或建议", segueId: segueIdOfGiveComments), MeCell.labelArrowTableCell(text: "关于USC日常", segueId: segueIdOfAboutUSCFun)]
+        let appInfoSection = [MeCell.labelArrowTableCell(text: "给USC日常评分", segueId: segueIdOfRateUSCFun), MeCell.labelImgArrowTableCell(text: "反馈问题或建议", isIndicated: hasUnreadMessage, segueId: segueIdOfGiveComments), MeCell.labelArrowTableCell(text: "关于USC日常", segueId: segueIdOfAboutUSCFun)]
         meSections.append(appInfoSection)
         
         let signOutSection = [MeCell.regularTableCell(text: "退出登录", segueId: segueIdOfSignOut)]
@@ -86,6 +116,18 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
             let cell = Bundle.main.loadNibNamed("LabelArrowTableViewCell", owner: self, options: nil)?.first as! LabelArrowTableViewCell
             cell.mainTextLabel.text = text
             cell.mainTextLabel.textColor = UIColor.darkGray
+            return cell
+        case .labelImgArrowTableCell(let text, let isIndicated, _):
+            let cell = Bundle.main.loadNibNamed("LabelImgArrowTableViewCell", owner: self, options: nil)?.first as! LabelImgArrowTableViewCell
+            cell.mainLabel.text = text
+            cell.mainLabel.textColor = UIColor.darkGray
+            if isIndicated {
+                cell.indicatorView.backgroundColor = UIColor.red
+            } else {
+                cell.indicatorView.backgroundColor = UIColor.clear
+            }
+            cell.indicatorView.layer.cornerRadius = 5
+            cell.indicatorView.layer.masksToBounds = true
             return cell
         case .labelSwitchTableCell(let text):
             let cell = Bundle.main.loadNibNamed("LabelSwitchTableViewCell", owner: self, options: nil)?.first as! LabelSwitchTableViewCell
@@ -138,13 +180,30 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
         case .labelArrowTableCell(_, let segueId):
             if segueId == segueIdOfRateUSCFun {
                 UIApplication.shared.openURL(URL(string : "itms-apps://itunes.apple.com/app/id1073401869")!)
-            } else {
+            }
+            else {
                 self.performSegue(withIdentifier: segueId, sender: self)
+            }
+        case .labelImgArrowTableCell(_, _, let segueId):
+            if segueId == segueIdOfGiveComments {
+                
+                self.hasUnreadMessage = false
+                self.populateSections()
+                self.tableView.reloadData()
+                
+                let feedbackViewController = LCUserFeedbackViewController()
+                feedbackViewController.feedbackTitle = "建议反馈"
+                feedbackViewController.contactHeaderHidden = true
+                feedbackViewController.presented = false
+                feedbackViewController.navigationBarStyle = LCUserFeedbackNavigationBarStyleNone
+                self.navigationController?.pushViewController(feedbackViewController, animated: true)
             }
         case .labelSwitchTableCell(_):
             break
-        default:
-            LoginKit.signOut()
+        case .regularTableCell(_, let segueId):
+            if segueId == segueIdOfSignOut {
+                LoginKit.signOut()
+            }
         }
         
         tableView.deselectRow(at: indexPath, animated: false)

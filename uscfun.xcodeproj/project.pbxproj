@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A0185851DC48602009A7874 /* LabelImgArrowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0185831DC48602009A7874 /* LabelImgArrowTableViewCell.swift */; };
+		0A0185861DC48602009A7874 /* LabelImgArrowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A0185841DC48602009A7874 /* LabelImgArrowTableViewCell.xib */; };
 		0A022FA71D73D066004077A4 /* FindBackPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A022FA61D73D066004077A4 /* FindBackPasswordViewController.swift */; };
 		0A2506A81DB1A8E80099E812 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2506A71DB1A8E80099E812 /* WebViewController.swift */; };
 		0A250F5C1DC1369000B9723A /* MembersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A250F5B1DC1369000B9723A /* MembersTableViewController.swift */; };
@@ -78,6 +80,8 @@
 
 /* Begin PBXFileReference section */
 		08F35232E5951BB14F9E57FA /* Pods-uscfun.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uscfun.release.xcconfig"; path = "Pods/Target Support Files/Pods-uscfun/Pods-uscfun.release.xcconfig"; sourceTree = "<group>"; };
+		0A0185831DC48602009A7874 /* LabelImgArrowTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelImgArrowTableViewCell.swift; sourceTree = "<group>"; };
+		0A0185841DC48602009A7874 /* LabelImgArrowTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelImgArrowTableViewCell.xib; sourceTree = "<group>"; };
 		0A022FA61D73D066004077A4 /* FindBackPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindBackPasswordViewController.swift; sourceTree = "<group>"; };
 		0A2506A71DB1A8E80099E812 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		0A250F5B1DC1369000B9723A /* MembersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembersTableViewController.swift; sourceTree = "<group>"; };
@@ -240,6 +244,8 @@
 				0A70C09E1DBD3B4000C06354 /* LabelSwitchTableViewCell.xib */,
 				0AEFEA561DC12A46005231C4 /* KeyScrollViewTableViewCell.swift */,
 				0AEFEA571DC12A46005231C4 /* KeyScrollViewTableViewCell.xib */,
+				0A0185831DC48602009A7874 /* LabelImgArrowTableViewCell.swift */,
+				0A0185841DC48602009A7874 /* LabelImgArrowTableViewCell.xib */,
 			);
 			name = TableViewCells;
 			sourceTree = "<group>";
@@ -423,6 +429,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A0185861DC48602009A7874 /* LabelImgArrowTableViewCell.xib in Resources */,
 				0A9CB44D1D6FF5FC00608D27 /* Login.storyboard in Resources */,
 				0A427FAE1D97F579007A96BE /* TextViewTableViewCell.xib in Resources */,
 				0A96D3D21DADBF5B00AB272A /* ImgKeyValueArrowTableViewCell.xib in Resources */,
@@ -531,6 +538,7 @@
 				0A963DB71D716E6400E0532F /* NicknameViewController.swift in Sources */,
 				0A9CB44F1D6FF8D800608D27 /* USCFunConstants.swift in Sources */,
 				0AE5C54D1DB1E2CC00B455F4 /* LabelArrowTableViewCell.swift in Sources */,
+				0A0185851DC48602009A7874 /* LabelImgArrowTableViewCell.swift in Sources */,
 				0A71119F1DBEC8BF00742F2D /* LoginKit.swift in Sources */,
 				0A9A94581DC40C5F00B002D2 /* CustomizedAlertViewController.swift in Sources */,
 				0ADE0C9F1DB1F173009F89A0 /* EventHistoryViewController.swift in Sources */,
