@@ -30,7 +30,7 @@ class EventDetailViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var reminderView: UIView!
     @IBOutlet weak var reminderLabel: UILabel!
-    
+    @IBOutlet weak var dimView: UIView!
     @IBOutlet weak var reminderViewConstraint: NSLayoutConstraint!
     
     var event: Event?
@@ -45,7 +45,7 @@ class EventDetailViewController: UIViewController {
         self.view.backgroundColor = UIColor.backgroundGray
         self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.tableFooterView = UIView()
-        
+        self.dimView.isHidden = true
         populateSections()
     }
 
@@ -182,6 +182,12 @@ class EventDetailViewController: UIViewController {
     
     func takeActions() {
         
+        print("clicked")
+        self.dimView.isHidden = false
+        let actionViewController = self.storyboard!.instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentifierOfCustomizedAlertViewController) as! CustomizedAlertViewController
+        actionViewController.delegate = self
+        actionViewController.modalPresentationStyle = .overFullScreen
+        self.present(actionViewController, animated: true, completion: nil)
     }
     
     func shareEvent() {
@@ -239,6 +245,12 @@ class EventDetailViewController: UIViewController {
     let memberStatusKey = "已经参加"
     let mapSegueIdentifier = "SHOWMAP"
     let memberSugueIdentifier = "see member detail"
+}
+
+extension EventDetailViewController: CustomizedAlertViewDelegate {
+    func withdraw() {
+        self.dimView.isHidden = true
+    }
 }
 
 extension EventDetailViewController: UITableViewDataSource {

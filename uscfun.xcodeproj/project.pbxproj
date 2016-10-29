@@ -46,6 +46,8 @@
 		0A963DB91D717A5F00E0532F /* PasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A963DB81D717A5F00E0532F /* PasswordViewController.swift */; };
 		0A96D3D11DADBF5B00AB272A /* ImgKeyValueArrowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A96D3CF1DADBF5B00AB272A /* ImgKeyValueArrowTableViewCell.swift */; };
 		0A96D3D21DADBF5B00AB272A /* ImgKeyValueArrowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A96D3D01DADBF5B00AB272A /* ImgKeyValueArrowTableViewCell.xib */; };
+		0A9A94581DC40C5F00B002D2 /* CustomizedAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9A94571DC40C5F00B002D2 /* CustomizedAlertViewController.swift */; };
+		0A9A945A1DC422C400B002D2 /* ButtonShareTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9A94591DC422C400B002D2 /* ButtonShareTableViewCell.swift */; };
 		0A9CB44D1D6FF5FC00608D27 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A9CB44C1D6FF5FC00608D27 /* Login.storyboard */; };
 		0A9CB44F1D6FF8D800608D27 /* USCFunConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB44E1D6FF8D800608D27 /* USCFunConstants.swift */; };
 		0A9CB4511D6FFAA500608D27 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB4501D6FFAA500608D27 /* User.swift */; };
@@ -120,6 +122,8 @@
 		0A963DB81D717A5F00E0532F /* PasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordViewController.swift; sourceTree = "<group>"; };
 		0A96D3CF1DADBF5B00AB272A /* ImgKeyValueArrowTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImgKeyValueArrowTableViewCell.swift; sourceTree = "<group>"; };
 		0A96D3D01DADBF5B00AB272A /* ImgKeyValueArrowTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImgKeyValueArrowTableViewCell.xib; sourceTree = "<group>"; };
+		0A9A94571DC40C5F00B002D2 /* CustomizedAlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomizedAlertViewController.swift; sourceTree = "<group>"; };
+		0A9A94591DC422C400B002D2 /* ButtonShareTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonShareTableViewCell.swift; sourceTree = "<group>"; };
 		0A9CB44C1D6FF5FC00608D27 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		0A9CB44E1D6FF8D800608D27 /* USCFunConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USCFunConstants.swift; sourceTree = "<group>"; };
 		0A9CB4501D6FFAA500608D27 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -308,6 +312,8 @@
 				0A497EDE1D7CC7770099A883 /* StartEventViewController.swift */,
 				0AAE42E31D9A2F8B00B34601 /* MapViewController.swift */,
 				0A250F5B1DC1369000B9723A /* MembersTableViewController.swift */,
+				0A9A94571DC40C5F00B002D2 /* CustomizedAlertViewController.swift */,
+				0A9A94591DC422C400B002D2 /* ButtonShareTableViewCell.swift */,
 			);
 			name = EventViewControllers;
 			sourceTree = "<group>";
@@ -503,6 +509,7 @@
 				0A022FA71D73D066004077A4 /* FindBackPasswordViewController.swift in Sources */,
 				0A71119D1DBEC87000742F2D /* UserDefaultsExtension.swift in Sources */,
 				0A9CB4511D6FFAA500608D27 /* User.swift in Sources */,
+				0A9A945A1DC422C400B002D2 /* ButtonShareTableViewCell.swift in Sources */,
 				0A96D3D11DADBF5B00AB272A /* ImgKeyValueArrowTableViewCell.swift in Sources */,
 				0A427FB11D97F627007A96BE /* ImageViewTableViewCell.swift in Sources */,
 				0A3D2B5D1D7B9351004F57EF /* EventDetailViewController.swift in Sources */,
@@ -525,6 +532,7 @@
 				0A9CB44F1D6FF8D800608D27 /* USCFunConstants.swift in Sources */,
 				0AE5C54D1DB1E2CC00B455F4 /* LabelArrowTableViewCell.swift in Sources */,
 				0A71119F1DBEC8BF00742F2D /* LoginKit.swift in Sources */,
+				0A9A94581DC40C5F00B002D2 /* CustomizedAlertViewController.swift in Sources */,
 				0ADE0C9F1DB1F173009F89A0 /* EventHistoryViewController.swift in Sources */,
 				0AAE42E41D9A2F8B00B34601 /* MapViewController.swift in Sources */,
 				0A6834BE1D56858C002E9B0D /* AppDelegate.swift in Sources */,
