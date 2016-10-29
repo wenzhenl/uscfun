@@ -217,7 +217,7 @@ extension EventDetailViewController: CustomizedAlertViewDelegate {
         print("share event to moments")
         self.dimView.isHidden = true
         let message = WXMediaMessage()
-        message.title = "我正在USC日常上参加活动--" + event!.name
+        message.title = event!.name
         message.setThumbImage(event!.type.image)
         
         let ext = WXWebpageObject()
