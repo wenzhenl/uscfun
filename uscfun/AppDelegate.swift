@@ -9,12 +9,14 @@
 import UIKit
 import AVOSCloud
 import ChatKit
+import SVProgressHUD
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var client: AVIMClient?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     
         UIApplication.shared.statusBarStyle = .lightContent
@@ -68,6 +70,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
             print(error)
         }
         LCChatKit.sharedInstance().disableSingleSignOn = true
+        
+        
+        // set AVIMClient to receive system broadcast
+        client = AVIMClient(clientId: AVUser.current().username)
+        client?.delegate = self
+        client?.open() {
+            succeed, error in
+            if succeed {
+                print("client open successfully")
+            }
+            
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        }
         
         // PRE-LOAD DATA
         if UserDefaults.hasLoggedIn {
@@ -151,10 +168,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         let notificationSettings = UIUserNotificationSettings(types: [UIUserNotificationType.badge, .sound, .alert], categories: nil)
         application.registerUserNotificationSettings(notificationSettings)
     }
-    
+}
+
+extension AppDelegate: WXApiDelegate {
     func onReq(_ req: BaseReq!) {
     }
     
     func onResp(_ resp: BaseResp!) {
+    }
+}
+
+extension AppDelegate: AVIMClientDelegate {
+    func conversation(_ conversation: AVIMConversation!, didReceive message: AVIMTypedMessage!) {
+        print(message.text)
+        SVProgressHUD.showInfo(withStatus: message.text)
+        let delay = 3 * Double(NSEC_PER_SEC)
+        let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time) {
+            SVProgressHUD.dismiss()
+        }
     }
 }

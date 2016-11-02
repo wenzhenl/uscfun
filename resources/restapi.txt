@@ -1,0 +1,55 @@
+
+##### Create a simple conversation with two people ####
+curl -X POST \
+  -H "X-LC-Id: pDLnf6MjL1vIgRw6b2WWWVCJ-MdYXbMMI" \
+  -H "X-LC-Key: zpbYwzEe5c6Cw4Ecmfr745C2" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"My Private Room","m": ["BillGates", "SteveJobs"]}' \
+  https://us-api.leancloud.cn/1.1/classes/_Conversation
+
+##### Create a transient conversation ####
+curl -X POST \
+-H "X-LC-Id: pDLnf6MjL1vIgRw6b2WWWVCJ-MdYXbMMI" \
+-H "X-LC-Key: zpbYwzEe5c6Cw4Ecmfr745C2" \
+-H "Content-Type: application/json" \
+-d '{"name":"OpenConf", "tr": true}' \
+https://us-api.leancloud.cn/1.1/classes/_Conversation
+
+#### Create a system conversation ####
+curl -X POST \
+-H "X-LC-Id: pDLnf6MjL1vIgRw6b2WWWVCJ-MdYXbMMI" \
+-H "X-LC-Key: zpbYwzEe5c6Cw4Ecmfr745C2" \
+-H "Content-Type: application/json" \
+-d '{"name": "Notification Channel","sys": true}' \
+https://us-api.leancloud.cn/1.1/classes/_Conversation
+
+### fetch conversation history ####
+curl -X GET \
+  -H "X-LC-Id: pDLnf6MjL1vIgRw6b2WWWVCJ-MdYXbMMI" \
+  -H "X-LC-Key: D0WVYFeGPkXn9lue4AgM0WBa,master" \
+  https://us.leancloud.cn/1.1/rtm/messages/logs?convid=5817f79191e79b0064c6867b
+
+
+### send message to a conversation ###
+curl -X POST \
+  -H "X-LC-Id: pDLnf6MjL1vIgRw6b2WWWVCJ-MdYXbMMI" \
+  -H "X-LC-Key: D0WVYFeGPkXn9lue4AgM0WBa,master" \
+  -H "Content-Type: application/json" \
+  -d '{"from_peer": "yichaodo@usc.edu", "message": "{\"_lctype\":-1,\"_lctext\":\"伪装成奕超发送的消息\",\"_lcattrs\":{\"a\":\"_lcattrs 是用来存储用户自定义的一些键值对\"}}", "conv_id": "581036f391e79b0065e9bcf2", "transient": false}' \
+  https://us.leancloud.cn/1.1/rtm/messages
+
+### broadcast to all users ####
+curl -X POST \
+  -H "X-LC-Id: pDLnf6MjL1vIgRw6b2WWWVCJ-MdYXbMMI" \
+  -H "X-LC-Key: D0WVYFeGPkXn9lue4AgM0WBa,master" \
+  -H "Content-Type: application/json" \
+  -d '{"from_peer": "sys", "message": "{\"_lctype\":-1,\"_lctext\":\"系统通知，明天放假\",\"_lcattrs\":{\"a\":\"_lcattrs 是用来存储用户自定义的一些键值对\"}}", "conv_id": "581973d06f354f00663072e7"}' \
+  https://us.leancloud.cn/1.1/rtm/broadcast
+
+### send system message to user ####
+curl -X POST \
+-H "X-LC-Id: pDLnf6MjL1vIgRw6b2WWWVCJ-MdYXbMMI" \
+-H "X-LC-Key: D0WVYFeGPkXn9lue4AgM0WBa,master" \
+-H "Content-Type: application/json" \
+-d '{"from_peer": "1a", "to_peers":["wenzhenl@usc.edu","3d","4f"],"message": "{\"_lctype\":-1,\"_lctext\":\"这是一个纯文本消息\",\"_lcattrs\":{\"a\":\"_lcattrs 是用来存储用户自定义的一些键值对\"}}", "conv_id": "581973d06f354f00663072e7", "transient": false}' \
+https://us.leancloud.cn/1.1/rtm/messages
