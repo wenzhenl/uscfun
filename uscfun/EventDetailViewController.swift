@@ -383,22 +383,13 @@ extension EventDetailViewController: UITableViewDelegate {
             }
             else if key == conversationKey {
                 tableView.cellForRow(at: indexPath)?.isUserInteractionEnabled = false
-                SVProgressHUD.showInfo(withStatus: "正在加载")
+                SVProgressHUD.show()
                 
                 if let event = self.event {
                     LCChatKit.sharedInstance().open(withClientId: AVUser.current().username, force: true) {
                         succeed, error in
                         if let conversationVC = LCCKConversationViewController(conversationId: event.conversationId) {
                             conversationVC.isEnableAutoJoin = true
-                            
-                            conversationVC.setFetchConversationHandler() {
-                                conversation, error in
-                                if conversation == nil {
-                                    print("Serious error happened")
-                                } else {
-                                    print("successfully fetched conversation")
-                                }
-                            }
                             tableView.cellForRow(at: indexPath)?.isUserInteractionEnabled = true
                             SVProgressHUD.dismiss()
                             self.navigationController?.pushViewController(conversationVC, animated: true)

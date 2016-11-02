@@ -53,6 +53,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
                 completionHandler!(users, nil)
             }
         }
+        
+        LCChatKit.sharedInstance().fetchConversationHandler = {
+            conversation, error in
+            if conversation == nil {
+                print("cannot fetch conversation")
+            } else {
+                print("successfully fetched conversation")
+            }
+        }
+        
         LCChatKit.sharedInstance().conversationInvalidedHandler = {
             conversationId, vc, user, error in
             print(error)
