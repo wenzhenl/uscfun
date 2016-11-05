@@ -86,6 +86,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
+        LCChatKit.sharedInstance().open(withClientId: AVUser.current().username) {
+            succeed, error in
+            if succeed {
+                print("LCCKatKit open successfully")
+            }
+            
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        }
+        
         // PRE-LOAD DATA
         if UserDefaults.hasLoggedIn {
             EventRequest.preLoadData()

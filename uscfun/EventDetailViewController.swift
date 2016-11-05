@@ -386,17 +386,14 @@ extension EventDetailViewController: UITableViewDelegate {
                 SVProgressHUD.show()
                 
                 if let event = self.event {
-                    LCChatKit.sharedInstance().open(withClientId: AVUser.current().username, force: true) {
-                        succeed, error in
-                        if let conversationVC = LCCKConversationViewController(conversationId: event.conversationId) {
-                            conversationVC.isEnableAutoJoin = true
-                            tableView.cellForRow(at: indexPath)?.isUserInteractionEnabled = true
-                            SVProgressHUD.dismiss()
-                            self.navigationController?.pushViewController(conversationVC, animated: true)
-                        }  else {
-                            tableView.cellForRow(at: indexPath)?.isUserInteractionEnabled = true
-                            SVProgressHUD.dismiss()
-                        }
+                    if let conversationVC = LCCKConversationViewController(conversationId: event.conversationId) {
+                        conversationVC.isEnableAutoJoin = true
+                        tableView.cellForRow(at: indexPath)?.isUserInteractionEnabled = true
+                        SVProgressHUD.dismiss()
+                        self.navigationController?.pushViewController(conversationVC, animated: true)
+                    }  else {
+                        tableView.cellForRow(at: indexPath)?.isUserInteractionEnabled = true
+                        SVProgressHUD.dismiss()
                     }
                 } else {
                     tableView.cellForRow(at: indexPath)?.isUserInteractionEnabled = true
