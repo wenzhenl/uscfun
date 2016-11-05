@@ -19,6 +19,7 @@ enum MeCell {
 
 protocol UserSettingDelegate {
     func userDidChangeLefthandMode()
+//    func userDidChangeAllowEventHistoryViewedMode()
 }
 
 class MeViewController: UIViewController {
@@ -71,7 +72,10 @@ class MeViewController: UIViewController {
         let eventHistorySection = [MeCell.labelArrowTableCell(text: "我发起过的活动", segueId: segueIdOfCheckEventDetail), MeCell.labelArrowTableCell(text: "我参加过的活动", segueId: segueIdOfCheckEventDetail)]
         meSections.append(eventHistorySection)
         
-        let userHabitSectin = [MeCell.labelSwitchTableCell(text: "左手模式")]
+        let privacySection = [MeCell.labelSwitchTableCell(text: textOfAllowEventHistroyViewed)]
+        meSections.append(privacySection)
+        
+        let userHabitSectin = [MeCell.labelSwitchTableCell(text: textOfLefthandMode)]
         meSections.append(userHabitSectin)
         
         let appInfoSection = [MeCell.labelArrowTableCell(text: "给USC日常评分", segueId: segueIdOfRateUSCFun), MeCell.labelImgArrowTableCell(text: "反馈问题或建议", isIndicated: hasUnreadMessage, segueId: segueIdOfGiveComments), MeCell.labelArrowTableCell(text: "关于USC日常", segueId: segueIdOfAboutUSCFun)]
@@ -86,6 +90,14 @@ class MeViewController: UIViewController {
         UserDefaults.updateIsLefthanded(isLefthanded: switchElement.isOn)
         delegate?.userDidChangeLefthandMode()
     }
+    
+    func switchAllowEventHistoryViewedMode(switchElement: UISwitch) {
+        print(switchElement.isOn)
+        UserDefaults.updateAllowsEventHistoryViewed(allowsEventHistoryViewed: switchElement.isOn)
+    }
+    
+    let textOfLefthandMode = "左手模式"
+    let textOfAllowEventHistroyViewed = "允许别人查看活动历史"
     
     let segueIdOfUpdateProfile = "go to update profile"
     let segueIdOfGiveComments = "go to feedback"
@@ -134,8 +146,14 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
             let cell = Bundle.main.loadNibNamed("LabelSwitchTableViewCell", owner: self, options: nil)?.first as! LabelSwitchTableViewCell
             cell.mainLabel.text = text
             cell.mainLabel.textColor = UIColor.darkGray
-            cell.mainSwitch.isOn = UserDefaults.isLefthanded
-            cell.mainSwitch.addTarget(self, action: #selector(switchToLefthandMode(switchElement:)), for: UIControlEvents.valueChanged)
+            if text == textOfLefthandMode {
+                cell.mainSwitch.isOn = UserDefaults.isLefthanded
+                cell.mainSwitch.addTarget(self, action: #selector(switchToLefthandMode(switchElement:)), for: UIControlEvents.valueChanged)
+            }
+            else if text == textOfAllowEventHistroyViewed {
+                cell.mainSwitch.isOn = UserDefaults.allowsEventHistoryViewed
+                cell.mainSwitch.addTarget(self, action: #selector(switchAllowEventHistoryViewedMode(switchElement:)), for: UIControlEvents.valueChanged)
+            }
             cell.selectionStyle = .none
             return cell
         case .regularTableCell(let text, _):

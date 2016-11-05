@@ -24,6 +24,7 @@ struct UserKeyConstants {
     static let keyOfSchool = "school"
     static let keyOfGender = "gender"
     static let keyOfLeftHanded = "leftHanded"
+    static let keyOfAllowsEventHistoryViewed = "allowsEventHistoryViewed"
 }
 
 struct EventKeyConstants {

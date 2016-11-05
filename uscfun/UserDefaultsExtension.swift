@@ -70,9 +70,24 @@ extension UserDefaults {
         }
     }
     
+    class var allowsEventHistoryViewed: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "User_AllowHistoryViewed_Key")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "User_AllowHistoryViewed_Key")
+        }
+    }
+    
     static func updateIsLefthanded(isLefthanded: Bool) {
         UserDefaults.isLefthanded = isLefthanded
         AVUser.current().setObject(UserDefaults.isLefthanded, forKey: UserKeyConstants.keyOfLeftHanded)
+        AVUser.current().saveInBackground()
+    }
+    
+    static func updateAllowsEventHistoryViewed(allowsEventHistoryViewed: Bool) {
+        UserDefaults.allowsEventHistoryViewed = allowsEventHistoryViewed
+        AVUser.current().setObject(UserDefaults.allowsEventHistoryViewed, forKey: UserKeyConstants.keyOfAllowsEventHistoryViewed)
         AVUser.current().saveInBackground()
     }
 }

@@ -116,6 +116,14 @@ class LoginKit {
                     UserDefaults.isLefthanded = false
                 }
                 
+                if allkeys.contains(UserKeyConstants.keyOfAllowsEventHistoryViewed) {
+                    if let allowsEventHistoryViewed = updatedUser!.value(forKey: UserKeyConstants.keyOfAllowsEventHistoryViewed) as? Bool {
+                        UserDefaults.allowsEventHistoryViewed = allowsEventHistoryViewed
+                    }
+                } else {
+                    UserDefaults.allowsEventHistoryViewed = false
+                }
+                
                 UserDefaults.nickname = nickname
                 UserDefaults.hasLoggedIn = true
                 UserDefaults.email = updatedUser!.email
