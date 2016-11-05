@@ -35,7 +35,8 @@ class MeViewController: UIViewController {
 
         self.view.backgroundColor = UIColor.buttonPink
         self.tableView.backgroundColor = UIColor.backgroundGray
-        self.tableView.contentInset = UIEdgeInsetsMake(30, 0, 0, 0)
+        self.tableView.contentInset = UIEdgeInsetsMake(30, 0, 50, 0)
+        self.tableView.tableFooterView = UIView()
         self.populateSections()
         
         LCUserFeedbackAgent.sharedInstance().countUnreadFeedbackThreads() {
@@ -50,7 +51,7 @@ class MeViewController: UIViewController {
                 self.tableView.reloadData()
             }
             else if number == 0 {
-                print("unread number\(number)")
+                print("unread number \(number)")
                 self.hasUnreadMessage = false
                 self.populateSections()
                 self.tableView.reloadData()
