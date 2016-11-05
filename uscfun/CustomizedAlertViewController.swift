@@ -12,6 +12,7 @@ protocol CustomizedAlertViewDelegate {
     func withdraw()
     func shareEventToWechatFriend()
     func shareEventToMoments()
+    func reportEvent()
     func quitEvent()
 }
 
@@ -49,13 +50,12 @@ class CustomizedAlertViewController: UIViewController {
         case .shareEvent:
             alertSections.append(AlertCellType.imgKeyValueCell(image: #imageLiteral(resourceName: "wechat"), key: keyOfShareEventToWechatFriend, value: ""))
             alertSections.append(AlertCellType.imgKeyValueCell(image: #imageLiteral(resourceName: "moments"), key: keyOfShareEventToMoments, value: ""))
+            alertSections.append(AlertCellType.imgKeyValueCell(image: #imageLiteral(resourceName: "bell"), key: keyOfReportEvent, value: ""))
             alertSections.append(AlertCellType.imgKeyValueCell(image: #imageLiteral(resourceName: "cancel"), key: keyOfCancel, value: ""))
         }
-    }
-    
-    override func updateViewConstraints() {
-        super.updateViewConstraints()
-        self.tableView.frame = CGRect(x: tableView.frame.origin.x, y: self.view.frame.height - tableView.contentSize.height, width: tableView.frame.width, height: tableView.contentSize.height)
+        tableView.translatesAutoresizingMaskIntoConstraints = true
+        tableView.layoutIfNeeded()
+        tableView.frame = CGRect(x: 0, y: self.view.frame.height - tableView.contentSize.height, width: self.view.frame.width, height: tableView.contentSize.height)
     }
     
     func withdraw(sender: UITapGestureRecognizer) {
@@ -69,7 +69,8 @@ class CustomizedAlertViewController: UIViewController {
     let keyOfCancel = "取消"
     let keyOfQuitEvent = "退出微活动"
     let keyOfShareEventToWechatFriend = "分享给微信好友"
-    let keyOfShareEventToMoments = "分享到微信朋友圈"
+    let keyOfShareEventToMoments = "分享到朋友圈"
+    let keyOfReportEvent = "举报该微活动"
 }
 
 extension CustomizedAlertViewController: UITableViewDelegate {
@@ -99,6 +100,8 @@ extension CustomizedAlertViewController: UITableViewDelegate {
                 self.delegate?.shareEventToWechatFriend()
             case keyOfShareEventToMoments:
                 self.delegate?.shareEventToMoments()
+            case keyOfReportEvent:
+                self.delegate?.reportEvent()
             default:
                 break
             }

@@ -209,6 +209,10 @@ class EventDetailViewController: UIViewController {
 }
 
 extension EventDetailViewController: CustomizedAlertViewDelegate {
+    internal func reportEvent() {
+        self.dimView.isHidden = true
+    }
+
     func withdraw() {
         self.dimView.isHidden = true
     }
@@ -236,7 +240,7 @@ extension EventDetailViewController: CustomizedAlertViewDelegate {
         self.dimView.isHidden = true
         self.dimView.isHidden = true
         let message = WXMediaMessage()
-        message.title = "我正在USC日常上参加活动--" + event!.name
+        message.title = event!.name
         message.setThumbImage(event!.type.image)
         
         let ext = WXWebpageObject()

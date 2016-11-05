@@ -97,7 +97,7 @@ class MeViewController: UIViewController {
     }
     
     let textOfLefthandMode = "左手模式"
-    let textOfAllowEventHistroyViewed = "允许别人查看活动历史"
+    let textOfAllowEventHistroyViewed = "公开活动历史"
     
     let segueIdOfUpdateProfile = "go to update profile"
     let segueIdOfGiveComments = "go to feedback"
