@@ -75,8 +75,8 @@ class MeViewController: UIViewController {
         let privacySection = [MeCell.labelSwitchTableCell(text: textOfAllowEventHistroyViewed)]
         meSections.append(privacySection)
         
-        let userHabitSectin = [MeCell.labelSwitchTableCell(text: textOfLefthandMode)]
-        meSections.append(userHabitSectin)
+        let userHabitSection = [MeCell.labelSwitchTableCell(text: textOfLefthandMode)]
+        meSections.append(userHabitSection)
         
         let appInfoSection = [MeCell.labelArrowTableCell(text: "给USC日常评分", segueId: segueIdOfRateUSCFun), MeCell.labelImgArrowTableCell(text: "反馈问题或建议", isIndicated: hasUnreadMessage, segueId: segueIdOfGiveComments), MeCell.labelArrowTableCell(text: "关于USC日常", segueId: segueIdOfAboutUSCFun)]
         meSections.append(appInfoSection)

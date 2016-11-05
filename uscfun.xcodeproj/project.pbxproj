@@ -54,6 +54,7 @@
 		0A9CB44F1D6FF8D800608D27 /* USCFunConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB44E1D6FF8D800608D27 /* USCFunConstants.swift */; };
 		0A9CB4511D6FFAA500608D27 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB4501D6FFAA500608D27 /* User.swift */; };
 		0A9CB4531D7006F400608D27 /* PreLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB4521D7006F400608D27 /* PreLoginViewController.swift */; };
+		0AA82B101DCDAEB90016B278 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA82B0F1DCDAEB90016B278 /* UserProfileViewController.swift */; };
 		0AAE42DF1D9A289D00B34601 /* ImgKeyValueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE42DD1D9A289D00B34601 /* ImgKeyValueTableViewCell.swift */; };
 		0AAE42E01D9A289D00B34601 /* ImgKeyValueTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AAE42DE1D9A289D00B34601 /* ImgKeyValueTableViewCell.xib */; };
 		0AAE42E21D9A2CC500B34601 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAE42E11D9A2CC500B34601 /* MapKit.framework */; };
@@ -132,6 +133,7 @@
 		0A9CB44E1D6FF8D800608D27 /* USCFunConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USCFunConstants.swift; sourceTree = "<group>"; };
 		0A9CB4501D6FFAA500608D27 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		0A9CB4521D7006F400608D27 /* PreLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreLoginViewController.swift; sourceTree = "<group>"; };
+		0AA82B0F1DCDAEB90016B278 /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		0AAE42DD1D9A289D00B34601 /* ImgKeyValueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImgKeyValueTableViewCell.swift; sourceTree = "<group>"; };
 		0AAE42DE1D9A289D00B34601 /* ImgKeyValueTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImgKeyValueTableViewCell.xib; sourceTree = "<group>"; };
 		0AAE42E11D9A2CC500B34601 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -320,6 +322,7 @@
 				0A250F5B1DC1369000B9723A /* MembersTableViewController.swift */,
 				0A9A94571DC40C5F00B002D2 /* CustomizedAlertViewController.swift */,
 				0A9A94591DC422C400B002D2 /* ButtonShareTableViewCell.swift */,
+				0AA82B0F1DCDAEB90016B278 /* UserProfileViewController.swift */,
 			);
 			name = EventViewControllers;
 			sourceTree = "<group>";
@@ -548,6 +551,7 @@
 				0A963DB91D717A5F00E0532F /* PasswordViewController.swift in Sources */,
 				0A68D7FB1DB07F2000DDF3A5 /* EventRequest.swift in Sources */,
 				0AAE42DF1D9A289D00B34601 /* ImgKeyValueTableViewCell.swift in Sources */,
+				0AA82B101DCDAEB90016B278 /* UserProfileViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

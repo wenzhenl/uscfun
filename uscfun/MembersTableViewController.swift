@@ -49,6 +49,21 @@ class MembersTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: segueIdentifierForUserProfile, sender: self)
         tableView.deselectRow(at: indexPath, animated: false)
+    }
+    
+    let segueIdentifierForUserProfile = "see user profile"
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            if identifier == segueIdentifierForUserProfile {
+                let destination = segue.destination
+                if let userProfileVC = destination as? UserProfileViewController {
+                    let other = User(user: event.members[(tableView.indexPathForSelectedRow?.row)!])
+                    userProfileVC.other = other
+                }
+            }
+        }
     }
 }
