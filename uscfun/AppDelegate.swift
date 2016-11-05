@@ -67,38 +67,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         LCChatKit.sharedInstance().conversationInvalidedHandler = {
             conversationId, vc, user, error in
-            print(error)
+            print(error!)
         }
         LCChatKit.sharedInstance().disableSingleSignOn = true
         
-        
-        // set AVIMClient to receive system broadcast
-        client = AVIMClient(clientId: AVUser.current().username)
-        client?.delegate = self
-        client?.open() {
-            succeed, error in
-            if succeed {
-                print("client open successfully")
-            }
-            
-            if error != nil {
-                print(error!.localizedDescription)
-            }
-        }
-        
-        LCChatKit.sharedInstance().open(withClientId: AVUser.current().username) {
-            succeed, error in
-            if succeed {
-                print("LCCKatKit open successfully")
-            }
-            
-            if error != nil {
-                print(error!.localizedDescription)
-            }
-        }
+        LoginKit.delegate = self
         
         // PRE-LOAD DATA
         if UserDefaults.hasLoggedIn {
+            userDidLoggedIn()
             EventRequest.preLoadData()
         }
         
@@ -197,6 +174,35 @@ extension AppDelegate: AVIMClientDelegate {
         let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: time) {
             SVProgressHUD.dismiss()
+        }
+    }
+}
+
+extension AppDelegate: LoginDelegate {
+    func userDidLoggedIn() {
+        // set AVIMClient to receive system broadcast
+        client = AVIMClient(clientId: AVUser.current().username)
+        client?.delegate = self
+        client?.open() {
+            succeed, error in
+            if succeed {
+                print("client open successfully")
+            }
+            
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        }
+        
+        LCChatKit.sharedInstance().open(withClientId: AVUser.current().username) {
+            succeed, error in
+            if succeed {
+                print("LCChatKit open successfully")
+            }
+            
+            if error != nil {
+                print(error!.localizedDescription)
+            }
         }
     }
 }

@@ -19,8 +19,14 @@ enum LoginError: Error {
     case cannotFetchAvatar(reason: String)
 }
 
+protocol LoginDelegate {
+    func userDidLoggedIn()
+}
+
 class LoginKit {
     static var password: String?
+    
+    static var delegate: LoginDelegate?
     
     static func signUp(handler: (_ succeed: Bool, _ error: NSError?) -> Void) {
         
@@ -113,6 +119,9 @@ class LoginKit {
                 UserDefaults.nickname = nickname
                 UserDefaults.hasLoggedIn = true
                 UserDefaults.email = updatedUser!.email
+                
+                delegate?.userDidLoggedIn()
+                
                 handler(true, nil)
             } else {
                 handler(false, error)

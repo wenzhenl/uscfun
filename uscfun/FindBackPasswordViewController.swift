@@ -78,8 +78,9 @@ class FindBackPasswordViewController: UIViewController, UITextViewDelegate, UITe
                 succeeded, error in
                 if succeeded {
                     self.noticeTextView.text = "我们已经收到你的重置密码请求，一封邮件已经发送到\(self.email), 请按照邮件的指导操作"
-                } else {
-                    print(error)
+                }
+                else if error != nil {
+                    print(error!)
                     self.errorLabel.text = error?.localizedDescription
                     self.errorLabel.isHidden = false
                 }

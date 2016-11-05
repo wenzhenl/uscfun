@@ -56,7 +56,7 @@ class MeViewController: UIViewController {
                 self.tableView.reloadData()
             }
             else {
-                print("unread number\(number)")
+                print("unread number \(number)")
             }
         }
     }
