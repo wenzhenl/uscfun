@@ -40,7 +40,7 @@ class EventDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(takeActions))
         self.view.backgroundColor = UIColor.backgroundGray
         self.tableView.backgroundColor = UIColor.backgroundGray

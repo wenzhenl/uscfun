@@ -357,6 +357,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: identifierToEventDetail, sender: tableView.cellForRow(at: indexPath))
         tableView.deselectRow(at: indexPath, animated: false)
     }
 }
