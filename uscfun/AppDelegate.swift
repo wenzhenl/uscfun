@@ -37,39 +37,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         LCCKInputViewPluginTakePhoto.registerSubclass()
         LCCKInputViewPluginPickImage.registerSubclass()
         LCCKInputViewPluginLocation.registerSubclass()
-        LCChatKit.sharedInstance().fetchProfilesBlock = {
-            userIds, completionHandler in
-            var users = [LCCKUser]()
-            if let userIds = userIds {
-                if let query = AVQuery(className: "_User") {
-                    query.whereKey("username", containedIn: userIds)
-                    if let objects = query.findObjects() {
-                        for object in objects as! [AVUser] {
-                            let user = LCCKUser(userId: object.value(forKey: UserKeyConstants.keyOfNickname) as! String!, name: object.value(forKey: UserKeyConstants.keyOfNickname) as! String!, avatarURL: URL(string: object.value(forKey: UserKeyConstants.keyOfAvatarUrl) as! String))
-                            users.append(user!)
-                        }
-                    }
-                }
-            }
-            if completionHandler != nil {
-                completionHandler!(users, nil)
-            }
-        }
-        
-        LCChatKit.sharedInstance().fetchConversationHandler = {
-            conversation, error in
-            if conversation == nil {
-                print("cannot fetch conversation")
-            } else {
-                print("successfully fetched conversation")
-            }
-        }
-        
-        LCChatKit.sharedInstance().conversationInvalidedHandler = {
-            conversationId, vc, user, error in
-            print(error!)
-        }
-        LCChatKit.sharedInstance().disableSingleSignOn = true
         
         LoginKit.delegate = self
         
@@ -180,6 +147,42 @@ extension AppDelegate: AVIMClientDelegate {
 
 extension AppDelegate: LoginDelegate {
     func userDidLoggedIn() {
+        
+        LCChatKit.sharedInstance().fetchProfilesBlock = {
+            userIds, completionHandler in
+            var users = [LCCKUser]()
+            if let userIds = userIds {
+                if let query = AVQuery(className: "_User") {
+                    query.whereKey("username", containedIn: userIds)
+                    if let objects = query.findObjects() {
+                        for object in objects as! [AVUser] {
+                            let user = LCCKUser(userId: object.value(forKey: UserKeyConstants.keyOfNickname) as! String!, name: object.value(forKey: UserKeyConstants.keyOfNickname) as! String!, avatarURL: URL(string: object.value(forKey: UserKeyConstants.keyOfAvatarUrl) as! String))
+                            users.append(user!)
+                        }
+                    }
+                }
+            }
+            if completionHandler != nil {
+                completionHandler!(users, nil)
+            }
+        }
+        
+        LCChatKit.sharedInstance().fetchConversationHandler = {
+            conversation, error in
+            if conversation == nil {
+                print("cannot fetch conversation")
+            } else {
+                print("successfully fetched conversation")
+            }
+        }
+        
+        LCChatKit.sharedInstance().conversationInvalidedHandler = {
+            conversationId, vc, user, error in
+            print(error!)
+        }
+        
+        LCChatKit.sharedInstance().disableSingleSignOn = true
+        
         // set AVIMClient to receive system broadcast
         client = AVIMClient(clientId: AVUser.current().username)
         client?.delegate = self

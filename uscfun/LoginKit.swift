@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ChatKit
 
 enum SignUpError: Error {
     case cannotCreateAvatar(reason: String)
@@ -143,6 +144,16 @@ class LoginKit {
         EventRequest.myOngoingEvents.removeAll()
         EventRequest.indexOfMyOngoingEvents.removeAll()
         EventRequest.indexOfPublicEvents.removeAll()
+        
+        LCChatKit.sharedInstance().close() {
+            succeed, error in
+            if succeed {
+                print("LCChatKit closed successfully")
+            }
+            else if error != nil {
+                print(error!.localizedDescription)
+            }
+        }
         
         let appDelegate = UIApplication.shared.delegate! as! AppDelegate
         let initialViewController = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController()
