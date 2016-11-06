@@ -36,7 +36,7 @@ enum EventType: String {
             return #imageLiteral(resourceName: "travel")
         case .study:
             return #imageLiteral(resourceName: "birthday")
-        default:
+        case .other:
             return #imageLiteral(resourceName: "party")
         }
     }
@@ -52,41 +52,116 @@ protocol EventDelegate {
     func eventDidPost(succeed: Bool, errorReason: String?)
 }
 
+/// description of Event class
 class Event {
     //--MARK: required information
+    
+    /// The name of the event
     var name: String
+    
+    /// The type of the event
     var type: EventType
+    
+    /// The total seats of the event which means the maximum number of members of the event
     var totalSeats: Int
+    
+    /// The remaining seats of the event, when posting the event, this number is the result
+    /// of the target maximum number of members minus the number of people agreed to attend
+    /// pre-hand.
     var remainingSeats: Int
+    
+    /// The minimumAttendingPeople is the minimum people required for this event, after the
+    /// due, the event meets the minimumAttendingPeople will be considered as finalized,
+    /// otherwise, the event will be cancled.
     var minimumAttendingPeople: Int
+    
+    /// After the due, no people can join the event. The event will be finalized or cancled.
     var due: Date
     
     //--MARK: optional settings
+    
+    /// The start time of the event
     var startTime: Date?
+    
+    /// The end time of the event
     var endTime: Date?
+    
+    /// The location name of the event
     var locationName: String?
+    
+    /// The longitude and latitude of the location
     var location: AVGeoPoint?
+    
+    /// The expected fee of the event
     var expectedFee: Double?
+    
+    /// The transportantion method of the event
     var transportationMethod: TransportationMethod?
+    
+    /// Additional information that the creator wants other to know
     var note: String?
-    var imageUrl: String?
+    
+    /// The attached images with the event
+    var imageUrl: [String]?
     
     //--MARK: system properties of event
+    
+    /// The creator of the event
     var creator: AVUser
-    var transientConversationId: String?
-    var conversationId: String?
+    
+    /// The chat room for general users to discuss the event to decide if they actually want
+    /// to join
+    var transientConversationId: String
+    
+    /// The chat room used after the event is finalized, it only contains the formal members
+    /// of the event
+    var conversationId: String
+    
+    /// The members of the event
     var members: [AVUser]
+    
+    /// This flag indicates if this event is finalized. This flag is true either when the
+    /// maximum number of members of this event is met or the number of members meets the
+    /// minimum required attending people after the due.
     var finalized: Bool
+    
+    /// This flag indicates that the event has been executed and it will not be shown at
+    /// user's my attending events section
     var finished: Bool
+    
+    /// The event belongs this school
     var school: String
     
     //--MARK: properties added by Leancloud
+    
+    /// The objectId fetched from Leancloud
     var objectId: String?
+    
+    /// The creation time fetched from Leancloud
     var createdAt: Date?
+    
+    /// The update time fetched from Leancloud
     var updatedAt: Date?
     
-    //--MARK: delegate for handling posting process
+    // MARK: delegate for handling posting process
+    
+    /// The delegate of the event
     var delegate: EventDelegate?
+    
+    
+    /// Creates an 'Event' instance with the required parameters
+    ///
+    /// - parameter name:                    The name of the event
+    /// - parameter type:                    The type of the event, predefined in enum EventType
+    /// - parameter totalSeats:              The maximum number of members that the event can include
+    /// - parameter remainingSeats:          The remaining seats when the creator post the event
+    /// - parameter minimumAttendingPeople:  The minimum required number of members the creator have for this event to be ready
+    /// - parameter due:                     The last moment that people can join this event
+    /// - parameter creator:                 The creator of this event
+    ///
+    /// - returns: The new 'Event' instance
+    ///
+    /// - warning: The transient conversation id for people to discuss the event and the conversation id for event members to discuss the event, neither of those conversations are created yet.
     
     init(name: String, type: EventType, totalSeats: Int, remainingSeats: Int, minimumAttendingPeople: Int, due: Date, creator: AVUser) {
         self.name = name
@@ -96,12 +171,20 @@ class Event {
         self.minimumAttendingPeople = minimumAttendingPeople
         self.due = due
         self.creator = creator
-        self.members = [AVUser]()
-        members.append(creator)
+        self.transientConversationId = ""
+        self.conversationId = ""
+        self.members = [creator]
         self.finalized = false
         self.finished = false
         self.school = USCFunConstants.nameOfSchool
     }
+    
+    
+    /// Creates an 'Event' instance from data fetch from Leancloud
+    ///
+    /// - parameter data: The AVObject fetched from Leancloud
+    ///
+    /// - returns: The new 'Event' instance or nil if any of required argument missing
     
     init?(data: AVObject?) {
         if let data = data {
