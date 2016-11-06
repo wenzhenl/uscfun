@@ -10,12 +10,14 @@ import Foundation
 import AVOSCloud
 import AVOSCloudIM
 
+/// possible errors with event
 enum EventError: Error {
     case userNotAMember(String)
     case noSeatsLeft(String)
     case eventFinalized(String)
 }
 
+/// possible types of events
 enum EventType: String {
     case foodAndDrink = "foodAndDrink"
     case shopping = "shopping"
@@ -42,12 +44,14 @@ enum EventType: String {
     }
 }
 
+/// possible transportation methods of events
 enum TransportationMethod: String {
     case selfDriving = "selfDriving"
     case uber = "uber"
     case metro = "metro"
 }
 
+/// event delegate
 protocol EventDelegate {
     func eventDidPost(succeed: Bool, errorReason: String?)
 }
@@ -187,134 +191,129 @@ class Event {
     /// - returns: The new 'Event' instance or nil if any of required argument missing
     
     init?(data: AVObject?) {
-        if let data = data {
-            if let allKeys = data.allKeys() as? [String] {
-                guard allKeys.contains(EventKeyConstants.keyOfName), let name = data.value(forKey: EventKeyConstants.keyOfName) as? String else {
-                    print("no name")
-                    return nil
-                }
-                self.name = name
-
-                guard allKeys.contains(EventKeyConstants.keyOfType), let type = data.value(forKey: EventKeyConstants.keyOfType) as? String else {
-                    print("no type")
-                    return nil
-                }
-                self.type = EventType(rawValue: type)!
-
-                guard allKeys.contains(EventKeyConstants.keyOfTotalSeats), let totalSeats = data.value(forKey: EventKeyConstants.keyOfTotalSeats) as? Int else {
-                    print("no total seats")
-                    return nil
-                }
-                self.totalSeats = totalSeats
-
-                guard allKeys.contains(EventKeyConstants.keyOfRemainingSeats), let remainingSeats = data.value(forKey: EventKeyConstants.keyOfRemainingSeats) as? Int else {
-                    print("no remaining seats")
-                    return nil
-                }
-                self.remainingSeats = remainingSeats
-
-                guard allKeys.contains(EventKeyConstants.keyOfMinimumAttendingPeople), let minimumAttendingPeople = data.value(forKey: EventKeyConstants.keyOfMinimumAttendingPeople) as? Int else {
-                    print("no minimum seats")
-                    return nil
-                }
-                self.minimumAttendingPeople = minimumAttendingPeople
-
-                guard allKeys.contains(EventKeyConstants.keyOfDue), let due = data.value(forKey: EventKeyConstants.keyOfDue) as? Date else {
-                    print("no due")
-                    return nil
-                }
-                self.due = due
-
-                guard allKeys.contains(EventKeyConstants.keyOfCreator), let creator = data.object(forKey: EventKeyConstants.keyOfCreator) as? AVUser else {
-                    print("no user")
-                    return nil
-                }
-                self.creator = creator
-                print(self.creator)
-                
-                guard allKeys.contains(EventKeyConstants.keyOfMembers), let members = data.value(forKey: EventKeyConstants.keyOfMembers) as? [AVUser] else {
-                    print("no members")
-                    return nil
-                }
-                self.members = members
-
-                guard allKeys.contains(EventKeyConstants.keyOfFinalized), let finalized = data.value(forKey: EventKeyConstants.keyOfFinalized) as? Bool else {
-                    print("no finalized")
-                    return nil
-                }
-                self.finalized = finalized
-
-                guard allKeys.contains(EventKeyConstants.keyOfFinished), let finished = data.value(forKey: EventKeyConstants.keyOfFinished) as? Bool else {
-                    print("no finished")
-                    return nil
-                }
-                self.finished = finished
-
-                guard allKeys.contains(EventKeyConstants.keyOfTransientConversationId), let transientConversationId = data.value(forKey: EventKeyConstants.keyOfTransientConversationId) as? String else {
-                    print("no transient conversation")
-                    return nil
-                }
-                self.transientConversationId = transientConversationId
-
-                guard allKeys.contains(EventKeyConstants.keyOfConversationId), let conversationId = data.value(forKey: EventKeyConstants.keyOfConversationId) as? String else {
-                    print("no conversation")
-                    return nil
-                }
-                self.conversationId = conversationId
-                
-                if allKeys.contains(EventKeyConstants.keyOfStartTime) {
-                    if let startTime = data.value(forKey: EventKeyConstants.keyOfStartTime) as? Date {
-                        self.startTime = startTime
-                    }
-                }
-                if allKeys.contains(EventKeyConstants.keyOfEndTime) {
-                    if let endTime = data.value(forKey: EventKeyConstants.keyOfEndTime) as? Date {
-                        self.endTime = endTime
-                    }
-                }
-                if allKeys.contains(EventKeyConstants.keyOfLocationName) {
-                    if let locationName = data.value(forKey: EventKeyConstants.keyOfLocationName) as? String {
-                        self.locationName = locationName
-                    }
-                }
-                if allKeys.contains(EventKeyConstants.keyOfLocation) {
-                    if let location = data.value(forKey: EventKeyConstants.keyOfLocation) as? AVGeoPoint {
-                        self.location = location
-                    }
-                }
-                if allKeys.contains(EventKeyConstants.keyOfExpectedFee) {
-                    if let expectedFee = data.value(forKey: EventKeyConstants.keyOfExpectedFee) as? Double {
-                        self.expectedFee = expectedFee
-                    }
-                }
-                if allKeys.contains(EventKeyConstants.keyOfTransportationMethod) {
-                    if let transportationMethod = data.value(forKey: EventKeyConstants.keyOfTransportationMethod) as? String {
-                        self.transportationMethod = TransportationMethod(rawValue: transportationMethod)
-                    }
-                }
-                if allKeys.contains(EventKeyConstants.keyOfNote) {
-                    if let note = data.value(forKey: EventKeyConstants.keyOfNote) as? String {
-                        self.note = note
-                    }
-                }
-                self.school = USCFunConstants.nameOfSchool
-                self.objectId = data.objectId
-                self.createdAt = data.createdAt
-                self.updatedAt = data.updatedAt
-
-                return
-            }
-            print("no keys")
+        guard let data = data, let allKeys = data.allKeys() as? [String] else {
+            print("no data or no all keys")
+            return nil
         }
         
-        print("no data")
-        self.name = ""
-        self.type = EventType.entertainment
-        self.totalSeats = 0
-        self.remainingSeats = 0
-        self.minimumAttendingPeople = 0
-        self.due = Date()
-        return nil
+        guard allKeys.contains(EventKeyConstants.keyOfName), let name = data.value(forKey: EventKeyConstants.keyOfName) as? String else {
+            print("no name")
+            return nil
+        }
+        self.name = name
+
+        guard allKeys.contains(EventKeyConstants.keyOfType), let type = data.value(forKey: EventKeyConstants.keyOfType) as? String else {
+            print("no type")
+            return nil
+        }
+        self.type = EventType(rawValue: type)!
+
+        guard allKeys.contains(EventKeyConstants.keyOfTotalSeats), let totalSeats = data.value(forKey: EventKeyConstants.keyOfTotalSeats) as? Int else {
+            print("no total seats")
+            return nil
+        }
+        self.totalSeats = totalSeats
+
+        guard allKeys.contains(EventKeyConstants.keyOfRemainingSeats), let remainingSeats = data.value(forKey: EventKeyConstants.keyOfRemainingSeats) as? Int else {
+            print("no remaining seats")
+            return nil
+        }
+        self.remainingSeats = remainingSeats
+
+        guard allKeys.contains(EventKeyConstants.keyOfMinimumAttendingPeople), let minimumAttendingPeople = data.value(forKey: EventKeyConstants.keyOfMinimumAttendingPeople) as? Int else {
+            print("no minimum seats")
+            return nil
+        }
+        self.minimumAttendingPeople = minimumAttendingPeople
+
+        guard allKeys.contains(EventKeyConstants.keyOfDue), let due = data.value(forKey: EventKeyConstants.keyOfDue) as? Date else {
+            print("no due")
+            return nil
+        }
+        self.due = due
+
+        guard allKeys.contains(EventKeyConstants.keyOfCreator), let creator = data.object(forKey: EventKeyConstants.keyOfCreator) as? AVUser else {
+            print("no creator")
+            return nil
+        }
+        self.creator = creator
+        print(self.creator)
+        
+        guard allKeys.contains(EventKeyConstants.keyOfTransientConversationId), let transientConversationId = data.value(forKey: EventKeyConstants.keyOfTransientConversationId) as? String else {
+            print("no transient conversation")
+            return nil
+        }
+        self.transientConversationId = transientConversationId
+        
+        guard allKeys.contains(EventKeyConstants.keyOfConversationId), let conversationId = data.value(forKey: EventKeyConstants.keyOfConversationId) as? String else {
+            print("no conversation")
+            return nil
+        }
+        self.conversationId = conversationId
+
+        guard allKeys.contains(EventKeyConstants.keyOfMembers), let members = data.value(forKey: EventKeyConstants.keyOfMembers) as? [AVUser] else {
+            print("no members")
+            return nil
+        }
+        self.members = members
+
+        guard allKeys.contains(EventKeyConstants.keyOfFinalized), let finalized = data.value(forKey: EventKeyConstants.keyOfFinalized) as? Bool else {
+            print("no finalized")
+            return nil
+        }
+        self.finalized = finalized
+
+        guard allKeys.contains(EventKeyConstants.keyOfFinished), let finished = data.value(forKey: EventKeyConstants.keyOfFinished) as? Bool else {
+            print("no finished")
+            return nil
+        }
+        self.finished = finished
+
+        guard allKeys.contains(EventKeyConstants.keyOfSchool), let school = data.value(forKey: EventKeyConstants.keyOfSchool) as? String else {
+            print("no school")
+            return nil
+        }
+        self.school = school
+        
+        if allKeys.contains(EventKeyConstants.keyOfStartTime) {
+            if let startTime = data.value(forKey: EventKeyConstants.keyOfStartTime) as? Date {
+                self.startTime = startTime
+            }
+        }
+        if allKeys.contains(EventKeyConstants.keyOfEndTime) {
+            if let endTime = data.value(forKey: EventKeyConstants.keyOfEndTime) as? Date {
+                self.endTime = endTime
+            }
+        }
+        if allKeys.contains(EventKeyConstants.keyOfLocationName) {
+            if let locationName = data.value(forKey: EventKeyConstants.keyOfLocationName) as? String {
+                self.locationName = locationName
+            }
+        }
+        if allKeys.contains(EventKeyConstants.keyOfLocation) {
+            if let location = data.value(forKey: EventKeyConstants.keyOfLocation) as? AVGeoPoint {
+                self.location = location
+            }
+        }
+        if allKeys.contains(EventKeyConstants.keyOfExpectedFee) {
+            if let expectedFee = data.value(forKey: EventKeyConstants.keyOfExpectedFee) as? Double {
+                self.expectedFee = expectedFee
+            }
+        }
+        if allKeys.contains(EventKeyConstants.keyOfTransportationMethod) {
+            if let transportationMethod = data.value(forKey: EventKeyConstants.keyOfTransportationMethod) as? String {
+                self.transportationMethod = TransportationMethod(rawValue: transportationMethod)
+            }
+        }
+        if allKeys.contains(EventKeyConstants.keyOfNote) {
+            if let note = data.value(forKey: EventKeyConstants.keyOfNote) as? String {
+                self.note = note
+            }
+        }
+        
+        self.objectId = data.objectId
+        self.createdAt = data.createdAt
+        self.updatedAt = data.updatedAt
     }
     
     func post() {
@@ -383,15 +382,15 @@ class Event {
             eventObject.setObject(finished, forKey: EventKeyConstants.keyOfFinished)
             eventObject.setObject(school, forKey: EventKeyConstants.keyOfSchool)
 
-            if transientConversationId != nil {
-                eventObject.setObject(transientConversationId!, forKey: EventKeyConstants.keyOfTransientConversationId)
+            if transientConversationId != "" {
+                eventObject.setObject(transientConversationId, forKey: EventKeyConstants.keyOfTransientConversationId)
             } else {
                 self.delegate?.eventDidPost(succeed: false, errorReason: "cannot create transient conversation")
                 return
             }
             
-            if conversationId != nil {
-                eventObject.setObject(conversationId!, forKey: EventKeyConstants.keyOfConversationId)
+            if conversationId != "" {
+                eventObject.setObject(conversationId, forKey: EventKeyConstants.keyOfConversationId)
             } else {
                 self.delegate?.eventDidPost(succeed: false, errorReason: "cannot create conversation")
                 return
