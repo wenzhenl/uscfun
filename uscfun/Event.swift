@@ -73,6 +73,7 @@ class Event {
     
     //--MARK: system properties of event
     var creator: AVUser
+    var transientConversationId: String?
     var conversationId: String?
     var members: [AVUser]
     var finalized: Bool
@@ -130,7 +131,7 @@ class Event {
                 self.remainingSeats = remainingSeats
 
                 guard allKeys.contains(EventKeyConstants.keyOfMinimumAttendingPeople), let minimumAttendingPeople = data.value(forKey: EventKeyConstants.keyOfMinimumAttendingPeople) as? Int else {
-                    print("no minimum more")
+                    print("no minimum seats")
                     return nil
                 }
                 self.minimumAttendingPeople = minimumAttendingPeople
@@ -166,11 +167,18 @@ class Event {
                 }
                 self.finished = finished
 
+                guard allKeys.contains(EventKeyConstants.keyOfTransientConversationId), let transientConversationId = data.value(forKey: EventKeyConstants.keyOfTransientConversationId) as? String else {
+                    print("no transient conversation")
+                    return nil
+                }
+                self.transientConversationId = transientConversationId
+
                 guard allKeys.contains(EventKeyConstants.keyOfConversationId), let conversationId = data.value(forKey: EventKeyConstants.keyOfConversationId) as? String else {
+                    print("no conversation")
                     return nil
                 }
                 self.conversationId = conversationId
-
+                
                 if allKeys.contains(EventKeyConstants.keyOfStartTime) {
                     if let startTime = data.value(forKey: EventKeyConstants.keyOfStartTime) as? Date {
                         self.startTime = startTime
@@ -232,16 +240,33 @@ class Event {
             client.open() {
                 succeeded, error in
                 if succeeded {
-                    client.createConversation(withName: "讨论", clientIds: [], attributes: nil, options: AVIMConversationOption.transient) {
+                    client.createConversation(withName: nil, clientIds: [], attributes: nil, options: AVIMConversationOption.transient) {
                         conversation, error in
-                        if(error == nil) {
-                            print("create conversation successfully")
+                        if error == nil {
+                            print("create transient conversation successfully")
                             if let conversation = conversation {
                                 print("CREATED CONVERSATION")
-                                print("conversation_id: \(conversation.conversationId)----------")
-                                print("conversation_name: \(conversation.name)")
-                                self.conversationId = conversation.conversationId
-                                self.saveDataToSever()
+                                print("transient_conversation_id: \(conversation.conversationId)----------")
+                                print("transient_conversation_name: \(conversation.name)")
+                                self.transientConversationId = conversation.conversationId
+                                
+                                client.createConversation(withName: nil, clientIds: [AVUser.current().username]) {
+                                    conversation, error in
+                                    if error == nil {
+                                        print("create conversation successfully")
+                                        if let conversation = conversation {
+                                            print("CREATED CONVERSATION")
+                                            print("conversation_id: \(conversation.conversationId)----------")
+                                            print("conversation_name: \(conversation.name)")
+                                            self.conversationId = conversation.conversationId
+                                            self.saveDataToSever()
+                                        } else {
+                                            self.delegate?.eventDidPost(succeed: false, errorReason: "莫名其妙的原因")
+                                        }
+                                    } else {
+                                        self.delegate?.eventDidPost(succeed: false, errorReason: error?.localizedDescription)
+                                    }
+                                }
                             } else {
                                 self.delegate?.eventDidPost(succeed: false, errorReason: "莫名其妙的原因")
                             }
@@ -275,6 +300,13 @@ class Event {
             eventObject.setObject(finished, forKey: EventKeyConstants.keyOfFinished)
             eventObject.setObject(school, forKey: EventKeyConstants.keyOfSchool)
 
+            if transientConversationId != nil {
+                eventObject.setObject(transientConversationId!, forKey: EventKeyConstants.keyOfTransientConversationId)
+            } else {
+                self.delegate?.eventDidPost(succeed: false, errorReason: "cannot create transient conversation")
+                return
+            }
+            
             if conversationId != nil {
                 eventObject.setObject(conversationId!, forKey: EventKeyConstants.keyOfConversationId)
             } else {

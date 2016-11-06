@@ -40,6 +40,7 @@ struct EventKeyConstants {
     static let keyOfMembers = "members"
     static let keyOfFinalized = "finalized"
     static let keyOfFinished = "finished"
+    static let keyOfTransientConversationId = "transientConversationId"
     static let keyOfConversationId = "conversationId"
     static let keyOfSchool = "school"
     
