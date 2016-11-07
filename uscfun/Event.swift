@@ -53,11 +53,6 @@ enum TransportationMethod: String {
     case metro = "metro"
 }
 
-/// event delegate
-protocol EventDelegate {
-    func eventDidPost(succeed: Bool, errorReason: String?)
-}
-
 /// description of Event class
 class Event {
     //--MARK: required information
@@ -148,13 +143,7 @@ class Event {
     
     /// The update time fetched from Leancloud
     var updatedAt: Date?
-    
-    // MARK: delegate for handling posting process
-    
-    /// The delegate of the event
-    var delegate: EventDelegate?
-    
-    
+
     /// Creates an 'Event' instance with the required parameters
     ///
     /// - parameter name:                    The name of the event
@@ -324,7 +313,12 @@ class Event {
         self.updatedAt = data.updatedAt
     }
     
-    func post() {
+    /// Posts an event to server, it consists of three steps: creating transient conversation, creating conversation and save data to server
+    ///
+    /// - parameter handler:  handle the creation depending on the operation is successful or not
+    ///
+    
+    func post(handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
         createConversation(isTransient: true) {
             succeeded, error in
             if succeeded {
@@ -334,24 +328,30 @@ class Event {
                         self.saveDataToSever() {
                             succeeded, error in
                             if succeeded {
-                                self.delegate?.eventDidPost(succeed: true, errorReason: nil)
+                                handler(true, nil)
                             } else {
-                                self.delegate?.eventDidPost(succeed: false, errorReason: error?.localizedDescription)
+                                handler(false, error)
                             }
                         }
                     } else {
-                        self.delegate?.eventDidPost(succeed: false, errorReason: error?.localizedDescription)
+                        handler(false, error)
                     }
                 }
             } else {
-                self.delegate?.eventDidPost(succeed: false, errorReason: error?.localizedDescription)
+                handler(false, error)
             }
         }
     }
     
-    private func createConversation(isTransient: Bool, completion: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
+    /// Creates conversations associated with an event
+    ///
+    /// - parameter isTransient: indicates whether the conversation is transient. The transient conversation is used for public discussion. The non-transient conversation is used for private discussion among formal members
+    /// - parameter handler:  handle the creation depending on the operation is successful or not
+    ///
+    
+    private func createConversation(isTransient: Bool, handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
         guard let client = AVIMClient(clientId: AVUser.current().username) else {
-            completion(false, EventError.cannotCreateConversation("cannot create AVIMClient"))
+            handler(false, EventError.cannotCreateConversation("cannot create AVIMClient"))
             return
         }
         client.open() {
@@ -362,13 +362,13 @@ class Event {
                         conversation, error in
                         if error == nil {
                             guard let conversation = conversation else {
-                                completion(false, EventError.cannotCreateConversation("cannot fetch transient conversation"))
+                                handler(false, EventError.cannotCreateConversation("cannot fetch transient conversation"))
                                 return
                             }
                             self.transientConversationId = conversation.conversationId
-                            completion(true, nil)
+                            handler(true, nil)
                         } else {
-                            completion(false, error!)
+                            handler(false, error!)
                         }
                     }
                 } else {
@@ -376,35 +376,40 @@ class Event {
                         conversation, error in
                         if error == nil {
                             guard let conversation = conversation else {
-                                completion(false, EventError.cannotCreateConversation("cannot fetch conversation"))
+                                handler(false, EventError.cannotCreateConversation("cannot fetch conversation"))
                                 return
                             }
                             self.conversationId = conversation.conversationId
-                            completion(true, nil)
+                            handler(true, nil)
                         } else {
-                            completion(false, error!)
+                            handler(false, error!)
                         }
                     }
                 }
             } else {
-                completion(false, EventError.cannotCreateConversation("cannot open AVIMClient"))
+                handler(false, EventError.cannotCreateConversation("cannot open AVIMClient"))
             }
         }
     }
     
-    private func saveDataToSever(completion: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
+    /// Saves data to server after associated conversations are created successfully
+    ///
+    /// - parameter handler:  handle the creation depending on the operation is successful or not
+    ///
+    
+    private func saveDataToSever(handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
         guard let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent) else {
-            completion(false, EventError.cannotSaveDataToServer("cannot create AVObject"))
+            handler(false, EventError.cannotSaveDataToServer("cannot create AVObject"))
             return
         }
         
         guard transientConversationId != "" else {
-            completion(false, EventError.cannotSaveDataToServer("transient conversation id is missing"))
+            handler(false, EventError.cannotSaveDataToServer("transient conversation id is missing"))
             return
         }
         
         guard conversationId != "" else {
-            completion(false, EventError.cannotSaveDataToServer("conversation id is missing"))
+            handler(false, EventError.cannotSaveDataToServer("conversation id is missing"))
             return
         }
         
@@ -452,11 +457,18 @@ class Event {
         }
         
         if eventObject.save() {
-            completion(true, nil)
+            handler(true, nil)
         } else {
-            completion(false, EventError.cannotSaveDataToServer("cannot save data to server"))
+            handler(false, EventError.cannotSaveDataToServer("cannot save data to server"))
         }
     }
+    
+    
+    /// Add a new member to the event
+    ///
+    /// - parameter newMember:   the new member that is about to join
+    /// - parameter handler:  handle the creation depending on the operation is successful or not
+    ///
     
     func add(newMember: AVUser, handler: (_ succeed: Bool, _ error: Error?) -> Void) {
         if let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId) {
@@ -491,6 +503,13 @@ class Event {
             }
         }
     }
+    
+    
+    /// Remove a member from the event
+    ///
+    /// - parameter member:   the member that is about to quit
+    /// - parameter handler:  handle the creation depending on the operation is successful or not
+    ///
     
     func remove(member: AVUser, handler: (_ succeed: Bool, _ error: Error?) -> Void) {
         

@@ -61,24 +61,20 @@ class StartEventViewController: UIViewController {
         event.transportationMethod = .uber
         event.locationName = "Ellendale Pl"
         event.location = AVGeoPoint(latitude: 34.0090, longitude: -118.4974)
-        event.delegate = self
-        event.post()
+        event.post() {
+            succeeded, error in
+            SVProgressHUD.dismiss()
+            if succeeded {
+                self.delegate?.userDidPostEvent()
+                self.presentingViewController?.dismiss(animated: true, completion: nil)
+            } else {
+                self.cancleButton.isEnabled = true
+                self.postButton.isEnabled = true
+            }
+        }
         cancleButton.isEnabled = false
         postButton.isEnabled = false
         SVProgressHUD.show()
-    }
-}
-
-extension StartEventViewController: EventDelegate {
-    func eventDidPost(succeed: Bool, errorReason: String?) {
-        SVProgressHUD.dismiss()
-        if succeed {
-            delegate?.userDidPostEvent()
-            self.presentingViewController?.dismiss(animated: true, completion: nil)
-        } else {
-            cancleButton.isEnabled = true
-            postButton.isEnabled = true
-        }
     }
 }
 
