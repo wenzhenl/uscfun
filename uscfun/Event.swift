@@ -15,6 +15,8 @@ enum EventError: Error {
     case userNotAMember(String)
     case noSeatsLeft(String)
     case eventFinalized(String)
+    case cannotCreateConversation(String)
+    case cannotSaveDataToServer(String)
 }
 
 /// possible types of events
@@ -280,31 +282,37 @@ class Event {
                 self.startTime = startTime
             }
         }
+        
         if allKeys.contains(EventKeyConstants.keyOfEndTime) {
             if let endTime = data.value(forKey: EventKeyConstants.keyOfEndTime) as? Date {
                 self.endTime = endTime
             }
         }
+        
         if allKeys.contains(EventKeyConstants.keyOfLocationName) {
             if let locationName = data.value(forKey: EventKeyConstants.keyOfLocationName) as? String {
                 self.locationName = locationName
             }
         }
+        
         if allKeys.contains(EventKeyConstants.keyOfLocation) {
             if let location = data.value(forKey: EventKeyConstants.keyOfLocation) as? AVGeoPoint {
                 self.location = location
             }
         }
+        
         if allKeys.contains(EventKeyConstants.keyOfExpectedFee) {
             if let expectedFee = data.value(forKey: EventKeyConstants.keyOfExpectedFee) as? Double {
                 self.expectedFee = expectedFee
             }
         }
+        
         if allKeys.contains(EventKeyConstants.keyOfTransportationMethod) {
             if let transportationMethod = data.value(forKey: EventKeyConstants.keyOfTransportationMethod) as? String {
                 self.transportationMethod = TransportationMethod(rawValue: transportationMethod)
             }
         }
+        
         if allKeys.contains(EventKeyConstants.keyOfNote) {
             if let note = data.value(forKey: EventKeyConstants.keyOfNote) as? String {
                 self.note = note
@@ -317,120 +325,137 @@ class Event {
     }
     
     func post() {
-        print("=================== POSTING EVENT ==================================")
-        if let client = AVIMClient(clientId: AVUser.current().username) {
-            client.open() {
-                succeeded, error in
-                if succeeded {
-                    client.createConversation(withName: nil, clientIds: [], attributes: nil, options: AVIMConversationOption.transient) {
-                        conversation, error in
-                        if error == nil {
-                            print("create transient conversation successfully")
-                            if let conversation = conversation {
-                                print("CREATED CONVERSATION")
-                                print("transient_conversation_id: \(conversation.conversationId)----------")
-                                print("transient_conversation_name: \(conversation.name)")
-                                self.transientConversationId = conversation.conversationId
-                                
-                                client.createConversation(withName: nil, clientIds: [AVUser.current().username]) {
-                                    conversation, error in
-                                    if error == nil {
-                                        print("create conversation successfully")
-                                        if let conversation = conversation {
-                                            print("CREATED CONVERSATION")
-                                            print("conversation_id: \(conversation.conversationId)----------")
-                                            print("conversation_name: \(conversation.name)")
-                                            self.conversationId = conversation.conversationId
-                                            self.saveDataToSever()
-                                        } else {
-                                            self.delegate?.eventDidPost(succeed: false, errorReason: "莫名其妙的原因")
-                                        }
-                                    } else {
-                                        self.delegate?.eventDidPost(succeed: false, errorReason: error?.localizedDescription)
-                                    }
-                                }
+        createConversation(isTransient: true) {
+            succeeded, error in
+            if succeeded {
+                self.createConversation(isTransient: false) {
+                    succeeded, error in
+                    if succeeded {
+                        self.saveDataToSever() {
+                            succeeded, error in
+                            if succeeded {
+                                self.delegate?.eventDidPost(succeed: true, errorReason: nil)
                             } else {
-                                self.delegate?.eventDidPost(succeed: false, errorReason: "莫名其妙的原因")
+                                self.delegate?.eventDidPost(succeed: false, errorReason: error?.localizedDescription)
                             }
-                        } else {
-                            self.delegate?.eventDidPost(succeed: false, errorReason: error?.localizedDescription)
                         }
+                    } else {
+                        self.delegate?.eventDidPost(succeed: false, errorReason: error?.localizedDescription)
                     }
-                } else {
-                    self.delegate?.eventDidPost(succeed: false, errorReason: error?.localizedDescription)
                 }
+            } else {
+                self.delegate?.eventDidPost(succeed: false, errorReason: error?.localizedDescription)
             }
-        } else {
-            self.delegate?.eventDidPost(succeed: false, errorReason: "cannot open AVIMClient")
         }
     }
     
-    private func saveDataToSever() {
-        print("SAVING DATA TO SERVER")
-        if let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent) {
-            
-            eventObject.setObject(name, forKey: EventKeyConstants.keyOfName)
-            eventObject.setObject(type.rawValue, forKey: EventKeyConstants.keyOfType)
-            eventObject.setObject(totalSeats, forKey: EventKeyConstants.keyOfTotalSeats)
-            eventObject.setObject(remainingSeats, forKey: EventKeyConstants.keyOfRemainingSeats)
-            eventObject.setObject(minimumAttendingPeople, forKey: EventKeyConstants.keyOfMinimumAttendingPeople)
-            eventObject.setObject(due, forKey: EventKeyConstants.keyOfDue)
-            
-            eventObject.setObject(creator, forKey: EventKeyConstants.keyOfCreator)
-            eventObject.setObject(members, forKey: EventKeyConstants.keyOfMembers)
-            eventObject.setObject(finalized, forKey: EventKeyConstants.keyOfFinalized)
-            eventObject.setObject(finished, forKey: EventKeyConstants.keyOfFinished)
-            eventObject.setObject(school, forKey: EventKeyConstants.keyOfSchool)
-
-            if transientConversationId != "" {
-                eventObject.setObject(transientConversationId, forKey: EventKeyConstants.keyOfTransientConversationId)
+    private func createConversation(isTransient: Bool, completion: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
+        guard let client = AVIMClient(clientId: AVUser.current().username) else {
+            completion(false, EventError.cannotCreateConversation("cannot create AVIMClient"))
+            return
+        }
+        client.open() {
+            succeeded, error in
+            if succeeded {
+                if isTransient {
+                    client.createConversation(withName: nil, clientIds: [], attributes: nil, options: AVIMConversationOption.transient) {
+                        conversation, error in
+                        if error == nil {
+                            guard let conversation = conversation else {
+                                completion(false, EventError.cannotCreateConversation("cannot fetch transient conversation"))
+                                return
+                            }
+                            self.transientConversationId = conversation.conversationId
+                            completion(true, nil)
+                        } else {
+                            completion(false, error!)
+                        }
+                    }
+                } else {
+                    client.createConversation(withName: nil, clientIds: [self.creator.username]) {
+                        conversation, error in
+                        if error == nil {
+                            guard let conversation = conversation else {
+                                completion(false, EventError.cannotCreateConversation("cannot fetch conversation"))
+                                return
+                            }
+                            self.conversationId = conversation.conversationId
+                            completion(true, nil)
+                        } else {
+                            completion(false, error!)
+                        }
+                    }
+                }
             } else {
-                self.delegate?.eventDidPost(succeed: false, errorReason: "cannot create transient conversation")
-                return
-            }
-            
-            if conversationId != "" {
-                eventObject.setObject(conversationId, forKey: EventKeyConstants.keyOfConversationId)
-            } else {
-                self.delegate?.eventDidPost(succeed: false, errorReason: "cannot create conversation")
-                return
-            }
-            
-            if startTime != nil {
-                eventObject.setObject(startTime!, forKey: EventKeyConstants.keyOfStartTime)
-            }
-            
-            if endTime != nil {
-                eventObject.setObject(endTime!, forKey: EventKeyConstants.keyOfEndTime)
-            }
-            
-            if locationName != nil {
-                eventObject.setObject(locationName!, forKey: EventKeyConstants.keyOfLocationName)
-            }
-            
-            if location != nil {
-                eventObject.setObject(location!, forKey: EventKeyConstants.keyOfLocation)
-            }
-            
-            if expectedFee != nil {
-                eventObject.setObject(expectedFee!, forKey: EventKeyConstants.keyOfExpectedFee)
-            }
-            
-            if transportationMethod != nil {
-                eventObject.setObject(transportationMethod!.rawValue, forKey: EventKeyConstants.keyOfTransportationMethod)
-            }
-            
-            if note != nil {
-                eventObject.setObject(note!, forKey: EventKeyConstants.keyOfNote)
-            }
-            
-            if eventObject.save() {
-                self.delegate?.eventDidPost(succeed: true, errorReason: nil)
-            } else {
-                self.delegate?.eventDidPost(succeed: false, errorReason: "cannot save data")
+                completion(false, EventError.cannotCreateConversation("cannot open AVIMClient"))
             }
         }
-        print("===================END POSTING EVENT===============================")
+    }
+    
+    private func saveDataToSever(completion: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
+        guard let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent) else {
+            completion(false, EventError.cannotSaveDataToServer("cannot create AVObject"))
+            return
+        }
+        
+        guard transientConversationId != "" else {
+            completion(false, EventError.cannotSaveDataToServer("transient conversation id is missing"))
+            return
+        }
+        
+        guard conversationId != "" else {
+            completion(false, EventError.cannotSaveDataToServer("conversation id is missing"))
+            return
+        }
+        
+        eventObject.setObject(name, forKey: EventKeyConstants.keyOfName)
+        eventObject.setObject(type.rawValue, forKey: EventKeyConstants.keyOfType)
+        eventObject.setObject(totalSeats, forKey: EventKeyConstants.keyOfTotalSeats)
+        eventObject.setObject(remainingSeats, forKey: EventKeyConstants.keyOfRemainingSeats)
+        eventObject.setObject(minimumAttendingPeople, forKey: EventKeyConstants.keyOfMinimumAttendingPeople)
+        eventObject.setObject(due, forKey: EventKeyConstants.keyOfDue)
+        
+        eventObject.setObject(creator, forKey: EventKeyConstants.keyOfCreator)
+        eventObject.setObject(members, forKey: EventKeyConstants.keyOfMembers)
+        eventObject.setObject(transientConversationId, forKey: EventKeyConstants.keyOfTransientConversationId)
+        eventObject.setObject(conversationId, forKey: EventKeyConstants.keyOfConversationId)
+        eventObject.setObject(finalized, forKey: EventKeyConstants.keyOfFinalized)
+        eventObject.setObject(finished, forKey: EventKeyConstants.keyOfFinished)
+        eventObject.setObject(school, forKey: EventKeyConstants.keyOfSchool)
+        
+        if startTime != nil {
+            eventObject.setObject(startTime!, forKey: EventKeyConstants.keyOfStartTime)
+        }
+        
+        if endTime != nil {
+            eventObject.setObject(endTime!, forKey: EventKeyConstants.keyOfEndTime)
+        }
+        
+        if locationName != nil {
+            eventObject.setObject(locationName!, forKey: EventKeyConstants.keyOfLocationName)
+        }
+        
+        if location != nil {
+            eventObject.setObject(location!, forKey: EventKeyConstants.keyOfLocation)
+        }
+        
+        if expectedFee != nil {
+            eventObject.setObject(expectedFee!, forKey: EventKeyConstants.keyOfExpectedFee)
+        }
+        
+        if transportationMethod != nil {
+            eventObject.setObject(transportationMethod!.rawValue, forKey: EventKeyConstants.keyOfTransportationMethod)
+        }
+        
+        if note != nil {
+            eventObject.setObject(note!, forKey: EventKeyConstants.keyOfNote)
+        }
+        
+        if eventObject.save() {
+            completion(true, nil)
+        } else {
+            completion(false, EventError.cannotSaveDataToServer("cannot save data to server"))
+        }
     }
     
     func add(newMember: AVUser, handler: (_ succeed: Bool, _ error: Error?) -> Void) {
