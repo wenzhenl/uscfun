@@ -316,7 +316,8 @@ class Event {
     /// Posts an event to server, it consists of three steps: creating transient conversation, creating conversation and save data to server
     ///
     /// - parameter handler:  handle the creation depending on the operation is successful or not
-    ///
+    /// - parameter succeeded: indicate if the operation is successful
+    /// - parameter error: optional error information if operation fails
     
     func post(handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
         createConversation(isTransient: true) {
@@ -346,8 +347,9 @@ class Event {
     /// Creates conversations associated with an event
     ///
     /// - parameter isTransient: indicates whether the conversation is transient. The transient conversation is used for public discussion. The non-transient conversation is used for private discussion among formal members
-    /// - parameter handler:  handle the creation depending on the operation is successful or not
-    ///
+    /// - parameter handler:     handle the creation depending on the operation is successful or not
+    /// - parameter succeeded: indicate if the operation is successful
+    /// - parameter error: optional error information if operation fails
     
     private func createConversation(isTransient: Bool, handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
         guard let client = AVIMClient(clientId: AVUser.current().username) else {
@@ -395,7 +397,8 @@ class Event {
     /// Saves data to server after associated conversations are created successfully
     ///
     /// - parameter handler:  handle the creation depending on the operation is successful or not
-    ///
+    /// - parameter succeeded: indicate if the operation is successful
+    /// - parameter error: optional error information if operation fails
     
     private func saveDataToSever(handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
         guard let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent) else {
@@ -468,9 +471,10 @@ class Event {
     ///
     /// - parameter newMember:   the new member that is about to join
     /// - parameter handler:  handle the creation depending on the operation is successful or not
-    ///
+    /// - parameter succeeded: indicate if the operation is successful
+    /// - parameter error: optional error information if operation fails
     
-    func add(newMember: AVUser, handler: (_ succeed: Bool, _ error: Error?) -> Void) {
+    func add(newMember: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         if let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId) {
             var membersCopy = members
             membersCopy.append(newMember)
@@ -509,9 +513,10 @@ class Event {
     ///
     /// - parameter member:   the member that is about to quit
     /// - parameter handler:  handle the creation depending on the operation is successful or not
-    ///
+    /// - parameter succeeded: indicate if the operation is successful
+    /// - parameter error: optional error information if operation fails
     
-    func remove(member: AVUser, handler: (_ succeed: Bool, _ error: Error?) -> Void) {
+    func remove(member: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         
         guard let memberIndex = members.index(of: member) else {
             let error = EventError.userNotAMember("这个人没有参加这个活动呀!")

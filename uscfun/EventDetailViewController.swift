@@ -143,9 +143,9 @@ class EventDetailViewController: UIViewController {
     func joinEvent(sender: UIButton) {
         SVProgressHUD.show()
         self.event?.add(newMember: AVUser.current()) {
-            succeed, error in
+            succeeded, error in
             SVProgressHUD.dismiss()
-            if succeed {
+            if succeeded {
                 populateSections()
                 self.tableView.reloadData()
                 delegate?.userDidJoinEventWith(id: self.event!.objectId!)
@@ -259,9 +259,9 @@ extension EventDetailViewController: CustomizedAlertViewDelegate {
         self.dimView.isHidden = true
         SVProgressHUD.show()
         self.event?.remove(member: AVUser.current()) {
-            succeed, error in
+            succeeded, error in
             SVProgressHUD.dismiss()
-            if succeed {
+            if succeeded {
                 self.populateSections()
                 self.tableView.reloadData()
                 self.delegate?.userDidQuitEventWith(id: self.event!.objectId!)
