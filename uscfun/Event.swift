@@ -53,7 +53,14 @@ enum TransportationMethod: String {
     case metro = "metro"
 }
 
-/// description of Event class
+/// The 'Event' class, event much include information of name, type, maximum capacity, 
+/// remaining seats, minimum number of people required, and the due.
+/// At the same time, the event can include optional information such as the start time,
+/// the end time, the location name, the geographic information, the expected fee, the
+/// transportation method, and additional information the creator want to provide.
+/// The event will also include images uploaded by the user.
+/// The class also include properties set by the system.
+
 class Event {
     //--MARK: required information
     
