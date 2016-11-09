@@ -146,12 +146,12 @@ class EventDetailViewController: UIViewController {
             succeeded, error in
             SVProgressHUD.dismiss()
             if succeeded {
-                populateSections()
+                self.populateSections()
                 self.tableView.reloadData()
-                delegate?.userDidJoinEventWith(id: self.event!.objectId!)
+                self.delegate?.userDidJoinEventWith(id: self.event!.objectId!)
             }
             else if error != nil {
-                self.showUpdateReminder(message: error!.localizedDescription)
+//                self.showUpdateReminder(message: error!.localizedDescription)
             }
         }
     }

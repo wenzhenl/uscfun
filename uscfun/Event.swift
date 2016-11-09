@@ -499,7 +499,7 @@ class Event {
     /// - parameter succeeded: indicate if the operation is successful
     /// - parameter error: optional error information if operation fails
     
-    func add(newMember: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
+    func add(newMember: AVUser, handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
         
         guard let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId) else {
             handler(false, EventError.systemError("cannot create AVObject"))
@@ -516,14 +516,25 @@ class Event {
         eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: -1)
         eventObject.addUniqueObject(newMember, forKey: EventKeyConstants.keyOfMembers)
         
-        do {
-            try eventObject.save(with: option)
-            members.append(newMember)
-            remainingSeats -= 1
-            handler(true, nil)
-        } catch {
-            handler(false, EventError.systemError("error"))
+        eventObject.saveInBackground(with: option) {
+            succeeded, error in
+            if succeeded {
+                self.remainingSeats -= 1
+                handler(true, nil)
+            }
+            else if error != nil {
+                handler(false, error!)
+            }
         }
+//        do {
+//            try eventObject.save(with: option)
+//            members.append(newMember)
+//            remainingSeats -= 1
+//            print("successfully")
+//            handler(true, nil)
+//        } catch {
+//            handler(false, EventError.systemError("error"))
+//        }
     }
     
     
