@@ -162,10 +162,11 @@ class Event {
         return due > Date() && remainingSeats > 0
     }
     
-    /// This flag indicates if this event is satisfied. This flag is true
+    /// This flag indicates if this event has met the minimum requirement.
+    /// This flag is true
     /// when the due is in the future and the minimum required number
     /// of attending people is met
-    var isSatisfied: Bool {
+    var hasReachedMinimumRequirement: Bool {
         return due > Date() && totalSeats - remainingSeats >= minimumAttendingPeople
     }
     
@@ -466,6 +467,7 @@ class Event {
         eventObject.setObject(transientConversationId, forKey: EventKeyConstants.keyOfTransientConversationId)
         eventObject.setObject(conversationId, forKey: EventKeyConstants.keyOfConversationId)
         eventObject.setObject(isCompleted, forKey: EventKeyConstants.keyOfCompleted)
+        eventObject.setObject(isCancelled, forKey: EventKeyConstants.keyOfCancelled)
         eventObject.setObject(school, forKey: EventKeyConstants.keyOfSchool)
         
         if startTime != nil {
