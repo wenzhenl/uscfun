@@ -202,8 +202,8 @@ extension EventListViewController: EventMemberStatusDelegate {
     func userDidQuitEventWith(id: String) {
         EventRequest.indexOfMyOngoingEvents.removeValue(forKey: id)
         EventRequest.myOngoingEvents = EventRequest.indexOfMyOngoingEvents.values.sorted {
-            if $0.finalized != $1.finalized {
-                return $0.finalized
+            if $0.isFinalized != $1.isFinalized {
+                return $0.isFinalized
             }
             return $0.due < $1.due
         }
@@ -270,7 +270,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.selectionStyle = .default
                 cell.nameTextView.text = event.name
                 cell.eventImageView.image = event.type.image
-                if event.finalized {
+                if event.isFinalized {
                     cell.indicatorView.backgroundColor = UIColor.eventFinalized
                 }
                 else if event.totalSeats - event.remainingSeats >= event.minimumAttendingPeople {

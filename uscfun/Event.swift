@@ -513,8 +513,13 @@ class Event {
         let option = AVSaveOption()
         option.query = query
         
+        eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: -1)
+        eventObject.addUniqueObject(newMember, forKey: EventKeyConstants.keyOfMembers)
+        
         do {
             try eventObject.save(with: option)
+            members.append(newMember)
+            remainingSeats -= 1
             handler(true, nil)
         } catch {
             handler(false, EventError.systemError("error"))
@@ -531,35 +536,34 @@ class Event {
     
     func remove(member: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         
-//        guard let memberIndex = members.index(of: member) else {
-//            let error = EventError.userNotAMember("这个人没有参加这个活动呀!")
-//            handler(false, error)
-//            return
-//        }
-//        
-//        if let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId) {
-//            
-//            if eventObject.fetch() {
-//                if eventObject.value(forKey: EventKeyConstants.keyOfFinalized) as! Bool {
-//                    handler(false, EventError.eventFinalized("微活动已经约定，需其他成员同意后才能退出"))
-//                    return
-//                }
-//            }
-//            
-//            var membersCopy = members
-//            membersCopy.remove(at: memberIndex)
-//            
-//            eventObject.setObject(membersCopy, forKey: EventKeyConstants.keyOfMembers)
-//            eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: 1)
-//            
-//            var error: NSError?
-//            if eventObject.save(&error) {
-//                members.remove(at: memberIndex)
-//                remainingSeats += 1
-//                handler(true, nil)
-//            } else {
-//                handler(false, error)
-//            }
-//        }
+        guard let memberIndex = members.index(of: member) else {
+            let error = EventError.userNotAMember("这个人没有参加这个活动呀!")
+            handler(false, error)
+            return
+        }
+        
+        guard let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId) else {
+            handler(false, EventError.systemError("cannot create AVObject"))
+            return
+        }
+        
+        let query = AVQuery()
+        query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date())
+        query.whereKey(EventKeyConstants.keyOfRemainingSeats, greaterThan: 0)
+        
+        let option = AVSaveOption()
+        option.query = query
+        
+        eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: 1)
+        eventObject.remove(member, forKey: EventKeyConstants.keyOfMembers)
+        
+        do {
+            try eventObject.save(with: option)
+            members.remove(at: memberIndex)
+            remainingSeats += 1
+            handler(true, nil)
+        } catch {
+            handler(false, EventError.systemError("error"))
+        }
     }
 }

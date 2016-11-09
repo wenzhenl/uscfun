@@ -77,13 +77,11 @@ class EventRequest {
     
     static func fetchDataForMyOngoingEvents(handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
         if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
-            query.order(byDescending: EventKeyConstants.keyOfFinalized)
             query.order(byAscending: EventKeyConstants.keyOfDue)
             query.includeKey(EventKeyConstants.keyOfCreator)
             query.includeKey(EventKeyConstants.keyOfMembers)
             query.whereKey(EventKeyConstants.keyOfMembers, containsAllObjectsIn: [AVUser.current()])
             query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
-            query.whereKey(EventKeyConstants.keyOfFinished, equalTo: false)
             query.cachePolicy = .networkElseCache
             query.maxCacheAge = 24*3600
             if let objects = query.findObjects() {
@@ -100,13 +98,11 @@ class EventRequest {
     
     static func fetchNewerDataForMyOngoingEvents(currentlyNewestUpdatedTime: Date, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
         if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
-            query.order(byDescending: EventKeyConstants.keyOfFinalized)
             query.order(byAscending: EventKeyConstants.keyOfDue)
             query.includeKey(EventKeyConstants.keyOfCreator)
             query.includeKey(EventKeyConstants.keyOfMembers)
             query.whereKey(EventKeyConstants.keyOfMembers, containsAllObjectsIn: [AVUser.current()])
             query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
-            query.whereKey(EventKeyConstants.keyOfFinished, equalTo: false)
             query.cachePolicy = .networkElseCache
             query.maxCacheAge = 24*3600
             query.whereKey(EventKeyConstants.keyOfUpdatedAt, greaterThan: currentlyNewestUpdatedTime)
@@ -132,13 +128,11 @@ class EventRequest {
     
     static func fetchOlderDataForMyOngoingEvents(currentlyOldestUpdatedTime: Date, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
         if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
-            query.order(byDescending: EventKeyConstants.keyOfFinalized)
             query.order(byAscending: EventKeyConstants.keyOfDue)
             query.includeKey(EventKeyConstants.keyOfCreator)
             query.includeKey(EventKeyConstants.keyOfMembers)
             query.whereKey(EventKeyConstants.keyOfMembers, containsAllObjectsIn: [AVUser.current()])
             query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
-            query.whereKey(EventKeyConstants.keyOfFinished, equalTo: false)
             query.cachePolicy = .networkElseCache
             query.maxCacheAge = 24*3600
             query.whereKey(EventKeyConstants.keyOfUpdatedAt, lessThan: currentlyOldestUpdatedTime)
@@ -168,7 +162,6 @@ class EventRequest {
             query.includeKey(EventKeyConstants.keyOfCreator)
             query.includeKey(EventKeyConstants.keyOfMembers)
             query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
-            query.whereKey(EventKeyConstants.keyOfFinalized, equalTo: false)
             query.cachePolicy = .networkElseCache
             query.maxCacheAge = 24*3600
             if let objects = query.findObjects() {
@@ -189,7 +182,6 @@ class EventRequest {
             query.includeKey(EventKeyConstants.keyOfCreator)
             query.includeKey(EventKeyConstants.keyOfMembers)
             query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
-            query.whereKey(EventKeyConstants.keyOfFinalized, equalTo: false)
             query.cachePolicy = .networkElseCache
             query.maxCacheAge = 24*3600
             query.whereKey(EventKeyConstants.keyOfUpdatedAt, greaterThan: currentlyNewestUpdatedTime)
@@ -219,7 +211,6 @@ class EventRequest {
             query.includeKey(EventKeyConstants.keyOfCreator)
             query.includeKey(EventKeyConstants.keyOfMembers)
             query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
-            query.whereKey(EventKeyConstants.keyOfFinalized, equalTo: false)
             query.cachePolicy = .networkElseCache
             query.maxCacheAge = 24*3600
             query.whereKey(EventKeyConstants.keyOfUpdatedAt, lessThan: currentlyOldestUpdatedTime)
