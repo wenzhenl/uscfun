@@ -12,12 +12,14 @@ import AVOSCloudIM
 
 /// possible errors with event
 enum EventError: Error {
-    case userNotAMember(String)
-    case noSeatsLeft(String)
-    case eventFinalized(String)
-    case cannotCreateConversation(String)
-    case cannotSaveDataToServer(String)
     case systemError(String)
+    
+    var localizedDescription: String {
+        switch self {
+        case .systemError(let description):
+            return description
+        }
+    }
 }
 
 /// possible types of events
@@ -133,6 +135,9 @@ class Event {
     /// user's my attending events section
     var isCompleted: Bool
     
+    /// This flag indicates that the event has been cancelled explicitly
+    var isCancelled: Bool
+    
     /// The event belongs this school
     var school: String
     
@@ -203,6 +208,7 @@ class Event {
         self.conversationId = ""
         self.members = [creator]
         self.isCompleted = false
+        self.isCancelled = false
         self.school = USCFunConstants.nameOfSchool
     }
     
@@ -249,11 +255,11 @@ class Event {
         }
         self.minimumAttendingPeople = minimumAttendingPeople
 
-        guard allKeys.contains(EventKeyConstants.keyOfDue), let due = data.value(forKey: EventKeyConstants.keyOfDue) as? Date else {
+        guard allKeys.contains(EventKeyConstants.keyOfDue), let due = data.value(forKey: EventKeyConstants.keyOfDue) as? Double else {
             print("no due")
             return nil
         }
-        self.due = due
+        self.due = Date(timeIntervalSince1970: due)
 
         guard allKeys.contains(EventKeyConstants.keyOfCreator), let creator = data.object(forKey: EventKeyConstants.keyOfCreator) as? AVUser else {
             print("no creator")
@@ -286,6 +292,12 @@ class Event {
         }
         self.isCompleted = isCompleted
 
+        guard allKeys.contains(EventKeyConstants.keyOfCancelled), let isCancelled = data.value(forKey: EventKeyConstants.keyOfCancelled) as? Bool else {
+            print("no isCancelled")
+            return nil
+        }
+        self.isCancelled = isCancelled
+        
         guard allKeys.contains(EventKeyConstants.keyOfSchool), let school = data.value(forKey: EventKeyConstants.keyOfSchool) as? String else {
             print("no school")
             return nil
@@ -293,14 +305,14 @@ class Event {
         self.school = school
         
         if allKeys.contains(EventKeyConstants.keyOfStartTime) {
-            if let startTime = data.value(forKey: EventKeyConstants.keyOfStartTime) as? Date {
-                self.startTime = startTime
+            if let startTime = data.value(forKey: EventKeyConstants.keyOfStartTime) as? Double {
+                self.startTime = Date(timeIntervalSince1970: startTime)
             }
         }
         
         if allKeys.contains(EventKeyConstants.keyOfEndTime) {
-            if let endTime = data.value(forKey: EventKeyConstants.keyOfEndTime) as? Date {
-                self.endTime = endTime
+            if let endTime = data.value(forKey: EventKeyConstants.keyOfEndTime) as? Double {
+                self.endTime = Date(timeIntervalSince1970: endTime)
             }
         }
         
@@ -379,7 +391,7 @@ class Event {
     
     private func createConversation(isTransient: Bool, handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
         guard let client = AVIMClient(clientId: AVUser.current().username) else {
-            handler(false, EventError.cannotCreateConversation("cannot create AVIMClient"))
+            handler(false, EventError.systemError("cannot create AVIMClient"))
             return
         }
         client.open() {
@@ -390,7 +402,7 @@ class Event {
                         conversation, error in
                         if error == nil {
                             guard let conversation = conversation else {
-                                handler(false, EventError.cannotCreateConversation("cannot fetch transient conversation"))
+                                handler(false, EventError.systemError("cannot fetch transient conversation"))
                                 return
                             }
                             self.transientConversationId = conversation.conversationId
@@ -404,7 +416,7 @@ class Event {
                         conversation, error in
                         if error == nil {
                             guard let conversation = conversation else {
-                                handler(false, EventError.cannotCreateConversation("cannot fetch conversation"))
+                                handler(false, EventError.systemError("cannot fetch conversation"))
                                 return
                             }
                             self.conversationId = conversation.conversationId
@@ -415,7 +427,7 @@ class Event {
                     }
                 }
             } else {
-                handler(false, EventError.cannotCreateConversation("cannot open AVIMClient"))
+                handler(false, EventError.systemError("cannot open AVIMClient"))
             }
         }
     }
@@ -428,17 +440,17 @@ class Event {
     
     private func saveDataToSever(handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
         guard let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent) else {
-            handler(false, EventError.cannotSaveDataToServer("cannot create AVObject"))
+            handler(false, EventError.systemError("cannot create AVObject"))
             return
         }
         
         guard transientConversationId != "" else {
-            handler(false, EventError.cannotSaveDataToServer("transient conversation id is missing"))
+            handler(false, EventError.systemError("transient conversation id is missing"))
             return
         }
         
         guard conversationId != "" else {
-            handler(false, EventError.cannotSaveDataToServer("conversation id is missing"))
+            handler(false, EventError.systemError("conversation id is missing"))
             return
         }
         
@@ -447,7 +459,7 @@ class Event {
         eventObject.setObject(totalSeats, forKey: EventKeyConstants.keyOfTotalSeats)
         eventObject.setObject(remainingSeats, forKey: EventKeyConstants.keyOfRemainingSeats)
         eventObject.setObject(minimumAttendingPeople, forKey: EventKeyConstants.keyOfMinimumAttendingPeople)
-        eventObject.setObject(due, forKey: EventKeyConstants.keyOfDue)
+        eventObject.setObject(due.timeIntervalSince1970, forKey: EventKeyConstants.keyOfDue)
         
         eventObject.setObject(creator, forKey: EventKeyConstants.keyOfCreator)
         eventObject.setObject(members, forKey: EventKeyConstants.keyOfMembers)
@@ -457,11 +469,11 @@ class Event {
         eventObject.setObject(school, forKey: EventKeyConstants.keyOfSchool)
         
         if startTime != nil {
-            eventObject.setObject(startTime!, forKey: EventKeyConstants.keyOfStartTime)
+            eventObject.setObject(startTime!.timeIntervalSince1970, forKey: EventKeyConstants.keyOfStartTime)
         }
         
         if endTime != nil {
-            eventObject.setObject(endTime!, forKey: EventKeyConstants.keyOfEndTime)
+            eventObject.setObject(endTime!.timeIntervalSince1970, forKey: EventKeyConstants.keyOfEndTime)
         }
         
         if locationName != nil {
@@ -487,7 +499,7 @@ class Event {
         if eventObject.save() {
             handler(true, nil)
         } else {
-            handler(false, EventError.cannotSaveDataToServer("cannot save data to server"))
+            handler(false, EventError.systemError("cannot save data to server"))
         }
     }
     
@@ -499,7 +511,7 @@ class Event {
     /// - parameter succeeded: indicate if the operation is successful
     /// - parameter error: optional error information if operation fails
     
-    func add(newMember: AVUser, handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
+    func add(newMember: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         
         guard let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId) else {
             handler(false, EventError.systemError("cannot create AVObject"))
@@ -507,7 +519,7 @@ class Event {
         }
         
         let query = AVQuery()
-        query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date())
+        query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date().timeIntervalSince1970)
         query.whereKey(EventKeyConstants.keyOfRemainingSeats, greaterThan: 0)
         
         let option = AVSaveOption()
@@ -516,25 +528,15 @@ class Event {
         eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: -1)
         eventObject.addUniqueObject(newMember, forKey: EventKeyConstants.keyOfMembers)
         
-        eventObject.saveInBackground(with: option) {
-            succeeded, error in
-            if succeeded {
-                self.remainingSeats -= 1
-                handler(true, nil)
-            }
-            else if error != nil {
-                handler(false, error!)
-            }
+        do {
+            try eventObject.save(with: option)
+            self.remainingSeats -= 1
+            self.members.append(newMember)
+            handler(true, nil)
+        } catch let error {
+            print("cannot add member \(error.localizedDescription)")
+            handler(false, error)
         }
-//        do {
-//            try eventObject.save(with: option)
-//            members.append(newMember)
-//            remainingSeats -= 1
-//            print("successfully")
-//            handler(true, nil)
-//        } catch {
-//            handler(false, EventError.systemError("error"))
-//        }
     }
     
     
@@ -548,8 +550,7 @@ class Event {
     func remove(member: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         
         guard let memberIndex = members.index(of: member) else {
-            let error = EventError.userNotAMember("这个人没有参加这个活动呀!")
-            handler(false, error)
+            handler(false, EventError.systemError("user is not a member"))
             return
         }
         
@@ -559,7 +560,7 @@ class Event {
         }
         
         let query = AVQuery()
-        query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date())
+        query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date().timeIntervalSince1970)
         query.whereKey(EventKeyConstants.keyOfRemainingSeats, greaterThan: 0)
         
         let option = AVSaveOption()
@@ -573,8 +574,9 @@ class Event {
             members.remove(at: memberIndex)
             remainingSeats += 1
             handler(true, nil)
-        } catch {
-            handler(false, EventError.systemError("error"))
+        } catch let error {
+            print("cannot add member \(error.localizedDescription)")
+            handler(false, error)
         }
     }
 }

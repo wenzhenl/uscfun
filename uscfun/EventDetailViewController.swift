@@ -151,7 +151,7 @@ class EventDetailViewController: UIViewController {
                 self.delegate?.userDidJoinEventWith(id: self.event!.objectId!)
             }
             else if error != nil {
-//                self.showUpdateReminder(message: error!.localizedDescription)
+                self.showUpdateReminder(message: error!.localizedDescription)
             }
         }
     }
