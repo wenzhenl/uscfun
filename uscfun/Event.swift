@@ -17,6 +17,7 @@ enum EventError: Error {
     case eventFinalized(String)
     case cannotCreateConversation(String)
     case cannotSaveDataToServer(String)
+    case systemError(String)
 }
 
 /// possible types of events
@@ -499,37 +500,25 @@ class Event {
     /// - parameter error: optional error information if operation fails
     
     func add(newMember: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
-//        if let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId) {
-//            var membersCopy = members
-//            membersCopy.append(newMember)
-//            eventObject.setObject(membersCopy, forKey: EventKeyConstants.keyOfMembers)
-//            eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: -1)
-//            eventObject.fetchWhenSave = true
-//
-//            var error: NSError?
-//            if eventObject.save(&error) {
-//                let latestNumberOfRemainingSeats = eventObject.value(forKey: EventKeyConstants.keyOfRemainingSeats) as! Int
-//                if latestNumberOfRemainingSeats == 0 {
-//                    eventObject.setObject(true, forKey: EventKeyConstants.keyOfFinalized)
-//                    if eventObject.save(&error) {
-//                        members.append(newMember)
-//                        remainingSeats -= 1
-//                        handler(true, nil)
-//                    } else {
-//                        handler(false, error)
-//                    }
-//                }
-//                else if latestNumberOfRemainingSeats < 0 {
-//                    handler(false, EventError.noSeatsLeft("不好意思，人已经满了。"))
-//                } else {
-//                    members.append(newMember)
-//                    remainingSeats -= 1
-//                    handler(true, nil)
-//                }
-//            } else {
-//                handler(false, error)
-//            }
-//        }
+        
+        guard let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId) else {
+            handler(false, EventError.systemError("cannot create AVObject"))
+            return
+        }
+        
+        let query = AVQuery()
+        query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date())
+        query.whereKey(EventKeyConstants.keyOfRemainingSeats, greaterThan: 0)
+        
+        let option = AVSaveOption()
+        option.query = query
+        
+        do {
+            try eventObject.save(with: option)
+            handler(true, nil)
+        } catch {
+            handler(false, EventError.systemError("error"))
+        }
     }
     
     
