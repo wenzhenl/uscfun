@@ -128,14 +128,9 @@ class Event {
     /// The members of the event
     var members: [AVUser]
     
-    /// This flag indicates if this event is finalized. This flag is true either when the
-    /// maximum number of members of this event is met or the number of members meets the
-    /// minimum required attending people after the due.
-    var finalized: Bool
-    
     /// This flag indicates that the event has been executed and it will not be shown at
     /// user's my attending events section
-    var finished: Bool
+    var isCompleted: Bool
     
     /// The event belongs this school
     var school: String
@@ -151,6 +146,12 @@ class Event {
     /// The update time fetched from Leancloud
     var updatedAt: Date?
 
+    
+    /// This flag indicates if this event is finalized. This flag is true either when the
+    /// maximum number of members of this event is met or the number of members meets the
+    /// minimum required attending people after the due.
+//    var finalized: Bool
+    
     /// Creates an 'Event' instance with the required parameters
     ///
     /// - parameter name:                    The name of the event
@@ -176,8 +177,7 @@ class Event {
         self.transientConversationId = ""
         self.conversationId = ""
         self.members = [creator]
-        self.finalized = false
-        self.finished = false
+        self.isCompleted = false
         self.school = USCFunConstants.nameOfSchool
     }
     
@@ -255,17 +255,11 @@ class Event {
         }
         self.members = members
 
-        guard allKeys.contains(EventKeyConstants.keyOfFinalized), let finalized = data.value(forKey: EventKeyConstants.keyOfFinalized) as? Bool else {
-            print("no finalized")
+        guard allKeys.contains(EventKeyConstants.keyOfCompleted), let isCompleted = data.value(forKey: EventKeyConstants.keyOfCompleted) as? Bool else {
+            print("no isCompleted")
             return nil
         }
-        self.finalized = finalized
-
-        guard allKeys.contains(EventKeyConstants.keyOfFinished), let finished = data.value(forKey: EventKeyConstants.keyOfFinished) as? Bool else {
-            print("no finished")
-            return nil
-        }
-        self.finished = finished
+        self.isCompleted = isCompleted
 
         guard allKeys.contains(EventKeyConstants.keyOfSchool), let school = data.value(forKey: EventKeyConstants.keyOfSchool) as? String else {
             print("no school")
@@ -434,8 +428,7 @@ class Event {
         eventObject.setObject(members, forKey: EventKeyConstants.keyOfMembers)
         eventObject.setObject(transientConversationId, forKey: EventKeyConstants.keyOfTransientConversationId)
         eventObject.setObject(conversationId, forKey: EventKeyConstants.keyOfConversationId)
-        eventObject.setObject(finalized, forKey: EventKeyConstants.keyOfFinalized)
-        eventObject.setObject(finished, forKey: EventKeyConstants.keyOfFinished)
+        eventObject.setObject(isCompleted, forKey: EventKeyConstants.keyOfCompleted)
         eventObject.setObject(school, forKey: EventKeyConstants.keyOfSchool)
         
         if startTime != nil {
@@ -482,37 +475,37 @@ class Event {
     /// - parameter error: optional error information if operation fails
     
     func add(newMember: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
-        if let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId) {
-            var membersCopy = members
-            membersCopy.append(newMember)
-            eventObject.setObject(membersCopy, forKey: EventKeyConstants.keyOfMembers)
-            eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: -1)
-            eventObject.fetchWhenSave = true
-
-            var error: NSError?
-            if eventObject.save(&error) {
-                let latestNumberOfRemainingSeats = eventObject.value(forKey: EventKeyConstants.keyOfRemainingSeats) as! Int
-                if latestNumberOfRemainingSeats == 0 {
-                    eventObject.setObject(true, forKey: EventKeyConstants.keyOfFinalized)
-                    if eventObject.save(&error) {
-                        members.append(newMember)
-                        remainingSeats -= 1
-                        handler(true, nil)
-                    } else {
-                        handler(false, error)
-                    }
-                }
-                else if latestNumberOfRemainingSeats < 0 {
-                    handler(false, EventError.noSeatsLeft("不好意思，人已经满了。"))
-                } else {
-                    members.append(newMember)
-                    remainingSeats -= 1
-                    handler(true, nil)
-                }
-            } else {
-                handler(false, error)
-            }
-        }
+//        if let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId) {
+//            var membersCopy = members
+//            membersCopy.append(newMember)
+//            eventObject.setObject(membersCopy, forKey: EventKeyConstants.keyOfMembers)
+//            eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: -1)
+//            eventObject.fetchWhenSave = true
+//
+//            var error: NSError?
+//            if eventObject.save(&error) {
+//                let latestNumberOfRemainingSeats = eventObject.value(forKey: EventKeyConstants.keyOfRemainingSeats) as! Int
+//                if latestNumberOfRemainingSeats == 0 {
+//                    eventObject.setObject(true, forKey: EventKeyConstants.keyOfFinalized)
+//                    if eventObject.save(&error) {
+//                        members.append(newMember)
+//                        remainingSeats -= 1
+//                        handler(true, nil)
+//                    } else {
+//                        handler(false, error)
+//                    }
+//                }
+//                else if latestNumberOfRemainingSeats < 0 {
+//                    handler(false, EventError.noSeatsLeft("不好意思，人已经满了。"))
+//                } else {
+//                    members.append(newMember)
+//                    remainingSeats -= 1
+//                    handler(true, nil)
+//                }
+//            } else {
+//                handler(false, error)
+//            }
+//        }
     }
     
     
@@ -525,35 +518,35 @@ class Event {
     
     func remove(member: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         
-        guard let memberIndex = members.index(of: member) else {
-            let error = EventError.userNotAMember("这个人没有参加这个活动呀!")
-            handler(false, error)
-            return
-        }
-        
-        if let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId) {
-            
-            if eventObject.fetch() {
-                if eventObject.value(forKey: EventKeyConstants.keyOfFinalized) as! Bool {
-                    handler(false, EventError.eventFinalized("微活动已经约定，需其他成员同意后才能退出"))
-                    return
-                }
-            }
-            
-            var membersCopy = members
-            membersCopy.remove(at: memberIndex)
-            
-            eventObject.setObject(membersCopy, forKey: EventKeyConstants.keyOfMembers)
-            eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: 1)
-            
-            var error: NSError?
-            if eventObject.save(&error) {
-                members.remove(at: memberIndex)
-                remainingSeats += 1
-                handler(true, nil)
-            } else {
-                handler(false, error)
-            }
-        }
+//        guard let memberIndex = members.index(of: member) else {
+//            let error = EventError.userNotAMember("这个人没有参加这个活动呀!")
+//            handler(false, error)
+//            return
+//        }
+//        
+//        if let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId) {
+//            
+//            if eventObject.fetch() {
+//                if eventObject.value(forKey: EventKeyConstants.keyOfFinalized) as! Bool {
+//                    handler(false, EventError.eventFinalized("微活动已经约定，需其他成员同意后才能退出"))
+//                    return
+//                }
+//            }
+//            
+//            var membersCopy = members
+//            membersCopy.remove(at: memberIndex)
+//            
+//            eventObject.setObject(membersCopy, forKey: EventKeyConstants.keyOfMembers)
+//            eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: 1)
+//            
+//            var error: NSError?
+//            if eventObject.save(&error) {
+//                members.remove(at: memberIndex)
+//                remainingSeats += 1
+//                handler(true, nil)
+//            } else {
+//                handler(false, error)
+//            }
+//        }
     }
 }
