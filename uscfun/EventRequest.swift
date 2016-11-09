@@ -45,8 +45,8 @@ class EventRequest {
             }
             if events.count > 0 {
                 EventRequest.myOngoingEvents = EventRequest.indexOfMyOngoingEvents.values.sorted {
-                    if $0.finalized != $1.finalized {
-                        return $0.finalized
+                    if $0.isFinalized != $1.isFinalized {
+                        return $0.isFinalized
                     }
                     return $0.due < $1.due
                 }

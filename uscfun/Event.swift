@@ -147,10 +147,34 @@ class Event {
     var updatedAt: Date?
 
     
+    //--MARK: computed event status flags
+    
+    /// This flag indicates if this event is pending. This flag is true
+    /// when the due is still in the future and there are still remaining
+    /// seats
+    var isPending: Bool {
+        return due > Date() && remainingSeats > 0
+    }
+    
+    /// This flag indicates if this event is satisfied. This flag is true
+    /// when the due is in the future and the minimum required number
+    /// of attending people is met
+    var isSatisfied: Bool {
+        return due > Date() && totalSeats - remainingSeats >= minimumAttendingPeople
+    }
+    
     /// This flag indicates if this event is finalized. This flag is true either when the
     /// maximum number of members of this event is met or the number of members meets the
     /// minimum required attending people after the due.
-//    var finalized: Bool
+    var isFinalized: Bool {
+        return due > Date() && remainingSeats <= 0 || due < Date() && totalSeats - remainingSeats >= minimumAttendingPeople
+    }
+    
+    /// This flag indicates if this event is failed. This flag is true
+    /// when the due is passed but minimum required people is not met
+    var isFailed: Bool {
+        return due < Date() && totalSeats - remainingSeats < minimumAttendingPeople
+    }
     
     /// Creates an 'Event' instance with the required parameters
     ///
