@@ -385,7 +385,7 @@ extension EventDetailViewController: UITableViewDelegate {
                 SVProgressHUD.show()
                 
                 if let event = self.event {
-                    if let conversationVC = LCCKConversationViewController(conversationId: event.conversationId) {
+                    if let conversationVC = LCCKConversationViewController(conversationId: event.transientConversationId) {
                         conversationVC.isEnableAutoJoin = true
                         tableView.cellForRow(at: indexPath)?.isUserInteractionEnabled = true
                         SVProgressHUD.dismiss()

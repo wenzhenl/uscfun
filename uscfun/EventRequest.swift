@@ -40,16 +40,19 @@ extension EventRequestError: LocalizedError {
 class EventRequest {
     
     static var myOngoingEvents = OrderedDictionary<String, Event>()
-    static var newestUpdatedAtOfMyOngoingEvents = Date(timeIntervalSince1970: 0)
-    static var oldestUpdatedAtOfMyOngoingEvents = Date(timeIntervalSince1970: 60*60*24*365*100)
+    static var newestUpdatedAtOfMyOngoingEvents = timeOf1970
+    static var oldestUpdatedAtOfMyOngoingEvents = timeOf2070
 
     static var publicEvents = OrderedDictionary<String, Event>()
-    static var newestUpdatedAtOfPublicEvents = Date(timeIntervalSince1970: 0)
-    static var oldestUpdatedAtOfPublicEvents = Date(timeIntervalSince1970: 60*60*24*365*100)
+    static var newestUpdatedAtOfPublicEvents = timeOf1970
+    static var oldestUpdatedAtOfPublicEvents = timeOf2070
+    
+    static let timeOf1970 = Date(timeIntervalSince1970: 0)
+    static let timeOf2070 = Date(timeIntervalSince1970: 60*60*24*365*100)
     
     static func preLoadData() {
-        EventRequest.fetchNewerMyOngoingEvents()
-        EventRequest.fetchNewerPublicEvents()
+        EventRequest.fetchNewerMyOngoingEvents(inBackground: false, currentNewestUpdatedTime: timeOf1970, handler: nil)
+        EventRequest.fetchNewerPublicEvents(inBackground: false, currentNewestUpdatedTime: timeOf1970, handler: nil)
     }
     
     //--MARK: functions for fetch public events
