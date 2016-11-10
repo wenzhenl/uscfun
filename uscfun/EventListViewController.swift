@@ -53,78 +53,28 @@ class EventListViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    func refreshMyOngoingEventsSilently() {
-        EventRequest.fetchNewerDataForMyOngoingEvents(currentlyNewestUpdatedTime: EventRequest.newestUpdatedAtOfMyOngoingEvents) {
-            error, events in
-            if error != nil {
-                return
-            }
-            
-            if let events = events {
-                for event in events {
-                    EventRequest.indexOfMyOngoingEvents[event.objectId!] = event
-                    
-                    if event.updatedAt! > EventRequest.newestUpdatedAtOfMyOngoingEvents {
-                        EventRequest.newestUpdatedAtOfMyOngoingEvents = event.updatedAt!
-                    }
-                    if event.updatedAt! < EventRequest.oldestUpdatedAtOfMyOngoingEvents {
-                        EventRequest.oldestUpdatedAtOfMyOngoingEvents = event.updatedAt!
-                    }
-                }
-                if events.count > 0 {
-                    
-                    EventRequest.myOngoingEvents = EventRequest.indexOfMyOngoingEvents.values.sorted {
-                        if $0.status != $1.status {
-                            return $0.status == EventStatus.isFinalized
-                        }
-                        return $0.due < $1.due
-                    }
-                    self.tableView.reloadData()
-                }
+    func handleRefresh() {
+        EventRequest.fetchNewerMyOngoingEventsInBackground() {
+            succeeded, error in
+            if succeeded {
+                self.tableView.reloadData()
             }
         }
-    }
-    
-    func handleRefresh() {
-        
-        self.refreshMyOngoingEventsSilently()
-        
-        EventRequest.fetchNewerDataForPublicEvents(currentlyNewestUpdatedTime: EventRequest.newestUpdatedAtOfPublicEvents) {
-            error, events in
+        let numberOfPublicEventsBeforeUpdate = EventRequest.publicEvents.count
+        EventRequest.fetchNewerPublicEventsInBackground() {
+            succeeded, error in
             if error != nil {
-                self.refreshControl.endRefreshing()
-                return
+                self.showUpdateReminder(message: error!.localizedDescription)
             }
-            let numberOfPublicEventsBeforeUpdate = EventRequest.publicEvents.count
-            if let events = events {
-                for event in events {
-                    EventRequest.indexOfPublicEvents[event.objectId!] = event
-                    
-                    if event.updatedAt! > EventRequest.newestUpdatedAtOfPublicEvents {
-                        EventRequest.newestUpdatedAtOfPublicEvents = event.updatedAt!
-                    }
-                    if event.updatedAt! < EventRequest.oldestUpdatedAtOfPublicEvents {
-                        EventRequest.oldestUpdatedAtOfPublicEvents = event.updatedAt!
-                    }
-                }
-                
-                if events.count > 0 {
-                    
-                    EventRequest.publicEvents = EventRequest.indexOfPublicEvents.values.sorted {
-                        $0.due < $1.due
-                    }
-                    
-                    let numberOfPublicEventsAfterUpdate = EventRequest.publicEvents.count
-                    if numberOfPublicEventsAfterUpdate > numberOfPublicEventsBeforeUpdate {
-                        self.showUpdateReminder(message: "发现了\(numberOfPublicEventsAfterUpdate - numberOfPublicEventsBeforeUpdate)个新的微活动")
-                    }
-                    self.tableView.reloadData()
-                }
+            else if succeeded {
+                let numberOfPublicEventsAfterUpdate = EventRequest.publicEvents.count
+                self.showUpdateReminder(message: "发现了\(numberOfPublicEventsAfterUpdate - numberOfPublicEventsBeforeUpdate)个新的微活动")
+                self.tableView.reloadData()
             }
             self.refreshControl.endRefreshing()
         }
     }
-
+    
     func showUpdateReminder(message: String) {
  
         AudioServicesPlaySystemSound(1002)
@@ -153,12 +103,12 @@ class EventListViewController: UIViewController {
                     switch sender {
                     case is AttendingEventTableViewCell:
                         let attendingCell = sender as! AttendingEventTableViewCell
-                        eventDetailVC.event = EventRequest.indexOfMyOngoingEvents[attendingCell.eventId]
+                        eventDetailVC.event = EventRequest.myOngoingEvents[attendingCell.eventId]
                         eventDetailVC.delegate = self
                         
                     case is EventListTableViewCell:
                         let eventListCell = sender as! EventListTableViewCell
-                        eventDetailVC.event = EventRequest.indexOfPublicEvents[eventListCell.eventId]
+                        eventDetailVC.event = EventRequest.publicEvents[eventListCell.eventId]
                         eventDetailVC.delegate = self
                     default:
                         break
@@ -196,22 +146,22 @@ extension EventListViewController: UserSettingDelegate {
 
 extension EventListViewController: EventMemberStatusDelegate {
     func userDidJoinEventWith(id: String) {
-      self.handleRefresh()
+        EventRequest.myOngoingEvents[id] = EventRequest.publicEvents[id]
+        EventRequest.publicEvents[id] = nil
+        self.tableView.reloadData()
     }
     
     func userDidQuitEventWith(id: String) {
-        EventRequest.indexOfMyOngoingEvents.removeValue(forKey: id)
-        EventRequest.myOngoingEvents = EventRequest.indexOfMyOngoingEvents.values.sorted {
-            if $0.status != $1.status {
-                return $0.status == .isFinalized
-            }
-            return $0.due < $1.due
-        }
+        EventRequest.publicEvents[id] = EventRequest.myOngoingEvents[id]
+        EventRequest.myOngoingEvents[id] = nil
         self.tableView.reloadData()
     }
     
     func userDidPostEvent() {
-        self.refreshMyOngoingEventsSilently()
+        EventRequest.fetchNewerMyOngoingEventsInBackground() {
+            _ in
+            self.tableView.reloadData()
+        }
     }
 }
 
@@ -265,7 +215,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
         else if (indexPath as NSIndexPath).section == 1 {
             if EventRequest.myOngoingEvents.count > 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AttendingEventCell") as! AttendingEventTableViewCell
-                let event = EventRequest.myOngoingEvents[indexPath.row]
+                let event = EventRequest.myOngoingEvents[EventRequest.myOngoingEvents.keys[indexPath.row]]!
                 cell.eventId = event.objectId
                 cell.selectionStyle = .default
                 cell.nameTextView.text = event.name
@@ -300,7 +250,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             if EventRequest.publicEvents.count > 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "EventListCell") as! EventListTableViewCell
                 cell.selectionStyle = .blue
-                let event = EventRequest.publicEvents[indexPath.section - 3]
+                let event = EventRequest.publicEvents[EventRequest.publicEvents.keys[indexPath.section - 3]]!
                 
                 cell.eventId = event.objectId
                 cell.mainImageView.image = event.type.image
