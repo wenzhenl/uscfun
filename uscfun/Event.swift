@@ -12,11 +12,27 @@ import AVOSCloudIM
 
 /// possible errors with event
 enum EventError: Error {
-    case systemError(String)
-    
-    var localizedDescription: String {
+    case systemError(localizedDescriotion: String, debugDescription: String)
+}
+
+extension EventError: LocalizedError {
+    public var errorDescription: String? {
         switch self {
-        case .systemError(let description):
+        case .systemError(let description, _):
+            return description
+        }
+    }
+    
+    public var failureReason: String? {
+        switch self {
+        case .systemError(_, let description):
+            return description
+        }
+    }
+    
+    public var recoverySuggestion: String? {
+        switch self {
+        case .systemError(_, let description):
             return description
         }
     }
@@ -419,7 +435,7 @@ class Event {
     
     private func createConversation(isTransient: Bool, handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
         guard let client = AVIMClient(clientId: AVUser.current().username) else {
-            handler(false, EventError.systemError("cannot create AVIMClient"))
+            handler(false, EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: "cannot create AVIMClient"))
             return
         }
         client.open() {
@@ -430,7 +446,7 @@ class Event {
                         conversation, error in
                         if error == nil {
                             guard let conversation = conversation else {
-                                handler(false, EventError.systemError("cannot fetch transient conversation"))
+                                handler(false, EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: "cannot fetch transient conversation"))
                                 return
                             }
                             self.transientConversationId = conversation.conversationId
@@ -444,7 +460,7 @@ class Event {
                         conversation, error in
                         if error == nil {
                             guard let conversation = conversation else {
-                                handler(false, EventError.systemError("cannot fetch conversation"))
+                                handler(false, EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: "cannot fetch conversation"))
                                 return
                             }
                             self.conversationId = conversation.conversationId
@@ -455,7 +471,7 @@ class Event {
                     }
                 }
             } else {
-                handler(false, EventError.systemError("cannot open AVIMClient"))
+                handler(false, EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: "cannot open AVIMClient"))
             }
         }
     }
@@ -468,17 +484,17 @@ class Event {
     
     private func saveDataToSever(handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
         guard let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent) else {
-            handler(false, EventError.systemError("cannot create AVObject"))
+            handler(false, EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: "cannot create AVObject"))
             return
         }
         
         guard transientConversationId != "" else {
-            handler(false, EventError.systemError("transient conversation id is missing"))
+            handler(false, EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: "transient conversation id is missing"))
             return
         }
         
         guard conversationId != "" else {
-            handler(false, EventError.systemError("conversation id is missing"))
+            handler(false, EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: "conversation id is missing"))
             return
         }
         
@@ -528,7 +544,7 @@ class Event {
         if eventObject.save() {
             handler(true, nil)
         } else {
-            handler(false, EventError.systemError("cannot save data to server"))
+            handler(false, EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: "cannot save data to server"))
         }
     }
     
@@ -543,7 +559,7 @@ class Event {
     func add(newMember: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         
         guard let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId) else {
-            handler(false, EventError.systemError("cannot create AVObject"))
+            handler(false, EventError.systemError(localizedDescriotion: "系统错误，请稍后再试", debugDescription: "cannot create AVObject"))
             return
         }
         
@@ -564,7 +580,7 @@ class Event {
             handler(true, nil)
         } catch let error {
             print("cannot add member \(error.localizedDescription)")
-            handler(false, error)
+            handler(false, EventError.systemError(localizedDescriotion: "此微活动已经不再活跃", debugDescription: error.localizedDescription))
         }
     }
     
@@ -579,12 +595,12 @@ class Event {
     func remove(member: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         
         guard let memberIndex = members.index(of: member) else {
-            handler(false, EventError.systemError("user is not a member"))
+            handler(false, EventError.systemError(localizedDescriotion: "用户没有参与此微活动", debugDescription: "user is not a member"))
             return
         }
         
         guard let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId) else {
-            handler(false, EventError.systemError("cannot create AVObject"))
+            handler(false, EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: "cannot create AVObject"))
             return
         }
         
@@ -604,8 +620,8 @@ class Event {
             remainingSeats += 1
             handler(true, nil)
         } catch let error {
-            print("cannot add member \(error.localizedDescription)")
-            handler(false, error)
+            print("cannot remove member \(error.localizedDescription)")
+            handler(false, EventError.systemError(localizedDescriotion: "此微活动已经不再活跃", debugDescription: error.localizedDescription))
         }
     }
 }
