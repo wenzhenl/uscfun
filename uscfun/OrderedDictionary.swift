@@ -28,16 +28,14 @@ struct OrderedDictionary<KeyType: Hashable, ValueType: Comparable> {
             if newValue == nil {
                 if let index = self.keys.index(of: key) {
                     self.keys.remove(at: index)
-                    self.dictionary[key] = newValue
+                    self.dictionary[key] = nil
                 }
-            } else if self.dictionary[key] != newValue {
-                if let index = self.keys.index(of: key) {
-                    self.keys.remove(at: index)
-                }
-                let insertionPosition = insertionIndex(of: newValue!)
-                self.keys.insert(key, at: insertionPosition)
+            } else if let index = self.keys.index(of: key) {
+                self.keys.remove(at: index)
+                self.keys.insert(key, at: insertionIndex(of: newValue!))
                 self.dictionary[key] = newValue
             } else {
+                self.keys.insert(key, at: insertionIndex(of: newValue!))
                 self.dictionary[key] = newValue
             }
         }
@@ -54,7 +52,7 @@ struct OrderedDictionary<KeyType: Hashable, ValueType: Comparable> {
             } else if val < self.dictionary[self.keys[middle]]! {
                 high = middle - 1
             } else {
-                return middle + 1
+                return middle
             }
         }
         return low

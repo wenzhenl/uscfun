@@ -626,6 +626,7 @@ class Event {
     }
 }
 
+/// conforms to Comparable protocol so that Event can be used in OrderedDictionary
 extension Event: Comparable {
     
     static func < (lhs: Event, rhs: Event) -> Bool {
@@ -633,6 +634,6 @@ extension Event: Comparable {
     }
     
     static func == (lhs: Event, rhs: Event) -> Bool {
-        return lhs.due == rhs.due
+        return lhs.objectId == rhs.objectId
     }
 }
