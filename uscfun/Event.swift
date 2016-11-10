@@ -627,14 +627,12 @@ class Event {
 }
 
 extension Event: Comparable {
+    
     static func < (lhs: Event, rhs: Event) -> Bool {
-        if lhs.status != rhs.status {
-            return lhs.status == .isFinalized
-        }
         return lhs.due < rhs.due
     }
     
     static func == (lhs: Event, rhs: Event) -> Bool {
-        return lhs.objectId == rhs.objectId
+        return lhs.due == rhs.due
     }
 }
