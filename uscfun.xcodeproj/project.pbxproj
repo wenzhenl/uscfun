@@ -30,6 +30,7 @@
 		0A427FB21D97F627007A96BE /* ImageViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A427FB01D97F627007A96BE /* ImageViewTableViewCell.xib */; };
 		0A497EDF1D7CC7770099A883 /* StartEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A497EDE1D7CC7770099A883 /* StartEventViewController.swift */; };
 		0A52FD681DB098F8000D17D8 /* LCCKUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A52FD671DB098F8000D17D8 /* LCCKUser.m */; };
+		0A5830CB1DD45A2800E06B4A /* OrderedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5830CA1DD45A2800E06B4A /* OrderedDictionary.swift */; };
 		0A6834BE1D56858C002E9B0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6834BD1D56858C002E9B0D /* AppDelegate.swift */; };
 		0A6834C51D56858C002E9B0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A6834C41D56858C002E9B0D /* Assets.xcassets */; };
 		0A6834C81D56858C002E9B0D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A6834C61D56858C002E9B0D /* LaunchScreen.storyboard */; };
@@ -106,6 +107,7 @@
 		0A497EDE1D7CC7770099A883 /* StartEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartEventViewController.swift; sourceTree = "<group>"; };
 		0A52FD661DB098F8000D17D8 /* LCCKUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCCKUser.h; sourceTree = "<group>"; };
 		0A52FD671DB098F8000D17D8 /* LCCKUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCCKUser.m; sourceTree = "<group>"; };
+		0A5830CA1DD45A2800E06B4A /* OrderedDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderedDictionary.swift; sourceTree = "<group>"; };
 		0A6834BA1D56858C002E9B0D /* uscfun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = uscfun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A6834BD1D56858C002E9B0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0A6834C41D56858C002E9B0D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 				0A71119A1DBEC79400742F2D /* BuildInClassExtension.swift */,
 				0A71119C1DBEC87000742F2D /* UserDefaultsExtension.swift */,
 				0A9CB44E1D6FF8D800608D27 /* USCFunConstants.swift */,
+				0A5830CA1DD45A2800E06B4A /* OrderedDictionary.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -512,6 +515,7 @@
 				0A70C09B1DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.swift in Sources */,
 				0ADE0CA31DB1F19D009F89A0 /* AboutViewController.swift in Sources */,
 				0AE5C5491DB1DFB500B455F4 /* ProfileTableViewCell.swift in Sources */,
+				0A5830CB1DD45A2800E06B4A /* OrderedDictionary.swift in Sources */,
 				0A963DB51D7122E200E0532F /* SignUpViewController.swift in Sources */,
 				0A022FA71D73D066004077A4 /* FindBackPasswordViewController.swift in Sources */,
 				0A71119D1DBEC87000742F2D /* UserDefaultsExtension.swift in Sources */,
