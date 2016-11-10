@@ -56,6 +56,40 @@ enum TransportationMethod: String {
     case metro = "metro"
 }
 
+/// possible status of an event
+enum EventStatus {
+    
+    /// This flag indicates if this event is pending. This flag is true
+    /// when the due is still in the future and there are still remaining
+    /// seats
+    case isPending
+    
+    /// This flag indicates if this event has met the minimum requirement.
+    /// This flag is true
+    /// when the due is in the future and the minimum required number
+    /// of attending people is met
+    case isSecured
+    
+    /// This flag indicates if this event is finalized. This flag is true either when the
+    /// maximum number of members of this event is met or the number of members meets the
+    /// minimum required attending people after the due.
+    case isFinalized
+    
+    /// This flag indicates if this event is failed. This flag is true
+    /// when the due is passed but minimum required people is not met
+    case isFailed
+    
+    /// This flag indicates that the event has been cancelled explicitly
+    case isCancelled
+    
+    /// This flag indicates that the event has been executed and it will not be shown at
+    /// user's my attending events section
+    case isCompleted
+    
+    /// in case any situation not covered by the above
+    case isUnKnown
+}
+
 /// The 'Event' class, event much include information of name, type, maximum capacity, 
 /// remaining seats, minimum number of people required, and the due.
 /// At the same time, the event can include optional information such as the start time,
@@ -153,34 +187,27 @@ class Event {
     var updatedAt: Date?
 
     
-    //--MARK: computed event status flags
-    
-    /// This flag indicates if this event is pending. This flag is true
-    /// when the due is still in the future and there are still remaining
-    /// seats
-    var isPending: Bool {
-        return due > Date() && remainingSeats > 0
-    }
-    
-    /// This flag indicates if this event has met the minimum requirement.
-    /// This flag is true
-    /// when the due is in the future and the minimum required number
-    /// of attending people is met
-    var isSecured: Bool {
-        return due > Date() && totalSeats - remainingSeats >= minimumAttendingPeople
-    }
-    
-    /// This flag indicates if this event is finalized. This flag is true either when the
-    /// maximum number of members of this event is met or the number of members meets the
-    /// minimum required attending people after the due.
-    var isFinalized: Bool {
-        return due > Date() && remainingSeats <= 0 || due < Date() && totalSeats - remainingSeats >= minimumAttendingPeople
-    }
-    
-    /// This flag indicates if this event is failed. This flag is true
-    /// when the due is passed but minimum required people is not met
-    var isFailed: Bool {
-        return due < Date() && totalSeats - remainingSeats < minimumAttendingPeople
+    var status: EventStatus {
+        if isCompleted {
+            return EventStatus.isCompleted
+        }
+        else if isCancelled {
+            return EventStatus.isCancelled
+        }
+        else if due > Date() && remainingSeats > 0 {
+            return EventStatus.isPending
+        }
+        else if due > Date() && totalSeats - remainingSeats >= minimumAttendingPeople {
+            return EventStatus.isSecured
+        }
+        else if due > Date() && remainingSeats <= 0 || due < Date() && totalSeats - remainingSeats >= minimumAttendingPeople {
+            return EventStatus.isFinalized
+        }
+        else if due < Date() && totalSeats - remainingSeats < minimumAttendingPeople {
+            return EventStatus.isFailed
+        } else {
+            return EventStatus.isUnKnown
+        }
     }
     
     /// Creates an 'Event' instance with the required parameters

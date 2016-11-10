@@ -71,11 +71,11 @@ extension UIColor {
         return UIColor.green
     }
     
-    class var eventMeetsMinimum: UIColor {
+    class var eventSecured: UIColor {
         return UIColor.themeYellow
     }
     
-    class var eventWaiting: UIColor {
+    class var eventPending: UIColor {
         return UIColor.lightGray
     }
 }

@@ -74,8 +74,8 @@ class EventListViewController: UIViewController {
                 if events.count > 0 {
                     
                     EventRequest.myOngoingEvents = EventRequest.indexOfMyOngoingEvents.values.sorted {
-                        if $0.isFinalized != $1.isFinalized {
-                            return $0.isFinalized
+                        if $0.status != $1.status {
+                            return $0.status == EventStatus.isFinalized
                         }
                         return $0.due < $1.due
                     }
@@ -202,8 +202,8 @@ extension EventListViewController: EventMemberStatusDelegate {
     func userDidQuitEventWith(id: String) {
         EventRequest.indexOfMyOngoingEvents.removeValue(forKey: id)
         EventRequest.myOngoingEvents = EventRequest.indexOfMyOngoingEvents.values.sorted {
-            if $0.isFinalized != $1.isFinalized {
-                return $0.isFinalized
+            if $0.status != $1.status {
+                return $0.status == .isFinalized
             }
             return $0.due < $1.due
         }
@@ -270,14 +270,14 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.selectionStyle = .default
                 cell.nameTextView.text = event.name
                 cell.eventImageView.image = event.type.image
-                if event.isFinalized {
+                if event.status == .isFinalized {
                     cell.indicatorView.backgroundColor = UIColor.eventFinalized
                 }
-                else if event.totalSeats - event.remainingSeats >= event.minimumAttendingPeople {
-                    cell.indicatorView.backgroundColor = UIColor.eventMeetsMinimum
+                else if event.status == .isSecured {
+                    cell.indicatorView.backgroundColor = UIColor.eventSecured
                 }
                 else {
-                    cell.indicatorView.backgroundColor = UIColor.eventWaiting
+                    cell.indicatorView.backgroundColor = UIColor.eventPending
                 }
                 
                 return cell
