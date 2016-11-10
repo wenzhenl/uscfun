@@ -553,25 +553,6 @@
                                     <outlet property="delegate" destination="nvQ-YZ-kHk" id="lEp-Bg-HVx"/>
                                 </connections>
                             </tableView>
-                            <view alpha="0.89999997615814209" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ThY-XQ-nT4">
-                                <rect key="frame" x="0.0" y="-15" width="375" height="35"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ivc-gw-zzD">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="35"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" red="1" green="0.70595824289999998" blue="0.1072664972" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstItem="Ivc-gw-zzD" firstAttribute="centerX" secondItem="ThY-XQ-nT4" secondAttribute="centerX" id="Dtd-2E-ur7"/>
-                                    <constraint firstAttribute="height" constant="35" id="Ij4-7p-u7j"/>
-                                    <constraint firstItem="Ivc-gw-zzD" firstAttribute="height" secondItem="ThY-XQ-nT4" secondAttribute="height" id="O9o-eY-KfL"/>
-                                    <constraint firstItem="Ivc-gw-zzD" firstAttribute="centerY" secondItem="ThY-XQ-nT4" secondAttribute="centerY" id="Oj4-Lq-fmn"/>
-                                    <constraint firstItem="Ivc-gw-zzD" firstAttribute="width" secondItem="ThY-XQ-nT4" secondAttribute="width" id="xgx-XN-RMK"/>
-                                </constraints>
-                            </view>
                             <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="joe-WW-ZRn">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -584,11 +565,8 @@
                             <constraint firstItem="VNM-N7-eAu" firstAttribute="centerY" secondItem="wZa-0p-8mV" secondAttribute="centerY" id="EK5-88-tdV"/>
                             <constraint firstItem="joe-WW-ZRn" firstAttribute="centerX" secondItem="wZa-0p-8mV" secondAttribute="centerX" id="ERb-D9-trz"/>
                             <constraint firstItem="VNM-N7-eAu" firstAttribute="centerX" secondItem="wZa-0p-8mV" secondAttribute="centerX" id="Q0G-Wt-Lva"/>
-                            <constraint firstItem="ThY-XQ-nT4" firstAttribute="width" secondItem="VNM-N7-eAu" secondAttribute="width" id="YLl-nu-5FK"/>
                             <constraint firstItem="VNM-N7-eAu" firstAttribute="height" secondItem="wZa-0p-8mV" secondAttribute="height" id="Ynw-jf-L7j"/>
-                            <constraint firstItem="ThY-XQ-nT4" firstAttribute="top" secondItem="U0m-Gz-5VD" secondAttribute="bottom" constant="-35" id="Yv4-kv-72K"/>
                             <constraint firstItem="joe-WW-ZRn" firstAttribute="height" secondItem="wZa-0p-8mV" secondAttribute="height" id="ill-V2-2NX"/>
-                            <constraint firstItem="ThY-XQ-nT4" firstAttribute="centerX" secondItem="VNM-N7-eAu" secondAttribute="centerX" id="kZq-fJ-IoT"/>
                             <constraint firstItem="VNM-N7-eAu" firstAttribute="width" secondItem="wZa-0p-8mV" secondAttribute="width" id="oTp-hL-R3a"/>
                         </constraints>
                     </view>
@@ -597,9 +575,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="dimView" destination="joe-WW-ZRn" id="TX5-LG-ouY"/>
-                        <outlet property="reminderLabel" destination="Ivc-gw-zzD" id="Jcq-ef-sdA"/>
-                        <outlet property="reminderView" destination="ThY-XQ-nT4" id="CKk-h2-LdG"/>
-                        <outlet property="reminderViewConstraint" destination="Yv4-kv-72K" id="tiy-rf-bY4"/>
                         <outlet property="tableView" destination="VNM-N7-eAu" id="lw0-Dq-uwb"/>
                         <segue destination="jln-hf-hFc" kind="show" identifier="SHOWMAP" id="nRo-fV-YhR"/>
                         <segue destination="97i-nA-FYj" kind="show" identifier="see member detail" id="IXM-mE-X7k"/>

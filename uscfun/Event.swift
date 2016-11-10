@@ -580,7 +580,7 @@ class Event {
             handler(true, nil)
         } catch let error {
             print("cannot add member \(error.localizedDescription)")
-            handler(false, EventError.systemError(localizedDescriotion: "此微活动已经不再活跃", debugDescription: error.localizedDescription))
+            handler(false, EventError.systemError(localizedDescriotion: "不好意思，已经没有位置了。", debugDescription: error.localizedDescription))
         }
     }
     
@@ -621,7 +621,7 @@ class Event {
             handler(true, nil)
         } catch let error {
             print("cannot remove member \(error.localizedDescription)")
-            handler(false, EventError.systemError(localizedDescriotion: "此微活动已经不再活跃", debugDescription: error.localizedDescription))
+            handler(false, EventError.systemError(localizedDescriotion: "不好意思，你参加的微活动已经完成约定。", debugDescription: error.localizedDescription))
         }
     }
 }

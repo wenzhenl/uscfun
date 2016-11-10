@@ -19,10 +19,12 @@ protocol CustomizedAlertViewDelegate {
 enum CustomAlertType {
     case quitEvent
     case shareEvent
+    case showError
 }
 
 enum AlertCellType {
     case imgKeyValueCell(image: UIImage, key: String, value: String)
+    case textViewCell(text: String)
     case regularCell(text: String)
 }
 
@@ -34,6 +36,8 @@ class CustomizedAlertViewController: UIViewController {
     var alertSections = [AlertCellType]()
     
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
+    
+    var errorDescription: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,10 +56,16 @@ class CustomizedAlertViewController: UIViewController {
             alertSections.append(AlertCellType.imgKeyValueCell(image: #imageLiteral(resourceName: "moments"), key: keyOfShareEventToMoments, value: ""))
             alertSections.append(AlertCellType.imgKeyValueCell(image: #imageLiteral(resourceName: "bell"), key: keyOfReportEvent, value: ""))
             alertSections.append(AlertCellType.imgKeyValueCell(image: #imageLiteral(resourceName: "cancel"), key: keyOfCancel, value: ""))
+        case .showError:
+            alertSections.append(AlertCellType.textViewCell(text: errorDescription!))
         }
         tableView.translatesAutoresizingMaskIntoConstraints = true
         tableView.layoutIfNeeded()
-        tableView.frame = CGRect(x: 0, y: self.view.frame.height - tableView.contentSize.height, width: self.view.frame.width, height: tableView.contentSize.height)
+        if alertType! == .showError {
+            tableView.frame = CGRect(x: 0, y: 64, width: self.view.frame.width, height: tableView.contentSize.height)
+        } else {
+            tableView.frame = CGRect(x: 0, y: self.view.frame.height - tableView.contentSize.height, width: self.view.frame.width, height: tableView.contentSize.height)
+        }
     }
     
     func withdraw(sender: UITapGestureRecognizer) {
@@ -84,6 +94,9 @@ extension CustomizedAlertViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if alertType! == .showError {
+            return 0
+        }
         return 2
     }
     
@@ -129,6 +142,16 @@ extension CustomizedAlertViewController: UITableViewDataSource {
             cell.keyLabel.text = key
             cell.valueLabel.text = value
             return cell
+            
+        case .textViewCell(let text):
+            let cell = Bundle.main.loadNibNamed("TextViewTableViewCell", owner: self, options: nil)?.first! as! TextViewTableViewCell
+            cell.textView.text = text
+            cell.backgroundColor = UIColor.themeYellow
+            cell.textView.backgroundColor = UIColor.themeYellow
+            cell.textView.textColor = UIColor.themeUSCRed
+            cell.textView.textAlignment = .center
+            return cell
+            
         case .regularCell(let text):
             let cell = UITableViewCell()
             cell.textLabel?.text = text

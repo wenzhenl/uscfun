@@ -28,10 +28,7 @@ protocol EventMemberStatusDelegate {
 class EventDetailViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var reminderView: UIView!
-    @IBOutlet weak var reminderLabel: UILabel!
     @IBOutlet weak var dimView: UIView!
-    @IBOutlet weak var reminderViewConstraint: NSLayoutConstraint!
     
     var event: Event?
     var detailSections = [[EventDetailCell]]()
@@ -48,26 +45,24 @@ class EventDetailViewController: UIViewController {
         self.dimView.isHidden = true
         populateSections()
     }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        self.reminderView.layer.cornerRadius = reminderView.frame.size.height / 2.0
-    }
     
     func showUpdateReminder(message: String) {
         
-        self.reminderLabel.text = message
-        UIView.animate(withDuration: 1.0) {
-            _ in
-            self.reminderViewConstraint.constant = 0
-        }
+        self.dimView.isHidden = false
+        let actionViewController = self.storyboard!.instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentifierOfCustomizedAlertViewController) as! CustomizedAlertViewController
+        actionViewController.delegate = self
+        actionViewController.alertType = CustomAlertType.showError
+        actionViewController.errorDescription = message
+        actionViewController.modalPresentationStyle = .overFullScreen
+        self.present(actionViewController, animated: true, completion: nil)
         
-        let delay = 1.5 * Double(NSEC_PER_SEC)
+        let delay = 2 * Double(NSEC_PER_SEC)
         let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: time) {
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
                 _ in
-                self.reminderViewConstraint.constant = -35
+                self.dimView.isHidden = true
+                actionViewController.dismiss(animated: true, completion: nil)
                 }, completion: nil)
         }
     }
