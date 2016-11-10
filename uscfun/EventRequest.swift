@@ -52,12 +52,18 @@ class EventRequest {
         EventRequest.fetchNewerPublicEvents()
     }
     
+    //--MARK: functions for fetch public events
+    
     static func fetchNewerPublicEvents() {
         fetchNewerPublicEvents(inBackground: false, currentNewestUpdatedTime: EventRequest.newestUpdatedAtOfPublicEvents, handler: nil)
     }
     
-    static func fetchNewerMyOngoingEvents() {
-        fetchNewerMyOngoingEvents(inBackground: false, currentNewestUpdatedTime: EventRequest.newestUpdatedAtOfMyOngoingEvents, handler: nil)
+    static func fetchNewerPublicEvents(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+        fetchNewerPublicEvents(inBackground: false, currentNewestUpdatedTime: EventRequest.newestUpdatedAtOfPublicEvents, handler: handler)
+    }
+    
+    static func fetchNewerPublicEventsInBackground(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+        fetchNewerPublicEvents(inBackground: true, currentNewestUpdatedTime: EventRequest.newestUpdatedAtOfPublicEvents, handler: handler)
     }
     
     static func fetchNewerPublicEvents(inBackground: Bool, currentNewestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
@@ -83,7 +89,19 @@ class EventRequest {
             handler?(succeeded, error)
         }
     }
-
+    
+    static func fetchOlderPublicEvents() {
+        fetchOlderPublicEvents(inBackground: false, currentOldestUpdatedTime: EventRequest.oldestUpdatedAtOfPublicEvents, handler: nil)
+    }
+    
+    static func fetchOlderPublicEvents(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+        fetchOlderPublicEvents(inBackground: false, currentOldestUpdatedTime: EventRequest.oldestUpdatedAtOfPublicEvents, handler: handler)
+    }
+    
+    static func fetchOlderPublicEventsInBackground(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+        fetchOlderPublicEvents(inBackground: true, currentOldestUpdatedTime: EventRequest.oldestUpdatedAtOfPublicEvents, handler: handler)
+    }
+    
     static func fetchOlderPublicEvents(inBackground: Bool, currentOldestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
         guard let query = AVQuery(className: EventKeyConstants.classNameOfEvent) else {
             handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: "cannot create query"))
@@ -106,6 +124,20 @@ class EventRequest {
             succeeded, error in
             handler?(succeeded, error)
         }
+    }
+    
+    //--MARK: functions for fetch my ongoing events
+    
+    static func fetchNewerMyOngoingEvents() {
+        fetchNewerMyOngoingEvents(inBackground: false, currentNewestUpdatedTime: EventRequest.newestUpdatedAtOfMyOngoingEvents, handler: nil)
+    }
+    
+    static func fetchNewerMyOngoingEvents(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+        fetchNewerMyOngoingEvents(inBackground: false, currentNewestUpdatedTime: EventRequest.newestUpdatedAtOfMyOngoingEvents, handler: handler)
+    }
+    
+    static func fetchNewerMyOngoingEventsInBackground(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+        fetchNewerMyOngoingEvents(inBackground: true, currentNewestUpdatedTime: EventRequest.newestUpdatedAtOfMyOngoingEvents, handler: handler)
     }
     
     static func fetchNewerMyOngoingEvents(inBackground: Bool, currentNewestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
@@ -133,6 +165,18 @@ class EventRequest {
             succeeded, error in
             handler?(succeeded, error)
         }
+    }
+    
+    static func fetchOlderMyOngoingEvents() {
+        fetchOlderMyOngoingEvents(inBackground: false, currentOldestUpdatedTime: EventRequest.oldestUpdatedAtOfMyOngoingEvents, handler: nil)
+    }
+    
+    static func fetchOlderMyOngoingEvents(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+        fetchOlderMyOngoingEvents(inBackground: false, currentOldestUpdatedTime: EventRequest.oldestUpdatedAtOfMyOngoingEvents, handler: handler)
+    }
+    
+    static func fetchOlderMyOngoingEventsInBackground(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+        fetchOlderMyOngoingEvents(inBackground: true, currentOldestUpdatedTime: EventRequest.oldestUpdatedAtOfMyOngoingEvents, handler: handler)
     }
     
     static func fetchOlderMyOngoingEvents(inBackground: Bool, currentOldestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
@@ -188,6 +232,8 @@ class EventRequest {
             handler?(true, nil)
         }
     }
+    
+    //--MARK: common private function for fetching data from server
     
     private static func fetchPublicEvents(inBackground: Bool, with query: AVQuery, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
         print("fetch my public events")
