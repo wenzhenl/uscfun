@@ -9,32 +9,104 @@
 import Foundation
 import AVOSCloud
 
-class EventRequest {
-    
-    static var myOngoingEvents = [Event]()
-    static var indexOfMyOngoingEvents = [String: Event]()
-    static var newestUpdatedAtOfMyOngoingEvents = Date(timeIntervalSince1970: 0)
-    static var oldestUpdatedAtOfMyOngoingEvents = Date(timeIntervalSinceNow: 60*60*24*365*100)
+/// possible errors with event
+enum EventRequestError: Error {
+    case systemError(localizedDescriotion: String, debugDescription: String)
+}
 
-    static var publicEvents = [Event]()
-    static var indexOfPublicEvents = [String: Event]()
-    static var newestUpdatedAtOfPublicEvents = Date(timeIntervalSince1970: 0)
-    static var oldestUpdatedAtOfPublicEvents = Date(timeIntervalSinceNow: 60*60*24*365*100)
-    
-    static func preLoadData() {
-        EventRequest.fetchDataForMyOngoingEvents(handler: EventRequest.handleLoadedDataOfMyOngoingEvents)
-        EventRequest.fetchDataForPublicEvents(handler: EventRequest.handleLoadedDataOfPublicEvents)
+extension EventRequestError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .systemError(let description, _):
+            return description
+        }
     }
     
-    static func handleLoadedDataOfMyOngoingEvents(error: Error?, events: [Event]?) {
-        print("fetch my ongoing events")
-        if error != nil {
-            print(error!)
-            return
+    public var failureReason: String? {
+        switch self {
+        case .systemError(_, let description):
+            return description
         }
-        if let events = events {
+    }
+    
+    public var recoverySuggestion: String? {
+        switch self {
+        case .systemError(_, let description):
+            return description
+        }
+    }
+}
+
+class EventRequest {
+    
+    static var myOngoingEvents = OrderedDictionary<String, Event>()
+    static var newestUpdatedAtOfMyOngoingEvents = Date(timeIntervalSince1970: 0)
+    static var oldestUpdatedAtOfMyOngoingEvents = Date(timeIntervalSince1970: 60*60*24*365*100)
+
+    static var publicEvents = OrderedDictionary<String, Event>()
+    static var newestUpdatedAtOfPublicEvents = Date(timeIntervalSince1970: 0)
+    static var oldestUpdatedAtOfPublicEvents = Date(timeIntervalSince1970: 60*60*24*365*100)
+    
+    static func preLoadData() {
+        EventRequest.fetchNewerMyOngoingEvents()
+        EventRequest.fetchNewerPublicEvents()
+    }
+    
+    static func fetchNewerPublicEvents() {
+        fetchNewerPublicEvents(inBackground: false, currentNewestUpdatedTime: EventRequest.newestUpdatedAtOfPublicEvents, handler: nil)
+    }
+    
+    static func fetchNewerMyOngoingEvents() {
+        fetchNewerMyOngoingEvents(inBackground: false, currentNewestUpdatedTime: EventRequest.newestUpdatedAtOfMyOngoingEvents, handler: nil)
+    }
+    
+    static func fetchNewerPublicEvents(inBackground: Bool, currentNewestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+        if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
+            query.order(byAscending: EventKeyConstants.keyOfDue)
+            query.includeKey(EventKeyConstants.keyOfCreator)
+            query.includeKey(EventKeyConstants.keyOfMembers)
+            query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
+            query.cachePolicy = .networkElseCache
+            query.maxCacheAge = 24*3600
+            query.whereKey(EventKeyConstants.keyOfUpdatedAt, greaterThan: currentNewestUpdatedTime)
+            fetchPublicEvents(inBackground: inBackground, with: query) {
+                succeeded, error in
+                handler?(succeeded, error)
+            }
+        }
+    }
+
+    static func fetchNewerMyOngoingEvents(inBackground: Bool, currentNewestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+        if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
+            query.order(byAscending: EventKeyConstants.keyOfDue)
+            query.includeKey(EventKeyConstants.keyOfCreator)
+            query.includeKey(EventKeyConstants.keyOfMembers)
+            query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
+            query.cachePolicy = .networkElseCache
+            query.maxCacheAge = 24*3600
+            query.whereKey(EventKeyConstants.keyOfUpdatedAt, greaterThan: currentNewestUpdatedTime)
+            fetchPublicEvents(inBackground: inBackground, with: query) {
+                succeeded, error in
+                handler?(succeeded, error)
+            }
+        }
+    }
+    
+    private static func fetchMyOngoingEvents(inBackground: Bool, with query: AVQuery, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+        print("fetch my ongoing events")
+        fetchData(inBackground: inBackground, with: query) {
+            error, events in
+            if error != nil {
+                print(error!)
+                handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: error!.localizedDescription))
+                return
+            }
+            guard let events = events else {
+                handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: "cannot get events"))
+                return
+            }
             for event in events {
-                EventRequest.indexOfMyOngoingEvents[event.objectId!] = event
+                EventRequest.myOngoingEvents[event.objectId!] = event
                 
                 if event.updatedAt! > EventRequest.newestUpdatedAtOfMyOngoingEvents {
                     EventRequest.newestUpdatedAtOfMyOngoingEvents = event.updatedAt!
@@ -43,27 +115,25 @@ class EventRequest {
                     EventRequest.oldestUpdatedAtOfMyOngoingEvents = event.updatedAt!
                 }
             }
-            if events.count > 0 {
-                EventRequest.myOngoingEvents = EventRequest.indexOfMyOngoingEvents.values.sorted {
-                    if $0.status != $1.status {
-                        return $0.status == .isFinalized
-                    }
-                    return $0.due < $1.due
-                }
-            }
+            handler?(true, nil)
         }
     }
     
-    static func handleLoadedDataOfPublicEvents(error: Error?, events: [Event]?) {
-        print("fetch public events")
-        if error != nil {
-            print(error!)
-            return
-        }
-        if let events = events {
+    private static func fetchPublicEvents(inBackground: Bool, with query: AVQuery, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+        print("fetch my public events")
+        fetchData(inBackground: inBackground, with: query) {
+            error, events in
+            if error != nil {
+                print(error!)
+                handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: error!.localizedDescription))
+                return
+            }
+            guard let events = events else {
+                handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: "cannot get events"))
+                return
+            }
             for event in events {
-                EventRequest.indexOfPublicEvents[event.objectId!] = event
-                EventRequest.publicEvents.append(event)
+                EventRequest.publicEvents[event.objectId!] = event
                 
                 if event.updatedAt! > EventRequest.newestUpdatedAtOfPublicEvents {
                     EventRequest.newestUpdatedAtOfPublicEvents = event.updatedAt!
@@ -72,165 +142,42 @@ class EventRequest {
                     EventRequest.oldestUpdatedAtOfPublicEvents = event.updatedAt!
                 }
             }
+            handler?(true, nil)
         }
     }
     
-    static func fetchDataForMyOngoingEvents(handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
-        if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
-            query.order(byAscending: EventKeyConstants.keyOfDue)
-            query.includeKey(EventKeyConstants.keyOfCreator)
-            query.includeKey(EventKeyConstants.keyOfMembers)
-            query.whereKey(EventKeyConstants.keyOfMembers, containsAllObjectsIn: [AVUser.current()])
-            query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
-            query.cachePolicy = .networkElseCache
-            query.maxCacheAge = 24*3600
-            if let objects = query.findObjects() {
-                var newerEvents = [Event]()
-                for object in objects as! [AVObject] {
-                    if let event = Event(data: object) {
-                        newerEvents.append(event)
-                    }
-                }
-                handler(nil, newerEvents)
-            }
-        }
-    }
-    
-    static func fetchNewerDataForMyOngoingEvents(currentlyNewestUpdatedTime: Date, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
-        if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
-            query.order(byAscending: EventKeyConstants.keyOfDue)
-            query.includeKey(EventKeyConstants.keyOfCreator)
-            query.includeKey(EventKeyConstants.keyOfMembers)
-            query.whereKey(EventKeyConstants.keyOfMembers, containsAllObjectsIn: [AVUser.current()])
-            query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
-            query.cachePolicy = .networkElseCache
-            query.maxCacheAge = 24*3600
-            query.whereKey(EventKeyConstants.keyOfUpdatedAt, greaterThan: currentlyNewestUpdatedTime)
+    private static func fetchData(inBackground: Bool, with query: AVQuery, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
+        
+        if inBackground {
             query.findObjectsInBackground() {
                 objects, error in
                 if error != nil {
                     print(error!.localizedDescription)
-                    handler(error!, nil)
+                    handler(EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: error!.localizedDescription), nil)
                     return
                 }
                 if objects != nil {
-                    var newerEvents = [Event]()
+                    var events = [Event]()
                     for object in objects as! [AVObject] {
                         if let event = Event(data: object) {
-                            newerEvents.append(event)
+                            events.append(event)
                         }
                     }
-                    handler(nil, newerEvents)
+                    handler(nil, events)
                 }
             }
-        }
-    }
-    
-    static func fetchOlderDataForMyOngoingEvents(currentlyOldestUpdatedTime: Date, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
-        if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
-            query.order(byAscending: EventKeyConstants.keyOfDue)
-            query.includeKey(EventKeyConstants.keyOfCreator)
-            query.includeKey(EventKeyConstants.keyOfMembers)
-            query.whereKey(EventKeyConstants.keyOfMembers, containsAllObjectsIn: [AVUser.current()])
-            query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
-            query.cachePolicy = .networkElseCache
-            query.maxCacheAge = 24*3600
-            query.whereKey(EventKeyConstants.keyOfUpdatedAt, lessThan: currentlyOldestUpdatedTime)
-            query.findObjectsInBackground() {
-                objects, error in
-                if error != nil {
-                    print(error!.localizedDescription)
-                    handler(error!, nil)
-                    return
-                }
-                if objects != nil {
-                    var newerEvents = [Event]()
-                    for object in objects as! [AVObject] {
-                        if let event = Event(data: object) {
-                            newerEvents.append(event)
-                        }
-                    }
-                    handler(nil, newerEvents)
+        } else {
+            guard let objects = query.findObjects() else {
+                handler(EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: "cannot fetch objects"), nil)
+                return
+            }
+            var events = [Event]()
+            for object in objects as! [AVObject] {
+                if let event = Event(data: object) {
+                    events.append(event)
                 }
             }
-        }
-    }
-    
-    static func fetchDataForPublicEvents(handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
-        if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
-            query.order(byAscending: EventKeyConstants.keyOfDue)
-            query.includeKey(EventKeyConstants.keyOfCreator)
-            query.includeKey(EventKeyConstants.keyOfMembers)
-            query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
-            query.cachePolicy = .networkElseCache
-            query.maxCacheAge = 24*3600
-            if let objects = query.findObjects() {
-                var newerEvents = [Event]()
-                for object in objects as! [AVObject] {
-                    if let event = Event(data: object) {
-                        newerEvents.append(event)
-                    }
-                }
-                handler(nil, newerEvents)
-            }
-        }
-    }
-    
-    static func fetchNewerDataForPublicEvents(currentlyNewestUpdatedTime: Date, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
-        if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
-            query.order(byAscending: EventKeyConstants.keyOfDue)
-            query.includeKey(EventKeyConstants.keyOfCreator)
-            query.includeKey(EventKeyConstants.keyOfMembers)
-            query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
-            query.cachePolicy = .networkElseCache
-            query.maxCacheAge = 24*3600
-            query.whereKey(EventKeyConstants.keyOfUpdatedAt, greaterThan: currentlyNewestUpdatedTime)
-            query.findObjectsInBackground() {
-                objects, error in
-                if error != nil {
-                    print(error!.localizedDescription)
-                    handler(error!, nil)
-                    return
-                }
-                if objects != nil {
-                    var newerEvents = [Event]()
-                    for object in objects as! [AVObject] {
-                        if let event = Event(data: object) {
-                            newerEvents.append(event)
-                        }
-                    }
-                    handler(nil, newerEvents)
-                }
-            }
-        }
-    }
-    
-    static func fetchOlderDataForPublicEvents(currentlyOldestUpdatedTime: Date, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
-        if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
-            query.order(byAscending: EventKeyConstants.keyOfDue)
-            query.includeKey(EventKeyConstants.keyOfCreator)
-            query.includeKey(EventKeyConstants.keyOfMembers)
-            query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
-            query.cachePolicy = .networkElseCache
-            query.maxCacheAge = 24*3600
-            query.whereKey(EventKeyConstants.keyOfUpdatedAt, lessThan: currentlyOldestUpdatedTime)
-            query.findObjectsInBackground() {
-                objects, error in
-                if error != nil {
-                    print(error!.localizedDescription)
-                    handler(error!, nil)
-                    return
-                }
-                if objects != nil {
-                    var newerEvents = [Event]()
-                    for object in objects as! [AVObject] {
-                        if let event = Event(data: object) {
-                            newerEvents.append(event)
-                        }
-                    }
-                    handler(nil, newerEvents)
-                }
-            }
+            handler(nil, events)
         }
     }
 }
