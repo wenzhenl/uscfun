@@ -166,7 +166,7 @@ class Event {
     /// This flag is true
     /// when the due is in the future and the minimum required number
     /// of attending people is met
-    var hasReachedMinimumRequirement: Bool {
+    var isSecured: Bool {
         return due > Date() && totalSeats - remainingSeats >= minimumAttendingPeople
     }
     

@@ -357,7 +357,9 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: identifierToEventDetail, sender: tableView.cellForRow(at: indexPath))
+        if !(tableView.cellForRow(at: indexPath) is EmptySectionPlaceholderTableViewCell) {
+            performSegue(withIdentifier: self.identifierToEventDetail, sender: tableView.cellForRow(at: indexPath))
+        }
         tableView.deselectRow(at: indexPath, animated: false)
     }
 }
