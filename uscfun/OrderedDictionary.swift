@@ -19,6 +19,11 @@ struct OrderedDictionary<KeyType: Hashable, ValueType: Comparable> {
         return self.keys.count
     }
     
+    mutating func removeAll() {
+        self.dictionary.removeAll()
+        self.keys.removeAll()
+    }
+    
     subscript(key: KeyType) -> ValueType? {
         get {
             return self.dictionary[key]

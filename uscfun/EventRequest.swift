@@ -61,34 +61,104 @@ class EventRequest {
     }
     
     static func fetchNewerPublicEvents(inBackground: Bool, currentNewestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
-            query.order(byAscending: EventKeyConstants.keyOfDue)
-            query.includeKey(EventKeyConstants.keyOfCreator)
-            query.includeKey(EventKeyConstants.keyOfMembers)
-            query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
-            query.cachePolicy = .networkElseCache
-            query.maxCacheAge = 24*3600
-            query.whereKey(EventKeyConstants.keyOfUpdatedAt, greaterThan: currentNewestUpdatedTime)
-            fetchPublicEvents(inBackground: inBackground, with: query) {
-                succeeded, error in
-                handler?(succeeded, error)
-            }
+        guard let query = AVQuery(className: EventKeyConstants.classNameOfEvent) else {
+            handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: "cannot create query"))
+            return
+        }
+        query.order(byAscending: EventKeyConstants.keyOfDue)
+        query.includeKey(EventKeyConstants.keyOfCreator)
+        query.includeKey(EventKeyConstants.keyOfMembers)
+        query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
+        query.whereKey(EventKeyConstants.keyOfUpdatedAt, greaterThan: currentNewestUpdatedTime)
+        
+        /// define events must be still pending
+        query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date().timeIntervalSince1970)
+        query.whereKey(EventKeyConstants.keyOfRemainingSeats, greaterThan: 0)
+
+        query.cachePolicy = .networkElseCache
+        query.maxCacheAge = 24*3600
+        
+        fetchPublicEvents(inBackground: inBackground, with: query) {
+            succeeded, error in
+            handler?(succeeded, error)
         }
     }
 
+    static func fetchOlderPublicEvents(inBackground: Bool, currentOldestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+        guard let query = AVQuery(className: EventKeyConstants.classNameOfEvent) else {
+            handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: "cannot create query"))
+            return
+        }
+        query.order(byAscending: EventKeyConstants.keyOfDue)
+        query.includeKey(EventKeyConstants.keyOfCreator)
+        query.includeKey(EventKeyConstants.keyOfMembers)
+        query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
+        query.whereKey(EventKeyConstants.keyOfUpdatedAt, lessThan: currentOldestUpdatedTime)
+        
+        /// define events must be still pending
+        query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date().timeIntervalSince1970)
+        query.whereKey(EventKeyConstants.keyOfRemainingSeats, greaterThan: 0)
+        
+        query.cachePolicy = .networkElseCache
+        query.maxCacheAge = 24*3600
+        
+        fetchPublicEvents(inBackground: inBackground, with: query) {
+            succeeded, error in
+            handler?(succeeded, error)
+        }
+    }
+    
     static func fetchNewerMyOngoingEvents(inBackground: Bool, currentNewestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        if let query = AVQuery(className: EventKeyConstants.classNameOfEvent) {
-            query.order(byAscending: EventKeyConstants.keyOfDue)
-            query.includeKey(EventKeyConstants.keyOfCreator)
-            query.includeKey(EventKeyConstants.keyOfMembers)
-            query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
-            query.cachePolicy = .networkElseCache
-            query.maxCacheAge = 24*3600
-            query.whereKey(EventKeyConstants.keyOfUpdatedAt, greaterThan: currentNewestUpdatedTime)
-            fetchPublicEvents(inBackground: inBackground, with: query) {
-                succeeded, error in
-                handler?(succeeded, error)
-            }
+        guard let query = AVQuery(className: EventKeyConstants.classNameOfEvent) else {
+            handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: "cannot create query"))
+            return
+        }
+        query.order(byAscending: EventKeyConstants.keyOfDue)
+        query.includeKey(EventKeyConstants.keyOfCreator)
+        query.includeKey(EventKeyConstants.keyOfMembers)
+        query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
+        query.whereKey(EventKeyConstants.keyOfUpdatedAt, greaterThan: currentNewestUpdatedTime)
+        
+        /// define events must be not completed or cancelled
+        query.whereKey(EventKeyConstants.keyOfCompleted, equalTo: false)
+        query.whereKey(EventKeyConstants.keyOfCancelled, equalTo: false)
+        
+        /// define events must be mine
+        query.whereKey(EventKeyConstants.keyOfMembers, containsAllObjectsIn: [AVUser.current()])
+        
+        query.cachePolicy = .networkElseCache
+        query.maxCacheAge = 24*3600
+        
+        fetchPublicEvents(inBackground: inBackground, with: query) {
+            succeeded, error in
+            handler?(succeeded, error)
+        }
+    }
+    
+    static func fetchOlderMyOngoingEvents(inBackground: Bool, currentOldestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+        guard let query = AVQuery(className: EventKeyConstants.classNameOfEvent) else {
+            handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: "cannot create query"))
+            return
+        }
+        query.order(byAscending: EventKeyConstants.keyOfDue)
+        query.includeKey(EventKeyConstants.keyOfCreator)
+        query.includeKey(EventKeyConstants.keyOfMembers)
+        query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
+        query.whereKey(EventKeyConstants.keyOfUpdatedAt, lessThan: currentOldestUpdatedTime)
+        
+        /// define events must be not completed or cancelled
+        query.whereKey(EventKeyConstants.keyOfCompleted, equalTo: false)
+        query.whereKey(EventKeyConstants.keyOfCancelled, equalTo: false)
+        
+        /// define events must be mine
+        query.whereKey(EventKeyConstants.keyOfMembers, containsAllObjectsIn: [AVUser.current()])
+        
+        query.cachePolicy = .networkElseCache
+        query.maxCacheAge = 24*3600
+        
+        fetchPublicEvents(inBackground: inBackground, with: query) {
+            succeeded, error in
+            handler?(succeeded, error)
         }
     }
     
@@ -133,13 +203,15 @@ class EventRequest {
                 return
             }
             for event in events {
-                EventRequest.publicEvents[event.objectId!] = event
-                
-                if event.updatedAt! > EventRequest.newestUpdatedAtOfPublicEvents {
-                    EventRequest.newestUpdatedAtOfPublicEvents = event.updatedAt!
-                }
-                if event.updatedAt! < EventRequest.oldestUpdatedAtOfPublicEvents {
-                    EventRequest.oldestUpdatedAtOfPublicEvents = event.updatedAt!
+                if !event.members.contains(AVUser.current()) {
+                    EventRequest.publicEvents[event.objectId!] = event
+                    
+                    if event.updatedAt! > EventRequest.newestUpdatedAtOfPublicEvents {
+                        EventRequest.newestUpdatedAtOfPublicEvents = event.updatedAt!
+                    }
+                    if event.updatedAt! < EventRequest.oldestUpdatedAtOfPublicEvents {
+                        EventRequest.oldestUpdatedAtOfPublicEvents = event.updatedAt!
+                    }
                 }
             }
             handler?(true, nil)

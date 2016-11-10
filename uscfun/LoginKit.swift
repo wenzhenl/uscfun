@@ -142,8 +142,6 @@ class LoginKit {
         UserDefaults.hasLoggedIn = false
         EventRequest.publicEvents.removeAll()
         EventRequest.myOngoingEvents.removeAll()
-        EventRequest.indexOfMyOngoingEvents.removeAll()
-        EventRequest.indexOfPublicEvents.removeAll()
         
         LCChatKit.sharedInstance().close() {
             succeed, error in
