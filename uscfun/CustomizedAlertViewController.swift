@@ -106,22 +106,31 @@ extension CustomizedAlertViewController: UITableViewDelegate {
         case .imgKeyValueCell(_, let key, _):
             switch key {
             case keyOfCancel:
-                self.delegate?.withdraw()
+                self.presentingViewController?.dismiss(animated: true) {
+                    self.delegate?.withdraw()
+                }
             case keyOfQuitEvent:
-                self.delegate?.quitEvent()
+                self.presentingViewController?.dismiss(animated: true) {
+                    self.delegate?.quitEvent()
+                }
             case keyOfShareEventToWechatFriend:
-                self.delegate?.shareEventToWechatFriend()
+                self.presentingViewController?.dismiss(animated: true) {
+                    self.delegate?.shareEventToWechatFriend()
+                }
             case keyOfShareEventToMoments:
-                self.delegate?.shareEventToMoments()
+                self.presentingViewController?.dismiss(animated: true) {
+                    self.delegate?.shareEventToMoments()
+                }
             case keyOfReportEvent:
-                self.delegate?.reportEvent()
+                self.presentingViewController?.dismiss(animated: true) {
+                    self.delegate?.reportEvent()
+                }
             default:
                 break
             }
         default:
             break
         }
-        self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
 }
 

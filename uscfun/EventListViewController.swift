@@ -220,16 +220,16 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.selectionStyle = .default
                 cell.nameTextView.text = event.name
                 cell.eventImageView.image = event.type.image
-                if event.status == .isFinalized {
-                    cell.indicatorView.backgroundColor = UIColor.eventFinalized
-                }
-                else if event.status == .isSecured {
+                switch event.status {
+                case .isFinalized:
+                     cell.indicatorView.backgroundColor = UIColor.eventFinalized
+                case .isSecured:
                     cell.indicatorView.backgroundColor = UIColor.eventSecured
-                }
-                else {
+                case .isPending:
                     cell.indicatorView.backgroundColor = UIColor.eventPending
+                default:
+                    break
                 }
-                
                 return cell
             } else {
                 let cell = Bundle.main.loadNibNamed("EmptySectionPlaceholderTableViewCell", owner: self, options: nil)?.first as! EmptySectionPlaceholderTableViewCell

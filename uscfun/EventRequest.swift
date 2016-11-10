@@ -161,7 +161,7 @@ class EventRequest {
         query.cachePolicy = .networkElseCache
         query.maxCacheAge = 24*3600
         
-        fetchPublicEvents(inBackground: inBackground, with: query) {
+        fetchMyOngoingEvents(inBackground: inBackground, with: query) {
             succeeded, error in
             handler?(succeeded, error)
         }
@@ -200,7 +200,7 @@ class EventRequest {
         query.cachePolicy = .networkElseCache
         query.maxCacheAge = 24*3600
         
-        fetchPublicEvents(inBackground: inBackground, with: query) {
+        fetchMyOngoingEvents(inBackground: inBackground, with: query) {
             succeeded, error in
             handler?(succeeded, error)
         }

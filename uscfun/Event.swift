@@ -206,20 +206,15 @@ class Event {
     var status: EventStatus {
         if isCompleted {
             return EventStatus.isCompleted
-        }
-        else if isCancelled {
+        } else if isCancelled {
             return EventStatus.isCancelled
-        }
-        else if due > Date() && remainingSeats > 0 {
+        } else if due > Date() && remainingSeats > 0 {
             return EventStatus.isPending
-        }
-        else if due > Date() && totalSeats - remainingSeats >= minimumAttendingPeople {
-            return EventStatus.isSecured
-        }
-        else if due > Date() && remainingSeats <= 0 || due < Date() && totalSeats - remainingSeats >= minimumAttendingPeople {
+        } else if due > Date() && remainingSeats <= 0 || due < Date() && totalSeats - remainingSeats >= minimumAttendingPeople {
             return EventStatus.isFinalized
-        }
-        else if due < Date() && totalSeats - remainingSeats < minimumAttendingPeople {
+        } else if due > Date() && totalSeats - remainingSeats >= minimumAttendingPeople {
+            return EventStatus.isSecured
+        } else if due < Date() && totalSeats - remainingSeats < minimumAttendingPeople {
             return EventStatus.isFailed
         } else {
             return EventStatus.isUnKnown
