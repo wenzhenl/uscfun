@@ -17,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var client: AVIMClient?
     
+    static var systemNotificationDelegate: SystemNotificationDelegate?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     
         UIApplication.shared.statusBarStyle = .lightContent
@@ -143,11 +145,26 @@ extension AppDelegate: AVIMClientDelegate {
             SVProgressHUD.dismiss()
         }
         
-//        print("=====attributes======\(message.attributes[EventKeyConstants.keyOfSystemNotificationOfUpdatedEvents])")
         if let concatenatedUpdatedIds = message.attributes[EventKeyConstants.keyOfSystemNotificationOfUpdatedEvents] as? String {
             let updatedIds = concatenatedUpdatedIds.components(separatedBy: ",")
+            var existingEventsIds = [String]()
+            var newEventsIds = [String]()
+            
             for id in updatedIds {
                 print(id)
+                if EventRequest.myOngoingEvents.keys.contains(id) || EventRequest.publicEvents.keys.contains(id) {
+                    existingEventsIds.append(id)
+                } else {
+                    newEventsIds.append(id)
+                }
+            }
+            
+            if existingEventsIds.count > 0 {
+                AppDelegate.systemNotificationDelegate?.systemDidUpdateExistingEvents(ids: existingEventsIds)
+            }
+            
+            if newEventsIds.count > 0 {
+                AppDelegate.systemNotificationDelegate?.systemDidUpdateNewEvents()
             }
         }
     }

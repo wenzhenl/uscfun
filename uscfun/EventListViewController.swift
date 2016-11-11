@@ -10,6 +10,11 @@ import UIKit
 import ChatKit
 import SVProgressHUD
 
+protocol SystemNotificationDelegate {
+    func systemDidUpdateExistingEvents(ids: [String])
+    func systemDidUpdateNewEvents()
+}
+
 class EventListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
@@ -43,6 +48,8 @@ class EventListViewController: UIViewController {
             self.leftStartEventButton.isHidden = true
         }
         self.tableView.addSubview(self.refreshControl)
+        
+        AppDelegate.systemNotificationDelegate = self
     }
     
     override func viewDidLayoutSubviews() {
@@ -335,5 +342,15 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             performSegue(withIdentifier: self.identifierToEventDetail, sender: tableView.cellForRow(at: indexPath))
         }
         tableView.deselectRow(at: indexPath, animated: false)
+    }
+}
+
+extension EventListViewController: SystemNotificationDelegate {
+    func systemDidUpdateExistingEvents(ids: [String]) {
+        print("updating existing events")
+    }
+    
+    func systemDidUpdateNewEvents() {
+        print("new events coming")
     }
 }

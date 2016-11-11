@@ -84,6 +84,10 @@ class EventRequest {
         query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date().timeIntervalSince1970)
         query.whereKey(EventKeyConstants.keyOfRemainingSeats, greaterThan: 0)
 
+        /// define events must be not completed or cancelled
+        query.whereKey(EventKeyConstants.keyOfCompleted, equalTo: false)
+        query.whereKey(EventKeyConstants.keyOfCancelled, equalTo: false)
+        
         query.cachePolicy = .networkElseCache
         query.maxCacheAge = 24*3600
         
@@ -119,6 +123,10 @@ class EventRequest {
         /// define events must be still pending
         query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date().timeIntervalSince1970)
         query.whereKey(EventKeyConstants.keyOfRemainingSeats, greaterThan: 0)
+        
+        /// define events must be not completed or cancelled
+        query.whereKey(EventKeyConstants.keyOfCompleted, equalTo: false)
+        query.whereKey(EventKeyConstants.keyOfCancelled, equalTo: false)
         
         query.cachePolicy = .networkElseCache
         query.maxCacheAge = 24*3600
@@ -236,8 +244,6 @@ class EventRequest {
         }
     }
     
-    //--MARK: common private function for fetching data from server
-    
     private static func fetchPublicEvents(inBackground: Bool, with query: AVQuery, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
         print("fetch my public events")
         fetchData(inBackground: inBackground, with: query) {
@@ -267,6 +273,8 @@ class EventRequest {
         }
     }
     
+    //--MARK: common private function for fetching data from server
+
     private static func fetchData(inBackground: Bool, with query: AVQuery, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
         
         if inBackground {
