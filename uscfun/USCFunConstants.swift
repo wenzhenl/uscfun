@@ -53,6 +53,8 @@ struct EventKeyConstants {
     static let keyOfNote = "note"
     
     static let keyOfUpdatedAt = "updatedAt"
+    
+    static let keyOfSystemNotificationOfUpdatedEvents = "updatedEventIds"
 }
 
 enum UIUserInterfaceIdiom : Int {

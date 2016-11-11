@@ -142,6 +142,14 @@ extension AppDelegate: AVIMClientDelegate {
         DispatchQueue.main.asyncAfter(deadline: time) {
             SVProgressHUD.dismiss()
         }
+        
+//        print("=====attributes======\(message.attributes[EventKeyConstants.keyOfSystemNotificationOfUpdatedEvents])")
+        if let concatenatedUpdatedIds = message.attributes[EventKeyConstants.keyOfSystemNotificationOfUpdatedEvents] as? String {
+            let updatedIds = concatenatedUpdatedIds.components(separatedBy: ",")
+            for id in updatedIds {
+                print(id)
+            }
+        }
     }
 }
 
@@ -184,7 +192,7 @@ extension AppDelegate: LoginDelegate {
         LCChatKit.sharedInstance().disableSingleSignOn = true
         
         // set AVIMClient to receive system broadcast
-        client = AVIMClient(clientId: AVUser.current().username)
+        client = AVIMClient(clientId: AVUser.current().username + "_system_notification")
         client?.delegate = self
         client?.open() {
             succeed, error in
