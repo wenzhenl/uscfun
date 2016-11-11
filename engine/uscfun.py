@@ -22,17 +22,19 @@ def checkUpdate():
     for event in updated_list:
         print(event.get('objectId'))
         print(event.get('updatedAt'))
-        updatedIds.append(event.get('objectId'))
+        updatedIds.append(str(event.get('objectId')))
     if len(updated_list) > 0:
         lastUpdatedAt = updated_list[-1].get('updatedAt')
         print(lastUpdatedAt)
+        concatedIds = ','.join(updatedIds)
+        print(concatedIds)
         headers = {'Content-Type': 'application/json', \
             'X-LC-Id': 'pDLnf6MjL1vIgRw6b2WWWVCJ-MdYXbMMI', \
             'X-LC-Key': 'D0WVYFeGPkXn9lue4AgM0WBa,master'}
         url = 'https://us.leancloud.cn/1.1/rtm/broadcast'
         data = {"from_peer": "sys", \
                 "message": "{\"_lctype\":-1,\"_lctext\":\"系统通知，明天放假\", \
-                \"_lcattrs\":{\"a\":\"_lcattrs 是用来存储用户自定义的一些键值对\"}}", \
+                \"_lcattrs\":{\"updatedEventIds\": \"" + concatedIds + "\"}}", \
                  "conv_id": "58251caf07cc140050a7ad48"}
         requests.post(url, data=json.dumps(data), headers=headers)
         print(url)
