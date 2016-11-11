@@ -44,7 +44,7 @@ if __name__ == "__main__":
     leancloud.init("pDLnf6MjL1vIgRw6b2WWWVCJ-MdYXbMMI", "zpbYwzEe5c6Cw4Ecmfr745C2")
     leancloud.use_region('US')
     lastUpdatedAt = datetime.utcfromtimestamp(0)
-    schedule.every(5).seconds.do(checkUpdate)
+    schedule.every(30).seconds.do(checkUpdate)
     while 1:
         schedule.run_pending()
         time.sleep(1)

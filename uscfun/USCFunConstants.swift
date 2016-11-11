@@ -53,6 +53,7 @@ struct EventKeyConstants {
     static let keyOfNote = "note"
     
     static let keyOfUpdatedAt = "updatedAt"
+    static let keyOfObjectId = "objectId"
     
     static let keyOfSystemNotificationOfUpdatedEvents = "updatedEventIds"
 }

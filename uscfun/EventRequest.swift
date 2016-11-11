@@ -273,6 +273,51 @@ class EventRequest {
         }
     }
     
+    static func fetchEvents(inBackground: Bool, with eventIds: [String], handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+        guard let query = AVQuery(className: EventKeyConstants.classNameOfEvent) else {
+            handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: "cannot create query"))
+            return
+        }
+        query.includeKey(EventKeyConstants.keyOfCreator)
+        query.includeKey(EventKeyConstants.keyOfMembers)
+        query.whereKey(EventKeyConstants.keyOfObjectId, containedIn: eventIds)
+        query.cachePolicy = .networkElseCache
+        query.maxCacheAge = 24*3600
+        
+        fetchData(inBackground: inBackground, with: query) {
+            error, events in
+            if error != nil {
+                print(error!)
+                handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: error!.localizedDescription))
+                return
+            }
+            guard let events = events else {
+                handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: "cannot get events"))
+                return
+            }
+            
+            for event in events {
+                if event.members.contains(AVUser.current()) {
+                    EventRequest.myOngoingEvents[event.objectId!] = event
+                    if event.updatedAt! > EventRequest.newestUpdatedAtOfMyOngoingEvents {
+                        EventRequest.newestUpdatedAtOfMyOngoingEvents = event.updatedAt!
+                    }
+                    if event.updatedAt! < EventRequest.oldestUpdatedAtOfMyOngoingEvents {
+                        EventRequest.oldestUpdatedAtOfMyOngoingEvents = event.updatedAt!
+                    }
+                } else {
+                    EventRequest.publicEvents[event.objectId!] = event
+                    if event.updatedAt! > EventRequest.newestUpdatedAtOfPublicEvents {
+                        EventRequest.newestUpdatedAtOfPublicEvents = event.updatedAt!
+                    }
+                    if event.updatedAt! < EventRequest.oldestUpdatedAtOfPublicEvents {
+                        EventRequest.oldestUpdatedAtOfPublicEvents = event.updatedAt!
+                    }
+                }
+            }
+            handler?(true, nil)
+        }
+    }
     //--MARK: common private function for fetching data from server
 
     private static func fetchData(inBackground: Bool, with query: AVQuery, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {

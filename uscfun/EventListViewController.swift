@@ -348,6 +348,14 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
 extension EventListViewController: SystemNotificationDelegate {
     func systemDidUpdateExistingEvents(ids: [String]) {
         print("updating existing events")
+        EventRequest.fetchEvents(inBackground: true, with: ids) {
+            succeeded, error in
+            if succeeded {
+                self.tableView.reloadData()
+            } else if error != nil {
+                print(error!.localizedDescription)
+            }
+        }
     }
     
     func systemDidUpdateNewEvents() {
