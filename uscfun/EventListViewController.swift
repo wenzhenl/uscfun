@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import ChatKit
+import SVProgressHUD
 
 class EventListViewController: UIViewController {
 
@@ -68,7 +70,9 @@ class EventListViewController: UIViewController {
             }
             else if succeeded {
                 let numberOfPublicEventsAfterUpdate = EventRequest.publicEvents.count
-                self.showUpdateReminder(message: "发现了\(numberOfPublicEventsAfterUpdate - numberOfPublicEventsBeforeUpdate)个新的微活动")
+                if numberOfPublicEventsAfterUpdate > numberOfPublicEventsBeforeUpdate {
+                    self.showUpdateReminder(message: "发现了\(numberOfPublicEventsAfterUpdate - numberOfPublicEventsBeforeUpdate)个新的微活动")
+                }
                 self.tableView.reloadData()
             }
             self.refreshControl.endRefreshing()
@@ -307,7 +311,27 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if !(tableView.cellForRow(at: indexPath) is EmptySectionPlaceholderTableViewCell) {
+        if indexPath.section == 1 {
+            if let attendingCell = tableView.cellForRow(at: indexPath) as? AttendingEventTableViewCell {
+                let event = EventRequest.myOngoingEvents[attendingCell.eventId]!
+                if event.status == .isFinalized {
+                    tableView.cellForRow(at: indexPath)?.isUserInteractionEnabled = false
+                    SVProgressHUD.show()
+                    if let conversationVC = LCCKConversationViewController(conversationId: event.conversationId) {
+                        conversationVC.isEnableAutoJoin = true
+                        tableView.cellForRow(at: indexPath)?.isUserInteractionEnabled = true
+                        SVProgressHUD.dismiss()
+                        self.navigationController?.pushViewController(conversationVC, animated: true)
+                    }  else {
+                        tableView.cellForRow(at: indexPath)?.isUserInteractionEnabled = true
+                        SVProgressHUD.dismiss()
+                    }
+                } else {
+                    performSegue(withIdentifier: self.identifierToEventDetail, sender: tableView.cellForRow(at: indexPath))
+                }
+            }
+        }
+        else if indexPath.section > 2 && !(tableView.cellForRow(at: indexPath) is EmptySectionPlaceholderTableViewCell) {
             performSegue(withIdentifier: self.identifierToEventDetail, sender: tableView.cellForRow(at: indexPath))
         }
         tableView.deselectRow(at: indexPath, animated: false)
