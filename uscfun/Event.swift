@@ -40,12 +40,12 @@ extension EventError: LocalizedError {
 
 /// possible types of events
 enum EventType: String {
-    case foodAndDrink = "foodAndDrink"
-    case shopping = "shopping"
-    case entertainment = "entertainment"
-    case travel = "travel"
-    case study = "study"
-    case other = "other"
+    case foodAndDrink = "吃喝"
+    case shopping = "购物"
+    case entertainment = "娱乐"
+    case travel = "旅行"
+    case study = "学习"
+    case other = "其他"
     
     var image: UIImage {
         switch self {
@@ -63,13 +63,20 @@ enum EventType: String {
             return #imageLiteral(resourceName: "party")
         }
     }
+    
+    static let allRawValues = [foodAndDrink.rawValue, shopping.rawValue, entertainment.rawValue, travel.rawValue, study.rawValue, other.rawValue]
+    static let allValues = [foodAndDrink, shopping, entertainment, travel, study, other]
 }
 
 /// possible transportation methods of events
 enum TransportationMethod: String {
-    case selfDriving = "selfDriving"
-    case uber = "uber"
-    case metro = "metro"
+    case selfDriving = "自驾"
+    case uber = "Uber"
+    case metro = "Metro"
+    case other = "待定"
+    
+    static let allRawValues = [selfDriving.rawValue, uber.rawValue, metro.rawValue, other.rawValue]
+    static let allValues = [selfDriving, uber, metro, other]
 }
 
 /// possible status of an event
