@@ -180,9 +180,9 @@ class StartEventViewController: FormViewController {
                     }
                 }
 
-            <<< TextRow("eventLocation") {
+            <<< LocationAddressRow("eventLocation") {
                 $0.title = "活动地点"
-                $0.placeholder = "待定"
+//                $0.placeholder = "待定"
                 }
             <<< DecimalRow("expectedFee") {
                 $0.title = "预计费用"
@@ -205,11 +205,13 @@ class StartEventViewController: FormViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         UIApplication.shared.statusBarStyle = .default
+        self.title = "发起微活动"
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         UIApplication.shared.statusBarStyle = .lightContent
+        self.title = ""
     }
     
     //MARK: - values for all rows

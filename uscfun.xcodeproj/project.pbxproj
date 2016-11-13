@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A00DB051DD90DEA00A81189 /* ImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A00DB031DD90DEA00A81189 /* ImagePickerController.swift */; };
+		0A00DB061DD90DEA00A81189 /* ImageRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A00DB041DD90DEA00A81189 /* ImageRow.swift */; };
+		0A00DB081DD90F5B00A81189 /* LocationAddressRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A00DB071DD90F5B00A81189 /* LocationAddressRow.swift */; };
+		0A00DB0B1DD9109A00A81189 /* AddressPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A00DB091DD9109A00A81189 /* AddressPickerViewController.swift */; };
 		0A0185851DC48602009A7874 /* LabelImgArrowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0185831DC48602009A7874 /* LabelImgArrowTableViewCell.swift */; };
 		0A0185861DC48602009A7874 /* LabelImgArrowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A0185841DC48602009A7874 /* LabelImgArrowTableViewCell.xib */; };
 		0A022FA71D73D066004077A4 /* FindBackPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A022FA61D73D066004077A4 /* FindBackPasswordViewController.swift */; };
@@ -81,6 +85,10 @@
 
 /* Begin PBXFileReference section */
 		08F35232E5951BB14F9E57FA /* Pods-uscfun.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uscfun.release.xcconfig"; path = "Pods/Target Support Files/Pods-uscfun/Pods-uscfun.release.xcconfig"; sourceTree = "<group>"; };
+		0A00DB031DD90DEA00A81189 /* ImagePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerController.swift; sourceTree = "<group>"; };
+		0A00DB041DD90DEA00A81189 /* ImageRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageRow.swift; sourceTree = "<group>"; };
+		0A00DB071DD90F5B00A81189 /* LocationAddressRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAddressRow.swift; sourceTree = "<group>"; };
+		0A00DB091DD9109A00A81189 /* AddressPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressPickerViewController.swift; sourceTree = "<group>"; };
 		0A0185831DC48602009A7874 /* LabelImgArrowTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelImgArrowTableViewCell.swift; sourceTree = "<group>"; };
 		0A0185841DC48602009A7874 /* LabelImgArrowTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelImgArrowTableViewCell.xib; sourceTree = "<group>"; };
 		0A022FA61D73D066004077A4 /* FindBackPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindBackPasswordViewController.swift; sourceTree = "<group>"; };
@@ -320,9 +328,13 @@
 				0A3D2B5C1D7B9351004F57EF /* EventDetailViewController.swift */,
 				0A497EDE1D7CC7770099A883 /* StartEventViewController.swift */,
 				0AAE42E31D9A2F8B00B34601 /* MapViewController.swift */,
+				0A00DB031DD90DEA00A81189 /* ImagePickerController.swift */,
+				0A00DB041DD90DEA00A81189 /* ImageRow.swift */,
 				0A250F5B1DC1369000B9723A /* MembersTableViewController.swift */,
 				0A9A94571DC40C5F00B002D2 /* CustomizedAlertViewController.swift */,
 				0AA82B0F1DCDAEB90016B278 /* UserProfileViewController.swift */,
+				0A00DB071DD90F5B00A81189 /* LocationAddressRow.swift */,
+				0A00DB091DD9109A00A81189 /* AddressPickerViewController.swift */,
 			);
 			name = EventViewControllers;
 			sourceTree = "<group>";
@@ -509,6 +521,7 @@
 				0A71119B1DBEC79400742F2D /* BuildInClassExtension.swift in Sources */,
 				0A250F5C1DC1369000B9723A /* MembersTableViewController.swift in Sources */,
 				0A845BD41D7206FE00287DEB /* ConfirmEmailViewController.swift in Sources */,
+				0A00DB081DD90F5B00A81189 /* LocationAddressRow.swift in Sources */,
 				0A3D2B5B1D7B9299004F57EF /* EventListViewController.swift in Sources */,
 				0A70C09F1DBD3B4000C06354 /* LabelSwitchTableViewCell.swift in Sources */,
 				0A3D2B5F1D7B938B004F57EF /* MeViewController.swift in Sources */,
@@ -521,6 +534,7 @@
 				0A71119D1DBEC87000742F2D /* UserDefaultsExtension.swift in Sources */,
 				0A9CB4511D6FFAA500608D27 /* User.swift in Sources */,
 				0A96D3D11DADBF5B00AB272A /* ImgKeyValueArrowTableViewCell.swift in Sources */,
+				0A00DB0B1DD9109A00A81189 /* AddressPickerViewController.swift in Sources */,
 				0A427FB11D97F627007A96BE /* ImageViewTableViewCell.swift in Sources */,
 				0A3D2B5D1D7B9351004F57EF /* EventDetailViewController.swift in Sources */,
 				0AD127101D7C1CEB00333F78 /* AttendingEventTableViewCell.swift in Sources */,
@@ -547,7 +561,9 @@
 				0ADE0C9F1DB1F173009F89A0 /* EventHistoryViewController.swift in Sources */,
 				0AAE42E41D9A2F8B00B34601 /* MapViewController.swift in Sources */,
 				0A6834BE1D56858C002E9B0D /* AppDelegate.swift in Sources */,
+				0A00DB061DD90DEA00A81189 /* ImageRow.swift in Sources */,
 				0A9CB4531D7006F400608D27 /* PreLoginViewController.swift in Sources */,
+				0A00DB051DD90DEA00A81189 /* ImagePickerController.swift in Sources */,
 				0A963DB91D717A5F00E0532F /* PasswordViewController.swift in Sources */,
 				0A68D7FB1DB07F2000DDF3A5 /* EventRequest.swift in Sources */,
 				0AAE42DF1D9A289D00B34601 /* ImgKeyValueTableViewCell.swift in Sources */,
