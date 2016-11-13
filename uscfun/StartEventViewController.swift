@@ -21,24 +21,46 @@ class StartEventViewController: FormViewController {
         
         super.viewDidLoad()
         
-        self.navigationController?.navigationBar.barTintColor = UIColor.buttonBlue
-        self.navigationController!.navigationBar.tintColor = UIColor.white
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        self.navigationController!.navigationBar.tintColor = UIColor.darkGray
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
         
-        form +++ Section("微活动名称")
+        var nameRules = RuleSet<String>()
+        nameRules.add(rule: RuleMinLength(minLength: 10))
+        nameRules.add(rule: RuleMaxLength(maxLength: 140))
+        form +++ Section(header: "微活动名称", footer: "活动名称请控制在10-140个字符之间")
             <<< TextAreaRow("eventTitle") {
                 $0.placeholder = "请给出一个简洁的活动名称！"
-                $0.add(rule: RuleRequired())
-                $0.validationOptions = .validatesOnChange
-            }
-
+                $0.add(ruleSet: nameRules)
+                $0.validationOptions = .validatesOnBlur
+                }
+                .cellSetup {
+                    cell, row in
+                    cell.textView.textColor = UIColor.avatarGolden
+                }
+                .cellUpdate {
+                    cell, row in
+                    if !row.isValid {
+                        cell.textView.textColor = .red
+                    } else {
+                        cell.textView.textColor = UIColor.darkGray
+                    }
+                }
+            
             +++ Section()
             <<< AlertRow<String> ("eventType") {
                 $0.title = "微活动类型"
                 $0.selectorTitle = "微活动类型"
                 $0.options = EventType.allRawValues
                 $0.value = EventType.other.rawValue
-            }
+                }
+                .cellSetup {
+                    cell, row in
+                    cell.textLabel?.textColor = UIColor.darkGray
+                }
+                .cellUpdate {
+                    cell, row in
+                    cell.detailTextLabel?.textColor = UIColor.darkGray
+                }
             
             +++ Section(header: "微活动人数", footer: "任意时刻剩余席位为零，活动自动完成约定")
             <<< StepperRow("totalSeats") {
@@ -46,13 +68,19 @@ class StartEventViewController: FormViewController {
                 $0.value = 2
                 $0.add(rule: RuleGreaterThan(min: 1))
                 $0.validationOptions = .validatesOnChange
-            }
-            .cellUpdate {
-                cell, row in
-                if !row.isValid {
-                    row.value = 2
                 }
-            }
+                .cellSetup {
+                    cell, row in
+                    cell.valueLabel.textColor = UIColor.avatarOrange
+                    cell.stepper.tintColor = UIColor.avatarGolden
+                }
+                .cellUpdate {
+                    cell, row in
+                    cell.valueLabel.text = String(Int(row.value!))
+                    if !row.isValid {
+                        row.value = 2
+                    }
+                }
             
             
             <<< StepperRow("remainingSeats") {
@@ -60,26 +88,38 @@ class StartEventViewController: FormViewController {
                 $0.value = 1
                 $0.add(rule: RuleGreaterThan(min: 0))
                 $0.validationOptions = .validatesOnChange
-            }
-            .cellUpdate {
-                cell, row in
-                if !row.isValid {
-                    row.value = 1
                 }
-            }
+                .cellSetup {
+                    cell, row in
+                    cell.valueLabel.textColor = UIColor.avatarOrange
+                    cell.stepper.tintColor = UIColor.avatarGolden
+                }
+                .cellUpdate {
+                    cell, row in
+                    cell.valueLabel.text = String(Int(row.value!))
+                    if !row.isValid {
+                        row.value = 1
+                    }
+                }
             
             <<< StepperRow("minimumMoreAttendingPeople") {
                 $0.title = "至少还需要报名人数"
                 $0.value = 1
                 $0.add(rule: RuleGreaterThan(min: 0))
                 $0.validationOptions = .validatesOnChange
-            }
-            .cellUpdate {
-                cell, row in
-                if !row.isValid {
-                    row.value = 1
                 }
-            }
+                .cellSetup {
+                    cell, row in
+                    cell.valueLabel.textColor = UIColor.avatarOrange
+                    cell.stepper.tintColor = UIColor.avatarGolden
+                }
+                .cellUpdate {
+                    cell, row in
+                    cell.valueLabel.text = String(Int(row.value!))
+                    if !row.isValid {
+                        row.value = 1
+                    }
+                }
             
             +++ Section(header: "", footer: "报名截止后没有达到最少报名人数的微活动会自动解散，达到了的自动完成约定")
             <<< DateTimeRow("due"){
@@ -87,43 +127,89 @@ class StartEventViewController: FormViewController {
                 $0.value = Date()
                 $0.add(rule: RuleGreaterThan(min: Date()))
                 $0.validationOptions = .validatesOnChange
-            }
-            .cellUpdate {
-                cell, row in
-                if !row.isValid {
-                    row.value = Date()
                 }
-            }
+                .cellSetup {
+                    cell, row in
+                    cell.textLabel?.textColor = UIColor.darkGray
+                }
+                .cellUpdate {
+                    cell, row in
+                    if !row.isValid {
+                        row.value = Date()
+                    } else {
+                        cell.detailTextLabel?.textColor = UIColor.darkGray
+                    }
+                }
             
             +++ Section("高级设置(选填)")
             <<< DateTimeRow("eventStartTime"){
                 $0.title = "开始时间"
                 $0.value = Date()
-            }
+                $0.add(rule: RuleGreaterThan(min: Date()))
+                $0.validationOptions = .validatesOnChange
+                }
+                .cellSetup {
+                    cell, row in
+                    cell.textLabel?.textColor = UIColor.darkGray
+                }
+                .cellUpdate {
+                    cell, row in
+                    if !row.isValid {
+                        row.value = Date()
+                    } else {
+                        cell.detailTextLabel?.textColor = UIColor.darkGray
+                    }
+                }
+
             <<< DateTimeRow("eventEndTime"){
                 $0.title = "结束时间"
                 $0.value = Date()
-            }
+                $0.add(rule: RuleGreaterThan(min: Date()))
+                $0.validationOptions = .validatesOnChange
+                }
+                .cellSetup {
+                    cell, row in
+                    cell.textLabel?.textColor = UIColor.darkGray
+                }
+                .cellUpdate {
+                    cell, row in
+                    if !row.isValid {
+                        row.value = Date()
+                    } else {
+                        cell.detailTextLabel?.textColor = UIColor.darkGray
+                    }
+                }
+
             <<< TextRow("eventLocation") {
                 $0.title = "活动地点"
                 $0.placeholder = "待定"
-            }
+                }
             <<< DecimalRow("expectedFee") {
                 $0.title = "预计费用"
                 $0.placeholder = "0.0"
-            }
+                }
 
             <<< AlertRow<String> ("transportationMethod") {
                 $0.title = "出行方式"
                 $0.selectorTitle = "出行方式"
                 $0.options = TransportationMethod.allRawValues
                 $0.value = TransportationMethod.other.rawValue
-            }
+                }
             
             +++ Section("其他需要说明的情况(选填)")
             <<< TextAreaRow("note"){ row in
                 row.placeholder = "比如需不需要带现金，户外活动需要什么样的装备等等"
-            }
+                }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        UIApplication.shared.statusBarStyle = .default
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        UIApplication.shared.statusBarStyle = .lightContent
     }
     
     //MARK: - values for all rows
