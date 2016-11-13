@@ -8,10 +8,16 @@
 
 import UIKit
 
+protocol SearchResultDelegate {
+    func didSelectedAddress(place: MKMapItem)
+}
+
 class SearchResultsTableViewController: UITableViewController {
 
     var matchingItems = [MKMapItem]()
-
+    
+    var delegate: SearchResultDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.tableFooterView = UIView()
@@ -28,6 +34,10 @@ class SearchResultsTableViewController: UITableViewController {
         cell.textLabel?.text = selectedItem.name
         cell.detailTextLabel?.text = parseAddress(selectedItem: selectedItem)
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        delegate?.didSelectedAddress(place: matchingItems[indexPath.row])
     }
     
     func parseAddress(selectedItem:MKPlacemark) -> String {

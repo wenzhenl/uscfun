@@ -24,6 +24,8 @@ public class AddressPickerViewController: UIViewController, TypedRowControllerTy
         view.backgroundColor = UIColor.backgroundGray
         
         let locationSearchTable = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SearchResultTable") as! SearchResultsTableViewController
+        locationSearchTable.delegate = self
+        
         resultsSearchController = UISearchController(searchResultsController: locationSearchTable)
         resultsSearchController?.searchResultsUpdater = locationSearchTable
         let searchBar = resultsSearchController!.searchBar
@@ -43,5 +45,12 @@ public class AddressPickerViewController: UIViewController, TypedRowControllerTy
     override public func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         UIApplication.shared.statusBarStyle = .lightContent
+    }
+}
+
+extension AddressPickerViewController: SearchResultDelegate {
+    func didSelectedAddress(place: MKMapItem) {
+        row.value = place.name
+        onDismissCallback?(self)
     }
 }
