@@ -19,7 +19,6 @@ public class AddressPickerViewController: UIViewController, TypedRowControllerTy
     
     var resultsSearchController: UISearchController?
     
-    
     override public func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.backgroundGray
@@ -46,5 +45,3 @@ public class AddressPickerViewController: UIViewController, TypedRowControllerTy
         UIApplication.shared.statusBarStyle = .lightContent
     }
 }
-
-
