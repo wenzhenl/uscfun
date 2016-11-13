@@ -11,6 +11,10 @@ import Eureka
 
 /// A selector row where the user can pick an address
 public final class LocationAddressRow: SelectorRow<PushSelectorCell<String>, AddressPickerViewController>, RowType {
+    
+    var latitude: Double?
+    var longitude: Double?
+    
     public required init(tag: String?) {
         super.init(tag: tag)
 

@@ -289,13 +289,21 @@ class StartEventViewController: FormViewController {
 
     var eventLocation: String? {
         get {
-            return (form.rowBy(tag: "eventLocation") as! TextRow).value
+            return (form.rowBy(tag: "eventLocation") as! LocationAddressRow).value
         }
         set {
-            (form.rowBy(tag: "eventLocation") as! TextRow).value = newValue
+            (form.rowBy(tag: "eventLocation") as! LocationAddressRow).value = newValue
         }
     }
-
+    
+    var eventCoordinate: AVGeoPoint? {
+        get {
+            guard let latitude = (form.rowBy(tag: "eventLocation") as! LocationAddressRow).latitude else { return nil }
+            guard let longitude = (form.rowBy(tag: "eventLocation") as! LocationAddressRow).longitude else { return nil }
+            return AVGeoPoint(latitude: latitude, longitude: longitude)
+        }
+    }
+    
     var expectedFee: Double? {
         get {
             return (form.rowBy(tag: "expectedFee") as! DecimalRow).value
@@ -341,7 +349,7 @@ class StartEventViewController: FormViewController {
         event.expectedFee = expectedFee
         event.transportationMethod = transportationMethod
         event.locationName = eventLocation
-        event.location = AVGeoPoint(latitude: 34.0090, longitude: -118.4974)
+        event.location = eventCoordinate
         event.post() {
             succeeded, error in
             SVProgressHUD.dismiss()

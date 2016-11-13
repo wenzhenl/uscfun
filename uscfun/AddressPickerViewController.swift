@@ -51,6 +51,9 @@ public class AddressPickerViewController: UIViewController, TypedRowControllerTy
 extension AddressPickerViewController: SearchResultDelegate {
     func didSelectedAddress(place: MKMapItem) {
         row.value = place.name
+        
+        (row as? LocationAddressRow)?.latitude = place.placemark.location?.coordinate.latitude
+        (row as? LocationAddressRow)?.longitude = place.placemark.location?.coordinate.longitude
         onDismissCallback?(self)
     }
 }
