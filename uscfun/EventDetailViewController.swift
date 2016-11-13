@@ -106,6 +106,9 @@ class EventDetailViewController: UIViewController {
             let chatSection = [EventDetailCell.imgKeyValueArrowTableCell(image: #imageLiteral(resourceName: "chat"), key: "参与讨论", value: "")]
             detailSections.append(chatSection)
             
+            let dueSection = [EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "clock"), key: "报名截止", value: event.due.humanReadable)]
+            detailSections.append(dueSection)
+            
             // handle optional information
             var optionalSection = [EventDetailCell]()
             if let startTime = event.startTime {
@@ -117,11 +120,15 @@ class EventDetailViewController: UIViewController {
             }
             
             if let locationName = event.locationName {
-                optionalSection.append(EventDetailCell.imgKeyValueArrowTableCell(image: #imageLiteral(resourceName: "location"), key: eventLocationKey, value: locationName))
+                if event.location != nil {
+                    optionalSection.append(EventDetailCell.imgKeyValueArrowTableCell(image: #imageLiteral(resourceName: "location"), key: eventLocationKey, value: locationName))
+                } else {
+                    optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "location"), key: eventLocationKey, value: locationName))
+                }
             }
             
             if let expectedFee = event.expectedFee {
-                optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "dollar"), key: "预计费用", value: "$\(expectedFee.description)"))
+                optionalSection.append(EventDetailCell.imgKeyValueTableCell(image: #imageLiteral(resourceName: "dollar"), key: "预计费用", value: expectedFee.description))
             }
             
             if optionalSection.count > 0 {
@@ -181,7 +188,9 @@ class EventDetailViewController: UIViewController {
             switch identifier {
             case mapSegueIdentifier:
                 let destination = segue.destination
-                if let _ = destination as? MapViewController {
+                if let mapVC = destination as? MapViewController {
+                    mapVC.latitude = event?.location?.latitude
+                    mapVC.longitude = event?.location?.longitude
                     print("go to see map")
                 }
             case memberSugueIdentifier:
@@ -378,7 +387,9 @@ extension EventDetailViewController: UITableViewDelegate {
         switch detailSections[indexPath.section][indexPath.row] {
         case .imgKeyValueArrowTableCell(_, let key, _):
             if key == eventLocationKey {
-                performSegue(withIdentifier: mapSegueIdentifier, sender: self)
+                if event?.location != nil {
+                    performSegue(withIdentifier: mapSegueIdentifier, sender: self)
+                }
             }
             else if key == conversationKey {
                 tableView.cellForRow(at: indexPath)?.isUserInteractionEnabled = false

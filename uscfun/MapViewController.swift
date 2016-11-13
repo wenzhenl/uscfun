@@ -13,8 +13,8 @@ class MapViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
     let locationManager = CLLocationManager()
-    let latitude = 34.0090
-    let longitude = -118.4974
+    var latitude: Double!
+    var longitude: Double!
     var placemark: MKPlacemark!
     
     override func viewDidLoad() {

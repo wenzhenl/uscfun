@@ -391,7 +391,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Wenzheng Li";
 				TargetAttributes = {
 					0A6834B91D56858C002E9B0D = {
@@ -663,6 +663,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 75E54CBF6FB6E8B58159D318 /* Pods-uscfun.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = uscfun/uscfun.entitlements;
@@ -687,6 +688,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 08F35232E5951BB14F9E57FA /* Pods-uscfun.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = uscfun/uscfun.entitlements;

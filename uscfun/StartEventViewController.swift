@@ -18,51 +18,57 @@ class StartEventViewController: FormViewController {
     var delegate: EventMemberStatusDelegate?
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
-        form +++ Section("*微活动名称")
+        
+        self.navigationController?.navigationBar.barTintColor = UIColor.buttonBlue
+        self.navigationController!.navigationBar.tintColor = UIColor.white
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        
+        form +++ Section("微活动名称")
             <<< TextAreaRow("eventTitle") {
-                $0.placeholder = "例如: 中午去中国城吃饭有人去么"
+                $0.placeholder = "请给出简洁有力的活动名称！"
             }
 
             +++ Section()
             <<< AlertRow<String> ("eventType") {
-                $0.title = "*微活动类型"
+                $0.title = "微活动类型"
                 $0.selectorTitle = "微活动类型"
                 $0.options = EventType.allRawValues
                 $0.value = EventType.other.rawValue
             }
             
-            +++ Section("*微活动人数")
+            +++ Section(header: "微活动人数", footer: "任意时刻剩余席位为零，活动自动完成约定")
             <<< StepperRow("totalSeats") {
                 $0.title = "全部席位(包括自己)"
-                $0.value = 0
+                $0.value = 2
             }
             <<< StepperRow("remainingSeats") {
                 $0.title = "剩余席位"
-                $0.value = 0
+                $0.value = 1
             }
             <<< StepperRow("minimumMoreAttendingPeople") {
                 $0.title = "至少还需要报名人数"
-                $0.value = 0
+                $0.value = 1
             }
             
-            +++ Section(header: "", footer: "报名截止后没有达到最少报名人数的微活动会自动解散")
+            +++ Section(header: "", footer: "报名截止后没有达到最少报名人数的微活动会自动解散，达到了的自动完成约定")
             <<< DateTimeRow("due"){
-                $0.title = "*报名截止时间"
+                $0.title = "报名截止时间"
                 $0.value = Date()
             }
             
             +++ Section("高级设置(选填)")
             <<< DateTimeRow("eventStartTime"){
-                $0.title = "微活动开始时间"
+                $0.title = "开始时间"
                 $0.value = Date()
             }
             <<< DateTimeRow("eventEndTime"){
-                $0.title = "微活动结束时间"
+                $0.title = "结束时间"
                 $0.value = Date()
             }
             <<< TextRow("eventLocation") {
-                $0.title = "微活动地点"
+                $0.title = "活动地点"
                 $0.placeholder = "待定"
             }
             <<< DecimalRow("expectedFee") {
@@ -81,16 +87,6 @@ class StartEventViewController: FormViewController {
             <<< TextAreaRow("note"){ row in
                 row.placeholder = "比如需不需要带现金，户外活动需要什么样的装备等等"
             }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        UIApplication.shared.statusBarStyle = .default
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        UIApplication.shared.statusBarStyle = .lightContent
     }
     
     //MARK: - values for all rows
