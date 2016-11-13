@@ -24,25 +24,25 @@ class StartEventViewController: FormViewController {
         self.navigationController!.navigationBar.tintColor = UIColor.darkGray
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
         
+        self.postButton.isEnabled = false
+        
         var nameRules = RuleSet<String>()
-        nameRules.add(rule: RuleMinLength(minLength: 10))
+        nameRules.add(rule: RuleMinLength(minLength: 1))
         nameRules.add(rule: RuleMaxLength(maxLength: 140))
-        form +++ Section(header: "微活动名称", footer: "活动名称请控制在10-140个字符之间")
+        form +++ Section(header: "微活动名称", footer: "活动名称请控制在140个字符之内")
             <<< TextAreaRow("eventTitle") {
                 $0.placeholder = "请给出一个简洁的活动名称！"
                 $0.add(ruleSet: nameRules)
                 $0.validationOptions = .validatesOnBlur
                 }
-                .cellSetup {
-                    cell, row in
-                    cell.textView.textColor = UIColor.avatarGolden
-                }
                 .cellUpdate {
                     cell, row in
                     if !row.isValid {
                         cell.textView.textColor = .red
-                    } else {
+                        self.postButton.isEnabled = false
+                    } else if cell.textView.text.characters.count > 0 {
                         cell.textView.textColor = UIColor.darkGray
+                        self.postButton.isEnabled = true
                     }
                 }
             
@@ -71,8 +71,8 @@ class StartEventViewController: FormViewController {
                 }
                 .cellSetup {
                     cell, row in
-                    cell.valueLabel.textColor = UIColor.avatarOrange
-                    cell.stepper.tintColor = UIColor.avatarGolden
+                    cell.valueLabel.textColor = UIColor.darkGray
+                    cell.stepper.tintColor = UIColor.avatarBlue
                 }
                 .cellUpdate {
                     cell, row in
@@ -91,8 +91,8 @@ class StartEventViewController: FormViewController {
                 }
                 .cellSetup {
                     cell, row in
-                    cell.valueLabel.textColor = UIColor.avatarOrange
-                    cell.stepper.tintColor = UIColor.avatarGolden
+                    cell.valueLabel.textColor = UIColor.darkGray
+                    cell.stepper.tintColor = UIColor.avatarBlue
                 }
                 .cellUpdate {
                     cell, row in
@@ -110,8 +110,8 @@ class StartEventViewController: FormViewController {
                 }
                 .cellSetup {
                     cell, row in
-                    cell.valueLabel.textColor = UIColor.avatarOrange
-                    cell.stepper.tintColor = UIColor.avatarGolden
+                    cell.valueLabel.textColor = UIColor.darkGray
+                    cell.stepper.tintColor = UIColor.avatarBlue
                 }
                 .cellUpdate {
                     cell, row in
