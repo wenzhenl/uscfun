@@ -27,7 +27,9 @@ class StartEventViewController: FormViewController {
         
         form +++ Section("微活动名称")
             <<< TextAreaRow("eventTitle") {
-                $0.placeholder = "请给出简洁有力的活动名称！"
+                $0.placeholder = "请给出一个简洁的活动名称！"
+                $0.add(rule: RuleRequired())
+                $0.validationOptions = .validatesOnChange
             }
 
             +++ Section()
@@ -42,20 +44,55 @@ class StartEventViewController: FormViewController {
             <<< StepperRow("totalSeats") {
                 $0.title = "全部席位(包括自己)"
                 $0.value = 2
+                $0.add(rule: RuleGreaterThan(min: 1))
+                $0.validationOptions = .validatesOnChange
             }
+            .cellUpdate {
+                cell, row in
+                if !row.isValid {
+                    row.value = 2
+                }
+            }
+            
+            
             <<< StepperRow("remainingSeats") {
                 $0.title = "剩余席位"
                 $0.value = 1
+                $0.add(rule: RuleGreaterThan(min: 0))
+                $0.validationOptions = .validatesOnChange
             }
+            .cellUpdate {
+                cell, row in
+                if !row.isValid {
+                    row.value = 1
+                }
+            }
+            
             <<< StepperRow("minimumMoreAttendingPeople") {
                 $0.title = "至少还需要报名人数"
                 $0.value = 1
+                $0.add(rule: RuleGreaterThan(min: 0))
+                $0.validationOptions = .validatesOnChange
+            }
+            .cellUpdate {
+                cell, row in
+                if !row.isValid {
+                    row.value = 1
+                }
             }
             
             +++ Section(header: "", footer: "报名截止后没有达到最少报名人数的微活动会自动解散，达到了的自动完成约定")
             <<< DateTimeRow("due"){
                 $0.title = "报名截止时间"
                 $0.value = Date()
+                $0.add(rule: RuleGreaterThan(min: Date()))
+                $0.validationOptions = .validatesOnChange
+            }
+            .cellUpdate {
+                cell, row in
+                if !row.isValid {
+                    row.value = Date()
+                }
             }
             
             +++ Section("高级设置(选填)")
