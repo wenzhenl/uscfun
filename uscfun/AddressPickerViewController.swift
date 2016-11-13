@@ -17,22 +17,16 @@ public class AddressPickerViewController: UIViewController, TypedRowControllerTy
     /// A closure to be called when the controller disappears.
     public var onDismissCallback : ((UIViewController) -> ())?
     
-    lazy var tableView: UITableView = { [unowned self] in
-        let v = UITableView(frame: self.view.bounds)
-        return v
-    }()
-    
     var resultsSearchController: UISearchController?
+    
     
     override public func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.backgroundGray
-        view.addSubview(tableView)
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.tableFooterView = UIView()
         
-        resultsSearchController = UISearchController(searchResultsController: self)
+        let locationSearchTable = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SearchResultTable") as! SearchResultsTableViewController
+        resultsSearchController = UISearchController(searchResultsController: locationSearchTable)
+        resultsSearchController?.searchResultsUpdater = locationSearchTable
         let searchBar = resultsSearchController!.searchBar
         searchBar.sizeToFit()
         searchBar.placeholder = "Search for places"
@@ -53,23 +47,4 @@ public class AddressPickerViewController: UIViewController, TypedRowControllerTy
     }
 }
 
-extension AddressPickerViewController: UITableViewDataSource, UITableViewDelegate{
-    public func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
-    }
-    
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = "hhaaa"
-        return cell
-    }
-}
 
-extension AddressPickerViewController: UISearchResultsUpdating {
-    public func updateSearchResults(for searchController: UISearchController) {
-    }
-}

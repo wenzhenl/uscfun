@@ -11,6 +11,7 @@
 		0A00DB061DD90DEA00A81189 /* ImageRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A00DB041DD90DEA00A81189 /* ImageRow.swift */; };
 		0A00DB081DD90F5B00A81189 /* LocationAddressRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A00DB071DD90F5B00A81189 /* LocationAddressRow.swift */; };
 		0A00DB0B1DD9109A00A81189 /* AddressPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A00DB091DD9109A00A81189 /* AddressPickerViewController.swift */; };
+		0A00DB101DD924BE00A81189 /* SearchResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A00DB0F1DD924BE00A81189 /* SearchResultsTableViewController.swift */; };
 		0A0185851DC48602009A7874 /* LabelImgArrowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0185831DC48602009A7874 /* LabelImgArrowTableViewCell.swift */; };
 		0A0185861DC48602009A7874 /* LabelImgArrowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A0185841DC48602009A7874 /* LabelImgArrowTableViewCell.xib */; };
 		0A022FA71D73D066004077A4 /* FindBackPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A022FA61D73D066004077A4 /* FindBackPasswordViewController.swift */; };
@@ -89,6 +90,7 @@
 		0A00DB041DD90DEA00A81189 /* ImageRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageRow.swift; sourceTree = "<group>"; };
 		0A00DB071DD90F5B00A81189 /* LocationAddressRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAddressRow.swift; sourceTree = "<group>"; };
 		0A00DB091DD9109A00A81189 /* AddressPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressPickerViewController.swift; sourceTree = "<group>"; };
+		0A00DB0F1DD924BE00A81189 /* SearchResultsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsTableViewController.swift; sourceTree = "<group>"; };
 		0A0185831DC48602009A7874 /* LabelImgArrowTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelImgArrowTableViewCell.swift; sourceTree = "<group>"; };
 		0A0185841DC48602009A7874 /* LabelImgArrowTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelImgArrowTableViewCell.xib; sourceTree = "<group>"; };
 		0A022FA61D73D066004077A4 /* FindBackPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindBackPasswordViewController.swift; sourceTree = "<group>"; };
@@ -335,6 +337,7 @@
 				0AA82B0F1DCDAEB90016B278 /* UserProfileViewController.swift */,
 				0A00DB071DD90F5B00A81189 /* LocationAddressRow.swift */,
 				0A00DB091DD9109A00A81189 /* AddressPickerViewController.swift */,
+				0A00DB0F1DD924BE00A81189 /* SearchResultsTableViewController.swift */,
 			);
 			name = EventViewControllers;
 			sourceTree = "<group>";
@@ -561,6 +564,7 @@
 				0ADE0C9F1DB1F173009F89A0 /* EventHistoryViewController.swift in Sources */,
 				0AAE42E41D9A2F8B00B34601 /* MapViewController.swift in Sources */,
 				0A6834BE1D56858C002E9B0D /* AppDelegate.swift in Sources */,
+				0A00DB101DD924BE00A81189 /* SearchResultsTableViewController.swift in Sources */,
 				0A00DB061DD90DEA00A81189 /* ImageRow.swift in Sources */,
 				0A9CB4531D7006F400608D27 /* PreLoginViewController.swift in Sources */,
 				0A00DB051DD90DEA00A81189 /* ImagePickerController.swift in Sources */,
