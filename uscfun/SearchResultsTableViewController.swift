@@ -18,6 +18,8 @@ class SearchResultsTableViewController: UITableViewController {
     
     var delegate: SearchResultDelegate?
     
+    var region: MKCoordinateRegion?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.tableFooterView = UIView()
@@ -32,7 +34,7 @@ class SearchResultsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
         let selectedItem = matchingItems[indexPath.row].placemark
         cell.textLabel?.text = selectedItem.name
-        cell.detailTextLabel?.text = parseAddress(selectedItem: selectedItem)
+        cell.detailTextLabel?.text = SearchResultsTableViewController.parseAddress(selectedItem: selectedItem)
         return cell
     }
     
@@ -40,7 +42,7 @@ class SearchResultsTableViewController: UITableViewController {
         delegate?.didSelectedAddress(place: matchingItems[indexPath.row])
     }
     
-    func parseAddress(selectedItem:MKPlacemark) -> String {
+    static func parseAddress(selectedItem: MKPlacemark) -> String {
         // put a space between "4" and "Melrose Place"
         let firstSpace = (selectedItem.subThoroughfare != nil && selectedItem.thoroughfare != nil) ? " " : ""
         // put a comma between street and city/state
@@ -74,6 +76,9 @@ extension SearchResultsTableViewController: UISearchResultsUpdating {
         guard let searchBarText = searchController.searchBar.text else { return }
         let request = MKLocalSearchRequest()
         request.naturalLanguageQuery = searchBarText
+        if region != nil {
+            request.region = self.region!
+        }
         let search = MKLocalSearch(request: request)
         search.start {
             response, _ in

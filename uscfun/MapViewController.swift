@@ -15,6 +15,7 @@ class MapViewController: UIViewController {
     let locationManager = CLLocationManager()
     var latitude: Double!
     var longitude: Double!
+    var placename: String!
     var placemark: MKPlacemark!
     
     override func viewDidLoad() {
@@ -34,6 +35,7 @@ class MapViewController: UIViewController {
     
     func route() {
         let mapItem = MKMapItem(placemark: placemark)
+        mapItem.name = placename
         let launchOptions = [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving]
         mapItem.openInMaps(launchOptions: launchOptions)
     }
