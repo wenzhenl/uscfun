@@ -72,7 +72,12 @@ public class AddressPickerViewController: UIViewController, TypedRowControllerTy
 }
 
 extension AddressPickerViewController: SearchResultDelegate {
-    func didSelectedAddress(place: MKMapItem) {
+    func didSelectedAddress(place: MKMapItem?) {
+        guard let place = place else {
+            row.value = self.resultsSearchController?.searchBar.text
+            onDismissCallback?(self)
+            return
+        }
         row.value = place.name
         
         (row as? LocationAddressRow)?.latitude = place.placemark.location?.coordinate.latitude

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol SearchResultDelegate {
-    func didSelectedAddress(place: MKMapItem)
+    func didSelectedAddress(place: MKMapItem?)
 }
 
 class SearchResultsTableViewController: UITableViewController {
@@ -20,6 +20,8 @@ class SearchResultsTableViewController: UITableViewController {
     
     var region: MKCoordinateRegion?
     
+    var searchText: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.tableFooterView = UIView()
@@ -27,19 +29,27 @@ class SearchResultsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return matchingItems.count
+        return matchingItems.count + 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-        let selectedItem = matchingItems[indexPath.row].placemark
-        cell.textLabel?.text = selectedItem.name
-        cell.detailTextLabel?.text = SearchResultsTableViewController.parseAddress(selectedItem: selectedItem)
+        if indexPath.row == 0 {
+            cell.textLabel?.text = searchText
+        } else {
+            let selectedItem = matchingItems[indexPath.row - 1].placemark
+            cell.textLabel?.text = selectedItem.name
+            cell.detailTextLabel?.text = SearchResultsTableViewController.parseAddress(selectedItem: selectedItem)
+        }
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.didSelectedAddress(place: matchingItems[indexPath.row])
+        if indexPath.row == 0 {
+            delegate?.didSelectedAddress(place: nil)
+        } else {
+            delegate?.didSelectedAddress(place: matchingItems[indexPath.row - 1])
+        }
     }
     
     static func parseAddress(selectedItem: MKPlacemark) -> String {
@@ -74,6 +84,7 @@ class SearchResultsTableViewController: UITableViewController {
 extension SearchResultsTableViewController: UISearchResultsUpdating {
     public func updateSearchResults(for searchController: UISearchController) {
         guard let searchBarText = searchController.searchBar.text else { return }
+        self.searchText = searchBarText
         let request = MKLocalSearchRequest()
         request.naturalLanguageQuery = searchBarText
         if region != nil {
