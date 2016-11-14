@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -14,26 +17,30 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <frame key="frameInset" width="320" height="43"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user1" translatesAutoresizingMaskIntoConstraints="NO" id="Jhe-ll-aee">
+                        <rect key="frame" x="15" y="12" width="20" height="20"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="Jhe-ll-aee" secondAttribute="height" id="3M9-VA-0BI"/>
                             <constraint firstAttribute="height" constant="20" id="5yH-nb-ZFg"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="当前成员" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HJd-Tt-cX0">
+                        <rect key="frame" x="43" y="11.5" width="69.5" height="20.5"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W4z-Dg-e5N">
+                        <rect key="frame" x="120.5" y="-0.5" width="169.5" height="44.5"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="44" id="Doo-9z-Cec"/>
                         </constraints>
                     </scrollView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow-forward" translatesAutoresizingMaskIntoConstraints="NO" id="fBw-k0-cc9">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow-forward" translatesAutoresizingMaskIntoConstraints="NO" id="fBw-k0-cc9">
+                        <rect key="frame" x="290" y="14.5" width="15" height="15"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="SV8-H5-P6f"/>
                             <constraint firstAttribute="width" secondItem="fBw-k0-cc9" secondAttribute="height" id="rL2-bV-NhB"/>
@@ -60,7 +67,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="arrow-forward" width="30" height="30"/>
+        <image name="arrow-forward" width="13" height="21"/>
         <image name="user1" width="30" height="30"/>
     </resources>
 </document>
