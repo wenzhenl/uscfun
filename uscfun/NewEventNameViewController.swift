@@ -11,21 +11,26 @@ import UIKit
 class NewEventNameViewController: UIViewController {
 
     @IBOutlet weak var textView: UITextView!
-    @IBOutlet weak var leftBarButton: UIBarButtonItem!
-    @IBOutlet weak var rightBarButton: UIBarButtonItem!
+    @IBOutlet weak var nextBarButton: UIBarButtonItem!
     @IBOutlet weak var placeholderLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = ""
-//        self.navigationController?.navigationBar.barTintColor = UIColor.red
-//        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor]
-//        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.blue, NSFontAttributeName: UIFont.boldSystemFont(ofSize: 17)]
-//        leftBarButton.titleTextAttributes(for: <#T##UIControlState#>)
         self.automaticallyAdjustsScrollViewInsets = false
         self.textView.delegate = self
         self.textView.textContainer.lineFragmentPadding = 0
-//        self.textView.textContainerInset = UIEdgeInsets.zero
+        self.textView.text = UserDefaults.newEventName
+        if self.textView.text == "" {
+            placeholderLabel.text = "请写下你要发起的微活动名称"
+        } else {
+            placeholderLabel.text = ""
+        }
+        if self.textView.text != "" {
+            nextBarButton.isEnabled = true
+        } else {
+            nextBarButton.isEnabled = false
+        }
         self.textView.becomeFirstResponder()
     }
     
@@ -37,10 +42,26 @@ class NewEventNameViewController: UIViewController {
 
 extension NewEventNameViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
+        
         if self.textView.text == "" {
             placeholderLabel.text = "请写下你要发起的微活动名称"
         } else {
             placeholderLabel.text = ""
         }
+        
+        if self.textView.text != "" {
+            nextBarButton.isEnabled = true
+        } else {
+            nextBarButton.isEnabled = false
+        }
+        
+        UserDefaults.newEventName = textView.text
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            return false
+        }
+        return true
     }
 }

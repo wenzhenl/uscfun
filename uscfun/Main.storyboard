@@ -1100,9 +1100,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="leftBarButton" destination="NNJ-gG-qug" id="FTc-MJ-ehR"/>
+                        <outlet property="nextBarButton" destination="UXA-sE-cyn" id="gYT-xz-V4W"/>
                         <outlet property="placeholderLabel" destination="Iie-HW-6A9" id="jX8-zZ-1cI"/>
-                        <outlet property="rightBarButton" destination="UXA-sE-cyn" id="dfA-Cp-9zO"/>
                         <outlet property="textView" destination="9A0-3l-3pd" id="YKT-Kk-5cZ"/>
                     </connections>
                 </viewController>
