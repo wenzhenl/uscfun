@@ -90,4 +90,52 @@ extension UserDefaults {
         AVUser.current().setObject(UserDefaults.allowsEventHistoryViewed, forKey: UserKeyConstants.keyOfAllowsEventHistoryViewed)
         AVUser.current().saveInBackground()
     }
+    
+    //-MARK: new event info
+    
+    class var newEventName: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "New_Event_Name")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "New_Event_Name")
+        }
+    }
+    
+    class var newEventDue: Date? {
+        get {
+            let interval = UserDefaults.standard.double(forKey: "New_Event_Due")
+            return Date(timeIntervalSince1970: interval)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue?.timeIntervalSince1970, forKey: "New_Event_Due")
+        }
+    }
+    
+    class var newEventMaxPeople: Int? {
+        get {
+            return UserDefaults.standard.integer(forKey: "New_Event_Max_People")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "New_Event_Max_People")
+        }
+    }
+    
+    class var newEventMinPeople: Int? {
+        get {
+            return UserDefaults.standard.integer(forKey: "New_Event_Min_People")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "New_Event_Min_People")
+        }
+    }
+    
+    class var newEventNumReserved: Int? {
+        get {
+            return UserDefaults.standard.integer(forKey: "New_Event_Num_Reserved")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "New_Event_Num_Reserved")
+        }
+    }
 }

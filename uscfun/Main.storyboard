@@ -1062,7 +1062,30 @@
                     <view key="view" contentMode="scaleToFill" id="gt1-Vi-GDv">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请写下你要发起的微活动名称" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iie-HW-6A9">
+                                <rect key="frame" x="16" y="72" width="343" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9A0-3l-3pd">
+                                <rect key="frame" x="16" y="64" width="343" height="333.5"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
+                            </textView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Iie-HW-6A9" firstAttribute="leading" secondItem="gt1-Vi-GDv" secondAttribute="leadingMargin" id="2dM-BJ-j1m"/>
+                            <constraint firstItem="9A0-3l-3pd" firstAttribute="height" secondItem="gt1-Vi-GDv" secondAttribute="height" multiplier="0.5" id="Jn5-22-hsE"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Iie-HW-6A9" secondAttribute="trailing" id="JzW-lF-IZB"/>
+                            <constraint firstItem="Iie-HW-6A9" firstAttribute="top" secondItem="iKZ-MM-pPF" secondAttribute="bottom" constant="8" symbolic="YES" id="KIh-c7-M79"/>
+                            <constraint firstItem="9A0-3l-3pd" firstAttribute="top" secondItem="iKZ-MM-pPF" secondAttribute="bottom" id="Zeh-Fq-8fp"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="9A0-3l-3pd" secondAttribute="trailing" id="eOX-28-vuA"/>
+                            <constraint firstItem="9A0-3l-3pd" firstAttribute="leading" secondItem="gt1-Vi-GDv" secondAttribute="leadingMargin" id="kdI-R1-VjR"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="VTJ-IG-00r">
                         <barButtonItem key="leftBarButtonItem" title="取消" id="NNJ-gG-qug">
@@ -1076,6 +1099,12 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="leftBarButton" destination="NNJ-gG-qug" id="FTc-MJ-ehR"/>
+                        <outlet property="placeholderLabel" destination="Iie-HW-6A9" id="jX8-zZ-1cI"/>
+                        <outlet property="rightBarButton" destination="UXA-sE-cyn" id="dfA-Cp-9zO"/>
+                        <outlet property="textView" destination="9A0-3l-3pd" id="YKT-Kk-5cZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EEb-V2-jis" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
