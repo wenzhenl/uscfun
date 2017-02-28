@@ -102,13 +102,13 @@ extension UserDefaults {
         }
     }
     
-    class var newEventDue: Date? {
+    class var newEventDue: Date {
         get {
             let interval = UserDefaults.standard.double(forKey: "New_Event_Due")
             return Date(timeIntervalSince1970: interval)
         }
         set {
-            UserDefaults.standard.setValue(newValue?.timeIntervalSince1970, forKey: "New_Event_Due")
+            UserDefaults.standard.setValue(newValue.timeIntervalSince1970, forKey: "New_Event_Due")
         }
     }
     

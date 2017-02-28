@@ -166,6 +166,13 @@ extension Date {
         return formatter.string(from: self)
     }
     
+    var fullStyle: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.timeStyle = .short
+        return formatter.string(from: self)
+    }
+    
     var gapFromNow: String {
         let currentDate = Date()
          let diffDateComponents = Calendar.current.dateComponents([Calendar.Component.day,.hour,.minute], from: currentDate, to: self)

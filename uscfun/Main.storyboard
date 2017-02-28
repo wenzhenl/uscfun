@@ -1122,18 +1122,69 @@
                     <view key="view" contentMode="scaleToFill" id="8CA-h8-UrP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请选择报名截止时间：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2er-Pa-YZp">
+                                <rect key="frame" x="16" y="72" width="343" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sunday, February 26" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vUq-O7-gdx">
+                                <rect key="frame" x="16" y="101" width="343" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10:00 PM" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ysJ-L6-tsC">
+                                <rect key="frame" x="16" y="139" width="343" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="85P-m9-ScN">
+                                <rect key="frame" x="0.0" y="402" width="375" height="216"/>
+                                <date key="date" timeIntervalSinceReferenceDate="509953517.97701001">
+                                    <!--2017-02-28 05:45:17 +0000-->
+                                </date>
+                                <connections>
+                                    <action selector="handleDatePicker:" destination="jRI-hE-VqD" eventType="valueChanged" id="BBy-f9-FlC"/>
+                                </connections>
+                            </datePicker>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ysJ-L6-tsC" firstAttribute="leading" secondItem="8CA-h8-UrP" secondAttribute="leadingMargin" id="33a-aC-I65"/>
+                            <constraint firstItem="vUq-O7-gdx" firstAttribute="leading" secondItem="8CA-h8-UrP" secondAttribute="leadingMargin" id="40c-pt-wdi"/>
+                            <constraint firstItem="2er-Pa-YZp" firstAttribute="leading" secondItem="8CA-h8-UrP" secondAttribute="leadingMargin" id="4d4-ZW-pMc"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="vUq-O7-gdx" secondAttribute="trailing" id="87b-Qa-s9L"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="2er-Pa-YZp" secondAttribute="trailing" id="97b-HR-jo5"/>
+                            <constraint firstItem="85P-m9-ScN" firstAttribute="width" secondItem="8CA-h8-UrP" secondAttribute="width" id="G11-PG-0hQ"/>
+                            <constraint firstItem="2er-Pa-YZp" firstAttribute="top" secondItem="t0r-Ui-Spq" secondAttribute="bottom" constant="8" symbolic="YES" id="QN3-Lw-pCw"/>
+                            <constraint firstItem="vUq-O7-gdx" firstAttribute="top" secondItem="2er-Pa-YZp" secondAttribute="bottom" constant="8" symbolic="YES" id="cnZ-Ha-8RN"/>
+                            <constraint firstItem="85P-m9-ScN" firstAttribute="centerX" secondItem="8CA-h8-UrP" secondAttribute="centerX" id="iqP-tq-UbU"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ysJ-L6-tsC" secondAttribute="trailing" id="qv6-ki-L2e"/>
+                            <constraint firstItem="ysJ-L6-tsC" firstAttribute="top" secondItem="vUq-O7-gdx" secondAttribute="bottom" constant="8" symbolic="YES" id="zH2-bK-ohX"/>
+                            <constraint firstItem="elP-G9-Dex" firstAttribute="top" secondItem="85P-m9-ScN" secondAttribute="bottom" id="zdQ-ru-zhf"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="6nf-BM-ANZ">
-                        <barButtonItem key="rightBarButtonItem" title="下一步" id="41H-s1-ajs"/>
+                        <barButtonItem key="rightBarButtonItem" title="下一步" id="41H-s1-ajs">
+                            <connections>
+                                <action selector="goNext:" destination="jRI-hE-VqD" id="vde-pw-IvH"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="sfV-IB-CTZ" kind="show" id="Ttc-3G-j2t"/>
+                        <outlet property="dateLabel" destination="vUq-O7-gdx" id="2hf-AJ-9vM"/>
+                        <outlet property="datePicker" destination="85P-m9-ScN" id="WXJ-0I-PeA"/>
+                        <outlet property="nextBarButton" destination="41H-s1-ajs" id="raR-0L-azI"/>
+                        <outlet property="timeLabel" destination="ysJ-L6-tsC" id="n0P-JB-fwN"/>
+                        <segue destination="sfV-IB-CTZ" kind="show" identifier="GoNewEventNumberOfPeople" id="Ttc-3G-j2t"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TA4-XK-nOp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6094" y="-7334"/>
+            <point key="canvasLocation" x="6093.6000000000004" y="-7334.4827586206902"/>
         </scene>
         <!--New Event Number Of People View Controller-->
         <scene sceneID="SMy-bQ-Ddk">
