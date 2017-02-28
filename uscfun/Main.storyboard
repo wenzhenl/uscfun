@@ -167,7 +167,7 @@
                                         <rect key="frame" x="0.0" y="28" width="343" height="340"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dHD-iP-esQ" id="cSi-jH-rIj">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="339"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="340"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="260" verticalCompressionResistancePriority="770" text="还剩03天13时20分" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oe2-b4-5n3">
@@ -200,7 +200,7 @@
                                                             </constraints>
                                                         </imageView>
                                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="周末去看最新出的电影从你的全世界路过周末去看最新出的电影从你的全世界路过" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f5B-k1-3Jz">
-                                                            <rect key="frame" x="16" y="96" width="295" height="74"/>
+                                                            <rect key="frame" x="16" y="96.5" width="295" height="73.5"/>
                                                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
@@ -339,7 +339,7 @@
                                         <rect key="frame" x="0.0" y="368" width="343" height="130"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="C76-wQ-x1W" id="1v3-QV-nOo">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="129"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="130"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wJi-dv-Lcf">
@@ -861,7 +861,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="q8M-ah-D31" id="xfu-ip-YzV">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -1035,6 +1035,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="yHb-Iq-i1q" customClass="CustomTabBarController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="ZSq-87-R18">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
@@ -1095,7 +1096,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="下一步" id="UXA-sE-cyn">
                             <connections>
-                                <segue destination="jRI-hE-VqD" kind="show" id="2sh-pe-BO0"/>
+                                <action selector="goNext:" destination="bZL-ZQ-zOG" id="phP-mF-a5q"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1103,6 +1104,7 @@
                         <outlet property="nextBarButton" destination="UXA-sE-cyn" id="gYT-xz-V4W"/>
                         <outlet property="placeholderLabel" destination="Iie-HW-6A9" id="jX8-zZ-1cI"/>
                         <outlet property="textView" destination="9A0-3l-3pd" id="YKT-Kk-5cZ"/>
+                        <segue destination="jRI-hE-VqD" kind="show" identifier="BeginEditingNewEventDue" id="Hjp-KW-UP7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EEb-V2-jis" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1123,12 +1125,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="6nf-BM-ANZ">
-                        <barButtonItem key="rightBarButtonItem" title="下一步" id="41H-s1-ajs">
-                            <connections>
-                                <segue destination="sfV-IB-CTZ" kind="show" id="m01-6s-KQC"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="下一步" id="41H-s1-ajs"/>
                     </navigationItem>
+                    <connections>
+                        <segue destination="sfV-IB-CTZ" kind="show" id="Ttc-3G-j2t"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TA4-XK-nOp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1148,12 +1149,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="erE-4D-LUg">
-                        <barButtonItem key="rightBarButtonItem" title="下一步" id="7AI-wZ-fDb">
-                            <connections>
-                                <segue destination="u8u-me-N4z" kind="show" id="yps-n0-nP7"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="下一步" id="7AI-wZ-fDb"/>
                     </navigationItem>
+                    <connections>
+                        <segue destination="u8u-me-N4z" kind="show" id="9l3-UZ-aoF"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J8P-n5-azL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1173,12 +1173,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="FZs-fh-uH4">
-                        <barButtonItem key="rightBarButtonItem" title="下一步" id="dTT-Mb-lFM">
-                            <connections>
-                                <segue destination="AcI-pq-D5h" kind="show" id="3aA-PN-iql"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="下一步" id="dTT-Mb-lFM"/>
                     </navigationItem>
+                    <connections>
+                        <segue destination="AcI-pq-D5h" kind="show" id="1ZJ-PY-IDb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cZa-Br-7Qf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

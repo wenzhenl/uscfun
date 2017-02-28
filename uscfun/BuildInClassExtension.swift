@@ -81,6 +81,15 @@ extension UIColor {
 }
 
 extension String {
+    
+    var isConsistedOnlyWithSpace: Bool {
+        let patternForEmptyString = "^\\s*$"
+        if self.range(of: patternForEmptyString, options: .regularExpression) != nil {
+            return true
+        }
+        return false
+    }
+    
     func isValidEmail() -> Bool {
         
         let emailRegEx = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
