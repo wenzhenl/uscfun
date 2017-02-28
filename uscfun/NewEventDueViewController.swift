@@ -26,15 +26,23 @@ class NewEventDueViewController: UIViewController {
             UserDefaults.newEventDue = newValue
             let fullTime = newValue.fullStyle
             print(fullTime)
+            print(NSLocale.preferredLanguages.first)
             
-            let dateAndTime = fullTime.components(separatedBy: " at ")
-            let date = dateAndTime.first!
-            let deleteYear = date.components(separatedBy: ", ")
-//            dateLabel.text = date
-            dateLabel.text = deleteYear.first! + ", " + deleteYear[1]
-            let time = dateAndTime.last
-            timeLabel.text = time
-            
+            if NSLocale.preferredLanguages.first == "zh-Hans-US" {
+                let dateAndTime = fullTime.components(separatedBy: " ")
+                dateLabel.text = dateAndTime[0] + " " + dateAndTime[1]
+                timeLabel.text = dateAndTime[2]
+            }
+            else if NSLocale.preferredLanguages.first == "en-US" {
+                let dateAndTime = fullTime.components(separatedBy: " at ")
+                let date = dateAndTime.first!
+                let deleteYear = date.components(separatedBy: ", ")
+                dateLabel.text = deleteYear.first! + ", " + deleteYear[1]
+                let time = dateAndTime.last
+                timeLabel.text = time
+            } else {
+                
+            }
         }
     }
     
