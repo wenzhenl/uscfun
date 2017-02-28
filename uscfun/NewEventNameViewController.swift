@@ -14,6 +14,8 @@ class NewEventNameViewController: UIViewController {
     @IBOutlet weak var nextBarButton: UIBarButtonItem!
     @IBOutlet weak var placeholderLabel: UILabel!
     
+    var errorLabel: UILabel!
+    
     var eventName: String {
         get {
             return (textView.text ?? "").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
@@ -30,6 +32,18 @@ class NewEventNameViewController: UIViewController {
         super.viewDidLoad()
         
         self.title = ""
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        
+        if let navigationBar = self.navigationController?.navigationBar {
+            errorLabel = UILabel(frame: CGRect(x: navigationBar.frame.width/4, y: 0, width: navigationBar.frame.width/2, height: navigationBar.frame.height))
+            errorLabel.textAlignment = .center
+            errorLabel.textColor = UIColor.red
+            navigationBar.addSubview(errorLabel)
+            errorLabel.isHidden = true
+        }
+        
         self.automaticallyAdjustsScrollViewInsets = false
         self.textView.delegate = self
         self.textView.textContainer.lineFragmentPadding = 0
@@ -40,6 +54,12 @@ class NewEventNameViewController: UIViewController {
     @IBAction func goNext(_ sender: UIBarButtonItem) {
         if eventName.characters.count >= 4 && eventName.characters.count <= 140 {
             performSegue(withIdentifier: "BeginEditingNewEventDue", sender: self)
+        } else if eventName.characters.count < 4 {
+            errorLabel.text = "额，也太简短了吧..."
+            errorLabel.isHidden = false
+        } else {
+            errorLabel.text = "还是不要超过140个字比较好"
+            errorLabel.isHidden = false
         }
     }
     
@@ -51,9 +71,15 @@ class NewEventNameViewController: UIViewController {
 
 extension NewEventNameViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
+        if placeholderLabel.text != "" && !textView.text.isEmpty {
+            placeholderLabel.text = ""
+        }
+        
         if textView.markedTextRange == nil {
             eventName = textView.text
         }
+        
+        errorLabel.isHidden = true
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
