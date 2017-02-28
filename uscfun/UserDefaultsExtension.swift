@@ -112,7 +112,7 @@ extension UserDefaults {
         }
     }
     
-    class var newEventMaxPeople: Int? {
+    class var newEventMaxPeople: Int {
         get {
             return UserDefaults.standard.integer(forKey: "New_Event_Max_People")
         }
@@ -121,7 +121,7 @@ extension UserDefaults {
         }
     }
     
-    class var newEventMinPeople: Int? {
+    class var newEventMinPeople: Int {
         get {
             return UserDefaults.standard.integer(forKey: "New_Event_Min_People")
         }
@@ -130,12 +130,41 @@ extension UserDefaults {
         }
     }
     
-    class var newEventNumReserved: Int? {
+    class var newEventNumReserved: Int {
         get {
             return UserDefaults.standard.integer(forKey: "New_Event_Num_Reserved")
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: "New_Event_Num_Reserved")
+        }
+    }
+    
+    class var newEventStartTime: Date {
+        get {
+            let interval = UserDefaults.standard.double(forKey: "New_Event_Start")
+            return Date(timeIntervalSince1970: interval)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue.timeIntervalSince1970, forKey: "New_Event_Start")
+        }
+    }
+    
+    class var newEventEndTime: Date {
+        get {
+            let interval = UserDefaults.standard.double(forKey: "New_Event_End")
+            return Date(timeIntervalSince1970: interval)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue.timeIntervalSince1970, forKey: "New_Event_End")
+        }
+    }
+    
+    class var newEventNote: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "New_Event_Note")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "New_Event_Note")
         }
     }
 }

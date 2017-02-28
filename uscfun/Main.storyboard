@@ -167,7 +167,7 @@
                                         <rect key="frame" x="0.0" y="28" width="374" height="340"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dHD-iP-esQ" id="cSi-jH-rIj">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="339.66666666666669"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="340"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="260" verticalCompressionResistancePriority="770" text="还剩03天13时20分" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oe2-b4-5n3">
@@ -339,7 +339,7 @@
                                         <rect key="frame" x="0.0" y="368" width="374" height="130"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="C76-wQ-x1W" id="1v3-QV-nOo">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="129.66666666666666"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="130"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wJi-dv-Lcf">
@@ -861,7 +861,7 @@
                                 <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="q8M-ah-D31" id="xfu-ip-YzV">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -1218,6 +1218,9 @@
                             </label>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="CEz-1q-0Dk">
                                 <rect key="frame" x="183" y="172" width="94" height="29"/>
+                                <connections>
+                                    <action selector="maxValChanged:" destination="sfV-IB-CTZ" eventType="valueChanged" id="19j-Kr-hW4"/>
+                                </connections>
                             </stepper>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="最少成行人数：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZYH-AV-Av3">
                                 <rect key="frame" x="20" y="251" width="374" height="21"/>
@@ -1233,8 +1236,11 @@
                             </label>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="rcE-CL-LE6">
                                 <rect key="frame" x="183" y="280" width="94" height="29"/>
+                                <connections>
+                                    <action selector="minValChanged:" destination="sfV-IB-CTZ" eventType="valueChanged" id="psw-Rz-WOo"/>
+                                </connections>
                             </stepper>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="例如狼人杀游戏设定最少10人，如果报名截止后人数少于10人，自动取消" textAlignment="natural" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gER-DR-XPc">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="例如狼人杀游戏设定最少10人，如果报名截止后人数少于10人，自动取消。对于特定人数的微活动，最多和最少人数可以相等" textAlignment="natural" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gER-DR-XPc">
                                 <rect key="frame" x="20" y="329" width="374" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -1270,10 +1276,19 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="erE-4D-LUg">
-                        <barButtonItem key="rightBarButtonItem" title="下一步" id="7AI-wZ-fDb"/>
+                        <barButtonItem key="rightBarButtonItem" title="下一步" id="7AI-wZ-fDb">
+                            <connections>
+                                <action selector="goNext:" destination="sfV-IB-CTZ" id="c8w-ec-4Ov"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="u8u-me-N4z" kind="show" id="9l3-UZ-aoF"/>
+                        <outlet property="maxLabel" destination="TnU-zn-fMb" id="P2h-l6-y7n"/>
+                        <outlet property="maxStepper" destination="CEz-1q-0Dk" id="Hzf-Wb-Hqp"/>
+                        <outlet property="minLabel" destination="guO-JQ-VmC" id="CTA-05-tHp"/>
+                        <outlet property="minStepper" destination="rcE-CL-LE6" id="M9y-Ud-6h9"/>
+                        <outlet property="nextBarButton" destination="7AI-wZ-fDb" id="SOQ-oS-L0J"/>
+                        <segue destination="u8u-me-N4z" kind="show" identifier="GoNewEventNumberReserved" id="9l3-UZ-aoF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J8P-n5-azL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1291,20 +1306,67 @@
                     <view key="view" contentMode="scaleToFill" id="jm1-AX-wsN">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="系统默认只为你一人预留了位置，如果有共同发起人，请为他们也预留位置" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B4P-Lh-7a5">
+                                <rect key="frame" x="20" y="72" width="374" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="预留人数（包括自己）：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vs1-3B-Kmp">
+                                <rect key="frame" x="20" y="133" width="374" height="20.666666666666657"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1人" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iub-7e-Wvf">
+                                <rect key="frame" x="20" y="161.66666666666666" width="155" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="o7b-Fc-aAW">
+                                <rect key="frame" x="183" y="161.66666666666666" width="94" height="29"/>
+                                <connections>
+                                    <action selector="numReservedChanged:" destination="u8u-me-N4z" eventType="valueChanged" id="eZs-qw-mif"/>
+                                </connections>
+                            </stepper>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="o7b-Fc-aAW" firstAttribute="leading" secondItem="iub-7e-Wvf" secondAttribute="trailing" constant="8" symbolic="YES" id="5k1-nJ-bn1"/>
+                            <constraint firstItem="iub-7e-Wvf" firstAttribute="bottom" secondItem="o7b-Fc-aAW" secondAttribute="bottom" id="ByJ-pl-SDU"/>
+                            <constraint firstItem="B4P-Lh-7a5" firstAttribute="top" secondItem="E4X-6R-ER4" secondAttribute="bottom" constant="8" symbolic="YES" id="IAa-VQ-bQd"/>
+                            <constraint firstItem="B4P-Lh-7a5" firstAttribute="leading" secondItem="jm1-AX-wsN" secondAttribute="leadingMargin" id="OAL-DF-Fj2"/>
+                            <constraint firstItem="iub-7e-Wvf" firstAttribute="top" secondItem="o7b-Fc-aAW" secondAttribute="top" id="OPL-bF-uMg"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="o7b-Fc-aAW" secondAttribute="trailing" constant="117" id="bw6-xI-p4w"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="B4P-Lh-7a5" secondAttribute="trailing" id="eIs-Yv-Zsf"/>
+                            <constraint firstItem="iub-7e-Wvf" firstAttribute="leading" secondItem="jm1-AX-wsN" secondAttribute="leadingMargin" id="hTm-Mg-S5s"/>
+                            <constraint firstItem="iub-7e-Wvf" firstAttribute="top" secondItem="vs1-3B-Kmp" secondAttribute="bottom" constant="8" symbolic="YES" id="sLe-ko-Fqd"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="vs1-3B-Kmp" secondAttribute="trailing" id="tda-5M-2e9"/>
+                            <constraint firstItem="vs1-3B-Kmp" firstAttribute="top" secondItem="B4P-Lh-7a5" secondAttribute="bottom" constant="40" id="w11-dm-6ku"/>
+                            <constraint firstItem="vs1-3B-Kmp" firstAttribute="leading" secondItem="jm1-AX-wsN" secondAttribute="leadingMargin" id="xRh-Y8-Zoe"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="FZs-fh-uH4">
-                        <barButtonItem key="rightBarButtonItem" title="下一步" id="dTT-Mb-lFM"/>
+                        <barButtonItem key="rightBarButtonItem" title="下一步" id="dTT-Mb-lFM">
+                            <connections>
+                                <action selector="goNext:" destination="u8u-me-N4z" id="gvJ-b3-JAl"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="AcI-pq-D5h" kind="show" id="1ZJ-PY-IDb"/>
+                        <outlet property="nextBarButton" destination="dTT-Mb-lFM" id="fuW-Gy-drf"/>
+                        <outlet property="reservedLabel" destination="iub-7e-Wvf" id="EkX-XT-jby"/>
+                        <outlet property="stepper" destination="o7b-Fc-aAW" id="fI6-RK-aMi"/>
+                        <segue destination="AcI-pq-D5h" kind="show" identifier="GoNewEventOptionals" id="1ZJ-PY-IDb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cZa-Br-7Qf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="7748" y="-7334"/>
         </scene>
-        <!--选填信息-->
+        <!--New Event Optionals View Controller-->
         <scene sceneID="0sI-bi-2QH">
             <objects>
                 <viewController id="AcI-pq-D5h" customClass="NewEventOptionalsViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
@@ -1317,9 +1379,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="选填信息" id="Q34-OF-2M2">
-                        <barButtonItem key="rightBarButtonItem" title="发布" id="K2B-g1-8ln"/>
+                    <navigationItem key="navigationItem" id="Q34-OF-2M2">
+                        <barButtonItem key="rightBarButtonItem" title="发布" id="K2B-g1-8ln">
+                            <connections>
+                                <action selector="post:" destination="AcI-pq-D5h" id="8aW-rd-Fex"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="postButton" destination="K2B-g1-8ln" id="oFY-4M-dD8"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Vd-2w-flw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

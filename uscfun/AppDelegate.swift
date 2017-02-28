@@ -20,12 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     static var systemNotificationDelegate: SystemNotificationDelegate?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    
-//        UIApplication.shared.statusBarStyle = .lightContent
-        
         
         //--MARK: register for notification
-//        registerForPushNotifications(application: application)
+        registerForPushNotifications(application: application)
         //--MARK: register wechat account
         WXApi.registerApp("wx8f761834a81e3579")
         
@@ -36,37 +33,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AVOSCloud.setApplicationId("0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz", clientKey: "XRGhgA5IwbqTWzosKRh3nzRY")
         AVAnalytics.trackAppOpened(launchOptions: launchOptions)
         
-//        LCCKInputViewPluginTakePhoto.registerSubclass()
-//        LCCKInputViewPluginPickImage.registerSubclass()
-//        LCCKInputViewPluginLocation.registerSubclass()
+        LCCKInputViewPluginTakePhoto.registerSubclass()
+        LCCKInputViewPluginPickImage.registerSubclass()
+        LCCKInputViewPluginLocation.registerSubclass()
         
-//        LoginKit.delegate = self
+        LoginKit.delegate = self
         
         // PRE-LOAD DATA
-//        if UserDefaults.hasLoggedIn {
-//            userDidLoggedIn()
-//            EventRequest.preLoadData()
-//        }
+        if UserDefaults.hasLoggedIn {
+            userDidLoggedIn()
+            EventRequest.preLoadData()
+        }
         
         // choose login scene or home scene based on if loggedin
-//        window = UIWindow(frame: UIScreen.main.bounds)
-//        if UserDefaults.hasLoggedIn {
-//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//            let initialViewController = storyboard.instantiateInitialViewController()
-//            window?.rootViewController = initialViewController
-//            window?.makeKeyAndVisible()
-//        } else {
-//            let storyboard = UIStoryboard(name: "Login", bundle: nil)
-//            let initialViewController = storyboard.instantiateInitialViewController()
-//            window?.rootViewController = initialViewController
-//            window?.makeKeyAndVisible()
-//        }
-    
         window = UIWindow(frame: UIScreen.main.bounds)
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let initialViewController = storyboard.instantiateInitialViewController()
-        window?.rootViewController = initialViewController
-        window?.makeKeyAndVisible()
+        if UserDefaults.hasLoggedIn {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let initialViewController = storyboard.instantiateInitialViewController()
+            window?.rootViewController = initialViewController
+            window?.makeKeyAndVisible()
+        } else {
+            let storyboard = UIStoryboard(name: "Login", bundle: nil)
+            let initialViewController = storyboard.instantiateInitialViewController()
+            window?.rootViewController = initialViewController
+            window?.makeKeyAndVisible()
+        }
+    
+//        window = UIWindow(frame: UIScreen.main.bounds)
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let initialViewController = storyboard.instantiateInitialViewController()
+//        window?.rootViewController = initialViewController
+//        window?.makeKeyAndVisible()
         return true
     }
 
