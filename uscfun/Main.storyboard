@@ -1249,9 +1249,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="Q34-OF-2M2">
-                        <barButtonItem key="rightBarButtonItem" title="发布" id="K2B-g1-8ln">
+                        <barButtonItem key="rightBarButtonItem" title="预览" id="K2B-g1-8ln">
                             <connections>
-                                <action selector="post:" destination="AcI-pq-D5h" id="8aW-rd-Fex"/>
+                                <segue destination="K32-49-QfJ" kind="show" id="GuP-ZS-m0K"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1262,6 +1262,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Vd-2w-flw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="8570" y="-7334"/>
+        </scene>
+        <!--New Event Preview View Controller-->
+        <scene sceneID="Nvx-Og-YHH">
+            <objects>
+                <viewController id="K32-49-QfJ" customClass="NewEventPreviewViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="j7W-eJ-hLN"/>
+                        <viewControllerLayoutGuide type="bottom" id="Vho-eT-1zo"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="GGS-uM-apf">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="8ix-zk-PBB">
+                        <barButtonItem key="rightBarButtonItem" title="发布" id="3Iz-Gx-gOL">
+                            <connections>
+                                <action selector="post:" destination="K32-49-QfJ" id="o6P-aq-Vj1"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="postButton" destination="3Iz-Gx-gOL" id="T72-R9-Zkq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="68F-Ac-Kbm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="9300" y="-7334"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="9s1-b4-deY">

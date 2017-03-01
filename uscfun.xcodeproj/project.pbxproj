@@ -38,6 +38,7 @@
 		0A6834C51D56858C002E9B0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A6834C41D56858C002E9B0D /* Assets.xcassets */; };
 		0A6834C81D56858C002E9B0D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A6834C61D56858C002E9B0D /* LaunchScreen.storyboard */; };
 		0A68D7FB1DB07F2000DDF3A5 /* EventRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A68D7FA1DB07F2000DDF3A5 /* EventRequest.swift */; };
+		0A6D922F1E666AAE008501B9 /* NewEventPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D922E1E666AAE008501B9 /* NewEventPreviewViewController.swift */; };
 		0A70C09B1DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A70C0991DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.swift */; };
 		0A70C09C1DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A70C09A1DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.xib */; };
 		0A70C09F1DBD3B4000C06354 /* LabelSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A70C09D1DBD3B4000C06354 /* LabelSwitchTableViewCell.swift */; };
@@ -124,6 +125,7 @@
 		0A6834C71D56858C002E9B0D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0A6834C91D56858C002E9B0D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A68D7FA1DB07F2000DDF3A5 /* EventRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventRequest.swift; sourceTree = "<group>"; };
+		0A6D922E1E666AAE008501B9 /* NewEventPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewEventPreviewViewController.swift; sourceTree = "<group>"; };
 		0A70C0991DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptySectionPlaceholderTableViewCell.swift; sourceTree = "<group>"; };
 		0A70C09A1DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmptySectionPlaceholderTableViewCell.xib; sourceTree = "<group>"; };
 		0A70C09D1DBD3B4000C06354 /* LabelSwitchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelSwitchTableViewCell.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 				0A98340D1E64572C00A5D894 /* NewEventNumberOfPeopleViewController.swift */,
 				0A98340F1E64575100A5D894 /* NewEventNumberReservedViewController.swift */,
 				0A9834111E64577300A5D894 /* NewEventOptionalsViewController.swift */,
+				0A6D922E1E666AAE008501B9 /* NewEventPreviewViewController.swift */,
 			);
 			name = NewEventViewControllers;
 			sourceTree = "<group>";
@@ -577,6 +580,7 @@
 				0A9CB4531D7006F400608D27 /* PreLoginViewController.swift in Sources */,
 				0A00DB051DD90DEA00A81189 /* ImagePickerController.swift in Sources */,
 				0A963DB91D717A5F00E0532F /* PasswordViewController.swift in Sources */,
+				0A6D922F1E666AAE008501B9 /* NewEventPreviewViewController.swift in Sources */,
 				0A68D7FB1DB07F2000DDF3A5 /* EventRequest.swift in Sources */,
 				0AAE42DF1D9A289D00B34601 /* ImgKeyValueTableViewCell.swift in Sources */,
 				0AA82B101DCDAEB90016B278 /* UserProfileViewController.swift in Sources */,

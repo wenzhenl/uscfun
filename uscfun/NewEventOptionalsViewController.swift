@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import AVOSCloud
-import SVProgressHUD
 import Eureka
 
 class NewEventOptionalsViewController: FormViewController {
@@ -133,53 +131,5 @@ class NewEventOptionalsViewController: FormViewController {
             eventCoordinate = AVGeoPoint(latitude: UserDefaults.newEventLocationLatitude, longitude: UserDefaults.newEventLocationLongitude)
         }
         note = UserDefaults.newEventNote
-    }
-
-    func clearNewEventUserDefaults() {
-        UserDefaults.newEventName = nil
-        UserDefaults.newEventDue = Date(timeIntervalSince1970: 0)
-        UserDefaults.newEventMaxPeople = 0
-        UserDefaults.newEventMinPeople = 0
-        UserDefaults.newEventNumReserved = 0
-        UserDefaults.newEventStartTime = Date(timeIntervalSince1970: 0)
-        UserDefaults.newEventEndTime = Date(timeIntervalSince1970: 0)
-        UserDefaults.newEventLocationName = nil
-        UserDefaults.newEventLocationLatitude = 0
-        UserDefaults.newEventLocationLongitude = 0
-        UserDefaults.newEventNote = nil
-    }
-    
-    @IBAction func post(_ sender: UIBarButtonItem) {
-        
-        let event = Event(name: UserDefaults.newEventName!, type: EventType.foodAndDrink, totalSeats: UserDefaults.newEventMaxPeople, remainingSeats: UserDefaults.newEventMaxPeople - UserDefaults.newEventNumReserved, minimumAttendingPeople: UserDefaults.newEventMinPeople, due: UserDefaults.newEventDue, creator: AVUser.current())
-        
-        if eventStartTime > Date() {
-            event.startTime = eventStartTime
-        }
-        
-        if eventEndTime > Date() && eventEndTime > eventStartTime {
-            event.endTime = eventEndTime
-        }
-        
-        event.locationName = eventLocation
-        
-        if eventCoordinate != AVGeoPoint(latitude: 0, longitude: 0) {
-            event.location = eventCoordinate
-        }
-        
-        event.note = note
-        
-        event.post() {
-            succeeded, error in
-            SVProgressHUD.dismiss()
-            if succeeded {
-                self.clearNewEventUserDefaults()
-                self.presentingViewController?.dismiss(animated: true, completion: nil)
-            } else {
-                self.postButton.isEnabled = true
-            }
-        }
-        postButton.isEnabled = false
-        SVProgressHUD.show()
     }
 }
