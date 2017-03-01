@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="321" id="KGk-i7-Jjw" customClass="EventSnapshotTableViewCell" customModule="uscfun" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="321"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="321"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="[困].png" translatesAutoresizingMaskIntoConstraints="NO" id="hlg-Jy-4tw">
+                        <rect key="frame" x="8" y="8" width="15" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="FN6-4Q-hbG"/>
+                            <constraint firstAttribute="width" constant="15" id="KL9-9x-ptY"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="wenzhenl发起" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e4B-uK-NRO">
+                        <rect key="frame" x="31" y="8" width="84" height="15"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="有什么道理是开始注重外表后几年才能悟出来的？" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Xk-A7-0vu">
+                        <rect key="frame" x="8" y="31" width="304" height="21"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailingMargin" secondItem="6Xk-A7-0vu" secondAttribute="trailing" id="0bL-u4-HHr"/>
+                    <constraint firstItem="6Xk-A7-0vu" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="93y-sC-esN"/>
+                    <constraint firstItem="e4B-uK-NRO" firstAttribute="top" secondItem="hlg-Jy-4tw" secondAttribute="top" id="XKy-XK-WCM"/>
+                    <constraint firstItem="6Xk-A7-0vu" firstAttribute="top" secondItem="hlg-Jy-4tw" secondAttribute="bottom" constant="8" symbolic="YES" id="dZw-Eo-e4V"/>
+                    <constraint firstItem="hlg-Jy-4tw" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="iyN-jY-ZeB"/>
+                    <constraint firstItem="hlg-Jy-4tw" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="lJl-kd-DtP"/>
+                    <constraint firstItem="e4B-uK-NRO" firstAttribute="leading" secondItem="hlg-Jy-4tw" secondAttribute="trailing" constant="8" symbolic="YES" id="qdi-5d-rLN"/>
+                    <constraint firstItem="e4B-uK-NRO" firstAttribute="bottom" secondItem="hlg-Jy-4tw" secondAttribute="bottom" id="vgv-lf-nlM"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="creatorAvatarImageView" destination="hlg-Jy-4tw" id="C8T-RF-Qml"/>
+                <outlet property="creatorLabel" destination="e4B-uK-NRO" id="tel-TK-uVb"/>
+                <outlet property="eventNameLabel" destination="6Xk-A7-0vu" id="N3W-Fl-jC6"/>
+            </connections>
+            <point key="canvasLocation" x="26" y="74.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="[困].png" width="30" height="30"/>
+    </resources>
+</document>

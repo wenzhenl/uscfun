@@ -36,7 +36,7 @@ class MeViewController: UIViewController {
 
         self.view.backgroundColor = UIColor.buttonPink
         self.tableView.backgroundColor = UIColor.backgroundGray
-        self.tableView.contentInset = UIEdgeInsetsMake(30, 0, 50, 0)
+        self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 50, 0)
         self.tableView.tableFooterView = UIView()
         self.populateSections()
         
@@ -61,16 +61,6 @@ class MeViewController: UIViewController {
                 print("unread number \(number)")
             }
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        self.title = "我"
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        self.title = ""
     }
     
     func populateSections() {
