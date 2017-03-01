@@ -13,4 +13,8 @@ class EventSnapshotTableViewCell: UITableViewCell {
     @IBOutlet weak var creatorAvatarImageView: UIImageView!
     @IBOutlet weak var creatorLabel: UILabel!
     @IBOutlet weak var eventNameLabel: UILabel!
+    
+    @IBOutlet weak var whitePaperImageView: UIImageView!
+    @IBOutlet weak var needNumberLabel: UILabel!
+    @IBOutlet weak var remainingTimeLabel: UILabel!
 }

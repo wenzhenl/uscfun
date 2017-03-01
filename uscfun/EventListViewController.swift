@@ -135,6 +135,16 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             cell.creatorAvatarImageView.layer.masksToBounds = true
             cell.creatorAvatarImageView.layer.cornerRadius = cell.creatorAvatarImageView.frame.size.width / 2.0
             cell.creatorAvatarImageView.image = creator.avatar
+            
+            let possibleWhitePapers = [#imageLiteral(resourceName: "clip4"), #imageLiteral(resourceName: "clip1"), #imageLiteral(resourceName: "clip2"), #imageLiteral(resourceName: "clip3")]
+            let randomIndex = Int(arc4random_uniform(UInt32(possibleWhitePapers.count)))
+            cell.whitePaperImageView.image = possibleWhitePapers[randomIndex]
+            
+            let randomColorIndex = Int(arc4random_uniform(UInt32(USCFunConstants.avatarColorOptions.count)))
+            cell.needNumberLabel.text = String(event.remainingSeats)
+            cell.needNumberLabel.textColor = USCFunConstants.avatarColorOptions[randomColorIndex]
+            cell.remainingTimeLabel.text = event.due.gapFromNow
+            
             cell.selectionStyle = .none
             return cell
         }

@@ -26,7 +26,6 @@ class NewEventDueViewController: UIViewController {
             UserDefaults.newEventDue = newValue
             let fullTime = newValue.fullStyle
             print(fullTime)
-            print(NSLocale.preferredLanguages.first)
             
             if NSLocale.preferredLanguages.first == "zh-Hans-US" {
                 let dateAndTime = fullTime.components(separatedBy: " ")
