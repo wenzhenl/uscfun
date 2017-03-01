@@ -31,6 +31,7 @@ class EventListViewController: UIViewController {
         self.tableView.scrollsToTop = true
         self.tableView.addSubview(self.refreshControl)
         self.tableView.backgroundColor = UIColor.backgroundGray
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, -10, 0)
         self.tableView.tableFooterView = UIView()
         AppDelegate.systemNotificationDelegate = self
     }
@@ -152,13 +153,15 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section == EventRequest.publicEvents.count - 1 {
-            return 0
-        }
         return 10
     }
     
+    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        view.tintColor = UIColor.clear
+    }
+    
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        
         let px = 1 / UIScreen.main.scale
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: 10 + px))
         let frame = CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: px)
@@ -167,6 +170,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
         footerView.addSubview(line)
         return footerView
     }
+    
 }
 
 extension EventListViewController: SystemNotificationDelegate {
