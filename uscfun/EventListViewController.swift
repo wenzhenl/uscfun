@@ -105,40 +105,40 @@ class EventListViewController: UIViewController {
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let identifier = segue.identifier {
-            switch identifier {
-            case identifierToEventDetail:
-                let destination = segue.destination
-                if let eventDetailVC = destination as? EventDetailViewController {
-                    switch sender {
-                    case is AttendingEventTableViewCell:
-                        let attendingCell = sender as! AttendingEventTableViewCell
-                        eventDetailVC.event = EventRequest.myOngoingEvents[attendingCell.eventId]
-                        eventDetailVC.delegate = self
-                        
-                    case is EventListTableViewCell:
-                        let eventListCell = sender as! EventListTableViewCell
-                        eventDetailVC.event = EventRequest.publicEvents[eventListCell.eventId]
-                        eventDetailVC.delegate = self
-                    default:
-                        break
-                    }
-                }
-            case identifierToPostEvent:
-                var destination = segue.destination
-                if let nav = destination as? UINavigationController {
-                    destination = nav.topViewController!
-                }
-                if let startEventVC = destination as? StartEventViewController {
-                    startEventVC.delegate = self
-                }
-            default:
-                break
-            }
-        }
-    }
-    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if let identifier = segue.identifier {
+//            switch identifier {
+//            case identifierToEventDetail:
+//                let destination = segue.destination
+//                if let eventDetailVC = destination as? EventDetailViewController {
+//                    switch sender {
+//                    case is AttendingEventTableViewCell:
+//                        let attendingCell = sender as! AttendingEventTableViewCell
+//                        eventDetailVC.event = EventRequest.myOngoingEvents[attendingCell.eventId]
+//                        eventDetailVC.delegate = self
+//                        
+//                    case is EventListTableViewCell:
+//                        let eventListCell = sender as! EventListTableViewCell
+//                        eventDetailVC.event = EventRequest.publicEvents[eventListCell.eventId]
+//                        eventDetailVC.delegate = self
+//                    default:
+//                        break
+//                    }
+//                }
+//            case identifierToPostEvent:
+//                var destination = segue.destination
+//                if let nav = destination as? UINavigationController {
+//                    destination = nav.topViewController!
+//                }
+//                if let startEventVC = destination as? StartEventViewController {
+//                    startEventVC.delegate = self
+//                }
+//            default:
+//                break
+//            }
+//        }
+//    }
+//    
     let identifierToEventDetail = "go to event detail"
     let identifierToPostEvent = "go to post new event"
 }

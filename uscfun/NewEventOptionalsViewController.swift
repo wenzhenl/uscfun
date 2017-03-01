@@ -43,7 +43,7 @@ class NewEventOptionalsViewController: FormViewController {
             }
         +++ Section("补充说明(选填)")
         <<< TextAreaRow("note"){ row in
-            row.placeholder = "比如预计费用，出行方式，是否需要带现金"
+            row.placeholder = "比如预计费用，出行方式，是否需要带现金等等"
             }
     }
 
