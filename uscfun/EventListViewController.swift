@@ -28,11 +28,10 @@ class EventListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 60, 0)
         self.tableView.scrollsToTop = true
         self.tableView.addSubview(self.refreshControl)
         self.tableView.backgroundColor = UIColor.backgroundGray
-        
+        self.tableView.tableFooterView = UIView()
         AppDelegate.systemNotificationDelegate = self
     }
 
@@ -108,8 +107,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        return 100
-//        return UITableViewAutomaticDimension
+        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -130,17 +128,13 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             let event = EventRequest.publicEvents[EventRequest.publicEvents.keys[indexPath.section]]!
             let cell = Bundle.main.loadNibNamed("EventSnapshotTableViewCell", owner: self, options: nil)?.first as! EventSnapshotTableViewCell
+            let creator = User(user: event.creator)!
             cell.eventNameLabel.text = event.name
-//            let px = 1 / UIScreen.main.scale
-//            let topFrame = CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: px)
-//            let topLine = UIView(frame: topFrame)
-//            topLine.backgroundColor = self.tableView.separatorColor
-//            cell.contentView.addSubview(topLine)
-//            
-//            let bottomFrame = CGRect(x: 0, y: cell.contentView.frame.height - px, width: self.tableView.frame.size.width, height: px)
-//            let bottomLine = UIView(frame: bottomFrame)
-//            bottomLine.backgroundColor = self.tableView.separatorColor
-//            cell.contentView.addSubview(bottomLine)
+            cell.creatorLabel.text = "发起人：" + creator.nickname
+            cell.creatorAvatarImageView.layer.masksToBounds = true
+            cell.creatorAvatarImageView.layer.cornerRadius = cell.creatorAvatarImageView.frame.size.width / 2.0
+            cell.creatorAvatarImageView.image = creator.avatar
+            cell.selectionStyle = .none
             return cell
         }
     }
@@ -158,6 +152,9 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == EventRequest.publicEvents.count - 1 {
+            return 0
+        }
         return 10
     }
     
