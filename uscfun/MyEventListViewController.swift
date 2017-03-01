@@ -1,24 +1,17 @@
 //
-//  EventListViewController.swift
+//  MyEventListViewController.swift
 //  uscfun
 //
-//  Created by Wenzheng Li on 9/3/16.
-//  Copyright © 2016 Wenzheng Li. All rights reserved.
+//  Created by Wenzheng Li on 3/1/17.
+//  Copyright © 2017 Wenzheng Li. All rights reserved.
 //
 
 import UIKit
-import ChatKit
-import SVProgressHUD
 
-protocol SystemNotificationDelegate {
-    func systemDidUpdateExistingEvents(ids: [String])
-    func systemDidUpdateNewEvents()
-}
-
-class EventListViewController: UIViewController {
+class MyEventListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-
+    
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
@@ -27,13 +20,12 @@ class EventListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.tableView.scrollsToTop = true
         self.tableView.addSubview(self.refreshControl)
         self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, -10, 0)
         self.tableView.tableFooterView = UIView()
-        AppDelegate.systemNotificationDelegate = self
     }
 
     func handleRefresh() {
@@ -43,14 +35,14 @@ class EventListViewController: UIViewController {
                 self.tableView.reloadData()
             }
         }
-        let numberOfPublicEventsBeforeUpdate = EventRequest.publicEvents.count
+        let numberOfPublicEventsBeforeUpdate = EventRequest.myOngoingEvents.count
         EventRequest.fetchNewerPublicEventsInBackground() {
             succeeded, error in
             if error != nil {
                 self.showUpdateReminder(message: error!.localizedDescription)
             }
             else if succeeded {
-                let numberOfPublicEventsAfterUpdate = EventRequest.publicEvents.count
+                let numberOfPublicEventsAfterUpdate = EventRequest.myOngoingEvents.count
                 if numberOfPublicEventsAfterUpdate > numberOfPublicEventsBeforeUpdate {
                     self.showUpdateReminder(message: "发现了\(numberOfPublicEventsAfterUpdate - numberOfPublicEventsBeforeUpdate)个新的微活动")
                 }
@@ -62,72 +54,44 @@ class EventListViewController: UIViewController {
     
     func showUpdateReminder(message: String) {
     }
-    let identifierToEventDetail = "go to event detail"
-    let identifierToPostEvent = "go to post new event"
 }
 
-extension EventListViewController: UserSettingDelegate {
-    func userDidChangeLefthandMode() {
-    }
-}
-
-extension EventListViewController: EventMemberStatusDelegate {
-    func userDidJoinEventWith(id: String) {
-        EventRequest.myOngoingEvents[id] = EventRequest.publicEvents[id]
-        EventRequest.publicEvents[id] = nil
-        self.tableView.reloadData()
-    }
-    
-    func userDidQuitEventWith(id: String) {
-        EventRequest.publicEvents[id] = EventRequest.myOngoingEvents[id]
-        EventRequest.myOngoingEvents[id] = nil
-        self.tableView.reloadData()
-    }
-    
-    func userDidPostEvent() {
-        EventRequest.fetchNewerMyOngoingEventsInBackground() {
-            _ in
-            self.tableView.reloadData()
-        }
-    }
-}
-
-extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
+extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        if EventRequest.publicEvents.count == 0 {
+        if EventRequest.myOngoingEvents.count == 0 {
             return 1
         }
         
-        return EventRequest.publicEvents.count
+        return EventRequest.myOngoingEvents.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
-
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
- 
-        if EventRequest.publicEvents.count == 0 {
+        
+        if EventRequest.myOngoingEvents.count == 0 {
             return 150
         }
         return 270
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        if EventRequest.publicEvents.count == 0 {
+        
+        if EventRequest.myOngoingEvents.count == 0 {
             let cell = Bundle.main.loadNibNamed("EmptySectionPlaceholderTableViewCell", owner: self, options: nil)?.first as! EmptySectionPlaceholderTableViewCell
-            cell.mainTextView.text = "好像微活动都被参加完了，少年快去发起一波吧！"
+            cell.mainTextView.text = "你好像还没有参加任何微活动，快去参加一波吧！"
             cell.selectionStyle = .none
             return cell
         } else {
-            let event = EventRequest.publicEvents[EventRequest.publicEvents.keys[indexPath.section]]!
+            let event = EventRequest.myOngoingEvents[EventRequest.myOngoingEvents.keys[indexPath.section]]!
             let cell = Bundle.main.loadNibNamed("EventSnapshotTableViewCell", owner: self, options: nil)?.first as! EventSnapshotTableViewCell
             let creator = User(user: event.creator)!
             cell.eventNameLabel.text = event.name
@@ -179,22 +143,4 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
         return footerView
     }
     
-}
-
-extension EventListViewController: SystemNotificationDelegate {
-    func systemDidUpdateExistingEvents(ids: [String]) {
-        print("updating existing events")
-        EventRequest.fetchEvents(inBackground: true, with: ids) {
-            succeeded, error in
-            if succeeded {
-                self.tableView.reloadData()
-            } else if error != nil {
-                print(error!.localizedDescription)
-            }
-        }
-    }
-    
-    func systemDidUpdateNewEvents() {
-        print("new events coming")
-    }
 }

@@ -514,7 +514,7 @@
         <!--首页-->
         <scene sceneID="KD8-dZ-U38">
             <objects>
-                <viewController id="tgE-4F-Aif" sceneMemberID="viewController">
+                <viewController id="tgE-4F-Aif" customClass="MyEventListViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wWD-3D-3Zv"/>
                         <viewControllerLayoutGuide type="bottom" id="2Is-3A-dYp"/>
@@ -522,9 +522,28 @@
                     <view key="view" contentMode="scaleToFill" id="ObN-Mo-xMZ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xoY-z6-WMA">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="tgE-4F-Aif" id="I2V-Jm-ooQ"/>
+                                    <outlet property="delegate" destination="tgE-4F-Aif" id="29B-aR-p6e"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="xoY-z6-WMA" firstAttribute="centerX" secondItem="ObN-Mo-xMZ" secondAttribute="centerX" id="9gf-bP-VOT"/>
+                            <constraint firstItem="xoY-z6-WMA" firstAttribute="centerY" secondItem="ObN-Mo-xMZ" secondAttribute="centerY" id="SKY-bB-6rL"/>
+                            <constraint firstItem="xoY-z6-WMA" firstAttribute="height" secondItem="ObN-Mo-xMZ" secondAttribute="height" id="c5j-GD-7QJ"/>
+                            <constraint firstItem="xoY-z6-WMA" firstAttribute="width" secondItem="ObN-Mo-xMZ" secondAttribute="width" id="ehR-dk-mq8"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="首页" id="gPr-KZ-Sl5"/>
+                    <connections>
+                        <outlet property="tableView" destination="xoY-z6-WMA" id="gG6-Ee-pJU"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cXO-NJ-lf0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

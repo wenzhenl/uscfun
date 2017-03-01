@@ -49,6 +49,7 @@
 		0A71119D1DBEC87000742F2D /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71119C1DBEC87000742F2D /* UserDefaultsExtension.swift */; };
 		0A71119F1DBEC8BF00742F2D /* LoginKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71119E1DBEC8BF00742F2D /* LoginKit.swift */; };
 		0A845BD41D7206FE00287DEB /* ConfirmEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A845BD31D7206FE00287DEB /* ConfirmEmailViewController.swift */; };
+		0A8483591E670EF500B7B29A /* MyEventListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8483581E670EF500B7B29A /* MyEventListViewController.swift */; };
 		0A963DB31D7122D000E0532F /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A963DB21D7122D000E0532F /* SignInViewController.swift */; };
 		0A963DB51D7122E200E0532F /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A963DB41D7122E200E0532F /* SignUpViewController.swift */; };
 		0A963DB71D716E6400E0532F /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A963DB61D716E6400E0532F /* NicknameViewController.swift */; };
@@ -135,6 +136,7 @@
 		0A71119C1DBEC87000742F2D /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
 		0A71119E1DBEC8BF00742F2D /* LoginKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginKit.swift; sourceTree = "<group>"; };
 		0A845BD31D7206FE00287DEB /* ConfirmEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewController.swift; sourceTree = "<group>"; };
+		0A8483581E670EF500B7B29A /* MyEventListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyEventListViewController.swift; sourceTree = "<group>"; };
 		0A963DB21D7122D000E0532F /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		0A963DB41D7122E200E0532F /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		0A963DB61D716E6400E0532F /* NicknameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
@@ -341,6 +343,7 @@
 		0AFA61AA1D7DF65800042EFA /* EventViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				0A8483581E670EF500B7B29A /* MyEventListViewController.swift */,
 				0A3D2B5A1D7B9299004F57EF /* EventListViewController.swift */,
 				0A3D2B5C1D7B9351004F57EF /* EventDetailViewController.swift */,
 				0AAE42E31D9A2F8B00B34601 /* MapViewController.swift */,
@@ -564,6 +567,7 @@
 				0A9834101E64575100A5D894 /* NewEventNumberReservedViewController.swift in Sources */,
 				0A98340A1E6455DF00A5D894 /* NewEventNameViewController.swift in Sources */,
 				0AE5C54D1DB1E2CC00B455F4 /* LabelArrowTableViewCell.swift in Sources */,
+				0A8483591E670EF500B7B29A /* MyEventListViewController.swift in Sources */,
 				0A0185851DC48602009A7874 /* LabelImgArrowTableViewCell.swift in Sources */,
 				0A98340C1E64570400A5D894 /* NewEventDueViewController.swift in Sources */,
 				0A71119F1DBEC8BF00742F2D /* LoginKit.swift in Sources */,

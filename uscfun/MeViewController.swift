@@ -75,10 +75,9 @@ class MeViewController: UIViewController {
         let privacySection = [MeCell.labelSwitchTableCell(text: textOfAllowEventHistroyViewed)]
         meSections.append(privacySection)
         
-        let userHabitSection = [MeCell.labelSwitchTableCell(text: textOfLefthandMode)]
-        meSections.append(userHabitSection)
-        
-        let appInfoSection = [MeCell.labelArrowTableCell(text: "给USC日常评分", segueId: segueIdOfRateUSCFun), MeCell.labelImgArrowTableCell(text: "反馈问题或建议", isIndicated: hasUnreadMessage, segueId: segueIdOfGiveComments), MeCell.labelArrowTableCell(text: "关于USC日常", segueId: segueIdOfAboutUSCFun)]
+        let appInfoSection = [MeCell.labelArrowTableCell(text: "给USC日常评分", segueId: segueIdOfRateUSCFun),
+//                              MeCell.labelImgArrowTableCell(text: "反馈问题或建议", isIndicated: hasUnreadMessage, segueId: segueIdOfGiveComments),
+                              MeCell.labelArrowTableCell(text: "关于USC日常", segueId: segueIdOfAboutUSCFun)]
         meSections.append(appInfoSection)
         
         let signOutSection = [MeCell.regularTableCell(text: "退出登录", segueId: segueIdOfSignOut)]
@@ -165,10 +164,6 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 20
-    }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if (indexPath as NSIndexPath).section == 0 {
             return 90
@@ -187,9 +182,37 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
         cell.backgroundColor = UIColor.white
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 1 / UIScreen.main.scale
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let px = 1 / UIScreen.main.scale
+        let frame = CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: px)
+        let line = UIView(frame: frame)
+        line.backgroundColor = self.tableView.separatorColor
+        return line
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 15
+    }
+    
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         view.tintColor = UIColor.clear
     }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        
+        let px = 1 / UIScreen.main.scale
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: 10 + px))
+        let frame = CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: px)
+        let line = UIView(frame: frame)
+        line.backgroundColor = self.tableView.separatorColor
+        footerView.addSubview(line)
+        return footerView
+    }
+
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
