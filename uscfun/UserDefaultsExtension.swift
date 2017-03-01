@@ -159,6 +159,33 @@ extension UserDefaults {
         }
     }
     
+    class var newEventLocationName: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "New_Event_Location_Name")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "New_Event_Location_Name")
+        }
+    }
+    
+    class var newEventLocationLongitude: Double {
+        get {
+            return UserDefaults.standard.double(forKey: "New_Event_Location_Longitude")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "New_Event_Location_Longitude")
+        }
+    }
+    
+    class var newEventLocationLatitude: Double {
+        get {
+            return UserDefaults.standard.double(forKey: "New_Event_Location_Latitude")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "New_Event_Location_Latitude")
+        }
+    }
+    
     class var newEventNote: String? {
         get {
             return UserDefaults.standard.string(forKey: "New_Event_Note")

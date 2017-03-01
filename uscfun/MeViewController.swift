@@ -63,6 +63,16 @@ class MeViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.title = "我"
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        self.title = ""
+    }
+    
     func populateSections() {
         //--MARK: populate the cells
         meSections = [[MeCell]]()
