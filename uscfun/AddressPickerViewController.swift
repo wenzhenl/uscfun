@@ -52,23 +52,6 @@ public class AddressPickerViewController: UIViewController, TypedRowControllerTy
         resultsSearchController?.dimsBackgroundDuringPresentation = true
         definesPresentationContext = true
     }
-    
-    override public func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        UIApplication.shared.statusBarStyle = .default
-    }
-    
-//    override public func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(true)
-//        resultsSearchController?.isActive = true
-//        resultsSearchController?.searchBar.becomeFirstResponder()
-//        
-//    }
-    
-    override public func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        UIApplication.shared.statusBarStyle = .lightContent
-    }
 }
 
 extension AddressPickerViewController: SearchResultDelegate {
