@@ -60,6 +60,8 @@
 		0A8483691E6841A700B7B29A /* TandemLabelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A8483671E6841A700B7B29A /* TandemLabelTableViewCell.xib */; };
 		0A84836C1E68439100B7B29A /* EventDetailHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A84836A1E68439100B7B29A /* EventDetailHeaderTableViewCell.swift */; };
 		0A84836D1E68439100B7B29A /* EventDetailHeaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A84836B1E68439100B7B29A /* EventDetailHeaderTableViewCell.xib */; };
+		0A8483701E68518600B7B29A /* TitleTextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A84836E1E68518600B7B29A /* TitleTextViewTableViewCell.swift */; };
+		0A8483711E68518600B7B29A /* TitleTextViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A84836F1E68518600B7B29A /* TitleTextViewTableViewCell.xib */; };
 		0A963DB31D7122D000E0532F /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A963DB21D7122D000E0532F /* SignInViewController.swift */; };
 		0A963DB51D7122E200E0532F /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A963DB41D7122E200E0532F /* SignUpViewController.swift */; };
 		0A963DB71D716E6400E0532F /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A963DB61D716E6400E0532F /* NicknameViewController.swift */; };
@@ -157,6 +159,8 @@
 		0A8483671E6841A700B7B29A /* TandemLabelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TandemLabelTableViewCell.xib; sourceTree = "<group>"; };
 		0A84836A1E68439100B7B29A /* EventDetailHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		0A84836B1E68439100B7B29A /* EventDetailHeaderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventDetailHeaderTableViewCell.xib; sourceTree = "<group>"; };
+		0A84836E1E68518600B7B29A /* TitleTextViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleTextViewTableViewCell.swift; sourceTree = "<group>"; };
+		0A84836F1E68518600B7B29A /* TitleTextViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TitleTextViewTableViewCell.xib; sourceTree = "<group>"; };
 		0A963DB21D7122D000E0532F /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		0A963DB41D7122E200E0532F /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		0A963DB61D716E6400E0532F /* NicknameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
@@ -295,6 +299,8 @@
 				0A8483671E6841A700B7B29A /* TandemLabelTableViewCell.xib */,
 				0A84836A1E68439100B7B29A /* EventDetailHeaderTableViewCell.swift */,
 				0A84836B1E68439100B7B29A /* EventDetailHeaderTableViewCell.xib */,
+				0A84836E1E68518600B7B29A /* TitleTextViewTableViewCell.swift */,
+				0A84836F1E68518600B7B29A /* TitleTextViewTableViewCell.xib */,
 			);
 			name = TableViewCells;
 			sourceTree = "<group>";
@@ -486,6 +492,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A8483711E68518600B7B29A /* TitleTextViewTableViewCell.xib in Resources */,
 				0A8483651E68402800B7B29A /* NumberDisplayTableViewCell.xib in Resources */,
 				0A0185861DC48602009A7874 /* LabelImgArrowTableViewCell.xib in Resources */,
 				0A9CB44D1D6FF5FC00608D27 /* Login.storyboard in Resources */,
@@ -581,6 +588,7 @@
 				0A5830CB1DD45A2800E06B4A /* OrderedDictionary.swift in Sources */,
 				0A963DB51D7122E200E0532F /* SignUpViewController.swift in Sources */,
 				0A022FA71D73D066004077A4 /* FindBackPasswordViewController.swift in Sources */,
+				0A8483701E68518600B7B29A /* TitleTextViewTableViewCell.swift in Sources */,
 				0A71119D1DBEC87000742F2D /* UserDefaultsExtension.swift in Sources */,
 				0A9CB4511D6FFAA500608D27 /* User.swift in Sources */,
 				0A96D3D11DADBF5B00AB272A /* ImgKeyValueArrowTableViewCell.swift in Sources */,

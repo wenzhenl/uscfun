@@ -173,6 +173,37 @@ extension Date {
         return formatter.string(from: self)
     }
     
+    var readableDate: String {
+        let fullTime = self.fullStyle
+        if NSLocale.preferredLanguages.first == "zh-Hans-US" {
+            let dateAndTime = fullTime.components(separatedBy: " ")
+            return dateAndTime[0] + " " + dateAndTime[1]
+        }
+        else if NSLocale.preferredLanguages.first == "en-US" {
+            let dateAndTime = fullTime.components(separatedBy: " at ")
+            let date = dateAndTime.first!
+            let deleteYear = date.components(separatedBy: ", ")
+            return deleteYear.first! + ", " + deleteYear[1]
+        } else {
+            return ""
+        }
+    }
+    
+    var readableTime: String {
+        let fullTime = self.fullStyle
+        if NSLocale.preferredLanguages.first == "zh-Hans-US" {
+            let dateAndTime = fullTime.components(separatedBy: " ")
+            return dateAndTime[2]
+        }
+        else if NSLocale.preferredLanguages.first == "en-US" {
+            let dateAndTime = fullTime.components(separatedBy: " at ")
+            let time = dateAndTime.last
+            return time ?? ""
+        } else {
+            return ""
+        }
+    }
+    
     var gapFromNow: String {
         let currentDate = Date()
          let diffDateComponents = Calendar.current.dateComponents([Calendar.Component.day,.hour,.minute], from: currentDate, to: self)

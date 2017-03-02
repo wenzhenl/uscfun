@@ -24,24 +24,8 @@ class NewEventDueViewController: UIViewController {
             datePicker.setDate(newValue, animated: true)
             nextBarButton.isEnabled = newValue > Date(timeIntervalSinceNow: 0)
             UserDefaults.newEventDue = newValue
-            let fullTime = newValue.fullStyle
-            print(fullTime)
-            
-            if NSLocale.preferredLanguages.first == "zh-Hans-US" {
-                let dateAndTime = fullTime.components(separatedBy: " ")
-                dateLabel.text = dateAndTime[0] + " " + dateAndTime[1]
-                timeLabel.text = dateAndTime[2]
-            }
-            else if NSLocale.preferredLanguages.first == "en-US" {
-                let dateAndTime = fullTime.components(separatedBy: " at ")
-                let date = dateAndTime.first!
-                let deleteYear = date.components(separatedBy: ", ")
-                dateLabel.text = deleteYear.first! + ", " + deleteYear[1]
-                let time = dateAndTime.last
-                timeLabel.text = time
-            } else {
-                
-            }
+            dateLabel.text = newValue.readableDate
+            timeLabel.text = newValue.readableTime
         }
     }
     

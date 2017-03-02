@@ -992,7 +992,23 @@
                     <view key="view" contentMode="scaleToFill" id="GGS-uM-apf">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6m2-jb-AKV">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="K32-49-QfJ" id="Egf-Fr-oZy"/>
+                                    <outlet property="delegate" destination="K32-49-QfJ" id="0Hn-fE-Ned"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="6m2-jb-AKV" firstAttribute="centerY" secondItem="GGS-uM-apf" secondAttribute="centerY" id="AVi-xQ-wBN"/>
+                            <constraint firstItem="6m2-jb-AKV" firstAttribute="height" secondItem="GGS-uM-apf" secondAttribute="height" id="dcw-kX-MgF"/>
+                            <constraint firstItem="6m2-jb-AKV" firstAttribute="centerX" secondItem="GGS-uM-apf" secondAttribute="centerX" id="kRz-4O-sVD"/>
+                            <constraint firstItem="6m2-jb-AKV" firstAttribute="width" secondItem="GGS-uM-apf" secondAttribute="width" id="sVh-2j-lV3"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="8ix-zk-PBB">
                         <barButtonItem key="rightBarButtonItem" title="发布" id="3Iz-Gx-gOL">
@@ -1003,6 +1019,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="postButton" destination="3Iz-Gx-gOL" id="T72-R9-Zkq"/>
+                        <outlet property="tableView" destination="6m2-jb-AKV" id="0lT-hN-3ca"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="68F-Ac-Kbm" userLabel="First Responder" sceneMemberID="firstResponder"/>
