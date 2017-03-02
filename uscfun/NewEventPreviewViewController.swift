@@ -28,10 +28,19 @@ class NewEventPreviewViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 100, 0)
         self.tableView.tableFooterView = UIView()
         self.populateSections()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        self.navigationController?.navigationBar.isTranslucent = true
     }
     
     func populateSections() {
