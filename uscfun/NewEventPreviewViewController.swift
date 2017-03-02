@@ -15,6 +15,7 @@ enum PreviewCell {
     case startTimeCell
     case endTimeCell
     case locationCell
+    case mapCell
     case noteCell
 }
 
@@ -28,7 +29,7 @@ class NewEventPreviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        self.tableView.backgroundColor = UIColor.backgroundGray
-//        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 100, 0)
         self.tableView.tableFooterView = UIView()
         self.populateSections()
     }
@@ -46,6 +47,9 @@ class NewEventPreviewViewController: UIViewController {
         }
         if UserDefaults.newEventNote != nil {
             previewSections.append(PreviewCell.noteCell)
+        }
+        if UserDefaults.newEventLocationLatitude != 0 || UserDefaults.newEventLocationLongitude != 0 {
+            previewSections.append(PreviewCell.mapCell)
         }
     }
     
@@ -149,6 +153,9 @@ extension NewEventPreviewViewController: UITableViewDelegate, UITableViewDataSou
             let cell = Bundle.main.loadNibNamed("TitleContentTableViewCell", owner: self, options: nil)?.first as! TitleContentTableViewCell
             cell.titleLabel.text = "活动地点："
             cell.contentLabel.text = UserDefaults.newEventLocationName
+            return cell
+        case .mapCell:
+            let cell = Bundle.main.loadNibNamed("MapViewTableViewCell", owner: self, options: nil)?.first as! MapViewTableViewCell
             return cell
         case .noteCell:
             let cell = Bundle.main.loadNibNamed("TitleTextViewTableViewCell", owner: self, options: nil)?.first as! TitleTextViewTableViewCell
