@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="116" id="KGk-i7-Jjw" customClass="TimeDisplayTableViewCell" customModule="uscfun" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="116"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="116"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="活动开始时间：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JbP-Vx-yhj">
+                        <rect key="frame" x="8" y="8" width="304" height="45"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="255" horizontalCompressionResistancePriority="755" text="Sunday, December 23" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z03-GN-Lmd">
+                        <rect key="frame" x="8" y="61" width="304" height="21"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="260" verticalCompressionResistancePriority="760" text="11:00 AM" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q4p-Ay-kcU">
+                        <rect key="frame" x="8" y="90" width="304" height="18"/>
+                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="q4p-Ay-kcU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="6mC-mJ-n79"/>
+                    <constraint firstItem="q4p-Ay-kcU" firstAttribute="top" secondItem="z03-GN-Lmd" secondAttribute="bottom" constant="8" symbolic="YES" id="Kzm-hu-A0x"/>
+                    <constraint firstItem="JbP-Vx-yhj" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="L9m-vI-vJe"/>
+                    <constraint firstItem="z03-GN-Lmd" firstAttribute="top" secondItem="JbP-Vx-yhj" secondAttribute="bottom" constant="8" symbolic="YES" id="OAB-72-aK1"/>
+                    <constraint firstItem="z03-GN-Lmd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="Rxb-cj-iBy"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="q4p-Ay-kcU" secondAttribute="trailing" id="XbF-Fh-k1D"/>
+                    <constraint firstAttribute="topMargin" secondItem="JbP-Vx-yhj" secondAttribute="top" id="b0S-8g-0EE"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="z03-GN-Lmd" secondAttribute="trailing" id="eeP-U5-uhY"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="JbP-Vx-yhj" secondAttribute="trailing" id="v0J-xi-AOT"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="q4p-Ay-kcU" secondAttribute="bottom" id="wRD-UO-2ul"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="dateLabel" destination="z03-GN-Lmd" id="9qY-KJ-Dg1"/>
+                <outlet property="timeLabel" destination="q4p-Ay-kcU" id="lZ8-oz-1CW"/>
+                <outlet property="titleLabel" destination="JbP-Vx-yhj" id="h9p-sA-DZu"/>
+            </connections>
+            <point key="canvasLocation" x="25" y="88"/>
+        </tableViewCell>
+    </objects>
+</document>

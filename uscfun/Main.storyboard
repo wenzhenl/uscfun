@@ -257,20 +257,12 @@
                                     <outlet property="delegate" destination="nvQ-YZ-kHk" id="lEp-Bg-HVx"/>
                                 </connections>
                             </tableView>
-                            <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="joe-WW-ZRn">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="joe-WW-ZRn" firstAttribute="width" secondItem="wZa-0p-8mV" secondAttribute="width" id="99c-QU-2tC"/>
-                            <constraint firstItem="joe-WW-ZRn" firstAttribute="centerY" secondItem="wZa-0p-8mV" secondAttribute="centerY" id="CuX-Pz-ViL"/>
                             <constraint firstItem="VNM-N7-eAu" firstAttribute="centerY" secondItem="wZa-0p-8mV" secondAttribute="centerY" id="EK5-88-tdV"/>
-                            <constraint firstItem="joe-WW-ZRn" firstAttribute="centerX" secondItem="wZa-0p-8mV" secondAttribute="centerX" id="ERb-D9-trz"/>
                             <constraint firstItem="VNM-N7-eAu" firstAttribute="centerX" secondItem="wZa-0p-8mV" secondAttribute="centerX" id="Q0G-Wt-Lva"/>
                             <constraint firstItem="VNM-N7-eAu" firstAttribute="height" secondItem="wZa-0p-8mV" secondAttribute="height" id="Ynw-jf-L7j"/>
-                            <constraint firstItem="joe-WW-ZRn" firstAttribute="height" secondItem="wZa-0p-8mV" secondAttribute="height" id="ill-V2-2NX"/>
                             <constraint firstItem="VNM-N7-eAu" firstAttribute="width" secondItem="wZa-0p-8mV" secondAttribute="width" id="oTp-hL-R3a"/>
                         </constraints>
                     </view>
@@ -278,7 +270,6 @@
                         <barButtonItem key="backBarButtonItem" title="  " id="1yn-RK-aqT"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="dimView" destination="joe-WW-ZRn" id="TX5-LG-ouY"/>
                         <outlet property="tableView" destination="VNM-N7-eAu" id="lw0-Dq-uwb"/>
                         <segue destination="jln-hf-hFc" kind="show" identifier="SHOWMAP" id="nRo-fV-YhR"/>
                         <segue destination="97i-nA-FYj" kind="show" identifier="see member detail" id="IXM-mE-X7k"/>

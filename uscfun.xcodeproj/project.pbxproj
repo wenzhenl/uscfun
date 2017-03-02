@@ -50,6 +50,16 @@
 		0A71119F1DBEC8BF00742F2D /* LoginKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71119E1DBEC8BF00742F2D /* LoginKit.swift */; };
 		0A845BD41D7206FE00287DEB /* ConfirmEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A845BD31D7206FE00287DEB /* ConfirmEmailViewController.swift */; };
 		0A8483591E670EF500B7B29A /* MyEventListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8483581E670EF500B7B29A /* MyEventListViewController.swift */; };
+		0A84835C1E683D8C00B7B29A /* TitleContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A84835A1E683D8C00B7B29A /* TitleContentTableViewCell.swift */; };
+		0A84835D1E683D8C00B7B29A /* TitleContentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A84835B1E683D8C00B7B29A /* TitleContentTableViewCell.xib */; };
+		0A8483601E683ED500B7B29A /* TimeDisplayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A84835E1E683ED500B7B29A /* TimeDisplayTableViewCell.swift */; };
+		0A8483611E683ED500B7B29A /* TimeDisplayTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A84835F1E683ED500B7B29A /* TimeDisplayTableViewCell.xib */; };
+		0A8483641E68402800B7B29A /* NumberDisplayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8483621E68402800B7B29A /* NumberDisplayTableViewCell.swift */; };
+		0A8483651E68402800B7B29A /* NumberDisplayTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A8483631E68402800B7B29A /* NumberDisplayTableViewCell.xib */; };
+		0A8483681E6841A700B7B29A /* TandemLabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8483661E6841A700B7B29A /* TandemLabelTableViewCell.swift */; };
+		0A8483691E6841A700B7B29A /* TandemLabelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A8483671E6841A700B7B29A /* TandemLabelTableViewCell.xib */; };
+		0A84836C1E68439100B7B29A /* EventDetailHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A84836A1E68439100B7B29A /* EventDetailHeaderTableViewCell.swift */; };
+		0A84836D1E68439100B7B29A /* EventDetailHeaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A84836B1E68439100B7B29A /* EventDetailHeaderTableViewCell.xib */; };
 		0A963DB31D7122D000E0532F /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A963DB21D7122D000E0532F /* SignInViewController.swift */; };
 		0A963DB51D7122E200E0532F /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A963DB41D7122E200E0532F /* SignUpViewController.swift */; };
 		0A963DB71D716E6400E0532F /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A963DB61D716E6400E0532F /* NicknameViewController.swift */; };
@@ -137,6 +147,16 @@
 		0A71119E1DBEC8BF00742F2D /* LoginKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginKit.swift; sourceTree = "<group>"; };
 		0A845BD31D7206FE00287DEB /* ConfirmEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewController.swift; sourceTree = "<group>"; };
 		0A8483581E670EF500B7B29A /* MyEventListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyEventListViewController.swift; sourceTree = "<group>"; };
+		0A84835A1E683D8C00B7B29A /* TitleContentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleContentTableViewCell.swift; sourceTree = "<group>"; };
+		0A84835B1E683D8C00B7B29A /* TitleContentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TitleContentTableViewCell.xib; sourceTree = "<group>"; };
+		0A84835E1E683ED500B7B29A /* TimeDisplayTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeDisplayTableViewCell.swift; sourceTree = "<group>"; };
+		0A84835F1E683ED500B7B29A /* TimeDisplayTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimeDisplayTableViewCell.xib; sourceTree = "<group>"; };
+		0A8483621E68402800B7B29A /* NumberDisplayTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberDisplayTableViewCell.swift; sourceTree = "<group>"; };
+		0A8483631E68402800B7B29A /* NumberDisplayTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NumberDisplayTableViewCell.xib; sourceTree = "<group>"; };
+		0A8483661E6841A700B7B29A /* TandemLabelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TandemLabelTableViewCell.swift; sourceTree = "<group>"; };
+		0A8483671E6841A700B7B29A /* TandemLabelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TandemLabelTableViewCell.xib; sourceTree = "<group>"; };
+		0A84836A1E68439100B7B29A /* EventDetailHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailHeaderTableViewCell.swift; sourceTree = "<group>"; };
+		0A84836B1E68439100B7B29A /* EventDetailHeaderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventDetailHeaderTableViewCell.xib; sourceTree = "<group>"; };
 		0A963DB21D7122D000E0532F /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		0A963DB41D7122E200E0532F /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		0A963DB61D716E6400E0532F /* NicknameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
@@ -265,6 +285,16 @@
 				0A0185841DC48602009A7874 /* LabelImgArrowTableViewCell.xib */,
 				0A6D92301E669965008501B9 /* EventSnapshotTableViewCell.swift */,
 				0A6D92311E669965008501B9 /* EventSnapshotTableViewCell.xib */,
+				0A84835A1E683D8C00B7B29A /* TitleContentTableViewCell.swift */,
+				0A84835B1E683D8C00B7B29A /* TitleContentTableViewCell.xib */,
+				0A84835E1E683ED500B7B29A /* TimeDisplayTableViewCell.swift */,
+				0A84835F1E683ED500B7B29A /* TimeDisplayTableViewCell.xib */,
+				0A8483621E68402800B7B29A /* NumberDisplayTableViewCell.swift */,
+				0A8483631E68402800B7B29A /* NumberDisplayTableViewCell.xib */,
+				0A8483661E6841A700B7B29A /* TandemLabelTableViewCell.swift */,
+				0A8483671E6841A700B7B29A /* TandemLabelTableViewCell.xib */,
+				0A84836A1E68439100B7B29A /* EventDetailHeaderTableViewCell.swift */,
+				0A84836B1E68439100B7B29A /* EventDetailHeaderTableViewCell.xib */,
 			);
 			name = TableViewCells;
 			sourceTree = "<group>";
@@ -456,6 +486,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A8483651E68402800B7B29A /* NumberDisplayTableViewCell.xib in Resources */,
 				0A0185861DC48602009A7874 /* LabelImgArrowTableViewCell.xib in Resources */,
 				0A9CB44D1D6FF5FC00608D27 /* Login.storyboard in Resources */,
 				0A427FAE1D97F579007A96BE /* TextViewTableViewCell.xib in Resources */,
@@ -463,13 +494,17 @@
 				0A6D92331E669965008501B9 /* EventSnapshotTableViewCell.xib in Resources */,
 				0AAE42E01D9A289D00B34601 /* ImgKeyValueTableViewCell.xib in Resources */,
 				0A70C0A01DBD3B4000C06354 /* LabelSwitchTableViewCell.xib in Resources */,
+				0A84835D1E683D8C00B7B29A /* TitleContentTableViewCell.xib in Resources */,
 				0A3D2B591D7B9256004F57EF /* Main.storyboard in Resources */,
 				0A6834C81D56858C002E9B0D /* LaunchScreen.storyboard in Resources */,
 				0AEFEA591DC12A46005231C4 /* KeyScrollViewTableViewCell.xib in Resources */,
 				0A427FB21D97F627007A96BE /* ImageViewTableViewCell.xib in Resources */,
+				0A84836D1E68439100B7B29A /* EventDetailHeaderTableViewCell.xib in Resources */,
 				0A6834C51D56858C002E9B0D /* Assets.xcassets in Resources */,
 				0ADA4D2E1D9A46970001A376 /* SingleButtonTableViewCell.xib in Resources */,
 				0AE5C54E1DB1E2CC00B455F4 /* LabelArrowTableViewCell.xib in Resources */,
+				0A8483611E683ED500B7B29A /* TimeDisplayTableViewCell.xib in Resources */,
+				0A8483691E6841A700B7B29A /* TandemLabelTableViewCell.xib in Resources */,
 				0AE5C54A1DB1DFB500B455F4 /* ProfileTableViewCell.xib in Resources */,
 				0A70C09C1DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.xib in Resources */,
 			);
@@ -534,6 +569,7 @@
 				0A71119B1DBEC79400742F2D /* BuildInClassExtension.swift in Sources */,
 				0A250F5C1DC1369000B9723A /* MembersTableViewController.swift in Sources */,
 				0A98340E1E64572C00A5D894 /* NewEventNumberOfPeopleViewController.swift in Sources */,
+				0A84836C1E68439100B7B29A /* EventDetailHeaderTableViewCell.swift in Sources */,
 				0A845BD41D7206FE00287DEB /* ConfirmEmailViewController.swift in Sources */,
 				0A00DB081DD90F5B00A81189 /* LocationAddressRow.swift in Sources */,
 				0A3D2B5B1D7B9299004F57EF /* EventListViewController.swift in Sources */,
@@ -555,6 +591,7 @@
 				0A9834081E644BE600A5D894 /* CustomTabBarController.swift in Sources */,
 				0A3D2B621D7B941F004F57EF /* Event.swift in Sources */,
 				0ADE0C9D1DB1F140009F89A0 /* UpdateProfileViewController.swift in Sources */,
+				0A8483601E683ED500B7B29A /* TimeDisplayTableViewCell.swift in Sources */,
 				0A2506A81DB1A8E80099E812 /* WebViewController.swift in Sources */,
 				0A52FD681DB098F8000D17D8 /* LCCKUser.m in Sources */,
 				0ADE0CA11DB1F18A009F89A0 /* FeedbackViewController.swift in Sources */,
@@ -562,8 +599,10 @@
 				0A6D92321E669965008501B9 /* EventSnapshotTableViewCell.swift in Sources */,
 				0A427FAD1D97F579007A96BE /* TextViewTableViewCell.swift in Sources */,
 				0A963DB71D716E6400E0532F /* NicknameViewController.swift in Sources */,
+				0A8483681E6841A700B7B29A /* TandemLabelTableViewCell.swift in Sources */,
 				0A9834121E64577300A5D894 /* NewEventOptionalsViewController.swift in Sources */,
 				0A9CB44F1D6FF8D800608D27 /* USCFunConstants.swift in Sources */,
+				0A8483641E68402800B7B29A /* NumberDisplayTableViewCell.swift in Sources */,
 				0A9834101E64575100A5D894 /* NewEventNumberReservedViewController.swift in Sources */,
 				0A98340A1E6455DF00A5D894 /* NewEventNameViewController.swift in Sources */,
 				0AE5C54D1DB1E2CC00B455F4 /* LabelArrowTableViewCell.swift in Sources */,
@@ -572,6 +611,7 @@
 				0A98340C1E64570400A5D894 /* NewEventDueViewController.swift in Sources */,
 				0A71119F1DBEC8BF00742F2D /* LoginKit.swift in Sources */,
 				0A9A94581DC40C5F00B002D2 /* CustomizedAlertViewController.swift in Sources */,
+				0A84835C1E683D8C00B7B29A /* TitleContentTableViewCell.swift in Sources */,
 				0ADE0C9F1DB1F173009F89A0 /* EventHistoryViewController.swift in Sources */,
 				0AAE42E41D9A2F8B00B34601 /* MapViewController.swift in Sources */,
 				0A6834BE1D56858C002E9B0D /* AppDelegate.swift in Sources */,
