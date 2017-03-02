@@ -48,20 +48,7 @@ enum EventType: String {
     case other = "其他"
     
     var image: UIImage {
-        switch self {
-        case .foodAndDrink:
-            return #imageLiteral(resourceName: "foodAndDrink")
-        case .shopping:
-            return #imageLiteral(resourceName: "shopping")
-        case .entertainment:
-            return #imageLiteral(resourceName: "birthday")
-        case .travel:
-            return #imageLiteral(resourceName: "travel")
-        case .study:
-            return #imageLiteral(resourceName: "birthday")
-        case .other:
-            return #imageLiteral(resourceName: "party")
-        }
+        return #imageLiteral(resourceName: "home")
     }
     
     static let allRawValues = [foodAndDrink.rawValue, shopping.rawValue, entertainment.rawValue, travel.rawValue, study.rawValue, other.rawValue]
