@@ -235,6 +235,7 @@
 				0AFA61AA1D7DF65800042EFA /* EventViewControllers */,
 				0A6D922D1E665243008501B9 /* NewEventViewControllers */,
 				0AFA61A91D7DF60800042EFA /* MeViewControllers */,
+				0A9834071E644BE600A5D894 /* CustomTabBarController.swift */,
 				0A3D2B581D7B9256004F57EF /* Main.storyboard */,
 			);
 			name = Home;
@@ -349,7 +350,6 @@
 		0A6D922D1E665243008501B9 /* NewEventViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				0A9834071E644BE600A5D894 /* CustomTabBarController.swift */,
 				0A9834091E6455DF00A5D894 /* NewEventNameViewController.swift */,
 				0A98340B1E64570400A5D894 /* NewEventDueViewController.swift */,
 				0A98340D1E64572C00A5D894 /* NewEventNumberOfPeopleViewController.swift */,

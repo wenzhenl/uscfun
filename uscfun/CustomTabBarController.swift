@@ -9,7 +9,8 @@
 import UIKit
 
 class CustomTabBarController: UITabBarController {
-
+    var postButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -23,7 +24,7 @@ class CustomTabBarController: UITabBarController {
         let modalView = UIView(frame: CGRect(x: gridWidth * 2, y: windowHeight - barHeight, width: gridWidth, height: barHeight))
         self.view.addSubview(modalView)
         
-        let postButton = UIButton(frame: CGRect(x: gridWidth * 2 + (gridWidth - buttonWidth) / 2, y: windowHeight - barHeight + margin, width: buttonWidth, height: buttonHeight))
+        postButton = UIButton(frame: CGRect(x: gridWidth * 2 + (gridWidth - buttonWidth) / 2, y: windowHeight - barHeight + margin, width: buttonWidth, height: buttonHeight))
         postButton.setBackgroundImage(#imageLiteral(resourceName: "plus"), for: .normal)
         self.view.addSubview(postButton)
         

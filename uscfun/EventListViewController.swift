@@ -35,7 +35,7 @@ class EventListViewController: UIViewController {
         self.tableView.tableFooterView = UIView()
         AppDelegate.systemNotificationDelegate = self
     }
-
+    
     func handleRefresh() {
         EventRequest.fetchNewerMyOngoingEventsInBackground() {
             succeeded, error in

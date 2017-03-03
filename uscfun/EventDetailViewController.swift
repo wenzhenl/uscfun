@@ -37,7 +37,7 @@ class EventDetailViewController: UIViewController {
         self.chatButton.backgroundColor = UIColor.buttonBlue
         self.populateSections()
     }
-
+    
     func populateSections() {
         // Populate the cells
         detailSections.removeAll()
