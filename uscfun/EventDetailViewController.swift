@@ -12,7 +12,11 @@ import SVProgressHUD
 
 enum EventDetailCell {
     case statusCell
-    case headerCell
+    case titleCell
+    case creatorCell
+    case remainingNumberCell
+    case numberCell
+    case remainingTimeCell
     case startTimeCell
     case endTimeCell
     case locationCell
@@ -28,23 +32,29 @@ class EventDetailViewController: UIViewController {
     @IBOutlet weak var chatButton: UIButton!
     
     var event: Event!
+    var creator: User!
     var detailSections = [EventDetailCell]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.view.backgroundColor = UIColor.white
-        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 150, 0)
+        self.navigationController?.view.backgroundColor = UIColor.backgroundGray
+        self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 150, 0)
         self.tableView.tableFooterView = UIView()
         self.joinButton.backgroundColor = UIColor.buttonPink
         self.chatButton.backgroundColor = UIColor.buttonBlue
         self.populateSections()
+        creator = User(user: event.creator)
     }
     
     func populateSections() {
         // Populate the cells
         detailSections.removeAll()
         detailSections.append(EventDetailCell.statusCell)
-        detailSections.append(EventDetailCell.headerCell)
+        detailSections.append(EventDetailCell.titleCell)
+        detailSections.append(EventDetailCell.creatorCell)
+        detailSections.append(EventDetailCell.remainingNumberCell)
+        detailSections.append(EventDetailCell.numberCell)
+        detailSections.append(EventDetailCell.remainingTimeCell)
         if event.startTime != nil {
             detailSections.append(EventDetailCell.startTimeCell)
         }
@@ -222,18 +232,31 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
             let cell = Bundle.main.loadNibNamed("EventStatusBarTableViewCell", owner: self, options: nil)?.first as! EventStatusBarTableViewCell
             cell.statusView.backgroundColor = event.statusColor
             cell.statusLabel.text = event.statusDescription
-        case .headerCell:
-            let cell = Bundle.main.loadNibNamed("EventDetailHeaderTableViewCell", owner: self, options: nil)?.first as! EventDetailHeaderTableViewCell
-            
-            let creator = User(user: event.creator)!
-            cell.avatarImageView.layer.masksToBounds = true
-            cell.avatarImageView.image = creator.avatar
-            cell.creatorLabel.text = "发起人：" + creator.nickname
-            cell.eventNameLabel.text = event.name
-            cell.remainingNumberLabel.text = String(event.remainingSeats)
-            cell.attendingNumberLabel.text = "已经" + String(event.totalSeats - event.remainingSeats) + "人报名"
-            cell.minPeopleLabel.text = "最少" + String(event.minimumAttendingPeople) + "人成行"
-            cell.remainingTimeLabel.text = event.due.gapFromNow
+            return cell
+        case .titleCell:
+            let cell = Bundle.main.loadNibNamed("EventTitleTableViewCell", owner: self, options: nil)?.first as! EventTitleTableViewCell
+            cell.titleLabel.text = event.name
+            return cell
+        case .creatorCell:
+            let cell = Bundle.main.loadNibNamed("EventCreatorTableViewCell", owner: self, options: nil)?.first as! EventCreatorTableViewCell
+            cell.avatorImageView.layer.masksToBounds = true
+            cell.avatorImageView.layer.cornerRadius = cell.avatorImageView.frame.size.width / 2.0
+            cell.avatorImageView.image = creator.avatar
+            cell.creatorLabel.text = creator.nickname
+            return cell
+        case .remainingNumberCell:
+            let cell = Bundle.main.loadNibNamed("NumberDisplayTableViewCell", owner: self, options: nil)?.first as! NumberDisplayTableViewCell
+            cell.numberLabel.text = String(event.remainingSeats)
+            return cell
+        case .numberCell:
+            let cell = Bundle.main.loadNibNamed("TandemLabelTableViewCell", owner: self, options: nil)?.first as! TandemLabelTableViewCell
+            cell.leftLabel.text = "已经报名 " + String(event.totalSeats - event.remainingSeats) + "人"
+            cell.rightLabel.text = "最少成行 " + String(event.minimumAttendingPeople) + "人"
+            return cell
+        case .remainingTimeCell:
+            let cell = Bundle.main.loadNibNamed("TitleContentTableViewCell", owner: self, options: nil)?.first as! TitleContentTableViewCell
+            cell.titleLabel.text = "离报名截止还剩："
+            cell.contentLabel.text = event.due.gapFromNow
             return cell
         case .startTimeCell:
             let cell = Bundle.main.loadNibNamed("TimeDisplayTableViewCell", owner: self, options: nil)?.first as! TimeDisplayTableViewCell
@@ -263,7 +286,35 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 2 || section == 3 {
+            return 1 / UIScreen.main.scale
+        }
         return 0
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let px = 1 / UIScreen.main.scale
+        let frame = CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: px)
+        let line = UIView(frame: frame)
+        line.backgroundColor = self.tableView.separatorColor
+        return line
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == 1 {
+            return 10
+        }
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = UIColor.clear
+        return view
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        view.tintColor = UIColor.clear
     }
 }

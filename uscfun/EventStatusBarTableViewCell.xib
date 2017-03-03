@@ -21,16 +21,16 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4U1-VH-87S">
-                        <rect key="frame" x="217.5" y="8" width="10" height="10"/>
+                        <rect key="frame" x="224.5" y="8" width="8" height="8"/>
                         <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="4U1-VH-87S" secondAttribute="height" id="C6a-6I-3yI"/>
-                            <constraint firstAttribute="height" constant="10" id="HVq-iu-RyO"/>
+                            <constraint firstAttribute="height" constant="8" id="HVq-iu-RyO"/>
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="火热报名中" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L0u-cE-4JX">
-                        <rect key="frame" x="235.5" y="8" width="76.5" height="10"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <rect key="frame" x="240.5" y="8" width="71.5" height="8"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
