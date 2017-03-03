@@ -11,6 +11,7 @@ import ChatKit
 import SVProgressHUD
 
 enum EventDetailCell {
+    case statusCell
     case headerCell
     case startTimeCell
     case endTimeCell
@@ -42,6 +43,7 @@ class EventDetailViewController: UIViewController {
     func populateSections() {
         // Populate the cells
         detailSections.removeAll()
+        detailSections.append(EventDetailCell.statusCell)
         detailSections.append(EventDetailCell.headerCell)
         if event.startTime != nil {
             detailSections.append(EventDetailCell.startTimeCell)
@@ -216,6 +218,10 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch detailSections[indexPath.section] {
+        case .statusCell:
+            let cell = Bundle.main.loadNibNamed("EventStatusBarTableViewCell", owner: self, options: nil)?.first as! EventStatusBarTableViewCell
+            cell.statusView.backgroundColor = event.statusColor
+            cell.statusLabel.text = event.statusDescription
         case .headerCell:
             let cell = Bundle.main.loadNibNamed("EventDetailHeaderTableViewCell", owner: self, options: nil)?.first as! EventDetailHeaderTableViewCell
             

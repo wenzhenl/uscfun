@@ -201,4 +201,23 @@ extension Event {
             return UIColor.lightGray
         }
     }
+    
+    var statusDescription: String {
+        switch self.status {
+        case .isPending:
+            return "火热报名中"
+        case .isSecured:
+            return "达到最低人数"
+        case .isFinalized:
+            return "约定成功"
+        case .isCancelled:
+            return "已取消"
+        case .isCompleted:
+            return "已完结"
+        case .isFailed:
+            return "约定失败"
+        case .isUnKnown:
+            return "不晓得"
+        }
+    }
 }
