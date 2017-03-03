@@ -258,10 +258,10 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cxQ-Kd-0dd">
-                                <rect key="frame" x="0.0" y="692" width="207" height="44"/>
+                                <rect key="frame" x="0.0" y="686" width="207" height="50"/>
                                 <color key="backgroundColor" red="0.9994240403175354" green="0.34377379655544915" blue="0.28397564764301442" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="Bmy-Db-Spb"/>
+                                    <constraint firstAttribute="height" constant="50" id="Bmy-Db-Spb"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="报名参加">
@@ -269,7 +269,7 @@
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hft-qE-Tcn">
-                                <rect key="frame" x="207" y="692" width="207" height="44"/>
+                                <rect key="frame" x="207" y="686" width="207" height="50"/>
                                 <color key="backgroundColor" red="1" green="0.59275050414926622" blue="0.2903993662743779" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="参与讨论">
@@ -360,6 +360,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W1s-Rw-PGC">
+                                <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="96" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="m5y-TJ-cNX">
                                 <rect key="frame" x="0.0" y="536" width="414" height="200"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -372,11 +376,14 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="W1s-Rw-PGC" firstAttribute="top" secondItem="HNv-cq-VpT" secondAttribute="bottom" constant="44" id="A3A-Aj-Qmf"/>
                             <constraint firstItem="m5y-TJ-cNX" firstAttribute="width" secondItem="3FO-N6-FQ7" secondAttribute="width" id="Oo4-Z1-qbW"/>
+                            <constraint firstItem="W1s-Rw-PGC" firstAttribute="width" secondItem="3FO-N6-FQ7" secondAttribute="width" id="ZCp-gv-IWC"/>
                             <constraint firstItem="m5y-TJ-cNX" firstAttribute="centerX" secondItem="3FO-N6-FQ7" secondAttribute="centerX" id="a5y-I4-gJr"/>
+                            <constraint firstItem="amV-Pc-TCJ" firstAttribute="top" secondItem="W1s-Rw-PGC" secondAttribute="bottom" id="c3Q-Mh-Pnr"/>
                             <constraint firstItem="amV-Pc-TCJ" firstAttribute="top" secondItem="m5y-TJ-cNX" secondAttribute="bottom" id="wFp-Fg-aIA"/>
+                            <constraint firstItem="W1s-Rw-PGC" firstAttribute="centerX" secondItem="3FO-N6-FQ7" secondAttribute="centerX" id="x7i-sL-if6"/>
                         </constraints>
                     </view>
                     <connections>
