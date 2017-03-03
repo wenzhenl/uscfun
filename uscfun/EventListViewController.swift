@@ -70,7 +70,7 @@ class EventListViewController: UIViewController {
             case identifierToEventDetail:
                 let destination = segue.destination
                 if let edVC = destination as? EventDetailViewController {
-                    edVC.event = EventRequest.publicEvents[EventRequest.publicEvents.keys[(tableView.indexPathForSelectedRow?.section)!]]
+                    edVC.event = EventRequest.publicEvents[EventRequest.publicEvents.keys[((tableView.indexPathForSelectedRow?.section)! - 1)]]
                 }
             default:
                 break
@@ -112,7 +112,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             return 1
         }
         
-        return EventRequest.publicEvents.count
+        return EventRequest.publicEvents.count + 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -129,6 +129,9 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
         if EventRequest.publicEvents.count == 0 {
             return 150
         }
+        if indexPath.section == 0 {
+            return 44
+        }
         return 270
     }
     
@@ -139,8 +142,19 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             cell.mainTextView.text = "好像微活动都被参加完了，少年快去发起一波吧！"
             cell.selectionStyle = .none
             return cell
-        } else {
-            let event = EventRequest.publicEvents[EventRequest.publicEvents.keys[indexPath.section]]!
+        }
+        else if indexPath.section == 0 {
+            let cell = Bundle.main.loadNibNamed("EventStatusTableViewCell", owner: self, options: nil)?.first as! EventStatusTableViewCell
+            cell.pendingView.layer.masksToBounds = true
+            cell.pendingView.layer.cornerRadius = cell.pendingView.frame.size.width / 2.0
+            cell.securedView.layer.masksToBounds = true
+            cell.securedView.layer.cornerRadius = cell.securedView.frame.size.width / 2.0
+            cell.finalizedView.layer.masksToBounds = true
+            cell.finalizedView.layer.cornerRadius = cell.finalizedView.frame.size.width / 2.0
+            return cell
+        }
+        else {
+            let event = EventRequest.publicEvents[EventRequest.publicEvents.keys[indexPath.section-1]]!
             let cell = Bundle.main.loadNibNamed("EventSnapshotTableViewCell", owner: self, options: nil)?.first as! EventSnapshotTableViewCell
             let creator = User(user: event.creator)!
             cell.eventNameLabel.text = event.name
@@ -155,6 +169,13 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             
             cell.needNumberLabel.text = String(event.remainingSeats)
             cell.remainingTimeLabel.text = event.due.gapFromNow
+            
+            cell.attendingLabel.text = "已经报名 " + String(event.totalSeats - event.remainingSeats)
+            cell.minPeopleLabel.text = "最少成行 " + String(event.minimumAttendingPeople)
+            
+            cell.statusView.backgroundColor = event.statusColor
+            cell.statusView.layer.masksToBounds = true
+            cell.statusView.layer.cornerRadius = cell.statusView.frame.size.width / 2
             return cell
         }
     }
@@ -191,10 +212,12 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: identifierToEventDetail, sender: self)
+        
+        if EventRequest.publicEvents.count > 0 && indexPath.section > 0 {
+            performSegue(withIdentifier: identifierToEventDetail, sender: self)
+        }
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
 }
 
 extension EventListViewController: SystemNotificationDelegate {

@@ -63,7 +63,7 @@ class MyEventListViewController: UIViewController {
             case identifierToEventDetail:
                 let destination = segue.destination
                 if let edVC = destination as? EventDetailViewController {
-                    edVC.event = EventRequest.myOngoingEvents[EventRequest.myOngoingEvents.keys[(tableView.indexPathForSelectedRow?.section)!]]
+                    edVC.event = EventRequest.myOngoingEvents[EventRequest.myOngoingEvents.keys[((tableView.indexPathForSelectedRow?.section)! - 1)]]
                 }
             default:
                 break
@@ -79,7 +79,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
             return 1
         }
         
-        return EventRequest.myOngoingEvents.count
+        return EventRequest.myOngoingEvents.count + 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -96,6 +96,11 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
         if EventRequest.myOngoingEvents.count == 0 {
             return 150
         }
+        
+        if indexPath.section == 0 {
+            return 44
+        }
+        
         return 270
     }
     
@@ -106,8 +111,19 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
             cell.mainTextView.text = "你好像还没有参加任何微活动，快去参加一波吧！"
             cell.selectionStyle = .none
             return cell
-        } else {
-            let event = EventRequest.myOngoingEvents[EventRequest.myOngoingEvents.keys[indexPath.section]]!
+        }
+        else if indexPath.section == 0 {
+            let cell = Bundle.main.loadNibNamed("EventStatusTableViewCell", owner: self, options: nil)?.first as! EventStatusTableViewCell
+            cell.pendingView.layer.masksToBounds = true
+            cell.pendingView.layer.cornerRadius = cell.pendingView.frame.size.width / 2.0
+            cell.securedView.layer.masksToBounds = true
+            cell.securedView.layer.cornerRadius = cell.securedView.frame.size.width / 2.0
+            cell.finalizedView.layer.masksToBounds = true
+            cell.finalizedView.layer.cornerRadius = cell.finalizedView.frame.size.width / 2.0
+            return cell
+        }
+        else {
+            let event = EventRequest.myOngoingEvents[EventRequest.myOngoingEvents.keys[indexPath.section - 1]]!
             let cell = Bundle.main.loadNibNamed("EventSnapshotTableViewCell", owner: self, options: nil)?.first as! EventSnapshotTableViewCell
             let creator = User(user: event.creator)!
             cell.eventNameLabel.text = event.name
@@ -122,6 +138,13 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
             
             cell.needNumberLabel.text = String(event.remainingSeats)
             cell.remainingTimeLabel.text = event.due.gapFromNow
+            
+            cell.attendingLabel.text = "已经报名 " + String(event.totalSeats - event.remainingSeats)
+            cell.minPeopleLabel.text = "最少成行 " + String(event.minimumAttendingPeople)
+            
+            cell.statusView.backgroundColor = event.statusColor
+            cell.statusView.layer.masksToBounds = true
+            cell.statusView.layer.cornerRadius = cell.statusView.frame.size.width / 2
             return cell
         }
     }
@@ -158,7 +181,24 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: identifierToEventDetail, sender: self)
+        if EventRequest.myOngoingEvents.count > 0 && indexPath.section > 0 {
+            performSegue(withIdentifier: identifierToEventDetail, sender: self)
+        }
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension Event {
+    var statusColor: UIColor {
+        switch self.status {
+        case .isPending:
+            return UIColor.eventPending
+        case .isSecured:
+            return UIColor.eventSecured
+        case .isFinalized:
+            return UIColor.eventFinalized
+        default:
+            return UIColor.lightGray
+        }
     }
 }

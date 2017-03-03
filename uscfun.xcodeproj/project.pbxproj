@@ -64,6 +64,8 @@
 		0A8483711E68518600B7B29A /* TitleTextViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A84836F1E68518600B7B29A /* TitleTextViewTableViewCell.xib */; };
 		0A8483741E68592B00B7B29A /* MapViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8483721E68592B00B7B29A /* MapViewTableViewCell.swift */; };
 		0A8483751E68592B00B7B29A /* MapViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A8483731E68592B00B7B29A /* MapViewTableViewCell.xib */; };
+		0A8483781E693F7300B7B29A /* EventStatusTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8483761E693F7300B7B29A /* EventStatusTableViewCell.swift */; };
+		0A8483791E693F7300B7B29A /* EventStatusTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A8483771E693F7300B7B29A /* EventStatusTableViewCell.xib */; };
 		0A963DB31D7122D000E0532F /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A963DB21D7122D000E0532F /* SignInViewController.swift */; };
 		0A963DB51D7122E200E0532F /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A963DB41D7122E200E0532F /* SignUpViewController.swift */; };
 		0A963DB71D716E6400E0532F /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A963DB61D716E6400E0532F /* NicknameViewController.swift */; };
@@ -165,6 +167,8 @@
 		0A84836F1E68518600B7B29A /* TitleTextViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TitleTextViewTableViewCell.xib; sourceTree = "<group>"; };
 		0A8483721E68592B00B7B29A /* MapViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewTableViewCell.swift; sourceTree = "<group>"; };
 		0A8483731E68592B00B7B29A /* MapViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapViewTableViewCell.xib; sourceTree = "<group>"; };
+		0A8483761E693F7300B7B29A /* EventStatusTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventStatusTableViewCell.swift; sourceTree = "<group>"; };
+		0A8483771E693F7300B7B29A /* EventStatusTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventStatusTableViewCell.xib; sourceTree = "<group>"; };
 		0A963DB21D7122D000E0532F /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		0A963DB41D7122E200E0532F /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		0A963DB61D716E6400E0532F /* NicknameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
@@ -307,6 +311,8 @@
 				0A84836F1E68518600B7B29A /* TitleTextViewTableViewCell.xib */,
 				0A8483721E68592B00B7B29A /* MapViewTableViewCell.swift */,
 				0A8483731E68592B00B7B29A /* MapViewTableViewCell.xib */,
+				0A8483761E693F7300B7B29A /* EventStatusTableViewCell.swift */,
+				0A8483771E693F7300B7B29A /* EventStatusTableViewCell.xib */,
 			);
 			name = TableViewCells;
 			sourceTree = "<group>";
@@ -504,6 +510,7 @@
 				0A9CB44D1D6FF5FC00608D27 /* Login.storyboard in Resources */,
 				0A427FAE1D97F579007A96BE /* TextViewTableViewCell.xib in Resources */,
 				0A96D3D21DADBF5B00AB272A /* ImgKeyValueArrowTableViewCell.xib in Resources */,
+				0A8483791E693F7300B7B29A /* EventStatusTableViewCell.xib in Resources */,
 				0A6D92331E669965008501B9 /* EventSnapshotTableViewCell.xib in Resources */,
 				0AAE42E01D9A289D00B34601 /* ImgKeyValueTableViewCell.xib in Resources */,
 				0A70C0A01DBD3B4000C06354 /* LabelSwitchTableViewCell.xib in Resources */,
@@ -595,6 +602,7 @@
 				0A5830CB1DD45A2800E06B4A /* OrderedDictionary.swift in Sources */,
 				0A963DB51D7122E200E0532F /* SignUpViewController.swift in Sources */,
 				0A022FA71D73D066004077A4 /* FindBackPasswordViewController.swift in Sources */,
+				0A8483781E693F7300B7B29A /* EventStatusTableViewCell.swift in Sources */,
 				0A8483701E68518600B7B29A /* TitleTextViewTableViewCell.swift in Sources */,
 				0A71119D1DBEC87000742F2D /* UserDefaultsExtension.swift in Sources */,
 				0A9CB4511D6FFAA500608D27 /* User.swift in Sources */,

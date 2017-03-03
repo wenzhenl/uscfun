@@ -76,7 +76,7 @@ extension UIColor {
     }
     
     class var eventPending: UIColor {
-        return UIColor.lightGray
+        return UIColor.red
     }
 }
 
