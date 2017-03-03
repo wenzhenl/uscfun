@@ -240,7 +240,7 @@
         <!--活动详情-->
         <scene sceneID="OBR-Vi-A3T">
             <objects>
-                <viewController id="nvQ-YZ-kHk" customClass="EventDetailViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="nvQ-YZ-kHk" customClass="EventDetailViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="U0m-Gz-5VD"/>
                         <viewControllerLayoutGuide type="bottom" id="8ta-Cl-qq3"/>
@@ -328,7 +328,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="B04-zs-U9w">
-                                <rect key="frame" x="0.0" y="64" width="414" height="623"/>
+                                <rect key="frame" x="0.0" y="64" width="414" height="628"/>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -577,25 +577,6 @@
             </objects>
             <point key="canvasLocation" x="388" y="-6255"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="3Pz-I8-lhX">
-            <objects>
-                <viewController id="yhp-yu-Jbv" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="nKb-JM-pxS"/>
-                        <viewControllerLayoutGuide type="bottom" id="132-9Q-qhJ"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="qHA-NO-YZF">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="lZ7-uH-Ld4"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Qa9-1b-dxL" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4046" y="-6255"/>
-        </scene>
         <!--通知-->
         <scene sceneID="gqz-ei-pga">
             <objects>
@@ -634,40 +615,21 @@
             </objects>
             <point key="canvasLocation" x="7268" y="-6255"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="XT6-TC-TCB">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mrx-tw-YsA" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" id="WpM-em-SJc"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="c36-1q-tFv">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="yhp-yu-Jbv" kind="relationship" relationship="rootViewController" id="wow-PY-hYB"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="yUz-YK-BP2" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3196" y="-6255"/>
-        </scene>
         <!--Custom Tab Bar Controller-->
         <scene sceneID="m6o-0q-wVK">
             <objects>
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="yHb-Iq-i1q" customClass="CustomTabBarController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="ZSq-87-R18">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="ZSq-87-R18" customClass="CustomTabBar" customModule="uscfun" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
+                        <outlet property="customTabBar" destination="ZSq-87-R18" id="FkM-Rm-Fwc"/>
                         <segue destination="MOp-lA-uGz" kind="show" identifier="BeginStartingANewEvent" id="vhK-d5-KMj"/>
                         <segue destination="F1i-Ho-A4f" kind="relationship" relationship="viewControllers" id="Bpq-4v-SU2"/>
                         <segue destination="MsE-CC-vGT" kind="relationship" relationship="viewControllers" id="q10-kQ-NVT"/>
-                        <segue destination="mrx-tw-YsA" kind="relationship" relationship="viewControllers" id="cBb-xm-ZTO"/>
                         <segue destination="0KL-NF-ukz" kind="relationship" relationship="viewControllers" id="Rip-es-5Ke"/>
                         <segue destination="S0n-Bf-Rkj" kind="relationship" relationship="viewControllers" id="qBo-FU-RIK"/>
                     </connections>
