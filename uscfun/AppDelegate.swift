@@ -47,6 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // choose login scene or home scene based on if loggedin
         window = UIWindow(frame: UIScreen.main.bounds)
+        
         if UserDefaults.hasLoggedIn {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let initialViewController = storyboard.instantiateInitialViewController()

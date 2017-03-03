@@ -31,6 +31,7 @@ class EventDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.view.backgroundColor = UIColor.white
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 150, 0)
         self.tableView.tableFooterView = UIView()
         self.joinButton.backgroundColor = UIColor.buttonPink

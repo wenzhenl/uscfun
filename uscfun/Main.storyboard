@@ -258,7 +258,7 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cxQ-Kd-0dd">
-                                <rect key="frame" x="0.0" y="648" width="207" height="44"/>
+                                <rect key="frame" x="0.0" y="692" width="207" height="44"/>
                                 <color key="backgroundColor" red="0.9994240403175354" green="0.34377379655544915" blue="0.28397564764301442" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="Bmy-Db-Spb"/>
@@ -269,7 +269,7 @@
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hft-qE-Tcn">
-                                <rect key="frame" x="207" y="648" width="207" height="44"/>
+                                <rect key="frame" x="207" y="692" width="207" height="44"/>
                                 <color key="backgroundColor" red="1" green="0.59275050414926622" blue="0.2903993662743779" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="参与讨论">
@@ -281,13 +281,13 @@
                         <constraints>
                             <constraint firstItem="hft-qE-Tcn" firstAttribute="leading" secondItem="cxQ-Kd-0dd" secondAttribute="trailing" id="1WA-eN-I6f"/>
                             <constraint firstItem="VNM-N7-eAu" firstAttribute="centerY" secondItem="wZa-0p-8mV" secondAttribute="centerY" id="EK5-88-tdV"/>
-                            <constraint firstItem="8ta-Cl-qq3" firstAttribute="top" secondItem="cxQ-Kd-0dd" secondAttribute="bottom" id="MKU-Nb-w1W"/>
                             <constraint firstItem="hft-qE-Tcn" firstAttribute="bottom" secondItem="cxQ-Kd-0dd" secondAttribute="bottom" id="OX7-02-lNq"/>
                             <constraint firstItem="VNM-N7-eAu" firstAttribute="centerX" secondItem="wZa-0p-8mV" secondAttribute="centerX" id="Q0G-Wt-Lva"/>
                             <constraint firstItem="hft-qE-Tcn" firstAttribute="top" secondItem="cxQ-Kd-0dd" secondAttribute="top" id="SPJ-pm-unu"/>
                             <constraint firstItem="hft-qE-Tcn" firstAttribute="width" secondItem="cxQ-Kd-0dd" secondAttribute="width" id="SYi-N6-rbx"/>
                             <constraint firstItem="hft-qE-Tcn" firstAttribute="height" secondItem="cxQ-Kd-0dd" secondAttribute="height" id="Yal-75-KzY"/>
                             <constraint firstItem="VNM-N7-eAu" firstAttribute="height" secondItem="wZa-0p-8mV" secondAttribute="height" id="Ynw-jf-L7j"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="cxQ-Kd-0dd" secondAttribute="bottom" id="f8k-FD-TSb"/>
                             <constraint firstItem="VNM-N7-eAu" firstAttribute="width" secondItem="wZa-0p-8mV" secondAttribute="width" id="oTp-hL-R3a"/>
                             <constraint firstItem="cxQ-Kd-0dd" firstAttribute="width" secondItem="wZa-0p-8mV" secondAttribute="width" multiplier="0.5" id="tf9-GG-Ihr"/>
                             <constraint firstItem="cxQ-Kd-0dd" firstAttribute="leading" secondItem="VNM-N7-eAu" secondAttribute="leading" id="y9U-qq-7Pb"/>
