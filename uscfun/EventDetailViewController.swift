@@ -23,13 +23,18 @@ class EventDetailViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var joinButton: UIButton!
+    @IBOutlet weak var chatButton: UIButton!
+    
     var event: Event!
     var detailSections = [EventDetailCell]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 100, 0)
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 150, 0)
         self.tableView.tableFooterView = UIView()
+        self.joinButton.backgroundColor = UIColor.buttonPink
+        self.chatButton.backgroundColor = UIColor.buttonBlue
         self.populateSections()
     }
 
@@ -88,6 +93,13 @@ class EventDetailViewController: UIViewController {
 //        self.present(actionViewController, animated: true, completion: nil)
 //    }
     
+    @IBAction func takeActions(_ sender: UIBarButtonItem) {
+        let actionViewController = self.storyboard!.instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentifierOfCustomizedAlertViewController) as! CustomizedAlertViewController
+        actionViewController.delegate = self
+        actionViewController.alertType = CustomAlertType.shareEvent
+        actionViewController.modalPresentationStyle = .overFullScreen
+        self.present(actionViewController, animated: true, completion: nil)
+    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
             switch identifier {
@@ -118,55 +130,52 @@ class EventDetailViewController: UIViewController {
     let memberSugueIdentifier = "see member detail"
 }
 
-//extension EventDetailViewController: CustomizedAlertViewDelegate {
-//    internal func reportEvent() {
-//        self.dimView.isHidden = true
-//    }
-//
-//    func withdraw() {
-//        self.dimView.isHidden = true
-//    }
-//    
-//    func shareEventToMoments() {
-//        print("share event to moments")
-//        self.dimView.isHidden = true
-//        let message = WXMediaMessage()
-//        message.title = event!.name
-//        message.setThumbImage(event!.type.image)
-//        
-//        let ext = WXWebpageObject()
-//        ext.webpageUrl = "http://usrichange.com"
-//        message.mediaObject = ext
-//        
-//        let req = SendMessageToWXReq()
-//        req.bText = false
-//        req.message = message
-//        req.scene = Int32(WXSceneTimeline.rawValue)
-//        WXApi.send(req)
-//    }
-//    
-//    func shareEventToWechatFriend() {
-//        print("share event to friend")
-//        self.dimView.isHidden = true
-//        self.dimView.isHidden = true
-//        let message = WXMediaMessage()
-//        message.title = event!.name
-//        message.setThumbImage(event!.type.image)
-//        
-//        let ext = WXWebpageObject()
-//        ext.webpageUrl = "http://usrichange.com"
-//        message.mediaObject = ext
-//        
-//        let req = SendMessageToWXReq()
-//        req.bText = false
-//        req.message = message
-//        req.scene = Int32(WXSceneSession.rawValue)
-//        WXApi.send(req)
-//    }
+extension EventDetailViewController: CustomizedAlertViewDelegate {
+    internal func reportEvent() {
+    }
+
+    func withdraw() {
+    }
+    
+    func shareEventToMoments() {
+        print("share event to moments")
+        let message = WXMediaMessage()
+        message.title = event!.name
+        message.setThumbImage(event!.type.image)
+        
+        let ext = WXWebpageObject()
+        ext.webpageUrl = "http://usrichange.com"
+        message.mediaObject = ext
+        
+        let req = SendMessageToWXReq()
+        req.bText = false
+        req.message = message
+        req.scene = Int32(WXSceneTimeline.rawValue)
+        WXApi.send(req)
+    }
+    
+    func shareEventToWechatFriend() {
+        print("share event to friend")
+        let message = WXMediaMessage()
+        message.title = event!.name
+        message.setThumbImage(event!.type.image)
+        
+        let ext = WXWebpageObject()
+        ext.webpageUrl = "http://usrichange.com"
+        message.mediaObject = ext
+        
+        let req = SendMessageToWXReq()
+        req.bText = false
+        req.message = message
+        req.scene = Int32(WXSceneSession.rawValue)
+        WXApi.send(req)
+    }
+    
+    func quitEvent() {
+    }
 //    
 //    func quitEvent() {
 //        print("quit event")
-//        self.dimView.isHidden = true
 //        SVProgressHUD.show()
 //        self.event?.remove(member: AVUser.current()) {
 //            succeeded, error in
@@ -181,7 +190,7 @@ class EventDetailViewController: UIViewController {
 //            }
 //        }
 //    }
-//}
+}
 
 extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
