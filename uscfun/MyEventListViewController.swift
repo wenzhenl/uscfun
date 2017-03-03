@@ -54,6 +54,22 @@ class MyEventListViewController: UIViewController {
     
     func showUpdateReminder(message: String) {
     }
+    
+    let identifierToEventDetail = "go to event detail for my events"
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            switch identifier {
+            case identifierToEventDetail:
+                let destination = segue.destination
+                if let edVC = destination as? EventDetailViewController {
+                    edVC.event = EventRequest.myOngoingEvents[EventRequest.myOngoingEvents.keys[(tableView.indexPathForSelectedRow?.section)!]]
+                }
+            default:
+                break
+            }
+        }
+    }
 }
 
 extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource {
@@ -106,8 +122,6 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
             
             cell.needNumberLabel.text = String(event.remainingSeats)
             cell.remainingTimeLabel.text = event.due.gapFromNow
-            
-            cell.selectionStyle = .none
             return cell
         }
     }
@@ -143,4 +157,8 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
         return footerView
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: identifierToEventDetail, sender: self)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }

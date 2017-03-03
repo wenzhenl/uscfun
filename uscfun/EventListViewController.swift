@@ -63,7 +63,20 @@ class EventListViewController: UIViewController {
     func showUpdateReminder(message: String) {
     }
     let identifierToEventDetail = "go to event detail"
-    let identifierToPostEvent = "go to post new event"
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            switch identifier {
+            case identifierToEventDetail:
+                let destination = segue.destination
+                if let edVC = destination as? EventDetailViewController {
+                    edVC.event = EventRequest.publicEvents[EventRequest.publicEvents.keys[(tableView.indexPathForSelectedRow?.section)!]]
+                }
+            default:
+                break
+            }
+        }
+    }
 }
 
 extension EventListViewController: UserSettingDelegate {
@@ -71,26 +84,26 @@ extension EventListViewController: UserSettingDelegate {
     }
 }
 
-extension EventListViewController: EventMemberStatusDelegate {
-    func userDidJoinEventWith(id: String) {
-        EventRequest.myOngoingEvents[id] = EventRequest.publicEvents[id]
-        EventRequest.publicEvents[id] = nil
-        self.tableView.reloadData()
-    }
-    
-    func userDidQuitEventWith(id: String) {
-        EventRequest.publicEvents[id] = EventRequest.myOngoingEvents[id]
-        EventRequest.myOngoingEvents[id] = nil
-        self.tableView.reloadData()
-    }
-    
-    func userDidPostEvent() {
-        EventRequest.fetchNewerMyOngoingEventsInBackground() {
-            _ in
-            self.tableView.reloadData()
-        }
-    }
-}
+//extension EventListViewController: EventMemberStatusDelegate {
+//    func userDidJoinEventWith(id: String) {
+//        EventRequest.myOngoingEvents[id] = EventRequest.publicEvents[id]
+//        EventRequest.publicEvents[id] = nil
+//        self.tableView.reloadData()
+//    }
+//    
+//    func userDidQuitEventWith(id: String) {
+//        EventRequest.publicEvents[id] = EventRequest.myOngoingEvents[id]
+//        EventRequest.myOngoingEvents[id] = nil
+//        self.tableView.reloadData()
+//    }
+//    
+//    func userDidPostEvent() {
+//        EventRequest.fetchNewerMyOngoingEventsInBackground() {
+//            _ in
+//            self.tableView.reloadData()
+//        }
+//    }
+//}
 
 extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -142,8 +155,6 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             
             cell.needNumberLabel.text = String(event.remainingSeats)
             cell.remainingTimeLabel.text = event.due.gapFromNow
-            
-            cell.selectionStyle = .none
             return cell
         }
     }
@@ -177,6 +188,11 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
         line.backgroundColor = self.tableView.separatorColor
         footerView.addSubview(line)
         return footerView
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: identifierToEventDetail, sender: self)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }

@@ -249,7 +249,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="VNM-N7-eAu">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="VNM-N7-eAu">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -277,7 +277,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y9J-Ob-CXo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1857" y="-5487"/>
+            <point key="canvasLocation" x="714" y="-5460"/>
         </scene>
         <!--MAP-->
         <scene sceneID="kSr-aN-Onr">
@@ -310,7 +310,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dcE-1h-f1Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2704" y="-5487"/>
+            <point key="canvasLocation" x="1754" y="-5460"/>
         </scene>
         <!--Customized Alert View Controller-->
         <scene sceneID="xMq-WR-Fwj">
@@ -431,7 +431,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="48K-CO-jAF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2703" y="-4745"/>
+            <point key="canvasLocation" x="1142" y="-4704"/>
         </scene>
         <!--Members Table View Controller-->
         <scene sceneID="SdZ-5p-5Zt">
@@ -462,13 +462,13 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yQY-4p-hq8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1857" y="-4745"/>
+            <point key="canvasLocation" x="232" y="-4703"/>
         </scene>
-        <!--首页-->
+        <!--日常-->
         <scene sceneID="lOJ-Cp-s4N">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="F1i-Ho-A4f" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="首页" image="home" id="Wxy-bD-QUB"/>
+                    <tabBarItem key="tabBarItem" title="日常" image="home" id="Wxy-bD-QUB"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="gdK-v0-2QX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -502,7 +502,7 @@
             </objects>
             <point key="canvasLocation" x="1084" y="-6255"/>
         </scene>
-        <!--首页-->
+        <!--我的微活动-->
         <scene sceneID="KD8-dZ-U38">
             <objects>
                 <viewController id="tgE-4F-Aif" customClass="MyEventListViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
@@ -531,9 +531,10 @@
                             <constraint firstItem="xoY-z6-WMA" firstAttribute="width" secondItem="ObN-Mo-xMZ" secondAttribute="width" id="ehR-dk-mq8"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="首页" id="gPr-KZ-Sl5"/>
+                    <navigationItem key="navigationItem" title="我的微活动" id="gPr-KZ-Sl5"/>
                     <connections>
                         <outlet property="tableView" destination="xoY-z6-WMA" id="gG6-Ee-pJU"/>
+                        <segue destination="nvQ-YZ-kHk" kind="show" identifier="go to event detail for my events" id="x52-9n-f72"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cXO-NJ-lf0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1051,4 +1052,7 @@
         <image name="notification" width="24" height="24"/>
         <image name="user" width="24" height="24"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="x52-9n-f72"/>
+    </inferredMetricsTieBreakers>
 </document>
