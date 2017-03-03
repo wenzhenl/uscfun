@@ -502,7 +502,7 @@
             </objects>
             <point key="canvasLocation" x="1084" y="-6255"/>
         </scene>
-        <!--我的微活动-->
+        <!--我的日常-->
         <scene sceneID="KD8-dZ-U38">
             <objects>
                 <viewController id="tgE-4F-Aif" customClass="MyEventListViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
@@ -531,7 +531,7 @@
                             <constraint firstItem="xoY-z6-WMA" firstAttribute="width" secondItem="ObN-Mo-xMZ" secondAttribute="width" id="ehR-dk-mq8"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="我的微活动" id="gPr-KZ-Sl5"/>
+                    <navigationItem key="navigationItem" title="我的日常" id="gPr-KZ-Sl5"/>
                     <connections>
                         <outlet property="tableView" destination="xoY-z6-WMA" id="gG6-Ee-pJU"/>
                         <segue destination="nvQ-YZ-kHk" kind="show" identifier="go to event detail for my events" id="x52-9n-f72"/>

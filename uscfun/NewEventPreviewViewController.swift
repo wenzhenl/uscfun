@@ -32,17 +32,7 @@ class NewEventPreviewViewController: UIViewController {
         self.tableView.tableFooterView = UIView()
         self.populateSections()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        self.navigationController?.navigationBar.isTranslucent = false
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        self.navigationController?.navigationBar.isTranslucent = true
-    }
-    
+
     func populateSections() {
         previewSections.append(PreviewCell.headerCell)
         if UserDefaults.newEventStartTime > Date() {
