@@ -37,7 +37,7 @@ class EventDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.view.backgroundColor = UIColor.backgroundGray
+        self.navigationController?.view.backgroundColor = UIColor.white
         self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 150, 0)
         self.tableView.tableFooterView = UIView()
         self.joinButton.backgroundColor = UIColor.buttonPink
@@ -215,14 +215,13 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
+        if indexPath.section == 2 {
+            return 50
+        }
         return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            return 300
-        }
         return 50
     }
     
@@ -232,62 +231,72 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
             let cell = Bundle.main.loadNibNamed("EventStatusBarTableViewCell", owner: self, options: nil)?.first as! EventStatusBarTableViewCell
             cell.statusView.backgroundColor = event.statusColor
             cell.statusLabel.text = event.statusDescription
+            cell.selectionStyle = .none
             return cell
         case .titleCell:
             let cell = Bundle.main.loadNibNamed("EventTitleTableViewCell", owner: self, options: nil)?.first as! EventTitleTableViewCell
             cell.titleLabel.text = event.name
+            cell.selectionStyle = .none
             return cell
         case .creatorCell:
             let cell = Bundle.main.loadNibNamed("EventCreatorTableViewCell", owner: self, options: nil)?.first as! EventCreatorTableViewCell
-            cell.avatorImageView.layer.masksToBounds = true
-            cell.avatorImageView.layer.cornerRadius = cell.avatorImageView.frame.size.width / 2.0
+            
             cell.avatorImageView.image = creator.avatar
             cell.creatorLabel.text = creator.nickname
+            cell.selectionStyle = .none
             return cell
         case .remainingNumberCell:
             let cell = Bundle.main.loadNibNamed("NumberDisplayTableViewCell", owner: self, options: nil)?.first as! NumberDisplayTableViewCell
             cell.numberLabel.text = String(event.remainingSeats)
+            cell.selectionStyle = .none
             return cell
         case .numberCell:
             let cell = Bundle.main.loadNibNamed("TandemLabelTableViewCell", owner: self, options: nil)?.first as! TandemLabelTableViewCell
             cell.leftLabel.text = "已经报名 " + String(event.totalSeats - event.remainingSeats) + "人"
             cell.rightLabel.text = "最少成行 " + String(event.minimumAttendingPeople) + "人"
+            cell.selectionStyle = .none
             return cell
         case .remainingTimeCell:
             let cell = Bundle.main.loadNibNamed("TitleContentTableViewCell", owner: self, options: nil)?.first as! TitleContentTableViewCell
             cell.titleLabel.text = "离报名截止还剩："
             cell.contentLabel.text = event.due.gapFromNow
+            cell.selectionStyle = .none
             return cell
         case .startTimeCell:
             let cell = Bundle.main.loadNibNamed("TimeDisplayTableViewCell", owner: self, options: nil)?.first as! TimeDisplayTableViewCell
             cell.titleLabel.text = "活动开始时间："
             cell.dateLabel.text = event.startTime!.readableDate
             cell.timeLabel.text = event.startTime!.readableTime
+            cell.selectionStyle = .none
             return cell
         case .endTimeCell:
             let cell = Bundle.main.loadNibNamed("TimeDisplayTableViewCell", owner: self, options: nil)?.first as! TimeDisplayTableViewCell
             cell.titleLabel.text = "活动结束时间："
             cell.dateLabel.text = event.endTime!.readableDate
             cell.timeLabel.text = event.endTime!.readableTime
+            cell.selectionStyle = .none
             return cell
         case .locationCell:
             let cell = Bundle.main.loadNibNamed("TitleContentTableViewCell", owner: self, options: nil)?.first as! TitleContentTableViewCell
             cell.titleLabel.text = "活动地点："
             cell.contentLabel.text = event.locationName
+            cell.selectionStyle = .none
             return cell
         case .mapCell:
             let cell = Bundle.main.loadNibNamed("MapViewTableViewCell", owner: self, options: nil)?.first as! MapViewTableViewCell
+            cell.selectionStyle = .none
             return cell
         case .noteCell:
             let cell = Bundle.main.loadNibNamed("TitleTextViewTableViewCell", owner: self, options: nil)?.first as! TitleTextViewTableViewCell
             cell.titleLabel.text = "补充说明："
             cell.textView.text = event.note
+            cell.selectionStyle = .none
             return cell
         }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 2 || section == 3 {
+        if section == 3 {
             return 1 / UIScreen.main.scale
         }
         return 0
@@ -305,16 +314,19 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
         if section == 1 {
             return 10
         }
+        if section == 5 && detailSections.count > 6 {
+            return 10
+        }
         return 0
-    }
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let view = UIView()
-        view.backgroundColor = UIColor.clear
-        return view
     }
     
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         view.tintColor = UIColor.clear
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: 10))
+        footerView.backgroundColor = UIColor.backgroundGray
+        return footerView
     }
 }

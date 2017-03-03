@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -21,26 +20,34 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2X8-MF-1aV">
-                        <rect key="frame" x="8" y="8" width="21" height="21"/>
+                        <rect key="frame" x="8" y="4.5" width="35" height="35"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="40" id="PSw-NY-8My"/>
-                            <constraint firstAttribute="width" secondItem="2X8-MF-1aV" secondAttribute="height" id="nsA-Ik-4Wg"/>
+                            <constraint firstAttribute="height" constant="35" id="I8n-aT-lKu"/>
+                            <constraint firstAttribute="width" constant="35" id="PSw-NY-8My"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3O-CA-BJ0">
-                        <rect key="frame" x="37" y="8" width="42" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
+                        <rect key="frame" x="51" y="4.5" width="37.5" height="35"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="查看" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fZk-yJ-BtP">
+                        <rect key="frame" x="281" y="4.5" width="31" height="35"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="f3O-CA-BJ0" firstAttribute="leading" secondItem="2X8-MF-1aV" secondAttribute="trailing" constant="8" symbolic="YES" id="1tj-V9-Mir"/>
+                    <constraint firstItem="f3O-CA-BJ0" firstAttribute="top" secondItem="fZk-yJ-BtP" secondAttribute="top" id="7V5-aq-7Nc"/>
                     <constraint firstItem="2X8-MF-1aV" firstAttribute="bottom" secondItem="f3O-CA-BJ0" secondAttribute="bottom" id="8MF-U9-3Pb"/>
                     <constraint firstItem="2X8-MF-1aV" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="GPM-DB-SWX"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="fZk-yJ-BtP" secondAttribute="trailing" id="GS8-eA-wmb"/>
                     <constraint firstItem="2X8-MF-1aV" firstAttribute="top" secondItem="f3O-CA-BJ0" secondAttribute="top" id="OTR-BL-3mS"/>
-                    <constraint firstItem="2X8-MF-1aV" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="TAg-lj-1PV"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="2X8-MF-1aV" secondAttribute="bottom" id="hK4-S5-4vu"/>
+                    <constraint firstItem="2X8-MF-1aV" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Uvg-Gy-4hW"/>
+                    <constraint firstItem="f3O-CA-BJ0" firstAttribute="bottom" secondItem="fZk-yJ-BtP" secondAttribute="bottom" id="vu2-zc-Gcg"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
