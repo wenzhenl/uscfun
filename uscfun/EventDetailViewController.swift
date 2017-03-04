@@ -203,6 +203,13 @@ extension EventDetailViewController: CustomizedAlertViewDelegate {
 }
 
 extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if detailSections[indexPath.section] == .mapCell {
+            performSegue(withIdentifier: mapSegueIdentifier, sender: self)
+        }
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return detailSections.count
     }
