@@ -9,4 +9,9 @@
 import UIKit
 
 class MapViewTableViewCell: UITableViewCell {
+    @IBOutlet weak var mapView: MKMapView!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
 }

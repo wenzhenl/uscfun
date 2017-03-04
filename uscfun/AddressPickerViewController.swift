@@ -25,8 +25,7 @@ public class AddressPickerViewController: UIViewController, TypedRowControllerTy
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.backgroundGray
-        
+        view.backgroundColor = UIColor.white
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
@@ -34,6 +33,7 @@ public class AddressPickerViewController: UIViewController, TypedRowControllerTy
             locationManager.requestLocation()
         } else {
             // Fallback on earlier versions
+            locationManager.startUpdatingLocation()
         }
         
         let locationSearchTable = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SearchResultTable") as! SearchResultsTableViewController
@@ -82,6 +82,7 @@ extension AddressPickerViewController : CLLocationManagerDelegate {
                 locationManager.requestLocation()
             } else {
                 // Fallback on earlier versions
+                locationManager.startUpdatingLocation()
             }
         }
     }

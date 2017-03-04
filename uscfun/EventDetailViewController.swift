@@ -27,7 +27,6 @@ enum EventDetailCell {
 class EventDetailViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var joinButton: UIButton!
     @IBOutlet weak var chatButton: UIButton!
     
@@ -38,7 +37,7 @@ class EventDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.view.backgroundColor = UIColor.white
-        self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 150, 0)
+        self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 50, 0)
         self.tableView.tableFooterView = UIView()
         self.joinButton.backgroundColor = UIColor.buttonPink
         self.chatButton.backgroundColor = UIColor.buttonBlue
@@ -113,6 +112,7 @@ class EventDetailViewController: UIViewController {
         actionViewController.modalPresentationStyle = .overFullScreen
         self.present(actionViewController, animated: true, completion: nil)
     }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
             switch identifier {
@@ -136,9 +136,6 @@ class EventDetailViewController: UIViewController {
     }
     
     //--MARK: global constants
-    let eventLocationKey = "活动地点"
-    let conversationKey = "参与讨论"
-    let memberStatusKey = "已经参加"
     let mapSegueIdentifier = "SHOWMAP"
     let memberSugueIdentifier = "see member detail"
 }
@@ -244,7 +241,6 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
             return cell
         case .creatorCell:
             let cell = Bundle.main.loadNibNamed("EventCreatorTableViewCell", owner: self, options: nil)?.first as! EventCreatorTableViewCell
-            
             cell.avatorImageView.image = creator.avatar
             cell.creatorLabel.text = creator.nickname
             cell.selectionStyle = .none
@@ -288,6 +284,15 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
             return cell
         case .mapCell:
             let cell = Bundle.main.loadNibNamed("MapViewTableViewCell", owner: self, options: nil)?.first as! MapViewTableViewCell
+            let location = CLLocationCoordinate2D(latitude: (event.location?.latitude)!, longitude: (event.location?.longitude)!)
+            let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+            let region = MKCoordinateRegion(center: location, span: span)
+            cell.mapView.setRegion(region, animated: true)
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = location
+            annotation.title = event.locationName
+            cell.mapView.addAnnotation(annotation)
+            cell.mapView.isUserInteractionEnabled = false
             cell.selectionStyle = .none
             return cell
         case .noteCell:
@@ -316,9 +321,6 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if section == 1 {
-            return 10
-        }
-        if section == 5 && detailSections.count > 6 {
             return 10
         }
         return 0
