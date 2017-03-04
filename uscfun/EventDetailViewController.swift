@@ -234,8 +234,12 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
             cell.selectionStyle = .none
             return cell
         case .titleCell:
-            let cell = Bundle.main.loadNibNamed("EventTitleTableViewCell", owner: self, options: nil)?.first as! EventTitleTableViewCell
-            cell.titleLabel.text = event.name
+            let cell = UITableViewCell()
+            cell.textLabel?.textColor = UIColor.darkText
+            cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 17)
+            cell.textLabel?.textAlignment = .left
+            cell.textLabel?.numberOfLines = 0
+            cell.textLabel?.text = event.name
             cell.selectionStyle = .none
             return cell
         case .creatorCell:

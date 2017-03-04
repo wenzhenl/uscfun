@@ -44,6 +44,11 @@ class NewEventNumberReservedViewController: UIViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        errorLabel.isHidden = true
+    }
+    
     @IBAction func numReservedChanged(_ sender: UIStepper) {
         errorLabel.isHidden = true
         numberReserved = Int(sender.value)
@@ -53,7 +58,7 @@ class NewEventNumberReservedViewController: UIViewController {
         if numberReserved < UserDefaults.newEventMaxPeople {
             performSegue(withIdentifier: "GoNewEventOptionals", sender: self)
         } else {
-            errorLabel.text = "预留人数不能超过最大参与人数"
+            errorLabel.text = "预留人数超过了最大人数"
             errorLabel.isHidden = false
         }
     }
