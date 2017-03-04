@@ -46,7 +46,7 @@ public class AddressPickerViewController: UIViewController, TypedRowControllerTy
         
         let searchBar = resultsSearchController!.searchBar
         searchBar.sizeToFit()
-        searchBar.placeholder = "Search for places"
+        searchBar.placeholder = "搜索地址"
         navigationItem.titleView = resultsSearchController!.searchBar
         resultsSearchController?.hidesNavigationBarDuringPresentation = false
         resultsSearchController?.dimsBackgroundDuringPresentation = true
