@@ -52,6 +52,11 @@ public class AddressPickerViewController: UIViewController, TypedRowControllerTy
         resultsSearchController?.dimsBackgroundDuringPresentation = true
         definesPresentationContext = true
     }
+    
+    override public func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        self.resultsSearchController?.isActive = true
+    }
 }
 
 extension AddressPickerViewController: SearchResultDelegate {
@@ -95,8 +100,9 @@ extension AddressPickerViewController : CLLocationManagerDelegate {
 
 extension AddressPickerViewController: UISearchControllerDelegate {
     public func didPresentSearchController(_ searchController: UISearchController) {
-        print("did present search controller")
-        searchController.isActive = true
-        searchController.searchBar.becomeFirstResponder()
+        UIView.animate(withDuration: 0.1, animations: { () -> Void in }) {
+            completed in
+            searchController.searchBar.becomeFirstResponder()
+        }
     }
 }

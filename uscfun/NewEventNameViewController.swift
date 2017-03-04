@@ -40,6 +40,8 @@ class NewEventNameViewController: UIViewController {
             errorLabel = UILabel(frame: CGRect(x: navigationBar.frame.width/4, y: 0, width: navigationBar.frame.width/2, height: navigationBar.frame.height))
             errorLabel.textAlignment = .center
             errorLabel.textColor = UIColor.red
+            errorLabel.font = UIFont.systemFont(ofSize: 13)
+            errorLabel.numberOfLines = 0
             navigationBar.addSubview(errorLabel)
             errorLabel.isHidden = true
         }
@@ -55,10 +57,10 @@ class NewEventNameViewController: UIViewController {
         if eventName.characters.count >= 4 && eventName.characters.count <= 140 {
             performSegue(withIdentifier: "BeginEditingNewEventDue", sender: self)
         } else if eventName.characters.count < 4 {
-            errorLabel.text = "额，也太简短了吧..."
+            errorLabel.text = "额，也太简短了吧😅"
             errorLabel.isHidden = false
         } else {
-            errorLabel.text = "还是不要超过140个字比较好"
+            errorLabel.text = "大家都说貌似140个字以内比较优秀☺"
             errorLabel.isHidden = false
         }
     }

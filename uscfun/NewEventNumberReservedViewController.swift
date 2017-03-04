@@ -39,6 +39,8 @@ class NewEventNumberReservedViewController: UIViewController {
             errorLabel = UILabel(frame: CGRect(x: navigationBar.frame.width/4, y: 0, width: navigationBar.frame.width/2, height: navigationBar.frame.height))
             errorLabel.textAlignment = .center
             errorLabel.textColor = UIColor.red
+            errorLabel.font = UIFont.systemFont(ofSize: 13)
+            errorLabel.numberOfLines = 0
             navigationBar.addSubview(errorLabel)
             errorLabel.isHidden = true
         }
@@ -58,7 +60,7 @@ class NewEventNumberReservedViewController: UIViewController {
         if numberReserved < UserDefaults.newEventMaxPeople {
             performSegue(withIdentifier: "GoNewEventOptionals", sender: self)
         } else {
-            errorLabel.text = "预留人数超过了最大人数"
+            errorLabel.text = "预留人数必须小于最多容纳人数"
             errorLabel.isHidden = false
         }
     }
