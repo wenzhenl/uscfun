@@ -122,7 +122,6 @@ class EventDetailViewController: UIViewController {
                     mapVC.placename = event?.locationName
                     mapVC.latitude = event?.location?.latitude
                     mapVC.longitude = event?.location?.longitude
-                    print("go to see map")
                 }
             case memberSugueIdentifier:
                 let destination = segue.destination
