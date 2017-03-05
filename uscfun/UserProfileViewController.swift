@@ -26,7 +26,9 @@ class UserProfileViewController: UIViewController {
     var userProfileSections = [UserProfileCell]()
     
     let numberOfPreservedSection = 4
-    
+   
+    var genderTitle: String!
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = other.nickname
@@ -34,6 +36,11 @@ class UserProfileViewController: UIViewController {
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, -10, 0)
         self.tableView.tableFooterView = UIView()
         self.populateSections()
+        if other.gender == nil || other.gender == .male {
+            genderTitle = "他"
+        } else {
+            genderTitle = "她"
+        }
     }
     
     func populateSections() {
@@ -114,15 +121,15 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
             cell.avatarImageView.image = other.avatar
             cell.avatarImageView.layer.masksToBounds = true
             cell.avatarImageView.layer.cornerRadius = cell.avatarImageView.frame.size.width / 2.0
-            cell.genderLabel.text = other.gender?.rawValue
+            cell.genderLabel.text = other.gender?.rawValue ?? "性别保密"
             cell.selectionStyle = .none
             return cell
         case .statCell:
             let cell = Bundle.main.loadNibNamed("TandemLabelTableViewCell", owner: self, options: nil)?.first as! TandemLabelTableViewCell
             cell.leftLabel.textColor = UIColor.darkGray
-            cell.leftLabel.text = "发起活动：" + String(other.createdEvents.count)
+            cell.leftLabel.text = "发起微活动：" + String(other.createdEvents.count)
             cell.rightLabel.textColor = UIColor.darkGray
-            cell.rightLabel.text = "参加活动：" + String(other.attendedEvents.count)
+            cell.rightLabel.text = "参加微活动：" + String(other.attendedEvents.count)
             cell.selectionStyle = .none
             return cell
         case .introductionCell:
@@ -133,8 +140,9 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
             return cell
         case .segmentedCell:
             let cell = Bundle.main.loadNibNamed("SegmentedTableViewCell", owner: self, options: nil)?.first as! SegmentedTableViewCell
-            cell.segmentedControl.setTitle("发起过活动", forSegmentAt: 0)
-            cell.segmentedControl.setTitle("参加过活动", forSegmentAt: 1)
+          
+            cell.segmentedControl.setTitle(genderTitle + "发起过的微活动", forSegmentAt: 0)
+            cell.segmentedControl.setTitle(genderTitle + "参加过的微活动", forSegmentAt: 1)
             cell.segmentedControl.selectedSegmentIndex = showingCreatedEvents ? 0 : 1
             cell.segmentedControl.addTarget(self, action: #selector(handleSegmentedControl(_:)), for: .valueChanged)
             cell.selectionStyle = .none

@@ -168,8 +168,13 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             cell.whitePaperImageView.image = possibleWhitePapers[randomIndex]
             
             cell.needNumberLabel.text = String(event.remainingSeats)
-            cell.remainingTimeLabel.text = event.due.gapFromNow
-            
+            let gapFromNow = event.due.gapFromNow
+            if gapFromNow == "" {
+                cell.remainingTimeLabel.textColor = UIColor.darkGray
+                cell.remainingTimeLabel.text = "报名已经结束"
+            } else {
+                cell.remainingTimeLabel.text = gapFromNow
+            }
             cell.attendingLabel.text = "已经报名 " + String(event.totalSeats - event.remainingSeats)
             cell.minPeopleLabel.text = "最少成行 " + String(event.minimumAttendingPeople)
             

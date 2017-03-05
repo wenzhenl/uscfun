@@ -274,7 +274,13 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
         case .remainingTimeCell:
             let cell = Bundle.main.loadNibNamed("TitleContentTableViewCell", owner: self, options: nil)?.first as! TitleContentTableViewCell
             cell.titleLabel.text = "离报名截止还剩："
-            cell.contentLabel.text = event.due.gapFromNow
+            let gapFromNow = event.due.gapFromNow
+            if gapFromNow == "" {
+                cell.contentLabel.textColor = UIColor.darkGray
+                cell.contentLabel.text = "报名已经结束"
+            } else {
+                cell.contentLabel.text = gapFromNow
+            }
             cell.selectionStyle = .none
             return cell
         case .startTimeCell:
