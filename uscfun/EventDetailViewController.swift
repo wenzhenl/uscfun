@@ -16,6 +16,7 @@ enum EventDetailCell {
     case creatorCell
     case remainingNumberCell
     case numberCell
+    case memberCell
     case remainingTimeCell
     case startTimeCell
     case endTimeCell
@@ -53,6 +54,9 @@ class EventDetailViewController: UIViewController {
         detailSections.append(EventDetailCell.creatorCell)
         detailSections.append(EventDetailCell.remainingNumberCell)
         detailSections.append(EventDetailCell.numberCell)
+//        if event.members.count > 1 {
+            detailSections.append(EventDetailCell.memberCell)
+//        }
         detailSections.append(EventDetailCell.remainingTimeCell)
         if event.startTime != nil {
             detailSections.append(EventDetailCell.startTimeCell)
@@ -218,9 +222,10 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 2 {
+        if detailSections[indexPath.section] == .creatorCell {
             return 50
         }
+        
         return UITableViewAutomaticDimension
     }
     
@@ -307,11 +312,22 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
             cell.textView.text = event.note
             cell.selectionStyle = .none
             return cell
+        case .memberCell:
+            let cell = Bundle.main.loadNibNamed("CollectionViewTableViewCell", owner: self, options: nil)?.first as! CollectionViewTableViewCell
+            cell.collectionView.delegate = self
+            cell.collectionView.dataSource = self
+            let layout = UICollectionViewFlowLayout()
+            layout.itemSize = CGSize(width: 100, height: 100)
+            layout.scrollDirection = .vertical
+            cell.collectionView.collectionViewLayout = layout
+            cell.collectionView.contentInset = UIEdgeInsetsMake(100, 0, 50, 0)
+            cell.collectionView.reloadData()
+            return cell
         }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 3 {
+        if detailSections[section] == .remainingNumberCell {
             return 1 / UIScreen.main.scale
         }
         return 0
@@ -326,7 +342,7 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section == 1 {
+        if detailSections[section] == .titleCell {
             return 10
         }
         return 0
@@ -340,5 +356,33 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: 10))
         footerView.backgroundColor = UIColor.backgroundGray
         return footerView
+    }
+}
+
+extension EventDetailViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("haha, iam here1")
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = Bundle.main.loadNibNamed("ImageViewCollectionViewCell", owner: self, options: nil)?.first as! ImageViewCollectionViewCell
+        (cell.viewWithTag(1) as! UIImageView).image = creator.avatar
+        print("haha, iam here--------")
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        print("haha, iam here2")
+        let width = collectionView.frame.size.width / 3.0 - 1
+        return CGSize(width: width , height: width )
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 1.0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 1.0
     }
 }

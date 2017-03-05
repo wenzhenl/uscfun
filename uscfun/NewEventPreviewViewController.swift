@@ -197,6 +197,8 @@ extension NewEventPreviewViewController: UITableViewDelegate, UITableViewDataSou
             cell.textView.text = UserDefaults.newEventNote
             cell.selectionStyle = .none
             return cell
+        default:
+            return UITableViewCell()
         }
     }
     

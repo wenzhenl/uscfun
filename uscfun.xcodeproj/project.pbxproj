@@ -33,6 +33,10 @@
 		0A427FB11D97F627007A96BE /* ImageViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A427FAF1D97F627007A96BE /* ImageViewTableViewCell.swift */; };
 		0A427FB21D97F627007A96BE /* ImageViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A427FB01D97F627007A96BE /* ImageViewTableViewCell.xib */; };
 		0A52FD681DB098F8000D17D8 /* LCCKUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A52FD671DB098F8000D17D8 /* LCCKUser.m */; };
+		0A5332BE1E6B2C8800C50186 /* CollectionViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5332BC1E6B2C8800C50186 /* CollectionViewTableViewCell.swift */; };
+		0A5332BF1E6B2C8800C50186 /* CollectionViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A5332BD1E6B2C8800C50186 /* CollectionViewTableViewCell.xib */; };
+		0A5332C21E6B2D7200C50186 /* ImageViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5332C01E6B2D7200C50186 /* ImageViewCollectionViewCell.swift */; };
+		0A5332C31E6B2D7200C50186 /* ImageViewCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A5332C11E6B2D7200C50186 /* ImageViewCollectionViewCell.xib */; };
 		0A5830CB1DD45A2800E06B4A /* OrderedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5830CA1DD45A2800E06B4A /* OrderedDictionary.swift */; };
 		0A6834BE1D56858C002E9B0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6834BD1D56858C002E9B0D /* AppDelegate.swift */; };
 		0A6834C51D56858C002E9B0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A6834C41D56858C002E9B0D /* Assets.xcassets */; };
@@ -139,6 +143,10 @@
 		0A427FB01D97F627007A96BE /* ImageViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageViewTableViewCell.xib; sourceTree = "<group>"; };
 		0A52FD661DB098F8000D17D8 /* LCCKUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCCKUser.h; sourceTree = "<group>"; };
 		0A52FD671DB098F8000D17D8 /* LCCKUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCCKUser.m; sourceTree = "<group>"; };
+		0A5332BC1E6B2C8800C50186 /* CollectionViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewTableViewCell.swift; sourceTree = "<group>"; };
+		0A5332BD1E6B2C8800C50186 /* CollectionViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewTableViewCell.xib; sourceTree = "<group>"; };
+		0A5332C01E6B2D7200C50186 /* ImageViewCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewCollectionViewCell.swift; sourceTree = "<group>"; };
+		0A5332C11E6B2D7200C50186 /* ImageViewCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageViewCollectionViewCell.xib; sourceTree = "<group>"; };
 		0A5830CA1DD45A2800E06B4A /* OrderedDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderedDictionary.swift; sourceTree = "<group>"; };
 		0A6834BA1D56858C002E9B0D /* uscfun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = uscfun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A6834BD1D56858C002E9B0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -329,6 +337,10 @@
 				0A8483731E68592B00B7B29A /* MapViewTableViewCell.xib */,
 				0A8483761E693F7300B7B29A /* EventStatusTableViewCell.swift */,
 				0A8483771E693F7300B7B29A /* EventStatusTableViewCell.xib */,
+				0A5332BC1E6B2C8800C50186 /* CollectionViewTableViewCell.swift */,
+				0A5332BD1E6B2C8800C50186 /* CollectionViewTableViewCell.xib */,
+				0A5332C01E6B2D7200C50186 /* ImageViewCollectionViewCell.swift */,
+				0A5332C11E6B2D7200C50186 /* ImageViewCollectionViewCell.xib */,
 			);
 			name = TableViewCells;
 			sourceTree = "<group>";
@@ -528,6 +540,7 @@
 				0A8483791E693F7300B7B29A /* EventStatusTableViewCell.xib in Resources */,
 				0A6D92331E669965008501B9 /* EventSnapshotTableViewCell.xib in Resources */,
 				0AAE42E01D9A289D00B34601 /* ImgKeyValueTableViewCell.xib in Resources */,
+				0A5332C31E6B2D7200C50186 /* ImageViewCollectionViewCell.xib in Resources */,
 				0A70C0A01DBD3B4000C06354 /* LabelSwitchTableViewCell.xib in Resources */,
 				0A84835D1E683D8C00B7B29A /* TitleContentTableViewCell.xib in Resources */,
 				0A3D2B591D7B9256004F57EF /* Main.storyboard in Resources */,
@@ -538,6 +551,7 @@
 				0A427FB21D97F627007A96BE /* ImageViewTableViewCell.xib in Resources */,
 				0A84836D1E68439100B7B29A /* EventDetailHeaderTableViewCell.xib in Resources */,
 				0A6834C51D56858C002E9B0D /* Assets.xcassets in Resources */,
+				0A5332BF1E6B2C8800C50186 /* CollectionViewTableViewCell.xib in Resources */,
 				0ADA4D2E1D9A46970001A376 /* SingleButtonTableViewCell.xib in Resources */,
 				0AE5C54E1DB1E2CC00B455F4 /* LabelArrowTableViewCell.xib in Resources */,
 				0A8483611E683ED500B7B29A /* TimeDisplayTableViewCell.xib in Resources */,
@@ -617,6 +631,8 @@
 				0A70C09B1DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.swift in Sources */,
 				0ADE0CA31DB1F19D009F89A0 /* AboutViewController.swift in Sources */,
 				0AE5C5491DB1DFB500B455F4 /* ProfileTableViewCell.swift in Sources */,
+				0A5332C21E6B2D7200C50186 /* ImageViewCollectionViewCell.swift in Sources */,
+				0A5332BE1E6B2C8800C50186 /* CollectionViewTableViewCell.swift in Sources */,
 				0A5830CB1DD45A2800E06B4A /* OrderedDictionary.swift in Sources */,
 				0A963DB51D7122E200E0532F /* SignUpViewController.swift in Sources */,
 				0AF0BD8B1E6AD7190091B999 /* EventCreatorTableViewCell.swift in Sources */,
