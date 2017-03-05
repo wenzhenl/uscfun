@@ -18,6 +18,10 @@ class User {
     var gender: String?
     var avatar: UIImage?
     
+    var allowsEventHistoryViewed: Bool {
+        return true
+    }
+    
     init(username: String, nickname: String) {
         self.username = username
         self.nickname = nickname
@@ -65,5 +69,13 @@ class User {
         self.username = ""
         self.nickname = ""
         return nil
+    }
+    
+    var attendedEvents: OrderedDictionary<String, Event> {
+        return EventRequest.publicEvents
+    }
+    
+    var createdEvents: OrderedDictionary<String, Event> {
+        return EventRequest.myOngoingEvents
     }
 }
