@@ -31,7 +31,7 @@ class UserProfileViewController: UIViewController {
         super.viewDidLoad()
         self.title = other.nickname
         self.tableView.backgroundColor = UIColor.white
-        self.tableView.contentInset = UIEdgeInsetsMake(40, 0, 50, 0)
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         self.tableView.tableFooterView = UIView()
         self.populateSections()
     }
@@ -49,7 +49,9 @@ class UserProfileViewController: UIViewController {
                 if other.createdEvents.count == 0 {
                     userProfileSections.append(UserProfileCell.noEventCell)
                 } else {
+                    print(userProfileSections.count)
                     userProfileSections += Array(repeating: UserProfileCell.eventCell, count: other.createdEvents.count)
+                     print(userProfileSections.count)
                 }
             } else {
                 if other.attendedEvents.count == 0 {
@@ -68,16 +70,30 @@ class UserProfileViewController: UIViewController {
         switch sender.selectedSegmentIndex {
         case 0:
             showingCreatedEvents = true
-            self.populateSections()
-            self.tableView.reloadSections(IndexSet(numberOfPreservedSection..<other.createdEvents.count + numberOfPreservedSection), with: .automatic)
         case 1:
             showingCreatedEvents = false
-            self.populateSections()
-            self.tableView.reloadSections(IndexSet(numberOfPreservedSection..<other.attendedEvents.count + numberOfPreservedSection), with: .automatic)
         default:
             break
         }
+        self.populateSections()
+        self.tableView.reloadData()
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            switch identifier {
+            case identifierToEventDetail:
+                let destination = segue.destination
+                if let edVC = destination as? EventDetailViewController {
+                    edVC.event = showingCreatedEvents ? other.createdEvents[other.createdEvents.keys[(self.tableView.indexPathForSelectedRow?.section)! - numberOfPreservedSection]] : other.attendedEvents[other.attendedEvents.keys[(self.tableView.indexPathForSelectedRow?.section)! - numberOfPreservedSection]]
+                }
+            default:
+                break
+            }
+        }
+    }
+    
+    let identifierToEventDetail = "go to event detail"
 }
 
 extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
@@ -118,13 +134,14 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
             let cell = Bundle.main.loadNibNamed("SegmentedTableViewCell", owner: self, options: nil)?.first as! SegmentedTableViewCell
             cell.segmentedControl.setTitle("发起过活动", forSegmentAt: 0)
             cell.segmentedControl.setTitle("参加过活动", forSegmentAt: 1)
+            cell.segmentedControl.selectedSegmentIndex = showingCreatedEvents ? 0 : 1
             cell.segmentedControl.addTarget(self, action: #selector(handleSegmentedControl(_:)), for: .valueChanged)
             cell.selectionStyle = .none
             return cell
         case .eventCell:
             let cell = Bundle.main.loadNibNamed("EventSnapshotTableViewCell", owner: self, options: nil)?.first as! EventSnapshotTableViewCell
             var event: Event!
-            event = showingCreatedEvents ? other.createdEvents[other.createdEvents.keys[indexPath.section - userProfileSections.count + 1]] : other.attendedEvents[other.attendedEvents.keys[indexPath.section - userProfileSections.count + 1]]
+            event = showingCreatedEvents ? other.createdEvents[other.createdEvents.keys[indexPath.section - numberOfPreservedSection]] : other.attendedEvents[other.attendedEvents.keys[indexPath.section - numberOfPreservedSection]]
             let creator = User(user: event.creator)!
             cell.eventNameLabel.text = event.name
             cell.creatorLabel.text = "发起人：" + creator.nickname
@@ -161,6 +178,11 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        if userProfileSections[indexPath.section] == .avatarCell {
+            return 90
+        }
+        
         return UITableViewAutomaticDimension
     }
     
@@ -180,11 +202,17 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if userProfileSections[indexPath.section] == .eventCell {
+            performSegue(withIdentifier: identifierToEventDetail, sender: self)
+        }
         tableView.deselectRow(at: indexPath, animated: false)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if userProfileSections[section] == .introductionCell {
+            return 1 / UIScreen.main.scale
+        }
+        if userProfileSections[section] == .eventCell {
             return 1 / UIScreen.main.scale
         }
         return 0
@@ -205,6 +233,9 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
         if userProfileSections[section] == .introductionCell {
             return 10
         }
+        if userProfileSections[section] == .eventCell {
+            return 10
+        }
         return 0
     }
     
@@ -212,6 +243,15 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: 10))
         if userProfileSections[section] == .introductionCell {
             footerView.backgroundColor = UIColor.backgroundGray
+        }
+        if userProfileSections[section] == .eventCell {
+            let px = 1 / UIScreen.main.scale
+            let footerView = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: 10 + px))
+            let frame = CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: px)
+            let line = UIView(frame: frame)
+            line.backgroundColor = self.tableView.separatorColor
+            footerView.addSubview(line)
+            return footerView
         }
         return footerView
     }

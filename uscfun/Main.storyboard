@@ -451,6 +451,7 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="ATz-BZ-9M4" id="HCh-gf-rlb"/>
+                        <segue destination="nvQ-YZ-kHk" kind="show" identifier="go to event detail" id="xev-Vj-4Av"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="48K-CO-jAF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1008,6 +1009,6 @@
         <image name="user" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="x52-9n-f72"/>
+        <segue reference="xev-Vj-4Av"/>
     </inferredMetricsTieBreakers>
 </document>
