@@ -127,10 +127,10 @@ class EventDetailViewController: UIViewController {
                     mapVC.latitude = event?.location?.latitude
                     mapVC.longitude = event?.location?.longitude
                 }
-            case memberSugueIdentifier:
+            case userProfileSugueIdentifier:
                 let destination = segue.destination
-                if let memberDetailVC = destination as? MembersTableViewController {
-                    memberDetailVC.event = self.event
+                if let upVC = destination as? UserProfileViewController {
+                    upVC.other = creator
                 }
             default:
                 break
@@ -140,7 +140,7 @@ class EventDetailViewController: UIViewController {
     
     //--MARK: global constants
     let mapSegueIdentifier = "SHOWMAP"
-    let memberSugueIdentifier = "see member detail"
+    let userProfileSugueIdentifier = "see user profile"
 }
 
 extension EventDetailViewController: CustomizedAlertViewDelegate {
@@ -210,6 +210,10 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if detailSections[indexPath.section] == .mapCell {
             performSegue(withIdentifier: mapSegueIdentifier, sender: self)
+        }
+        
+        if detailSections[indexPath.section] == .creatorCell {
+            performSegue(withIdentifier: userProfileSugueIdentifier, sender: self)
         }
     }
     

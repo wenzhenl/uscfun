@@ -16,7 +16,6 @@
 		0A0185861DC48602009A7874 /* LabelImgArrowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A0185841DC48602009A7874 /* LabelImgArrowTableViewCell.xib */; };
 		0A022FA71D73D066004077A4 /* FindBackPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A022FA61D73D066004077A4 /* FindBackPasswordViewController.swift */; };
 		0A2506A81DB1A8E80099E812 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2506A71DB1A8E80099E812 /* WebViewController.swift */; };
-		0A250F5C1DC1369000B9723A /* MembersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A250F5B1DC1369000B9723A /* MembersTableViewController.swift */; };
 		0A2CC2041DAE166D00AB840F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A2CC2031DAE166D00AB840F /* SystemConfiguration.framework */; };
 		0A2CC2061DAE16AA00AB840F /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A2CC2051DAE16AA00AB840F /* CoreTelephony.framework */; };
 		0A2CC2081DAE17A600AB840F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A2CC2071DAE17A600AB840F /* libz.tbd */; };
@@ -97,7 +96,6 @@
 		0ADA4D2E1D9A46970001A376 /* SingleButtonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0ADA4D2C1D9A46970001A376 /* SingleButtonTableViewCell.xib */; };
 		0ADE0C9D1DB1F140009F89A0 /* UpdateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE0C9C1DB1F140009F89A0 /* UpdateProfileViewController.swift */; };
 		0ADE0C9F1DB1F173009F89A0 /* EventHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE0C9E1DB1F173009F89A0 /* EventHistoryViewController.swift */; };
-		0ADE0CA11DB1F18A009F89A0 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE0CA01DB1F18A009F89A0 /* FeedbackViewController.swift */; };
 		0ADE0CA31DB1F19D009F89A0 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE0CA21DB1F19D009F89A0 /* AboutViewController.swift */; };
 		0AE5C5491DB1DFB500B455F4 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5C5471DB1DFB500B455F4 /* ProfileTableViewCell.swift */; };
 		0AE5C54A1DB1DFB500B455F4 /* ProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AE5C5481DB1DFB500B455F4 /* ProfileTableViewCell.xib */; };
@@ -123,7 +121,6 @@
 		0A0185841DC48602009A7874 /* LabelImgArrowTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelImgArrowTableViewCell.xib; sourceTree = "<group>"; };
 		0A022FA61D73D066004077A4 /* FindBackPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindBackPasswordViewController.swift; sourceTree = "<group>"; };
 		0A2506A71DB1A8E80099E812 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
-		0A250F5B1DC1369000B9723A /* MembersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembersTableViewController.swift; sourceTree = "<group>"; };
 		0A2CC2031DAE166D00AB840F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0A2CC2051DAE16AA00AB840F /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		0A2CC2071DAE17A600AB840F /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -211,7 +208,6 @@
 		0ADA4D2C1D9A46970001A376 /* SingleButtonTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SingleButtonTableViewCell.xib; sourceTree = "<group>"; };
 		0ADE0C9C1DB1F140009F89A0 /* UpdateProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateProfileViewController.swift; sourceTree = "<group>"; };
 		0ADE0C9E1DB1F173009F89A0 /* EventHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHistoryViewController.swift; sourceTree = "<group>"; };
-		0ADE0CA01DB1F18A009F89A0 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		0ADE0CA21DB1F19D009F89A0 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		0AE5C5471DB1DFB500B455F4 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		0AE5C5481DB1DFB500B455F4 /* ProfileTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileTableViewCell.xib; sourceTree = "<group>"; };
@@ -409,7 +405,6 @@
 				0A3D2B5E1D7B938B004F57EF /* MeViewController.swift */,
 				0ADE0C9C1DB1F140009F89A0 /* UpdateProfileViewController.swift */,
 				0ADE0C9E1DB1F173009F89A0 /* EventHistoryViewController.swift */,
-				0ADE0CA01DB1F18A009F89A0 /* FeedbackViewController.swift */,
 				0ADE0CA21DB1F19D009F89A0 /* AboutViewController.swift */,
 			);
 			name = MeViewControllers;
@@ -424,7 +419,6 @@
 				0AAE42E31D9A2F8B00B34601 /* MapViewController.swift */,
 				0A00DB031DD90DEA00A81189 /* ImagePickerController.swift */,
 				0A00DB041DD90DEA00A81189 /* ImageRow.swift */,
-				0A250F5B1DC1369000B9723A /* MembersTableViewController.swift */,
 				0A9A94571DC40C5F00B002D2 /* CustomizedAlertViewController.swift */,
 				0AA82B0F1DCDAEB90016B278 /* UserProfileViewController.swift */,
 				0A00DB071DD90F5B00A81189 /* LocationAddressRow.swift */,
@@ -619,7 +613,6 @@
 			files = (
 				0AEFEA581DC12A46005231C4 /* KeyScrollViewTableViewCell.swift in Sources */,
 				0A71119B1DBEC79400742F2D /* BuildInClassExtension.swift in Sources */,
-				0A250F5C1DC1369000B9723A /* MembersTableViewController.swift in Sources */,
 				0AF0BD8F1E6AD72F0091B999 /* EventStatusBarTableViewCell.swift in Sources */,
 				0A98340E1E64572C00A5D894 /* NewEventNumberOfPeopleViewController.swift in Sources */,
 				0A84836C1E68439100B7B29A /* EventDetailHeaderTableViewCell.swift in Sources */,
@@ -652,7 +645,6 @@
 				0A8483601E683ED500B7B29A /* TimeDisplayTableViewCell.swift in Sources */,
 				0A2506A81DB1A8E80099E812 /* WebViewController.swift in Sources */,
 				0A52FD681DB098F8000D17D8 /* LCCKUser.m in Sources */,
-				0ADE0CA11DB1F18A009F89A0 /* FeedbackViewController.swift in Sources */,
 				0A963DB31D7122D000E0532F /* SignInViewController.swift in Sources */,
 				0A6D92321E669965008501B9 /* EventSnapshotTableViewCell.swift in Sources */,
 				0A427FAD1D97F579007A96BE /* TextViewTableViewCell.swift in Sources */,

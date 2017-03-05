@@ -89,28 +89,10 @@
             </objects>
             <point key="canvasLocation" x="1857" y="-6255"/>
         </scene>
-        <!--Feedback View Controller-->
-        <scene sceneID="rqR-vs-xBq">
-            <objects>
-                <viewController id="BU5-gO-X4Q" customClass="FeedbackViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="M2y-3W-G3b"/>
-                        <viewControllerLayoutGuide type="bottom" id="uRB-zI-sqF"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="KmP-CQ-uuy">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="nWh-wk-4ta" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="7199" y="-5487"/>
-        </scene>
         <!--Update Profile View Controller-->
         <scene sceneID="Pvx-er-WiK">
             <objects>
-                <viewController id="DPQ-7S-gax" customClass="UpdateProfileViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="DPQ-7S-gax" customClass="UpdateProfileViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="yKx-77-FmJ"/>
                         <viewControllerLayoutGuide type="bottom" id="sas-z6-Opo"/>
@@ -123,12 +105,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="50e-Gr-xsy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8041" y="-5487"/>
+            <point key="canvasLocation" x="7507" y="-5460"/>
         </scene>
         <!--Event History View Controller-->
         <scene sceneID="qnb-vQ-MAa">
             <objects>
-                <viewController id="jc8-en-oIP" customClass="EventHistoryViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="jc8-en-oIP" customClass="EventHistoryViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Z4S-6b-OxB"/>
                         <viewControllerLayoutGuide type="bottom" id="REv-DY-2J2"/>
@@ -141,12 +123,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zBH-05-EuU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8954" y="-5487"/>
+            <point key="canvasLocation" x="8297" y="-5460"/>
         </scene>
         <!--About View Controller-->
         <scene sceneID="osy-Y1-jCb">
             <objects>
-                <viewController id="XsI-pP-ZOl" customClass="AboutViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="XsI-pP-ZOl" customClass="AboutViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="V5R-gX-OBR"/>
                         <viewControllerLayoutGuide type="bottom" id="UkB-k7-q2r"/>
@@ -159,7 +141,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sb5-br-bHf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="10000" y="-5487"/>
+            <point key="canvasLocation" x="9299" y="-5460"/>
         </scene>
         <!--我-->
         <scene sceneID="m1X-If-lu1">
@@ -229,7 +211,6 @@
                         <outlet property="tableView" destination="wd5-TJ-Qo9" id="M1J-k2-TuR"/>
                         <segue destination="DPQ-7S-gax" kind="show" identifier="go to update profile" id="98S-AA-LgI"/>
                         <segue destination="jc8-en-oIP" kind="show" identifier="go to event history" id="er4-yJ-TjC"/>
-                        <segue destination="BU5-gO-X4Q" kind="show" identifier="go to feedback" id="ZBE-1o-Az2"/>
                         <segue destination="XsI-pP-ZOl" kind="show" identifier="go to about uscfun" id="rAa-86-Dxd"/>
                     </connections>
                 </viewController>
@@ -308,7 +289,7 @@
                         <outlet property="joinButton" destination="cxQ-Kd-0dd" id="PJS-sM-A5d"/>
                         <outlet property="tableView" destination="VNM-N7-eAu" id="lw0-Dq-uwb"/>
                         <segue destination="jln-hf-hFc" kind="show" identifier="SHOWMAP" id="nRo-fV-YhR"/>
-                        <segue destination="97i-nA-FYj" kind="show" identifier="see member detail" id="IXM-mE-X7k"/>
+                        <segue destination="Uge-ze-E6d" kind="show" identifier="see user profile" id="9Ga-jW-Tza"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y9J-Ob-CXo" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -474,38 +455,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="48K-CO-jAF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1142" y="-4704"/>
-        </scene>
-        <!--Members Table View Controller-->
-        <scene sceneID="SdZ-5p-5Zt">
-            <objects>
-                <tableViewController id="97i-nA-FYj" customClass="MembersTableViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="ECP-u1-DVx">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="whatever" id="q8M-ah-D31">
-                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="q8M-ah-D31" id="xfu-ip-YzV">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="97i-nA-FYj" id="lhB-Ep-CVy"/>
-                            <outlet property="delegate" destination="97i-nA-FYj" id="lwb-Lc-VuB"/>
-                        </connections>
-                    </tableView>
-                    <connections>
-                        <segue destination="Uge-ze-E6d" kind="show" identifier="see user profile" id="e3R-l4-MWe"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="yQY-4p-hq8" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="232" y="-4703"/>
+            <point key="canvasLocation" x="713" y="-4704"/>
         </scene>
         <!--日常-->
         <scene sceneID="lOJ-Cp-s4N">
@@ -524,7 +474,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wkb-jM-t7L" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-471" y="-6255"/>
+            <point key="canvasLocation" x="-914" y="-6255"/>
         </scene>
         <!--发现-->
         <scene sceneID="K8Z-ru-4dq">
@@ -582,7 +532,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cXO-NJ-lf0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="388" y="-6255"/>
+            <point key="canvasLocation" x="58" y="-6255"/>
         </scene>
         <!--通知-->
         <scene sceneID="gqz-ei-pga">

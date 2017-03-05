@@ -12,6 +12,8 @@ class EventHistoryViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.view.backgroundColor = UIColor.white
+
         self.title = "历史信息"
     }
 }

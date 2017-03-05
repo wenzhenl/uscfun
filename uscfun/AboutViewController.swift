@@ -12,6 +12,8 @@ class AboutViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.view.backgroundColor = UIColor.white
+
         self.title = "关于"
     }
 }
