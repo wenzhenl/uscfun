@@ -31,7 +31,7 @@ class UserProfileViewController: UIViewController {
         super.viewDidLoad()
         self.title = other.nickname
         self.tableView.backgroundColor = UIColor.white
-        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, -10, 0)
         self.tableView.tableFooterView = UIView()
         self.populateSections()
     }
@@ -114,14 +114,15 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
             cell.avatarImageView.image = other.avatar
             cell.avatarImageView.layer.masksToBounds = true
             cell.avatarImageView.layer.cornerRadius = cell.avatarImageView.frame.size.width / 2.0
+            cell.genderLabel.text = other.gender?.rawValue
             cell.selectionStyle = .none
             return cell
         case .statCell:
             let cell = Bundle.main.loadNibNamed("TandemLabelTableViewCell", owner: self, options: nil)?.first as! TandemLabelTableViewCell
             cell.leftLabel.textColor = UIColor.darkGray
-            cell.leftLabel.text = "发起活动：20"
+            cell.leftLabel.text = "发起活动：" + String(other.createdEvents.count)
             cell.rightLabel.textColor = UIColor.darkGray
-            cell.rightLabel.text = "参加活动：10"
+            cell.rightLabel.text = "参加活动：" + String(other.attendedEvents.count)
             cell.selectionStyle = .none
             return cell
         case .introductionCell:
@@ -247,6 +248,7 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
         if userProfileSections[section] == .eventCell {
             let px = 1 / UIScreen.main.scale
             let footerView = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: 10 + px))
+            footerView.backgroundColor = UIColor.backgroundGray
             let frame = CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: px)
             let line = UIView(frame: frame)
             line.backgroundColor = self.tableView.separatorColor

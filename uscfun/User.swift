@@ -9,13 +9,18 @@
 import Foundation
 import AVOSCloud
 
+enum Gender: String {
+    case male = "男"
+    case female = "女"
+}
+
 class User {
     //--MARK: required information
     var username: String
     var nickname: String
     
     //--MARK: optional settings
-    var gender: String?
+    var gender: Gender?
     var avatar: UIImage?
     
     var allowsEventHistoryViewed: Bool {
@@ -40,7 +45,7 @@ class User {
                 
                 if allkeys.contains(UserKeyConstants.keyOfGender) {
                     if let gender = user.value(forKey: UserKeyConstants.keyOfGender) as? String {
-                        self.gender = gender
+                        self.gender = Gender(rawValue: gender)
                     }
                 }
                 
