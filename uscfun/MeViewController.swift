@@ -169,6 +169,9 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == meSections.count - 2 {
+            return 40
+        }
         return 15
     }
     

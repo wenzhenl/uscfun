@@ -35,6 +35,20 @@ class EventHistoryViewController: UIViewController {
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            switch identifier {
+            case identifierToEventDetail:
+                let destination = segue.destination
+                if let edVC = destination as? EventDetailViewController {
+                    edVC.event = previousEvents[previousEvents.keys[((tableView.indexPathForSelectedRow?.section)!)]]
+                }
+            default:
+                break
+            }
+        }
+    }
+    
     let identifierToEventDetail = "go to event detail"
 }
 
@@ -112,7 +126,9 @@ extension EventHistoryViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: identifierToEventDetail, sender: self)
+        if previousEvents.count > 0 {
+            performSegue(withIdentifier: identifierToEventDetail, sender: self)
+        }
         tableView.deselectRow(at: indexPath, animated: false)
     }
     
