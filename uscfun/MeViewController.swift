@@ -11,7 +11,6 @@ import UIKit
 enum MeCell {
     case profileTableCell(image: UIImage, text: String, segueId: String)
     case labelArrowTableCell(text: String, segueId: String)
-    case labelImgArrowTableCell(text: String, isIndicated: Bool, segueId: String)
     case labelSwitchTableCell(text: String)
     case regularTableCell(text: String, segueId: String)
 }
@@ -44,7 +43,7 @@ class MeViewController: UIViewController {
         let profileSection = [MeCell.profileTableCell(image: UserDefaults.avatar!, text: UserDefaults.nickname!, segueId: segueIdOfUpdateProfile)]
         meSections.append(profileSection)
         
-        let eventHistorySection = [MeCell.labelArrowTableCell(text: "我发起过的活动", segueId: segueIdOfCheckEventDetail), MeCell.labelArrowTableCell(text: "我参加过的活动", segueId: segueIdOfCheckEventDetail)]
+        let eventHistorySection = [MeCell.labelArrowTableCell(text: "我发起过的活动", segueId: segueIdOfCheckEventHistory), MeCell.labelArrowTableCell(text: "我参加过的活动", segueId: segueIdOfCheckEventHistory)]
         meSections.append(eventHistorySection)
         
         let privacySection = [MeCell.labelSwitchTableCell(text: textOfAllowEventHistroyViewed)]
@@ -63,10 +62,34 @@ class MeViewController: UIViewController {
         UserDefaults.updateAllowsEventHistoryViewed(allowsEventHistoryViewed: switchElement.isOn)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            switch identifier {
+            case segueIdOfCheckEventHistory:
+                let destination = segue.destination
+                if let ehVC = destination as? EventHistoryViewController {
+                    switch meSections[(self.tableView.indexPathForSelectedRow?.section)!][(self.tableView.indexPathForSelectedRow?.row)!] {
+                    case .labelArrowTableCell(let text, _):
+                        if text == textOfCreatedHistory {
+                            ehVC.eventHistorySource = .created
+                        } else {
+                            ehVC.eventHistorySource = .attended
+                        }
+                    default: break
+                    }
+                }
+            default:
+                break
+            }
+        }
+    }
+    
     let textOfAllowEventHistroyViewed = "公开活动历史"
+    let textOfCreatedHistory = "我发起过的活动"
+    let textOfAttendedHistory = "我参加过的活动"
     
     let segueIdOfUpdateProfile = "go to update profile"
-    let segueIdOfCheckEventDetail = "go to event history"
+    let segueIdOfCheckEventHistory = "go to event history"
     let segueIdOfRateUSCFun = "go to rate app"
     let segueIdOfAboutUSCFun = "go to about uscfun"
     let segueIdOfSignOut = "sign out usc fun"
@@ -95,18 +118,6 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
             let cell = Bundle.main.loadNibNamed("LabelArrowTableViewCell", owner: self, options: nil)?.first as! LabelArrowTableViewCell
             cell.mainTextLabel.text = text
             cell.mainTextLabel.textColor = UIColor.darkGray
-            return cell
-        case .labelImgArrowTableCell(let text, let isIndicated, _):
-            let cell = Bundle.main.loadNibNamed("LabelImgArrowTableViewCell", owner: self, options: nil)?.first as! LabelImgArrowTableViewCell
-            cell.mainLabel.text = text
-            cell.mainLabel.textColor = UIColor.darkGray
-            if isIndicated {
-                cell.indicatorView.backgroundColor = UIColor.red
-            } else {
-                cell.indicatorView.backgroundColor = UIColor.clear
-            }
-            cell.indicatorView.layer.cornerRadius = 5
-            cell.indicatorView.layer.masksToBounds = true
             return cell
         case .labelSwitchTableCell(let text):
             let cell = Bundle.main.loadNibNamed("LabelSwitchTableViewCell", owner: self, options: nil)?.first as! LabelSwitchTableViewCell
@@ -189,16 +200,12 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
             else {
                 self.performSegue(withIdentifier: segueId, sender: self)
             }
-        case .labelImgArrowTableCell(_, _, _):
-            break
-        case .labelSwitchTableCell(_):
-            break
         case .regularTableCell(_, let segueId):
             if segueId == segueIdOfSignOut {
                 LoginKit.signOut()
             }
+        default: break
         }
-        
         tableView.deselectRow(at: indexPath, animated: false)
     }
 }
