@@ -26,11 +26,10 @@ class MeViewController: UIViewController {
     
     var meSections = [[MeCell]]()
     var delegate: UserSettingDelegate?
+    var selectedIndex: IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.view.backgroundColor = UIColor.buttonPink
         self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         self.tableView.tableFooterView = UIView()
@@ -43,7 +42,8 @@ class MeViewController: UIViewController {
         let profileSection = [MeCell.profileTableCell(image: UserDefaults.avatar!, text: UserDefaults.nickname!, segueId: segueIdOfUpdateProfile)]
         meSections.append(profileSection)
         
-        let eventHistorySection = [MeCell.labelArrowTableCell(text: "我发起过的活动", segueId: segueIdOfCheckEventHistory), MeCell.labelArrowTableCell(text: "我参加过的活动", segueId: segueIdOfCheckEventHistory)]
+        let eventHistorySection = [MeCell.labelArrowTableCell(text: textOfCreatedHistory, segueId: segueIdOfCheckEventHistory),
+                                   MeCell.labelArrowTableCell(text: textOfAttendedHistory, segueId: segueIdOfCheckEventHistory)]
         meSections.append(eventHistorySection)
         
         let privacySection = [MeCell.labelSwitchTableCell(text: textOfAllowEventHistroyViewed)]
@@ -68,7 +68,7 @@ class MeViewController: UIViewController {
             case segueIdOfCheckEventHistory:
                 let destination = segue.destination
                 if let ehVC = destination as? EventHistoryViewController {
-                    switch meSections[(self.tableView.indexPathForSelectedRow?.section)!][(self.tableView.indexPathForSelectedRow?.row)!] {
+                    switch meSections[(selectedIndex?.section)!][(selectedIndex?.row)!] {
                     case .labelArrowTableCell(let text, _):
                         if text == textOfCreatedHistory {
                             ehVC.eventHistorySource = .created
@@ -190,14 +190,17 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        selectedIndex = indexPath
         switch meSections[indexPath.section][indexPath.row] {
         case .profileTableCell( _ , _ , let segueId):
             self.performSegue(withIdentifier: segueId, sender: self)
         case .labelArrowTableCell(_, let segueId):
+            print(segueId)
             if segueId == segueIdOfRateUSCFun {
                 UIApplication.shared.openURL(URL(string : "itms-apps://itunes.apple.com/app/id1073401869")!)
             }
             else {
+                print("about to go history")
                 self.performSegue(withIdentifier: segueId, sender: self)
             }
         case .regularTableCell(_, let segueId):

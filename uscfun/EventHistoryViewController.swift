@@ -17,12 +17,126 @@ class EventHistoryViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    var eventHistorySource: EventHistorySource?
+    var eventHistorySource: EventHistorySource!
+    var previousEvents: OrderedDictionary<String, Event>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.view.backgroundColor = UIColor.white
+        previousEvents = eventHistorySource == .created ? EventRequest.myOngoingEvents : EventRequest.publicEvents
         
-//        eventHistorySource = .created
+        tableView.tableFooterView = UIView()
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, -10, 0)
+        
+        if eventHistorySource == .created {
+            self.title = "我发起过的活动"
+        } else {
+            self.title = "我参加过的活动"
+        }
+    }
+    
+    let identifierToEventDetail = "go to event detail"
+}
+
+extension EventHistoryViewController: UITableViewDataSource, UITableViewDelegate{
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        if previousEvents.count == 0 {
+            return 1
+        }
+        return previousEvents.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if previousEvents.count == 0 {
+            let cell = Bundle.main.loadNibNamed("EmptySectionPlaceholderTableViewCell", owner: self, options: nil)?.first as! EmptySectionPlaceholderTableViewCell
+            cell.mainTextView.text = "用户还没有参加过任何活动"
+            cell.selectionStyle = .none
+            return cell
+        } else {
+            let cell = Bundle.main.loadNibNamed("EventSnapshotTableViewCell", owner: self, options: nil)?.first as! EventSnapshotTableViewCell
+            var event: Event!
+            event = previousEvents[previousEvents.keys[indexPath.section]]
+            let creator = User(user: event.creator)!
+            cell.eventNameLabel.text = event.name
+            cell.creatorLabel.text = "发起人：" + creator.nickname
+            cell.creatorAvatarImageView.layer.masksToBounds = true
+            cell.creatorAvatarImageView.layer.cornerRadius = cell.creatorAvatarImageView.frame.size.width / 2.0
+            cell.creatorAvatarImageView.image = creator.avatar
+            
+            let possibleWhitePapers = [#imageLiteral(resourceName: "clip4"), #imageLiteral(resourceName: "clip1"), #imageLiteral(resourceName: "clip2"), #imageLiteral(resourceName: "clip3")]
+            let randomIndex = Int(arc4random_uniform(UInt32(possibleWhitePapers.count)))
+            cell.whitePaperImageView.image = possibleWhitePapers[randomIndex]
+            
+            cell.needNumberLabel.text = String(event.remainingSeats)
+            let gapFromNow = event.due.gapFromNow
+            if gapFromNow == "" {
+                cell.remainingTimeLabel.textColor = UIColor.darkGray
+                cell.remainingTimeLabel.text = "报名已经结束"
+            } else {
+                cell.remainingTimeLabel.text = gapFromNow
+            }
+            cell.attendingLabel.text = "已经报名 " + String(event.totalSeats - event.remainingSeats)
+            cell.minPeopleLabel.text = "最少成行 " + String(event.minimumAttendingPeople)
+            
+            cell.statusView.backgroundColor = event.statusColor
+            cell.statusView.layer.masksToBounds = true
+            cell.statusView.layer.cornerRadius = cell.statusView.frame.size.width / 2
+            return cell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 300
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.white
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        view.tintColor = UIColor.clear
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: identifierToEventDetail, sender: self)
+        tableView.deselectRow(at: indexPath, animated: false)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 1 / UIScreen.main.scale
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let px = 1 / UIScreen.main.scale
+        let frame = CGRect(x: 8, y: 0, width: self.tableView.frame.size.width, height: px)
+        let line = UIView(frame: frame)
+        line.backgroundColor = self.tableView.separatorColor
+        return line
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+   
+        let px = 1 / UIScreen.main.scale
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: 10 + px))
+        footerView.backgroundColor = UIColor.backgroundGray
+        let frame = CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: px)
+        let line = UIView(frame: frame)
+        line.backgroundColor = self.tableView.separatorColor
+        footerView.addSubview(line)
+        return footerView
     }
 }

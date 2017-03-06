@@ -157,6 +157,7 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="WPs-gM-LLh" id="aVa-lW-Prw"/>
+                        <segue destination="nvQ-YZ-kHk" kind="show" identifier="go to event detail" id="vkn-92-wMq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zBH-05-EuU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -187,15 +188,15 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="roy-yn-mEh">
-                                                    <rect key="frame" x="167" y="8" width="80" height="80"/>
+                                                    <rect key="frame" x="172" y="8" width="70" height="70"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="80" id="bkx-np-n1F"/>
-                                                        <constraint firstAttribute="width" constant="80" id="kUy-Ar-sYV"/>
+                                                        <constraint firstAttribute="height" constant="70" id="bkx-np-n1F"/>
+                                                        <constraint firstAttribute="width" constant="70" id="kUy-Ar-sYV"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="upf-2q-nP9">
-                                                    <rect key="frame" x="8" y="96" width="398" height="45.666666666666657"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                    <rect key="frame" x="8" y="86" width="398" height="55.666666666666657"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -1429,6 +1430,6 @@ A different license may apply to other resources included in this package, inclu
         <image name="user" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="xev-Vj-4Av"/>
+        <segue reference="vkn-92-wMq"/>
     </inferredMetricsTieBreakers>
 </document>
