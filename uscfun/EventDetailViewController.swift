@@ -333,6 +333,7 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
             cell.collectionView.collectionViewLayout = layout
             cell.collectionView.contentInset = UIEdgeInsetsMake(100, 0, 50, 0)
             cell.collectionView.reloadData()
+            cell.selectionStyle = .none
             return cell
         }
     }

@@ -23,6 +23,7 @@ class EventHistoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.view.backgroundColor = UIColor.white
+        self.tableView.backgroundColor = UIColor.backgroundGray
         previousEvents = eventHistorySource == .created ? EventRequest.myOngoingEvents : EventRequest.publicEvents
         
         tableView.tableFooterView = UIView()

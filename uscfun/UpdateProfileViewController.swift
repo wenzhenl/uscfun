@@ -37,7 +37,9 @@ class UpdateProfileViewController: FormViewController {
         }
         set {
             (form.rowBy(tag: "gender") as! AlertRow).value = newValue
-            UserDefaults.gender = newValue
+            if newValue != nil {
+                UserDefaults.gender = Gender(rawValue: newValue!)
+            }
         }
     }
     
@@ -50,7 +52,7 @@ class UpdateProfileViewController: FormViewController {
             UserDefaults.selfIntroduction = newValue
         }
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.view.backgroundColor = UIColor.white
@@ -82,9 +84,9 @@ class UpdateProfileViewController: FormViewController {
                         cell, row in
                         self.selfIntroduction = row.value
             }
-//        avatar = UserDefaults.avatar
+        avatar = UserDefaults.avatar
         nickname = UserDefaults.nickname
-        gender = UserDefaults.gender
+        gender = UserDefaults.gender?.rawValue
         selfIntroduction = UserDefaults.selfIntroduction
     }
 }

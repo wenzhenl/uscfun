@@ -31,7 +31,7 @@ class MeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.backgroundColor = UIColor.backgroundGray
-        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, -20, 0)
         self.tableView.tableFooterView = UIView()
         self.populateSections()
     }
