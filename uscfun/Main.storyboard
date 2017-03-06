@@ -156,19 +156,47 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blackfish" translatesAutoresizingMaskIntoConstraints="NO" id="xIM-at-dEo">
-                                <rect key="frame" x="172" y="84" width="70" height="70"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="1Ny-fs-kTA"/>
-                                    <constraint firstAttribute="width" constant="70" id="gpq-he-hWj"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USC日常 2.0.7" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K5P-Ej-PFu">
-                                <rect key="frame" x="20" y="162" width="374" height="18"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dbN-PK-PNk">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="versioncell" rowHeight="150" id="Uix-aH-kGH">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="150"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Uix-aH-kGH" id="1M7-Wv-yZz">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="roy-yn-mEh">
+                                                    <rect key="frame" x="167" y="8" width="80" height="80"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="80" id="bkx-np-n1F"/>
+                                                        <constraint firstAttribute="width" constant="80" id="kUy-Ar-sYV"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="upf-2q-nP9">
+                                                    <rect key="frame" x="8" y="96" width="398" height="45.666666666666657"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="roy-yn-mEh" firstAttribute="top" secondItem="1M7-Wv-yZz" secondAttribute="topMargin" id="FXr-6F-JEY"/>
+                                                <constraint firstItem="upf-2q-nP9" firstAttribute="top" secondItem="roy-yn-mEh" secondAttribute="bottom" constant="8" symbolic="YES" id="ekv-Ki-NFs"/>
+                                                <constraint firstItem="upf-2q-nP9" firstAttribute="leading" secondItem="1M7-Wv-yZz" secondAttribute="leadingMargin" id="lHT-8N-tko"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="upf-2q-nP9" secondAttribute="bottom" id="nQo-1x-r4V"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="upf-2q-nP9" secondAttribute="trailing" id="vXt-rS-fRe"/>
+                                                <constraint firstItem="roy-yn-mEh" firstAttribute="centerX" secondItem="1M7-Wv-yZz" secondAttribute="centerX" id="zXu-9J-3qe"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="XsI-pP-ZOl" id="4dw-EL-eGU"/>
+                                    <outlet property="delegate" destination="XsI-pP-ZOl" id="NbK-uc-t0P"/>
+                                </connections>
+                            </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GlQ-cT-STc">
                                 <rect key="frame" x="153" y="672" width="108" height="30"/>
                                 <state key="normal" title="第三方开源协议"/>
@@ -187,20 +215,19 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottomMargin" secondItem="5sB-1a-tfT" secondAttribute="bottom" constant="8" id="5tM-zc-J9l"/>
-                            <constraint firstItem="K5P-Ej-PFu" firstAttribute="top" secondItem="xIM-at-dEo" secondAttribute="bottom" constant="8" symbolic="YES" id="8W1-Hn-0Ov"/>
+                            <constraint firstItem="dbN-PK-PNk" firstAttribute="centerY" secondItem="8eC-D4-LwX" secondAttribute="centerY" id="CrD-kh-Vfe"/>
                             <constraint firstAttribute="trailingMargin" secondItem="5sB-1a-tfT" secondAttribute="trailing" id="M4C-oL-u3X"/>
                             <constraint firstItem="5sB-1a-tfT" firstAttribute="top" secondItem="GlQ-cT-STc" secondAttribute="bottom" constant="8" symbolic="YES" id="Prv-Ok-WFR"/>
                             <constraint firstItem="GlQ-cT-STc" firstAttribute="centerX" secondItem="8eC-D4-LwX" secondAttribute="centerX" id="Xp5-CY-btZ"/>
-                            <constraint firstItem="xIM-at-dEo" firstAttribute="centerX" secondItem="8eC-D4-LwX" secondAttribute="centerX" id="lOY-yh-d2S"/>
-                            <constraint firstItem="xIM-at-dEo" firstAttribute="top" secondItem="V5R-gX-OBR" secondAttribute="bottom" constant="20" id="nz6-nY-Y4m"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="K5P-Ej-PFu" secondAttribute="trailing" id="os0-79-z2c"/>
+                            <constraint firstItem="dbN-PK-PNk" firstAttribute="centerX" secondItem="8eC-D4-LwX" secondAttribute="centerX" id="k7p-wr-LQE"/>
+                            <constraint firstItem="dbN-PK-PNk" firstAttribute="width" secondItem="8eC-D4-LwX" secondAttribute="width" id="pMj-Pf-rwc"/>
+                            <constraint firstItem="dbN-PK-PNk" firstAttribute="height" secondItem="8eC-D4-LwX" secondAttribute="height" id="qBb-6H-5WF"/>
                             <constraint firstItem="5sB-1a-tfT" firstAttribute="leading" secondItem="8eC-D4-LwX" secondAttribute="leadingMargin" id="qmn-Du-nZC"/>
-                            <constraint firstItem="K5P-Ej-PFu" firstAttribute="leading" secondItem="8eC-D4-LwX" secondAttribute="leadingMargin" id="xRS-x7-mA3"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="copyrightLabel" destination="5sB-1a-tfT" id="lWC-PU-kee"/>
-                        <outlet property="versionLabel" destination="K5P-Ej-PFu" id="Wax-ah-ZIX"/>
+                        <outlet property="copyrightLabel" destination="5sB-1a-tfT" id="css-kD-Ni9"/>
+                        <outlet property="tableView" destination="dbN-PK-PNk" id="9Ff-oG-J6o"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sb5-br-bHf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1377,7 +1404,6 @@ A different license may apply to other resources included in this package, inclu
         </scene>
     </scenes>
     <resources>
-        <image name="blackfish" width="165" height="165"/>
         <image name="find" width="24" height="24"/>
         <image name="home" width="24" height="24"/>
         <image name="notification" width="24" height="24"/>

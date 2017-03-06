@@ -10,6 +10,7 @@ import UIKit
 
 class EmptySectionPlaceholderTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var blackfishImageView: UIImageView!
     @IBOutlet weak var mainTextView: UITextView!
     override func awakeFromNib() {
         super.awakeFromNib()

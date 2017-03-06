@@ -189,7 +189,7 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
             else {
                 self.performSegue(withIdentifier: segueId, sender: self)
             }
-        case .labelImgArrowTableCell(_, _, let segueId):
+        case .labelImgArrowTableCell(_, _, _):
             break
         case .labelSwitchTableCell(_):
             break

@@ -82,7 +82,7 @@ class UpdateProfileViewController: FormViewController {
                         cell, row in
                         self.selfIntroduction = row.value
             }
-        avatar = UserDefaults.avatar
+//        avatar = UserDefaults.avatar
         nickname = UserDefaults.nickname
         gender = UserDefaults.gender
         selfIntroduction = UserDefaults.selfIntroduction
