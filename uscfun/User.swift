@@ -12,6 +12,7 @@ import AVOSCloud
 enum Gender: String {
     case male = "男"
     case female = "女"
+    case unknown = "保密"
 }
 
 class User {

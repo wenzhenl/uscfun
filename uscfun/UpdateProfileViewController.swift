@@ -61,14 +61,18 @@ class UpdateProfileViewController: FormViewController {
         form +++ Section()
             <<< ImageRow("avatar") {
                 $0.title = "头像"
-            }
-                .cellUpdate {
-                    cell, row in
+                }.onChange { row in
                     self.avatar = row.value
-            }
+                }
             <<< TextRow("nickname") {
                 $0.title = "昵称"
-            }
+                }.cellSetup {
+                    cell, row in
+                    cell.textField.textColor = UIColor.darkGray
+                }
+                .onChange { row in
+                    self.nickname = row.value
+                }
             <<< AlertRow<String>("gender") {
                 $0.title = "性别"
                 $0.selectorTitle = "性别"
@@ -77,13 +81,11 @@ class UpdateProfileViewController: FormViewController {
                     self.gender = row.value
                 }
              +++ Section("个人简介")
-            <<< TextAreaRow("selfIntro"){ row in
+             <<< TextAreaRow("selfIntro"){ row in
                     row.placeholder = "简单描述下自己"
+                }.onChange { row in
+                    self.selfIntroduction = row.value
                 }
-                    .cellUpdate {
-                        cell, row in
-                        self.selfIntroduction = row.value
-            }
         avatar = UserDefaults.avatar
         nickname = UserDefaults.nickname
         gender = UserDefaults.gender?.rawValue

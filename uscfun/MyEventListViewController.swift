@@ -26,8 +26,21 @@ class MyEventListViewController: UIViewController {
         self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, -10, 0)
         self.tableView.tableFooterView = UIView()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "homeRefresh"), object: nil)
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    func handleTab() {
+        if self.tableView.contentOffset != .zero {
+            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        } else {
+            refreshControl.beginRefreshing()
+        }
+    }
+    
     func handleRefresh() {
         EventRequest.fetchNewerMyOngoingEventsInBackground() {
             succeeded, error in
