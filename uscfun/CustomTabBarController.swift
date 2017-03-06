@@ -11,11 +11,17 @@ import UIKit
 class CustomTabBarController: UITabBarController {
     
     @IBOutlet weak var customTabBar: CustomTabBar!
-    var lastSelectedIndex = 0
+    var lastSelectedTag = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         customTabBar.postButton.addTarget(self, action: #selector(startEvent), for: .touchUpInside)
+        
+        var i = 0
+        for item in customTabBar.items! {
+            item.tag = i
+            i += 1
+        }
     }
     
     func startEvent() {
@@ -23,8 +29,10 @@ class CustomTabBarController: UITabBarController {
     }
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        if selectedIndex == lastSelectedIndex {
-            switch selectedIndex {
+        print("last:\(lastSelectedTag)")
+        print("cur:\(item.tag)")
+        if selectedIndex == lastSelectedTag {
+            switch item.tag {
             case 0:
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "homeRefresh"), object: nil, userInfo: nil)
             case 1:
@@ -35,6 +43,6 @@ class CustomTabBarController: UITabBarController {
                 break
             }
         }
-        lastSelectedIndex = selectedIndex
+        lastSelectedTag = item.tag
     }
 }
