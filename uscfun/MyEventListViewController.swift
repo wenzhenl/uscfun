@@ -34,11 +34,16 @@ class MyEventListViewController: UIViewController {
     }
     
     func handleTab() {
-        if self.tableView.contentOffset != .zero {
-            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-        } else {
-            refreshControl.beginRefreshing()
-        }
+//        if self.tableView.contentOffset.y != 0 {
+//            print("go to top")
+//            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+//            print(self.tableView.contentOffset.y)
+//        } else {
+//        }
+        refreshControl.beginRefreshing()
+//        self.tableView.contentOffset = CGPoint(x: 0, y: -refreshControl.frame.size.height)
+        self.tableView.setContentOffset(CGPoint(x: 0, y: self.tableView.contentOffset.y - 50), animated: true)
+        self.handleRefresh()
     }
     
     func handleRefresh() {
