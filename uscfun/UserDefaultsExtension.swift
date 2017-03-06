@@ -79,6 +79,16 @@ extension UserDefaults {
         }
     }
     
+    class var selfIntroduction: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "User_Self_Introduction_Key")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "User_Self_Introduction_Key")
+        }
+    }
+    
+    
     static func updateIsLefthanded(isLefthanded: Bool) {
         UserDefaults.isLefthanded = isLefthanded
         AVUser.current().setObject(UserDefaults.isLefthanded, forKey: UserKeyConstants.keyOfLeftHanded)

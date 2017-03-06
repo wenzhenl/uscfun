@@ -73,6 +73,9 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if notifications.count == 0 {
+            return 0
+        }
         return 1 / UIScreen.main.scale
     }
     

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import LeanCloudFeedback
 
 enum MeCell {
     case profileTableCell(image: UIImage, text: String, segueId: String)
@@ -29,8 +28,6 @@ class MeViewController: UIViewController {
     var meSections = [[MeCell]]()
     var delegate: UserSettingDelegate?
     
-    var hasUnreadMessage = false
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -39,28 +36,6 @@ class MeViewController: UIViewController {
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         self.tableView.tableFooterView = UIView()
         self.populateSections()
-        
-        LCUserFeedbackAgent.sharedInstance().countUnreadFeedbackThreads() {
-            number, error in
-            if error != nil {
-                print(error!.localizedDescription)
-            }
-            else if number > 0 {
-                print("unread number\(number)")
-                self.hasUnreadMessage = true
-                self.populateSections()
-                self.tableView.reloadData()
-            }
-            else if number == 0 {
-                print("unread number \(number)")
-                self.hasUnreadMessage = false
-                self.populateSections()
-                self.tableView.reloadData()
-            }
-            else {
-                print("unread number \(number)")
-            }
-        }
     }
     
     func populateSections() {
@@ -76,7 +51,6 @@ class MeViewController: UIViewController {
         meSections.append(privacySection)
         
         let appInfoSection = [MeCell.labelArrowTableCell(text: "给USC日常评分", segueId: segueIdOfRateUSCFun),
-//                              MeCell.labelImgArrowTableCell(text: "反馈问题或建议", isIndicated: hasUnreadMessage, segueId: segueIdOfGiveComments),
                               MeCell.labelArrowTableCell(text: "关于USC日常", segueId: segueIdOfAboutUSCFun)]
         meSections.append(appInfoSection)
         
@@ -84,22 +58,14 @@ class MeViewController: UIViewController {
         meSections.append(signOutSection)
     }
     
-    func switchToLefthandMode(switchElement: UISwitch) {
-        print(switchElement.isOn)
-        UserDefaults.updateIsLefthanded(isLefthanded: switchElement.isOn)
-        delegate?.userDidChangeLefthandMode()
-    }
-    
     func switchAllowEventHistoryViewedMode(switchElement: UISwitch) {
         print(switchElement.isOn)
         UserDefaults.updateAllowsEventHistoryViewed(allowsEventHistoryViewed: switchElement.isOn)
     }
     
-    let textOfLefthandMode = "左手模式"
     let textOfAllowEventHistroyViewed = "公开活动历史"
     
     let segueIdOfUpdateProfile = "go to update profile"
-    let segueIdOfGiveComments = "go to feedback"
     let segueIdOfCheckEventDetail = "go to event history"
     let segueIdOfRateUSCFun = "go to rate app"
     let segueIdOfAboutUSCFun = "go to about uscfun"
@@ -120,6 +86,7 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
         switch meSections[indexPath.section][indexPath.row] {
         case .profileTableCell(let image, let text, _):
             let cell = Bundle.main.loadNibNamed("ProfileTableViewCell", owner: self, options: nil)?.first as! ProfileTableViewCell
+            cell.mainImageView.layer.masksToBounds = true
             cell.mainImageView.image = image
             cell.mainImageView.layer.cornerRadius = 4
             cell.mainLabel.text = text
@@ -145,11 +112,7 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
             let cell = Bundle.main.loadNibNamed("LabelSwitchTableViewCell", owner: self, options: nil)?.first as! LabelSwitchTableViewCell
             cell.mainLabel.text = text
             cell.mainLabel.textColor = UIColor.darkGray
-            if text == textOfLefthandMode {
-                cell.mainSwitch.isOn = UserDefaults.isLefthanded
-                cell.mainSwitch.addTarget(self, action: #selector(switchToLefthandMode(switchElement:)), for: UIControlEvents.valueChanged)
-            }
-            else if text == textOfAllowEventHistroyViewed {
+            if text == textOfAllowEventHistroyViewed {
                 cell.mainSwitch.isOn = UserDefaults.allowsEventHistoryViewed
                 cell.mainSwitch.addTarget(self, action: #selector(switchAllowEventHistoryViewedMode(switchElement:)), for: UIControlEvents.valueChanged)
             }
@@ -227,19 +190,7 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
                 self.performSegue(withIdentifier: segueId, sender: self)
             }
         case .labelImgArrowTableCell(_, _, let segueId):
-            if segueId == segueIdOfGiveComments {
-                
-                self.hasUnreadMessage = false
-                self.populateSections()
-                self.tableView.reloadData()
-                
-                let feedbackViewController = LCUserFeedbackViewController()
-                feedbackViewController.feedbackTitle = "建议反馈"
-                feedbackViewController.contactHeaderHidden = true
-                feedbackViewController.presented = false
-                feedbackViewController.navigationBarStyle = LCUserFeedbackNavigationBarStyleNone
-                self.navigationController?.pushViewController(feedbackViewController, animated: true)
-            }
+            break
         case .labelSwitchTableCell(_):
             break
         case .regularTableCell(_, let segueId):
