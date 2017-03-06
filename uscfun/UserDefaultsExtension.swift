@@ -52,21 +52,13 @@ extension UserDefaults {
         }
     }
     
-    class var gender: String? {
+    class var gender: Gender? {
         get {
-            return UserDefaults.standard.string(forKey: "User_Gender_Key")
+            guard let genderText = UserDefaults.standard.string(forKey: "User_Gender_Key") else { return nil }
+            return Gender(rawValue: genderText)
         }
         set {
-            UserDefaults.standard.setValue(newValue, forKey: "User_Gender_Key")
-        }
-    }
-    
-    class var isLefthanded: Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: "User_Lefthanded_Key")
-        }
-        set {
-            UserDefaults.standard.setValue(newValue, forKey: "User_Lefthanded_Key")
+            UserDefaults.standard.setValue(newValue?.rawValue, forKey: "User_Gender_Key")
         }
     }
     
@@ -86,13 +78,6 @@ extension UserDefaults {
         set {
             UserDefaults.standard.setValue(newValue, forKey: "User_Self_Introduction_Key")
         }
-    }
-    
-    
-    static func updateIsLefthanded(isLefthanded: Bool) {
-        UserDefaults.isLefthanded = isLefthanded
-        AVUser.current().setObject(UserDefaults.isLefthanded, forKey: UserKeyConstants.keyOfLeftHanded)
-        AVUser.current().saveInBackground()
     }
     
     static func updateAllowsEventHistoryViewed(allowsEventHistoryViewed: Bool) {

@@ -23,7 +23,7 @@ struct UserKeyConstants {
     static let keyOfAvatarUrl = "avatarUrl"
     static let keyOfSchool = "school"
     static let keyOfGender = "gender"
-    static let keyOfLeftHanded = "leftHanded"
+    static let keyOfSelfIntroduction = "selfIntroduction"
     static let keyOfAllowsEventHistoryViewed = "allowsEventHistoryViewed"
 }
 

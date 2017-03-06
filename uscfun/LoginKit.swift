@@ -105,16 +105,8 @@ class LoginKit {
                 
                 if allkeys.contains(UserKeyConstants.keyOfGender) {
                     if let gender = updatedUser!.value(forKey: UserKeyConstants.keyOfGender) as? String {
-                        UserDefaults.gender = gender
+                        UserDefaults.gender = Gender(rawValue: gender)
                     }
-                }
-                
-                if allkeys.contains(UserKeyConstants.keyOfLeftHanded) {
-                    if let isLefthanded = updatedUser!.value(forKey: UserKeyConstants.keyOfLeftHanded) as? Bool {
-                        UserDefaults.isLefthanded = isLefthanded
-                    }
-                } else {
-                    UserDefaults.isLefthanded = false
                 }
                 
                 if allkeys.contains(UserKeyConstants.keyOfAllowsEventHistoryViewed) {
@@ -123,6 +115,12 @@ class LoginKit {
                     }
                 } else {
                     UserDefaults.allowsEventHistoryViewed = false
+                }
+                
+                if allkeys.contains(UserKeyConstants.keyOfSelfIntroduction) {
+                    if let selfIntroduction = updatedUser!.value(forKey: UserKeyConstants.keyOfSelfIntroduction) as? String {
+                        UserDefaults.selfIntroduction = selfIntroduction
+                    }
                 }
                 
                 UserDefaults.nickname = nickname
