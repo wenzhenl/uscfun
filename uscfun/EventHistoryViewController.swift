@@ -55,7 +55,11 @@ extension EventHistoryViewController: UITableViewDataSource, UITableViewDelegate
         
         if previousEvents.count == 0 {
             let cell = Bundle.main.loadNibNamed("EmptySectionPlaceholderTableViewCell", owner: self, options: nil)?.first as! EmptySectionPlaceholderTableViewCell
-            cell.mainTextView.text = "用户还没有参加过任何活动"
+            if eventHistorySource == .attended {
+                cell.mainTextView.text = "用户还没有参加过任何活动"
+            } else {
+                cell.mainTextView.text = "用户还没有发起过任何活动"
+            }
             cell.selectionStyle = .none
             return cell
         } else {
