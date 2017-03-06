@@ -78,6 +78,10 @@ extension UIColor {
     class var eventPending: UIColor {
         return UIColor.red
     }
+    
+    class var lightGreen: UIColor {
+        return UIColor(red: 1.0/255, green: 153.0/255, blue: 51/255, alpha: 0.3)
+    }
 }
 
 extension String {

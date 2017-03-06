@@ -14,7 +14,7 @@
         <!--通知-->
         <scene sceneID="yQk-VZ-aBO">
             <objects>
-                <viewController id="mJn-PJ-bOB" sceneMemberID="viewController">
+                <viewController id="mJn-PJ-bOB" customClass="NotificationViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="aDh-zS-M7o"/>
                         <viewControllerLayoutGuide type="bottom" id="jC2-FS-FLI"/>
@@ -22,9 +22,28 @@
                     <view key="view" contentMode="scaleToFill" id="sRe-WR-22Q">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Dlh-Zc-WSg">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="mJn-PJ-bOB" id="A3T-bJ-mqc"/>
+                                    <outlet property="delegate" destination="mJn-PJ-bOB" id="4Zu-8j-0g2"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Dlh-Zc-WSg" firstAttribute="centerY" secondItem="sRe-WR-22Q" secondAttribute="centerY" id="HKQ-hI-3fI"/>
+                            <constraint firstItem="Dlh-Zc-WSg" firstAttribute="width" secondItem="sRe-WR-22Q" secondAttribute="width" id="RPe-s1-QNC"/>
+                            <constraint firstItem="Dlh-Zc-WSg" firstAttribute="centerX" secondItem="sRe-WR-22Q" secondAttribute="centerX" id="oW0-bl-m3A"/>
+                            <constraint firstItem="Dlh-Zc-WSg" firstAttribute="height" secondItem="sRe-WR-22Q" secondAttribute="height" id="pL8-Rb-sqK"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="通知" id="Jkp-gz-b35"/>
+                    <connections>
+                        <outlet property="tableView" destination="Dlh-Zc-WSg" id="SF4-SA-aj0"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KCr-7d-Lc0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
