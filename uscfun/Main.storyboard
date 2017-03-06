@@ -136,8 +136,52 @@
                     <view key="view" contentMode="scaleToFill" id="8eC-D4-LwX">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blackfish" translatesAutoresizingMaskIntoConstraints="NO" id="xIM-at-dEo">
+                                <rect key="frame" x="172" y="84" width="70" height="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="1Ny-fs-kTA"/>
+                                    <constraint firstAttribute="width" constant="70" id="gpq-he-hWj"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USC日常 2.0.7" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K5P-Ej-PFu">
+                                <rect key="frame" x="20" y="162" width="374" height="18"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GlQ-cT-STc">
+                                <rect key="frame" x="153" y="672" width="108" height="30"/>
+                                <state key="normal" title="第三方开源协议"/>
+                                <connections>
+                                    <action selector="goOpenSource:" destination="XsI-pP-ZOl" eventType="touchUpInside" id="cwY-Ok-6Zc"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright © 2016-2017 留学日常联盟" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5sB-1a-tfT">
+                                <rect key="frame" x="20" y="710" width="374" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottomMargin" secondItem="5sB-1a-tfT" secondAttribute="bottom" constant="8" id="5tM-zc-J9l"/>
+                            <constraint firstItem="K5P-Ej-PFu" firstAttribute="top" secondItem="xIM-at-dEo" secondAttribute="bottom" constant="8" symbolic="YES" id="8W1-Hn-0Ov"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="5sB-1a-tfT" secondAttribute="trailing" id="M4C-oL-u3X"/>
+                            <constraint firstItem="5sB-1a-tfT" firstAttribute="top" secondItem="GlQ-cT-STc" secondAttribute="bottom" constant="8" symbolic="YES" id="Prv-Ok-WFR"/>
+                            <constraint firstItem="GlQ-cT-STc" firstAttribute="centerX" secondItem="8eC-D4-LwX" secondAttribute="centerX" id="Xp5-CY-btZ"/>
+                            <constraint firstItem="xIM-at-dEo" firstAttribute="centerX" secondItem="8eC-D4-LwX" secondAttribute="centerX" id="lOY-yh-d2S"/>
+                            <constraint firstItem="xIM-at-dEo" firstAttribute="top" secondItem="V5R-gX-OBR" secondAttribute="bottom" constant="20" id="nz6-nY-Y4m"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="K5P-Ej-PFu" secondAttribute="trailing" id="os0-79-z2c"/>
+                            <constraint firstItem="5sB-1a-tfT" firstAttribute="leading" secondItem="8eC-D4-LwX" secondAttribute="leadingMargin" id="qmn-Du-nZC"/>
+                            <constraint firstItem="K5P-Ej-PFu" firstAttribute="leading" secondItem="8eC-D4-LwX" secondAttribute="leadingMargin" id="xRS-x7-mA3"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="copyrightLabel" destination="5sB-1a-tfT" id="lWC-PU-kee"/>
+                        <outlet property="versionLabel" destination="K5P-Ej-PFu" id="Wax-ah-ZIX"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sb5-br-bHf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -290,6 +334,7 @@
                         <outlet property="tableView" destination="VNM-N7-eAu" id="lw0-Dq-uwb"/>
                         <segue destination="jln-hf-hFc" kind="show" identifier="SHOWMAP" id="nRo-fV-YhR"/>
                         <segue destination="Uge-ze-E6d" kind="show" identifier="see user profile" id="9Ga-jW-Tza"/>
+                        <segue destination="cLR-Fe-5nJ" kind="show" identifier="go to edit event" id="OaY-OK-gzz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y9J-Ob-CXo" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -327,7 +372,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dcE-1h-f1Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="713" y="-4643"/>
+            <point key="canvasLocation" x="1212" y="-4643"/>
+        </scene>
+        <!--Edit Event View Controller-->
+        <scene sceneID="9q4-nj-Nzu">
+            <objects>
+                <viewController id="cLR-Fe-5nJ" customClass="EditEventViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aXW-bb-xl0"/>
+                        <viewControllerLayoutGuide type="bottom" id="VaJ-wW-whg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="lNO-2g-aS8">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aq8-VB-dyz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="210" y="-4643"/>
         </scene>
         <!--Customized Alert View Controller-->
         <scene sceneID="xMq-WR-Fwj">
@@ -456,7 +519,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="48K-CO-jAF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1902.8985507246377" y="-5460.326086956522"/>
+            <point key="canvasLocation" x="1519" y="-5460"/>
         </scene>
         <!--日常-->
         <scene sceneID="lOJ-Cp-s4N">
@@ -1003,6 +1066,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="blackfish" width="165" height="165"/>
         <image name="find" width="24" height="24"/>
         <image name="home" width="24" height="24"/>
         <image name="notification" width="24" height="24"/>

@@ -141,6 +141,7 @@ class EventDetailViewController: UIViewController {
     //--MARK: global constants
     let mapSegueIdentifier = "SHOWMAP"
     let userProfileSugueIdentifier = "see user profile"
+    let editEventSegueIdentifier = "go to edit event"
 }
 
 extension EventDetailViewController: CustomizedAlertViewDelegate {

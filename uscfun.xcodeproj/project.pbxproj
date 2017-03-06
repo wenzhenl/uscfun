@@ -40,6 +40,7 @@
 		0A5332C71E6C1BE200C50186 /* UserProfileHeaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A5332C51E6C1BE200C50186 /* UserProfileHeaderTableViewCell.xib */; };
 		0A5332CA1E6C304900C50186 /* SegmentedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5332C81E6C304900C50186 /* SegmentedTableViewCell.swift */; };
 		0A5332CB1E6C304900C50186 /* SegmentedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A5332C91E6C304900C50186 /* SegmentedTableViewCell.xib */; };
+		0A5332CD1E6D02AA00C50186 /* EditEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5332CC1E6D02AA00C50186 /* EditEventViewController.swift */; };
 		0A5830CB1DD45A2800E06B4A /* OrderedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5830CA1DD45A2800E06B4A /* OrderedDictionary.swift */; };
 		0A6834BE1D56858C002E9B0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6834BD1D56858C002E9B0D /* AppDelegate.swift */; };
 		0A6834C51D56858C002E9B0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A6834C41D56858C002E9B0D /* Assets.xcassets */; };
@@ -150,6 +151,7 @@
 		0A5332C51E6C1BE200C50186 /* UserProfileHeaderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserProfileHeaderTableViewCell.xib; sourceTree = "<group>"; };
 		0A5332C81E6C304900C50186 /* SegmentedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedTableViewCell.swift; sourceTree = "<group>"; };
 		0A5332C91E6C304900C50186 /* SegmentedTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SegmentedTableViewCell.xib; sourceTree = "<group>"; };
+		0A5332CC1E6D02AA00C50186 /* EditEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditEventViewController.swift; sourceTree = "<group>"; };
 		0A5830CA1DD45A2800E06B4A /* OrderedDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderedDictionary.swift; sourceTree = "<group>"; };
 		0A6834BA1D56858C002E9B0D /* uscfun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = uscfun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A6834BD1D56858C002E9B0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -430,6 +432,7 @@
 				0A00DB071DD90F5B00A81189 /* LocationAddressRow.swift */,
 				0A00DB091DD9109A00A81189 /* AddressPickerViewController.swift */,
 				0A00DB0F1DD924BE00A81189 /* SearchResultsTableViewController.swift */,
+				0A5332CC1E6D02AA00C50186 /* EditEventViewController.swift */,
 			);
 			name = EventViewControllers;
 			sourceTree = "<group>";
@@ -631,6 +634,7 @@
 				0ADE0CA31DB1F19D009F89A0 /* AboutViewController.swift in Sources */,
 				0AE5C5491DB1DFB500B455F4 /* ProfileTableViewCell.swift in Sources */,
 				0A5332C21E6B2D7200C50186 /* ImageViewCollectionViewCell.swift in Sources */,
+				0A5332CD1E6D02AA00C50186 /* EditEventViewController.swift in Sources */,
 				0A5332BE1E6B2C8800C50186 /* CollectionViewTableViewCell.swift in Sources */,
 				0A5830CB1DD45A2800E06B4A /* OrderedDictionary.swift in Sources */,
 				0A963DB51D7122E200E0532F /* SignUpViewController.swift in Sources */,
