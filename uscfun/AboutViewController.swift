@@ -17,6 +17,7 @@ class AboutViewController: UIViewController {
         self.navigationController?.view.backgroundColor = UIColor.white
         self.view.backgroundColor = UIColor.white
         self.title = "关于"
+        versionLabel.textColor = UIColor.buttonPink
         versionLabel.text = "USC日常 2.0.7"
         copyrightLabel.text = "Copyright © 2016-2017 留学日常联盟"
     }
