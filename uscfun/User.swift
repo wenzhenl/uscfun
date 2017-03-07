@@ -23,10 +23,8 @@ class User {
     //--MARK: optional settings
     var gender: Gender?
     var avatar: UIImage?
-    
-    var allowsEventHistoryViewed: Bool {
-        return true
-    }
+    var allowsEventHistoryViewed: Bool = false
+    var selfIntroduction: String?
     
     init(username: String, nickname: String) {
         self.username = username
@@ -39,7 +37,6 @@ class User {
                 self.username = user.username
                 
                 guard allkeys.contains(UserKeyConstants.keyOfNickname), let nickname = user.value(forKey: UserKeyConstants.keyOfNickname) as? String else {
-                    print("no nickname")
                     return nil
                 }
                 self.nickname = nickname
@@ -52,21 +49,19 @@ class User {
                 
                 if allkeys.contains(UserKeyConstants.keyOfAvatarUrl), let avatarUrl = user.value(forKey: UserKeyConstants.keyOfAvatarUrl) as? String {
                     if let avatarFile = AVFile(url: avatarUrl) {
-//                        avatarFile.getThumbnail(true, width: 100, height: 100) {
-//                            image, error in
-//                            if image != nil {
-//                                self.avatar = image
-//                            }
-//                            if error != nil {
-//                                print(error)
-//                            }
-//                        }
                         if let avtarData = avatarFile.getData() {
                             self.avatar = UIImage(data: avtarData)
                         }
                     }
                 }
                 
+                if allkeys.contains(UserKeyConstants.keyOfAllowsEventHistoryViewed), let allowsEventHistoryViewed = user.value(forKey: UserKeyConstants.keyOfAllowsEventHistoryViewed) as? Bool {
+                    self.allowsEventHistoryViewed = allowsEventHistoryViewed
+                }
+                
+                if allkeys.contains(UserKeyConstants.keyOfSelfIntroduction), let selfIntroduction = user.value(forKey: UserKeyConstants.keyOfSelfIntroduction) as? String {
+                    self.selfIntroduction = selfIntroduction
+                }
                 return
             }
         }

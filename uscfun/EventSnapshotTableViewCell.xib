@@ -21,33 +21,33 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="[困].png" translatesAutoresizingMaskIntoConstraints="NO" id="hlg-Jy-4tw">
-                        <rect key="frame" x="8" y="8" width="15" height="15"/>
+                        <rect key="frame" x="8" y="8" width="20" height="20"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="15" id="FN6-4Q-hbG"/>
-                            <constraint firstAttribute="width" constant="15" id="KL9-9x-ptY"/>
+                            <constraint firstAttribute="height" constant="20" id="FN6-4Q-hbG"/>
+                            <constraint firstAttribute="width" constant="20" id="KL9-9x-ptY"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="wenzhenl发起" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e4B-uK-NRO">
-                        <rect key="frame" x="31" y="8" width="258" height="15"/>
+                        <rect key="frame" x="36" y="8" width="253" height="20"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9y-mb-XM3">
-                        <rect key="frame" x="297" y="8" width="15" height="15"/>
+                        <rect key="frame" x="297" y="8" width="15" height="20"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="15" id="BRa-2k-o8C"/>
                         </constraints>
                         <state key="normal" title="Button" image="more"/>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="260" verticalCompressionResistancePriority="760" text="有什么道理是开始注重外表后几年才能悟出来的？" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Xk-A7-0vu">
-                        <rect key="frame" x="8" y="31" width="304" height="41"/>
+                        <rect key="frame" x="8" y="36" width="304" height="41"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="微活动剩余席位：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DWc-vb-Lln">
-                        <rect key="frame" x="8" y="80" width="304" height="99.5"/>
+                        <rect key="frame" x="8" y="85" width="304" height="94.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>

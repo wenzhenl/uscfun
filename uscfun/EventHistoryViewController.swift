@@ -88,9 +88,7 @@ extension EventHistoryViewController: UITableViewDataSource, UITableViewDelegate
             cell.creatorAvatarImageView.layer.cornerRadius = cell.creatorAvatarImageView.frame.size.width / 2.0
             cell.creatorAvatarImageView.image = creator.avatar
             
-            let possibleWhitePapers = [#imageLiteral(resourceName: "clip4"), #imageLiteral(resourceName: "clip1"), #imageLiteral(resourceName: "clip2"), #imageLiteral(resourceName: "clip3")]
-            let randomIndex = Int(arc4random_uniform(UInt32(possibleWhitePapers.count)))
-            cell.whitePaperImageView.image = possibleWhitePapers[randomIndex]
+            cell.whitePaperImageView.image = event.whitePaper
             
             cell.needNumberLabel.text = String(event.remainingSeats)
             let gapFromNow = event.due.gapFromNow
@@ -106,6 +104,9 @@ extension EventHistoryViewController: UITableViewDataSource, UITableViewDelegate
             cell.statusView.backgroundColor = event.statusColor
             cell.statusView.layer.masksToBounds = true
             cell.statusView.layer.cornerRadius = cell.statusView.frame.size.width / 2
+            
+            cell.moreButton.isHidden = true
+            
             return cell
         }
     }

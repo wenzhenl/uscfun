@@ -172,9 +172,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             cell.creatorAvatarImageView.layer.cornerRadius = cell.creatorAvatarImageView.frame.size.width / 2.0
             cell.creatorAvatarImageView.image = creator.avatar
             
-            let possibleWhitePapers = [#imageLiteral(resourceName: "clip4"), #imageLiteral(resourceName: "clip1"), #imageLiteral(resourceName: "clip2"), #imageLiteral(resourceName: "clip3")]
-            let randomIndex = Int(arc4random_uniform(UInt32(possibleWhitePapers.count)))
-            cell.whitePaperImageView.image = possibleWhitePapers[randomIndex]
+            cell.whitePaperImageView.image = event.whitePaper
             
             cell.needNumberLabel.text = String(event.remainingSeats)
             let gapFromNow = event.due.gapFromNow

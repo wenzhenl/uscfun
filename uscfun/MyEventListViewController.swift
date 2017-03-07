@@ -141,9 +141,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
             cell.creatorAvatarImageView.layer.cornerRadius = cell.creatorAvatarImageView.frame.size.width / 2.0
             cell.creatorAvatarImageView.image = creator.avatar
             
-            let possibleWhitePapers = [#imageLiteral(resourceName: "clip4"), #imageLiteral(resourceName: "clip1"), #imageLiteral(resourceName: "clip2"), #imageLiteral(resourceName: "clip3")]
-            let randomIndex = Int(arc4random_uniform(UInt32(possibleWhitePapers.count)))
-            cell.whitePaperImageView.image = possibleWhitePapers[randomIndex]
+            cell.whitePaperImageView.image = event.whitePaper
             
             cell.needNumberLabel.text = String(event.remainingSeats)
             let gapFromNow = event.due.gapFromNow
@@ -212,7 +210,7 @@ extension Event {
         case .isFinalized:
             return UIColor.eventFinalized
         default:
-            return UIColor.darkText
+            return UIColor.darkGray
         }
     }
     
@@ -233,5 +231,15 @@ extension Event {
         case .isUnKnown:
             return "不晓得"
         }
+    }
+    
+    var whitePaper: UIImage {
+        let possibleWhitePapers = [#imageLiteral(resourceName: "clip4"), #imageLiteral(resourceName: "clip1"), #imageLiteral(resourceName: "clip2"), #imageLiteral(resourceName: "clip3")]
+//        let randomIndex = Int(arc4random_uniform(UInt32(possibleWhitePapers.count)))
+//        print(self.objectId?.hash)
+        if let index = self.objectId?.hash {
+            return possibleWhitePapers[abs(index) % possibleWhitePapers.count]
+        }
+        return possibleWhitePapers[0]
     }
 }

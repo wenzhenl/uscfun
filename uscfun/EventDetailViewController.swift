@@ -264,6 +264,7 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
         case .remainingNumberCell:
             let cell = Bundle.main.loadNibNamed("NumberDisplayTableViewCell", owner: self, options: nil)?.first as! NumberDisplayTableViewCell
             cell.numberLabel.text = String(event.remainingSeats)
+            cell.whitePaperImageView.image = event.whitePaper
             cell.selectionStyle = .none
             return cell
         case .numberCell:

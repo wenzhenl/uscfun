@@ -78,6 +78,7 @@ class UpdateProfileViewController: FormViewController {
                     cell.detailTextLabel?.textColor = UIColor.darkGray
                 }
                 .onChange { row in
+                    print("gender changed")
                     self.gender = row.value
                 }
              +++ Section("个人简介")

@@ -36,10 +36,10 @@ class UserProfileViewController: UIViewController {
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, -10, 0)
         self.tableView.tableFooterView = UIView()
         self.populateSections()
-        if other.gender == nil || other.gender == .male {
-            genderTitle = "他"
-        } else {
+        if other.gender == .female {
             genderTitle = "她"
+        } else {
+            genderTitle = "他"
         }
     }
     
@@ -121,7 +121,7 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
             cell.avatarImageView.image = other.avatar
             cell.avatarImageView.layer.masksToBounds = true
             cell.avatarImageView.layer.cornerRadius = cell.avatarImageView.frame.size.width / 2.0
-            cell.genderLabel.text = other.gender?.rawValue ?? "性别保密"
+            cell.genderLabel.text = other.gender?.rawValue ?? Gender.unknown.rawValue
             cell.selectionStyle = .none
             return cell
         case .statCell:
@@ -135,7 +135,7 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
         case .introductionCell:
              let cell = Bundle.main.loadNibNamed("TitleTextViewTableViewCell", owner: self, options: nil)?.first as! TitleTextViewTableViewCell
             cell.titleLabel.text = "个人简介"
-            cell.textView.text = "这个人什么都没有留下"
+            cell.textView.text = other.selfIntroduction ?? genderTitle + "什么都没有留下"
             cell.selectionStyle = .none
             return cell
         case .segmentedCell:
@@ -158,9 +158,7 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
             cell.creatorAvatarImageView.layer.cornerRadius = cell.creatorAvatarImageView.frame.size.width / 2.0
             cell.creatorAvatarImageView.image = creator.avatar
             
-            let possibleWhitePapers = [#imageLiteral(resourceName: "clip4"), #imageLiteral(resourceName: "clip1"), #imageLiteral(resourceName: "clip2"), #imageLiteral(resourceName: "clip3")]
-            let randomIndex = Int(arc4random_uniform(UInt32(possibleWhitePapers.count)))
-            cell.whitePaperImageView.image = possibleWhitePapers[randomIndex]
+            cell.whitePaperImageView.image = event.whitePaper
             
             cell.needNumberLabel.text = String(event.remainingSeats)
             let gapFromNow = event.due.gapFromNow
@@ -176,6 +174,9 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
             cell.statusView.backgroundColor = event.statusColor
             cell.statusView.layer.masksToBounds = true
             cell.statusView.layer.cornerRadius = cell.statusView.frame.size.width / 2
+            
+            cell.moreButton.isHidden = true
+            
             return cell
         case .noEventCell:
             let cell = Bundle.main.loadNibNamed("EmptySectionPlaceholderTableViewCell", owner: self, options: nil)?.first as! EmptySectionPlaceholderTableViewCell
