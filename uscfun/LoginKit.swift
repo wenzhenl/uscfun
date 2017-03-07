@@ -49,10 +49,11 @@ class LoginKit {
             return
         }
         
-        guard let file = AVFile(data: UIImagePNGRepresentation(avatar)) else {
+        guard let data =  UIImagePNGRepresentation(avatar) else {
             handler(false, SignUpError.cannotUploadAvatar(reason: "cannot upload avatar") as NSError?)
             return
         }
+        let file = AVFile(data: data)
         
         UserDefaults.avatar = avatar
         
@@ -88,12 +89,11 @@ class LoginKit {
                 
                 if AVUser.current() == nil || updatedUser!.email != UserDefaults.email {
                     guard allkeys.contains(UserKeyConstants.keyOfAvatarUrl),
-                        let avatarUrl = updatedUser!.value(forKey: UserKeyConstants.keyOfAvatarUrl) as? String,
-                        let file = AVFile(url: avatarUrl) else {
+                        let avatarUrl = updatedUser!.value(forKey: UserKeyConstants.keyOfAvatarUrl) as? String else {
                             handler(false, LoginError.cannotFetchAvatar(reason: "cannot fetch avatar"))
                             return
                     }
-                    
+                    let file = AVFile(url: avatarUrl)
                     var avatarError: NSError?
                     guard let avatarData = file.getData(&avatarError) else {
                         handler(false, avatarError)

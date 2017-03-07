@@ -69,7 +69,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         if AVUser.current() != nil {
-            email = AVUser.current().email.emailPrefix()!
+            email = AVUser.current()!.email!.emailPrefix()!
         }
         UIApplication.shared.statusBarStyle = .default
     }

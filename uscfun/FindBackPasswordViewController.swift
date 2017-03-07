@@ -59,7 +59,7 @@ class FindBackPasswordViewController: UIViewController, UITextViewDelegate, UITe
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         if AVUser.current() != nil {
-            self.email = AVUser.current().email.emailPrefix()!
+            self.email = AVUser.current()!.email!.emailPrefix()!
         }
         emailTextField.becomeFirstResponder()
     }

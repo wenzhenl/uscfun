@@ -82,22 +82,22 @@ extension UserDefaults {
     
     static func updateAllowsEventHistoryViewed(allowsEventHistoryViewed: Bool) {
         UserDefaults.allowsEventHistoryViewed = allowsEventHistoryViewed
-        AVUser.current().setObject(UserDefaults.allowsEventHistoryViewed, forKey: UserKeyConstants.keyOfAllowsEventHistoryViewed)
-        AVUser.current().saveInBackground()
+        AVUser.current()!.setObject(UserDefaults.allowsEventHistoryViewed, forKey: UserKeyConstants.keyOfAllowsEventHistoryViewed)
+        AVUser.current()!.saveInBackground()
     }
     
     static func updateUserAvatar() {
         print("update avatar")
-        guard let file = AVFile(data: UIImagePNGRepresentation(UserDefaults.avatar!)) else {
-            print("cannot convert avatar")
+        guard let data = UIImagePNGRepresentation(UserDefaults.avatar!) else {
             return
         }
+        let file = AVFile(data: data)
         
         file.saveInBackground({
             succeeded, error in
             if succeeded {
-                AVUser.current().setObject(file.url, forKey: UserKeyConstants.keyOfAvatarUrl)
-                AVUser.current().saveInBackground()
+                AVUser.current()!.setObject(file.url, forKey: UserKeyConstants.keyOfAvatarUrl)
+                AVUser.current()!.saveInBackground()
             }
         })
     }
@@ -111,18 +111,18 @@ extension UserDefaults {
         print("update other info")
 
         if withNickName {
-            AVUser.current().setObject(UserDefaults.nickname, forKey: UserKeyConstants.keyOfNickname)
+            AVUser.current()!.setObject(UserDefaults.nickname, forKey: UserKeyConstants.keyOfNickname)
         }
         
         if withGender {
-            AVUser.current().setObject(UserDefaults.gender.rawValue, forKey: UserKeyConstants.keyOfGender)
+            AVUser.current()!.setObject(UserDefaults.gender.rawValue, forKey: UserKeyConstants.keyOfGender)
         }
         
         if withSelfIntroduction {
-            AVUser.current().setObject(UserDefaults.selfIntroduction, forKey: UserKeyConstants.keyOfSelfIntroduction)
+            AVUser.current()!.setObject(UserDefaults.selfIntroduction, forKey: UserKeyConstants.keyOfSelfIntroduction)
         }
         
-        AVUser.current().saveInBackground()
+        AVUser.current()!.saveInBackground()
     }
     
     //-MARK: new event info

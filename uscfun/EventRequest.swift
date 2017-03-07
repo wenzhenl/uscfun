@@ -70,10 +70,7 @@ class EventRequest {
     }
     
     static func fetchNewerPublicEvents(inBackground: Bool, currentNewestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        guard let query = AVQuery(className: EventKeyConstants.classNameOfEvent) else {
-            handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: "cannot create query"))
-            return
-        }
+        let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
         query.order(byAscending: EventKeyConstants.keyOfDue)
         query.includeKey(EventKeyConstants.keyOfCreator)
         query.includeKey(EventKeyConstants.keyOfMembers)
@@ -110,10 +107,7 @@ class EventRequest {
     }
     
     static func fetchOlderPublicEvents(inBackground: Bool, currentOldestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        guard let query = AVQuery(className: EventKeyConstants.classNameOfEvent) else {
-            handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: "cannot create query"))
-            return
-        }
+        let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
         query.order(byAscending: EventKeyConstants.keyOfDue)
         query.includeKey(EventKeyConstants.keyOfCreator)
         query.includeKey(EventKeyConstants.keyOfMembers)
@@ -152,10 +146,7 @@ class EventRequest {
     }
     
     static func fetchNewerMyOngoingEvents(inBackground: Bool, currentNewestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        guard let query = AVQuery(className: EventKeyConstants.classNameOfEvent) else {
-            handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: "cannot create query"))
-            return
-        }
+        let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
         query.order(byAscending: EventKeyConstants.keyOfDue)
         query.includeKey(EventKeyConstants.keyOfCreator)
         query.includeKey(EventKeyConstants.keyOfMembers)
@@ -191,10 +182,7 @@ class EventRequest {
     }
     
     static func fetchOlderMyOngoingEvents(inBackground: Bool, currentOldestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        guard let query = AVQuery(className: EventKeyConstants.classNameOfEvent) else {
-            handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: "cannot create query"))
-            return
-        }
+        let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
         query.order(byAscending: EventKeyConstants.keyOfDue)
         query.includeKey(EventKeyConstants.keyOfCreator)
         query.includeKey(EventKeyConstants.keyOfMembers)
@@ -258,7 +246,7 @@ class EventRequest {
                 return
             }
             for event in events {
-                if !event.members.contains(AVUser.current()) {
+                if !event.members.contains(AVUser.current()!) {
                     EventRequest.publicEvents[event.objectId!] = event
                     
                     if event.updatedAt! > EventRequest.newestUpdatedAtOfPublicEvents {
@@ -274,10 +262,7 @@ class EventRequest {
     }
     
     static func fetchEvents(inBackground: Bool, with eventIds: [String], handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        guard let query = AVQuery(className: EventKeyConstants.classNameOfEvent) else {
-            handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: "cannot create query"))
-            return
-        }
+        let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
         query.includeKey(EventKeyConstants.keyOfCreator)
         query.includeKey(EventKeyConstants.keyOfMembers)
         query.whereKey(EventKeyConstants.keyOfObjectId, containedIn: eventIds)
@@ -297,7 +282,7 @@ class EventRequest {
             }
             
             for event in events {
-                if event.members.contains(AVUser.current()) {
+                if event.members.contains(AVUser.current()!) {
                     EventRequest.myOngoingEvents[event.objectId!] = event
                     if event.updatedAt! > EventRequest.newestUpdatedAtOfMyOngoingEvents {
                         EventRequest.newestUpdatedAtOfMyOngoingEvents = event.updatedAt!

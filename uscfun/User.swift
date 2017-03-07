@@ -34,7 +34,7 @@ class User {
     init?(user: AVUser?) {
         if let user = user {
             if let allkeys = user.allKeys() as? [String] {
-                self.username = user.username
+                self.username = user.username!
                 
                 guard allkeys.contains(UserKeyConstants.keyOfNickname), let nickname = user.value(forKey: UserKeyConstants.keyOfNickname) as? String else {
                     return nil
@@ -48,10 +48,9 @@ class User {
                 }
                 
                 if allkeys.contains(UserKeyConstants.keyOfAvatarUrl), let avatarUrl = user.value(forKey: UserKeyConstants.keyOfAvatarUrl) as? String {
-                    if let avatarFile = AVFile(url: avatarUrl) {
-                        if let avtarData = avatarFile.getData() {
-                            self.avatar = UIImage(data: avtarData)
-                        }
+                    let avatarFile = AVFile(url: avatarUrl)
+                    if let avtarData = avatarFile.getData() {
+                        self.avatar = UIImage(data: avtarData)
                     }
                 }
                 

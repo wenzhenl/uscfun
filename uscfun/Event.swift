@@ -423,36 +423,33 @@ class Event {
     /// - parameter error: optional error information if operation fails
     
     private func createConversation(isTransient: Bool, handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
-        guard let client = AVIMClient(clientId: AVUser.current().username) else {
-            handler(false, EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: "cannot create AVIMClient"))
-            return
-        }
+        let client = AVIMClient(clientId: AVUser.current()!.username!)
         client.open() {
             succeeded, error in
             if succeeded {
                 if isTransient {
-                    client.createConversation(withName: nil, clientIds: [], attributes: nil, options: AVIMConversationOption.transient) {
+                    client.createConversation(withName: "讨论", clientIds: [], attributes: nil, options: AVIMConversationOption.transient) {
                         conversation, error in
                         if error == nil {
                             guard let conversation = conversation else {
                                 handler(false, EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: "cannot fetch transient conversation"))
                                 return
                             }
-                            self.transientConversationId = conversation.conversationId
+                            self.transientConversationId = conversation.conversationId!
                             handler(true, nil)
                         } else {
                             handler(false, error!)
                         }
                     }
                 } else {
-                    client.createConversation(withName: nil, clientIds: [self.creator.username]) {
+                    client.createConversation(withName: "微活动群", clientIds: [self.creator.username]) {
                         conversation, error in
                         if error == nil {
                             guard let conversation = conversation else {
                                 handler(false, EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: "cannot fetch conversation"))
                                 return
                             }
-                            self.conversationId = conversation.conversationId
+                            self.conversationId = conversation.conversationId!
                             handler(true, nil)
                         } else {
                             handler(false, error!)
@@ -472,10 +469,7 @@ class Event {
     /// - parameter error: optional error information if operation fails
     
     private func saveDataToSever(handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
-        guard let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent) else {
-            handler(false, EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: "cannot create AVObject"))
-            return
-        }
+        let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent)
         
         guard transientConversationId != "" else {
             handler(false, EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: "transient conversation id is missing"))
@@ -547,11 +541,7 @@ class Event {
     
     func add(newMember: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         
-        guard let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId) else {
-            handler(false, EventError.systemError(localizedDescriotion: "系统错误，请稍后再试", debugDescription: "cannot create AVObject"))
-            return
-        }
-        
+        let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId!)
         let query = AVQuery()
         query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date().timeIntervalSince1970)
         query.whereKey(EventKeyConstants.keyOfRemainingSeats, greaterThan: 0)
@@ -588,11 +578,7 @@ class Event {
             return
         }
         
-        guard let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId) else {
-            handler(false, EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: "cannot create AVObject"))
-            return
-        }
-        
+        let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId!)
         let query = AVQuery()
         query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date().timeIntervalSince1970)
         query.whereKey(EventKeyConstants.keyOfRemainingSeats, greaterThan: 0)

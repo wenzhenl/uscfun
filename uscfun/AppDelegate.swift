@@ -85,15 +85,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         
         print("APPLICATION DID BECOME ACTIVE")
-        let num = application.applicationIconBadgeNumber
-        if num != 0 {
-            if let currentInstallation = AVInstallation.current() {
-                currentInstallation.setValue(0, forKey: "badge")
-                currentInstallation.saveEventually()
-            }
-            application.cancelAllLocalNotifications()
-            application.applicationIconBadgeNumber = 0
-        }
+//        let num = application.applicationIconBadgeNumber
+//        if num != 0 {
+//            if let currentInstallation = AVInstallation.current() {
+//                currentInstallation.setValue(0, forKey: "badge")
+//                currentInstallation.saveEventually()
+//            }
+//            application.cancelAllLocalNotifications()
+//            application.applicationIconBadgeNumber = 0
+//        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -148,7 +148,7 @@ extension AppDelegate: AVIMClientDelegate {
             SVProgressHUD.dismiss()
         }
         
-        if let concatenatedUpdatedIds = message.attributes[EventKeyConstants.keyOfSystemNotificationOfUpdatedEvents] as? String {
+        if let concatenatedUpdatedIds = message.attributes?[EventKeyConstants.keyOfSystemNotificationOfUpdatedEvents] as? String {
             let updatedIds = concatenatedUpdatedIds.components(separatedBy: ",")
             var existingEventsIds = [String]()
             var newEventsIds = [String]()
@@ -180,13 +180,12 @@ extension AppDelegate: LoginDelegate {
             userIds, completionHandler in
             var users = [LCCKUser]()
             if let userIds = userIds {
-                if let query = AVQuery(className: "_User") {
-                    query.whereKey("username", containedIn: userIds)
-                    if let objects = query.findObjects() {
-                        for object in objects as! [AVUser] {
-                            let user = LCCKUser(userId: object.value(forKey: UserKeyConstants.keyOfNickname) as! String!, name: object.value(forKey: UserKeyConstants.keyOfNickname) as! String!, avatarURL: URL(string: object.value(forKey: UserKeyConstants.keyOfAvatarUrl) as! String))
-                            users.append(user!)
-                        }
+                let query = AVQuery(className: "_User")
+                query.whereKey("username", containedIn: userIds)
+                if let objects = query.findObjects() {
+                    for object in objects as! [AVUser] {
+                        let user = LCCKUser(userId: object.value(forKey: UserKeyConstants.keyOfNickname) as! String!, name: object.value(forKey: UserKeyConstants.keyOfNickname) as! String!, avatarURL: URL(string: object.value(forKey: UserKeyConstants.keyOfAvatarUrl) as! String))
+                        users.append(user!)
                     }
                 }
             }
@@ -212,7 +211,7 @@ extension AppDelegate: LoginDelegate {
         LCChatKit.sharedInstance().disableSingleSignOn = true
         
         // set AVIMClient to receive system broadcast
-        client = AVIMClient(clientId: AVUser.current().username + "_system_notification")
+        client = AVIMClient(clientId: AVUser.current()!.username! + "_system_notification")
         client?.delegate = self
         client?.open() {
             succeed, error in
@@ -225,7 +224,7 @@ extension AppDelegate: LoginDelegate {
             }
         }
         
-        LCChatKit.sharedInstance().open(withClientId: AVUser.current().username) {
+        LCChatKit.sharedInstance().open(withClientId: AVUser.current()!.username!) {
             succeed, error in
             if succeed {
                 print("LCChatKit open successfully")

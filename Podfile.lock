@@ -1,26 +1,27 @@
 PODS:
-  - AVOSCloud (3.4.3)
-  - AVOSCloudCrashReporting (3.4.3):
-    - AVOSCloud (= 3.4.3)
-    - AVOSCloudCrashReporting/_ARC (= 3.4.3)
-    - AVOSCloudCrashReporting/_NOARC (= 3.4.3)
-  - AVOSCloudCrashReporting/_ARC (3.4.3):
-    - AVOSCloud (= 3.4.3)
-    - AVOSCloudCrashReporting/_NOARC (= 3.4.3)
-  - AVOSCloudCrashReporting/_NOARC (3.4.3):
-    - AVOSCloud (= 3.4.3)
-  - AVOSCloudIM (3.4.3):
-    - AVOSCloud (= 3.4.3)
-    - AVOSCloudIM/_ARC (= 3.4.3)
-    - AVOSCloudIM/_NOARC (= 3.4.3)
-  - AVOSCloudIM/_ARC (3.4.3):
-    - AVOSCloud (= 3.4.3)
-    - AVOSCloudIM/_NOARC (= 3.4.3)
-  - AVOSCloudIM/_NOARC (3.4.3):
-    - AVOSCloud (= 3.4.3)
-  - ChatKit (0.7.16):
-    - AVOSCloud (~> 3.4.0)
-    - AVOSCloudIM (~> 3.4.0)
+  - AVOSCloud (3.10.0)
+  - AVOSCloudCrashReporting (3.10.0):
+    - AVOSCloud (= 3.10.0)
+    - AVOSCloudCrashReporting/_ARC (= 3.10.0)
+    - AVOSCloudCrashReporting/_NOARC (= 3.10.0)
+  - AVOSCloudCrashReporting/_ARC (3.10.0):
+    - AVOSCloud (= 3.10.0)
+    - AVOSCloudCrashReporting/_NOARC (= 3.10.0)
+  - AVOSCloudCrashReporting/_NOARC (3.10.0):
+    - AVOSCloud (= 3.10.0)
+  - AVOSCloudIM (3.10.0):
+    - AVOSCloud (= 3.10.0)
+    - AVOSCloudIM/_ARC (= 3.10.0)
+    - AVOSCloudIM/_NOARC (= 3.10.0)
+  - AVOSCloudIM/_ARC (3.10.0):
+    - AVOSCloud (= 3.10.0)
+    - AVOSCloudIM/_NOARC (= 3.10.0)
+  - AVOSCloudIM/_NOARC (3.10.0):
+    - AVOSCloud (= 3.10.0)
+  - ChatKit (0.8.14):
+    - AVOSCloud (~> 3.10.0)
+    - AVOSCloudIM (~> 3.10.0)
+    - CYLDeallocBlockExecutor (~> 1.1.2)
     - DACircularProgress (~> 2.3.1)
     - FDStackView (~> 1.0)
     - FMDB (~> 2.6.2)
@@ -31,14 +32,13 @@ PODS:
     - pop (~> 1.0.9)
     - SDWebImage (~> 3.8.0)
     - UITableView+FDTemplateLayoutCell (~> 1.5.beta)
+  - CYLDeallocBlockExecutor (1.1.2)
   - DACircularProgress (2.3.1)
-  - Eureka (2.0.0-beta.1)
+  - Eureka (2.0.1)
   - FDStackView (1.0)
   - FMDB (2.6.2):
     - FMDB/standard (= 2.6.2)
   - FMDB/standard (2.6.2)
-  - LeanCloudFeedback (0.1.1):
-    - AVOSCloud
   - Masonry (1.0.2)
   - MBProgressHUD (0.9.2)
   - MJRefresh (3.1.12)
@@ -51,7 +51,7 @@ PODS:
   - SDWebImage (3.8.2):
     - SDWebImage/Core (= 3.8.2)
   - SDWebImage/Core (3.8.2)
-  - SVProgressHUD (2.0.3)
+  - SVProgressHUD (2.1.2)
   - UITableView+FDTemplateLayoutCell (1.5.beta)
 
 DEPENDENCIES:
@@ -59,30 +59,29 @@ DEPENDENCIES:
   - AVOSCloudCrashReporting
   - AVOSCloudIM
   - ChatKit
-  - Eureka (~> 2.0.0-beta.1)
-  - LeanCloudFeedback
+  - Eureka
   - SVProgressHUD
 
 SPEC CHECKSUMS:
-  AVOSCloud: 0108153c6b7130c399707442f3059ea6016da6c3
-  AVOSCloudCrashReporting: b4cae419506e57a31cfabc79187a81cfa08f9c0c
-  AVOSCloudIM: b8e6dba33a4f9af6e3137e09d8e9722570720af7
-  ChatKit: b0a38a2b6e55e7835cf8bf69cf6686e05840a783
+  AVOSCloud: 839b30ac3b382ad56c957ed6dd28a0a537d33d67
+  AVOSCloudCrashReporting: 931211f7185b6849d1bf9dfc935202745182cc8d
+  AVOSCloudIM: 13c9cf14b42304f4243d01906c17b5ee8f5529db
+  ChatKit: 1b72678d33558aa789395d1b30ca483cdf519435
+  CYLDeallocBlockExecutor: ecf39e45dcead9e120f460df5668b8f5093d178e
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
-  Eureka: d014adf16406745e1a78d5790ea37ed130a0a8e5
+  Eureka: ae837bb1dfae0c07bc1bda7aeef87876eeb537c2
   FDStackView: 3a4bbe0ce9c35e974246a585168b9da8c32213f1
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
-  LeanCloudFeedback: 686305ea196931c7eae49800c384e42d78408482
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   MLLabel: df58127ce0bd1f87890ecc3232db77a85ce4cd97
   MWPhotoBrowser: 5836d7aa041dc05a13de380c246826578adc5ea5
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
-  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
-  SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
+  SDWebImage: '098e97e6176540799c27e804c96653ee0833d13c'
+  SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
   UITableView+FDTemplateLayoutCell: 02b508ab1cb4cea16a8c17ac83d2cd1fd72124f9
 
-PODFILE CHECKSUM: 63dc2925e629dcca02eca8f769292267abb69e60
+PODFILE CHECKSUM: 7ffcdb0ccacc308d6c05635de4073e5988ad4682
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.0
