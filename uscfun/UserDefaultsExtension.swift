@@ -52,13 +52,13 @@ extension UserDefaults {
         }
     }
     
-    class var gender: Gender? {
+    class var gender: Gender {
         get {
-            guard let genderText = UserDefaults.standard.string(forKey: "User_Gender_Key") else { return nil }
-            return Gender(rawValue: genderText)
+            guard let genderText = UserDefaults.standard.string(forKey: "User_Gender_Key") else { return Gender.unknown }
+            return Gender(rawValue: genderText) ?? Gender.unknown
         }
         set {
-            UserDefaults.standard.setValue(newValue?.rawValue, forKey: "User_Gender_Key")
+            UserDefaults.standard.setValue(newValue.rawValue, forKey: "User_Gender_Key")
         }
     }
     
@@ -83,6 +83,45 @@ extension UserDefaults {
     static func updateAllowsEventHistoryViewed(allowsEventHistoryViewed: Bool) {
         UserDefaults.allowsEventHistoryViewed = allowsEventHistoryViewed
         AVUser.current().setObject(UserDefaults.allowsEventHistoryViewed, forKey: UserKeyConstants.keyOfAllowsEventHistoryViewed)
+        AVUser.current().saveInBackground()
+    }
+    
+    static func updateUserAvatar() {
+        print("update avatar")
+        guard let file = AVFile(data: UIImagePNGRepresentation(UserDefaults.avatar!)) else {
+            print("cannot convert avatar")
+            return
+        }
+        
+        file.saveInBackground({
+            succeeded, error in
+            if succeeded {
+                AVUser.current().setObject(file.url, forKey: UserKeyConstants.keyOfAvatarUrl)
+                AVUser.current().saveInBackground()
+            }
+        })
+    }
+    
+    static func updateUserProfile(withNickName: Bool, withGender: Bool, withSelfIntroduction: Bool) {
+        
+        if !withNickName && !withGender && !withSelfIntroduction {
+            return
+        }
+
+        print("update other info")
+
+        if withNickName {
+            AVUser.current().setObject(UserDefaults.nickname, forKey: UserKeyConstants.keyOfNickname)
+        }
+        
+        if withGender {
+            AVUser.current().setObject(UserDefaults.gender.rawValue, forKey: UserKeyConstants.keyOfGender)
+        }
+        
+        if withSelfIntroduction {
+            AVUser.current().setObject(UserDefaults.selfIntroduction, forKey: UserKeyConstants.keyOfSelfIntroduction)
+        }
+        
         AVUser.current().saveInBackground()
     }
     

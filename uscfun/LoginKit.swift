@@ -105,7 +105,7 @@ class LoginKit {
                 
                 if allkeys.contains(UserKeyConstants.keyOfGender) {
                     if let gender = updatedUser!.value(forKey: UserKeyConstants.keyOfGender) as? String {
-                        UserDefaults.gender = Gender(rawValue: gender)
+                        UserDefaults.gender = Gender(rawValue: gender) ?? Gender.unknown
                     }
                 }
                 

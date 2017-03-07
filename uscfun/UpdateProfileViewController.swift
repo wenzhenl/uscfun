@@ -38,7 +38,7 @@ class UpdateProfileViewController: FormViewController {
         set {
             (form.rowBy(tag: "gender") as! AlertRow).value = newValue
             if newValue != nil {
-                UserDefaults.gender = Gender(rawValue: newValue!)
+                UserDefaults.gender = Gender(rawValue: newValue!) ?? Gender.unknown
             }
         }
     }
@@ -53,6 +53,11 @@ class UpdateProfileViewController: FormViewController {
         }
     }
     
+    var oldAvatar: UIImage?
+    var oldNickName: String?
+    var oldGender: Gender!
+    var oldSelfIntroduction: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.view.backgroundColor = UIColor.white
@@ -66,8 +71,7 @@ class UpdateProfileViewController: FormViewController {
                 }
             <<< TextRow("nickname") {
                 $0.title = "昵称"
-                }.cellSetup {
-                    cell, row in
+                }.cellUpdate { cell, row in
                     cell.textField.textColor = UIColor.darkGray
                 }
                 .onChange { row in
@@ -77,7 +81,10 @@ class UpdateProfileViewController: FormViewController {
                 $0.title = "性别"
                 $0.selectorTitle = "性别"
                 $0.options = ["男","女", "保密"]
-                }.onChange { row in
+                }.cellUpdate { cell, row in
+                    cell.detailTextLabel?.textColor = UIColor.darkGray
+                }
+                .onChange { row in
                     self.gender = row.value
                 }
              +++ Section("个人简介")
@@ -88,7 +95,22 @@ class UpdateProfileViewController: FormViewController {
                 }
         avatar = UserDefaults.avatar
         nickname = UserDefaults.nickname
-        gender = UserDefaults.gender?.rawValue
+        gender = UserDefaults.gender.rawValue
         selfIntroduction = UserDefaults.selfIntroduction
+        oldAvatar = UserDefaults.avatar
+        oldNickName = UserDefaults.nickname
+        oldGender = UserDefaults.gender
+        oldSelfIntroduction = UserDefaults.selfIntroduction
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+        if oldAvatar != UserDefaults.avatar {
+            UserDefaults.updateUserAvatar()
+        }
+        let withNickName = oldNickName != UserDefaults.nickname
+        let withGender = oldGender != UserDefaults.gender
+        let withSelfIntroduction = oldSelfIntroduction != UserDefaults.selfIntroduction
+        UserDefaults.updateUserProfile(withNickName: withNickName, withGender: withGender, withSelfIntroduction: withSelfIntroduction)
     }
 }

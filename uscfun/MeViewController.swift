@@ -36,9 +36,16 @@ class MeViewController: UIViewController {
         self.populateSections()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.populateSections()
+        self.tableView.reloadData()
+    }
+    
+    
     func populateSections() {
         //--MARK: populate the cells
-        meSections = [[MeCell]]()
+        meSections.removeAll()
         let profileSection = [MeCell.profileTableCell(image: UserDefaults.avatar!, text: UserDefaults.nickname!, segueId: segueIdOfUpdateProfile)]
         meSections.append(profileSection)
         
