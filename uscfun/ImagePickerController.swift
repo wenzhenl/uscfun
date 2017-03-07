@@ -38,6 +38,7 @@ open class ImagePickerController : UIImagePickerController, TypedRowControllerTy
         super.viewDidLoad()
         delegate = self
         self.allowsEditing = true
+        self.view.backgroundColor = UIColor.white
     }
     
     open func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
