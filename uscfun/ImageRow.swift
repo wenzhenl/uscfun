@@ -35,8 +35,8 @@ public struct ImageRowSourceTypes : OptionSet {
     
     public static let PhotoLibrary  = ImageRowSourceTypes(.photoLibrary)
     public static let Camera  = ImageRowSourceTypes(.camera)
-    public static let SavedPhotosAlbum = ImageRowSourceTypes(.savedPhotosAlbum)
-    public static let All: ImageRowSourceTypes = [Camera, PhotoLibrary, SavedPhotosAlbum]
+//    public static let SavedPhotosAlbum = ImageRowSourceTypes(.savedPhotosAlbum)
+    public static let All: ImageRowSourceTypes = [Camera, PhotoLibrary]
     
 }
 
@@ -49,9 +49,9 @@ extension ImageRowSourceTypes {
         case ImageRowSourceTypes.Camera:
             return "拍照"
         case ImageRowSourceTypes.PhotoLibrary:
-            return "从所有照片选择"
-        case ImageRowSourceTypes.SavedPhotosAlbum:
             return "从手机相册选择"
+//        case ImageRowSourceTypes.SavedPhotosAlbum:
+//            return "从手机相册选择"
         default:
             return ""
         }
@@ -115,9 +115,9 @@ open class _ImageRow<Cell: CellType>: SelectorRow<Cell, ImagePickerController> w
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             let _ = availableSources.insert(.Camera)
         }
-        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
-            let _ = availableSources.insert(.SavedPhotosAlbum)
-        }
+//        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+//            let _ = availableSources.insert(.SavedPhotosAlbum)
+//        }
 
         sourceTypes.formIntersection(availableSources)
         
@@ -134,14 +134,14 @@ open class _ImageRow<Cell: CellType>: SelectorRow<Cell, ImagePickerController> w
             popView.sourceRect = tableView.convert(cell.accessoryView?.frame ?? cell.contentView.frame, from: cell)
         }
         createOptionsForAlertController(sourceActionSheet)
-        if case .yes(let style) = clearAction, value != nil {
-            let clearPhotoOption = UIAlertAction(title: NSLocalizedString("清空照片", comment: ""), style: style, handler: { [weak self] _ in
-                self?.value = nil
-                self?.imageURL = nil
-                self?.updateCell()
-                })
-            sourceActionSheet.addAction(clearPhotoOption)
-        }
+//        if case .yes(let style) = clearAction, value != nil {
+//            let clearPhotoOption = UIAlertAction(title: NSLocalizedString("清空照片", comment: ""), style: style, handler: { [weak self] _ in
+//                self?.value = nil
+//                self?.imageURL = nil
+//                self?.updateCell()
+//                })
+//            sourceActionSheet.addAction(clearPhotoOption)
+//        }
         // check if we have only one source type given
         if sourceActionSheet.actions.count == 1 {
             if let imagePickerSourceType = UIImagePickerControllerSourceType(rawValue: sourceTypes.imagePickerControllerSourceTypeRawValue) {
@@ -198,7 +198,7 @@ extension _ImageRow {
     func createOptionsForAlertController(_ alertController: UIAlertController) {
         createOptionForAlertController(alertController, sourceType: .Camera)
         createOptionForAlertController(alertController, sourceType: .PhotoLibrary)
-        createOptionForAlertController(alertController, sourceType: .SavedPhotosAlbum)
+//        createOptionForAlertController(alertController, sourceType: .SavedPhotosAlbum)
     }
 }
 
