@@ -37,11 +37,16 @@ open class ImagePickerController : UIImagePickerController, TypedRowControllerTy
     open override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
+        self.allowsEditing = true
     }
     
     open func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         (row as? ImageRow)?.imageURL = info[UIImagePickerControllerReferenceURL] as? URL
-        row.value = info[UIImagePickerControllerOriginalImage] as? UIImage
+        var image = info[UIImagePickerControllerEditedImage] as? UIImage
+        if image == nil {
+            image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        }
+        row.value = image?.scaleTo(width: 100, height: 100)
         onDismissCallback?(self)
     }
     

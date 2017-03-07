@@ -47,11 +47,11 @@ extension ImageRowSourceTypes {
     var localizedString: String {
         switch self {
         case ImageRowSourceTypes.Camera:
-            return "Take photo"
+            return "拍照"
         case ImageRowSourceTypes.PhotoLibrary:
-            return "Photo Library"
+            return "从所有照片选择"
         case ImageRowSourceTypes.SavedPhotosAlbum:
-            return "Saved Photos"
+            return "从手机相册选择"
         default:
             return ""
         }
@@ -135,7 +135,7 @@ open class _ImageRow<Cell: CellType>: SelectorRow<Cell, ImagePickerController> w
         }
         createOptionsForAlertController(sourceActionSheet)
         if case .yes(let style) = clearAction, value != nil {
-            let clearPhotoOption = UIAlertAction(title: NSLocalizedString("Clear Photo", comment: ""), style: style, handler: { [weak self] _ in
+            let clearPhotoOption = UIAlertAction(title: NSLocalizedString("清空照片", comment: ""), style: style, handler: { [weak self] _ in
                 self?.value = nil
                 self?.imageURL = nil
                 self?.updateCell()
@@ -148,7 +148,7 @@ open class _ImageRow<Cell: CellType>: SelectorRow<Cell, ImagePickerController> w
                 displayImagePickerController(imagePickerSourceType)
             }
         } else {
-            let cancelOption = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler:nil)
+            let cancelOption = UIAlertAction(title: NSLocalizedString("取消", comment: ""), style: .cancel, handler:nil)
             sourceActionSheet.addAction(cancelOption)
             
             if let presentingViewController = cell.formViewController() {

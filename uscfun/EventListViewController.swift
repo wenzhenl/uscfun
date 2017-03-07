@@ -42,11 +42,7 @@ class EventListViewController: UIViewController {
     }
     
     func handleTab() {
-        if self.tableView.contentOffset != .zero {
-            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-        } else {
-            refreshControl.beginRefreshing()
-        }
+        self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
     
     func handleRefresh() {
