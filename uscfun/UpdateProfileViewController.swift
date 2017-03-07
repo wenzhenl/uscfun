@@ -10,16 +10,6 @@ import UIKit
 import Eureka
 
 class UpdateProfileViewController: FormViewController {
-
-    var avatar: UIImage? {
-        get {
-            return (form.rowBy(tag: "avatar") as! ImageRow).value
-        }
-        set {
-            (form.rowBy(tag: "avatar") as! ImageRow).value = newValue
-            UserDefaults.avatar = newValue
-        }
-    }
     
     var nickname: String? {
         get {
@@ -53,7 +43,7 @@ class UpdateProfileViewController: FormViewController {
         }
     }
     
-    var oldAvatar: UIImage?
+    var avatarIsChanged = false
     var oldNickName: String?
     var oldGender: Gender!
     var oldSelfIntroduction: String?
@@ -66,8 +56,11 @@ class UpdateProfileViewController: FormViewController {
         form +++ Section()
             <<< ImageRow("avatar") {
                 $0.title = "头像"
+                $0.value = UserDefaults.avatar
                 }.onChange { row in
-                    self.avatar = row.value
+                    print("changed")
+                    UserDefaults.avatar = row.value
+                    self.avatarIsChanged = true
                 }
             <<< TextRow("nickname") {
                 $0.title = "昵称"
@@ -93,11 +86,9 @@ class UpdateProfileViewController: FormViewController {
                 }.onChange { row in
                     self.selfIntroduction = row.value
                 }
-        avatar = UserDefaults.avatar
         nickname = UserDefaults.nickname
         gender = UserDefaults.gender.rawValue
         selfIntroduction = UserDefaults.selfIntroduction
-        oldAvatar = UserDefaults.avatar
         oldNickName = UserDefaults.nickname
         oldGender = UserDefaults.gender
         oldSelfIntroduction = UserDefaults.selfIntroduction
@@ -105,7 +96,7 @@ class UpdateProfileViewController: FormViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
-        if oldAvatar != UserDefaults.avatar {
+        if avatarIsChanged {
             UserDefaults.updateUserAvatar()
         }
         let withNickName = oldNickName != UserDefaults.nickname
