@@ -66,7 +66,8 @@ class MeViewController: UIViewController {
     
     func switchAllowEventHistoryViewedMode(switchElement: UISwitch) {
         print(switchElement.isOn)
-        UserDefaults.updateAllowsEventHistoryViewed(allowsEventHistoryViewed: switchElement.isOn)
+        UserDefaults.allowsEventHistoryViewed = switchElement.isOn
+        UserDefaults.updateAllowsEventHistoryViewed()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

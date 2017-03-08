@@ -80,10 +80,9 @@ extension UserDefaults {
         }
     }
     
-    static func updateAllowsEventHistoryViewed(allowsEventHistoryViewed: Bool) {
-        UserDefaults.allowsEventHistoryViewed = allowsEventHistoryViewed
+    static func updateAllowsEventHistoryViewed() {
         AVUser.current()!.setObject(UserDefaults.allowsEventHistoryViewed, forKey: UserKeyConstants.keyOfAllowsEventHistoryViewed)
-        AVUser.current()!.saveInBackground()
+        AVUser.current()!.saveEventually()
     }
     
     static func updateUserAvatar() {
@@ -122,7 +121,7 @@ extension UserDefaults {
             AVUser.current()!.setObject(UserDefaults.selfIntroduction, forKey: UserKeyConstants.keyOfSelfIntroduction)
         }
         
-        AVUser.current()!.saveInBackground()
+        AVUser.current()!.saveEventually()
     }
     
     //-MARK: new event info
