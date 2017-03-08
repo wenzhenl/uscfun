@@ -38,36 +38,8 @@ extension EventError: LocalizedError {
     }
 }
 
-/// possible types of events
-enum EventType: String {
-    case foodAndDrink = "吃喝"
-    case shopping = "购物"
-    case entertainment = "娱乐"
-    case travel = "旅行"
-    case study = "学习"
-    case other = "其他"
-    
-    var image: UIImage {
-        return #imageLiteral(resourceName: "home")
-    }
-    
-    static let allRawValues = [foodAndDrink.rawValue, shopping.rawValue, entertainment.rawValue, travel.rawValue, study.rawValue, other.rawValue]
-    static let allValues = [foodAndDrink, shopping, entertainment, travel, study, other]
-}
-
-/// possible transportation methods of events
-enum TransportationMethod: String {
-    case selfDriving = "自驾"
-    case uber = "Uber"
-    case metro = "Metro"
-    case other = "待定"
-    
-    static let allRawValues = [selfDriving.rawValue, uber.rawValue, metro.rawValue, other.rawValue]
-    static let allValues = [selfDriving, uber, metro, other]
-}
-
 /// possible status of an event
-enum EventStatus {
+enum EventStatus: CustomStringConvertible {
     
     /// This flag indicates if this event is pending. This flag is true
     /// when the due is still in the future and there are still remaining
@@ -98,9 +70,29 @@ enum EventStatus {
     
     /// in case any situation not covered by the above
     case isUnKnown
+    
+    /// description of status
+    var description: String {
+        switch self {
+        case .isPending:
+            return "火热报名中"
+        case .isSecured:
+            return "达到最低人数"
+        case .isFinalized:
+            return "约定成功"
+        case .isFailed:
+            return "约定失败"
+        case .isCancelled:
+            return "已取消"
+        case .isCompleted:
+            return "已完结"
+        case .isUnKnown:
+            return "不晓得"
+        }
+    }
 }
 
-/// The 'Event' class, event much include information of name, type, maximum capacity, 
+/// The 'Event' class, event must include information of name, type, maximum capacity,
 /// remaining seats, minimum number of people required, and the due.
 /// At the same time, the event can include optional information such as the start time,
 /// the end time, the location name, the geographic information, the expected fee, the
@@ -114,11 +106,8 @@ class Event {
     /// The name of the event
     var name: String
     
-    /// The type of the event
-    var type: EventType
-    
-    /// The total seats of the event which means the maximum number of members of the event
-    var totalSeats: Int
+    /// The maximum number of members of the event
+    var maximumAttendingPeople: Int
     
     /// The remaining seats of the event, when posting the event, this number is the result
     /// of the target maximum number of members minus the number of people agreed to attend
@@ -130,7 +119,9 @@ class Event {
     /// otherwise, the event will be cancled.
     var minimumAttendingPeople: Int
     
-    /// After the due, no people can join the event. The event will be finalized or cancled.
+    /// The deadline for joining the event.
+    /// After the due, no people can join the event.
+    /// The event will be finalized or cancled.
     var due: Date
     
     //--MARK: optional settings
@@ -142,18 +133,12 @@ class Event {
     var endTime: Date?
     
     /// The location name of the event
-    var locationName: String?
+    var location: String?
     
-    /// The longitude and latitude of the location
-    var location: AVGeoPoint?
+    /// The geographical coordinate of the location
+    var whereCreated: AVGeoPoint?
     
-    /// The expected fee of the event
-    var expectedFee: Double?
-    
-    /// The transportantion method of the event
-    var transportationMethod: TransportationMethod?
-    
-    /// Additional information that the creator wants other to know
+    /// The additional information that the creator wants others to know
     var note: String?
     
     /// The attached images with the event
@@ -162,7 +147,7 @@ class Event {
     //--MARK: system properties of event
     
     /// The creator of the event
-    var creator: AVUser
+    var createdBy: AVUser
     
     /// The chat room for general users to discuss the event to decide if they actually want
     /// to join
@@ -175,15 +160,15 @@ class Event {
     /// The members of the event
     var members: [AVUser]
     
-    /// This flag indicates that the event has been executed and it will not be shown at
+    /// The flag indicates that the event has been executed and it will not be shown at
     /// user's my attending events section
     var isCompleted: Bool
     
-    /// This flag indicates that the event has been cancelled explicitly
+    /// The flag indicates that the event has been cancelled explicitly
     var isCancelled: Bool
     
-    /// The event belongs this school
-    var school: String
+    /// The institution that the event belongs to
+    var institution: String
     
     //--MARK: properties added by Leancloud
     
@@ -196,19 +181,18 @@ class Event {
     /// The update time fetched from Leancloud
     var updatedAt: Date?
 
-    
     var status: EventStatus {
         if isCompleted {
             return EventStatus.isCompleted
         } else if isCancelled {
             return EventStatus.isCancelled
-        } else if due > Date() && totalSeats - remainingSeats >= minimumAttendingPeople && remainingSeats > 0 {
+        } else if due > Date() && maximumAttendingPeople - remainingSeats >= minimumAttendingPeople && remainingSeats > 0 {
             return EventStatus.isSecured
         } else if due > Date() && remainingSeats > 0 {
             return EventStatus.isPending
-        } else if due > Date() && remainingSeats <= 0 || due < Date() && totalSeats - remainingSeats >= minimumAttendingPeople {
+        } else if due > Date() && remainingSeats <= 0 || due < Date() && maximumAttendingPeople - remainingSeats >= minimumAttendingPeople {
             return EventStatus.isFinalized
-        } else if due < Date() && totalSeats - remainingSeats < minimumAttendingPeople {
+        } else if due < Date() && maximumAttendingPeople - remainingSeats < minimumAttendingPeople {
             return EventStatus.isFailed
         } else {
             return EventStatus.isUnKnown
@@ -218,31 +202,31 @@ class Event {
     /// Creates an 'Event' instance with the required parameters
     ///
     /// - parameter name:                    The name of the event
-    /// - parameter type:                    The type of the event, predefined in enum EventType
-    /// - parameter totalSeats:              The maximum number of members that the event can include
+    /// - parameter maximumAttendingPeople:  The maximum number of members that the event can include
     /// - parameter remainingSeats:          The remaining seats when the creator post the event
     /// - parameter minimumAttendingPeople:  The minimum required number of members the creator have for this event to be ready
-    /// - parameter due:                     The last moment that people can join this event
-    /// - parameter creator:                 The creator of this event
+    /// - parameter due:                     The deadline for joining the event
+    /// - parameter createdBy:               The creator of this event
     ///
     /// - returns: The new 'Event' instance
     ///
-    /// - warning: The transient conversation id for people to discuss the event and the conversation id for event members to discuss the event, neither of those conversations are created yet.
+    /// - warning: The transient conversation id for people to discuss the event
+    ///   and the conversation id for event members to discuss the event,
+    ///   neither of those conversations are created yet.
     
-    init(name: String, type: EventType, totalSeats: Int, remainingSeats: Int, minimumAttendingPeople: Int, due: Date, creator: AVUser) {
+    init(name: String, maximumAttendingPeople: Int, remainingSeats: Int, minimumAttendingPeople: Int, due: Date, createdBy: AVUser) {
         self.name = name
-        self.type = type
-        self.totalSeats = totalSeats
+        self.maximumAttendingPeople = maximumAttendingPeople
         self.remainingSeats = remainingSeats
         self.minimumAttendingPeople = minimumAttendingPeople
         self.due = due
-        self.creator = creator
+        self.createdBy = createdBy
         self.transientConversationId = ""
         self.conversationId = ""
-        self.members = [creator]
+        self.members = [createdBy]
         self.isCompleted = false
         self.isCancelled = false
-        self.school = USCFunConstants.nameOfSchool
+        self.institution = USCFunConstants.nameOfSchool
     }
     
     
@@ -253,132 +237,106 @@ class Event {
     /// - returns: The new 'Event' instance or nil if any of required argument missing
     
     init?(data: AVObject?) {
-        guard let data = data, let allKeys = data.allKeys() as? [String] else {
-            print("no data or no all keys")
+        guard let data = data else {
+            print("failed to create Event from AVObject: data is nil")
             return nil
         }
         
-        guard allKeys.contains(EventKeyConstants.keyOfName), let name = data.value(forKey: EventKeyConstants.keyOfName) as? String else {
-            print("no name")
+        guard let name = data.value(forKey: EventKeyConstants.keyOfName) as? String else {
+            print("failed to create Event from AVObject: no name")
             return nil
         }
         self.name = name
 
-        guard allKeys.contains(EventKeyConstants.keyOfType), let type = data.value(forKey: EventKeyConstants.keyOfType) as? String else {
-            print("no type")
+        guard let maximumAttendingPeople = data.value(forKey: EventKeyConstants.keyOfMaximumAttendingPeople) as? Int else {
+            print("failed to create Event from AVObject: no maximum attending people")
             return nil
         }
-        self.type = EventType(rawValue: type)!
+        self.maximumAttendingPeople = maximumAttendingPeople
 
-        guard allKeys.contains(EventKeyConstants.keyOfTotalSeats), let totalSeats = data.value(forKey: EventKeyConstants.keyOfTotalSeats) as? Int else {
-            print("no total seats")
-            return nil
-        }
-        self.totalSeats = totalSeats
-
-        guard allKeys.contains(EventKeyConstants.keyOfRemainingSeats), let remainingSeats = data.value(forKey: EventKeyConstants.keyOfRemainingSeats) as? Int else {
-            print("no remaining seats")
+        guard let remainingSeats = data.value(forKey: EventKeyConstants.keyOfRemainingSeats) as? Int else {
+            print("failed to create Event from AVObject: no remaining seats")
             return nil
         }
         self.remainingSeats = remainingSeats
 
-        guard allKeys.contains(EventKeyConstants.keyOfMinimumAttendingPeople), let minimumAttendingPeople = data.value(forKey: EventKeyConstants.keyOfMinimumAttendingPeople) as? Int else {
-            print("no minimum seats")
+        guard let minimumAttendingPeople = data.value(forKey: EventKeyConstants.keyOfMinimumAttendingPeople) as? Int else {
+            print("failed to create Event from AVObject: no minimum attending people")
             return nil
         }
         self.minimumAttendingPeople = minimumAttendingPeople
 
-        guard allKeys.contains(EventKeyConstants.keyOfDue), let due = data.value(forKey: EventKeyConstants.keyOfDue) as? Double else {
-            print("no due")
+        guard let due = data.value(forKey: EventKeyConstants.keyOfDue) as? Double else {
+            print("failed to create Event from AVObject: no due")
             return nil
         }
         self.due = Date(timeIntervalSince1970: due)
 
-        guard allKeys.contains(EventKeyConstants.keyOfCreator), let creator = data.object(forKey: EventKeyConstants.keyOfCreator) as? AVUser else {
-            print("no creator")
+        guard let createdBy = data.object(forKey: EventKeyConstants.keyOfCreatedBy) as? AVUser else {
+            print("failed to create Event from AVObject: no createdBy")
             return nil
         }
-        self.creator = creator
-        print(self.creator)
+        self.createdBy = createdBy
         
-        guard allKeys.contains(EventKeyConstants.keyOfTransientConversationId), let transientConversationId = data.value(forKey: EventKeyConstants.keyOfTransientConversationId) as? String else {
-            print("no transient conversation")
+        guard let transientConversationId = data.value(forKey: EventKeyConstants.keyOfTransientConversationId) as? String else {
+            print("failed to create Event from AVObject: no transient conversation")
             return nil
         }
         self.transientConversationId = transientConversationId
         
-        guard allKeys.contains(EventKeyConstants.keyOfConversationId), let conversationId = data.value(forKey: EventKeyConstants.keyOfConversationId) as? String else {
-            print("no conversation")
+        guard let conversationId = data.value(forKey: EventKeyConstants.keyOfConversationId) as? String else {
+            print("failed to create Event from AVObject: no conversation")
             return nil
         }
         self.conversationId = conversationId
 
-        guard allKeys.contains(EventKeyConstants.keyOfMembers), let members = data.value(forKey: EventKeyConstants.keyOfMembers) as? [AVUser] else {
-            print("no members")
+        guard let members = data.value(forKey: EventKeyConstants.keyOfMembers) as? [AVUser] else {
+            print("failed to create Event from AVObject: no members")
             return nil
         }
         self.members = members
 
-        guard allKeys.contains(EventKeyConstants.keyOfCompleted), let isCompleted = data.value(forKey: EventKeyConstants.keyOfCompleted) as? Bool else {
-            print("no isCompleted")
+        guard let isCompleted = data.value(forKey: EventKeyConstants.keyOfIsCompleted) as? Bool else {
+            print("failed to create Event from AVObject: no isCompleted")
             return nil
         }
         self.isCompleted = isCompleted
 
-        guard allKeys.contains(EventKeyConstants.keyOfCancelled), let isCancelled = data.value(forKey: EventKeyConstants.keyOfCancelled) as? Bool else {
-            print("no isCancelled")
+        guard let isCancelled = data.value(forKey: EventKeyConstants.keyOfIsCancelled) as? Bool else {
+            print("failed to create Event from AVObject: no isCancelled")
             return nil
         }
         self.isCancelled = isCancelled
         
-        guard allKeys.contains(EventKeyConstants.keyOfSchool), let school = data.value(forKey: EventKeyConstants.keyOfSchool) as? String else {
-            print("no school")
+        guard let institution = data.value(forKey: EventKeyConstants.keyOfInstitution) as? String else {
+            print("failed to create Event from AVObject: no institution")
             return nil
         }
-        self.school = school
+        self.institution = institution
         
-        if allKeys.contains(EventKeyConstants.keyOfStartTime) {
-            if let startTime = data.value(forKey: EventKeyConstants.keyOfStartTime) as? Double {
-                self.startTime = Date(timeIntervalSince1970: startTime)
-            }
+        
+        /// check other optional attributes
+        if let startTime = data.value(forKey: EventKeyConstants.keyOfStartTime) as? Double {
+            self.startTime = Date(timeIntervalSince1970: startTime)
         }
         
-        if allKeys.contains(EventKeyConstants.keyOfEndTime) {
-            if let endTime = data.value(forKey: EventKeyConstants.keyOfEndTime) as? Double {
-                self.endTime = Date(timeIntervalSince1970: endTime)
-            }
+        if let endTime = data.value(forKey: EventKeyConstants.keyOfEndTime) as? Double {
+            self.endTime = Date(timeIntervalSince1970: endTime)
         }
         
-        if allKeys.contains(EventKeyConstants.keyOfLocationName) {
-            if let locationName = data.value(forKey: EventKeyConstants.keyOfLocationName) as? String {
-                self.locationName = locationName
-            }
+        if let location = data.value(forKey: EventKeyConstants.keyOfLocation) as? String {
+            self.location = location
         }
         
-        if allKeys.contains(EventKeyConstants.keyOfLocation) {
-            if let location = data.value(forKey: EventKeyConstants.keyOfLocation) as? AVGeoPoint {
-                self.location = location
-            }
+        if let whereCreated = data.value(forKey: EventKeyConstants.keyOfWhereCreated) as? AVGeoPoint {
+            self.whereCreated = whereCreated
         }
         
-        if allKeys.contains(EventKeyConstants.keyOfExpectedFee) {
-            if let expectedFee = data.value(forKey: EventKeyConstants.keyOfExpectedFee) as? Double {
-                self.expectedFee = expectedFee
-            }
+        if let note = data.value(forKey: EventKeyConstants.keyOfNote) as? String {
+            self.note = note
         }
         
-        if allKeys.contains(EventKeyConstants.keyOfTransportationMethod) {
-            if let transportationMethod = data.value(forKey: EventKeyConstants.keyOfTransportationMethod) as? String {
-                self.transportationMethod = TransportationMethod(rawValue: transportationMethod)
-            }
-        }
-        
-        if allKeys.contains(EventKeyConstants.keyOfNote) {
-            if let note = data.value(forKey: EventKeyConstants.keyOfNote) as? String {
-                self.note = note
-            }
-        }
-        
+        /// check attributes added by Leancloud
         self.objectId = data.objectId
         self.createdAt = data.createdAt
         self.updatedAt = data.updatedAt
@@ -442,7 +400,7 @@ class Event {
                         }
                     }
                 } else {
-                    client.createConversation(withName: "微活动群", clientIds: [self.creator.username]) {
+                    client.createConversation(withName: "微活动群", clientIds: [self.createdBy.username]) {
                         conversation, error in
                         if error == nil {
                             guard let conversation = conversation else {
@@ -483,18 +441,18 @@ class Event {
         
         eventObject.setObject(name, forKey: EventKeyConstants.keyOfName)
         eventObject.setObject(type.rawValue, forKey: EventKeyConstants.keyOfType)
-        eventObject.setObject(totalSeats, forKey: EventKeyConstants.keyOfTotalSeats)
+        eventObject.setObject(maximumAttendingPeople, forKey: EventKeyConstants.keyOfTotalSeats)
         eventObject.setObject(remainingSeats, forKey: EventKeyConstants.keyOfRemainingSeats)
         eventObject.setObject(minimumAttendingPeople, forKey: EventKeyConstants.keyOfMinimumAttendingPeople)
         eventObject.setObject(due.timeIntervalSince1970, forKey: EventKeyConstants.keyOfDue)
         
-        eventObject.setObject(creator, forKey: EventKeyConstants.keyOfCreator)
+        eventObject.setObject(createdBy, forKey: EventKeyConstants.keyOfCreator)
         eventObject.setObject(members, forKey: EventKeyConstants.keyOfMembers)
         eventObject.setObject(transientConversationId, forKey: EventKeyConstants.keyOfTransientConversationId)
         eventObject.setObject(conversationId, forKey: EventKeyConstants.keyOfConversationId)
         eventObject.setObject(isCompleted, forKey: EventKeyConstants.keyOfCompleted)
         eventObject.setObject(isCancelled, forKey: EventKeyConstants.keyOfCancelled)
-        eventObject.setObject(school, forKey: EventKeyConstants.keyOfSchool)
+        eventObject.setObject(institution, forKey: EventKeyConstants.keyOfSchool)
         
         if startTime != nil {
             eventObject.setObject(startTime!.timeIntervalSince1970, forKey: EventKeyConstants.keyOfStartTime)
@@ -504,12 +462,12 @@ class Event {
             eventObject.setObject(endTime!.timeIntervalSince1970, forKey: EventKeyConstants.keyOfEndTime)
         }
         
-        if locationName != nil {
-            eventObject.setObject(locationName!, forKey: EventKeyConstants.keyOfLocationName)
+        if location != nil {
+            eventObject.setObject(location!, forKey: EventKeyConstants.keyOfLocationName)
         }
         
-        if location != nil {
-            eventObject.setObject(location!, forKey: EventKeyConstants.keyOfLocation)
+        if whereCreated != nil {
+            eventObject.setObject(whereCreated!, forKey: EventKeyConstants.keyOfLocation)
         }
         
         if expectedFee != nil {

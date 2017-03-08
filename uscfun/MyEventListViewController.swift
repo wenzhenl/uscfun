@@ -214,25 +214,6 @@ extension Event {
         }
     }
     
-    var statusDescription: String {
-        switch self.status {
-        case .isPending:
-            return "火热报名中"
-        case .isSecured:
-            return "达到最低人数"
-        case .isFinalized:
-            return "约定成功"
-        case .isCancelled:
-            return "已取消"
-        case .isCompleted:
-            return "已完结"
-        case .isFailed:
-            return "约定失败"
-        case .isUnKnown:
-            return "不晓得"
-        }
-    }
-    
     var whitePaper: UIImage {
         let possibleWhitePapers = [#imageLiteral(resourceName: "clip4"), #imageLiteral(resourceName: "clip1"), #imageLiteral(resourceName: "clip2"), #imageLiteral(resourceName: "clip3")]
 //        let randomIndex = Int(arc4random_uniform(UInt32(possibleWhitePapers.count)))
