@@ -1,4 +1,5 @@
 # CocoaPods
 Pods/
-
+xcuserdata
+*.xcuserstate
 .DS_Store
