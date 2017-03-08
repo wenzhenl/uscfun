@@ -43,7 +43,7 @@ class EventDetailViewController: UIViewController {
         self.joinButton.backgroundColor = UIColor.buttonPink
         self.chatButton.backgroundColor = UIColor.buttonBlue
         self.populateSections()
-        creator = User(user: event.creator)
+        creator = User(user: event.createdBy)
     }
     
     func populateSections() {
@@ -64,13 +64,13 @@ class EventDetailViewController: UIViewController {
         if event.endTime != nil {
             detailSections.append(EventDetailCell.endTimeCell)
         }
-        if event.locationName != nil {
+        if event.location != nil {
             detailSections.append(EventDetailCell.locationCell)
         }
         if event.note != nil {
             detailSections.append(EventDetailCell.noteCell)
         }
-        if event.location != nil {
+        if event.whereCreated != nil {
             detailSections.append(EventDetailCell.mapCell)
         }
     }
@@ -123,9 +123,9 @@ class EventDetailViewController: UIViewController {
             case mapSegueIdentifier:
                 let destination = segue.destination
                 if let mapVC = destination as? MapViewController {
-                    mapVC.placename = event?.locationName
-                    mapVC.latitude = event?.location?.latitude
-                    mapVC.longitude = event?.location?.longitude
+                    mapVC.placename = event?.location
+                    mapVC.latitude = event?.whereCreated?.latitude
+                    mapVC.longitude = event?.whereCreated?.longitude
                 }
             case userProfileSugueIdentifier:
                 let destination = segue.destination
@@ -155,7 +155,7 @@ extension EventDetailViewController: CustomizedAlertViewDelegate {
         print("share event to moments")
         let message = WXMediaMessage()
         message.title = event!.name
-        message.setThumbImage(event!.type.image)
+//        message.setThumbImage(event!.type.image)
         
         let ext = WXWebpageObject()
         ext.webpageUrl = "http://usrichange.com"
@@ -172,7 +172,7 @@ extension EventDetailViewController: CustomizedAlertViewDelegate {
         print("share event to friend")
         let message = WXMediaMessage()
         message.title = event!.name
-        message.setThumbImage(event!.type.image)
+//        message.setThumbImage(event!.type.image)
         
         let ext = WXWebpageObject()
         ext.webpageUrl = "http://usrichange.com"
@@ -243,7 +243,7 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
         case .statusCell:
             let cell = Bundle.main.loadNibNamed("EventStatusBarTableViewCell", owner: self, options: nil)?.first as! EventStatusBarTableViewCell
             cell.statusView.backgroundColor = event.statusColor
-            cell.statusLabel.text = event.statusDescription
+            cell.statusLabel.text = event.status.description
             cell.selectionStyle = .none
             return cell
         case .titleCell:
@@ -269,7 +269,7 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
             return cell
         case .numberCell:
             let cell = Bundle.main.loadNibNamed("TandemLabelTableViewCell", owner: self, options: nil)?.first as! TandemLabelTableViewCell
-            cell.leftLabel.text = "已经报名 " + String(event.totalSeats - event.remainingSeats) + "人"
+            cell.leftLabel.text = "已经报名 " + String(event.maximumAttendingPeople - event.remainingSeats) + "人"
             cell.rightLabel.text = "最少成行 " + String(event.minimumAttendingPeople) + "人"
             cell.selectionStyle = .none
             return cell
@@ -302,18 +302,18 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
         case .locationCell:
             let cell = Bundle.main.loadNibNamed("TitleContentTableViewCell", owner: self, options: nil)?.first as! TitleContentTableViewCell
             cell.titleLabel.text = "活动地点："
-            cell.contentLabel.text = event.locationName
+            cell.contentLabel.text = event.location
             cell.selectionStyle = .none
             return cell
         case .mapCell:
             let cell = Bundle.main.loadNibNamed("MapViewTableViewCell", owner: self, options: nil)?.first as! MapViewTableViewCell
-            let location = CLLocationCoordinate2D(latitude: (event.location?.latitude)!, longitude: (event.location?.longitude)!)
+            let location = CLLocationCoordinate2D(latitude: (event.whereCreated?.latitude)!, longitude: (event.whereCreated?.longitude)!)
             let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
             let region = MKCoordinateRegion(center: location, span: span)
             cell.mapView.setRegion(region, animated: true)
             let annotation = MKPointAnnotation()
             annotation.coordinate = location
-            annotation.title = event.locationName
+            annotation.title = event.location
             cell.mapView.addAnnotation(annotation)
             cell.mapView.isUserInteractionEnabled = false
             cell.selectionStyle = .none

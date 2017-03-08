@@ -17,13 +17,30 @@ class NewEventPreviewViewController: UIViewController {
     
     var previewSections = [EventDetailCell]()
     
+    var errorLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 10, 0)
         self.tableView.tableFooterView = UIView()
         self.populateSections()
+        
+        if let navigationBar = self.navigationController?.navigationBar {
+            errorLabel = UILabel(frame: CGRect(x: navigationBar.frame.width/4, y: 0, width: navigationBar.frame.width/2, height: navigationBar.frame.height))
+            errorLabel.textAlignment = .center
+            errorLabel.textColor = UIColor.red
+            errorLabel.font = UIFont.systemFont(ofSize: 13)
+            errorLabel.numberOfLines = 0
+            navigationBar.addSubview(errorLabel)
+            errorLabel.isHidden = true
+        }
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        errorLabel.isHidden = true
+    }
+    
     func populateSections() {
         // Populate the cells
         previewSections.removeAll()
@@ -39,7 +56,7 @@ class NewEventPreviewViewController: UIViewController {
         if UserDefaults.newEventEndTime > Date() && UserDefaults.newEventEndTime > UserDefaults.newEventStartTime {
             previewSections.append(EventDetailCell.endTimeCell)
         }
-        if UserDefaults.newEventLocationName != nil {
+        if UserDefaults.newEventLocation != nil {
             previewSections.append(EventDetailCell.locationCell)
         }
         if UserDefaults.newEventNote != nil {
@@ -58,7 +75,7 @@ class NewEventPreviewViewController: UIViewController {
         UserDefaults.newEventNumReserved = 0
         UserDefaults.newEventStartTime = Date(timeIntervalSince1970: 0)
         UserDefaults.newEventEndTime = Date(timeIntervalSince1970: 0)
-        UserDefaults.newEventLocationName = nil
+        UserDefaults.newEventLocation = nil
         UserDefaults.newEventLocationLatitude = 0
         UserDefaults.newEventLocationLongitude = 0
         UserDefaults.newEventNote = nil
@@ -66,7 +83,7 @@ class NewEventPreviewViewController: UIViewController {
     
     @IBAction func post(_ sender: UIBarButtonItem) {
         
-        let event = Event(name: UserDefaults.newEventName!, type: EventType.foodAndDrink, totalSeats: UserDefaults.newEventMaxPeople, remainingSeats: UserDefaults.newEventMaxPeople - UserDefaults.newEventNumReserved, minimumAttendingPeople: UserDefaults.newEventMinPeople, due: UserDefaults.newEventDue, creator: AVUser.current()!)
+        let event = Event(name: UserDefaults.newEventName!, maximumAttendingPeople: UserDefaults.newEventMaxPeople, remainingSeats: UserDefaults.newEventMaxPeople - UserDefaults.newEventNumReserved, minimumAttendingPeople: UserDefaults.newEventMinPeople, due: UserDefaults.newEventDue, createdBy: AVUser.current()!)
         
         if UserDefaults.newEventStartTime > Date() {
             event.startTime = UserDefaults.newEventStartTime
@@ -76,10 +93,10 @@ class NewEventPreviewViewController: UIViewController {
             event.endTime = UserDefaults.newEventEndTime
         }
         
-        event.locationName = UserDefaults.newEventLocationName
+        event.location = UserDefaults.newEventLocation
         
         if UserDefaults.newEventLocationLatitude != 0 || UserDefaults.newEventLocationLongitude != 0 {
-            event.location = AVGeoPoint(latitude: UserDefaults.newEventLocationLatitude, longitude: UserDefaults.newEventLocationLongitude)
+            event.whereCreated = AVGeoPoint(latitude: UserDefaults.newEventLocationLatitude, longitude: UserDefaults.newEventLocationLongitude)
         }
         
         event.note = UserDefaults.newEventNote
@@ -91,6 +108,9 @@ class NewEventPreviewViewController: UIViewController {
                 self.clearNewEventUserDefaults()
                 self.presentingViewController?.dismiss(animated: true, completion: nil)
             } else {
+                print(error.debugDescription)
+                self.errorLabel.text = error?.localizedDescription
+                self.errorLabel.isHidden = false
                 self.postButton.isEnabled = true
             }
         }
@@ -176,7 +196,7 @@ extension NewEventPreviewViewController: UITableViewDelegate, UITableViewDataSou
         case .locationCell:
             let cell = Bundle.main.loadNibNamed("TitleContentTableViewCell", owner: self, options: nil)?.first as! TitleContentTableViewCell
             cell.titleLabel.text = "活动地点："
-            cell.contentLabel.text = UserDefaults.newEventLocationName
+            cell.contentLabel.text = UserDefaults.newEventLocation
             cell.selectionStyle = .none
             return cell
         case .mapCell:
@@ -187,7 +207,7 @@ extension NewEventPreviewViewController: UITableViewDelegate, UITableViewDataSou
             cell.mapView.setRegion(region, animated: true)
             let annotation = MKPointAnnotation()
             annotation.coordinate = location
-            annotation.title = UserDefaults.newEventLocationName
+            annotation.title = UserDefaults.newEventLocation
             cell.mapView.addAnnotation(annotation)
             cell.selectionStyle = .none
             return cell

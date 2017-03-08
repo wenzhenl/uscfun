@@ -39,7 +39,7 @@ class NewEventOptionalsViewController: FormViewController {
         }
         set {
             (form.rowBy(tag: "eventLocation") as! LocationAddressRow).value = newValue
-            UserDefaults.newEventLocationName = newValue
+            UserDefaults.newEventLocation = newValue
         }
     }
     
@@ -125,7 +125,7 @@ class NewEventOptionalsViewController: FormViewController {
             }
         }
         
-        eventLocation = UserDefaults.newEventLocationName
+        eventLocation = UserDefaults.newEventLocation
         
         if eventLocation != nil && (UserDefaults.newEventLocationLongitude != 0 || UserDefaults.newEventLocationLatitude != 0) {
             eventCoordinate = AVGeoPoint(latitude: UserDefaults.newEventLocationLatitude, longitude: UserDefaults.newEventLocationLongitude)

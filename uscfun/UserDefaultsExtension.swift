@@ -192,7 +192,7 @@ extension UserDefaults {
         }
     }
     
-    class var newEventLocationName: String? {
+    class var newEventLocation: String? {
         get {
             return UserDefaults.standard.string(forKey: "New_Event_Location_Name")
         }

@@ -12,6 +12,8 @@ class MyEventListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
+    let emptyPlaceholder = "你好像还没有参加任何微活动，快去参加一波吧！"
+    
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
@@ -117,7 +119,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
         
         if EventRequest.myOngoingEvents.count == 0 {
             let cell = Bundle.main.loadNibNamed("EmptySectionPlaceholderTableViewCell", owner: self, options: nil)?.first as! EmptySectionPlaceholderTableViewCell
-            cell.mainTextView.text = "你好像还没有参加任何微活动，快去参加一波吧！"
+            cell.mainTextView.text = emptyPlaceholder
             cell.selectionStyle = .none
             return cell
         }
@@ -129,12 +131,13 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
             cell.securedView.layer.cornerRadius = cell.securedView.frame.size.width / 2.0
             cell.finalizedView.layer.masksToBounds = true
             cell.finalizedView.layer.cornerRadius = cell.finalizedView.frame.size.width / 2.0
+            cell.selectionStyle = .none
             return cell
         }
         else {
             let event = EventRequest.myOngoingEvents[EventRequest.myOngoingEvents.keys[indexPath.section - 1]]!
             let cell = Bundle.main.loadNibNamed("EventSnapshotTableViewCell", owner: self, options: nil)?.first as! EventSnapshotTableViewCell
-            let creator = User(user: event.creator)!
+            let creator = User(user: event.createdBy)!
             cell.eventNameLabel.text = event.name
             cell.creatorLabel.text = "发起人：" + creator.nickname
             cell.creatorAvatarImageView.layer.masksToBounds = true
@@ -151,7 +154,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
             } else {
                 cell.remainingTimeLabel.text = gapFromNow
             }
-            cell.attendingLabel.text = "已经报名 " + String(event.totalSeats - event.remainingSeats)
+            cell.attendingLabel.text = "已经报名 " + String(event.maximumAttendingPeople - event.remainingSeats)
             cell.minPeopleLabel.text = "最少成行 " + String(event.minimumAttendingPeople)
             
             cell.statusView.backgroundColor = event.statusColor

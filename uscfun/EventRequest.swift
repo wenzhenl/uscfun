@@ -72,9 +72,9 @@ class EventRequest {
     static func fetchNewerPublicEvents(inBackground: Bool, currentNewestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
         let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
         query.order(byAscending: EventKeyConstants.keyOfDue)
-        query.includeKey(EventKeyConstants.keyOfCreator)
+        query.includeKey(EventKeyConstants.keyOfCreatedBy)
         query.includeKey(EventKeyConstants.keyOfMembers)
-        query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
+        query.whereKey(EventKeyConstants.keyOfInstitution, equalTo: USCFunConstants.nameOfSchool)
         query.whereKey(EventKeyConstants.keyOfUpdatedAt, greaterThan: currentNewestUpdatedTime)
         
         /// define events must be still pending
@@ -82,8 +82,8 @@ class EventRequest {
         query.whereKey(EventKeyConstants.keyOfRemainingSeats, greaterThan: 0)
 
         /// define events must be not completed or cancelled
-        query.whereKey(EventKeyConstants.keyOfCompleted, equalTo: false)
-        query.whereKey(EventKeyConstants.keyOfCancelled, equalTo: false)
+        query.whereKey(EventKeyConstants.keyOfIsCompleted, equalTo: false)
+        query.whereKey(EventKeyConstants.keyOfIsCancelled, equalTo: false)
         
         query.cachePolicy = .networkElseCache
         query.maxCacheAge = 24*3600
@@ -109,9 +109,9 @@ class EventRequest {
     static func fetchOlderPublicEvents(inBackground: Bool, currentOldestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
         let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
         query.order(byAscending: EventKeyConstants.keyOfDue)
-        query.includeKey(EventKeyConstants.keyOfCreator)
+        query.includeKey(EventKeyConstants.keyOfCreatedBy)
         query.includeKey(EventKeyConstants.keyOfMembers)
-        query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
+        query.whereKey(EventKeyConstants.keyOfInstitution, equalTo: USCFunConstants.nameOfSchool)
         query.whereKey(EventKeyConstants.keyOfUpdatedAt, lessThan: currentOldestUpdatedTime)
         
         /// define events must be still pending
@@ -119,8 +119,8 @@ class EventRequest {
         query.whereKey(EventKeyConstants.keyOfRemainingSeats, greaterThan: 0)
         
         /// define events must be not completed or cancelled
-        query.whereKey(EventKeyConstants.keyOfCompleted, equalTo: false)
-        query.whereKey(EventKeyConstants.keyOfCancelled, equalTo: false)
+        query.whereKey(EventKeyConstants.keyOfIsCompleted, equalTo: false)
+        query.whereKey(EventKeyConstants.keyOfIsCancelled, equalTo: false)
         
         query.cachePolicy = .networkElseCache
         query.maxCacheAge = 24*3600
@@ -148,17 +148,17 @@ class EventRequest {
     static func fetchNewerMyOngoingEvents(inBackground: Bool, currentNewestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
         let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
         query.order(byAscending: EventKeyConstants.keyOfDue)
-        query.includeKey(EventKeyConstants.keyOfCreator)
+        query.includeKey(EventKeyConstants.keyOfCreatedBy)
         query.includeKey(EventKeyConstants.keyOfMembers)
-        query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
+        query.whereKey(EventKeyConstants.keyOfInstitution, equalTo: USCFunConstants.nameOfSchool)
         query.whereKey(EventKeyConstants.keyOfUpdatedAt, greaterThan: currentNewestUpdatedTime)
         
         /// define events must be not completed or cancelled
-        query.whereKey(EventKeyConstants.keyOfCompleted, equalTo: false)
-        query.whereKey(EventKeyConstants.keyOfCancelled, equalTo: false)
+        query.whereKey(EventKeyConstants.keyOfIsCompleted, equalTo: false)
+        query.whereKey(EventKeyConstants.keyOfIsCancelled, equalTo: false)
         
         /// define events must be mine
-        query.whereKey(EventKeyConstants.keyOfMembers, containsAllObjectsIn: [AVUser.current()])
+        query.whereKey(EventKeyConstants.keyOfMembers, containsAllObjectsIn: [AVUser.current()!])
         
         query.cachePolicy = .networkElseCache
         query.maxCacheAge = 24*3600
@@ -184,17 +184,17 @@ class EventRequest {
     static func fetchOlderMyOngoingEvents(inBackground: Bool, currentOldestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
         let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
         query.order(byAscending: EventKeyConstants.keyOfDue)
-        query.includeKey(EventKeyConstants.keyOfCreator)
+        query.includeKey(EventKeyConstants.keyOfCreatedBy)
         query.includeKey(EventKeyConstants.keyOfMembers)
-        query.whereKey(EventKeyConstants.keyOfSchool, equalTo: USCFunConstants.nameOfSchool)
+        query.whereKey(EventKeyConstants.keyOfInstitution, equalTo: USCFunConstants.nameOfSchool)
         query.whereKey(EventKeyConstants.keyOfUpdatedAt, lessThan: currentOldestUpdatedTime)
         
         /// define events must be not completed or cancelled
-        query.whereKey(EventKeyConstants.keyOfCompleted, equalTo: false)
-        query.whereKey(EventKeyConstants.keyOfCancelled, equalTo: false)
+        query.whereKey(EventKeyConstants.keyOfIsCompleted, equalTo: false)
+        query.whereKey(EventKeyConstants.keyOfIsCancelled, equalTo: false)
         
         /// define events must be mine
-        query.whereKey(EventKeyConstants.keyOfMembers, containsAllObjectsIn: [AVUser.current()])
+        query.whereKey(EventKeyConstants.keyOfMembers, containsAllObjectsIn: [AVUser.current()!])
         
         query.cachePolicy = .networkElseCache
         query.maxCacheAge = 24*3600
@@ -263,7 +263,7 @@ class EventRequest {
     
     static func fetchEvents(inBackground: Bool, with eventIds: [String], handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
         let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
-        query.includeKey(EventKeyConstants.keyOfCreator)
+        query.includeKey(EventKeyConstants.keyOfCreatedBy)
         query.includeKey(EventKeyConstants.keyOfMembers)
         query.whereKey(EventKeyConstants.keyOfObjectId, containedIn: eventIds)
         query.cachePolicy = .networkElseCache

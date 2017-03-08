@@ -81,7 +81,7 @@ extension EventHistoryViewController: UITableViewDataSource, UITableViewDelegate
             let cell = Bundle.main.loadNibNamed("EventSnapshotTableViewCell", owner: self, options: nil)?.first as! EventSnapshotTableViewCell
             var event: Event!
             event = previousEvents[previousEvents.keys[indexPath.section]]
-            let creator = User(user: event.creator)!
+            let creator = User(user: event.createdBy)!
             cell.eventNameLabel.text = event.name
             cell.creatorLabel.text = "发起人：" + creator.nickname
             cell.creatorAvatarImageView.layer.masksToBounds = true
@@ -98,7 +98,7 @@ extension EventHistoryViewController: UITableViewDataSource, UITableViewDelegate
             } else {
                 cell.remainingTimeLabel.text = gapFromNow
             }
-            cell.attendingLabel.text = "已经报名 " + String(event.totalSeats - event.remainingSeats)
+            cell.attendingLabel.text = "已经报名 " + String(event.maximumAttendingPeople - event.remainingSeats)
             cell.minPeopleLabel.text = "最少成行 " + String(event.minimumAttendingPeople)
             
             cell.statusView.backgroundColor = event.statusColor

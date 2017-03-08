@@ -440,19 +440,18 @@ class Event {
         }
         
         eventObject.setObject(name, forKey: EventKeyConstants.keyOfName)
-        eventObject.setObject(type.rawValue, forKey: EventKeyConstants.keyOfType)
-        eventObject.setObject(maximumAttendingPeople, forKey: EventKeyConstants.keyOfTotalSeats)
+        eventObject.setObject(maximumAttendingPeople, forKey: EventKeyConstants.keyOfMaximumAttendingPeople)
         eventObject.setObject(remainingSeats, forKey: EventKeyConstants.keyOfRemainingSeats)
         eventObject.setObject(minimumAttendingPeople, forKey: EventKeyConstants.keyOfMinimumAttendingPeople)
         eventObject.setObject(due.timeIntervalSince1970, forKey: EventKeyConstants.keyOfDue)
         
-        eventObject.setObject(createdBy, forKey: EventKeyConstants.keyOfCreator)
+        eventObject.setObject(createdBy, forKey: EventKeyConstants.keyOfCreatedBy)
         eventObject.setObject(members, forKey: EventKeyConstants.keyOfMembers)
         eventObject.setObject(transientConversationId, forKey: EventKeyConstants.keyOfTransientConversationId)
         eventObject.setObject(conversationId, forKey: EventKeyConstants.keyOfConversationId)
-        eventObject.setObject(isCompleted, forKey: EventKeyConstants.keyOfCompleted)
-        eventObject.setObject(isCancelled, forKey: EventKeyConstants.keyOfCancelled)
-        eventObject.setObject(institution, forKey: EventKeyConstants.keyOfSchool)
+        eventObject.setObject(isCompleted, forKey: EventKeyConstants.keyOfIsCompleted)
+        eventObject.setObject(isCancelled, forKey: EventKeyConstants.keyOfIsCancelled)
+        eventObject.setObject(institution, forKey: EventKeyConstants.keyOfInstitution)
         
         if startTime != nil {
             eventObject.setObject(startTime!.timeIntervalSince1970, forKey: EventKeyConstants.keyOfStartTime)
@@ -463,19 +462,11 @@ class Event {
         }
         
         if location != nil {
-            eventObject.setObject(location!, forKey: EventKeyConstants.keyOfLocationName)
+            eventObject.setObject(location!, forKey: EventKeyConstants.keyOfLocation)
         }
         
         if whereCreated != nil {
-            eventObject.setObject(whereCreated!, forKey: EventKeyConstants.keyOfLocation)
-        }
-        
-        if expectedFee != nil {
-            eventObject.setObject(expectedFee!, forKey: EventKeyConstants.keyOfExpectedFee)
-        }
-        
-        if transportationMethod != nil {
-            eventObject.setObject(transportationMethod!.rawValue, forKey: EventKeyConstants.keyOfTransportationMethod)
+            eventObject.setObject(whereCreated!, forKey: EventKeyConstants.keyOfWhereCreated)
         }
         
         if note != nil {
