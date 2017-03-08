@@ -28,9 +28,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //--MARK: register leanclound account
         AVOSCloud.setServiceRegion(.CN)
-        
         LCChatKit.setAppId("0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz", appKey: "XRGhgA5IwbqTWzosKRh3nzRY")
         AVOSCloud.setApplicationId("0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz", clientKey: "XRGhgA5IwbqTWzosKRh3nzRY")
+        AVOSCloud.setAllLogsEnabled(true)
         AVAnalytics.trackAppOpened(launchOptions: launchOptions)
         
         LCCKInputViewPluginTakePhoto.registerSubclass()
