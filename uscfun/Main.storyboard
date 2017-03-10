@@ -713,6 +713,9 @@ A different license may apply to other resources included in this package, inclu
                                 <state key="normal" title="参与讨论">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="joinDiscussion:" destination="nvQ-YZ-kHk" eventType="touchUpInside" id="IR2-ho-9O6"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

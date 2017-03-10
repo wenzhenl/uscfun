@@ -75,6 +75,9 @@ class EventDetailViewController: UIViewController {
         }
     }
     
+    @IBAction func joinDiscussion(_ sender: UIButton) {
+  
+    }
 //    func joinEvent(sender: UIButton) {
 //        SVProgressHUD.show()
 //        self.event?.add(newMember: AVUser.current()) {

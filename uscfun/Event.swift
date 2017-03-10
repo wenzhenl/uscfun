@@ -485,20 +485,21 @@ class Event {
     /// Add a new member to the event
     ///
     /// - parameter newMember:   the new member that is about to join
-    /// - parameter handler:  handle the creation depending on the operation is successful or not
-    /// - parameter succeeded: indicate if the operation is successful
-    /// - parameter error: optional error information if operation fails
+    /// - parameter seats:       the number of seats the new member is about to take, by default 1
+    /// - parameter handler:     handle the creation depending on the operation is successful or not
+    /// - parameter succeeded:   indicate if the operation is successful
+    /// - parameter error:       optional error information if operation fails
     
-    func add(newMember: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
+    func add(newMember: AVUser, seats: Int, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         
         let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId!)
         let query = AVQuery()
         query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date().timeIntervalSince1970)
-        query.whereKey(EventKeyConstants.keyOfRemainingSeats, greaterThan: 0)
+        query.whereKey(EventKeyConstants.keyOfRemainingSeats, greaterThanOrEqualTo: seats)
         
         let option = AVSaveOption()
         option.query = query
-        
+        option.fetchWhenSave = true
         eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: -1)
         eventObject.addUniqueObject(newMember, forKey: EventKeyConstants.keyOfMembers)
         
@@ -546,7 +547,7 @@ class Event {
             handler(true, nil)
         } catch let error {
             print("cannot remove member \(error.localizedDescription)")
-            handler(false, EventError.systemError(localizedDescriotion: "不好意思，你参加的微活动已经完成约定。", debugDescription: error.localizedDescription))
+            handler(false, EventError.systemError(localizedDescriotion: "活动已经约定成功或者已经过期了", debugDescription: error.localizedDescription))
         }
     }
 }
