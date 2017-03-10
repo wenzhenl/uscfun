@@ -33,6 +33,11 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         }
         set {
             emailTextField.text = newValue
+            if newValue != nil {
+                UserDefaults.email = newValue!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) + "@" + suffix
+            } else {
+                UserDefaults.email = nil
+            }
         }
     }
     
@@ -105,12 +110,13 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case emailTextField:
-            let email = emailPrefix ?? "" + "@" + suffix
+            let email = (emailPrefix ?? "") + "@" + suffix
             if email.isValid {
                 emailTextField.resignFirstResponder()
                 errorLabel.isHidden = true
                 confirmationCodeTextField.becomeFirstResponder()
             } else {
+                print(email)
                 errorLabel.text = "邮箱格式貌似不太对劲"
                 errorLabel.isHidden = false
             }
@@ -131,5 +137,19 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
             break
         }
         return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        print("text field did end editing")
+        
+        switch textField {
+        case emailTextField:
+            emailPrefix = textField.text
+        case confirmationCodeTextField:
+            confirmationCode = textField.text
+        default:
+            break
+        }
     }
 }
