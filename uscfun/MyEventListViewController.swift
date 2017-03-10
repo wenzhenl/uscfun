@@ -28,6 +28,7 @@ class MyEventListViewController: UIViewController {
         self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, -10, 0)
         self.tableView.tableFooterView = UIView()
+        self.tableView.separatorStyle = .none
         NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "homeRefresh"), object: nil)
     }
 
@@ -120,6 +121,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
         if EventRequest.myOngoingEvents.count == 0 {
             let cell = Bundle.main.loadNibNamed("EmptySectionPlaceholderTableViewCell", owner: self, options: nil)?.first as! EmptySectionPlaceholderTableViewCell
             cell.mainTextView.text = emptyPlaceholder
+            cell.backgroundColor = UIColor.clear
             cell.selectionStyle = .none
             return cell
         }
@@ -165,6 +167,9 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if EventRequest.myOngoingEvents.count == 0 {
+            return 0
+        }
         return 1 / UIScreen.main.scale
     }
     
@@ -177,6 +182,9 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if EventRequest.myOngoingEvents.count == 0 {
+            return 0
+        }
         return 10
     }
     
@@ -219,8 +227,6 @@ extension Event {
     
     var whitePaper: UIImage {
         let possibleWhitePapers = [#imageLiteral(resourceName: "clip4"), #imageLiteral(resourceName: "clip1"), #imageLiteral(resourceName: "clip2"), #imageLiteral(resourceName: "clip3")]
-//        let randomIndex = Int(arc4random_uniform(UInt32(possibleWhitePapers.count)))
-//        print(self.objectId?.hash)
         if let index = self.objectId?.hash {
             return possibleWhitePapers[abs(index) % possibleWhitePapers.count]
         }

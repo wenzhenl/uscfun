@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import ChatKit
 import SVProgressHUD
 
 protocol SystemNotificationDelegate {
@@ -34,6 +33,7 @@ class EventListViewController: UIViewController {
         self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, -10, 0)
         self.tableView.tableFooterView = UIView()
+        self.tableView.separatorStyle = .none
         AppDelegate.systemNotificationDelegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "findRefresh"), object: nil)
     }
@@ -152,6 +152,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
         if EventRequest.publicEvents.count == 0 {
             let cell = Bundle.main.loadNibNamed("EmptySectionPlaceholderTableViewCell", owner: self, options: nil)?.first as! EmptySectionPlaceholderTableViewCell
             cell.mainTextView.text = emptyPlaceholder
+            cell.backgroundColor = UIColor.clear
             cell.selectionStyle = .none
             return cell
         }
@@ -197,6 +198,9 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if EventRequest.publicEvents.count == 0 {
+            return 0
+        }
         return 1 / UIScreen.main.scale
     }
     
@@ -209,6 +213,9 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if EventRequest.publicEvents.count == 0 {
+            return 0
+        }
         return 10
     }
     
