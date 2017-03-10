@@ -13,21 +13,21 @@ class FeedbackViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var sendButton: UIBarButtonItem!
     
-    
     var feedback: String {
         get {
             return (textView.text ?? "").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         }
         set {
+            print("feedback is set")
             textView.text = newValue
             sendButton.isEnabled = !newValue.isEmpty
             UserDefaults.feedback = newValue
         }
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        sendButton.isEnabled = false
-        textView.text = UserDefaults.feedback ?? ""
+        feedback = UserDefaults.feedback ?? ""
         textView.delegate = self
         textView.becomeFirstResponder()
     }

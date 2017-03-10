@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AVOSCloud
 import SVProgressHUD
 
 class NewEventPreviewViewController: UIViewController {
