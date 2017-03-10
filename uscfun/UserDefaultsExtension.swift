@@ -241,7 +241,7 @@ extension UserDefaults {
     static func sendFeedback(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
         guard let feedback = UserDefaults.feedback, !feedback.isEmpty else { return }
         var error: NSError?
-        AVCloud.callFunction("receiveFeedback", withParameters: ["feedback": UserDefaults.feedback!], error: &error)
+        AVCloud.callFunction("receiveFeedback", withParameters: ["feedback": UserDefaults.feedback!, "email": AVUser.current()!.email!], error: &error)
         if error != nil {
             handler?(false, error)
         } else {
