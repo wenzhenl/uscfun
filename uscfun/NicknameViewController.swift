@@ -53,7 +53,7 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
-        if !nickname.isEmpty() {
+        if !nickname.isConsistedOnlyWithSpace {
             UserDefaults.nickname = nickname
             errorLabel.isHidden = true
             nicknameTextField.resignFirstResponder()

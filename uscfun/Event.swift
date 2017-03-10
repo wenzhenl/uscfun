@@ -157,7 +157,7 @@ class Event {
     /// of the event
     var conversationId: String
     
-    /// The members of the event
+    /// The members of the event including creator
     var members: [AVUser]
     
     /// The flag indicates that the event has been executed and it will not be shown at
@@ -381,12 +381,12 @@ class Event {
     /// - parameter error: optional error information if operation fails
     
     private func createConversation(isTransient: Bool, handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
-        let client = AVIMClient(clientId: AVUser.current()!.username!)
+        let client = AVIMClient(clientId: AVUser.current()!.username!.clientId!)
         client.open() {
             succeeded, error in
             if succeeded {
                 if isTransient {
-                    client.createConversation(withName: "讨论", clientIds: [], attributes: nil, options: AVIMConversationOption.transient) {
+                    client.createConversation(withName: "讨论区:" + self.name, clientIds: [], attributes: nil, options: AVIMConversationOption.transient) {
                         conversation, error in
                         if error == nil {
                             guard let conversation = conversation else {
@@ -400,7 +400,7 @@ class Event {
                         }
                     }
                 } else {
-                    client.createConversation(withName: "微活动群", clientIds: [self.createdBy.username]) {
+                    client.createConversation(withName: self.name, clientIds: []) {
                         conversation, error in
                         if error == nil {
                             guard let conversation = conversation else {
@@ -473,10 +473,11 @@ class Event {
             eventObject.setObject(note!, forKey: EventKeyConstants.keyOfNote)
         }
         
-        if eventObject.save() {
+        var error: NSError?
+        if eventObject.save(&error) {
             handler(true, nil)
         } else {
-            handler(false, EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: "cannot save data to server"))
+            handler(false,  EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: error.debugDescription))
         }
     }
     

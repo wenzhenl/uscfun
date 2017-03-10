@@ -102,19 +102,23 @@ extension String {
         return emailTest.evaluate(with: self)
     }
     
-    func isEmpty() -> Bool {
-        let patternForEmptyString = "^\\s*$"
-        if self.range(of: patternForEmptyString, options: .regularExpression) != nil {
-            return true
-        }
-        return false
-    }
-    
     func emailPrefix() -> String? {
         let delimiter = "@"
         let token = self.components(separatedBy: delimiter)
         if token.count > 1 {
             return token[0]
+        } else {
+            return nil
+        }
+    }
+    
+    /// Convert email to usable client id for conversation
+    /// since '@' is not allowed in client id, '@' is replaced by '_'
+    var clientId: String? {
+        let delimiter = "@"
+        let token = self.components(separatedBy: delimiter)
+        if token.count > 1 {
+            return token[0] + "_" + token[1]
         } else {
             return nil
         }

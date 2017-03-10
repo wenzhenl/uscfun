@@ -30,7 +30,9 @@ class EventListViewController: UIViewController {
         
         self.tableView.scrollsToTop = true
         self.tableView.addSubview(self.refreshControl)
-        self.tableView.backgroundColor = UIColor.backgroundGray
+        if EventRequest.publicEvents.count > 0 {
+            self.tableView.backgroundColor = UIColor.backgroundGray
+        }
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, -10, 0)
         self.tableView.tableFooterView = UIView()
         self.tableView.separatorStyle = .none
