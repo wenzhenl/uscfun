@@ -32,7 +32,14 @@ class FeedbackViewController: UIViewController {
         textView.becomeFirstResponder()
     }
     @IBAction func sendFeedback(_ sender: UIBarButtonItem) {
-        UserDefaults.sendFeedback()
+        UserDefaults.sendFeedback {
+            succeeded, error in
+            if succeeded {
+                self.feedback = ""
+            } else {
+                print(error?.localizedDescription ?? "unknown error while sending feedback")
+            }
+        }
     }
 }
 

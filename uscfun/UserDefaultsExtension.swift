@@ -238,13 +238,14 @@ extension UserDefaults {
         }
     }
     
-    static func sendFeedback() {
+    static func sendFeedback(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
         guard let feedback = UserDefaults.feedback, !feedback.isEmpty else { return }
-        AVCloud.callFunction(inBackground: "receiveFeedback", withParameters: ["feedback": UserDefaults.feedback!]) {
-            id, error in
-            if error != nil {
-                print(error?.localizedDescription ?? "some unknown error with sending feeback")
-            }
+        var error: NSError?
+        AVCloud.callFunction("receiveFeedback", withParameters: ["feedback": UserDefaults.feedback!], error: &error)
+        if error != nil {
+            handler?(false, error)
+        } else {
+            handler?(true, nil)
         }
     }
 }

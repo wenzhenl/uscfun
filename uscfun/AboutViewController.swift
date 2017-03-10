@@ -19,7 +19,7 @@ class AboutViewController: UIViewController {
         self.title = "关于"
         tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
         tableView.separatorStyle = .none
-        copyrightLabel.text = "Copyright © 2016-2017 留学日常联盟"
+        copyrightLabel.text = "Copyright © 2016-2017 日常小组"
     }
     @IBAction func goOpenSource(_ sender: UIButton) {
     }
