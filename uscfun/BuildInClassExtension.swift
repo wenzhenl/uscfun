@@ -84,6 +84,54 @@ extension UIColor {
     }
 }
 
+typealias Email = String
+
+extension Email {
+    
+    var isValid: Bool {
+        let emailRegEx = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+        
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluate(with: self)
+    }
+    
+    var prefix: String? {
+        guard self.isValid else { return nil }
+        let delimiter = "@"
+        let token = self.components(separatedBy: delimiter)
+        guard token.count == 2 else { return nil }
+        return token[0]
+    }
+    
+    var suffix: String? {
+        guard self.isValid else { return nil }
+        let delimiter = "@"
+        let token = self.components(separatedBy: delimiter)
+        guard token.count == 2 else { return nil }
+        return token[1]
+    }
+    
+    /// The assumed email format is as "wenzhenl@usc.edu"
+    var institutionCode: String? {
+        guard self.isValid else { return nil }
+        let delimiter = "@"
+        let token = self.components(separatedBy: delimiter)
+        guard token.count == 2 else { return nil }
+        let dot = "."
+        let dotToken = token[1].components(separatedBy: dot)
+        guard dotToken.count == 2 else { return nil }
+        return dotToken[0]
+    }
+    
+    var replaceAtByUnderscore: String? {
+        guard self.isValid else { return nil }
+        let delimiter = "@"
+        let token = self.components(separatedBy: delimiter)
+        guard token.count == 2 else { return nil }
+        return token[0] + "_" + token[1]
+    }
+}
+
 extension String {
     
     var isConsistedOnlyWithSpace: Bool {
@@ -92,36 +140,6 @@ extension String {
             return true
         }
         return false
-    }
-    
-    func isValidEmail() -> Bool {
-        
-        let emailRegEx = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
-        
-        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailTest.evaluate(with: self)
-    }
-    
-    func emailPrefix() -> String? {
-        let delimiter = "@"
-        let token = self.components(separatedBy: delimiter)
-        if token.count > 1 {
-            return token[0]
-        } else {
-            return nil
-        }
-    }
-    
-    /// Convert email to usable client id for conversation
-    /// since '@' is not allowed in client id, '@' is replaced by '_'
-    var clientId: String? {
-        let delimiter = "@"
-        let token = self.components(separatedBy: delimiter)
-        if token.count > 1 {
-            return token[0] + "_" + token[1]
-        } else {
-            return nil
-        }
     }
     
     func letterImage(textColor: UIColor, backgroundColor: UIColor, width: CGFloat, height: CGFloat) -> UIImage? {

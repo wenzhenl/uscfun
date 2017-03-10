@@ -68,7 +68,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         if AVUser.current() != nil {
-            email = AVUser.current()!.email!.emailPrefix()!
+            email = AVUser.current()!.email!.prefix!
         }
         UIApplication.shared.statusBarStyle = .default
     }
@@ -82,7 +82,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case emailTextField:
-            if email.isValidEmail() {
+            if email.isValid {
                 emailTextField.resignFirstResponder()
                 errorLabel.isHidden = true
                 passwordTextField.becomeFirstResponder()
@@ -113,7 +113,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     @IBAction func signIn() {
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
-        if !email.isValidEmail() {
+        if !email.isValid {
             errorLabel.text = "邮箱格式貌似不太对劲"
             errorLabel.isHidden = false
         }

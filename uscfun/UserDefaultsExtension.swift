@@ -27,6 +27,15 @@ extension UserDefaults {
         }
     }
     
+    class var confirmationCode: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "User_confirmationCode_Key")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "User_confirmationCode_Key")
+        }
+    }
+    
     class var nickname: String? {
         get {
             return UserDefaults.standard.string(forKey: "User_Nickname_Key")

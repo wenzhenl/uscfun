@@ -47,7 +47,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KCr-7d-Lc0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6255" y="-6255"/>
+            <point key="canvasLocation" x="4404" y="-6255"/>
         </scene>
         <!--热门微活动-->
         <scene sceneID="Vnd-HP-fbh">
@@ -124,7 +124,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="50e-Gr-xsy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7507" y="-5460"/>
+            <point key="canvasLocation" x="5651" y="-5460"/>
         </scene>
         <!--Event History View Controller-->
         <scene sceneID="qnb-vQ-MAa">
@@ -162,7 +162,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zBH-05-EuU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8297" y="-5460"/>
+            <point key="canvasLocation" x="6238" y="-5460"/>
         </scene>
         <!--About View Controller-->
         <scene sceneID="osy-Y1-jCb">
@@ -252,7 +252,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sb5-br-bHf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="9299" y="-5460"/>
+            <point key="canvasLocation" x="6996" y="-5460"/>
         </scene>
         <!--Open Source View Controller-->
         <scene sceneID="XqP-Su-51k">
@@ -543,7 +543,7 @@ A different license may apply to other resources included in this package, inclu
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8GH-WE-vhI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="9983" y="-5460"/>
+            <point key="canvasLocation" x="7957" y="-5460"/>
         </scene>
         <!--建议反馈-->
         <scene sceneID="hJQ-4B-VLs">
@@ -597,7 +597,7 @@ A different license may apply to other resources included in this package, inclu
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XcY-Lv-gaW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="11811.594202898552" y="-5482.3369565217399"/>
+            <point key="canvasLocation" x="8661" y="-5460"/>
         </scene>
         <!--我-->
         <scene sceneID="m1X-If-lu1">
@@ -673,7 +673,7 @@ A different license may apply to other resources included in this package, inclu
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uq2-v7-fgb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8226" y="-6255"/>
+            <point key="canvasLocation" x="6238" y="-6255"/>
         </scene>
         <!--活动详情-->
         <scene sceneID="OBR-Vi-A3T">
@@ -1031,7 +1031,7 @@ A different license may apply to other resources included in this package, inclu
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qF3-AU-CYL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5060" y="-6255"/>
+            <point key="canvasLocation" x="3326" y="-6255"/>
         </scene>
         <!--我-->
         <scene sceneID="5z4-sw-58N">
@@ -1050,7 +1050,7 @@ A different license may apply to other resources included in this package, inclu
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w1T-Kv-cnr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7268" y="-6255"/>
+            <point key="canvasLocation" x="5284" y="-6255"/>
         </scene>
         <!--Custom Tab Bar Controller-->
         <scene sceneID="m6o-0q-wVK">

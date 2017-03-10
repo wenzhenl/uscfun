@@ -11,29 +11,48 @@ import UIKit
 class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var emailInputView: UIView!
-    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var emailTextField: UITextField! {
+        didSet {
+            emailTextField.delegate = self
+        }
+    }
+    @IBOutlet weak var confirmationCodeTextField: UITextField! {
+        didSet {
+            confirmationCodeTextField.delegate = self
+        }
+    }
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var noticeTextView: UITextView!
     @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var requestConfirmationCodeButton: UIButton!
+    @IBOutlet weak var nextStepButtonItem: UIBarButtonItem!
     
-    var email: String {
+    var emailPrefix: String? {
         get {
-            return (emailTextField.text ?? "").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) + "@usc.edu"
+            return emailTextField.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         }
         set {
             emailTextField.text = newValue
         }
     }
     
+    let suffix = "usc.edu"
+    
+    var confirmationCode: String? {
+        get {
+            return confirmationCodeTextField.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        }
+        set {
+            confirmationCodeTextField.text = newValue
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-//        self.navigationController!.navigationBar.barTintColor = UIColor.themeYellow()
-        self.navigationController!.navigationBar.tintColor = UIColor.darkGray
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
+        self.title = ""
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
         self.view.backgroundColor = UIColor.backgroundGray
-        
         noticeTextView.delegate = self
         let notice = NSMutableAttributedString(string: "继续注册流程代表你已阅读并同意用户使用协议")
         notice.addAttribute(NSLinkAttributeName, value: "http://www.google.com", range: NSRange(location: 15, length: 6))
@@ -48,13 +67,14 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         noticeTextView.attributedText = notice
         noticeTextView.textAlignment = .center
         
-        emailTextField.delegate = self
+        errorLabel.isHidden = true
+        emailPrefix = UserDefaults.email?.prefix
+        emailTextField.becomeFirstResponder()
+        
+        /// additonal setup for iPhone4 and iPhone5
         if DeviceType.IS_IPHONE_4_OR_LESS || DeviceType.IS_IPHONE_5 {
             emailTextField.placeholder = "你的USC邮箱"
         }
-        
-        errorLabel.isHidden = true
-        
         if DeviceType.IS_IPHONE_4_OR_LESS {
             containerView.transform = CGAffineTransform(translationX: 0,y: -80)
         }
@@ -63,29 +83,55 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         UIApplication.shared.statusBarStyle = .default
-        emailTextField.becomeFirstResponder()
     }
     
     @IBAction func goBack(_ sender: UIBarButtonItem) {
         emailTextField.resignFirstResponder()
+        confirmationCodeTextField.resignFirstResponder()
         self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func requestConfirmationCode(_ sender: UIButton) {
+    }
+    
+    @IBAction func goNext(_ sender: UIBarButtonItem) {
+    }
+    
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
-        // UIApplication.shared.openURL(URL)
         self.performSegue(withIdentifier: "check privacy policy", sender: self)
         return false
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if email.isValidEmail() {
-            UserDefaults.email = email
-            textField.resignFirstResponder()
-            errorLabel.isHidden = true
-            performSegue(withIdentifier: "go to nickname", sender: self)
-        } else {
-            errorLabel.isHidden = false
+//        if email.isValidEmail() {
+//            UserDefaults.email = email
+//            textField.resignFirstResponder()
+//            errorLabel.isHidden = true
+//            performSegue(withIdentifier: "go to nickname", sender: self)
+//        } else {
+//            errorLabel.isHidden = false
+//        }
+//        return true
+        
+        switch textField {
+        case emailTextField:
+            let email = emailPrefix ?? "" + "@" + suffix
+            if email.isValid {
+                emailTextField.resignFirstResponder()
+                errorLabel.isHidden = true
+                confirmationCodeTextField.becomeFirstResponder()
+            } else {
+                errorLabel.text = "邮箱格式貌似不太对劲"
+                errorLabel.isHidden = false
+            }
+        case confirmationCodeTextField:
+            if confirmationCode != UserDefaults.confirmationCode {
+                
+            }
+        default:
+            break
         }
         return true
+        
     }
 }

@@ -381,7 +381,7 @@ class Event {
     /// - parameter error: optional error information if operation fails
     
     private func createConversation(isTransient: Bool, handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
-        let client = AVIMClient(clientId: AVUser.current()!.username!.clientId!)
+        let client = AVIMClient(clientId: AVUser.current()!.username!.replaceAtByUnderscore!)
         client.open() {
             succeeded, error in
             if succeeded {
