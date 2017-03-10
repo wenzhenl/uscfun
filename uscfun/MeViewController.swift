@@ -56,7 +56,8 @@ class MeViewController: UIViewController {
         let privacySection = [MeCell.labelSwitchTableCell(text: textOfAllowEventHistroyViewed)]
         meSections.append(privacySection)
         
-        let appInfoSection = [MeCell.labelArrowTableCell(text: "给USC日常评分", segueId: segueIdOfRateUSCFun),
+        let appInfoSection = [MeCell.labelArrowTableCell(text: textOfFeedback, segueId: segueIdOfFeedback),
+                              MeCell.labelArrowTableCell(text: "给USC日常评分", segueId: segueIdOfRateUSCFun),
                               MeCell.labelArrowTableCell(text: "关于USC日常", segueId: segueIdOfAboutUSCFun)]
         meSections.append(appInfoSection)
         
@@ -95,11 +96,13 @@ class MeViewController: UIViewController {
     let textOfAllowEventHistroyViewed = "公开活动历史"
     let textOfCreatedHistory = "我发起过的活动"
     let textOfAttendedHistory = "我参加过的活动"
+    let textOfFeedback = "反馈问题与建议"
     
     let segueIdOfUpdateProfile = "go to update profile"
     let segueIdOfCheckEventHistory = "go to event history"
     let segueIdOfRateUSCFun = "go to rate app"
     let segueIdOfAboutUSCFun = "go to about uscfun"
+    let segueIdOfFeedback = "go to feedback"
     let segueIdOfSignOut = "sign out usc fun"
 }
 
@@ -211,7 +214,6 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
                 UIApplication.shared.openURL(URL(string : "itms-apps://itunes.apple.com/app/id1073401869")!)
             }
             else {
-                print("about to go history")
                 self.performSegue(withIdentifier: segueId, sender: self)
             }
         case .regularTableCell(_, let segueId):

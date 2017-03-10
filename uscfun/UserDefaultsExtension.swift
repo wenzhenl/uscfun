@@ -227,4 +227,24 @@ extension UserDefaults {
             UserDefaults.standard.setValue(newValue, forKey: "New_Event_Note")
         }
     }
+    
+    //-MARK: feedback
+    class var feedback: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "user_feedback")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "user_feedback")
+        }
+    }
+    
+    static func sendFeedback() {
+        guard let feedback = UserDefaults.feedback, !feedback.isEmpty else { return }
+        AVCloud.callFunction(inBackground: "receiveFeedback", withParameters: ["feedback": UserDefaults.feedback!]) {
+            id, error in
+            if error != nil {
+                print(error?.localizedDescription ?? "some unknown error with sending feeback")
+            }
+        }
+    }
 }

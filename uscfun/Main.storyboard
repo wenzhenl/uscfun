@@ -545,6 +545,50 @@ A different license may apply to other resources included in this package, inclu
             </objects>
             <point key="canvasLocation" x="9983" y="-5460"/>
         </scene>
+        <!--建议反馈-->
+        <scene sceneID="hJQ-4B-VLs">
+            <objects>
+                <viewController id="qfs-D4-XN4" customClass="FeedbackViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="CZg-iO-jio"/>
+                        <viewControllerLayoutGuide type="bottom" id="PNn-2f-th6"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="XJ4-PT-8rD">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6jZ-ke-7s3">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="6jZ-ke-7s3" firstAttribute="height" secondItem="XJ4-PT-8rD" secondAttribute="height" id="Gvh-7n-0hW"/>
+                            <constraint firstItem="6jZ-ke-7s3" firstAttribute="centerY" secondItem="XJ4-PT-8rD" secondAttribute="centerY" id="H7K-gV-kAY"/>
+                            <constraint firstItem="6jZ-ke-7s3" firstAttribute="centerX" secondItem="XJ4-PT-8rD" secondAttribute="centerX" id="f1F-5X-qvl"/>
+                            <constraint firstItem="6jZ-ke-7s3" firstAttribute="width" secondItem="XJ4-PT-8rD" secondAttribute="width" id="rv1-Eb-pHC"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="建议反馈" id="F2k-SP-hVu">
+                        <barButtonItem key="rightBarButtonItem" title="发送" id="qXS-tN-nfN">
+                            <connections>
+                                <action selector="sendFeedback:" destination="qfs-D4-XN4" id="jDg-Tt-o47"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="sendButton" destination="qXS-tN-nfN" id="5iQ-g3-hdp"/>
+                        <outlet property="textView" destination="6jZ-ke-7s3" id="cuf-Jg-PQN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XcY-Lv-gaW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="11811.594202898552" y="-5482.3369565217399"/>
+        </scene>
         <!--我-->
         <scene sceneID="m1X-If-lu1">
             <objects>
@@ -614,6 +658,7 @@ A different license may apply to other resources included in this package, inclu
                         <segue destination="DPQ-7S-gax" kind="show" identifier="go to update profile" id="98S-AA-LgI"/>
                         <segue destination="jc8-en-oIP" kind="show" identifier="go to event history" id="er4-yJ-TjC"/>
                         <segue destination="XsI-pP-ZOl" kind="show" identifier="go to about uscfun" id="rAa-86-Dxd"/>
+                        <segue destination="qfs-D4-XN4" kind="show" identifier="go to feedback" id="Ipz-JS-Sgo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uq2-v7-fgb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -712,7 +757,7 @@ A different license may apply to other resources included in this package, inclu
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="B04-zs-U9w">
-                                <rect key="frame" x="0.0" y="20" width="414" height="672"/>
+                                <rect key="frame" x="0.0" y="64" width="414" height="628"/>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -810,18 +855,18 @@ A different license may apply to other resources included in this package, inclu
                                 <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Pkl-HI-A30" id="uhX-Yw-5VK">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3sH-Y8-wt4">
-                                            <rect key="frame" x="15" y="5" width="33.333333333333336" height="20.333333333333332"/>
+                                            <rect key="frame" x="15" y="4" width="34" height="21"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yvk-rT-99l">
-                                            <rect key="frame" x="14.999999999999996" y="25.333333333333332" width="43.666666666666664" height="14.333333333333334"/>
+                                            <rect key="frame" x="15" y="25" width="44" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
