@@ -35,11 +35,10 @@ class FeedbackViewController: UIViewController {
         textView.becomeFirstResponder()
         
         infoLabel = UILabel(frame: CGRect(x: 0.0, y: -heightOfInfoLabel, width: view.frame.size.width, height: heightOfInfoLabel))
-        infoLabel.backgroundColor = UIColor.clear
         infoLabel.numberOfLines = 0
-        infoLabel.textColor = UIColor.white
-        infoLabel.alpha = 0.7
         infoLabel.textAlignment = .center
+        infoLabel.lineBreakMode = .byWordWrapping
+        infoLabel.font = UIFont.systemFont(ofSize: 15)
         infoLabel.isHidden = true
         view.addSubview(infoLabel)
         
@@ -56,7 +55,7 @@ class FeedbackViewController: UIViewController {
         self.infoLabel.isHidden = false
         if succeeded {
             self.infoLabel.backgroundColor = UIColor.green
-            self.infoLabel.textColor = UIColor.themeYellow
+            self.infoLabel.textColor = UIColor.white
             self.infoLabel.text = "您的反馈已经成功发送，感谢您对USC日常的支持！"
         } else {
             self.infoLabel.backgroundColor = UIColor.red
@@ -67,6 +66,7 @@ class FeedbackViewController: UIViewController {
         UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
             _ in
             self.infoLabel.frame.origin.y = 0.0
+            self.view.layoutIfNeeded()
         }) {
             completed in
             if completed {
@@ -76,6 +76,7 @@ class FeedbackViewController: UIViewController {
                     UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
                         _ in
                         self.infoLabel.frame.origin.y = -self.heightOfInfoLabel
+                        self.view.layoutIfNeeded()
                     }) {
                         finished in
                         if finished {
@@ -92,6 +93,7 @@ class FeedbackViewController: UIViewController {
             succeeded, error in
             if succeeded {
                 self.feedback = ""
+                self.displayInfo(succeeded: true)
             } else {
                 print(error?.localizedDescription ?? "unknown error while sending feedback")
                 self.displayInfo(succeeded: false)
