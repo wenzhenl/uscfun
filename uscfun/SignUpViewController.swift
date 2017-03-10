@@ -103,16 +103,6 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        if email.isValidEmail() {
-//            UserDefaults.email = email
-//            textField.resignFirstResponder()
-//            errorLabel.isHidden = true
-//            performSegue(withIdentifier: "go to nickname", sender: self)
-//        } else {
-//            errorLabel.isHidden = false
-//        }
-//        return true
-        
         switch textField {
         case emailTextField:
             let email = emailPrefix ?? "" + "@" + suffix
@@ -125,13 +115,21 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
                 errorLabel.isHidden = false
             }
         case confirmationCodeTextField:
-            if confirmationCode != UserDefaults.confirmationCode {
-                
+            if UserDefaults.confirmationCode == nil {
+                errorLabel.text = "你还没有请求验证码"
+                errorLabel.isHidden = false
+            }
+            else if confirmationCode != UserDefaults.confirmationCode {
+                errorLabel.text = "验证码错误"
+                errorLabel.isHidden = false
+            } else {
+                confirmationCodeTextField.resignFirstResponder()
+                errorLabel.isHidden = true
+                performSegue(withIdentifier: "go to nickname", sender: self)
             }
         default:
             break
         }
         return true
-        
     }
 }

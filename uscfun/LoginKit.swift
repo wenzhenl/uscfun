@@ -9,9 +9,32 @@
 import Foundation
 import ChatKit
 
+/// possible errors with event
 enum SignUpError: Error {
-    case cannotCreateAvatar(reason: String)
-    case cannotUploadAvatar(reason: String)
+    case systemError(localizedDescriotion: String, debugDescription: String)
+}
+
+extension SignUpError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .systemError(let description, _):
+            return description
+        }
+    }
+    
+    public var failureReason: String? {
+        switch self {
+        case .systemError(_, let description):
+            return description
+        }
+    }
+    
+    public var recoverySuggestion: String? {
+        switch self {
+        case .systemError(_, let description):
+            return description
+        }
+    }
 }
 
 enum LoginError: Error {
@@ -29,7 +52,33 @@ class LoginKit {
     
     static var delegate: LoginDelegate?
     
-    static func signUp(handler: (_ succeed: Bool, _ error: NSError?) -> Void) {
+    private static func generateRandomConfirmationCode() -> String {
+        var code = ""
+        for _ in 1...6 {
+            code += String(Int(arc4random_uniform((UInt32(9)))))
+        }
+        print("random code is: \(code)")
+        return code
+    }
+    
+    static func requestConfirmationCode(handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
+        guard let email = UserDefaults.email, email.isValid else {
+            handler(false, SignUpError.systemError(localizedDescriotion: "邮箱无效", debugDescription: "email is not valid"))
+            return
+        }
+        var error: NSError?
+        let code = generateRandomConfirmationCode()
+        AVCloud.callFunction("requestConfirmationCode",
+                             withParameters: ["email": UserDefaults.email!, "code": code],
+                             error: &error)
+        if error != nil {
+            handler(false, error)
+        } else {
+            handler(true, nil)
+        }
+    }
+    
+    static func signUp(handler: (_ succeed: Bool, _ error: Error?) -> Void) {
         
         // save user info in server
         let user: AVUser = AVUser()
@@ -45,12 +94,12 @@ class LoginKit {
                                                               backgroundColor: USCFunConstants.avatarColorOptions[randomIndex],
                                                               width: 100,
                                                               height: 100) else {
-            handler(false, SignUpError.cannotCreateAvatar(reason: "cannot create default avatar") as NSError?)
+            handler(false, SignUpError.systemError(localizedDescriotion: "系统故障，无法创建默认头像", debugDescription: "cannot create default avatar"))
             return
         }
         
         guard let data =  UIImagePNGRepresentation(avatar) else {
-            handler(false, SignUpError.cannotUploadAvatar(reason: "cannot upload avatar") as NSError?)
+            handler(false, SignUpError.systemError(localizedDescriotion: "上传默认头像失败", debugDescription: "cannot upload default avatar"))
             return
         }
         let file = AVFile(data: data)
