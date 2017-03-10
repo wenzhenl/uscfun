@@ -34,17 +34,14 @@ class FeedbackViewController: UIViewController {
         textView.delegate = self
         textView.becomeFirstResponder()
         
-        if let navigationBar = self.navigationController?.navigationBar {
-            infoLabel = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: navigationBar.frame.width, height: heightOfInfoLabel))
-            infoLabel.backgroundColor = UIColor.themeYellow
-            infoLabel.numberOfLines = 0
-            infoLabel.textColor = UIColor.white
-            infoLabel.alpha = 0.7
-            infoLabel.textAlignment = .center
-            navigationBar.addSubview(infoLabel)
-            infoLabel.translatesAutoresizingMaskIntoConstraints = false
-            infoLabel.isHidden = true
-        }
+        infoLabel = UILabel(frame: CGRect(x: 0.0, y: -heightOfInfoLabel, width: view.frame.size.width, height: heightOfInfoLabel))
+        infoLabel.backgroundColor = UIColor.clear
+        infoLabel.numberOfLines = 0
+        infoLabel.textColor = UIColor.white
+        infoLabel.alpha = 0.7
+        infoLabel.textAlignment = .center
+        infoLabel.isHidden = true
+        view.addSubview(infoLabel)
         
         self.navigationController?.navigationBar.isTranslucent = false
     }
@@ -69,9 +66,7 @@ class FeedbackViewController: UIViewController {
         
         UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
             _ in
-            if let navigationBar = self.navigationController?.navigationBar {
-                self.infoLabel.frame.origin = CGPoint(x: 0.0, y: navigationBar.frame.height)
-            }
+            self.infoLabel.frame.origin.y = 0.0
         }) {
             completed in
             if completed {
@@ -80,7 +75,7 @@ class FeedbackViewController: UIViewController {
                 DispatchQueue.main.asyncAfter(deadline: time) {
                     UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
                         _ in
-                        self.infoLabel.frame.origin = CGPoint.zero
+                        self.infoLabel.frame.origin.y = -self.heightOfInfoLabel
                     }) {
                         finished in
                         if finished {
