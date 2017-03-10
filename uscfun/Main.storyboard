@@ -557,20 +557,29 @@ A different license may apply to other resources included in this package, inclu
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请写下你要发起的微活动名称" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OLL-VL-adq">
+                                <rect key="frame" x="20" y="72" width="374" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6jZ-ke-7s3">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <rect key="frame" x="20" y="64" width="374" height="736"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="6jZ-ke-7s3" firstAttribute="height" secondItem="XJ4-PT-8rD" secondAttribute="height" id="Gvh-7n-0hW"/>
-                            <constraint firstItem="6jZ-ke-7s3" firstAttribute="centerY" secondItem="XJ4-PT-8rD" secondAttribute="centerY" id="H7K-gV-kAY"/>
-                            <constraint firstItem="6jZ-ke-7s3" firstAttribute="centerX" secondItem="XJ4-PT-8rD" secondAttribute="centerX" id="f1F-5X-qvl"/>
-                            <constraint firstItem="6jZ-ke-7s3" firstAttribute="width" secondItem="XJ4-PT-8rD" secondAttribute="width" id="rv1-Eb-pHC"/>
+                            <constraint firstItem="OLL-VL-adq" firstAttribute="leading" secondItem="XJ4-PT-8rD" secondAttribute="leadingMargin" id="30X-dW-c8R"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="OLL-VL-adq" secondAttribute="trailing" id="ATM-NQ-7Ak"/>
+                            <constraint firstItem="6jZ-ke-7s3" firstAttribute="leading" secondItem="XJ4-PT-8rD" secondAttribute="leadingMargin" id="FRx-6i-9nT"/>
+                            <constraint firstItem="6jZ-ke-7s3" firstAttribute="height" secondItem="XJ4-PT-8rD" secondAttribute="height" id="J4t-ph-TJk"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="6jZ-ke-7s3" secondAttribute="trailing" id="Y5t-sA-AUN"/>
+                            <constraint firstItem="6jZ-ke-7s3" firstAttribute="top" secondItem="CZg-iO-jio" secondAttribute="bottom" id="h9f-Cn-WR6"/>
+                            <constraint firstItem="OLL-VL-adq" firstAttribute="top" secondItem="CZg-iO-jio" secondAttribute="bottom" constant="8" symbolic="YES" id="k4y-lc-oCc"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="建议反馈" id="F2k-SP-hVu">
@@ -581,6 +590,7 @@ A different license may apply to other resources included in this package, inclu
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="placeholderLabel" destination="OLL-VL-adq" id="lbS-cd-M47"/>
                         <outlet property="sendButton" destination="qXS-tN-nfN" id="5iQ-g3-hdp"/>
                         <outlet property="textView" destination="6jZ-ke-7s3" id="cuf-Jg-PQN"/>
                     </connections>

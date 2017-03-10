@@ -11,6 +11,7 @@ import UIKit
 class FeedbackViewController: UIViewController {
 
     @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var placeholderLabel: UILabel!
     @IBOutlet weak var sendButton: UIBarButtonItem!
     
     var infoLabel: UILabel!
@@ -24,6 +25,7 @@ class FeedbackViewController: UIViewController {
             print("feedback is set")
             textView.text = newValue
             sendButton.isEnabled = !newValue.isEmpty
+            placeholderLabel.text = newValue.isEmpty ? "请写下USC日常存在的问题，或者你有什么建议，也欢迎提供给我们" : ""
             UserDefaults.feedback = newValue
         }
     }
@@ -31,7 +33,9 @@ class FeedbackViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         feedback = UserDefaults.feedback ?? ""
+        self.automaticallyAdjustsScrollViewInsets = false
         textView.delegate = self
+        textView.textContainer.lineFragmentPadding = 0
         textView.becomeFirstResponder()
         
         infoLabel = UILabel(frame: CGRect(x: 0.0, y: -heightOfInfoLabel, width: view.frame.size.width, height: heightOfInfoLabel))
@@ -42,6 +46,7 @@ class FeedbackViewController: UIViewController {
         infoLabel.isHidden = true
         view.addSubview(infoLabel)
         
+        /// important for animation to work properly
         self.navigationController?.navigationBar.isTranslucent = false
     }
     
@@ -104,6 +109,10 @@ class FeedbackViewController: UIViewController {
 
 extension FeedbackViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
+        if placeholderLabel.text != "" && !textView.text.isEmpty {
+            placeholderLabel.text = ""
+        }
+        
         if textView.markedTextRange == nil {
             feedback = textView.text
         }
