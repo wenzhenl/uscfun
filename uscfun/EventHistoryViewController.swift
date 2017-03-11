@@ -28,6 +28,12 @@ class EventHistoryViewController: UIViewController {
         
         tableView.tableFooterView = UIView()
         tableView.contentInset = UIEdgeInsetsMake(0, 0, -10, 0)
+        tableView.separatorStyle = .none
+        if previousEvents.count > 0 {
+            self.tableView.backgroundColor = UIColor.backgroundGray
+        } else {
+            self.tableView.backgroundColor = UIColor.white
+        }
         
         if eventHistorySource == .created {
             self.title = "我发起过的活动"
@@ -75,6 +81,7 @@ extension EventHistoryViewController: UITableViewDataSource, UITableViewDelegate
             } else {
                 cell.mainTextView.text = "用户还没有发起过任何活动"
             }
+            cell.backgroundColor = UIColor.clear
             cell.selectionStyle = .none
             return cell
         } else {
@@ -135,6 +142,9 @@ extension EventHistoryViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if previousEvents.count == 0 {
+            return 0
+        }
         return 1 / UIScreen.main.scale
     }
     
@@ -147,6 +157,9 @@ extension EventHistoryViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if previousEvents.count == 0 {
+            return 0
+        }
         return 10
     }
     

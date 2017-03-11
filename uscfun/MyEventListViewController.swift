@@ -42,7 +42,6 @@ class MyEventListViewController: UIViewController {
         infoLabel.numberOfLines = 0
         infoLabel.textAlignment = .center
         infoLabel.lineBreakMode = .byWordWrapping
-        infoLabel.alpha = 0.95
         infoLabel.font = UIFont.boldSystemFont(ofSize: 16)
         infoLabel.isHidden = true
         view.addSubview(infoLabel)

@@ -42,7 +42,7 @@ class FeedbackViewController: UIViewController {
         infoLabel.numberOfLines = 0
         infoLabel.textAlignment = .center
         infoLabel.lineBreakMode = .byWordWrapping
-        infoLabel.font = UIFont.systemFont(ofSize: 15)
+        infoLabel.font = UIFont.boldSystemFont(ofSize: 16)
         infoLabel.isHidden = true
         view.addSubview(infoLabel)
         
@@ -59,12 +59,12 @@ class FeedbackViewController: UIViewController {
     func displayInfo(succeeded: Bool) {
         self.infoLabel.isHidden = false
         if succeeded {
-            self.infoLabel.backgroundColor = UIColor.green
-            self.infoLabel.textColor = UIColor.white
+            self.infoLabel.backgroundColor = UIColor.white
+            self.infoLabel.textColor = UIColor.buttonPink
             self.infoLabel.text = "您的反馈已经成功发送，感谢您对USC日常的支持！"
         } else {
-            self.infoLabel.backgroundColor = UIColor.red
-            self.infoLabel.textColor = UIColor.white
+            self.infoLabel.backgroundColor = UIColor.white
+            self.infoLabel.textColor = UIColor.buttonPink
             self.infoLabel.text = "网络错误，请稍后重试"
         }
         
