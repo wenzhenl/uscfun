@@ -47,10 +47,11 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.navigationController!.navigationBar.tintColor = UIColor.darkGray
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
-        self.view.backgroundColor = UIColor.backgroundGray
+        self.title = ""
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.view.backgroundColor = UIColor.white
+        self.navigationController?.navigationBar.isTranslucent = false
         
         errorLabel.isHidden = true
         emailTextField.becomeFirstResponder()
