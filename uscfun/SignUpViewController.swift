@@ -125,6 +125,11 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
                 errorLabel.isHidden = false
                 return true
             }
+            if LoginKit.getExistingUserEmails().contains(email) {
+                errorLabel.text = "此邮箱已被注册，请使用找回密码"
+                errorLabel.isHidden = false
+                return true
+            }
             print(email)
             emailTextField.resignFirstResponder()
             errorLabel.isHidden = true
@@ -136,6 +141,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     }
     
     func emailTextDidChanged() {
+        errorLabel.isHidden = true
         email = (emailTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines) + "@" + suffix
         print("current email: \(email)")
     }

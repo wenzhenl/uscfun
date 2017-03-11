@@ -61,6 +61,19 @@ class LoginKit {
         return code
     }
     
+    static func getExistingUserEmails() -> [String] {
+        var emails = [String]()
+        let query = AVQuery(className: "_User")
+        query.whereKeyExists("email")
+        query.selectKeys(["email"])
+        if let objects = query.findObjects() {
+            for object in objects as! [AVUser] {
+                emails.append(object.email!)
+            }
+        }
+        return emails
+    }
+    
     static func requestConfirmationCode(handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         guard let email = UserDefaults.email, email.isValid else {
             handler(false, SignUpError.systemError(localizedDescriotion: "邮箱无效", debugDescription: "email is not valid"))
