@@ -135,7 +135,12 @@ class EventDetailViewController: UIViewController {
     }
     
     @IBAction func joinDiscussion(_ sender: UIButton) {
-  
+        guard let conversation = LCCKConversationViewController(conversationId: event.transientConversationId) else {
+            self.displayInfo(info: "网络错误，无法进入评论区")
+            return
+        }
+        conversation.isEnableAutoJoin = true
+        self.navigationController?.pushViewController(conversation, animated: true)
     }
     
     func joinEvent() {

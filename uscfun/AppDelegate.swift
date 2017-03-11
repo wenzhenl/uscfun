@@ -59,12 +59,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window?.rootViewController = initialViewController
             window?.makeKeyAndVisible()
         }
-    
-//        window = UIWindow(frame: UIScreen.main.bounds)
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let initialViewController = storyboard.instantiateInitialViewController()
-//        window?.rootViewController = initialViewController
-//        window?.makeKeyAndVisible()
         return true
     }
 
@@ -85,15 +79,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         
         print("APPLICATION DID BECOME ACTIVE")
-//        let num = application.applicationIconBadgeNumber
-//        if num != 0 {
-//            if let currentInstallation = AVInstallation.current() {
-//                currentInstallation.setValue(0, forKey: "badge")
-//                currentInstallation.saveEventually()
-//            }
-//            application.cancelAllLocalNotifications()
-//            application.applicationIconBadgeNumber = 0
-//        }
+        let num = application.applicationIconBadgeNumber
+        if num != 0 {
+            let currentInstallation = AVInstallation.current()
+            currentInstallation.setValue(0, forKey: "badge")
+            currentInstallation.saveEventually()
+            application.cancelAllLocalNotifications()
+            application.applicationIconBadgeNumber = 0
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
