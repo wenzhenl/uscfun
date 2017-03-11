@@ -97,7 +97,19 @@ extension CustomizedAlertViewController: UITableViewDelegate {
         if alertType! == .showError {
             return 0
         }
-        return 2
+        return 1 / UIScreen.main.scale
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        view.tintColor = UIColor.clear
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let px = 1 / UIScreen.main.scale
+        let frame = CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: px)
+        let line = UIView(frame: frame)
+        line.backgroundColor = self.tableView.separatorColor
+        return line
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
