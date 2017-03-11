@@ -160,6 +160,9 @@ class Event {
     /// The members of the event including creator
     var members: [AVUser]
     
+    /// The individual seats taken by each member including creator using member username as key
+    var seatsPerMember: [String: Int]
+    
     /// The flag indicates that the event has been executed and it will not be shown at
     /// user's my attending events section
     var isCompleted: Bool
@@ -224,6 +227,7 @@ class Event {
         self.transientConversationId = ""
         self.conversationId = ""
         self.members = [createdBy]
+        self.seatsPerMember = [createdBy.username!: maximumAttendingPeople - remainingSeats]
         self.isCompleted = false
         self.isCancelled = false
         self.institution = USCFunConstants.nameOfSchool
@@ -296,6 +300,12 @@ class Event {
         }
         self.members = members
 
+        guard let seatsPerMember = data.value(forKey: EventKeyConstants.keyOfSeatsPerMember) as? [String: Int] else {
+            print("failed to create Event from AVObject: no seats per member")
+            return nil
+        }
+        self.seatsPerMember = seatsPerMember
+        
         guard let isCompleted = data.value(forKey: EventKeyConstants.keyOfIsCompleted) as? Bool else {
             print("failed to create Event from AVObject: no isCompleted")
             return nil
@@ -381,7 +391,7 @@ class Event {
     /// - parameter error: optional error information if operation fails
     
     private func createConversation(isTransient: Bool, handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
-        let client = AVIMClient(clientId: AVUser.current()!.username!.replaceAtByUnderscore!)
+        let client = AVIMClient(clientId: AVUser.current()!.username!)
         client.open() {
             succeeded, error in
             if succeeded {
@@ -447,6 +457,7 @@ class Event {
         
         eventObject.setObject(createdBy, forKey: EventKeyConstants.keyOfCreatedBy)
         eventObject.setObject(members, forKey: EventKeyConstants.keyOfMembers)
+        eventObject.setObject(seatsPerMember, forKey: EventKeyConstants.keyOfSeatsPerMember)
         eventObject.setObject(transientConversationId, forKey: EventKeyConstants.keyOfTransientConversationId)
         eventObject.setObject(conversationId, forKey: EventKeyConstants.keyOfConversationId)
         eventObject.setObject(isCompleted, forKey: EventKeyConstants.keyOfIsCompleted)
@@ -481,7 +492,6 @@ class Event {
         }
     }
     
-    
     /// Add a new member to the event
     ///
     /// - parameter newMember:   the new member that is about to join
@@ -500,9 +510,8 @@ class Event {
         let option = AVSaveOption()
         option.query = query
         option.fetchWhenSave = true
-        eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: -1)
+        eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: NSNumber(integerLiteral: -seats))
         eventObject.addUniqueObject(newMember, forKey: EventKeyConstants.keyOfMembers)
-        
         do {
             try eventObject.save(with: option)
             self.remainingSeats -= 1

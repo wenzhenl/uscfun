@@ -123,12 +123,15 @@ extension Email {
         return dotToken[0]
     }
     
-    var replaceAtByUnderscore: String? {
+    var replaceAtAndDotByUnderscore: String? {
         guard self.isValid else { return nil }
         let delimiter = "@"
         let token = self.components(separatedBy: delimiter)
         guard token.count == 2 else { return nil }
-        return token[0] + "_" + token[1]
+        let dot = "."
+        let dotToken = token[1].components(separatedBy: dot)
+        guard dotToken.count == 2 else { return nil }
+        return token[0] + "_" + dotToken[0] + "_" + dotToken[1]
     }
 }
 

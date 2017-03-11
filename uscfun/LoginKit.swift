@@ -105,7 +105,7 @@ class LoginKit {
         
         // save user info in server
         let user: AVUser = AVUser()
-        user.username = email.replaceAtByUnderscore
+        user.username = email.replaceAtAndDotByUnderscore
         user.password = LoginKit.password
         user.email = email
         user.setObject(nickname, forKey: UserKeyConstants.keyOfNickname)
