@@ -81,6 +81,7 @@ class EventListViewController: UIViewController {
             return
         }
         EventRequest.publicEvents[eventId] = nil
+        self.tableView.reloadData()
     }
     
     func handleQuitEvent() {

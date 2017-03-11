@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ChatKit
 
 class MyEventListViewController: UIViewController {
 
@@ -81,6 +82,7 @@ class MyEventListViewController: UIViewController {
             return
         }
         EventRequest.myOngoingEvents[eventId] = nil
+        self.tableView.reloadData()
     }
     
     func handleRefresh() {
@@ -277,7 +279,19 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if EventRequest.myOngoingEvents.count > 0 && indexPath.section > 0 {
-            performSegue(withIdentifier: identifierToEventDetail, sender: self)
+            let event = EventRequest.myOngoingEvents[EventRequest.myOngoingEvents.keys[indexPath.section - 1]]!
+            if event.status == .isFinalized {
+                guard let conversation = LCCKConversationViewController(conversationId: event.conversationId) else {
+                    self.displayInfo(info: "网络错误，无法进入评论区")
+                    tableView.deselectRow(at: indexPath, animated: true)
+                    return
+                }
+                conversation.isEnableAutoJoin = true
+                conversation.hidesBottomBarWhenPushed = true
+                self.navigationController?.pushViewController(conversation, animated: true)
+            } else {
+                performSegue(withIdentifier: identifierToEventDetail, sender: self)
+            }
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
