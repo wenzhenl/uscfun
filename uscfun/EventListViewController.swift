@@ -42,8 +42,12 @@ class EventListViewController: UIViewController {
         self.tableView.tableFooterView = UIView()
         self.tableView.separatorStyle = .none
         AppDelegate.systemNotificationDelegate = self
+        
+        
         NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "findRefresh"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleJoinEvent(notification:)), name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleQuitEvent), name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil)
+        
         
         infoLabel = UILabel(frame: CGRect(x: 0.0, y: -heightOfInfoLabel, width: view.frame.size.width, height: heightOfInfoLabel))
         infoLabel.numberOfLines = 0
@@ -77,6 +81,11 @@ class EventListViewController: UIViewController {
             return
         }
         EventRequest.publicEvents[eventId] = nil
+    }
+    
+    func handleQuitEvent() {
+        self.refreshControl.beginRefreshing()
+        handleRefresh()
     }
     
     func handleRefresh() {

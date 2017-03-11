@@ -36,9 +36,14 @@ class MyEventListViewController: UIViewController {
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, -10, 0)
         self.tableView.tableFooterView = UIView()
         self.tableView.separatorStyle = .none
+        
+        
         NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "homeRefresh"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handlePostNewEvent), name: NSNotification.Name(rawValue: "userDidPostNewEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handlePostNewEvent), name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleQuitEvent(notification:)), name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil)
+        
+        
         infoLabel = UILabel(frame: CGRect(x: 0.0, y: -heightOfInfoLabel, width: view.frame.size.width, height: heightOfInfoLabel))
         infoLabel.numberOfLines = 0
         infoLabel.textAlignment = .center
@@ -68,6 +73,14 @@ class MyEventListViewController: UIViewController {
     func handlePostNewEvent() {
         self.refreshControl.beginRefreshing()
         handleRefresh()
+    }
+    
+    func handleQuitEvent(notification: Notification) {
+        guard let userInfo = notification.userInfo, let eventId = userInfo["eventId"] as? String  else {
+            print("cannot get user info from user did quit event notification")
+            return
+        }
+        EventRequest.myOngoingEvents[eventId] = nil
     }
     
     func handleRefresh() {

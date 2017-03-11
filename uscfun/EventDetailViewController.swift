@@ -38,6 +38,13 @@ class EventDetailViewController: UIViewController {
     var infoLabel: UILabel!
     let heightOfInfoLabel = CGFloat(46.0)
     
+    lazy var blurView: UIView = {
+        let blurView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height))
+        blurView.backgroundColor = UIColor.lightGray
+        blurView.alpha = 0.2
+        return blurView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.view.backgroundColor = UIColor.white
@@ -120,10 +127,10 @@ class EventDetailViewController: UIViewController {
         switch event.relationWithMe {
         case .createdByMe:
             performSegue(withIdentifier: "go to edit event", sender: self)
+        case .joinedByMe:
+            quitRequest()
         case .noneOfMyBusiness:
             joinEvent()
-        default:
-            break
         }
     }
     
@@ -179,29 +186,26 @@ class EventDetailViewController: UIViewController {
         }
     }
     
-//    func quitRequest() {
-//        
-//        let actionViewController = self.storyboard!.instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentifierOfCustomizedAlertViewController) as! CustomizedAlertViewController
-//        actionViewController.delegate = self
-//        actionViewController.alertType = CustomAlertType.quitEvent
-//        actionViewController.modalPresentationStyle = .overFullScreen
-//        self.present(actionViewController, animated: true, completion: nil)
-//    }
-//    
-//    func takeActions() {
-//        
-//        let actionViewController = self.storyboard!.instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentifierOfCustomizedAlertViewController) as! CustomizedAlertViewController
-//        actionViewController.delegate = self
-//        actionViewController.alertType = CustomAlertType.shareEvent
-//        actionViewController.modalPresentationStyle = .overFullScreen
-//        self.present(actionViewController, animated: true, completion: nil)
-//    }
+    func quitRequest() {
+        
+        let actionViewController = self.storyboard!.instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentifierOfCustomizedAlertViewController) as! CustomizedAlertViewController
+        actionViewController.delegate = self
+        actionViewController.alertType = CustomAlertType.quitEvent
+        actionViewController.modalPresentationStyle = .overFullScreen
+        if !self.view.subviews.contains(blurView) {
+            self.view.addSubview(blurView)
+        }
+        self.present(actionViewController, animated: true, completion: nil)
+    }
     
     @IBAction func takeActions(_ sender: UIBarButtonItem) {
         let actionViewController = self.storyboard!.instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentifierOfCustomizedAlertViewController) as! CustomizedAlertViewController
         actionViewController.delegate = self
         actionViewController.alertType = CustomAlertType.shareEvent
         actionViewController.modalPresentationStyle = .overFullScreen
+        if !self.view.subviews.contains(blurView) {
+            self.view.addSubview(blurView)
+        }
         self.present(actionViewController, animated: true, completion: nil)
     }
     
@@ -234,12 +238,17 @@ class EventDetailViewController: UIViewController {
 
 extension EventDetailViewController: CustomizedAlertViewDelegate {
     internal func reportEvent() {
+        self.blurView.removeFromSuperview()
     }
 
     func withdraw() {
+        self.blurView.removeFromSuperview()
     }
     
     func shareEventToMoments() {
+        
+        self.blurView.removeFromSuperview()
+        
         print("share event to moments")
         let message = WXMediaMessage()
         message.title = event!.name
@@ -257,6 +266,9 @@ extension EventDetailViewController: CustomizedAlertViewDelegate {
     }
     
     func shareEventToWechatFriend() {
+        
+        self.blurView.removeFromSuperview()
+
         print("share event to friend")
         let message = WXMediaMessage()
         message.title = event!.name
@@ -274,24 +286,25 @@ extension EventDetailViewController: CustomizedAlertViewDelegate {
     }
     
     func quitEvent() {
+        
+        self.blurView.removeFromSuperview()
+
+        print("quit event")
+        SVProgressHUD.show()
+        self.event.remove(member: AVUser.current()!) {
+            succeeded, error in
+            SVProgressHUD.dismiss()
+            if succeeded {
+                self.populateSections()
+                self.tableView.reloadData()
+                self.setupJoinButton()
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil, userInfo: ["eventId": event.objectId!])
+            }
+            else if error != nil {
+                self.displayInfo(info: error!.localizedDescription)
+            }
+        }
     }
-//    
-//    func quitEvent() {
-//        print("quit event")
-//        SVProgressHUD.show()
-//        self.event?.remove(member: AVUser.current()) {
-//            succeeded, error in
-//            SVProgressHUD.dismiss()
-//            if succeeded {
-//                self.populateSections()
-//                self.tableView.reloadData()
-//                self.delegate?.userDidQuitEventWith(id: self.event!.objectId!)
-//            }
-//            else if error != nil {
-//                self.showUpdateReminder(message: error!.localizedDescription)
-//            }
-//        }
-//    }
 }
 
 extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource {
