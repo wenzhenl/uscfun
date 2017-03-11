@@ -63,6 +63,12 @@ class MyEventListViewController: UIViewController {
         infoLabel.frame.origin = CGPoint.zero
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        infoLabel.isHidden = true
+        infoLabel.frame.origin = CGPoint.zero
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }

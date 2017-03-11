@@ -55,6 +55,8 @@ class EventDetailViewController: UIViewController {
         self.populateSections()
         creator = User(user: event.createdBy)
         
+        setupJoinButton()
+        
         infoLabel = UILabel(frame: CGRect(x: 0.0, y: -heightOfInfoLabel, width: view.frame.size.width, height: heightOfInfoLabel))
         infoLabel.numberOfLines = 0
         infoLabel.textAlignment = .center
@@ -153,6 +155,7 @@ class EventDetailViewController: UIViewController {
                 self.tableView.reloadData()
                 self.setupJoinButton()
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil, userInfo: ["eventId": event.objectId!])
+                self.displayInfo(info: "活动已经加入我的日常")
             }
             else if error != nil {
                 self.displayInfo(info: error!.localizedDescription)
@@ -304,6 +307,7 @@ extension EventDetailViewController: CustomizedAlertViewDelegate {
                 self.tableView.reloadData()
                 self.setupJoinButton()
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil, userInfo: ["eventId": event.objectId!])
+                self.displayInfo(info: "活动已从我的日常移除")
             }
             else if error != nil {
                 self.displayInfo(info: error!.localizedDescription)

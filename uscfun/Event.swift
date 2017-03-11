@@ -554,6 +554,12 @@ class Event {
 extension Event: Comparable {
     
     static func < (lhs: Event, rhs: Event) -> Bool {
+        
+        if lhs.status == .isFinalized && rhs.status != .isFinalized { return true }
+        if lhs.status != .isFinalized && rhs.status == .isFinalized { return false }
+        if lhs.status == .isSecured && rhs.status != .isSecured { return true }
+        if lhs.status != .isSecured && rhs.status == .isSecured { return false }
+        
         return lhs.due < rhs.due
     }
     
