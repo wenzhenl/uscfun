@@ -9,6 +9,27 @@
 import Foundation
 
 extension UserDefaults {
+    
+    /// user sign up variables
+    class var newEmail: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "User_New_Email_Key")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "User_New_Email_Key")
+        }
+    }
+    
+    class var newNickname: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "User_New_Nickname_Key")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "User_New_Nickname_Key")
+        }
+    }
+
+    /// user sign in variables
     class var hasLoggedIn: Bool {
         get {
             return UserDefaults.standard.bool(forKey: "User_HasLoggIn_Key")
@@ -24,15 +45,6 @@ extension UserDefaults {
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: "User_Email_Key")
-        }
-    }
-    
-    class var confirmationCode: String? {
-        get {
-            return UserDefaults.standard.string(forKey: "User_confirmationCode_Key")
-        }
-        set {
-            UserDefaults.standard.setValue(newValue, forKey: "User_confirmationCode_Key")
         }
     }
     

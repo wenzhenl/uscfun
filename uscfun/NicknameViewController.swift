@@ -29,7 +29,7 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
         set {
             nicknameTextField.text = newValue
             nextStepButtonItem.isEnabled = !(newValue ?? "").isWhitespaces
-            UserDefaults.nickname = newValue?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            UserDefaults.newNickname = newValue?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         }
     }
     
@@ -39,7 +39,7 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
         self.title = ""
         
         errorLabel.isHidden = true
-        nickname = UserDefaults.nickname
+        nickname = UserDefaults.newNickname
         
         if DeviceType.IS_IPHONE_4_OR_LESS {
             containerView.transform = CGAffineTransform(translationX: 0,y: -80)

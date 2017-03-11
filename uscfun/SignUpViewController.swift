@@ -35,7 +35,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         }
         set {
             emailTextField.text = newValue?.prefix
-            UserDefaults.email = newValue?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            UserDefaults.newEmail = newValue?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         }
     }
     
@@ -74,7 +74,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         noticeTextView.textAlignment = .center
         
         errorLabel.isHidden = true
-        email = UserDefaults.email
+        email = UserDefaults.newEmail
         
         /// additonal setup for iPhone4 and iPhone5
         if DeviceType.IS_IPHONE_4_OR_LESS || DeviceType.IS_IPHONE_5 {

@@ -80,12 +80,12 @@ class LoginKit {
     
     static func signUp(handler: (_ succeed: Bool, _ error: Error?) -> Void) {
         
-        guard let email = UserDefaults.email, email.isValid else {
+        guard let email = UserDefaults.newEmail, email.isValid else {
             handler(false, SignUpError.systemError(localizedDescriotion: "邮箱地址无效", debugDescription: "failed to sign up: email is not right"))
             return
         }
         
-        guard let nickname = UserDefaults.nickname else {
+        guard let nickname = UserDefaults.newNickname else {
             handler(false, SignUpError.systemError(localizedDescriotion: "昵称不能为空", debugDescription: "failed to sign up: nickname is missing"))
             return
         }
@@ -119,6 +119,16 @@ class LoginKit {
         if file.save(&error) {
             user.setObject(file.url, forKey: UserKeyConstants.keyOfAvatarUrl)
             if user.signUp(&error) {
+                if let current = AVUser.current() {
+                    UserDefaults.email = current.email
+                    UserDefaults.nickname = current.value(forKey: UserKeyConstants.keyOfNickname) as! String?
+                    print("new nickname: \(UserDefaults.nickname ?? "")")
+                } else {
+                    print("failed to update current AVUser after signup")
+                }
+                
+                UserDefaults.newEmail = nil
+                UserDefaults.newNickname = nil
                 handler(true, nil)
             } else {
                 handler(false, error)
