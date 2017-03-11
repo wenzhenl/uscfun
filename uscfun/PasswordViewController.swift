@@ -28,8 +28,7 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        self.view.backgroundColor = UIColor.backgroundGray
+        self.view.backgroundColor = UIColor.white
 
         passwordTextField.delegate = self
         errorLabel.isHidden = true

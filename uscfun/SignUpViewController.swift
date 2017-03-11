@@ -14,11 +14,13 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     @IBOutlet weak var emailTextField: UITextField! {
         didSet {
             emailTextField.delegate = self
+            emailTextField.addTarget(self, action: #selector(emailTextDidChanged), for: .editingChanged)
         }
     }
     @IBOutlet weak var confirmationCodeTextField: UITextField! {
         didSet {
             confirmationCodeTextField.delegate = self
+            confirmationCodeTextField.addTarget(self, action: #selector(confirmationCodeTextDidChanged), for: .editingChanged)
         }
     }
     @IBOutlet weak var errorLabel: UILabel!
@@ -27,17 +29,13 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     @IBOutlet weak var requestConfirmationCodeButton: UIButton!
     @IBOutlet weak var nextStepButtonItem: UIBarButtonItem!
     
-    var emailPrefix: String? {
+    var email: String? {
         get {
-            return emailTextField.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            return (emailTextField.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) ?? "") + "@" + suffix
         }
         set {
-            emailTextField.text = newValue
-            if newValue != nil {
-                UserDefaults.email = newValue!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) + "@" + suffix
-            } else {
-                UserDefaults.email = nil
-            }
+            emailTextField.text = newValue?.prefix
+            UserDefaults.email = newValue?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         }
     }
     
@@ -57,7 +55,10 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         self.title = ""
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.view.backgroundColor = UIColor.backgroundGray
+        self.view.backgroundColor = UIColor.white
+        self.navigationController?.navigationBar.isTranslucent = false
+        
+        /// set up notice for user agreement
         noticeTextView.delegate = self
         let notice = NSMutableAttributedString(string: "继续注册流程代表你已阅读并同意用户使用协议")
         notice.addAttribute(NSLinkAttributeName, value: "http://www.google.com", range: NSRange(location: 15, length: 6))
@@ -73,7 +74,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         noticeTextView.textAlignment = .center
         
         errorLabel.isHidden = true
-        emailPrefix = UserDefaults.email?.prefix
+        email = UserDefaults.email
         emailTextField.becomeFirstResponder()
         
         /// additonal setup for iPhone4 and iPhone5
@@ -97,9 +98,18 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     }
     
     @IBAction func requestConfirmationCode(_ sender: UIButton) {
+        LoginKit.requestConfirmationCode {
+            succeeded, error in
+            if succeeded {
+                print("succeed in requesting confirmation code")
+            } else {
+                print(error.debugDescription)
+            }
+        }
     }
     
     @IBAction func goNext(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "go to nickname", sender: self)
     }
     
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
@@ -110,46 +120,27 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case emailTextField:
-            let email = (emailPrefix ?? "") + "@" + suffix
-            if email.isValid {
-                emailTextField.resignFirstResponder()
-                errorLabel.isHidden = true
-                confirmationCodeTextField.becomeFirstResponder()
-            } else {
-                print(email)
-                errorLabel.text = "邮箱格式貌似不太对劲"
+            guard let email = email, email.isValid else {
+                errorLabel.text = "邮箱格式不正确，请重新输入"
                 errorLabel.isHidden = false
+                return true
             }
-        case confirmationCodeTextField:
-            if UserDefaults.confirmationCode == nil {
-                errorLabel.text = "你还没有请求验证码"
-                errorLabel.isHidden = false
-            }
-            else if confirmationCode != UserDefaults.confirmationCode {
-                errorLabel.text = "验证码错误"
-                errorLabel.isHidden = false
-            } else {
-                confirmationCodeTextField.resignFirstResponder()
-                errorLabel.isHidden = true
-                performSegue(withIdentifier: "go to nickname", sender: self)
-            }
+            print(email)
+            emailTextField.resignFirstResponder()
+            errorLabel.isHidden = true
+            confirmationCodeTextField.becomeFirstResponder()
         default:
             break
         }
         return true
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
+    func emailTextDidChanged() {
+        email = (emailTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines) + "@" + suffix
+        print("current email: \(email)")
+    }
+    
+    func confirmationCodeTextDidChanged() {
         
-        print("text field did end editing")
-        
-        switch textField {
-        case emailTextField:
-            emailPrefix = textField.text
-        case confirmationCodeTextField:
-            confirmationCode = textField.text
-        default:
-            break
-        }
     }
 }
