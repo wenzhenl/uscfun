@@ -134,7 +134,7 @@ extension Email {
 
 extension String {
     
-    var isConsistedOnlyWithSpace: Bool {
+    var isWhitespaces: Bool {
         let patternForEmptyString = "^\\s*$"
         if self.range(of: patternForEmptyString, options: .regularExpression) != nil {
             return true

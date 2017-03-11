@@ -15,6 +15,7 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var nextStepButtonItem: UIBarButtonItem!
     
     var password: String {
         get {
@@ -27,9 +28,9 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.view.backgroundColor = UIColor.white
-
+        self.title = ""
+        
         passwordTextField.delegate = self
         errorLabel.isHidden = true
         
@@ -44,6 +45,9 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         passwordTextField.becomeFirstResponder()
+    }
+    
+    @IBAction func goNext(_ sender: UIBarButtonItem) {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

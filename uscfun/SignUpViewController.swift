@@ -75,7 +75,6 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         
         errorLabel.isHidden = true
         email = UserDefaults.email
-        emailTextField.becomeFirstResponder()
         
         /// additonal setup for iPhone4 and iPhone5
         if DeviceType.IS_IPHONE_4_OR_LESS || DeviceType.IS_IPHONE_5 {
@@ -88,6 +87,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        emailTextField.becomeFirstResponder()
         UIApplication.shared.statusBarStyle = .default
     }
     

@@ -376,7 +376,7 @@
                                                     <constraint firstAttribute="height" constant="30" id="Zqy-Jv-VIS"/>
                                                 </constraints>
                                             </imageView>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入验证码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mAK-8q-Xlw">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入验证码" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="mAK-8q-Xlw">
                                                 <rect key="frame" x="58" y="58" width="117" height="30"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -772,10 +772,17 @@
                             <constraint firstItem="KLT-5s-rdK" firstAttribute="top" secondItem="VOd-81-y2C" secondAttribute="bottom" id="Qvi-1J-X9h"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="昵称" id="bAE-lC-5E1"/>
+                    <navigationItem key="navigationItem" title="昵称" id="bAE-lC-5E1">
+                        <barButtonItem key="rightBarButtonItem" title="下一步" id="KLB-56-V5m">
+                            <connections>
+                                <action selector="goNext:" destination="mHR-oD-qzp" id="bmU-SN-SyU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="containerView" destination="VOd-81-y2C" id="yhR-Zp-X9G"/>
                         <outlet property="errorLabel" destination="rEs-Pj-PfI" id="43n-kR-k6w"/>
+                        <outlet property="nextStepButtonItem" destination="KLB-56-V5m" id="GIX-6M-ncO"/>
                         <outlet property="nicknameTextField" destination="Lcy-8e-b0q" id="Esg-AM-o8I"/>
                         <outlet property="nicknameView" destination="TbU-OI-Dxn" id="Pxj-fY-qBp"/>
                         <segue destination="9JH-pR-unR" kind="show" identifier="go to password" id="7Qz-z1-lEB"/>
@@ -890,87 +897,24 @@
                             <constraint firstItem="YRA-5H-qUk" firstAttribute="width" secondItem="T9B-1Q-Nx5" secondAttribute="width" id="eT8-ID-6Ot"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="密码" id="6f8-1p-2AT"/>
+                    <navigationItem key="navigationItem" title="密码" id="6f8-1p-2AT">
+                        <barButtonItem key="rightBarButtonItem" title="完成" id="Wui-VB-hSt">
+                            <connections>
+                                <action selector="goNext:" destination="9JH-pR-unR" id="zdf-GA-JLi"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="containerView" destination="YRA-5H-qUk" id="a4m-Kh-gZZ"/>
                         <outlet property="errorLabel" destination="8kj-Th-WiE" id="z3P-l6-PX4"/>
+                        <outlet property="nextStepButtonItem" destination="Wui-VB-hSt" id="bzu-9L-Txf"/>
                         <outlet property="passwordTextField" destination="xsA-vX-nSG" id="kxI-Zm-fZ6"/>
                         <outlet property="passwordView" destination="358-Hx-tTg" id="piM-5C-8Mg"/>
-                        <segue destination="qUg-YM-xNX" kind="show" identifier="go to confirm email" id="h25-j2-0IX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N7v-1X-Tc4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2199" y="-310"/>
-        </scene>
-        <!--验证邮箱-->
-        <scene sceneID="0nh-XY-V39">
-            <objects>
-                <viewController storyboardIdentifier="Confirm email" id="qUg-YM-xNX" userLabel="验证邮箱" customClass="ConfirmEmailViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="aqN-iv-jxq"/>
-                        <viewControllerLayoutGuide type="bottom" id="fmo-wU-2Wm"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="6sJ-91-ncP">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchscreen" translatesAutoresizingMaskIntoConstraints="NO" id="fyg-9h-Wam">
-                                <rect key="frame" x="0.0" y="64" width="320" height="80"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="Z1F-3o-cOD"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="80" id="mWj-8P-XtC"/>
-                                </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="mWj-8P-XtC"/>
-                                    </mask>
-                                </variation>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="正在跳转到登录页面......" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TNp-Hk-Lp2">
-                                <rect key="frame" x="16" y="275" width="288" height="16"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="你已经完成注册流程，为了保护用户隐私，请您在24小时之内验证你的邮箱地址。没有验证邮箱是不可以登录的。" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BG0-HI-jIB">
-                                <rect key="frame" x="16" y="205" width="288" height="70"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="textColor" red="0.03579455107" green="0.63124459700000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                        </subviews>
-                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="TNp-Hk-Lp2" firstAttribute="leading" secondItem="6sJ-91-ncP" secondAttribute="leadingMargin" id="3gn-xL-dFc"/>
-                            <constraint firstItem="BG0-HI-jIB" firstAttribute="centerY" secondItem="6sJ-91-ncP" secondAttribute="centerY" id="A65-eC-1MB"/>
-                            <constraint firstItem="BG0-HI-jIB" firstAttribute="leading" secondItem="6sJ-91-ncP" secondAttribute="leadingMargin" id="FHn-Fb-Z4l"/>
-                            <constraint firstItem="BG0-HI-jIB" firstAttribute="top" secondItem="fyg-9h-Wam" secondAttribute="bottom" id="LxZ-Pa-VJx"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="TNp-Hk-Lp2" secondAttribute="trailing" id="PKg-B7-0Lx"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="BG0-HI-jIB" secondAttribute="trailing" id="Xlc-w6-wHS"/>
-                            <constraint firstItem="TNp-Hk-Lp2" firstAttribute="top" secondItem="BG0-HI-jIB" secondAttribute="bottom" id="YLe-JC-opV"/>
-                            <constraint firstItem="fyg-9h-Wam" firstAttribute="width" secondItem="6sJ-91-ncP" secondAttribute="width" id="b6N-QB-afk"/>
-                            <constraint firstItem="fyg-9h-Wam" firstAttribute="centerX" secondItem="6sJ-91-ncP" secondAttribute="centerX" id="nlB-oN-dDU"/>
-                            <constraint firstItem="fyg-9h-Wam" firstAttribute="top" secondItem="aqN-iv-jxq" secondAttribute="bottom" id="qdW-k4-C0p"/>
-                            <constraint firstItem="BG0-HI-jIB" firstAttribute="centerY" secondItem="6sJ-91-ncP" secondAttribute="centerY" id="wQr-Qs-yiA"/>
-                        </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="A65-eC-1MB"/>
-                                <exclude reference="LxZ-Pa-VJx"/>
-                            </mask>
-                        </variation>
-                    </view>
-                    <connections>
-                        <segue destination="646-JI-Kur" kind="show" identifier="from confirm to signin" id="v5C-OX-Q7w"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="J6i-hv-noq" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2950" y="-311"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="cER-1g-QHB">
@@ -1017,7 +961,4 @@
         <image name="paper-plane-1" width="512" height="512"/>
         <image name="user-4" width="512" height="512"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="v5C-OX-Q7w"/>
-    </inferredMetricsTieBreakers>
 </document>

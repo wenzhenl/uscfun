@@ -58,7 +58,6 @@
 		0A71119B1DBEC79400742F2D /* BuildInClassExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71119A1DBEC79400742F2D /* BuildInClassExtension.swift */; };
 		0A71119D1DBEC87000742F2D /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71119C1DBEC87000742F2D /* UserDefaultsExtension.swift */; };
 		0A71119F1DBEC8BF00742F2D /* LoginKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71119E1DBEC8BF00742F2D /* LoginKit.swift */; };
-		0A845BD41D7206FE00287DEB /* ConfirmEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A845BD31D7206FE00287DEB /* ConfirmEmailViewController.swift */; };
 		0A8483591E670EF500B7B29A /* MyEventListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8483581E670EF500B7B29A /* MyEventListViewController.swift */; };
 		0A84835C1E683D8C00B7B29A /* TitleContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A84835A1E683D8C00B7B29A /* TitleContentTableViewCell.swift */; };
 		0A84835D1E683D8C00B7B29A /* TitleContentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A84835B1E683D8C00B7B29A /* TitleContentTableViewCell.xib */; };
@@ -174,7 +173,6 @@
 		0A71119A1DBEC79400742F2D /* BuildInClassExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuildInClassExtension.swift; sourceTree = "<group>"; };
 		0A71119C1DBEC87000742F2D /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
 		0A71119E1DBEC8BF00742F2D /* LoginKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginKit.swift; sourceTree = "<group>"; };
-		0A845BD31D7206FE00287DEB /* ConfirmEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewController.swift; sourceTree = "<group>"; };
 		0A8483581E670EF500B7B29A /* MyEventListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyEventListViewController.swift; sourceTree = "<group>"; };
 		0A84835A1E683D8C00B7B29A /* TitleContentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleContentTableViewCell.swift; sourceTree = "<group>"; };
 		0A84835B1E683D8C00B7B29A /* TitleContentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TitleContentTableViewCell.xib; sourceTree = "<group>"; };
@@ -415,7 +413,6 @@
 				0A963DB41D7122E200E0532F /* SignUpViewController.swift */,
 				0A963DB61D716E6400E0532F /* NicknameViewController.swift */,
 				0A963DB81D717A5F00E0532F /* PasswordViewController.swift */,
-				0A845BD31D7206FE00287DEB /* ConfirmEmailViewController.swift */,
 				0A022FA61D73D066004077A4 /* FindBackPasswordViewController.swift */,
 				0A2506A71DB1A8E80099E812 /* WebViewController.swift */,
 			);
@@ -643,7 +640,6 @@
 				0AF0BD8F1E6AD72F0091B999 /* EventStatusBarTableViewCell.swift in Sources */,
 				0AEA03FB1E727216008CB371 /* FeedbackViewController.swift in Sources */,
 				0A98340E1E64572C00A5D894 /* NewEventNumberOfPeopleViewController.swift in Sources */,
-				0A845BD41D7206FE00287DEB /* ConfirmEmailViewController.swift in Sources */,
 				0A00DB081DD90F5B00A81189 /* LocationAddressRow.swift in Sources */,
 				0A3D2B5B1D7B9299004F57EF /* EventListViewController.swift in Sources */,
 				0A70C09F1DBD3B4000C06354 /* LabelSwitchTableViewCell.swift in Sources */,
