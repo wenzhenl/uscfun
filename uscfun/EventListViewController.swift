@@ -25,6 +25,9 @@ class EventListViewController: UIViewController {
         return refreshControl
     }()
     
+    var infoLabel: UILabel!
+    let heightOfInfoLabel = CGFloat(46.0)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,12 +35,32 @@ class EventListViewController: UIViewController {
         self.tableView.addSubview(self.refreshControl)
         if EventRequest.publicEvents.count > 0 {
             self.tableView.backgroundColor = UIColor.backgroundGray
+        } else {
+            self.tableView.backgroundColor = UIColor.white
         }
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, -10, 0)
         self.tableView.tableFooterView = UIView()
         self.tableView.separatorStyle = .none
         AppDelegate.systemNotificationDelegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "findRefresh"), object: nil)
+        
+        infoLabel = UILabel(frame: CGRect(x: 0.0, y: -heightOfInfoLabel, width: view.frame.size.width, height: heightOfInfoLabel))
+        infoLabel.numberOfLines = 0
+        infoLabel.textAlignment = .center
+        infoLabel.lineBreakMode = .byWordWrapping
+        infoLabel.alpha = 0.95
+        infoLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        infoLabel.isHidden = true
+        view.addSubview(infoLabel)
+        
+        /// important for animation to work properly
+        self.navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+        infoLabel.isHidden = true
+        infoLabel.frame.origin = CGPoint.zero
     }
     
     deinit {
@@ -49,31 +72,61 @@ class EventListViewController: UIViewController {
     }
     
     func handleRefresh() {
-        EventRequest.fetchNewerMyOngoingEventsInBackground() {
-            succeeded, error in
-            if succeeded {
-                self.tableView.reloadData()
-            }
-        }
         let numberOfPublicEventsBeforeUpdate = EventRequest.publicEvents.count
         EventRequest.fetchNewerPublicEventsInBackground() {
             succeeded, error in
-            if error != nil {
-                self.showUpdateReminder(message: error!.localizedDescription)
-            }
-            else if succeeded {
+            if succeeded {
+                if EventRequest.publicEvents.count > 0 {
+                    self.tableView.backgroundColor = UIColor.backgroundGray
+                } else {
+                    self.tableView.backgroundColor = UIColor.white
+                }
                 let numberOfPublicEventsAfterUpdate = EventRequest.publicEvents.count
                 if numberOfPublicEventsAfterUpdate > numberOfPublicEventsBeforeUpdate {
-                    self.showUpdateReminder(message: "发现了\(numberOfPublicEventsAfterUpdate - numberOfPublicEventsBeforeUpdate)个新的微活动")
+                    self.displayInfo(info: "发现了\(numberOfPublicEventsAfterUpdate - numberOfPublicEventsBeforeUpdate)个新的微活动")
+                } else {
+                    self.displayInfo(info: "没有更新的微活动了")
                 }
                 self.tableView.reloadData()
+            }
+            else if error != nil {
+                self.displayInfo(info: error!.localizedDescription)
             }
             self.refreshControl.endRefreshing()
         }
     }
     
-    func showUpdateReminder(message: String) {
+    func displayInfo(info: String) {
+        self.infoLabel.isHidden = false
+        self.infoLabel.backgroundColor = UIColor.white
+        self.infoLabel.textColor = UIColor.buttonPink
+        self.infoLabel.text = info
+        
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
+            _ in
+            self.infoLabel.frame.origin.y = 0.0
+            self.view.layoutIfNeeded()
+        }) {
+            completed in
+            if completed {
+                let delay = 1.5 * Double(NSEC_PER_SEC)
+                let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
+                DispatchQueue.main.asyncAfter(deadline: time) {
+                    UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
+                        _ in
+                        self.infoLabel.frame.origin.y = -self.heightOfInfoLabel
+                        self.view.layoutIfNeeded()
+                    }) {
+                        finished in
+                        if finished {
+                            self.infoLabel.isHidden = true
+                        }
+                    }
+                }
+            }
+        }
     }
+    
     let identifierToEventDetail = "go to event detail"
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
