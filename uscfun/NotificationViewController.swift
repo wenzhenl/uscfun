@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct Notification {
+struct NotificationUscFun {
     var title: String
     var content: String
     var eventId: String
@@ -19,7 +19,7 @@ class NotificationViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    var notifications = [Notification]()
+    var notifications = [NotificationUscFun]()
     
     override func viewDidLoad() {
         super.viewDidLoad()

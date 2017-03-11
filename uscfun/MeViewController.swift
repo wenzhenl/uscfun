@@ -15,17 +15,11 @@ enum MeCell {
     case regularTableCell(text: String, segueId: String)
 }
 
-protocol UserSettingDelegate {
-    func userDidChangeLefthandMode()
-//    func userDidChangeAllowEventHistoryViewedMode()
-}
-
 class MeViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
     var meSections = [[MeCell]]()
-    var delegate: UserSettingDelegate?
     var selectedIndex: IndexPath?
     
     override func viewDidLoad() {

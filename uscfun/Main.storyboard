@@ -705,6 +705,9 @@ A different license may apply to other resources included in this package, inclu
                                 <state key="normal" title="报名参加">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="updateEvent:" destination="nvQ-YZ-kHk" eventType="touchUpInside" id="Cl5-m2-SgS"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hft-qE-Tcn">
                                 <rect key="frame" x="207" y="686" width="207" height="50"/>
@@ -750,7 +753,7 @@ A different license may apply to other resources included in this package, inclu
                         <outlet property="tableView" destination="VNM-N7-eAu" id="lw0-Dq-uwb"/>
                         <segue destination="jln-hf-hFc" kind="show" identifier="SHOWMAP" id="nRo-fV-YhR"/>
                         <segue destination="Uge-ze-E6d" kind="show" identifier="see user profile" id="9Ga-jW-Tza"/>
-                        <segue destination="cLR-Fe-5nJ" kind="show" identifier="go to edit event" id="OaY-OK-gzz"/>
+                        <segue destination="Ct1-en-vAJ" kind="presentation" identifier="go to edit event" id="OaY-OK-gzz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y9J-Ob-CXo" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -788,7 +791,7 @@ A different license may apply to other resources included in this package, inclu
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dcE-1h-f1Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1212" y="-4643"/>
+            <point key="canvasLocation" x="2184.057971014493" y="-4663.04347826087"/>
         </scene>
         <!--Edit Event View Controller-->
         <scene sceneID="9q4-nj-Nzu">
@@ -803,10 +806,25 @@ A different license may apply to other resources included in this package, inclu
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="rO9-0B-UNA">
+                        <barButtonItem key="leftBarButtonItem" title="取消" id="SZz-SN-XsA">
+                            <connections>
+                                <action selector="cancel:" destination="cLR-Fe-5nJ" id="Ybm-A5-psa"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="保存" id="jFr-1L-unf">
+                            <connections>
+                                <action selector="save:" destination="cLR-Fe-5nJ" id="543-Uv-YfS"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="saveButtonItem" destination="jFr-1L-unf" id="euF-nW-eZl"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aq8-VB-dyz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="210" y="-4643"/>
+            <point key="canvasLocation" x="1000.0000000000001" y="-4663.04347826087"/>
         </scene>
         <!--Customized Alert View Controller-->
         <scene sceneID="xMq-WR-Fwj">
@@ -1479,6 +1497,24 @@ A different license may apply to other resources included in this package, inclu
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JhO-nD-hX3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4405.6000000000004" y="-7334.4827586206902"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="bby-bd-BOG">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ct1-en-vAJ" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ti3-2f-cla">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="cLR-Fe-5nJ" kind="relationship" relationship="rootViewController" id="PHq-0b-s1f"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UXu-zC-Bbe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="92.753623188405811" y="-4663.04347826087"/>
         </scene>
     </scenes>
     <resources>

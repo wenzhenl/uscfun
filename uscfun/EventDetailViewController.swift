@@ -35,6 +35,9 @@ class EventDetailViewController: UIViewController {
     var creator: User!
     var detailSections = [EventDetailCell]()
     
+    var infoLabel: UILabel!
+    let heightOfInfoLabel = CGFloat(46.0)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.view.backgroundColor = UIColor.white
@@ -44,8 +47,46 @@ class EventDetailViewController: UIViewController {
         self.chatButton.backgroundColor = UIColor.buttonBlue
         self.populateSections()
         creator = User(user: event.createdBy)
+        
+        infoLabel = UILabel(frame: CGRect(x: 0.0, y: -heightOfInfoLabel, width: view.frame.size.width, height: heightOfInfoLabel))
+        infoLabel.numberOfLines = 0
+        infoLabel.textAlignment = .center
+        infoLabel.lineBreakMode = .byWordWrapping
+        infoLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        infoLabel.isHidden = true
+        view.addSubview(infoLabel)
+        
+        /// important for animation to work properly
+        self.navigationController?.navigationBar.isTranslucent = false
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+        infoLabel.isHidden = true
+        infoLabel.frame.origin = CGPoint.zero
+    }
+    
+    func setupJoinButton() {
+        switch event.relationWithMe {
+        case .createdByMe:
+            joinButton.setTitle("修改微活动", for: .normal)
+        case .joinedByMe:
+            joinButton.setTitle("已经参加", for: .normal)
+        case .noneOfMyBusiness:
+            joinButton.setTitle("报名参加", for: .normal)
+        }
+        
+        switch event.status {
+        case .isCancelled, .isFailed, .isCompleted:
+            joinButton.isEnabled = false
+        case .isFinalized:
+            if event.relationWithMe != .createdByMe {
+                joinButton.isEnabled = false
+            }
+        default:
+            break
+        }
+    }
     func populateSections() {
         // Populate the cells
         detailSections.removeAll()
@@ -75,24 +116,68 @@ class EventDetailViewController: UIViewController {
         }
     }
     
+    @IBAction func updateEvent(_ sender: UIButton) {
+        switch event.relationWithMe {
+        case .createdByMe:
+            performSegue(withIdentifier: "go to edit event", sender: self)
+        case .noneOfMyBusiness:
+            joinEvent()
+        default:
+            break
+        }
+    }
+    
     @IBAction func joinDiscussion(_ sender: UIButton) {
   
     }
-//    func joinEvent(sender: UIButton) {
-//        SVProgressHUD.show()
-//        self.event?.add(newMember: AVUser.current()) {
-//            succeeded, error in
-//            SVProgressHUD.dismiss()
-//            if succeeded {
-//                self.populateSections()
-//                self.tableView.reloadData()
-//                self.delegate?.userDidJoinEventWith(id: self.event!.objectId!)
-//            }
-//            else if error != nil {
-//                self.showUpdateReminder(message: error!.localizedDescription)
-//            }
-//        }
-//    }
+    
+    func joinEvent() {
+        SVProgressHUD.show()
+        self.event.add(newMember: AVUser.current()!) {
+            succeeded, error in
+            SVProgressHUD.dismiss()
+            if succeeded {
+                self.populateSections()
+                self.tableView.reloadData()
+                self.setupJoinButton()
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil, userInfo: ["eventId": event.objectId!])
+            }
+            else if error != nil {
+                self.displayInfo(info: error!.localizedDescription)
+            }
+        }
+    }
+    
+    func displayInfo(info: String) {
+        self.infoLabel.isHidden = false
+        self.infoLabel.backgroundColor = UIColor.white
+        self.infoLabel.textColor = UIColor.buttonPink
+        self.infoLabel.text = info
+        
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
+            _ in
+            self.infoLabel.frame.origin.y = 0.0
+            self.view.layoutIfNeeded()
+        }) {
+            completed in
+            if completed {
+                let delay = 1.5 * Double(NSEC_PER_SEC)
+                let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
+                DispatchQueue.main.asyncAfter(deadline: time) {
+                    UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
+                        _ in
+                        self.infoLabel.frame.origin.y = -self.heightOfInfoLabel
+                        self.view.layoutIfNeeded()
+                    }) {
+                        finished in
+                        if finished {
+                            self.infoLabel.isHidden = true
+                        }
+                    }
+                }
+            }
+        }
+    }
     
 //    func quitRequest() {
 //        

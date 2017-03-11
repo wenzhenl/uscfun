@@ -38,7 +38,7 @@ class MyEventListViewController: UIViewController {
         self.tableView.separatorStyle = .none
         NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "homeRefresh"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handlePostNewEvent), name: NSNotification.Name(rawValue: "userDidPostNewEvent"), object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(handlePostNewEvent), name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil)
         infoLabel = UILabel(frame: CGRect(x: 0.0, y: -heightOfInfoLabel, width: view.frame.size.width, height: heightOfInfoLabel))
         infoLabel.numberOfLines = 0
         infoLabel.textAlignment = .center
@@ -271,6 +271,12 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
 }
 
 extension Event {
+    enum RelationWithMe {
+        case createdByMe
+        case joinedByMe
+        case noneOfMyBusiness
+    }
+    
     var statusColor: UIColor {
         switch self.status {
         case .isPending:
@@ -290,5 +296,15 @@ extension Event {
             return possibleWhitePapers[abs(index) % possibleWhitePapers.count]
         }
         return possibleWhitePapers[0]
+    }
+    
+    var relationWithMe: RelationWithMe {
+        if self.createdBy == AVUser.current()! {
+            return .createdByMe
+        }
+        if self.members.contains(AVUser.current()!) {
+            return .joinedByMe
+        }
+        return .noneOfMyBusiness
     }
 }

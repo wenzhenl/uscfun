@@ -43,6 +43,7 @@ class EventListViewController: UIViewController {
         self.tableView.separatorStyle = .none
         AppDelegate.systemNotificationDelegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "findRefresh"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleJoinEvent(notification:)), name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil)
         
         infoLabel = UILabel(frame: CGRect(x: 0.0, y: -heightOfInfoLabel, width: view.frame.size.width, height: heightOfInfoLabel))
         infoLabel.numberOfLines = 0
@@ -68,6 +69,14 @@ class EventListViewController: UIViewController {
     
     func handleTab() {
         self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+    }
+    
+    func handleJoinEvent(notification: Notification) {
+        guard let userInfo = notification.userInfo, let eventId = userInfo["eventId"] as? String else {
+            print("cannot parse notification user info")
+            return
+        }
+        EventRequest.publicEvents[eventId] = nil
     }
     
     func handleRefresh() {
@@ -142,32 +151,6 @@ class EventListViewController: UIViewController {
         }
     }
 }
-
-extension EventListViewController: UserSettingDelegate {
-    func userDidChangeLefthandMode() {
-    }
-}
-
-//extension EventListViewController: EventMemberStatusDelegate {
-//    func userDidJoinEventWith(id: String) {
-//        EventRequest.myOngoingEvents[id] = EventRequest.publicEvents[id]
-//        EventRequest.publicEvents[id] = nil
-//        self.tableView.reloadData()
-//    }
-//    
-//    func userDidQuitEventWith(id: String) {
-//        EventRequest.publicEvents[id] = EventRequest.myOngoingEvents[id]
-//        EventRequest.myOngoingEvents[id] = nil
-//        self.tableView.reloadData()
-//    }
-//    
-//    func userDidPostEvent() {
-//        EventRequest.fetchNewerMyOngoingEventsInBackground() {
-//            _ in
-//            self.tableView.reloadData()
-//        }
-//    }
-//}
 
 extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     
