@@ -160,9 +160,6 @@ class Event {
     /// The members of the event including creator
     var members: [AVUser]
     
-    /// The individual seats taken by each member including creator using member username as key
-    var seatsPerMember: [String: Int]
-    
     /// The flag indicates that the event has been executed and it will not be shown at
     /// user's my attending events section
     var isCompleted: Bool
@@ -227,7 +224,6 @@ class Event {
         self.transientConversationId = ""
         self.conversationId = ""
         self.members = [createdBy]
-        self.seatsPerMember = [createdBy.username!: maximumAttendingPeople - remainingSeats]
         self.isCompleted = false
         self.isCancelled = false
         self.institution = USCFunConstants.nameOfSchool
@@ -299,12 +295,6 @@ class Event {
             return nil
         }
         self.members = members
-
-        guard let seatsPerMember = data.value(forKey: EventKeyConstants.keyOfSeatsPerMember) as? [String: Int] else {
-            print("failed to create Event from AVObject: no seats per member")
-            return nil
-        }
-        self.seatsPerMember = seatsPerMember
         
         guard let isCompleted = data.value(forKey: EventKeyConstants.keyOfIsCompleted) as? Bool else {
             print("failed to create Event from AVObject: no isCompleted")
@@ -457,7 +447,6 @@ class Event {
         
         eventObject.setObject(createdBy, forKey: EventKeyConstants.keyOfCreatedBy)
         eventObject.setObject(members, forKey: EventKeyConstants.keyOfMembers)
-        eventObject.setObject(seatsPerMember, forKey: EventKeyConstants.keyOfSeatsPerMember)
         eventObject.setObject(transientConversationId, forKey: EventKeyConstants.keyOfTransientConversationId)
         eventObject.setObject(conversationId, forKey: EventKeyConstants.keyOfConversationId)
         eventObject.setObject(isCompleted, forKey: EventKeyConstants.keyOfIsCompleted)
@@ -500,17 +489,17 @@ class Event {
     /// - parameter succeeded:   indicate if the operation is successful
     /// - parameter error:       optional error information if operation fails
     
-    func add(newMember: AVUser, seats: Int, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
+    func add(newMember: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         
         let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId!)
         let query = AVQuery()
         query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date().timeIntervalSince1970)
-        query.whereKey(EventKeyConstants.keyOfRemainingSeats, greaterThanOrEqualTo: seats)
+        query.whereKey(EventKeyConstants.keyOfRemainingSeats, greaterThanOrEqualTo: 1)
         
         let option = AVSaveOption()
         option.query = query
         option.fetchWhenSave = true
-        eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: NSNumber(integerLiteral: -seats))
+        eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: -1)
         eventObject.addUniqueObject(newMember, forKey: EventKeyConstants.keyOfMembers)
         do {
             try eventObject.save(with: option)
