@@ -491,8 +491,8 @@
                         <outlet property="nextStepButtonItem" destination="Lpn-dr-ZzQ" id="mIq-RY-Ajf"/>
                         <outlet property="noticeTextView" destination="18K-x5-m9r" id="EZF-C7-v7M"/>
                         <outlet property="requestConfirmationCodeButton" destination="oJP-Lc-bHX" id="lXa-ZG-AQD"/>
-                        <segue destination="mHR-oD-qzp" kind="show" identifier="go to nickname" id="V7q-er-Bdc"/>
                         <segue destination="2L3-yG-kYd" kind="show" identifier="check privacy policy" id="0f4-D4-acE"/>
+                        <segue destination="9JH-pR-unR" kind="show" identifier="go to password" id="SC4-yB-HSc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xlY-fw-47v" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -773,7 +773,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="昵称" id="bAE-lC-5E1">
-                        <barButtonItem key="rightBarButtonItem" title="下一步" id="KLB-56-V5m">
+                        <barButtonItem key="rightBarButtonItem" title="注册" id="KLB-56-V5m">
                             <connections>
                                 <action selector="goNext:" destination="mHR-oD-qzp" id="bmU-SN-SyU"/>
                             </connections>
@@ -785,12 +785,11 @@
                         <outlet property="nextStepButtonItem" destination="KLB-56-V5m" id="GIX-6M-ncO"/>
                         <outlet property="nicknameTextField" destination="Lcy-8e-b0q" id="Esg-AM-o8I"/>
                         <outlet property="nicknameView" destination="TbU-OI-Dxn" id="Pxj-fY-qBp"/>
-                        <segue destination="9JH-pR-unR" kind="show" identifier="go to password" id="7Qz-z1-lEB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CI6-KE-1VG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1479" y="-340"/>
+            <point key="canvasLocation" x="2507" y="-340"/>
         </scene>
         <!--密码-->
         <scene sceneID="anR-PM-Sb3">
@@ -898,7 +897,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="密码" id="6f8-1p-2AT">
-                        <barButtonItem key="rightBarButtonItem" title="完成" id="Wui-VB-hSt">
+                        <barButtonItem key="rightBarButtonItem" title="下一步" id="Wui-VB-hSt">
                             <connections>
                                 <action selector="goNext:" destination="9JH-pR-unR" id="zdf-GA-JLi"/>
                             </connections>
@@ -910,11 +909,12 @@
                         <outlet property="nextStepButtonItem" destination="Wui-VB-hSt" id="bzu-9L-Txf"/>
                         <outlet property="passwordTextField" destination="xsA-vX-nSG" id="kxI-Zm-fZ6"/>
                         <outlet property="passwordView" destination="358-Hx-tTg" id="piM-5C-8Mg"/>
+                        <segue destination="mHR-oD-qzp" kind="show" identifier="go to nickname" id="5so-R8-Nop"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N7v-1X-Tc4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2199" y="-310"/>
+            <point key="canvasLocation" x="1620" y="-340"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="cER-1g-QHB">

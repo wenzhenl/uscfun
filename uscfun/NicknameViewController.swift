@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 class NicknameViewController: UIViewController, UITextFieldDelegate {
 
@@ -54,20 +55,24 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func goNext(_ sender: UIBarButtonItem) {
-        performSegue(withIdentifier: "go to password", sender: self)
+        errorLabel.isHidden = true
+        nicknameTextField.resignFirstResponder()
+        
+        SVProgressHUD.show()
+        
+        LoginKit.signUp() {
+            succeed, error in
+            SVProgressHUD.dismiss()
+            if succeed {
+                print("succeed in signing up")
+            } else {
+                errorLabel.text = error?.localizedDescription
+                errorLabel.isHidden = false
+            }
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
-        guard let nickname = nickname, !nickname.isWhitespaces else {
-            errorLabel.isHidden = false
-            return true
-        }
-      
-        errorLabel.isHidden = true
-        nicknameTextField.resignFirstResponder()
-        performSegue(withIdentifier: "go to password", sender: self)
-  
         return true
     }
     

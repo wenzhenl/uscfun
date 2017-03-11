@@ -80,20 +80,29 @@ class LoginKit {
     
     static func signUp(handler: (_ succeed: Bool, _ error: Error?) -> Void) {
         
+        guard let email = UserDefaults.email, email.isValid else {
+            handler(false, SignUpError.systemError(localizedDescriotion: "邮箱地址无效", debugDescription: "failed to sign up: email is not right"))
+            return
+        }
+        
+        guard let nickname = UserDefaults.nickname else {
+            handler(false, SignUpError.systemError(localizedDescriotion: "昵称不能为空", debugDescription: "failed to sign up: nickname is missing"))
+            return
+        }
+        
         // save user info in server
         let user: AVUser = AVUser()
-        user.username = UserDefaults.email
+        user.username = email.replaceAtByUnderscore
         user.password = LoginKit.password
-        user.email = UserDefaults.email
-        user.setObject(UserDefaults.nickname, forKey: UserKeyConstants.keyOfNickname)
-        user.setObject(USCFunConstants.nameOfSchool, forKey: UserKeyConstants.keyOfSchool)
+        user.email = email
+        user.setObject(nickname, forKey: UserKeyConstants.keyOfNickname)
         
         // randomly generate avatar color
         let randomIndex = Int(arc4random_uniform(UInt32(USCFunConstants.avatarColorOptions.count)))
-        guard let avatar = UserDefaults.nickname!.letterImage(textColor: UIColor.white,
-                                                              backgroundColor: USCFunConstants.avatarColorOptions[randomIndex],
-                                                              width: 100,
-                                                              height: 100) else {
+        guard let avatar = nickname.letterImage(textColor: UIColor.white,
+                                                backgroundColor: USCFunConstants.avatarColorOptions[randomIndex],
+                                                width: 100,
+                                                height: 100) else {
             handler(false, SignUpError.systemError(localizedDescriotion: "系统故障，无法创建默认头像", debugDescription: "cannot create default avatar"))
             return
         }

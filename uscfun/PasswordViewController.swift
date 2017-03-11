@@ -7,12 +7,16 @@
 //
 
 import UIKit
-import SVProgressHUD
 
 class PasswordViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var passwordView: UIView!
-    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField! {
+        didSet {
+            passwordTextField.delegate = self
+            passwordTextField.addTarget(self, action: #selector(passwordDidChanged), for: .editingChanged)
+        }
+    }
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var nextStepButtonItem: UIBarButtonItem!
@@ -23,6 +27,7 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
         }
         set {
             passwordTextField.text = newValue
+            nextStepButtonItem.isEnabled = newValue.characters.count >= USCFunConstants.minimumPasswordLength
         }
     }
     
@@ -31,8 +36,8 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
         self.view.backgroundColor = UIColor.white
         self.title = ""
         
-        passwordTextField.delegate = self
         errorLabel.isHidden = true
+        nextStepButtonItem.isEnabled = false
         
         if DeviceType.IS_IPHONE_4_OR_LESS {
             containerView.transform = CGAffineTransform(translationX: 0,y: -80)
@@ -48,25 +53,24 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func goNext(_ sender: UIBarButtonItem) {
+        if password.characters.count >= USCFunConstants.minimumPasswordLength && !password.characters.contains(" ") {
+            LoginKit.password = password
+            performSegue(withIdentifier: "go to nickname", sender: self)
+        }
+        else if password.characters.count < USCFunConstants.minimumPasswordLength {
+            errorLabel.text = "😂说好了至少要5个字符的呀"
+            errorLabel.isHidden = false
+        }
+        else {
+            errorLabel.text = "😂说好了不要空格的呀"
+            errorLabel.isHidden = false
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if password.characters.count >= USCFunConstants.minimumPasswordLength && !password.characters.contains(" ") {
             LoginKit.password = password
-            passwordTextField.resignFirstResponder()
-            errorLabel.isHidden = true
-            SVProgressHUD.show()
-
-            LoginKit.signUp() {
-                succeed, error in
-                SVProgressHUD.dismiss()
-                if succeed {
-                    self.performSegue(withIdentifier: "go to confirm email", sender: self)
-                } else {
-                    errorLabel.text = error?.localizedDescription
-                    errorLabel.isHidden = false
-                }
-            }
+            performSegue(withIdentifier: "go to nickname", sender: self)
         }
         else if password.characters.count < USCFunConstants.minimumPasswordLength {
             errorLabel.text = "😂说好了至少要5个字符的呀"
@@ -77,5 +81,11 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
             errorLabel.isHidden = false
         }
         return true
+    }
+    
+    func passwordDidChanged() {
+        password = passwordTextField.text ?? ""
+        errorLabel.isHidden = true
+        print("current password: \(password)")
     }
 }

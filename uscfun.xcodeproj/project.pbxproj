@@ -411,8 +411,8 @@
 				0A9CB4521D7006F400608D27 /* PreLoginViewController.swift */,
 				0A963DB21D7122D000E0532F /* SignInViewController.swift */,
 				0A963DB41D7122E200E0532F /* SignUpViewController.swift */,
-				0A963DB61D716E6400E0532F /* NicknameViewController.swift */,
 				0A963DB81D717A5F00E0532F /* PasswordViewController.swift */,
+				0A963DB61D716E6400E0532F /* NicknameViewController.swift */,
 				0A022FA61D73D066004077A4 /* FindBackPasswordViewController.swift */,
 				0A2506A71DB1A8E80099E812 /* WebViewController.swift */,
 			);

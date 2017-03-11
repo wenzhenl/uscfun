@@ -109,7 +109,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     }
     
     @IBAction func goNext(_ sender: UIBarButtonItem) {
-        performSegue(withIdentifier: "go to nickname", sender: self)
+        performSegue(withIdentifier: "go to password", sender: self)
     }
     
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {

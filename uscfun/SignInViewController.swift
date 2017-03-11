@@ -54,7 +54,6 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         self.navigationController?.navigationBar.isTranslucent = false
         
         errorLabel.isHidden = true
-        emailTextField.becomeFirstResponder()
         signInButton.layer.cornerRadius = 25
         
         if DeviceType.IS_IPHONE_4_OR_LESS || DeviceType.IS_IPHONE_5 {
@@ -71,6 +70,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         if AVUser.current() != nil {
             email = AVUser.current()!.email!.prefix!
         }
+        emailTextField.becomeFirstResponder()
         UIApplication.shared.statusBarStyle = .default
     }
     
