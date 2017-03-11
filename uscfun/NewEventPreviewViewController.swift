@@ -105,6 +105,7 @@ class NewEventPreviewViewController: UIViewController {
             SVProgressHUD.dismiss()
             if succeeded {
                 self.clearNewEventUserDefaults()
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidPostNewEvent"), object: nil, userInfo: nil)
                 self.presentingViewController?.dismiss(animated: true, completion: nil)
             } else {
                 print(error.debugDescription)
