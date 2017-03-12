@@ -70,6 +70,7 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
     func join() {
         errorLabel.isHidden = true
         
+        nicknameTextField.resignFirstResponder()
         SVProgressHUD.show()
         
         do {
@@ -83,6 +84,7 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
             appDelegate.window?.makeKeyAndVisible()
         } catch let error {
             SVProgressHUD.dismiss()
+            nicknameTextField.becomeFirstResponder()
             errorLabel.text = error.localizedDescription
             errorLabel.isHidden = false
         }

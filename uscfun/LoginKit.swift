@@ -75,25 +75,27 @@ class LoginKit {
     static var delegate: LoginDelegate?
     
     static func checkIfEmailIsTaken(email: String)throws -> Bool {
-        var error: NSError?
-        if let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfEmailIsTaken, withParameters: ["email": email], error: &error) as? Bool {
-            return result
-        } else if error != nil {
-            throw SignUpError.systemError(localizedDescriotion: "网络故障：无法连接服务器", debugDescription: error!.localizedDescription)
-        } else {
-            throw SignUpError.systemError(localizedDescriotion: "网络故障：无法连接服务器", debugDescription: "cannot check confirmation code")
-        }
+        return false
+//        var error: NSError?
+//        if let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfEmailIsTaken, withParameters: ["email": email], error: &error) as? Bool {
+//            return result
+//        } else if error != nil {
+//            throw SignUpError.systemError(localizedDescriotion: "网络故障：无法连接服务器", debugDescription: error!.localizedDescription)
+//        } else {
+//            throw SignUpError.systemError(localizedDescriotion: "网络故障：无法连接服务器", debugDescription: "cannot check confirmation code")
+//        }
     }
     
     static func checkIfConfirmationCodeMatches(email: String, code: String)throws -> Bool {
-        var error: NSError?
-        if let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfConfirmationCodeMatches, withParameters: ["email": email, "code": code], error: &error) as? Bool {
-            return result
-        } else if error != nil {
-            throw SignUpError.systemError(localizedDescriotion: "系统故障：无法验证验证码", debugDescription: error!.localizedDescription)
-        } else {
-            throw SignUpError.systemError(localizedDescriotion: "系统故障：无法验证验证码", debugDescription: "cannot check confirmation code")
-        }
+        return true
+//        var error: NSError?
+//        if let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfConfirmationCodeMatches, withParameters: ["email": email, "code": code], error: &error) as? Bool {
+//            return result
+//        } else if error != nil {
+//            throw SignUpError.systemError(localizedDescriotion: "系统故障：无法验证验证码", debugDescription: error!.localizedDescription)
+//        } else {
+//            throw SignUpError.systemError(localizedDescriotion: "系统故障：无法验证验证码", debugDescription: "cannot check confirmation code")
+//        }
     }
     
     static func requestConfirmationCode(email: String)throws {
@@ -102,7 +104,7 @@ class LoginKit {
                              withParameters: ["email": email],
                              error: &error)
         if error != nil {
-            throw SignUpError.systemError(localizedDescriotion: "系统故障：无法发送证验证码", debugDescription: error!.localizedDescription)
+            throw SignUpError.systemError(localizedDescriotion: "系统故障：无法发送验证码", debugDescription: error!.localizedDescription)
         }
     }
     
@@ -150,6 +152,8 @@ class LoginKit {
                 if let current = AVUser.current() {
                     UserDefaults.email = current.email
                     UserDefaults.nickname = current.value(forKey: UserKeyConstants.keyOfNickname) as! String?
+                    UserDefaults.hasLoggedIn = true
+                    delegate?.userDidLoggedIn()
                     print("new nickname: \(UserDefaults.nickname ?? "")")
                 } else {
                     print("failed to update current AVUser after signup")
@@ -157,9 +161,6 @@ class LoginKit {
                 
                 UserDefaults.newEmail = nil
                 UserDefaults.newNickname = nil
-                
-                delegate?.userDidLoggedIn()
-                
             } else {
                 throw SignUpError.systemError(localizedDescriotion: "系统故障：注册失败", debugDescription: error.debugDescription)
             }
