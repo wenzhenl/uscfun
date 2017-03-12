@@ -14,14 +14,14 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var emailTextField: UITextField! {
         didSet {
             emailTextField.delegate = self
-            emailTextField.addTarget(self, action: #selector(textFieldDidChanged(textField:)), for: .editingChanged)
+            emailTextField.addTarget(self, action: #selector(textDidChanged(textField:)), for: .editingChanged)
         }
     }
     
     @IBOutlet weak var passwordTextField: UITextField! {
         didSet {
             passwordTextField.delegate = self
-            passwordTextField.addTarget(self, action: #selector(textFieldDidChanged(textField:)), for: .editingChanged)
+            passwordTextField.addTarget(self, action: #selector(textDidChanged(textField:)), for: .editingChanged)
         }
     }
     
@@ -160,7 +160,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func textFieldDidChanged(textField: UITextField) {
+    func textDidChanged(textField: UITextField) {
         errorLabel.isHidden = true
     }
 }

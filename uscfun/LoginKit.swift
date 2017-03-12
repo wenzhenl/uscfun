@@ -9,7 +9,7 @@
 import Foundation
 import ChatKit
 
-/// possible errors with event
+/// possible errors with sign up
 enum SignUpError: Error {
     case systemError(localizedDescriotion: String, debugDescription: String)
 }
@@ -37,10 +37,32 @@ extension SignUpError: LocalizedError {
     }
 }
 
-enum LoginError: Error {
-    case cannotFetchKeys(reason: String)
-    case cannotFindNickname(reason: String)
-    case cannotFetchAvatar(reason: String)
+/// possible errors with sign in
+enum SignInError: Error {
+    case systemError(localizedDescriotion: String, debugDescription: String)
+}
+
+extension SignInError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .systemError(let description, _):
+            return description
+        }
+    }
+    
+    public var failureReason: String? {
+        switch self {
+        case .systemError(_, let description):
+            return description
+        }
+    }
+    
+    public var recoverySuggestion: String? {
+        switch self {
+        case .systemError(_, let description):
+            return description
+        }
+    }
 }
 
 protocol LoginDelegate {
@@ -111,11 +133,11 @@ class LoginKit {
                                                 backgroundColor: USCFunConstants.avatarColorOptions[randomIndex],
                                                 width: 100,
                                                 height: 100) else {
-            throw SignUpError.systemError(localizedDescriotion: "系统故障，无法创建默认头像", debugDescription: "cannot create default avatar")
+            throw SignUpError.systemError(localizedDescriotion: "系统故障，无法创建默认头像", debugDescription: "failed to sign up: cannot create default avatar")
         }
         
         guard let data =  UIImagePNGRepresentation(avatar) else {
-            throw SignUpError.systemError(localizedDescriotion: "上传默认头像失败", debugDescription: "cannot upload default avatar")
+            throw SignUpError.systemError(localizedDescriotion: "上传默认头像失败", debugDescription: "failed to sign up: cannot upload default avatar")
         }
         let file = AVFile(data: data)
         
@@ -135,6 +157,9 @@ class LoginKit {
                 
                 UserDefaults.newEmail = nil
                 UserDefaults.newNickname = nil
+                
+                delegate?.userDidLoggedIn()
+                
             } else {
                 throw SignUpError.systemError(localizedDescriotion: "系统故障：注册失败", debugDescription: error.debugDescription)
             }
@@ -149,56 +174,46 @@ class LoginKit {
             updatedUser, error in
             if updatedUser != nil {
                 
-                guard let allkeys = updatedUser!.allKeys() as? [String] else {
-                    handler(false, LoginError.cannotFetchKeys(reason: "cannot fetch keys"))
+                guard let nickname = updatedUser?.value(forKey: UserKeyConstants.keyOfNickname) as? String else {
+                    handler(false, SignInError.systemError(localizedDescriotion: "登录失败：无法找到昵称", debugDescription: "failed to sign in: nickname is missing"))
                     return
                 }
                 
-                guard allkeys.contains(UserKeyConstants.keyOfNickname),
-                    let nickname = updatedUser?.value(forKey: UserKeyConstants.keyOfNickname) as? String else {
-                    handler(false, LoginError.cannotFindNickname(reason: "cannot find nickname"))
-                    return
-                }
-                
-                if AVUser.current() == nil || updatedUser!.email != UserDefaults.email {
-                    guard allkeys.contains(UserKeyConstants.keyOfAvatarUrl),
-                        let avatarUrl = updatedUser!.value(forKey: UserKeyConstants.keyOfAvatarUrl) as? String else {
-                            handler(false, LoginError.cannotFetchAvatar(reason: "cannot fetch avatar"))
-                            return
-                    }
-                    let file = AVFile(url: avatarUrl)
-                    var avatarError: NSError?
-                    guard let avatarData = file.getData(&avatarError) else {
-                        handler(false, avatarError)
+                guard let avatarUrl = updatedUser!.value(forKey: UserKeyConstants.keyOfAvatarUrl) as? String else {
+                        handler(false, SignInError.systemError(localizedDescriotion: "登录失败：无法找到用户头像", debugDescription: "failed to sign in: avatar is missing"))
                         return
-                    }
-                    
-                    UserDefaults.avatar = UIImage(data: avatarData)
                 }
                 
-                if allkeys.contains(UserKeyConstants.keyOfGender) {
-                    if let gender = updatedUser!.value(forKey: UserKeyConstants.keyOfGender) as? String {
-                        UserDefaults.gender = Gender(rawValue: gender) ?? Gender.unknown
-                    }
+                let file = AVFile(url: avatarUrl)
+                var avatarError: NSError?
+                guard let avatarData = file.getData(&avatarError) else {
+                    handler(false, SignInError.systemError(localizedDescriotion: "登录失败：无法加载用户头像", debugDescription: "failed to sign in: cannot download avatar"))
+                    return
                 }
                 
-                if allkeys.contains(UserKeyConstants.keyOfAllowsEventHistoryViewed) {
-                    if let allowsEventHistoryViewed = updatedUser!.value(forKey: UserKeyConstants.keyOfAllowsEventHistoryViewed) as? Bool {
-                        UserDefaults.allowsEventHistoryViewed = allowsEventHistoryViewed
-                    }
+                UserDefaults.avatar = UIImage(data: avatarData)
+                
+                if let gender = updatedUser!.value(forKey: UserKeyConstants.keyOfGender) as? String {
+                    UserDefaults.gender = Gender(rawValue: gender) ?? Gender.unknown
+                } else {
+                    UserDefaults.gender = .unknown
+                }
+                
+                if let allowsEventHistoryViewed = updatedUser!.value(forKey: UserKeyConstants.keyOfAllowsEventHistoryViewed) as? Bool {
+                    UserDefaults.allowsEventHistoryViewed = allowsEventHistoryViewed
                 } else {
                     UserDefaults.allowsEventHistoryViewed = false
                 }
-                
-                if allkeys.contains(UserKeyConstants.keyOfSelfIntroduction) {
-                    if let selfIntroduction = updatedUser!.value(forKey: UserKeyConstants.keyOfSelfIntroduction) as? String {
-                        UserDefaults.selfIntroduction = selfIntroduction
-                    }
+            
+                if let selfIntroduction = updatedUser!.value(forKey: UserKeyConstants.keyOfSelfIntroduction) as? String {
+                    UserDefaults.selfIntroduction = selfIntroduction
+                } else {
+                    UserDefaults.selfIntroduction = ""
                 }
                 
+                UserDefaults.email = updatedUser!.email
                 UserDefaults.nickname = nickname
                 UserDefaults.hasLoggedIn = true
-                UserDefaults.email = updatedUser!.email
                 
                 delegate?.userDidLoggedIn()
                 
