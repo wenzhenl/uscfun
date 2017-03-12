@@ -14,18 +14,21 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var emailTextField: UITextField! {
         didSet {
             emailTextField.delegate = self
+            emailTextField.addTarget(self, action: #selector(textFieldDidChanged(textField:)), for: .editingChanged)
         }
     }
     
     @IBOutlet weak var passwordTextField: UITextField! {
         didSet {
             passwordTextField.delegate = self
+            passwordTextField.addTarget(self, action: #selector(textFieldDidChanged(textField:)), for: .editingChanged)
         }
     }
     
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var signInButton: UIButton!
+    @IBOutlet weak var stopButtonItem: UIBarButtonItem!
     
     var email: String {
         get {
@@ -88,7 +91,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                 errorLabel.isHidden = true
                 passwordTextField.becomeFirstResponder()
             } else {
-                errorLabel.text = "邮箱格式貌似不太对劲"
+                errorLabel.text = "邮箱格式不正确"
                 errorLabel.isHidden = false
             }
         case passwordTextField:
@@ -115,26 +118,30 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
         if !email.isValid {
-            errorLabel.text = "邮箱格式貌似不太对劲"
+            emailTextField.becomeFirstResponder()
+            errorLabel.text = "邮箱格式不正确"
             errorLabel.isHidden = false
         }
         else if password.characters.count < USCFunConstants.minimumPasswordLength  {
+            passwordTextField.becomeFirstResponder()
             errorLabel.text = "密码不足5位"
             errorLabel.isHidden = false
         }
         else if password.characters.contains(" ") {
+            passwordTextField.becomeFirstResponder()
             errorLabel.text = "密码不应含有空格"
             errorLabel.isHidden = false
         } else {
             SVProgressHUD.show()
+            stopButtonItem.isEnabled = false
             
             LoginKit.signIn(email: email, password: password) {
                 succeed, error in
                 
                 SVProgressHUD.dismiss()
+                self.stopButtonItem.isEnabled = true
                 
                 if succeed {
-                    // TODO: preload contents before going to the homepage
                     print("login successfully")
                     EventRequest.preLoadData()
                     let appDelegate = UIApplication.shared.delegate! as! AppDelegate
@@ -145,10 +152,15 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                 
                 if error != nil {
                     print(error!.localizedDescription)
+                    self.emailTextField.becomeFirstResponder()
                     self.errorLabel.text = error!.localizedDescription
                     self.errorLabel.isHidden = false
                 }
             }
         }
+    }
+    
+    func textFieldDidChanged(textField: UITextField) {
+        errorLabel.isHidden = true
     }
 }

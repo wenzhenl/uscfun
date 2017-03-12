@@ -301,6 +301,7 @@
                         <outlet property="errorLabel" destination="ePc-St-HOt" id="lTl-ZD-ARM"/>
                         <outlet property="passwordTextField" destination="cCW-P9-gjU" id="fhB-54-gq4"/>
                         <outlet property="signInButton" destination="daY-3i-byf" id="05f-aR-aBW"/>
+                        <outlet property="stopButtonItem" destination="sAM-Y6-BA3" id="FI5-Tc-uG0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1sm-2w-DvT" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -620,10 +621,9 @@
                                         <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vy6-Kb-1nZ">
-                                        <rect key="frame" x="0.0" y="212.5" width="320" height="249"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="我们已经收到你的重置密码请求，一封邮件已经发送到\(self.email), 请按照邮件的指导操作" translatesAutoresizingMaskIntoConstraints="NO" id="vy6-Kb-1nZ">
+                                        <rect key="frame" x="0.0" y="212.5" width="320" height="52"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         <dataDetectorType key="dataDetectorTypes" link="YES"/>
@@ -631,7 +631,6 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstItem="vy6-Kb-1nZ" firstAttribute="width" secondItem="wnR-l2-JeH" secondAttribute="width" id="27s-ym-E6R"/>
                                     <constraint firstItem="KFe-Tm-vxA" firstAttribute="width" secondItem="wnR-l2-JeH" secondAttribute="width" id="6TO-c9-LY7"/>
                                     <constraint firstItem="KFe-Tm-vxA" firstAttribute="top" secondItem="TQ7-Wm-VNy" secondAttribute="bottom" constant="8" symbolic="YES" id="AX2-XY-aIs"/>
                                     <constraint firstItem="vy6-Kb-1nZ" firstAttribute="top" secondItem="KFe-Tm-vxA" secondAttribute="bottom" constant="8" symbolic="YES" id="ESC-NV-U7W"/>
@@ -647,6 +646,8 @@
                                     <constraint firstAttribute="trailing" secondItem="TQ7-Wm-VNy" secondAttribute="trailing" constant="20" symbolic="YES" id="pDV-99-xlI"/>
                                     <constraint firstItem="TQ7-Wm-VNy" firstAttribute="top" secondItem="HJA-0Q-aZ1" secondAttribute="bottom" constant="8" symbolic="YES" id="pEg-6H-dpO"/>
                                     <constraint firstAttribute="trailing" secondItem="HJA-0Q-aZ1" secondAttribute="trailing" constant="20" symbolic="YES" id="xOw-9W-WY6"/>
+                                    <constraint firstAttribute="trailing" secondItem="vy6-Kb-1nZ" secondAttribute="trailing" id="xSJ-eL-0T8"/>
+                                    <constraint firstItem="vy6-Kb-1nZ" firstAttribute="leading" secondItem="wnR-l2-JeH" secondAttribute="leading" id="ycV-0F-P7K"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -669,6 +670,11 @@
                                 <action selector="goBack:" destination="ENo-UT-VZg" id="eKH-tM-7PA"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="发送" id="24k-22-UWB">
+                            <connections>
+                                <action selector="send:" destination="ENo-UT-VZg" id="10R-a1-HYO"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="containerView" destination="wnR-l2-JeH" id="tLk-cx-0tq"/>
@@ -676,6 +682,8 @@
                         <outlet property="emailTextField" destination="69H-37-12U" id="l4e-q8-fsE"/>
                         <outlet property="errorLabel" destination="KFe-Tm-vxA" id="dxt-tk-vgq"/>
                         <outlet property="noticeTextView" destination="vy6-Kb-1nZ" id="zq9-JD-QQm"/>
+                        <outlet property="sendButtonItem" destination="24k-22-UWB" id="h36-Id-weT"/>
+                        <outlet property="stopButtonItem" destination="3g6-ta-Y5h" id="un9-wK-BfG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7rr-GE-DqB" userLabel="First Responder" sceneMemberID="firstResponder"/>
