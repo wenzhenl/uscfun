@@ -52,32 +52,34 @@ class LoginKit {
     
     static var delegate: LoginDelegate?
     
-    static func getExistingUserEmails() -> [String] {
-        var emails = [String]()
-        let query = AVQuery(className: "_User")
-        query.whereKeyExists("email")
-        query.selectKeys(["email"])
-        if let objects = query.findObjects() {
-            for object in objects as! [AVUser] {
-                emails.append(object.email!)
-            }
+    static func checkIfEmailIsTaken() -> Bool {
+        if let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfEmailIsTaken, withParameters: ["email": UserDefaults.newEmail!]) as? Bool {
+            return result
         }
-        return emails
+        return false
     }
     
-    static func requestConfirmationCode(handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
+    static func checkIfConfirmationCodeMatches(code: String)throws -> Bool {
+        var error: NSError?
+        if let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfConfirmationCodeMatches, withParameters: ["email": UserDefaults.newEmail!, "code": code], error: &error) as? Bool {
+            return result
+        } else if error != nil {
+            throw error!
+        } else {
+            throw SignUpError.systemError(localizedDescriotion: "系统故障：无法验证验证码", debugDescription: "cannot check confirmation code")
+        }
+    }
+    
+    static func requestConfirmationCode()throws {
         guard let email = UserDefaults.email, email.isValid else {
-            handler(false, SignUpError.systemError(localizedDescriotion: "邮箱无效", debugDescription: "email is not valid"))
-            return
+            throw SignUpError.systemError(localizedDescriotion: "邮箱无效", debugDescription: "email is not valid")
         }
         var error: NSError?
         AVCloud.callFunction("requestConfirmationCode",
-                             withParameters: ["email": UserDefaults.email!],
+                             withParameters: ["email": UserDefaults.newEmail!],
                              error: &error)
         if error != nil {
-            handler(false, error)
-        } else {
-            handler(true, nil)
+            throw error!
         }
     }
     
