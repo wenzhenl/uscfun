@@ -52,53 +52,56 @@ class LoginKit {
     
     static var delegate: LoginDelegate?
     
-    static func checkIfEmailIsTaken() -> Bool {
-        if let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfEmailIsTaken, withParameters: ["email": UserDefaults.newEmail!]) as? Bool {
-            return result
-        }
-        return false
-    }
-    
-    static func checkIfConfirmationCodeMatches(code: String)throws -> Bool {
+    static func checkIfEmailIsTaken(email: String)throws -> Bool {
         var error: NSError?
-        if let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfConfirmationCodeMatches, withParameters: ["email": UserDefaults.newEmail!, "code": code], error: &error) as? Bool {
+        if let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfEmailIsTaken, withParameters: ["email": email], error: &error) as? Bool {
             return result
         } else if error != nil {
-            throw error!
+            throw SignUpError.systemError(localizedDescriotion: "网络故障：无法连接服务器", debugDescription: error!.localizedDescription)
+        } else {
+            throw SignUpError.systemError(localizedDescriotion: "网络故障：无法连接服务器", debugDescription: "cannot check confirmation code")
+        }
+    }
+    
+    static func checkIfConfirmationCodeMatches(email: String, code: String)throws -> Bool {
+        var error: NSError?
+        if let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfConfirmationCodeMatches, withParameters: ["email": email, "code": code], error: &error) as? Bool {
+            return result
+        } else if error != nil {
+            throw SignUpError.systemError(localizedDescriotion: "系统故障：无法验证验证码", debugDescription: error!.localizedDescription)
         } else {
             throw SignUpError.systemError(localizedDescriotion: "系统故障：无法验证验证码", debugDescription: "cannot check confirmation code")
         }
     }
     
-    static func requestConfirmationCode()throws {
-        guard let email = UserDefaults.email, email.isValid else {
-            throw SignUpError.systemError(localizedDescriotion: "邮箱无效", debugDescription: "email is not valid")
-        }
+    static func requestConfirmationCode(email: String)throws {
         var error: NSError?
         AVCloud.callFunction("requestConfirmationCode",
-                             withParameters: ["email": UserDefaults.newEmail!],
+                             withParameters: ["email": email],
                              error: &error)
         if error != nil {
-            throw error!
+            throw SignUpError.systemError(localizedDescriotion: "系统故障：无法发送证验证码", debugDescription: error!.localizedDescription)
         }
     }
     
-    static func signUp(handler: (_ succeed: Bool, _ error: Error?) -> Void) {
+    static func signUp()throws {
         
         guard let email = UserDefaults.newEmail, email.isValid else {
-            handler(false, SignUpError.systemError(localizedDescriotion: "邮箱地址无效", debugDescription: "failed to sign up: email is not right"))
-            return
+            throw SignUpError.systemError(localizedDescriotion: "邮箱格式不正确，请重新输入", debugDescription: "failed to sign up: email is not right")
         }
         
-        guard let nickname = UserDefaults.newNickname else {
-            handler(false, SignUpError.systemError(localizedDescriotion: "昵称不能为空", debugDescription: "failed to sign up: nickname is missing"))
-            return
+        guard let password = LoginKit.password, password.characters.count >= USCFunConstants.minimumPasswordLength, !password.characters.contains(" ") else {
+            throw SignUpError.systemError(localizedDescriotion: "密码不符合要求", debugDescription: "failed to sign up: password format is not right")
+        }
+        
+        guard let nickname = UserDefaults.newNickname, !nickname.isWhitespaces else {
+            throw SignUpError.systemError(localizedDescriotion: "昵称不能为空", debugDescription: "failed to sign up: nickname is missing")
         }
         
         // save user info in server
         let user: AVUser = AVUser()
         user.username = email.replaceAtAndDotByUnderscore
-        user.password = LoginKit.password
+        user.password = password
         user.email = email
         user.setObject(nickname, forKey: UserKeyConstants.keyOfNickname)
         
@@ -108,13 +111,11 @@ class LoginKit {
                                                 backgroundColor: USCFunConstants.avatarColorOptions[randomIndex],
                                                 width: 100,
                                                 height: 100) else {
-            handler(false, SignUpError.systemError(localizedDescriotion: "系统故障，无法创建默认头像", debugDescription: "cannot create default avatar"))
-            return
+            throw SignUpError.systemError(localizedDescriotion: "系统故障，无法创建默认头像", debugDescription: "cannot create default avatar")
         }
         
         guard let data =  UIImagePNGRepresentation(avatar) else {
-            handler(false, SignUpError.systemError(localizedDescriotion: "上传默认头像失败", debugDescription: "cannot upload default avatar"))
-            return
+            throw SignUpError.systemError(localizedDescriotion: "上传默认头像失败", debugDescription: "cannot upload default avatar")
         }
         let file = AVFile(data: data)
         
@@ -134,12 +135,11 @@ class LoginKit {
                 
                 UserDefaults.newEmail = nil
                 UserDefaults.newNickname = nil
-                handler(true, nil)
             } else {
-                handler(false, error)
+                throw SignUpError.systemError(localizedDescriotion: "系统故障：注册失败", debugDescription: error.debugDescription)
             }
         } else {
-            handler(false, error)
+            throw SignUpError.systemError(localizedDescriotion: "上传默认头像失败", debugDescription: error.debugDescription)
         }
     }
     

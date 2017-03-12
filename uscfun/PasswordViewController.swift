@@ -21,13 +21,13 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var nextStepButtonItem: UIBarButtonItem!
     
-    var password: String {
+    var password: String? {
         get {
-            return (passwordTextField.text ?? "").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            return passwordTextField.text
         }
         set {
             passwordTextField.text = newValue
-            nextStepButtonItem.isEnabled = newValue.characters.count >= USCFunConstants.minimumPasswordLength
+            nextStepButtonItem.isEnabled = (newValue ?? "").characters.count >= USCFunConstants.minimumPasswordLength
         }
     }
     
@@ -53,21 +53,21 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func goNext(_ sender: UIBarButtonItem) {
-        if password.characters.count >= USCFunConstants.minimumPasswordLength && !password.characters.contains(" ") {
-            LoginKit.password = password
-            performSegue(withIdentifier: "go to nickname", sender: self)
-        }
-        else if password.characters.count < USCFunConstants.minimumPasswordLength {
-            errorLabel.text = "😂说好了至少要5个字符的呀"
-            errorLabel.isHidden = false
-        }
-        else {
-            errorLabel.text = "😂说好了不要空格的呀"
-            errorLabel.isHidden = false
-        }
+        checkPassword()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        checkPassword()
+        return true
+    }
+    
+    func checkPassword() {
+        guard let password = password else {
+            errorLabel.text = "😂说好了至少要5个字符的呀"
+            errorLabel.isHidden = false
+            return
+        }
+        
         if password.characters.count >= USCFunConstants.minimumPasswordLength && !password.characters.contains(" ") {
             LoginKit.password = password
             performSegue(withIdentifier: "go to nickname", sender: self)
@@ -80,11 +80,10 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
             errorLabel.text = "😂说好了不要空格的呀"
             errorLabel.isHidden = false
         }
-        return true
     }
     
     func passwordDidChanged() {
-        password = passwordTextField.text ?? ""
+        password = passwordTextField.text
         errorLabel.isHidden = true
         print("current password: \(password)")
     }

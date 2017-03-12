@@ -14,13 +14,13 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     @IBOutlet weak var emailTextField: UITextField! {
         didSet {
             emailTextField.delegate = self
-            emailTextField.addTarget(self, action: #selector(emailTextDidChanged), for: .editingChanged)
+            emailTextField.addTarget(self, action: #selector(emailOrCodeDidChanged(textField:)), for: .editingChanged)
         }
     }
     @IBOutlet weak var confirmationCodeTextField: UITextField! {
         didSet {
             confirmationCodeTextField.delegate = self
-            confirmationCodeTextField.addTarget(self, action: #selector(confirmationCodeTextDidChanged), for: .editingChanged)
+            confirmationCodeTextField.addTarget(self, action: #selector(emailOrCodeDidChanged(textField:)), for: .editingChanged)
         }
     }
     @IBOutlet weak var errorLabel: UILabel!
@@ -29,17 +29,21 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     @IBOutlet weak var requestConfirmationCodeButton: UIButton!
     @IBOutlet weak var nextStepButtonItem: UIBarButtonItem!
     
-    var email: String? {
+    var emailPrefix: String? {
         get {
-            return (emailTextField.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) ?? "") + "@" + suffix
+            return emailTextField.text
         }
         set {
-            emailTextField.text = newValue?.prefix
-            UserDefaults.newEmail = newValue?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            emailTextField.text = newValue
+            UserDefaults.newEmail = newValue
         }
     }
     
     let suffix = "usc.edu"
+    
+    var email: String {
+        return (emailPrefix?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "") + "@" + suffix
+    }
     
     var confirmationCode: String? {
         get {
@@ -74,7 +78,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         noticeTextView.textAlignment = .center
         
         errorLabel.isHidden = true
-        email = UserDefaults.newEmail
+        emailPrefix = UserDefaults.newEmail
         
         /// additonal setup for iPhone4 and iPhone5
         if DeviceType.IS_IPHONE_4_OR_LESS || DeviceType.IS_IPHONE_5 {
@@ -98,18 +102,53 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     }
     
     @IBAction func requestConfirmationCode(_ sender: UIButton) {
-        LoginKit.requestConfirmationCode {
-            succeeded, error in
-            if succeeded {
-                print("succeed in requesting confirmation code")
-            } else {
-                print(error.debugDescription)
-            }
+        guard email.isValid else {
+            errorLabel.text = "邮箱格式不正确，请重新输入"
+            errorLabel.isHidden = false
+            return
+        }
+        do {
+            try LoginKit.requestConfirmationCode(email: email)
+        } catch let error {
+            errorLabel.text = error.localizedDescription
+            errorLabel.isHidden = false
         }
     }
     
     @IBAction func goNext(_ sender: UIBarButtonItem) {
-        performSegue(withIdentifier: "go to password", sender: self)
+        guard email.isValid else {
+            errorLabel.text = "邮箱格式不正确，请重新输入"
+            errorLabel.isHidden = false
+            return
+        }
+        
+        do {
+            if try LoginKit.checkIfEmailIsTaken(email: email) {
+                errorLabel.text = "此邮箱已被注册，请使用找回密码"
+                errorLabel.isHidden = false
+                return
+            }
+        } catch let error {
+            errorLabel.text = error.localizedDescription
+            errorLabel.isHidden = false
+            return
+        }
+        
+        guard let confirmationCode = confirmationCode, !confirmationCode.isWhitespaces else {
+            errorLabel.text = "请输入验证码"
+            errorLabel.isHidden = false
+            return
+        }
+        
+        do {
+            if try LoginKit.checkIfConfirmationCodeMatches(email: email, code: confirmationCode) {
+                UserDefaults.newEmail = email
+                performSegue(withIdentifier: "go to password", sender: self)
+            }
+        } catch let error {
+            errorLabel.text = error.localizedDescription
+            errorLabel.isHidden = false
+        }
     }
     
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
@@ -120,17 +159,24 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case emailTextField:
-            guard let email = email, email.isValid else {
+            guard email.isValid else {
                 errorLabel.text = "邮箱格式不正确，请重新输入"
                 errorLabel.isHidden = false
                 return true
             }
-            if LoginKit.getExistingUserEmails().contains(email) {
-                errorLabel.text = "此邮箱已被注册，请使用找回密码"
+            
+            do {
+                if try LoginKit.checkIfEmailIsTaken(email: email) {
+                    errorLabel.text = "此邮箱已被注册，请使用找回密码"
+                    errorLabel.isHidden = false
+                    return true
+                }
+            } catch let error {
+                errorLabel.text = error.localizedDescription
                 errorLabel.isHidden = false
                 return true
             }
-            print(email)
+            
             emailTextField.resignFirstResponder()
             errorLabel.isHidden = true
             confirmationCodeTextField.becomeFirstResponder()
@@ -140,13 +186,15 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         return true
     }
     
-    func emailTextDidChanged() {
+    func emailOrCodeDidChanged(textField: UITextField) {
         errorLabel.isHidden = true
-        email = (emailTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines) + "@" + suffix
-        print("current email: \(email)")
-    }
-    
-    func confirmationCodeTextDidChanged() {
-        
+        switch textField {
+        case emailTextField:
+            if textField.markedTextRange == nil {
+                emailPrefix = textField.text
+            }
+        default:
+            break
+        }
     }
 }
