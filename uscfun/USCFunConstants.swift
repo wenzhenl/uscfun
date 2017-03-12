@@ -55,6 +55,13 @@ struct EventKeyConstants {
     static let keyOfSystemNotificationOfUpdatedEvents = "updatedEventIds"
 }
 
+struct LeanEngineFunctions {
+    static let nameOfCheckIfEmailIsTaken = "checkIfEmailIsTaken"
+    static let nameOfRequestConfirmationCode = "requestConfirmationCode"
+    static let nameOfCheckIfConfirmationCodeMatches = "checkIfConfirmationCodeMatches"
+    static let nameOfReceiveFeedback = "receiveFeedback"
+}
+
 enum UIUserInterfaceIdiom : Int {
     case unspecified
     case phone

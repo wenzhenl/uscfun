@@ -52,15 +52,6 @@ class LoginKit {
     
     static var delegate: LoginDelegate?
     
-    private static func generateRandomConfirmationCode() -> String {
-        var code = ""
-        for _ in 1...6 {
-            code += String(Int(arc4random_uniform((UInt32(9)))))
-        }
-        print("random code is: \(code)")
-        return code
-    }
-    
     static func getExistingUserEmails() -> [String] {
         var emails = [String]()
         let query = AVQuery(className: "_User")
@@ -80,9 +71,8 @@ class LoginKit {
             return
         }
         var error: NSError?
-        let code = generateRandomConfirmationCode()
         AVCloud.callFunction("requestConfirmationCode",
-                             withParameters: ["email": UserDefaults.email!, "code": code],
+                             withParameters: ["email": UserDefaults.email!],
                              error: &error)
         if error != nil {
             handler(false, error)

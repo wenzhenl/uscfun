@@ -15,7 +15,7 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var nicknameTextField: UITextField! {
         didSet {
             nicknameTextField.delegate = self
-            nicknameTextField.addTarget(self, action: #selector(nicknameTextDidChanged), for: .editingChanged)
+            nicknameTextField.addTarget(self, action: #selector(nicknameTextDidChanged(textField:)), for: .editingChanged)
         }
     }
     @IBOutlet weak var errorLabel: UILabel!
@@ -29,7 +29,6 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
         set {
             nicknameTextField.text = newValue
             nextStepButtonItem.isEnabled = !(newValue ?? "").isWhitespaces
-            UserDefaults.newNickname = newValue?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         }
     }
     
@@ -55,6 +54,19 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func goNext(_ sender: UIBarButtonItem) {
+        join()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        guard let nickname = nickname, !nickname.isWhitespaces else {
+            errorLabel.isHidden = false
+            return true
+        }
+        join()
+        return true
+    }
+    
+    func join() {
         errorLabel.isHidden = true
         nicknameTextField.resignFirstResponder()
         
@@ -64,20 +76,28 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
             succeed, error in
             SVProgressHUD.dismiss()
             if succeed {
-                print("succeed in signing up")
+                print("sign successfully")
+                EventRequest.preLoadData()
+                let appDelegate = UIApplication.shared.delegate! as! AppDelegate
+                let initialViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+                appDelegate.window?.rootViewController = initialViewController
+                appDelegate.window?.makeKeyAndVisible()
             } else {
+                nicknameTextField.becomeFirstResponder()
                 errorLabel.text = error?.localizedDescription
                 errorLabel.isHidden = false
             }
         }
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        return true
-    }
-    
-    func nicknameTextDidChanged() {
-        nickname = nicknameTextField.text
-        print("current nickname: \(nickname)")
+    func nicknameTextDidChanged(textField: UITextField) {
+        
+        if textField.markedTextRange == nil {
+            nickname = nicknameTextField.text
+            UserDefaults.newNickname = nickname?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            print("current nickname: \(nickname)")
+        }
+        
+        errorLabel.isHidden = true
     }
 }
