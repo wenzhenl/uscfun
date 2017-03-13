@@ -78,6 +78,8 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         noticeTextView.textAlignment = .center
         
         errorLabel.isHidden = true
+        nextStepButtonItem.isEnabled = false
+        
         if UserDefaults.newEmail != nil && UserDefaults.newEmail!.prefix != nil {
             emailPrefix = UserDefaults.newEmail!.prefix
         } else {
@@ -113,6 +115,8 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         }
         do {
             try LoginKit.requestConfirmationCode(email: email)
+            errorLabel.text = "验证码已经发送至邮箱，请注意查收"
+            errorLabel.isHidden = false
         } catch let error {
             errorLabel.text = error.localizedDescription
             errorLabel.isHidden = false
@@ -192,6 +196,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     
     func emailOrCodeDidChanged(textField: UITextField) {
         errorLabel.isHidden = true
+        nextStepButtonItem.isEnabled = !(emailPrefix ?? "").isEmpty && !(confirmationCode ?? "").isEmpty
         switch textField {
         case emailTextField:
             if textField.markedTextRange == nil {
