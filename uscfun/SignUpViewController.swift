@@ -78,7 +78,11 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         noticeTextView.textAlignment = .center
         
         errorLabel.isHidden = true
-        emailPrefix = UserDefaults.newEmail
+        if UserDefaults.newEmail != nil && UserDefaults.newEmail!.prefix != nil {
+            emailPrefix = UserDefaults.newEmail!.prefix
+        } else {
+            emailPrefix = UserDefaults.newEmail
+        }
         
         /// additonal setup for iPhone4 and iPhone5
         if DeviceType.IS_IPHONE_4_OR_LESS || DeviceType.IS_IPHONE_5 {
