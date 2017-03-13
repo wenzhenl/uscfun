@@ -13,6 +13,5 @@ class FinalizedEventSnapshotTableViewCell: UITableViewCell {
     @IBOutlet weak var creatorAvatarImageView: UIImageView!
     @IBOutlet weak var creatorLabel: UILabel!
     @IBOutlet weak var eventNameLabel: UILabel!
-    @IBOutlet weak var moreButton: UIButton!
-    
+    @IBOutlet weak var statusView: UIView!
 }

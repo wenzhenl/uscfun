@@ -231,6 +231,9 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 cell.creatorAvatarImageView.layer.masksToBounds = true
                 cell.creatorAvatarImageView.layer.cornerRadius = cell.creatorAvatarImageView.frame.size.width / 2.0
                 cell.creatorAvatarImageView.image = creator.avatar
+                cell.statusView.backgroundColor = event.statusColor
+                cell.statusView.layer.masksToBounds = true
+                cell.statusView.layer.cornerRadius = cell.statusView.frame.size.width / 2
                 return cell
 
             } else {
@@ -278,9 +281,10 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if EventRequest.myOngoingEvents.count == 0 {
+        if section == 0 {
             return 0
         }
+        
         if section > 0 {
             let event = eventForSection(section: section)
             if event.status == .isFinalized {
@@ -289,7 +293,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                     if nextEvent.status == .isFinalized {
                         return 0
                     } else {
-                        return 40
+                        return 20
                     }
                 } else {
                     return 0

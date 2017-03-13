@@ -266,7 +266,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if EventRequest.publicEvents.count == 0 {
+        if section == 0 {
             return 0
         }
         return 10

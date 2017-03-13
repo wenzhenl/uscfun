@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,7 +21,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cj7-JM-9fR">
-                        <rect key="frame" x="56" y="8" width="33" height="96.5"/>
+                        <rect key="frame" x="56" y="8" width="33" height="117"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -32,44 +33,41 @@
                             <constraint firstAttribute="width" constant="40" id="gYO-jk-aRM"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="260" verticalCompressionResistancePriority="760" text="有什么道理是开始注重外表后几年才能悟出来的？" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Svu-xo-yfB">
-                        <rect key="frame" x="56" y="112.5" width="233" height="41"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="260" verticalCompressionResistancePriority="760" text="有什么道理是开始注重外表后几年才能悟出来的？" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Svu-xo-yfB">
+                        <rect key="frame" x="56" y="133" width="256" height="20.5"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NeI-6Q-gLc">
-                        <rect key="frame" x="297" y="73.5" width="15" height="15"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2js-eE-5P8">
+                        <rect key="frame" x="306" y="147.5" width="6" height="6"/>
+                        <color key="backgroundColor" red="0.1423776252" green="0.39793669869999998" blue="0.11561009160000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="15" id="IfO-xV-3WX"/>
-                            <constraint firstAttribute="height" constant="15" id="Jhz-7L-Y54"/>
+                            <constraint firstAttribute="width" secondItem="2js-eE-5P8" secondAttribute="height" id="90W-HS-oy5"/>
+                            <constraint firstAttribute="width" constant="6" id="fAL-NR-EOA"/>
                         </constraints>
-                        <state key="normal" title="Button" image="more"/>
-                    </button>
+                    </view>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="trailingMargin" secondItem="2js-eE-5P8" secondAttribute="trailing" id="AFj-oi-wmt"/>
                     <constraint firstItem="Svu-xo-yfB" firstAttribute="leading" secondItem="qYT-mB-Gwa" secondAttribute="trailing" constant="8" symbolic="YES" id="KwI-Xr-roR"/>
                     <constraint firstAttribute="leadingMargin" secondItem="qYT-mB-Gwa" secondAttribute="leading" id="MK4-Xc-Jys"/>
-                    <constraint firstItem="NeI-6Q-gLc" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="XLR-aQ-hP4"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Svu-xo-yfB" secondAttribute="trailing" id="N8e-df-PDN"/>
                     <constraint firstAttribute="bottomMargin" secondItem="Svu-xo-yfB" secondAttribute="bottom" id="YJf-O0-MDh"/>
                     <constraint firstItem="qYT-mB-Gwa" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Zij-B9-OKP"/>
                     <constraint firstItem="Svu-xo-yfB" firstAttribute="top" secondItem="cj7-JM-9fR" secondAttribute="bottom" constant="8" symbolic="YES" id="c6Z-vg-f0l"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="2js-eE-5P8" secondAttribute="bottom" id="edG-aI-n53"/>
                     <constraint firstItem="cj7-JM-9fR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="hV0-vB-sy1"/>
-                    <constraint firstItem="NeI-6Q-gLc" firstAttribute="leading" secondItem="Svu-xo-yfB" secondAttribute="trailing" constant="8" symbolic="YES" id="qeA-t8-S1N"/>
                     <constraint firstItem="cj7-JM-9fR" firstAttribute="leading" secondItem="Svu-xo-yfB" secondAttribute="leading" id="su2-tM-ce5"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="NeI-6Q-gLc" secondAttribute="trailing" id="wCX-cq-8bS"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="creatorAvatarImageView" destination="qYT-mB-Gwa" id="tbJ-fW-b5f"/>
                 <outlet property="creatorLabel" destination="cj7-JM-9fR" id="6Xq-B8-Rc4"/>
                 <outlet property="eventNameLabel" destination="Svu-xo-yfB" id="pxL-td-jeo"/>
-                <outlet property="moreButton" destination="NeI-6Q-gLc" id="XdB-4x-qYB"/>
+                <outlet property="statusView" destination="2js-eE-5P8" id="2HF-da-3IF"/>
             </connections>
             <point key="canvasLocation" x="25" y="111"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="more" width="30" height="30"/>
-    </resources>
 </document>
