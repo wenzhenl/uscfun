@@ -147,6 +147,10 @@ class MyEventListViewController: UIViewController {
         }
     }
     
+    func eventForSection(section: Int) -> Event {
+        return EventRequest.myOngoingEvents[EventRequest.myOngoingEvents.keys[section - 1]]!
+    }
+    
     let identifierToEventDetail = "go to event detail for my events"
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -218,31 +222,43 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
         }
         else {
             let event = EventRequest.myOngoingEvents[EventRequest.myOngoingEvents.keys[indexPath.section - 1]]!
-            let cell = Bundle.main.loadNibNamed("EventSnapshotTableViewCell", owner: self, options: nil)?.first as! EventSnapshotTableViewCell
             let creator = User(user: event.createdBy)!
-            cell.eventNameLabel.text = event.name
-            cell.creatorLabel.text = "发起人：" + creator.nickname
-            cell.creatorAvatarImageView.layer.masksToBounds = true
-            cell.creatorAvatarImageView.layer.cornerRadius = cell.creatorAvatarImageView.frame.size.width / 2.0
-            cell.creatorAvatarImageView.image = creator.avatar
-            
-            cell.whitePaperImageView.image = event.whitePaper
-            
-            cell.needNumberLabel.text = String(event.remainingSeats)
-            let gapFromNow = event.due.gapFromNow
-            if gapFromNow == "" {
-                cell.remainingTimeLabel.textColor = UIColor.darkGray
-                cell.remainingTimeLabel.text = "报名已经结束"
+
+            if event.status == .isFinalized {
+                let cell = Bundle.main.loadNibNamed("FinalizedEventSnapshotTableViewCell", owner: self, options: nil)?.first as! FinalizedEventSnapshotTableViewCell
+                cell.eventNameLabel.text = event.name
+                cell.creatorLabel.text = "发起人：" + creator.nickname
+                cell.creatorAvatarImageView.layer.masksToBounds = true
+                cell.creatorAvatarImageView.layer.cornerRadius = cell.creatorAvatarImageView.frame.size.width / 2.0
+                cell.creatorAvatarImageView.image = creator.avatar
+                return cell
+
             } else {
-                cell.remainingTimeLabel.text = gapFromNow
+                let cell = Bundle.main.loadNibNamed("EventSnapshotTableViewCell", owner: self, options: nil)?.first as! EventSnapshotTableViewCell
+                cell.eventNameLabel.text = event.name
+                cell.creatorLabel.text = "发起人：" + creator.nickname
+                cell.creatorAvatarImageView.layer.masksToBounds = true
+                cell.creatorAvatarImageView.layer.cornerRadius = cell.creatorAvatarImageView.frame.size.width / 2.0
+                cell.creatorAvatarImageView.image = creator.avatar
+                
+                cell.whitePaperImageView.image = event.whitePaper
+                
+                cell.needNumberLabel.text = String(event.remainingSeats)
+                let gapFromNow = event.due.gapFromNow
+                if gapFromNow == "" {
+                    cell.remainingTimeLabel.textColor = UIColor.darkGray
+                    cell.remainingTimeLabel.text = "报名已经结束"
+                } else {
+                    cell.remainingTimeLabel.text = gapFromNow
+                }
+                cell.attendingLabel.text = "已经报名 " + String(event.maximumAttendingPeople - event.remainingSeats)
+                cell.minPeopleLabel.text = "最少成行 " + String(event.minimumAttendingPeople)
+                
+                cell.statusView.backgroundColor = event.statusColor
+                cell.statusView.layer.masksToBounds = true
+                cell.statusView.layer.cornerRadius = cell.statusView.frame.size.width / 2
+                return cell
             }
-            cell.attendingLabel.text = "已经报名 " + String(event.maximumAttendingPeople - event.remainingSeats)
-            cell.minPeopleLabel.text = "最少成行 " + String(event.minimumAttendingPeople)
-            
-            cell.statusView.backgroundColor = event.statusColor
-            cell.statusView.layer.masksToBounds = true
-            cell.statusView.layer.cornerRadius = cell.statusView.frame.size.width / 2
-            return cell
         }
     }
     
@@ -265,6 +281,22 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
         if EventRequest.myOngoingEvents.count == 0 {
             return 0
         }
+        if section > 0 {
+            let event = eventForSection(section: section)
+            if event.status == .isFinalized {
+                if section < EventRequest.myOngoingEvents.count {
+                    let nextEvent = eventForSection(section: section + 1)
+                    if nextEvent.status == .isFinalized {
+                        return 0
+                    } else {
+                        return 40
+                    }
+                } else {
+                    return 0
+                }
+            }
+        }
+        
         return 10
     }
     
@@ -285,7 +317,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if EventRequest.myOngoingEvents.count > 0 && indexPath.section > 0 {
-            let event = EventRequest.myOngoingEvents[EventRequest.myOngoingEvents.keys[indexPath.section - 1]]!
+            let event = self.eventForSection(section: indexPath.section)
             if event.status == .isFinalized {
                 guard let conversation = LCCKConversationViewController(conversationId: event.conversationId) else {
                     self.displayInfo(info: "网络错误，无法进入评论区")
