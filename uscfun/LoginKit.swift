@@ -152,6 +152,9 @@ class LoginKit {
                 if let current = AVUser.current() {
                     UserDefaults.email = current.email
                     UserDefaults.nickname = current.value(forKey: UserKeyConstants.keyOfNickname) as! String?
+                    UserDefaults.gender = .unknown
+                    UserDefaults.selfIntroduction = nil
+                    UserDefaults.allowsEventHistoryViewed = false
                     UserDefaults.hasLoggedIn = true
                     delegate?.userDidLoggedIn()
                     print("new nickname: \(UserDefaults.nickname ?? "")")
