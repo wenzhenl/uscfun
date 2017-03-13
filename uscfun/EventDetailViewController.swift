@@ -36,7 +36,7 @@ class EventDetailViewController: UIViewController {
     var detailSections = [EventDetailCell]()
     
     var infoLabel: UILabel!
-    let heightOfInfoLabel = CGFloat(46.0)
+    let heightOfInfoLabel = CGFloat(29.0)
     
     lazy var blurView: UIView = {
         let blurView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height))

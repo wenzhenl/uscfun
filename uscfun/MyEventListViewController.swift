@@ -22,7 +22,7 @@ class MyEventListViewController: UIViewController {
     }()
     
     var infoLabel: UILabel!
-    let heightOfInfoLabel = CGFloat(46.0)
+    let heightOfInfoLabel = CGFloat(29.0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -184,6 +184,10 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
+        if EventRequest.myOngoingEvents.count > 0 && indexPath.section == 0 {
+            return 30
+        }
+        
         return UITableViewAutomaticDimension
     }
     
@@ -227,6 +231,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
             if event.status == .isFinalized {
                 let cell = Bundle.main.loadNibNamed("FinalizedEventSnapshotTableViewCell", owner: self, options: nil)?.first as! FinalizedEventSnapshotTableViewCell
                 cell.eventNameLabel.text = event.name
+                cell.eventNameLabel.numberOfLines = 2
                 cell.creatorLabel.text = "发起人：" + creator.nickname
                 cell.creatorAvatarImageView.layer.masksToBounds = true
                 cell.creatorAvatarImageView.layer.cornerRadius = cell.creatorAvatarImageView.frame.size.width / 2.0
@@ -293,7 +298,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                     if nextEvent.status == .isFinalized {
                         return 0
                     } else {
-                        return 20
+                        return 12
                     }
                 } else {
                     return 0

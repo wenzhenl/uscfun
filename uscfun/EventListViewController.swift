@@ -26,7 +26,7 @@ class EventListViewController: UIViewController {
     }()
     
     var infoLabel: UILabel!
-    let heightOfInfoLabel = CGFloat(46.0)
+    let heightOfInfoLabel = CGFloat(29.0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -183,6 +183,10 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        if EventRequest.publicEvents.count > 0 && indexPath.section == 0 {
+            return 30
+        }
         
         return UITableViewAutomaticDimension
     }

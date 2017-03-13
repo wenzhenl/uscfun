@@ -34,7 +34,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="260" verticalCompressionResistancePriority="760" text="有什么道理是开始注重外表后几年才能悟出来的？" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Svu-xo-yfB">
-                        <rect key="frame" x="56" y="133" width="256" height="20.5"/>
+                        <rect key="frame" x="56" y="133" width="250" height="20.5"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -52,11 +52,11 @@
                     <constraint firstAttribute="trailingMargin" secondItem="2js-eE-5P8" secondAttribute="trailing" id="AFj-oi-wmt"/>
                     <constraint firstItem="Svu-xo-yfB" firstAttribute="leading" secondItem="qYT-mB-Gwa" secondAttribute="trailing" constant="8" symbolic="YES" id="KwI-Xr-roR"/>
                     <constraint firstAttribute="leadingMargin" secondItem="qYT-mB-Gwa" secondAttribute="leading" id="MK4-Xc-Jys"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="Svu-xo-yfB" secondAttribute="trailing" id="N8e-df-PDN"/>
                     <constraint firstAttribute="bottomMargin" secondItem="Svu-xo-yfB" secondAttribute="bottom" id="YJf-O0-MDh"/>
                     <constraint firstItem="qYT-mB-Gwa" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Zij-B9-OKP"/>
                     <constraint firstItem="Svu-xo-yfB" firstAttribute="top" secondItem="cj7-JM-9fR" secondAttribute="bottom" constant="8" symbolic="YES" id="c6Z-vg-f0l"/>
                     <constraint firstAttribute="bottomMargin" secondItem="2js-eE-5P8" secondAttribute="bottom" id="edG-aI-n53"/>
+                    <constraint firstItem="2js-eE-5P8" firstAttribute="leading" secondItem="Svu-xo-yfB" secondAttribute="trailing" id="g7n-xf-EdE"/>
                     <constraint firstItem="cj7-JM-9fR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="hV0-vB-sy1"/>
                     <constraint firstItem="cj7-JM-9fR" firstAttribute="leading" secondItem="Svu-xo-yfB" secondAttribute="leading" id="su2-tM-ce5"/>
                 </constraints>
