@@ -23,4 +23,6 @@ class EventSnapshotTableViewCell: UITableViewCell {
     @IBOutlet weak var minPeopleLabel: UILabel!
     @IBOutlet weak var chatButton: UIButton!
     @IBOutlet weak var statusView: UIView!
+    
+    var eventId: String?
 }

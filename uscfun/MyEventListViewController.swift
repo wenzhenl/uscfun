@@ -154,18 +154,22 @@ class MyEventListViewController: UIViewController {
     let identifierToEventDetail = "go to event detail for my events"
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let identifier = segue.identifier {
-            switch identifier {
-            case identifierToEventDetail:
-                let destination = segue.destination
-                if let edVC = destination as? EventDetailViewController {
-                    if let sender = sender as? FinalizedEventSnapshotTableViewCell {
-                    edVC.event = EventRequest.myOngoingEvents[EventRequest.myOngoingEvents.keys[((tableView.indexPathForSelectedRow?.section)! - 1)]]
-                    }
+        
+        guard let identifier = segue.identifier else { return }
+        switch identifier {
+        case identifierToEventDetail:
+            if let edVC = segue.destination as? EventDetailViewController {
+                switch sender {
+                case is EventSnapshotTableViewCell:
+                    edVC.event = EventRequest.myOngoingEvents[(sender as! EventSnapshotTableViewCell).eventId!]
+                case is FinalizedEventSnapshotTableViewCell:
+                    edVC.event = EventRequest.myOngoingEvents[(sender as! FinalizedEventSnapshotTableViewCell).eventId!]
+                default:
+                    break
                 }
-            default:
-                break
             }
+        default:
+            break
         }
     }
 }
@@ -241,6 +245,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 cell.statusView.backgroundColor = event.statusColor
                 cell.statusView.layer.masksToBounds = true
                 cell.statusView.layer.cornerRadius = cell.statusView.frame.size.width / 2
+                cell.eventId = event.objectId
                 return cell
 
             } else {
@@ -267,6 +272,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 cell.statusView.backgroundColor = event.statusColor
                 cell.statusView.layer.masksToBounds = true
                 cell.statusView.layer.cornerRadius = cell.statusView.frame.size.width / 2
+                cell.eventId = event.objectId
                 return cell
             }
         }
@@ -339,7 +345,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 conversation.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(conversation, animated: true)
             } else {
-                performSegue(withIdentifier: identifierToEventDetail, sender: self)
+                performSegue(withIdentifier: identifierToEventDetail, sender: tableView.cellForRow(at: indexPath))
             }
         }
         tableView.deselectRow(at: indexPath, animated: true)
@@ -354,14 +360,29 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 action, index in
                 self.performSegue(withIdentifier: self.identifierToEventDetail, sender: tableView.cellForRow(at: index))
             }
-            let delete = UITableViewRowAction(style: .destructive, title: "完结") {
+            let delete = UITableViewRowAction(style: .default, title: "完结") {
                 action, index in
-                tableView.deleteSections(IndexSet([index.section]), with: .fade)
+                if let finalizedCell = tableView.cellForRow(at: indexPath) as? FinalizedEventSnapshotTableViewCell {
+                    EventRequest.myOngoingEvents[finalizedCell.eventId!] = nil
+                    tableView.deleteSections(IndexSet([indexPath.section]), with: .fade)
+                }
             }
             return [delete, more]
         } else {
             return nil
         }
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        guard EventRequest.myOngoingEvents.count > 0, indexPath.section > 0 else { return false }
+        let event = self.eventForSection(section: indexPath.section)
+        if event.status == .isFinalized {
+            return true
+        }
+        return false
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     }
 }
 
