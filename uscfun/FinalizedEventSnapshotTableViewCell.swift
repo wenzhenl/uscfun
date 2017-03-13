@@ -14,4 +14,5 @@ class FinalizedEventSnapshotTableViewCell: UITableViewCell {
     @IBOutlet weak var creatorLabel: UILabel!
     @IBOutlet weak var eventNameLabel: UILabel!
     @IBOutlet weak var statusView: UIView!
+    var eventId: String?
 }

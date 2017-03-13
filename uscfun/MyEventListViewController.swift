@@ -159,7 +159,9 @@ class MyEventListViewController: UIViewController {
             case identifierToEventDetail:
                 let destination = segue.destination
                 if let edVC = destination as? EventDetailViewController {
+                    if let sender = sender as? FinalizedEventSnapshotTableViewCell {
                     edVC.event = EventRequest.myOngoingEvents[EventRequest.myOngoingEvents.keys[((tableView.indexPathForSelectedRow?.section)! - 1)]]
+                    }
                 }
             default:
                 break
@@ -341,6 +343,25 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
             }
         }
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        guard EventRequest.myOngoingEvents.count > 0, indexPath.section > 0 else { return nil }
+        let event = self.eventForSection(section: indexPath.section)
+        if event.status == .isFinalized {
+            let more = UITableViewRowAction(style: .normal, title: "详情") {
+                action, index in
+                self.performSegue(withIdentifier: self.identifierToEventDetail, sender: tableView.cellForRow(at: index))
+            }
+            let delete = UITableViewRowAction(style: .destructive, title: "完结") {
+                action, index in
+                tableView.deleteSections(IndexSet([index.section]), with: .fade)
+            }
+            return [delete, more]
+        } else {
+            return nil
+        }
     }
 }
 
