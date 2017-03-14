@@ -236,7 +236,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
 
             if event.status == .isFinalized {
                 let cell = Bundle.main.loadNibNamed("FinalizedEventSnapshotTableViewCell", owner: self, options: nil)?.first as! FinalizedEventSnapshotTableViewCell
-                cell.eventNameLabel.text = event.name
+                cell.eventNameLabel.text = "#" + event.name + "#"
                 cell.eventNameLabel.numberOfLines = 0
                 cell.creatorLabel.text = "发起人：" + creator.nickname
                 cell.creatorAvatarImageView.layer.masksToBounds = true
