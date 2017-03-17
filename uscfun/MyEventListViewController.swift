@@ -308,7 +308,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                         return 12
                     }
                 } else {
-                    return 0
+                    return 10
                 }
             }
         }
