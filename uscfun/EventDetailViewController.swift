@@ -72,10 +72,16 @@ class EventDetailViewController: UIViewController {
         switch event.relationWithMe {
         case .createdByMe:
             joinButton.setTitle("修改微活动", for: .normal)
+            joinButton.backgroundColor = UIColor.buttonPink
+            joinButton.setTitleColor(UIColor.white, for: .normal)
         case .joinedByMe:
             joinButton.setTitle("已经参加", for: .normal)
+            joinButton.backgroundColor = UIColor.lightGray
+            joinButton.setTitleColor(UIColor.darkGray, for: .normal)
         case .noneOfMyBusiness:
             joinButton.setTitle("报名参加", for: .normal)
+            joinButton.backgroundColor = UIColor.buttonPink
+            joinButton.setTitleColor(UIColor.white, for: .normal)
         }
         
         switch event.status {
