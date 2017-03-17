@@ -9,10 +9,9 @@
 import UIKit
 
 class FinalizedEventSnapshotTableViewCell: UITableViewCell {
-
-    @IBOutlet weak var creatorAvatarImageView: UIImageView!
-    @IBOutlet weak var creatorLabel: UILabel!
+    @IBOutlet weak var ifReadView: UIView!
     @IBOutlet weak var eventNameLabel: UILabel!
+    @IBOutlet weak var latestMessageLabel: UILabel!
     @IBOutlet weak var statusView: UIView!
     var eventId: String?
 }

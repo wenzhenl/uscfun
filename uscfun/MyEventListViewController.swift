@@ -236,12 +236,11 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
 
             if event.status == .isFinalized {
                 let cell = Bundle.main.loadNibNamed("FinalizedEventSnapshotTableViewCell", owner: self, options: nil)?.first as! FinalizedEventSnapshotTableViewCell
-                cell.eventNameLabel.text = "#" + event.name + "#"
+                cell.ifReadView.layer.cornerRadius = 4
+                cell.ifReadView.backgroundColor = event.finalizedColor
+                cell.eventNameLabel.text = event.name
                 cell.eventNameLabel.numberOfLines = 0
-                cell.creatorLabel.text = "发起人：" + creator.nickname
-                cell.creatorAvatarImageView.layer.masksToBounds = true
-                cell.creatorAvatarImageView.layer.cornerRadius = cell.creatorAvatarImageView.frame.size.width / 2.0
-                cell.creatorAvatarImageView.image = creator.avatar
+                cell.latestMessageLabel.text = "tap to read"
                 cell.statusView.backgroundColor = event.statusColor
                 cell.statusView.layer.masksToBounds = true
                 cell.statusView.layer.cornerRadius = cell.statusView.frame.size.width / 2
@@ -404,6 +403,13 @@ extension Event {
         default:
             return UIColor.darkGray
         }
+    }
+    
+    var finalizedColor: UIColor {
+        if let index = self.objectId?.hash {
+            return USCFunConstants.avatarColorOptions[abs(index) % USCFunConstants.avatarColorOptions.count]
+        }
+        return USCFunConstants.avatarColorOptions[0]
     }
     
     var whitePaper: UIImage {
