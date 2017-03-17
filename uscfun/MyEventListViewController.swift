@@ -371,9 +371,15 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 if let finalizedCell = tableView.cellForRow(at: indexPath) as? FinalizedEventSnapshotTableViewCell {
                     EventRequest.myOngoingEvents[finalizedCell.eventId!]?.setComplete(for: AVUser.current()!) {
                         succeeded, error in
+                        if succeeded {
+                            EventRequest.myOngoingEvents[finalizedCell.eventId!] = nil
+                            tableView.deleteSections(IndexSet([indexPath.section]), with: .fade)
+                        }
+                        
+                        if error != nil {
+                            self.displayInfo(info: error!.localizedDescription)
+                        }
                     }
-                    EventRequest.myOngoingEvents[finalizedCell.eventId!] = nil
-                    tableView.deleteSections(IndexSet([indexPath.section]), with: .fade)
                 }
             }
             return [delete, more]

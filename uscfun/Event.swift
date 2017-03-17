@@ -578,7 +578,7 @@ class Event {
             handler(true, nil)
         } catch let error {
             print("cannot complete event for member \(error.localizedDescription)")
-            handler(false, EventError.systemError(localizedDescriotion: "无法完结活动", debugDescription: error.localizedDescription))
+            handler(false, EventError.systemError(localizedDescriotion: "无法完结活动，请检查网络", debugDescription: error.localizedDescription))
         }
     }
     
@@ -614,7 +614,7 @@ class Event {
             handler(true, nil)
         } catch let error {
             print("cannot remove member \(error.localizedDescription)")
-            handler(false, EventError.systemError(localizedDescriotion: "无法设定已读", debugDescription: error.localizedDescription))
+            handler(false, EventError.systemError(localizedDescriotion: "无法设定已读，请检查网络", debugDescription: error.localizedDescription))
         }
     }
 }
