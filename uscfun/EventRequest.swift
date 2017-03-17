@@ -219,13 +219,15 @@ class EventRequest {
                 return
             }
             for event in events {
-                EventRequest.myOngoingEvents[event.objectId!] = event
-                
-                if event.updatedAt! > EventRequest.newestUpdatedAtOfMyOngoingEvents {
-                    EventRequest.newestUpdatedAtOfMyOngoingEvents = event.updatedAt!
-                }
-                if event.updatedAt! < EventRequest.oldestUpdatedAtOfMyOngoingEvents {
-                    EventRequest.oldestUpdatedAtOfMyOngoingEvents = event.updatedAt!
+                if event.status != .isFailed {
+                    EventRequest.myOngoingEvents[event.objectId!] = event
+                    
+                    if event.updatedAt! > EventRequest.newestUpdatedAtOfMyOngoingEvents {
+                        EventRequest.newestUpdatedAtOfMyOngoingEvents = event.updatedAt!
+                    }
+                    if event.updatedAt! < EventRequest.oldestUpdatedAtOfMyOngoingEvents {
+                        EventRequest.oldestUpdatedAtOfMyOngoingEvents = event.updatedAt!
+                    }
                 }
             }
             handler?(true, nil)
