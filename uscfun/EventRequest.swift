@@ -81,8 +81,7 @@ class EventRequest {
         query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date().timeIntervalSince1970)
         query.whereKey(EventKeyConstants.keyOfRemainingSeats, greaterThan: 0)
 
-        /// define events must be not completed or cancelled
-        query.whereKey(EventKeyConstants.keyOfIsCompleted, equalTo: false)
+        /// define events must be not cancelled
         query.whereKey(EventKeyConstants.keyOfIsCancelled, equalTo: false)
         
         query.cachePolicy = .networkElseCache
@@ -118,8 +117,7 @@ class EventRequest {
         query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date().timeIntervalSince1970)
         query.whereKey(EventKeyConstants.keyOfRemainingSeats, greaterThan: 0)
         
-        /// define events must be not completed or cancelled
-        query.whereKey(EventKeyConstants.keyOfIsCompleted, equalTo: false)
+        /// define events must be not cancelled
         query.whereKey(EventKeyConstants.keyOfIsCancelled, equalTo: false)
         
         query.cachePolicy = .networkElseCache
@@ -153,8 +151,7 @@ class EventRequest {
         query.whereKey(EventKeyConstants.keyOfInstitution, equalTo: USCFunConstants.nameOfSchool)
         query.whereKey(EventKeyConstants.keyOfUpdatedAt, greaterThan: currentNewestUpdatedTime)
         
-        /// define events must be not completed or cancelled
-        query.whereKey(EventKeyConstants.keyOfIsCompleted, equalTo: false)
+        /// define events must be not cancelled
         query.whereKey(EventKeyConstants.keyOfIsCancelled, equalTo: false)
         
         /// define events must be mine
@@ -189,8 +186,7 @@ class EventRequest {
         query.whereKey(EventKeyConstants.keyOfInstitution, equalTo: USCFunConstants.nameOfSchool)
         query.whereKey(EventKeyConstants.keyOfUpdatedAt, lessThan: currentOldestUpdatedTime)
         
-        /// define events must be not completed or cancelled
-        query.whereKey(EventKeyConstants.keyOfIsCompleted, equalTo: false)
+        /// define events must be not cancelled
         query.whereKey(EventKeyConstants.keyOfIsCancelled, equalTo: false)
         
         /// define events must be mine
@@ -219,7 +215,7 @@ class EventRequest {
                 return
             }
             for event in events {
-                if event.status != .isFailed {
+                if event.status != .isFailed && !(event.completedBy ?? []).contains(AVUser.current()!) {
                     EventRequest.myOngoingEvents[event.objectId!] = event
                     
                     if event.updatedAt! > EventRequest.newestUpdatedAtOfMyOngoingEvents {

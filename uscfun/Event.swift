@@ -160,10 +160,6 @@ class Event {
     /// The members of the event including creator
     var members: [AVUser]
     
-    /// The flag indicates that the event has been executed and it will not be shown at
-    /// user's my attending events section
-    var isCompleted: Bool
-    
     /// The flag indicates that the event has been cancelled explicitly
     var isCancelled: Bool
     
@@ -181,10 +177,17 @@ class Event {
     /// The update time fetched from Leancloud
     var updatedAt: Date?
 
+    //--MARK: indicators for individual member
+    
+    /// The members who indicates that he has already completed the event
+    /// and no longer needs the chat room
+    var completedBy: [AVUser]?
+    
+    /// The members who has unread message for this event
+    var hasUnreadMessage: [AVUser]?
+    
     var status: EventStatus {
-        if isCompleted {
-            return EventStatus.isCompleted
-        } else if isCancelled {
+        if isCancelled {
             return EventStatus.isCancelled
         } else if due > Date() && maximumAttendingPeople - remainingSeats >= minimumAttendingPeople && remainingSeats > 0 {
             return EventStatus.isSecured
@@ -224,7 +227,6 @@ class Event {
         self.transientConversationId = ""
         self.conversationId = ""
         self.members = [createdBy]
-        self.isCompleted = false
         self.isCancelled = false
         self.institution = USCFunConstants.nameOfSchool
     }
@@ -295,12 +297,6 @@ class Event {
             return nil
         }
         self.members = members
-        
-        guard let isCompleted = data.value(forKey: EventKeyConstants.keyOfIsCompleted) as? Bool else {
-            print("failed to create Event from AVObject: no isCompleted")
-            return nil
-        }
-        self.isCompleted = isCompleted
 
         guard let isCancelled = data.value(forKey: EventKeyConstants.keyOfIsCancelled) as? Bool else {
             print("failed to create Event from AVObject: no isCancelled")
@@ -340,6 +336,15 @@ class Event {
         self.objectId = data.objectId
         self.createdAt = data.createdAt
         self.updatedAt = data.updatedAt
+        
+        /// check property for individual member
+        if let completedBy = data.value(forKey: EventKeyConstants.keyOfCompletedBy) as? [AVUser] {
+           self.completedBy = completedBy
+        }
+        
+        if let hasUnreadMessage = data.value(forKey: EventKeyConstants.keyOfHasUnreadMessage) as? [AVUser] {
+            self.hasUnreadMessage = hasUnreadMessage
+        }
     }
     
     /// Posts an event to server, it consists of three steps: creating transient conversation, creating conversation and save data to server
@@ -449,7 +454,6 @@ class Event {
         eventObject.setObject(members, forKey: EventKeyConstants.keyOfMembers)
         eventObject.setObject(transientConversationId, forKey: EventKeyConstants.keyOfTransientConversationId)
         eventObject.setObject(conversationId, forKey: EventKeyConstants.keyOfConversationId)
-        eventObject.setObject(isCompleted, forKey: EventKeyConstants.keyOfIsCompleted)
         eventObject.setObject(isCancelled, forKey: EventKeyConstants.keyOfIsCancelled)
         eventObject.setObject(institution, forKey: EventKeyConstants.keyOfInstitution)
         
