@@ -236,8 +236,15 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
 
             if event.status == .isFinalized {
                 let cell = Bundle.main.loadNibNamed("FinalizedEventSnapshotTableViewCell", owner: self, options: nil)?.first as! FinalizedEventSnapshotTableViewCell
-                cell.ifReadView.layer.cornerRadius = 4
-                cell.ifReadView.backgroundColor = event.finalizedColor
+                if event.hasUnread {
+                    cell.ifReadView.layer.cornerRadius = 4
+                    cell.ifReadView.backgroundColor = event.finalizedColor
+                } else {
+                    cell.ifReadView.layer.cornerRadius = 4
+                    cell.ifReadView.layer.borderWidth = 2
+                    cell.ifReadView.layer.borderColor = event.finalizedColor.cgColor
+                    cell.ifReadView.backgroundColor = UIColor.clear
+                }
                 cell.eventNameLabel.text = event.name
                 cell.eventNameLabel.numberOfLines = 0
                 cell.latestMessageLabel.text = "tap to read"
@@ -428,5 +435,12 @@ extension Event {
             return .joinedByMe
         }
         return .noneOfMyBusiness
+    }
+    
+    var hasUnread: Bool {
+        if (self.hasUnreadMessage ?? []).contains(AVUser.current()!) {
+            return true
+        }
+        return false
     }
 }
