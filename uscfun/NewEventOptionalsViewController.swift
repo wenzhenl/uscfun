@@ -73,7 +73,7 @@ class NewEventOptionalsViewController: FormViewController {
         
         form +++ Section("时间地点(选填)")
         <<< DateTimeRow("eventStartTime"){
-            $0.title = "开始时间"
+            $0.title = "微活动开始时间"
             }
             .cellSetup {
                 cell, row in
@@ -85,7 +85,7 @@ class NewEventOptionalsViewController: FormViewController {
             }
             
         <<< DateTimeRow("eventEndTime"){
-            $0.title = "结束时间"
+            $0.title = "微活动结束时间"
             }
             .cellSetup {
                 cell, row in
@@ -97,7 +97,7 @@ class NewEventOptionalsViewController: FormViewController {
             }
             
         <<< LocationAddressRow("eventLocation") {
-            $0.title = "活动地点"
+            $0.title = "微活动地点"
             }
             .cellSetup {
                 cell, row in

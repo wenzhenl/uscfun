@@ -184,7 +184,7 @@
                                         <rect key="frame" x="0.0" y="28" width="414" height="150"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Uix-aH-kGH" id="1M7-Wv-yZz">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="149.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="roy-yn-mEh">
@@ -675,7 +675,7 @@ A different license may apply to other resources included in this package, inclu
             </objects>
             <point key="canvasLocation" x="6238" y="-6255"/>
         </scene>
-        <!--活动详情-->
+        <!--微活动详情-->
         <scene sceneID="OBR-Vi-A3T">
             <objects>
                 <viewController hidesBottomBarWhenPushed="YES" id="nvQ-YZ-kHk" customClass="EventDetailViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
@@ -738,7 +738,7 @@ A different license may apply to other resources included in this package, inclu
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="活动详情" id="TdA-AP-EMn">
+                    <navigationItem key="navigationItem" title="微活动详情" id="TdA-AP-EMn">
                         <barButtonItem key="backBarButtonItem" title="  " id="1yn-RK-aqT"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="action" id="IRs-tL-XAP">
                             <connections>

@@ -241,12 +241,12 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
         }
         else if indexPath.section == 0 {
             let cell = Bundle.main.loadNibNamed("EventStatusTableViewCell", owner: self, options: nil)?.first as! EventStatusTableViewCell
-            cell.pendingView.layer.masksToBounds = true
             cell.pendingView.layer.cornerRadius = cell.pendingView.frame.size.width / 2.0
-            cell.securedView.layer.masksToBounds = true
+            cell.pendingView.layer.backgroundColor = UIColor.eventPending.cgColor
             cell.securedView.layer.cornerRadius = cell.securedView.frame.size.width / 2.0
-            cell.finalizedView.layer.masksToBounds = true
+            cell.securedView.layer.backgroundColor = UIColor.eventSecured.cgColor
             cell.finalizedView.layer.cornerRadius = cell.finalizedView.frame.size.width / 2.0
+            cell.finalizedView.layer.backgroundColor = UIColor.eventFinalized.cgColor
             cell.selectionStyle = .none
             return cell
         }

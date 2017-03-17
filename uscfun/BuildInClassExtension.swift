@@ -72,7 +72,7 @@ extension UIColor {
     }
     
     class var eventSecured: UIColor {
-        return UIColor.themeYellow
+        return UIColor.yellow
     }
     
     class var eventPending: UIColor {

@@ -366,21 +366,21 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
             return cell
         case .startTimeCell:
             let cell = Bundle.main.loadNibNamed("TimeDisplayTableViewCell", owner: self, options: nil)?.first as! TimeDisplayTableViewCell
-            cell.titleLabel.text = "活动开始时间："
+            cell.titleLabel.text = "微活动开始时间："
             cell.dateLabel.text = event.startTime!.readableDate
             cell.timeLabel.text = event.startTime!.readableTime
             cell.selectionStyle = .none
             return cell
         case .endTimeCell:
             let cell = Bundle.main.loadNibNamed("TimeDisplayTableViewCell", owner: self, options: nil)?.first as! TimeDisplayTableViewCell
-            cell.titleLabel.text = "活动结束时间："
+            cell.titleLabel.text = "微活动结束时间："
             cell.dateLabel.text = event.endTime!.readableDate
             cell.timeLabel.text = event.endTime!.readableTime
             cell.selectionStyle = .none
             return cell
         case .locationCell:
             let cell = Bundle.main.loadNibNamed("TitleContentTableViewCell", owner: self, options: nil)?.first as! TitleContentTableViewCell
-            cell.titleLabel.text = "活动地点："
+            cell.titleLabel.text = "微活动地点："
             cell.contentLabel.text = event.location
             cell.selectionStyle = .none
             return cell
