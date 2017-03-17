@@ -369,6 +369,9 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
             let delete = UITableViewRowAction(style: .default, title: "完结") {
                 action, index in
                 if let finalizedCell = tableView.cellForRow(at: indexPath) as? FinalizedEventSnapshotTableViewCell {
+                    EventRequest.myOngoingEvents[finalizedCell.eventId!]?.setComplete(for: AVUser.current()!) {
+                        succeeded, error in
+                    }
                     EventRequest.myOngoingEvents[finalizedCell.eventId!] = nil
                     tableView.deleteSections(IndexSet([indexPath.section]), with: .fade)
                 }
