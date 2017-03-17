@@ -17,7 +17,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="162"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="162"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="161"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZJx-4N-psc">
@@ -29,13 +29,13 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cj7-JM-9fR">
-                        <rect key="frame" x="36" y="8" width="270" height="114"/>
+                        <rect key="frame" x="36" y="12" width="270" height="106"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="260" verticalCompressionResistancePriority="760" text="有什么道理是开始注重外表后几年才能悟出来的？" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Svu-xo-yfB">
-                        <rect key="frame" x="36" y="122" width="270" height="31.5"/>
+                        <rect key="frame" x="36" y="118" width="270" height="31.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -52,12 +52,12 @@
                 <constraints>
                     <constraint firstAttribute="trailingMargin" secondItem="2js-eE-5P8" secondAttribute="trailing" id="AFj-oi-wmt"/>
                     <constraint firstItem="Svu-xo-yfB" firstAttribute="leading" secondItem="ZJx-4N-psc" secondAttribute="trailing" constant="8" symbolic="YES" id="OJJ-kv-YY4"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="Svu-xo-yfB" secondAttribute="bottom" id="YJf-O0-MDh"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="Svu-xo-yfB" secondAttribute="bottom" constant="4" id="YJf-O0-MDh"/>
                     <constraint firstItem="Svu-xo-yfB" firstAttribute="top" secondItem="cj7-JM-9fR" secondAttribute="bottom" id="c6Z-vg-f0l"/>
                     <constraint firstItem="2js-eE-5P8" firstAttribute="leading" secondItem="cj7-JM-9fR" secondAttribute="trailing" id="d5I-78-x8O"/>
                     <constraint firstAttribute="bottomMargin" secondItem="2js-eE-5P8" secondAttribute="bottom" id="edG-aI-n53"/>
                     <constraint firstItem="2js-eE-5P8" firstAttribute="leading" secondItem="Svu-xo-yfB" secondAttribute="trailing" id="g7n-xf-EdE"/>
-                    <constraint firstItem="cj7-JM-9fR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="hV0-vB-sy1"/>
+                    <constraint firstItem="cj7-JM-9fR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="4" id="hV0-vB-sy1"/>
                     <constraint firstItem="ZJx-4N-psc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="n4O-ZZ-pws"/>
                     <constraint firstItem="cj7-JM-9fR" firstAttribute="leading" secondItem="Svu-xo-yfB" secondAttribute="leading" id="su2-tM-ce5"/>
                     <constraint firstItem="ZJx-4N-psc" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="tZg-EB-Jr0"/>
