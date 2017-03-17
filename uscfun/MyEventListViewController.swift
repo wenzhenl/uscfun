@@ -182,7 +182,8 @@ class MyEventListViewController: UIViewController {
     }
     
     func joinDiscussion(sender: UIButton) {
-        let event = eventForSection(section: sender.tag)
+        guard let eventId = sender.accessibilityHint else { return }
+        guard let event = EventRequest.myOngoingEvents[eventId] else { return }
         guard let conversation = LCCKConversationViewController(conversationId: event.transientConversationId) else {
             self.displayInfo(info: "网络错误，无法进入评论区")
             return
@@ -298,7 +299,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 cell.statusView.layer.masksToBounds = true
                 cell.statusView.layer.cornerRadius = cell.statusView.frame.size.width / 2
                 
-                cell.chatButton.tag = indexPath.section
+                cell.chatButton.accessibilityHint = event.objectId
                 cell.chatButton.addTarget(self, action: #selector(joinDiscussion(sender:)), for: .touchUpInside)
                 
                 cell.eventId = event.objectId
