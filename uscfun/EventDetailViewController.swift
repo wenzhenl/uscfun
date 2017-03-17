@@ -72,7 +72,7 @@ class EventDetailViewController: UIViewController {
         switch event.relationWithMe {
         case .createdByMe:
             joinButton.setTitle("修改微活动", for: .normal)
-            joinButton.backgroundColor = UIColor.buttonPink
+            joinButton.backgroundColor = UIColor.avatarTomato
             joinButton.setTitleColor(UIColor.white, for: .normal)
         case .joinedByMe:
             joinButton.setTitle("已经参加", for: .normal)

@@ -180,6 +180,17 @@ class MyEventListViewController: UIViewController {
             break
         }
     }
+    
+    func joinDiscussion(sender: UIButton) {
+        let event = eventForSection(section: sender.tag)
+        guard let conversation = LCCKConversationViewController(conversationId: event.transientConversationId) else {
+            self.displayInfo(info: "网络错误，无法进入评论区")
+            return
+        }
+        conversation.isEnableAutoJoin = true
+        conversation.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(conversation, animated: true)
+    }
 }
 
 extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource {
@@ -286,6 +297,10 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 cell.statusView.backgroundColor = event.statusColor
                 cell.statusView.layer.masksToBounds = true
                 cell.statusView.layer.cornerRadius = cell.statusView.frame.size.width / 2
+                
+                cell.chatButton.tag = indexPath.section
+                cell.chatButton.addTarget(self, action: #selector(joinDiscussion(sender:)), for: .touchUpInside)
+                
                 cell.eventId = event.objectId
                 return cell
             }

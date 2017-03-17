@@ -8,6 +8,7 @@
 
 import UIKit
 import SVProgressHUD
+import ChatKit
 
 protocol SystemNotificationDelegate {
     func systemDidUpdateExistingEvents(ids: [String])
@@ -166,6 +167,21 @@ class EventListViewController: UIViewController {
             }
         }
     }
+    
+    func eventForSection(section: Int) -> Event {
+        return EventRequest.publicEvents[EventRequest.publicEvents.keys[section - 1]]!
+    }
+    
+    func joinDiscussion(sender: UIButton) {
+        let event = eventForSection(section: sender.tag)
+        guard let conversation = LCCKConversationViewController(conversationId: event.transientConversationId) else {
+            self.displayInfo(info: "网络错误，无法进入评论区")
+            return
+        }
+        conversation.isEnableAutoJoin = true
+        conversation.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(conversation, animated: true)
+    }
 }
 
 extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
@@ -250,6 +266,10 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             cell.statusView.backgroundColor = event.statusColor
             cell.statusView.layer.masksToBounds = true
             cell.statusView.layer.cornerRadius = cell.statusView.frame.size.width / 2
+            
+            cell.chatButton.tag = indexPath.section
+            cell.chatButton.addTarget(self, action: #selector(joinDiscussion(sender:)), for: .touchUpInside)
+            
             return cell
         }
     }
