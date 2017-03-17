@@ -163,6 +163,14 @@ class MyEventListViewController: UIViewController {
                 case is EventSnapshotTableViewCell:
                     edVC.event = EventRequest.myOngoingEvents[(sender as! EventSnapshotTableViewCell).eventId!]
                 case is FinalizedEventSnapshotTableViewCell:
+//                    EventRequest.myOngoingEvents[(sender as! FinalizedEventSnapshotTableViewCell).eventId!]?.setRead(for: AVUser.current()!) {
+//                        succeed, error in
+//                        if succeed {
+//                         
+//                        }
+//                    }
+//                    let rowIndex = self.tableView.indexPath(for: (sender as! FinalizedEventSnapshotTableViewCell))
+//                    self.tableView.reloadRows(at: [rowIndex!], with: .automatic)
                     edVC.event = EventRequest.myOngoingEvents[(sender as! FinalizedEventSnapshotTableViewCell).eventId!]
                 default:
                     break
