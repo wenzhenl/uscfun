@@ -392,16 +392,39 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
             let delete = UITableViewRowAction(style: .default, title: "完结") {
                 action, index in
                 if let finalizedCell = tableView.cellForRow(at: indexPath) as? FinalizedEventSnapshotTableViewCell {
-                    EventRequest.myOngoingEvents[finalizedCell.eventId!]?.setComplete(for: AVUser.current()!) {
-                        succeeded, error in
-                        if succeeded {
-                            EventRequest.myOngoingEvents[finalizedCell.eventId!] = nil
-                            tableView.deleteSections(IndexSet([indexPath.section]), with: .fade)
+                    if UserDefaults.hasSeenCompleteEventTip {
+                        EventRequest.myOngoingEvents[finalizedCell.eventId!]?.setComplete(for: AVUser.current()!) {
+                            succeeded, error in
+                            if succeeded {
+                                EventRequest.myOngoingEvents[finalizedCell.eventId!] = nil
+                                tableView.deleteSections(IndexSet([indexPath.section]), with: .fade)
+                            }
+                            
+                            if error != nil {
+                                self.displayInfo(info: error!.localizedDescription)
+                            }
                         }
-                        
-                        if error != nil {
-                            self.displayInfo(info: error!.localizedDescription)
+                    } else {
+                        let alertViewController = UIAlertController(title: nil, message: "请确认你已经不需要跟其他队友继续讨论该微活动。完结后该微活动将会出现在 我->我发起(参加)过的活动中", preferredStyle: .alert)
+                        let okay = UIAlertAction(title: "确认", style: .default) {
+                            _ in
+                            EventRequest.myOngoingEvents[finalizedCell.eventId!]?.setComplete(for: AVUser.current()!) {
+                                succeeded, error in
+                                if succeeded {
+                                    EventRequest.myOngoingEvents[finalizedCell.eventId!] = nil
+                                    tableView.deleteSections(IndexSet([indexPath.section]), with: .fade)
+                                    UserDefaults.hasSeenCompleteEventTip = true
+                                }
+                                
+                                if error != nil {
+                                    self.displayInfo(info: error!.localizedDescription)
+                                }
+                            }
                         }
+                        let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                        alertViewController.addAction(cancel)
+                        alertViewController.addAction(okay)
+                        self.present(alertViewController, animated: true, completion: nil)
                     }
                 }
             }

@@ -269,4 +269,14 @@ extension UserDefaults {
             handler?(true, nil)
         }
     }
+    
+    //-MARK: tutorials for newcomers
+    class var hasSeenCompleteEventTip: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "User_hasSeenCompleteEventTip_Key")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "User_hasSeenCompleteEventTip_Key")
+        }
+    }
 }
