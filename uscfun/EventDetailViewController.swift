@@ -38,13 +38,6 @@ class EventDetailViewController: UIViewController {
     var infoLabel: UILabel!
     let heightOfInfoLabel = CGFloat(29.0)
     
-    lazy var blurView: UIView = {
-        let blurView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height))
-        blurView.backgroundColor = UIColor.lightGray
-        blurView.alpha = 0.2
-        return blurView
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.view.backgroundColor = UIColor.white
@@ -96,6 +89,7 @@ class EventDetailViewController: UIViewController {
             break
         }
     }
+    
     func populateSections() {
         // Populate the cells
         detailSections.removeAll()
@@ -196,25 +190,66 @@ class EventDetailViewController: UIViewController {
     
     func quitRequest() {
         
-        let actionViewController = self.storyboard!.instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentifierOfCustomizedAlertViewController) as! CustomizedAlertViewController
-        actionViewController.delegate = self
-        actionViewController.alertType = CustomAlertType.quitEvent
-        actionViewController.modalPresentationStyle = .overFullScreen
-        if !self.view.subviews.contains(blurView) {
-            self.view.addSubview(blurView)
+        let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let quit = UIAlertAction(title: "退出微活动", style: .destructive) {
+            _ in
+            SVProgressHUD.show()
+            self.event.remove(member: AVUser.current()!) {
+                succeeded, error in
+                SVProgressHUD.dismiss()
+                if succeeded {
+                    self.populateSections()
+                    self.tableView.reloadData()
+                    self.setupJoinButton()
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil, userInfo: ["eventId": self.event.objectId!])
+                    self.displayInfo(info: "活动已从我的日常移除")
+                }
+                else if error != nil {
+                    self.displayInfo(info: error!.localizedDescription)
+                }
+            }
         }
-        self.present(actionViewController, animated: true, completion: nil)
+        let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        alertViewController.addAction(quit)
+        alertViewController.addAction(cancel)
+        self.present(alertViewController, animated: true, completion: nil)
     }
     
     @IBAction func takeActions(_ sender: UIBarButtonItem) {
-        let actionViewController = self.storyboard!.instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentifierOfCustomizedAlertViewController) as! CustomizedAlertViewController
-        actionViewController.delegate = self
-        actionViewController.alertType = CustomAlertType.shareEvent
-        actionViewController.modalPresentationStyle = .overFullScreen
-        if !self.view.subviews.contains(blurView) {
-            self.view.addSubview(blurView)
+        let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let shareToFriend = UIAlertAction(title: "分享给微信好友", style: .default) {
+            _ in
+            let message = WXMediaMessage()
+            message.title = self.event!.name
+            let ext = WXWebpageObject()
+            ext.webpageUrl = "http://usrichange.com"
+            message.mediaObject = ext
+            
+            let req = SendMessageToWXReq()
+            req.bText = false
+            req.message = message
+            req.scene = Int32(WXSceneSession.rawValue)
+            WXApi.send(req)
         }
-        self.present(actionViewController, animated: true, completion: nil)
+        let shareToMoment = UIAlertAction(title: "分享到朋友圈", style: .default) {
+            _ in
+            let message = WXMediaMessage()
+            message.title = self.event!.name
+            let ext = WXWebpageObject()
+            ext.webpageUrl = "http://usrichange.com"
+            message.mediaObject = ext
+            
+            let req = SendMessageToWXReq()
+            req.bText = false
+            req.message = message
+            req.scene = Int32(WXSceneTimeline.rawValue)
+            WXApi.send(req)
+        }
+        let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        alertViewController.addAction(shareToFriend)
+        alertViewController.addAction(shareToMoment)
+        alertViewController.addAction(cancel)
+        self.present(alertViewController, animated: true, completion: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -242,78 +277,6 @@ class EventDetailViewController: UIViewController {
     let mapSegueIdentifier = "SHOWMAP"
     let userProfileSugueIdentifier = "see user profile"
     let editEventSegueIdentifier = "go to edit event"
-}
-
-extension EventDetailViewController: CustomizedAlertViewDelegate {
-    internal func reportEvent() {
-        self.blurView.removeFromSuperview()
-    }
-
-    func withdraw() {
-        self.blurView.removeFromSuperview()
-    }
-    
-    func shareEventToMoments() {
-        
-        self.blurView.removeFromSuperview()
-        
-        print("share event to moments")
-        let message = WXMediaMessage()
-        message.title = event!.name
-//        message.setThumbImage(event!.type.image)
-        
-        let ext = WXWebpageObject()
-        ext.webpageUrl = "http://usrichange.com"
-        message.mediaObject = ext
-        
-        let req = SendMessageToWXReq()
-        req.bText = false
-        req.message = message
-        req.scene = Int32(WXSceneTimeline.rawValue)
-        WXApi.send(req)
-    }
-    
-    func shareEventToWechatFriend() {
-        
-        self.blurView.removeFromSuperview()
-
-        print("share event to friend")
-        let message = WXMediaMessage()
-        message.title = event!.name
-//        message.setThumbImage(event!.type.image)
-        
-        let ext = WXWebpageObject()
-        ext.webpageUrl = "http://usrichange.com"
-        message.mediaObject = ext
-        
-        let req = SendMessageToWXReq()
-        req.bText = false
-        req.message = message
-        req.scene = Int32(WXSceneSession.rawValue)
-        WXApi.send(req)
-    }
-    
-    func quitEvent() {
-        
-        self.blurView.removeFromSuperview()
-
-        print("quit event")
-        SVProgressHUD.show()
-        self.event.remove(member: AVUser.current()!) {
-            succeeded, error in
-            SVProgressHUD.dismiss()
-            if succeeded {
-                self.populateSections()
-                self.tableView.reloadData()
-                self.setupJoinButton()
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil, userInfo: ["eventId": event.objectId!])
-                self.displayInfo(info: "活动已从我的日常移除")
-            }
-            else if error != nil {
-                self.displayInfo(info: error!.localizedDescription)
-            }
-        }
-    }
 }
 
 extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource {
