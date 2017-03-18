@@ -25,4 +25,31 @@ class EventSnapshotTableViewCell: UITableViewCell {
     @IBOutlet weak var statusView: UIView!
     
     var eventId: String?
+    var due: Date?
+    var timer: Timer?
+    
+    func timerStarted() {
+        if timer == nil {
+            timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(update), userInfo: nil, repeats: true)
+        }
+    }
+    
+    func update() {
+        if let due = due {
+            
+            if due < Date() {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "eventDidExpired"), object: nil, userInfo: ["eventId": eventId ?? ""])
+                timer?.invalidate()
+                timer = nil
+            }
+            
+            let gapFromNow = due.gapFromNow
+            if gapFromNow == "" {
+                remainingTimeLabel.textColor = UIColor.darkGray
+                remainingTimeLabel.text = "报名已经结束"
+            } else {
+                remainingTimeLabel.text = gapFromNow
+            }
+        }
+    }
 }

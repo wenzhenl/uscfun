@@ -43,7 +43,7 @@ class MyEventListViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handlePostNewEvent), name: NSNotification.Name(rawValue: "userDidPostNewEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handlePostNewEvent), name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleQuitEvent(notification:)), name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleEventExpired(notification:)), name: NSNotification.Name(rawValue: "eventDidExpired"), object: nil)
         
         infoLabel = UILabel(frame: CGRect(x: 0.0, y: -heightOfInfoLabel, width: view.frame.size.width, height: heightOfInfoLabel))
         infoLabel.numberOfLines = 0
@@ -89,6 +89,25 @@ class MyEventListViewController: UIViewController {
         }
         EventRequest.myOngoingEvents[eventId] = nil
         self.tableView.reloadData()
+    }
+    
+    func handleEventExpired(notification: Notification) {
+        guard let userInfo = notification.userInfo, let eventId = userInfo["eventId"] as? String  else {
+            print("cannot get user info from event did expired notification")
+            return
+        }
+        
+        if let event = EventRequest.myOngoingEvents[eventId] {
+            switch event.status {
+            case .isFailed:
+                EventRequest.myOngoingEvents[eventId] = nil
+                self.tableView.reloadData()
+            case .isFinalized:
+                self.tableView.reloadData()
+            default:
+                break
+            }
+        }
     }
     
     func handleRefresh() {
@@ -303,6 +322,10 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 cell.chatButton.addTarget(self, action: #selector(joinDiscussion(sender:)), for: .touchUpInside)
                 
                 cell.eventId = event.objectId
+                
+                cell.due = event.due
+                cell.timerStarted()
+                
                 return cell
             }
         }

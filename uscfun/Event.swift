@@ -189,6 +189,8 @@ class Event {
     var status: EventStatus {
         if isCancelled {
             return EventStatus.isCancelled
+        } else if (completedBy ?? []).contains(AVUser.current()!) {
+            return EventStatus.isCompleted
         } else if due > Date() && maximumAttendingPeople - remainingSeats >= minimumAttendingPeople && remainingSeats > 0 {
             return EventStatus.isSecured
         } else if due > Date() && remainingSeats > 0 {

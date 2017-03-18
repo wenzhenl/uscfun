@@ -38,6 +38,8 @@ class EventDetailViewController: UIViewController {
     var infoLabel: UILabel!
     let heightOfInfoLabel = CGFloat(29.0)
     
+    var timer: Timer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.view.backgroundColor = UIColor.white
@@ -60,12 +62,27 @@ class EventDetailViewController: UIViewController {
         
         /// important for animation to work properly
         self.navigationController?.navigationBar.isTranslucent = false
+        
+        if timer == nil {
+            timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(updateRemainingTime), userInfo: nil, repeats: true)
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
         infoLabel.isHidden = true
         infoLabel.frame.origin = CGPoint.zero
+    }
+    
+    func updateRemainingTime() {
+        
+        if event.due < Date() {
+            timer?.invalidate()
+            timer = nil
+        }
+        
+        guard let timeCellIndex = detailSections.index(of: .remainingTimeCell) else { return }
+        self.tableView.reloadSections(IndexSet([timeCellIndex]), with: .automatic)
     }
     
     func setupJoinButton() {
