@@ -17,10 +17,9 @@ class EditEventViewController: FormViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = ""
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = false
+        self.title = "修改微活动"
+        
+        saveButtonItem.isEnabled = false
         
         form +++ Section("延长报名截止时间")
             <<< DateTimeRow("due"){
@@ -55,21 +54,21 @@ class EditEventViewController: FormViewController {
             
         form +++ Section("更新时间地点")
             <<< DateTimeRow("eventStartTime"){
-                $0.title = "微活动开始时间"
+                $0.title = "微活动开始时间："
                 if event.startTime != nil {
                     $0.value = event.startTime!
                 }
             }
             
             <<< DateTimeRow("eventEndTime"){
-                $0.title = "微活动结束时间"
+                $0.title = "微活动结束时间："
                 if event.endTime != nil {
                     $0.value = event.endTime!
                 }
             }
             
             <<< LocationAddressRow("eventLocation") {
-                $0.title = "微活动地点"
+                $0.title = "微活动地点："
                 if event.location != nil {
                     $0.value = event.location!
                 }
@@ -88,5 +87,19 @@ class EditEventViewController: FormViewController {
     }
 
     @IBAction func save(_ sender: UIBarButtonItem) {
+        let newDue = (form.rowBy(tag: "due") as! DateTimeRow).value!
+        let newMaximumAttendingPeople = Int((form.rowBy(tag: "maxPeople") as! StepperRow).value!)
+        let newStartTime = (form.rowBy(tag: "eventStartTime") as! DateTimeRow).value
+        let newEndTime = (form.rowBy(tag: "eventEndTime") as! DateTimeRow).value
+        let newLocation = (form.rowBy(tag: "eventLocation") as! LocationAddressRow).value
+        let latitude = (form.rowBy(tag: "eventLocation") as! LocationAddressRow).latitude
+        let longitude = (form.rowBy(tag: "eventLocation") as! LocationAddressRow).longitude
+        let newWhereCreated = latitude != nil && longitude != nil ? AVGeoPoint(latitude: latitude!, longitude: longitude!) : nil
+        let newNote = (form.rowBy(tag: "note") as! TextAreaRow).value
+        
+        event.update(newDue: newDue, newMaximumAttendingPeople: newMaximumAttendingPeople, newStartTime: newStartTime, newEndTime: newEndTime, newLocation: newLocation, newWhereCreated: newWhereCreated, newNote: newNote) {
+            succeeded, error in
+            
+        }
     }
 }

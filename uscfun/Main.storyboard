@@ -812,7 +812,7 @@ A different license may apply to other resources included in this package, inclu
                                 <action selector="cancel:" destination="cLR-Fe-5nJ" id="Ybm-A5-psa"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="保存" id="jFr-1L-unf">
+                        <barButtonItem key="rightBarButtonItem" title="更新" id="jFr-1L-unf">
                             <connections>
                                 <action selector="save:" destination="cLR-Fe-5nJ" id="543-Uv-YfS"/>
                             </connections>

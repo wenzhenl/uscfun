@@ -554,6 +554,57 @@ class Event {
         }
     }
     
+    /// Update an event
+    ///
+    /// - parameter newDue:                     the new deadline for joining
+    /// - parameter newMaximumAttendingPeople:  the new maximum number of members that the event can include
+    /// - parameter newStartTime:               the new start time of the event
+    /// - parameter newEndTime:                 the new end time of the event
+    /// - parameter newLocation:                the new location of the event
+    /// - parameter newWhereCreated:            the new geographical coordinate of the location
+    /// - parameter newNote:                    the new additional information that the creator wants others to know
+    /// - parameter handler:                    handle the creation depending on the operation is successful or not
+    /// - parameter succeeded:                  indicate if the operation is successful
+    /// - parameter error:                      optional error information if operation fails
+    
+    func update(newDue: Date, newMaximumAttendingPeople: Int, newStartTime: Date?, newEndTime: Date?, newLocation: String?, newWhereCreated: AVGeoPoint?, newNote: String?, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
+        
+        guard createdBy == AVUser.current()! else {
+            handler(false, EventError.systemError(localizedDescriotion: "没有权限修改", debugDescription: "only the creator can update the event"))
+            return
+        }
+        guard newDue >= due && newMaximumAttendingPeople >= maximumAttendingPeople else {
+            handler(false, EventError.systemError(localizedDescriotion: "不符合修改要求", debugDescription: "the updated due or maximum attending people are not allowed"))
+            return
+        }
+        
+        let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId!)
+        let query = AVQuery()
+        let option = AVSaveOption()
+        option.query = query
+        option.fetchWhenSave = true
+        
+        if newDue > due {
+            eventObject.setObject(newDue, forKey: EventKeyConstants.keyOfDue)
+        }
+        if newMaximumAttendingPeople > maximumAttendingPeople {
+            eventObject.setObject(newMaximumAttendingPeople, forKey: EventKeyConstants.keyOfMaximumAttendingPeople)
+            eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: NSNumber(integerLiteral: newMaximumAttendingPeople - maximumAttendingPeople))
+        }
+        eventObject.setObject(newStartTime?.timeIntervalSince1970, forKey: EventKeyConstants.keyOfStartTime)
+        eventObject.setObject(newEndTime?.timeIntervalSince1970, forKey: EventKeyConstants.keyOfEndTime)
+        eventObject.setObject(newLocation, forKey: EventKeyConstants.keyOfLocation)
+        eventObject.setObject(newWhereCreated, forKey: EventKeyConstants.keyOfWhereCreated)
+        eventObject.setObject(newNote, forKey: EventKeyConstants.keyOfNote)
+        do {
+            try eventObject.save(with: option)
+            handler(true, nil)
+        } catch let error {
+            print("cannot update event \(error.localizedDescription)")
+            handler(false, EventError.systemError(localizedDescriotion: "活动无法更新", debugDescription: error.localizedDescription))
+        }
+    }
+
     /// indicate that member has completed the event
     ///
     /// - parameter member:            the member that is about to complete the event
