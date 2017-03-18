@@ -197,7 +197,7 @@ class MyEventListViewController: UIViewController {
             if let edVC = segue.destination as? EventDetailViewController {
                 switch sender {
                 case is EventSnapshotTableViewCell:
-                    edVC.event = EventRequest.myOngoingEvents[(sender as! EventSnapshotTableViewCell).eventId!]
+                    edVC.event = EventRequest.myOngoingEvents[(sender as! EventSnapshotTableViewCell).eventId!] ?? Event(name: "该微活动已经被系统回收", maximumAttendingPeople: 0, remainingSeats: 0, minimumAttendingPeople: 0, due: Date(), createdBy: AVUser.current()!)
                 case is FinalizedEventSnapshotTableViewCell:
 //                    EventRequest.myOngoingEvents[(sender as! FinalizedEventSnapshotTableViewCell).eventId!]?.setRead(for: AVUser.current()!) {
 //                        succeed, error in
