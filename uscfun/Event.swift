@@ -682,10 +682,17 @@ extension Event: Comparable {
     
     static func < (lhs: Event, rhs: Event) -> Bool {
         
+        /// order is: finalized < secured < pending < completed < failed < cancelled
         if lhs.status == .isFinalized && rhs.status != .isFinalized { return true }
         if lhs.status != .isFinalized && rhs.status == .isFinalized { return false }
         if lhs.status == .isSecured && rhs.status != .isSecured { return true }
         if lhs.status != .isSecured && rhs.status == .isSecured { return false }
+        if lhs.status == .isCancelled && rhs.status != .isCancelled { return false }
+        if lhs.status != .isCancelled && rhs.status == .isCancelled { return true }
+        if lhs.status == .isFailed && rhs.status != .isFailed { return false }
+        if lhs.status != .isFailed && rhs.status == .isFailed { return true }
+        if lhs.status == .isCompleted && rhs.status != .isCompleted { return false }
+        if lhs.status != .isCompleted && rhs.status == .isCompleted { return true }
         
         return lhs.due < rhs.due
     }
