@@ -171,6 +171,10 @@ class EventListViewController: UIViewController {
         }
     }
     
+    func eventForSection(section: Int) -> Event {
+        return EventRequest.publicEvents[EventRequest.publicEvents.keys[section - 1]]!
+    }
+    
     let identifierToEventDetail = "go to event detail"
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -179,7 +183,12 @@ class EventListViewController: UIViewController {
             case identifierToEventDetail:
                 let destination = segue.destination
                 if let edVC = destination as? EventDetailViewController {
-                    edVC.event = EventRequest.publicEvents[EventRequest.publicEvents.keys[((tableView.indexPathForSelectedRow?.section)! - 1)]]
+                    switch sender {
+                    case is EventSnapshotTableViewCell:
+                        edVC.event = EventRequest.publicEvents[(sender as! EventSnapshotTableViewCell).eventId!]
+                    default:
+                        break
+                    }
                 }
             default:
                 break
@@ -286,6 +295,8 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             cell.chatButton.accessibilityHint = event.objectId
             cell.chatButton.addTarget(self, action: #selector(joinDiscussion(sender:)), for: .touchUpInside)
             
+            cell.eventId = event.objectId
+            
             cell.due = event.due
             cell.timerStarted()
             
@@ -332,7 +343,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if EventRequest.publicEvents.count > 0 && indexPath.section > 0 {
-            performSegue(withIdentifier: identifierToEventDetail, sender: self)
+            performSegue(withIdentifier: identifierToEventDetail, sender: tableView.cellForRow(at: indexPath))
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
