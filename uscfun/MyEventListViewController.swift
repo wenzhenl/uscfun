@@ -15,20 +15,16 @@ class MyEventListViewController: UIViewController {
     
     let emptyPlaceholder = "你好像还没有参加任何微活动，快去参加一波吧！"
     
-    lazy var refreshControl: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
-        return refreshControl
-    }()
-    
     var infoLabel: UILabel!
     let heightOfInfoLabel = CGFloat(29.0)
     
     override func viewDidLoad() {
+        
+        print("view did load called")
+        
         super.viewDidLoad()
 
         self.tableView.scrollsToTop = true
-        self.tableView.addSubview(self.refreshControl)
         if EventRequest.myOngoingEvents.count > 0 {
             self.tableView.backgroundColor = UIColor.backgroundGray
         } else {
@@ -37,7 +33,6 @@ class MyEventListViewController: UIViewController {
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, -10, 0)
         self.tableView.tableFooterView = UIView()
         self.tableView.separatorStyle = .none
-        
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "homeRefresh"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handlePostNewEvent), name: NSNotification.Name(rawValue: "userDidPostNewEvent"), object: nil)
@@ -57,6 +52,12 @@ class MyEventListViewController: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = false
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        print("view will appear called")
+        super.viewWillAppear(true)
+        self.tableView.reloadData()
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
         infoLabel.isHidden = true
@@ -78,7 +79,6 @@ class MyEventListViewController: UIViewController {
     }
     
     func handlePostNewEvent() {
-        self.refreshControl.beginRefreshing()
         handleRefresh()
     }
     
@@ -143,7 +143,6 @@ class MyEventListViewController: UIViewController {
             else if error != nil {
                 self.displayInfo(info: error!.localizedDescription)
             }
-            self.refreshControl.endRefreshing()
         }
     }
     
@@ -197,16 +196,8 @@ class MyEventListViewController: UIViewController {
             if let edVC = segue.destination as? EventDetailViewController {
                 switch sender {
                 case is EventSnapshotTableViewCell:
-                    edVC.event = EventRequest.myOngoingEvents[(sender as! EventSnapshotTableViewCell).eventId!] ?? Event(name: "该微活动已经被系统回收", maximumAttendingPeople: 0, remainingSeats: 0, minimumAttendingPeople: 0, due: Date(), createdBy: AVUser.current()!)
+                    edVC.event = EventRequest.myOngoingEvents[(sender as! EventSnapshotTableViewCell).eventId!]
                 case is FinalizedEventSnapshotTableViewCell:
-//                    EventRequest.myOngoingEvents[(sender as! FinalizedEventSnapshotTableViewCell).eventId!]?.setRead(for: AVUser.current()!) {
-//                        succeed, error in
-//                        if succeed {
-//                         
-//                        }
-//                    }
-//                    let rowIndex = self.tableView.indexPath(for: (sender as! FinalizedEventSnapshotTableViewCell))
-//                    self.tableView.reloadRows(at: [rowIndex!], with: .automatic)
                     edVC.event = EventRequest.myOngoingEvents[(sender as! FinalizedEventSnapshotTableViewCell).eventId!]
                 default:
                     break
@@ -233,6 +224,9 @@ class MyEventListViewController: UIViewController {
 extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        
+        print("number of sections called")
+        
         if EventRequest.myOngoingEvents.count == 0 {
             return 1
         }

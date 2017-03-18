@@ -200,7 +200,7 @@ class EventListViewController: UIViewController {
                 if let edVC = destination as? EventDetailViewController {
                     switch sender {
                     case is EventSnapshotTableViewCell:
-                        edVC.event = EventRequest.publicEvents[(sender as! EventSnapshotTableViewCell).eventId!] ?? Event(name: "该微活动已经被系统回收", maximumAttendingPeople: 0, remainingSeats: 0, minimumAttendingPeople: 0, due: Date(), createdBy: AVUser.current()!)
+                        edVC.event = EventRequest.publicEvents[(sender as! EventSnapshotTableViewCell).eventId!]
                     default:
                         break
                     }
