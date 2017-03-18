@@ -39,7 +39,7 @@ class EventListViewController: UIViewController {
         } else {
             self.tableView.backgroundColor = UIColor.white
         }
-        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, -10, 0)
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
         self.tableView.tableFooterView = UIView()
         self.tableView.separatorStyle = .none
         AppDelegate.systemNotificationDelegate = self
@@ -336,7 +336,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if section == 0 {
-            return 0
+            return CGFloat.leastNormalMagnitude
         }
         return 10
     }

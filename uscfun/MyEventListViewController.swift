@@ -30,7 +30,7 @@ class MyEventListViewController: UIViewController {
         } else {
             self.tableView.backgroundColor = UIColor.white
         }
-        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, -10, 0)
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
         self.tableView.tableFooterView = UIView()
         self.tableView.separatorStyle = .none
         
@@ -359,7 +359,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if section == 0 {
-            return 0
+            return CGFloat.leastNormalMagnitude
         }
         
         if section > 0 {
@@ -368,7 +368,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 if section < EventRequest.myOngoingEvents.count {
                     let nextEvent = eventForSection(section: section + 1)
                     if nextEvent.status == .isFinalized {
-                        return 0
+                        return CGFloat.leastNormalMagnitude
                     } else {
                         return 12
                     }
