@@ -598,6 +598,11 @@ class Event {
         eventObject.setObject(newNote, forKey: EventKeyConstants.keyOfNote)
         do {
             try eventObject.save(with: option)
+            guard let eventId = self.objectId else {
+                handler(false, EventError.systemError(localizedDescriotion: "无法更新本地活动数据", debugDescription: "cannot update local data"))
+                return
+            }
+            EventRequest.myOngoingEvents[eventId] = Event(data: eventObject)
             handler(true, nil)
         } catch let error {
             print("cannot update event \(error.localizedDescription)")

@@ -8,6 +8,7 @@
 
 import UIKit
 import Eureka
+import SVProgressHUD
 
 class EditEventViewController: FormViewController {
 
@@ -32,6 +33,9 @@ class EditEventViewController: FormViewController {
                 if !row.isValid {
                     row.value = self.event.due
                 }
+                if row.value! > self.event.due {
+                    self.saveButtonItem.isEnabled = true
+                }
             }
             
             +++ Section("增加最多容纳人数")
@@ -50,6 +54,10 @@ class EditEventViewController: FormViewController {
                     row.value = Double(self.event.maximumAttendingPeople)
                 }
                 cell.valueLabel.text = String(Int(row.value!))
+                
+                if row.value! > Double(self.event.maximumAttendingPeople) {
+                    self.saveButtonItem.isEnabled = true
+                }
             }
             
         form +++ Section("更新时间地点")
@@ -58,6 +66,9 @@ class EditEventViewController: FormViewController {
                 if event.startTime != nil {
                     $0.value = event.startTime!
                 }
+                }.cellUpdate {
+                    cell, row in
+                    self.saveButtonItem.isEnabled = true
             }
             
             <<< DateTimeRow("eventEndTime"){
@@ -65,6 +76,9 @@ class EditEventViewController: FormViewController {
                 if event.endTime != nil {
                     $0.value = event.endTime!
                 }
+                }.cellUpdate {
+                    cell, row in
+                    self.saveButtonItem.isEnabled = true
             }
             
             <<< LocationAddressRow("eventLocation") {
@@ -72,13 +86,24 @@ class EditEventViewController: FormViewController {
                 if event.location != nil {
                     $0.value = event.location!
                 }
+                
+                if event.whereCreated != nil {
+                    $0.latitude = event.whereCreated!.latitude
+                    $0.longitude = event.whereCreated!.longitude
+                }
+                }.cellUpdate {
+                    cell, row in
+                    self.saveButtonItem.isEnabled = true
             }
 
             +++ Section("更新补充说明")
             <<< TextAreaRow("note"){ row in
                 row.placeholder = "比如预计费用，出行方式，是否需要带现金等等"
                 row.value = event.note
-            }
+                }.cellUpdate {
+                    cell, row in
+                    self.saveButtonItem.isEnabled = true
+        }
     }
 
     
@@ -97,9 +122,17 @@ class EditEventViewController: FormViewController {
         let newWhereCreated = latitude != nil && longitude != nil ? AVGeoPoint(latitude: latitude!, longitude: longitude!) : nil
         let newNote = (form.rowBy(tag: "note") as! TextAreaRow).value
         
+        SVProgressHUD.show()
+        self.saveButtonItem.isEnabled = false
+        
         event.update(newDue: newDue, newMaximumAttendingPeople: newMaximumAttendingPeople, newStartTime: newStartTime, newEndTime: newEndTime, newLocation: newLocation, newWhereCreated: newWhereCreated, newNote: newNote) {
             succeeded, error in
-            
+            SVProgressHUD.dismiss()
+            if succeeded {
+                self.presentingViewController?.dismiss(animated: true, completion: nil)
+            } else {
+                self.saveButtonItem.isEnabled = true
+            }
         }
     }
 }
