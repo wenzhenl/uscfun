@@ -105,8 +105,8 @@ class MyEventListViewController: UIViewController {
             if let event = EventRequest.myOngoingEvents[eventId] {
                 switch event.status {
                 case .isFailed, .isCancelled, .isCompleted:
-                    EventRequest.myOngoingEvents[eventId] = nil
                     if let eventSection = self.sectionForEvent(eventId: eventId) {
+                        EventRequest.myOngoingEvents[eventId] = nil
                         self.tableView.deleteSections(IndexSet([eventSection]), with: .fade)
                     }
                 case .isFinalized:

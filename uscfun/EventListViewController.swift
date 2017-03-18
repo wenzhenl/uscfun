@@ -112,8 +112,8 @@ class EventListViewController: UIViewController {
             if let event = EventRequest.publicEvents[eventId] {
                 switch event.status {
                 case .isFailed, .isCancelled, .isCompleted, .isFinalized:
-                    EventRequest.publicEvents[eventId] = nil
                     if let eventSection = self.sectionForEvent(eventId: eventId) {
+                        EventRequest.publicEvents[eventId] = nil
                         self.tableView.deleteSections(IndexSet([eventSection]), with: .fade)
                     }
                 default:
