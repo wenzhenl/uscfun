@@ -337,4 +337,24 @@ class EventRequest {
             handler(nil, events)
         }
     }
+    
+    //--MARK: fetch one event with its object id
+    static func fetchOneEvent(with objectId: String, handler: @escaping (_ error: Error?, _ result: Event?) -> Void) {
+        let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
+        query.getObjectInBackground(withId: objectId) {
+            object, error in
+            if error != nil {
+                print(error!.localizedDescription)
+                handler(EventRequestError.systemError(localizedDescriotion: "网络错误，无法获取数据", debugDescription: error!.localizedDescription), nil)
+            }
+            if object != nil {
+                if let event = Event(data: object) {
+                    handler(nil, event)
+                } else {
+                    handler(EventRequestError.systemError(localizedDescriotion: "无法解析活动数据", debugDescription: error!.localizedDescription), nil)
+                }
+            }
+            
+        }
+    }
 }

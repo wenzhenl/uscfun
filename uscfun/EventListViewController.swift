@@ -102,15 +102,23 @@ class EventListViewController: UIViewController {
             return
         }
         
-        if let event = EventRequest.publicEvents[eventId] {
-            switch event.status {
-            case .isFailed:
-                EventRequest.publicEvents[eventId] = nil
-                self.tableView.reloadData()
-            case .isFinalized:
-                self.tableView.reloadData()
-            default:
-                break
+        EventRequest.fetchOneEvent(with: eventId) {
+            error, event in
+            
+            if let event = event {
+                EventRequest.publicEvents[eventId] = event
+            }
+            
+            if let event = EventRequest.publicEvents[eventId] {
+                switch event.status {
+                case .isFailed, .isCancelled, .isCompleted, .isFinalized:
+                    EventRequest.publicEvents[eventId] = nil
+                    if let eventSection = self.sectionForEvent(eventId: eventId) {
+                        self.tableView.deleteSections(IndexSet([eventSection]), with: .fade)
+                    }
+                default:
+                    break
+                }
             }
         }
     }
@@ -169,6 +177,11 @@ class EventListViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    func sectionForEvent(eventId: String) -> Int? {
+        guard let eventIndex = EventRequest.publicEvents.keys.index(of: eventId) else { return nil }
+        return eventIndex + 1
     }
     
     func eventForSection(section: Int) -> Event {

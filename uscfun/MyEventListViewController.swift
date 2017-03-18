@@ -97,15 +97,25 @@ class MyEventListViewController: UIViewController {
             return
         }
         
-        if let event = EventRequest.myOngoingEvents[eventId] {
-            switch event.status {
-            case .isFailed:
-                EventRequest.myOngoingEvents[eventId] = nil
-                self.tableView.reloadData()
-            case .isFinalized:
-                self.tableView.reloadData()
-            default:
-                break
+        EventRequest.fetchOneEvent(with: eventId) {
+            error, event in
+            if let event = event {
+                EventRequest.myOngoingEvents[eventId] = event
+            }
+            if let event = EventRequest.myOngoingEvents[eventId] {
+                switch event.status {
+                case .isFailed, .isCancelled, .isCompleted:
+                    EventRequest.myOngoingEvents[eventId] = nil
+                    if let eventSection = self.sectionForEvent(eventId: eventId) {
+                        self.tableView.deleteSections(IndexSet([eventSection]), with: .fade)
+                    }
+                case .isFinalized:
+                    if let eventSection = self.sectionForEvent(eventId: eventId) {
+                        self.tableView.reloadSections(IndexSet([eventSection]), with: .automatic)
+                    }
+                default:
+                    break
+                }
             }
         }
     }
@@ -164,6 +174,11 @@ class MyEventListViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    func sectionForEvent(eventId: String) -> Int? {
+        guard let eventIndex = EventRequest.myOngoingEvents.keys.index(of: eventId) else { return nil }
+        return eventIndex + 1
     }
     
     func eventForSection(section: Int) -> Event {
