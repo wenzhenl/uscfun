@@ -145,7 +145,7 @@ class EventDetailViewController: UIViewController {
     @IBAction func updateEvent(_ sender: UIButton) {
         switch event.relationWithMe {
         case .createdByMe:
-            performSegue(withIdentifier: "go to edit event", sender: self)
+            performSegue(withIdentifier: editEventSegueIdentifier, sender: self)
         case .joinedByMe:
             quitRequest()
         case .noneOfMyBusiness:
@@ -290,6 +290,15 @@ class EventDetailViewController: UIViewController {
                 if let upVC = destination as? UserProfileViewController {
                     upVC.other = creator
                 }
+            case editEventSegueIdentifier:
+                var destination = segue.destination
+                if destination is UINavigationController {
+                    destination = destination.childViewControllers.first!
+                }
+                if let eeVC = destination as? EditEventViewController {
+                    eeVC.event = event
+                }
+                
             default:
                 break
             }
