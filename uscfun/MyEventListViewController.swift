@@ -97,24 +97,26 @@ class MyEventListViewController: UIViewController {
             return
         }
         
-        EventRequest.fetchOneEvent(with: eventId) {
-            error, event in
-            if let event = event {
-                EventRequest.myOngoingEvents[eventId] = event
-            }
-            if let event = EventRequest.myOngoingEvents[eventId] {
-                switch event.status {
-                case .isFailed, .isCancelled, .isCompleted:
-                    if let eventSection = self.sectionForEvent(eventId: eventId) {
-                        EventRequest.myOngoingEvents[eventId] = nil
-                        self.tableView.deleteSections(IndexSet([eventSection]), with: .fade)
+        if EventRequest.myOngoingEvents.keys.contains(eventId) {
+            EventRequest.fetchOneEvent(with: eventId) {
+                error, event in
+                if let event = event {
+                    EventRequest.myOngoingEvents[eventId] = event
+                }
+                if let event = EventRequest.myOngoingEvents[eventId] {
+                    switch event.status {
+                    case .isFailed, .isCancelled, .isCompleted:
+                        if let eventSection = self.sectionForEvent(eventId: eventId) {
+                            EventRequest.myOngoingEvents[eventId] = nil
+                            self.tableView.deleteSections(IndexSet([eventSection]), with: .fade)
+                        }
+                    case .isFinalized:
+                        if let eventSection = self.sectionForEvent(eventId: eventId) {
+                            self.tableView.reloadSections(IndexSet([eventSection]), with: .automatic)
+                        }
+                    default:
+                        break
                     }
-                case .isFinalized:
-                    if let eventSection = self.sectionForEvent(eventId: eventId) {
-                        self.tableView.reloadSections(IndexSet([eventSection]), with: .automatic)
-                    }
-                default:
-                    break
                 }
             }
         }

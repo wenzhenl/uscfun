@@ -102,22 +102,24 @@ class EventListViewController: UIViewController {
             return
         }
         
-        EventRequest.fetchOneEvent(with: eventId) {
-            error, event in
-            
-            if let event = event {
-                EventRequest.publicEvents[eventId] = event
-            }
-            
-            if let event = EventRequest.publicEvents[eventId] {
-                switch event.status {
-                case .isFailed, .isCancelled, .isCompleted, .isFinalized:
-                    if let eventSection = self.sectionForEvent(eventId: eventId) {
-                        EventRequest.publicEvents[eventId] = nil
-                        self.tableView.deleteSections(IndexSet([eventSection]), with: .fade)
+        if EventRequest.publicEvents.keys.contains(eventId) {
+            EventRequest.fetchOneEvent(with: eventId) {
+                error, event in
+                
+                if let event = event {
+                    EventRequest.publicEvents[eventId] = event
+                }
+                
+                if let event = EventRequest.publicEvents[eventId] {
+                    switch event.status {
+                    case .isFailed, .isCancelled, .isCompleted, .isFinalized:
+                        if let eventSection = self.sectionForEvent(eventId: eventId) {
+                            EventRequest.publicEvents[eventId] = nil
+                            self.tableView.deleteSections(IndexSet([eventSection]), with: .fade)
+                        }
+                    default:
+                        break
                     }
-                default:
-                    break
                 }
             }
         }
