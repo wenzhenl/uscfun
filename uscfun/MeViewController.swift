@@ -25,7 +25,6 @@ class MeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.backgroundColor = UIColor.backgroundGray
-        self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0)
         self.tableView.tableFooterView = UIView()
     }
     
@@ -164,14 +163,6 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
         return 1 / UIScreen.main.scale
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let px = 1 / UIScreen.main.scale
-        let frame = CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: px)
-        let line = UIView(frame: frame)
-        line.backgroundColor = self.tableView.separatorColor
-        return line
-    }
-    
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if section == meSections.count - 2 {
             return 40
@@ -182,18 +173,6 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         view.tintColor = UIColor.clear
     }
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        
-        let px = 1 / UIScreen.main.scale
-        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: 10 + px))
-        let frame = CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: px)
-        let line = UIView(frame: frame)
-        line.backgroundColor = self.tableView.separatorColor
-        footerView.addSubview(line)
-        return footerView
-    }
-
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
