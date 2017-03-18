@@ -51,7 +51,7 @@ class UpdateProfileViewController: FormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.view.backgroundColor = UIColor.white
-
+        
         self.title = "更新个人信息"
         form +++ Section()
             <<< ImageRow("avatar") {

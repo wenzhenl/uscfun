@@ -26,8 +26,7 @@ extension UIColor {
     }
     
     class var backgroundGray: UIColor {
-        let grayLevel = CGFloat(240.0)
-        return UIColor(red: grayLevel/255, green: grayLevel/255, blue: grayLevel/255, alpha: 1.0)
+        return UIColor(red: 0.937255, green: 0.937255, blue: 0.956863, alpha: 1.0)
     }
     
     class var buttonPink: UIColor {
