@@ -65,7 +65,29 @@ class EditEventViewController: FormViewController {
                 }
             }
             
-        form +++ Section("更新时间地点")
+            +++ Section("减少最低出行人数")
+            <<< StepperRow("minPeople") {
+                $0.title = "最低出行人数："
+                $0.value = Double(event.minimumAttendingPeople)
+                $0.add(rule: RuleSmallerOrEqualThan(max: Double(event.minimumAttendingPeople)))
+                $0.validationOptions = .validatesOnChange
+                }.cellSetup {
+                    cell, row in
+                    cell.stepper.isContinuous = false
+                    cell.valueLabel.text = String(Int(row.value!))
+                }.cellUpdate {
+                    cell, row in
+                    if !row.isValid {
+                        row.value = Double(self.event.minimumAttendingPeople)
+                    }
+                    cell.valueLabel.text = String(Int(row.value!))
+                    
+                    if row.value! < Double(self.event.minimumAttendingPeople) {
+                        self.saveButtonItem.isEnabled = true
+                    }
+            }
+            
+            +++ Section("更新时间地点")
             <<< DateTimeRow("eventStartTime"){
                 $0.title = "微活动开始时间："
                 if event.startTime != nil {
@@ -108,7 +130,7 @@ class EditEventViewController: FormViewController {
                 }.cellUpdate {
                     cell, row in
                     self.saveButtonItem.isEnabled = true
-        }
+            }
     }
 
     
@@ -119,6 +141,7 @@ class EditEventViewController: FormViewController {
     @IBAction func save(_ sender: UIBarButtonItem) {
         let newDue = (form.rowBy(tag: "due") as! DateTimeRow).value!
         let newMaximumAttendingPeople = Int((form.rowBy(tag: "maxPeople") as! StepperRow).value!)
+        let newMinimumAttendingPeople = Int((form.rowBy(tag: "minPeople") as! StepperRow).value!)
         let newStartTime = (form.rowBy(tag: "eventStartTime") as! DateTimeRow).value
         let newEndTime = (form.rowBy(tag: "eventEndTime") as! DateTimeRow).value
         let newLocation = (form.rowBy(tag: "eventLocation") as! LocationAddressRow).value
@@ -130,7 +153,7 @@ class EditEventViewController: FormViewController {
         SVProgressHUD.show()
         self.saveButtonItem.isEnabled = false
         
-        event.update(newDue: newDue, newMaximumAttendingPeople: newMaximumAttendingPeople, newStartTime: newStartTime, newEndTime: newEndTime, newLocation: newLocation, newWhereCreated: newWhereCreated, newNote: newNote) {
+        event.update(newDue: newDue, newMaximumAttendingPeople: newMaximumAttendingPeople, newMinimumAttendingPeople: newMinimumAttendingPeople, newStartTime: newStartTime, newEndTime: newEndTime, newLocation: newLocation, newWhereCreated: newWhereCreated, newNote: newNote) {
             succeeded, error in
             SVProgressHUD.dismiss()
             if succeeded {

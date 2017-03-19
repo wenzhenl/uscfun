@@ -569,13 +569,13 @@ class Event {
     /// - parameter succeeded: indicate if the operation is successful
     /// - parameter error:                      optional error information if operation fails
     
-    func update(newDue: Date, newMaximumAttendingPeople: Int, newStartTime: Date?, newEndTime: Date?, newLocation: String?, newWhereCreated: AVGeoPoint?, newNote: String?, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
+    func update(newDue: Date, newMaximumAttendingPeople: Int, newMinimumAttendingPeople: Int, newStartTime: Date?, newEndTime: Date?, newLocation: String?, newWhereCreated: AVGeoPoint?, newNote: String?, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         
         guard createdBy == AVUser.current()! else {
             handler(false, EventError.systemError(localizedDescriotion: "没有权限修改", debugDescription: "only the creator can update the event"))
             return
         }
-        guard newDue >= due && newMaximumAttendingPeople >= maximumAttendingPeople else {
+        guard newDue >= due && newMaximumAttendingPeople >= maximumAttendingPeople && newMinimumAttendingPeople <= minimumAttendingPeople else {
             handler(false, EventError.systemError(localizedDescriotion: "不符合修改要求", debugDescription: "the updated due or maximum attending people are not allowed"))
             return
         }
@@ -592,6 +592,9 @@ class Event {
         if newMaximumAttendingPeople > maximumAttendingPeople {
             eventObject.setObject(newMaximumAttendingPeople, forKey: EventKeyConstants.keyOfMaximumAttendingPeople)
             eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: NSNumber(integerLiteral: newMaximumAttendingPeople - maximumAttendingPeople))
+        }
+        if newMinimumAttendingPeople < minimumAttendingPeople {
+            eventObject.setObject(newMinimumAttendingPeople, forKey: EventKeyConstants.keyOfMinimumAttendingPeople)
         }
         eventObject.setObject(newStartTime?.timeIntervalSince1970, forKey: EventKeyConstants.keyOfStartTime)
         eventObject.setObject(newEndTime?.timeIntervalSince1970, forKey: EventKeyConstants.keyOfEndTime)
