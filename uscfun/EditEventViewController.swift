@@ -65,7 +65,12 @@ class EditEventViewController: FormViewController {
                 }
             }
             
-            +++ Section("减少最低出行人数")
+            +++ Section("减少最低出行人数") {
+                $0.hidden = Condition.function(["hideMinPeople"]) {
+                    _ in
+                    return self.event.minimumAttendingPeople == 2
+                }
+            }
             <<< StepperRow("minPeople") {
                 $0.title = "最低出行人数："
                 $0.value = Double(event.minimumAttendingPeople)
@@ -101,7 +106,9 @@ class EditEventViewController: FormViewController {
                 }
                 }.cellUpdate {
                     cell, row in
-                    self.saveButtonItem.isEnabled = true
+                    if row.value != self.event.startTime {
+                        self.saveButtonItem.isEnabled = true
+                    }
             }
             
             <<< DateTimeRow("eventEndTime"){
@@ -111,7 +118,9 @@ class EditEventViewController: FormViewController {
                 }
                 }.cellUpdate {
                     cell, row in
-                    self.saveButtonItem.isEnabled = true
+                    if row.value != self.event.endTime {
+                        self.saveButtonItem.isEnabled = true
+                    }
             }
             
             <<< LocationAddressRow("eventLocation") {
@@ -126,7 +135,9 @@ class EditEventViewController: FormViewController {
                 }
                 }.cellUpdate {
                     cell, row in
-                    self.saveButtonItem.isEnabled = true
+                    if row.value != self.event.location || row.latitude != self.event.whereCreated?.latitude || row.longitude != self.event.whereCreated?.longitude {
+                        self.saveButtonItem.isEnabled = true
+                    }
             }
 
             +++ Section("更新补充说明")
@@ -135,7 +146,9 @@ class EditEventViewController: FormViewController {
                 row.value = event.note
                 }.cellUpdate {
                     cell, row in
-                    self.saveButtonItem.isEnabled = true
+                    if row.value != self.event.note {
+                        self.saveButtonItem.isEnabled = true
+                    }
             }
     }
 
