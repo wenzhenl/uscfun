@@ -230,8 +230,6 @@ class LoginKit {
     
     static func signOut() {
         UserDefaults.hasLoggedIn = false
-        UserDefaults.hasPreloadedMyOngoingEvents = false
-        UserDefaults.hasPreloadedPublicEvents = false
         EventRequest.publicEvents.removeAll()
         EventRequest.myOngoingEvents.removeAll()
         

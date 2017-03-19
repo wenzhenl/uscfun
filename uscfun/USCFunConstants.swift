@@ -16,6 +16,7 @@ class USCFunConstants {
     static let nameOfSchool = "usc"
     
     static let avatarColorOptions = [UIColor.avatarBlue, UIColor.avatarCyan, UIColor.avatarPink, UIColor.avatarGolden, UIColor.avatarOrange, UIColor.avatarTomato, UIColor.avatarGreen]
+    static let loadingDataViewStoryboardId = "loading data view controller"
 }
 
 struct UserKeyConstants {

@@ -51,18 +51,8 @@ class EventRequest {
     static let timeOf2070 = Date(timeIntervalSince1970: 60*60*24*365*100)
     
     static func preLoadData() {
-        EventRequest.fetchNewerMyOngoingEvents(inBackground: false, currentNewestUpdatedTime: timeOf1970) {
-            succeeded, error in
-            if succeeded {
-                UserDefaults.hasPreloadedMyOngoingEvents = true
-            }
-        }
-        EventRequest.fetchNewerPublicEvents(inBackground: false, currentNewestUpdatedTime: timeOf1970) {
-            succeeded, error in
-            if succeeded {
-                UserDefaults.hasPreloadedPublicEvents = true
-            }
-        }
+        EventRequest.fetchNewerMyOngoingEvents(inBackground: false, currentNewestUpdatedTime: timeOf1970, handler: nil)
+        EventRequest.fetchNewerPublicEvents(inBackground: false, currentNewestUpdatedTime: timeOf1970, handler: nil)
     }
     
     //--MARK: functions for fetch public events
