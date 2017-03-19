@@ -33,6 +33,8 @@ class EventDetailViewController: UIViewController {
     
     var event: Event!
     var creator: User!
+    var memberAvatars: [UIImage]!
+    
     var detailSections = [EventDetailCell]()
     
     lazy var infoLabel: UILabel = {
@@ -58,6 +60,13 @@ class EventDetailViewController: UIViewController {
         self.joinButton.backgroundColor = UIColor.buttonPink
         self.chatButton.backgroundColor = UIColor.buttonBlue
         creator = User(user: event.createdBy)
+        
+        memberAvatars = [UIImage]()
+        for memberData in event.members {
+            if let member = User(user: memberData) {
+                memberAvatars.append(member.avatar ?? #imageLiteral(resourceName: "user-4"))
+            }
+        }
         
         setupJoinButton()
         populateSections()
@@ -117,9 +126,9 @@ class EventDetailViewController: UIViewController {
         detailSections.append(EventDetailCell.creatorCell)
         detailSections.append(EventDetailCell.remainingNumberCell)
         detailSections.append(EventDetailCell.numberCell)
-//        if event.members.count > 1 {
-//            detailSections.append(EventDetailCell.memberCell)
-//        }
+        if event.members.count > 1 {
+            detailSections.append(EventDetailCell.memberCell)
+        }
         detailSections.append(EventDetailCell.remainingTimeCell)
         if event.startTime != nil {
             detailSections.append(EventDetailCell.startTimeCell)
@@ -419,15 +428,18 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
             cell.selectionStyle = .none
             return cell
         case .memberCell:
-            let cell = Bundle.main.loadNibNamed("CollectionViewTableViewCell", owner: self, options: nil)?.first as! CollectionViewTableViewCell
-            cell.collectionView.delegate = self
-            cell.collectionView.dataSource = self
-            let layout = UICollectionViewFlowLayout()
-            layout.itemSize = CGSize(width: 100, height: 100)
-            layout.scrollDirection = .vertical
-            cell.collectionView.collectionViewLayout = layout
-            cell.collectionView.contentInset = UIEdgeInsetsMake(100, 0, 50, 0)
-            cell.collectionView.reloadData()
+            let cell = Bundle.main.loadNibNamed("KeyScrollViewTableViewCell", owner: self, options: nil)?.first as! KeyScrollViewTableViewCell
+            for i in 0..<memberAvatars.count {
+                let buttonWidth = CGFloat(30.0)
+                let xPosition = buttonWidth * CGFloat(i)
+                let button = UIButton(frame: CGRect(x: xPosition, y: (44.0 - buttonWidth) * 0.5, width: buttonWidth, height: buttonWidth))
+                button.setBackgroundImage(memberAvatars[i], for: .normal)
+                button.layer.cornerRadius = buttonWidth / 2.0
+                button.layer.masksToBounds = true
+                button.contentMode = .scaleAspectFit
+                cell.mainScrollView.contentSize.width = buttonWidth * CGFloat(i+1)
+                cell.mainScrollView.addSubview(button)
+            }
             cell.selectionStyle = .none
             return cell
         }
@@ -463,34 +475,6 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: 10))
         footerView.backgroundColor = UIColor.backgroundGray
         return footerView
-    }
-}
-
-extension EventDetailViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("haha, iam here1")
-        return 10
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = Bundle.main.loadNibNamed("ImageViewCollectionViewCell", owner: self, options: nil)?.first as! ImageViewCollectionViewCell
-        (cell.viewWithTag(1) as! UIImageView).image = creator.avatar
-        print("haha, iam here--------")
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        print("haha, iam here2")
-        let width = collectionView.frame.size.width / 3.0 - 1
-        return CGSize(width: width , height: width )
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 1.0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 1.0
     }
 }
 
