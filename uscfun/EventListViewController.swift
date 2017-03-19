@@ -59,6 +59,11 @@ class EventListViewController: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = false
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.tableView.reloadData()
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
         infoLabel.isHidden = true
@@ -156,7 +161,7 @@ class EventListViewController: UIViewController {
         if let identifier = segue.identifier {
             switch identifier {
             case identifierToEventDetail:
-                let destination = segue.destination
+                let destination = segue.destination.contentViewController
                 if let edVC = destination as? EventDetailViewController {
                     switch sender {
                     case is EventSnapshotTableViewCell:
@@ -273,6 +278,8 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             
             cell.chatButton.accessibilityHint = event.objectId
             cell.chatButton.addTarget(self, action: #selector(joinDiscussion(sender:)), for: .touchUpInside)
+            
+            cell.moreButton.isHidden = true
             
             cell.eventId = event.objectId
             

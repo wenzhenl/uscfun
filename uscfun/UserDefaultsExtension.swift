@@ -39,6 +39,24 @@ extension UserDefaults {
         }
     }
     
+    class var hasPreloadedMyOngoingEvents: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "User_hasPreloadedMyOngoingEvents_Key")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "User_hasPreloadedMyOngoingEvents_Key")
+        }
+    }
+    
+    class var hasPreloadedPublicEvents: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "User_hasPreloadedPublicEvents_Key")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "User_hasPreloadedPublicEvents_Key")
+        }
+    }
+    
     class var email: String? {
         get {
             return UserDefaults.standard.string(forKey: "User_Email_Key")
