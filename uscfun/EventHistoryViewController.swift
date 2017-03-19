@@ -113,6 +113,9 @@ extension EventHistoryViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if previousEvents.count == 0 {
+            return self.tableView.frame.height
+        }
         return UITableViewAutomaticDimension
     }
     
