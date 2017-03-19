@@ -38,7 +38,7 @@ class MyEventListViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "homeRefresh"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handlePostNewEvent), name: NSNotification.Name(rawValue: "userDidPostNewEvent"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handlePostNewEvent), name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleJoinEvent(notification:)), name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleQuitEvent(notification:)), name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleEventExpired(notification:)), name: NSNotification.Name(rawValue: "eventDidExpired"), object: nil)
         
@@ -83,6 +83,15 @@ class MyEventListViewController: UIViewController {
     
     func handlePostNewEvent() {
         print("user did post new event")
+    }
+    
+    func handleJoinEvent(notification: Notification) {
+        guard let userInfo = notification.userInfo, let eventId = userInfo["eventId"] as? String  else {
+            print("cannot get user info from user did quit event notification")
+            return
+        }
+        EventRequest.myOngoingEvents[eventId] = EventRequest.publicEvents[eventId]
+        self.tableView.reloadData()
     }
     
     func handleQuitEvent(notification: Notification) {
