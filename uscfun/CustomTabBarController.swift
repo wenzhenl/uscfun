@@ -31,13 +31,16 @@ class CustomTabBarController: UITabBarController {
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         print("last:\(lastSelectedTag)")
         print("cur:\(item.tag)")
-        if selectedIndex == lastSelectedTag {
+        if item.tag == lastSelectedTag {
             switch item.tag {
             case 0:
+                print("notification home")
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "homeRefresh"), object: nil, userInfo: nil)
             case 1:
+                print("notification find")
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "findRefresh"), object: nil, userInfo: nil)
             case 2:
+                print("notification notification")
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "notificationRefresh"), object: nil, userInfo: nil)
             default:
                 break

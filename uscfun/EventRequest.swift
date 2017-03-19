@@ -50,6 +50,20 @@ class EventRequest {
     static let timeOf1970 = Date(timeIntervalSince1970: 0)
     static let timeOf2070 = Date(timeIntervalSince1970: 60*60*24*365*100)
     
+    static func cleanPublicEventsInBackground(handler: (() -> Void)?) {
+        DispatchQueue.global(qos: .background).async {
+            for id in publicEvents.keys {
+                let event = publicEvents[id]!
+                if event.status != .isSecured && event.status != .isPending {
+                    publicEvents[id] = nil
+                }
+            }
+            DispatchQueue.main.async {
+                handler?()
+            }
+        }
+    }
+    
     static func preLoadData() {
         EventRequest.fetchNewerMyOngoingEvents(inBackground: false, currentNewestUpdatedTime: timeOf1970, handler: nil)
         EventRequest.fetchNewerPublicEvents(inBackground: false, currentNewestUpdatedTime: timeOf1970, handler: nil)

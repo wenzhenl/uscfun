@@ -61,7 +61,17 @@ class EventListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.tableView.reloadData()
+        EventRequest.cleanPublicEventsInBackground {
+            EventRequest.fetchNewerPublicEventsInBackground {
+                succeeded, error in
+                if succeeded {
+                    self.tableView.reloadData()
+                }
+                else if error != nil {
+                    self.displayInfo(info: error!.localizedDescription)
+                }
+            }
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -95,8 +105,7 @@ class EventListViewController: UIViewController {
     }
     
     func handleQuitEvent() {
-        self.refreshControl.beginRefreshing()
-        handleRefresh()
+        print("user did quit event")
     }
     
     func handleRefresh() {
@@ -104,11 +113,6 @@ class EventListViewController: UIViewController {
         EventRequest.fetchNewerPublicEventsInBackground() {
             succeeded, error in
             if succeeded {
-                if EventRequest.publicEvents.count > 0 {
-                    self.tableView.backgroundColor = UIColor.backgroundGray
-                } else {
-                    self.tableView.backgroundColor = UIColor.white
-                }
                 let numberOfPublicEventsAfterUpdate = EventRequest.publicEvents.count
                 if numberOfPublicEventsAfterUpdate > numberOfPublicEventsBeforeUpdate {
                     self.displayInfo(info: "发现了\(numberOfPublicEventsAfterUpdate - numberOfPublicEventsBeforeUpdate)个新的微活动")
