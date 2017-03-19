@@ -161,9 +161,10 @@ class EventDetailViewController: UIViewController {
     func joinEvent() {
         SVProgressHUD.show()
         self.event.add(newMember: AVUser.current()!) {
-            succeeded, error in
+            updatedEvent, error in
             SVProgressHUD.dismiss()
-            if succeeded {
+            if let updatedEvent = updatedEvent {
+                self.event = updatedEvent
                 self.populateSections()
                 self.tableView.reloadData()
                 self.setupJoinButton()
@@ -212,9 +213,10 @@ class EventDetailViewController: UIViewController {
             _ in
             SVProgressHUD.show()
             self.event.remove(member: AVUser.current()!) {
-                succeeded, error in
+                updatedEvent, error in
                 SVProgressHUD.dismiss()
-                if succeeded {
+                if let updatedEvent = updatedEvent {
+                    self.event = updatedEvent
                     self.populateSections()
                     self.tableView.reloadData()
                     self.setupJoinButton()
@@ -270,29 +272,24 @@ class EventDetailViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destination = segue.destination.contentViewController
         if let identifier = segue.identifier {
             switch identifier {
             case mapSegueIdentifier:
-                let destination = segue.destination
                 if let mapVC = destination as? MapViewController {
                     mapVC.placename = event.location
                     mapVC.latitude = event.whereCreated?.latitude
                     mapVC.longitude = event.whereCreated?.longitude
                 }
             case userProfileSugueIdentifier:
-                let destination = segue.destination
                 if let upVC = destination as? UserProfileViewController {
                     upVC.other = creator
                 }
             case editEventSegueIdentifier:
-                var destination = segue.destination
-                if destination is UINavigationController {
-                    destination = destination.childViewControllers.first!
-                }
                 if let eeVC = destination as? EditEventViewController {
                     eeVC.event = event
+                    eeVC.delegate = self
                 }
-                
             default:
                 break
             }
@@ -496,5 +493,14 @@ extension EventDetailViewController: UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 1.0
+    }
+}
+
+extension EventDetailViewController: EditEventViewControllerDelegate {
+    func userDidUpdatedEvent(event: Event) {
+        self.event = event
+        self.setupJoinButton()
+        self.populateSections()
+        self.tableView.reloadData()
     }
 }

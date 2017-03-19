@@ -10,11 +10,16 @@ import UIKit
 import Eureka
 import SVProgressHUD
 
+protocol EditEventViewControllerDelegate {
+    func userDidUpdatedEvent(event: Event)
+}
+
 class EditEventViewController: FormViewController {
 
     @IBOutlet weak var saveButtonItem: UIBarButtonItem!
     
     var event: Event!
+    var delegate: EditEventViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -126,9 +131,10 @@ class EditEventViewController: FormViewController {
         self.saveButtonItem.isEnabled = false
         
         event.update(newDue: newDue, newMaximumAttendingPeople: newMaximumAttendingPeople, newStartTime: newStartTime, newEndTime: newEndTime, newLocation: newLocation, newWhereCreated: newWhereCreated, newNote: newNote) {
-            succeeded, error in
+            updatedEvent, error in
             SVProgressHUD.dismiss()
-            if succeeded {
+            if let updatedEvent = updatedEvent {
+                delegate?.userDidUpdatedEvent(event: updatedEvent)
                 self.presentingViewController?.dismiss(animated: true, completion: nil)
             } else {
                 self.saveButtonItem.isEnabled = true

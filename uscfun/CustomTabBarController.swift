@@ -46,3 +46,13 @@ class CustomTabBarController: UITabBarController {
         lastSelectedTag = item.tag
     }
 }
+
+extension UIViewController {
+    var contentViewController: UIViewController {
+        if let navcon = self as? UINavigationController {
+            return navcon.visibleViewController!
+        } else {
+            return self
+        }
+    }
+}
