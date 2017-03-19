@@ -34,21 +34,16 @@ class EventListViewController: UIViewController {
         
         self.tableView.scrollsToTop = true
         self.tableView.addSubview(self.refreshControl)
-        if EventRequest.publicEvents.count > 0 {
-            self.tableView.backgroundColor = UIColor.backgroundGray
-        } else {
-            self.tableView.backgroundColor = UIColor.white
-        }
-        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+     
         self.tableView.tableFooterView = UIView()
-        self.tableView.separatorStyle = .none
+        self.tableView.backgroundColor = UIColor.backgroundGray
+        
         AppDelegate.systemNotificationDelegate = self
         
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "findRefresh"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleJoinEvent(notification:)), name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleQuitEvent), name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleEventExpired(notification:)), name: NSNotification.Name(rawValue: "eventDidExpired"), object: nil)
         
         infoLabel = UILabel(frame: CGRect(x: 0.0, y: -heightOfInfoLabel, width: view.frame.size.width, height: heightOfInfoLabel))
         infoLabel.numberOfLines = 0
@@ -94,35 +89,6 @@ class EventListViewController: UIViewController {
     func handleQuitEvent() {
         self.refreshControl.beginRefreshing()
         handleRefresh()
-    }
-    
-    func handleEventExpired(notification: Notification) {
-        guard let userInfo = notification.userInfo, let eventId = userInfo["eventId"] as? String  else {
-            print("cannot get user info from event did expired notification")
-            return
-        }
-        
-        if EventRequest.publicEvents.keys.contains(eventId) {
-            EventRequest.fetchOneEvent(with: eventId) {
-                error, event in
-                
-                if let event = event {
-                    EventRequest.publicEvents[eventId] = event
-                }
-                
-                if let event = EventRequest.publicEvents[eventId] {
-                    switch event.status {
-                    case .isFailed, .isCancelled, .isCompleted, .isFinalized:
-                        if let eventSection = self.sectionForEvent(eventId: eventId) {
-                            EventRequest.publicEvents[eventId] = nil
-                            self.tableView.deleteSections(IndexSet([eventSection]), with: .fade)
-                        }
-                    default:
-                        break
-                    }
-                }
-            }
-        }
     }
     
     func handleRefresh() {
@@ -322,17 +288,9 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if EventRequest.publicEvents.count == 0 {
-            return 0
+            return CGFloat.leastNormalMagnitude
         }
         return 1 / UIScreen.main.scale
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let px = 1 / UIScreen.main.scale
-        let frame = CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: px)
-        let line = UIView(frame: frame)
-        line.backgroundColor = self.tableView.separatorColor
-        return line
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -342,19 +300,12 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
         return 10
     }
     
-    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
-        view.tintColor = UIColor.clear
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.white
     }
     
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        
-        let px = 1 / UIScreen.main.scale
-        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: 10 + px))
-        let frame = CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: px)
-        let line = UIView(frame: frame)
-        line.backgroundColor = self.tableView.separatorColor
-        footerView.addSubview(line)
-        return footerView
+    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        view.tintColor = UIColor.clear
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
