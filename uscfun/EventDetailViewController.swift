@@ -297,7 +297,7 @@ class EventDetailViewController: UIViewController {
                     switch sender {
                     case is UIButton:
                         upVC.other = User(user: event.members[(sender as! UIButton).tag])
-                    case is UserProfileCell:
+                    case is EventCreatorTableViewCell:
                         upVC.other = creator
                     default:
                         break
@@ -324,11 +324,11 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if detailSections[indexPath.section] == .mapCell {
-            performSegue(withIdentifier: mapSegueIdentifier, sender: tableView.cellForRow(at: indexPath))
+            performSegue(withIdentifier: mapSegueIdentifier, sender: self)
         }
         
         if detailSections[indexPath.section] == .creatorCell {
-            performSegue(withIdentifier: userProfileSugueIdentifier, sender: self)
+            performSegue(withIdentifier: userProfileSugueIdentifier, sender: tableView.cellForRow(at: indexPath))
         }
     }
     
