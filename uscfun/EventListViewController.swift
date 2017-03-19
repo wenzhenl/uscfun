@@ -76,9 +76,10 @@ class EventListViewController: UIViewController {
     
     func handleTab() {
         if self.tableView.contentOffset != CGPoint.zero {
-            self.tableView.contentOffset = CGPoint.zero
+            self.tableView.setContentOffset(.zero, animated: true)
         } else {
-            self.tableView.contentOffset = CGPoint(x: 0, y: -2*self.refreshControl.frame.height)
+            let offset = CGPoint(x: 0, y: -self.refreshControl.frame.height)
+            self.tableView.setContentOffset(offset, animated: true)
             self.refreshControl.beginRefreshing()
             handleRefresh()
         }
@@ -119,7 +120,7 @@ class EventListViewController: UIViewController {
             else if error != nil {
                 self.displayInfo(info: error!.localizedDescription)
             }
-            self.tableView.contentOffset = .zero
+            self.tableView.setContentOffset(.zero, animated: true)
             self.refreshControl.endRefreshing()
         }
     }
