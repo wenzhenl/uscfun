@@ -484,10 +484,10 @@ class Event {
     ///
     /// - parameter newMember:   the new member that is about to join
     /// - parameter handler:     handle the creation depending on the operation is successful or not
-    /// - parameter updatedEvent:   the updated event fetch from server
+    /// - parameter succeeded: indicate if the operation is successful
     /// - parameter error:       optional error information if operation fails
     
-    func add(newMember: AVUser, handler: (_ updatedEvent: Event?, _ error: Error?) -> Void) {
+    func add(newMember: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         
         let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId!)
         let query = AVQuery()
@@ -501,11 +501,16 @@ class Event {
         eventObject.addUniqueObject(newMember, forKey: EventKeyConstants.keyOfMembers)
         do {
             try eventObject.save(with: option)
-            let updatedEvent = Event(data: eventObject)
-            handler(updatedEvent, nil)
+            if let updatedRemainingSeats = eventObject.value(forKey: EventKeyConstants.keyOfRemainingSeats) as? Int {
+                self.remainingSeats = updatedRemainingSeats
+            }
+            if let updatedMembers = eventObject.value(forKey: EventKeyConstants.keyOfMembers) as? [AVUser] {
+                self.members = updatedMembers
+            }
+            handler(true, nil)
         } catch let error {
             print("cannot add member \(error.localizedDescription)")
-            handler(nil, EventError.systemError(localizedDescriotion: "无法加入：网络错误或者已经满员了", debugDescription: error.localizedDescription))
+            handler(false, EventError.systemError(localizedDescriotion: "无法加入：网络错误或者已经满员了", debugDescription: error.localizedDescription))
         }
     }
     
@@ -514,13 +519,13 @@ class Event {
     ///
     /// - parameter member:   the member that is about to quit
     /// - parameter handler:  handle the creation depending on the operation is successful or not
-    /// - parameter updatedEvent:   the updated event fetch from server
+    /// - parameter succeeded: indicate if the operation is successful
     /// - parameter error: optional error information if operation fails
     
-    func remove(member: AVUser, handler: (_ updatedEvent: Event?, _ error: Error?) -> Void) {
+    func remove(member: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         
         guard let _ = members.index(of: member) else {
-            handler(nil, EventError.systemError(localizedDescriotion: "用户没有参与此微活动", debugDescription: "user is not a member"))
+            handler(false, EventError.systemError(localizedDescriotion: "用户没有参与此微活动", debugDescription: "user is not a member"))
             return
         }
         
@@ -538,12 +543,16 @@ class Event {
         
         do {
             try eventObject.save(with: option)
-            print(eventObject)
-            let updatedEvent = Event(data: eventObject)
-            handler(updatedEvent, nil)
+            if let updatedRemainingSeats = eventObject.value(forKey: EventKeyConstants.keyOfRemainingSeats) as? Int {
+                self.remainingSeats = updatedRemainingSeats
+            }
+            if let updatedMembers = eventObject.value(forKey: EventKeyConstants.keyOfMembers) as? [AVUser] {
+                self.members = updatedMembers
+            }
+            handler(true, nil)
         } catch let error {
             print("cannot remove member \(error.localizedDescription)")
-            handler(nil, EventError.systemError(localizedDescriotion: "活动已经约定成功或者已经过期了", debugDescription: error.localizedDescription))
+            handler(false, EventError.systemError(localizedDescriotion: "活动已经约定成功或者已经过期了", debugDescription: error.localizedDescription))
         }
     }
     
@@ -557,17 +566,17 @@ class Event {
     /// - parameter newWhereCreated:            the new geographical coordinate of the location
     /// - parameter newNote:                    the new additional information that the creator wants others to know
     /// - parameter handler:                    handle the creation depending on the operation is successful or not
-    /// - parameter updatedEvent:   the updated event fetch from server
+    /// - parameter succeeded: indicate if the operation is successful
     /// - parameter error:                      optional error information if operation fails
     
-    func update(newDue: Date, newMaximumAttendingPeople: Int, newStartTime: Date?, newEndTime: Date?, newLocation: String?, newWhereCreated: AVGeoPoint?, newNote: String?, handler: (_ updatedEvent: Event?, _ error: Error?) -> Void) {
+    func update(newDue: Date, newMaximumAttendingPeople: Int, newStartTime: Date?, newEndTime: Date?, newLocation: String?, newWhereCreated: AVGeoPoint?, newNote: String?, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         
         guard createdBy == AVUser.current()! else {
-            handler(nil, EventError.systemError(localizedDescriotion: "没有权限修改", debugDescription: "only the creator can update the event"))
+            handler(false, EventError.systemError(localizedDescriotion: "没有权限修改", debugDescription: "only the creator can update the event"))
             return
         }
         guard newDue >= due && newMaximumAttendingPeople >= maximumAttendingPeople else {
-            handler(nil, EventError.systemError(localizedDescriotion: "不符合修改要求", debugDescription: "the updated due or maximum attending people are not allowed"))
+            handler(false, EventError.systemError(localizedDescriotion: "不符合修改要求", debugDescription: "the updated due or maximum attending people are not allowed"))
             return
         }
         
@@ -591,11 +600,38 @@ class Event {
         eventObject.setObject(newNote, forKey: EventKeyConstants.keyOfNote)
         do {
             try eventObject.save(with: option)
-            let updatedEvent = Event(data: eventObject)
-            handler(updatedEvent, nil)
+            if let updatedDue = eventObject.value(forKey: EventKeyConstants.keyOfDue) as? Double {
+                self.due = Date(timeIntervalSince1970: updatedDue)
+            }
+            if let updatedMaximumAttendingPeople = eventObject.value(forKey: EventKeyConstants.keyOfMaximumAttendingPeople) as? Int {
+                self.maximumAttendingPeople = updatedMaximumAttendingPeople
+            }
+            if let updatedRemainingSeats = eventObject.value(forKey: EventKeyConstants.keyOfRemainingSeats) as? Int {
+                self.remainingSeats = updatedRemainingSeats
+            }
+            if let updatedMinimumAttendingPeople = eventObject.value(forKey: EventKeyConstants.keyOfMinimumAttendingPeople) as? Int {
+                self.minimumAttendingPeople = updatedMinimumAttendingPeople
+            }
+            if let updatedStartTime = eventObject.value(forKey: EventKeyConstants.keyOfStartTime) as? Double {
+                self.startTime = Date(timeIntervalSince1970: updatedStartTime)
+            }
+            if let updatedEndTime = eventObject.value(forKey: EventKeyConstants.keyOfEndTime) as? Double {
+                self.endTime = Date(timeIntervalSince1970: updatedEndTime)
+            }
+            if let updatedLocation = eventObject.value(forKey: EventKeyConstants.keyOfLocation) as? String {
+                self.location = updatedLocation
+            }
+            if let updatedWhereCreated = eventObject.value(forKey: EventKeyConstants.keyOfWhereCreated) as? AVGeoPoint {
+                self.whereCreated = updatedWhereCreated
+            }
+            if let updatedNote = eventObject.value(forKey: EventKeyConstants.keyOfNote) as? String {
+                self.note = updatedNote
+            }
+            
+            handler(true, nil)
         } catch let error {
             print("cannot update event \(error.localizedDescription)")
-            handler(nil, EventError.systemError(localizedDescriotion: "活动无法更新", debugDescription: error.localizedDescription))
+            handler(false, EventError.systemError(localizedDescriotion: "活动无法更新", debugDescription: error.localizedDescription))
         }
     }
 
