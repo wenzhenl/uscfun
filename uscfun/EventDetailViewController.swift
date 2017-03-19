@@ -161,10 +161,9 @@ class EventDetailViewController: UIViewController {
     func joinEvent() {
         SVProgressHUD.show()
         self.event.add(newMember: AVUser.current()!) {
-            updatedEvent, error in
+            succeeded, error in
             SVProgressHUD.dismiss()
-            if let updatedEvent = updatedEvent {
-                self.event = updatedEvent
+            if succeeded {
                 self.populateSections()
                 self.tableView.reloadData()
                 self.setupJoinButton()
@@ -213,10 +212,9 @@ class EventDetailViewController: UIViewController {
             _ in
             SVProgressHUD.show()
             self.event.remove(member: AVUser.current()!) {
-                updatedEvent, error in
+                succeeded, error in
                 SVProgressHUD.dismiss()
-                if let updatedEvent = updatedEvent {
-                    self.event = updatedEvent
+                if succeeded {
                     self.populateSections()
                     self.tableView.reloadData()
                     self.setupJoinButton()

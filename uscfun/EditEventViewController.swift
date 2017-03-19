@@ -131,10 +131,10 @@ class EditEventViewController: FormViewController {
         self.saveButtonItem.isEnabled = false
         
         event.update(newDue: newDue, newMaximumAttendingPeople: newMaximumAttendingPeople, newStartTime: newStartTime, newEndTime: newEndTime, newLocation: newLocation, newWhereCreated: newWhereCreated, newNote: newNote) {
-            updatedEvent, error in
+            succeeded, error in
             SVProgressHUD.dismiss()
-            if let updatedEvent = updatedEvent {
-                delegate?.userDidUpdatedEvent(event: updatedEvent)
+            if succeeded {
+                delegate?.userDidUpdatedEvent(event: event)
                 self.presentingViewController?.dismiss(animated: true, completion: nil)
             } else {
                 self.saveButtonItem.isEnabled = true
