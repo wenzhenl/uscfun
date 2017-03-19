@@ -87,6 +87,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             application.cancelAllLocalNotifications()
             application.applicationIconBadgeNumber = 0
         }
+        
+        /// save avatar eventually if failed before
+        if UserDefaults.needToSaveAvatarEventually {
+            UserDefaults.updateUserAvatar()
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

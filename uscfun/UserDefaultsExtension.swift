@@ -106,9 +106,20 @@ extension UserDefaults {
         AVUser.current()!.saveEventually()
     }
     
+    class var needToSaveAvatarEventually: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "User_needToSaveAvatarEventually_Key")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "User_needToSaveAvatarEventually_Key")
+        }
+    }
+    
     static func updateUserAvatar() {
-        print("update avatar")
+        print("user is updating avatar")
         guard let data = UIImagePNGRepresentation(UserDefaults.avatar!) else {
+            print("update avatar failed: cannot get image png representation")
+            needToSaveAvatarEventually = true
             return
         }
         let file = AVFile(data: data)
@@ -117,7 +128,21 @@ extension UserDefaults {
             succeeded, error in
             if succeeded {
                 AVUser.current()!.setObject(file.url, forKey: UserKeyConstants.keyOfAvatarUrl)
-                AVUser.current()!.saveInBackground()
+                AVUser.current()!.saveInBackground {
+                    succeeded, error in
+                    if succeeded {
+                        needToSaveAvatarEventually = false
+                    }
+                    if error != nil {
+                        print("update avatar failed:\(error!.localizedDescription)")
+                        needToSaveAvatarEventually = true
+                    }
+                    
+                }
+            }
+            if error != nil {
+                print("update avatar failed:\(error!.localizedDescription)")
+                needToSaveAvatarEventually = true
             }
         })
     }
@@ -128,7 +153,7 @@ extension UserDefaults {
             return
         }
 
-        print("update other info")
+        print("user is updating other information")
 
         if withNickName {
             AVUser.current()!.setObject(UserDefaults.nickname, forKey: UserKeyConstants.keyOfNickname)
