@@ -575,7 +575,7 @@ class Event {
             handler(false, EventError.systemError(localizedDescriotion: "没有权限修改", debugDescription: "only the creator can update the event"))
             return
         }
-        guard newDue >= due && newMaximumAttendingPeople >= maximumAttendingPeople && newMinimumAttendingPeople <= minimumAttendingPeople else {
+        guard newDue >= due && newMaximumAttendingPeople >= maximumAttendingPeople && newMinimumAttendingPeople <= minimumAttendingPeople && newMinimumAttendingPeople >= 2 else {
             handler(false, EventError.systemError(localizedDescriotion: "不符合修改要求", debugDescription: "the updated due or maximum attending people are not allowed"))
             return
         }
@@ -587,7 +587,7 @@ class Event {
         option.fetchWhenSave = true
         
         if newDue > due {
-            eventObject.setObject(newDue, forKey: EventKeyConstants.keyOfDue)
+            eventObject.setObject(newDue.timeIntervalSince1970, forKey: EventKeyConstants.keyOfDue)
         }
         if newMaximumAttendingPeople > maximumAttendingPeople {
             eventObject.setObject(newMaximumAttendingPeople, forKey: EventKeyConstants.keyOfMaximumAttendingPeople)

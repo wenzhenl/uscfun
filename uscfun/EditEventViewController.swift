@@ -70,6 +70,7 @@ class EditEventViewController: FormViewController {
                 $0.title = "最低出行人数："
                 $0.value = Double(event.minimumAttendingPeople)
                 $0.add(rule: RuleSmallerOrEqualThan(max: Double(event.minimumAttendingPeople)))
+                $0.add(rule: RuleGreaterOrEqualThan(min: 2.0))
                 $0.validationOptions = .validatesOnChange
                 }.cellSetup {
                     cell, row in
@@ -78,7 +79,12 @@ class EditEventViewController: FormViewController {
                 }.cellUpdate {
                     cell, row in
                     if !row.isValid {
-                        row.value = Double(self.event.minimumAttendingPeople)
+                        if row.value! < 2.0 {
+                            row.value = 2.0
+                        }
+                        if row.value! > Double(self.event.minimumAttendingPeople) {
+                            row.value = Double(self.event.minimumAttendingPeople)
+                        }
                     }
                     cell.valueLabel.text = String(Int(row.value!))
                     
