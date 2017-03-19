@@ -26,8 +26,18 @@ class EventListViewController: UIViewController {
         return refreshControl
     }()
     
-    var infoLabel: UILabel!
-    let heightOfInfoLabel = CGFloat(29.0)
+    lazy var infoLabel: UILabel = {
+        let heightOfInfoLabel = CGFloat(29.0)
+        let infoLabel = UILabel(frame: CGRect(x: 0.0, y: -heightOfInfoLabel, width: self.view.frame.size.width, height: heightOfInfoLabel))
+        infoLabel.numberOfLines = 0
+        infoLabel.textAlignment = .center
+        infoLabel.lineBreakMode = .byWordWrapping
+        infoLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        infoLabel.backgroundColor = UIColor.white
+        infoLabel.textColor = UIColor.buttonPink
+        infoLabel.isHidden = true
+        return infoLabel
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,26 +55,12 @@ class EventListViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleJoinEvent(notification:)), name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleQuitEvent), name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil)
         
-        infoLabel = UILabel(frame: CGRect(x: 0.0, y: -heightOfInfoLabel, width: view.frame.size.width, height: heightOfInfoLabel))
-        infoLabel.numberOfLines = 0
-        infoLabel.textAlignment = .center
-        infoLabel.lineBreakMode = .byWordWrapping
-        infoLabel.font = UIFont.boldSystemFont(ofSize: 16)
-        infoLabel.isHidden = true
         view.addSubview(infoLabel)
-        
-        /// important for animation to work properly
         self.navigationController?.navigationBar.isTranslucent = false
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
-        infoLabel.isHidden = true
-        infoLabel.frame.origin = CGPoint.zero
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
         infoLabel.isHidden = true
         infoLabel.frame.origin = CGPoint.zero
     }
@@ -118,8 +114,6 @@ class EventListViewController: UIViewController {
     
     func displayInfo(info: String) {
         self.infoLabel.isHidden = false
-        self.infoLabel.backgroundColor = UIColor.white
-        self.infoLabel.textColor = UIColor.buttonPink
         self.infoLabel.text = info
         
         UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
@@ -134,7 +128,7 @@ class EventListViewController: UIViewController {
                 DispatchQueue.main.asyncAfter(deadline: time) {
                     UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
                         _ in
-                        self.infoLabel.frame.origin.y = -self.heightOfInfoLabel
+                        self.infoLabel.frame.origin.y = -self.infoLabel.frame.height
                         self.view.layoutIfNeeded()
                     }) {
                         finished in
@@ -179,7 +173,7 @@ class EventListViewController: UIViewController {
     
     func joinDiscussion(sender: UIButton) {
         guard let eventId = sender.accessibilityHint else { return }
-        guard let event = EventRequest.myOngoingEvents[eventId] else { return }
+        guard let event = EventRequest.publicEvents[eventId] else { return }
         guard let conversation = LCCKConversationViewController(conversationId: event.transientConversationId) else {
             self.displayInfo(info: "网络错误，无法进入评论区")
             return
@@ -235,7 +229,6 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
         if EventRequest.publicEvents.count == 0 {
             let cell = Bundle.main.loadNibNamed("EmptySectionPlaceholderTableViewCell", owner: self, options: nil)?.first as! EmptySectionPlaceholderTableViewCell
             cell.mainTextView.text = emptyPlaceholder
-            cell.backgroundColor = UIColor.clear
             cell.selectionStyle = .none
             return cell
         }
@@ -251,7 +244,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         }
         else {
-            let event = EventRequest.publicEvents[EventRequest.publicEvents.keys[indexPath.section - 1]]!
+            let event = eventForSection(section: indexPath.section)
             let cell = Bundle.main.loadNibNamed("EventSnapshotTableViewCell", owner: self, options: nil)?.first as! EventSnapshotTableViewCell
             let creator = User(user: event.createdBy)!
             cell.eventNameLabel.text = event.name

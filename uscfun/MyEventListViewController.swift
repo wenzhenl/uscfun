@@ -240,6 +240,10 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
+        if EventRequest.myOngoingEvents.count == 0 {
+            return self.tableView.frame.height
+        }
+        
         if EventRequest.myOngoingEvents.count > 0 && indexPath.section == 0 {
             return 30
         }
@@ -250,7 +254,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if EventRequest.myOngoingEvents.count == 0 {
-            return 150
+            return 600
         }
         
         if indexPath.section == 0 {
@@ -265,7 +269,6 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
         if EventRequest.myOngoingEvents.count == 0 {
             let cell = Bundle.main.loadNibNamed("EmptySectionPlaceholderTableViewCell", owner: self, options: nil)?.first as! EmptySectionPlaceholderTableViewCell
             cell.mainTextView.text = emptyPlaceholder
-            cell.backgroundColor = UIColor.clear
             cell.selectionStyle = .none
             return cell
         }
@@ -281,7 +284,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
             return cell
         }
         else {
-            let event = EventRequest.myOngoingEvents[EventRequest.myOngoingEvents.keys[indexPath.section - 1]]!
+            let event = eventForSection(section: indexPath.section)
             let creator = User(user: event.createdBy)!
 
             if event.status == .isFinalized {
