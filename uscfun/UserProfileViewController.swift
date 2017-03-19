@@ -32,7 +32,7 @@ class UserProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = other.nickname
-        self.tableView.backgroundColor = UIColor.white
+        self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, -10, 0)
         self.tableView.tableFooterView = UIView()
         self.populateSections()
@@ -257,6 +257,10 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: 10))
+        if userProfileSections[section] == .avatarCell {
+            footerView.backgroundColor = UIColor.white
+        }
+        
         if userProfileSections[section] == .introductionCell {
             footerView.backgroundColor = UIColor.backgroundGray
         }
