@@ -18,7 +18,9 @@ protocol SystemNotificationDelegate {
 class EventListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    let emptyPlaceholder = "好像微活动都被参加完了，少年快去发起一波吧！"
+    
+    var numberOfSection = 1
+    var emptyPlaceholder = "正在加载数据，请稍后......"
 
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -62,15 +64,19 @@ class EventListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         EventRequest.cleanPublicEventsInBackground {
-//            EventRequest.fetchNewerPublicEventsInBackground {
-//                succeeded, error in
-//                if succeeded {
-//                    self.tableView.reloadData()
-//                }
-//                else if error != nil {
-//                    self.displayInfo(info: error!.localizedDescription)
-//                }
-//            }
+            EventRequest.fetchNewerPublicEventsInBackground {
+                succeeded, error in
+                if succeeded {
+                    self.numberOfSection = EventRequest.publicEvents.count + 1
+                    if EventRequest.publicEvents.count == 0 {
+                        self.emptyPlaceholder = "好像微活动都被参加完了，少年快去发起一波吧！"
+                    }
+                    self.tableView.reloadData()
+                }
+                else if error != nil {
+                    self.displayInfo(info: error!.localizedDescription)
+                }
+            }
         }
     }
     
@@ -106,7 +112,7 @@ class EventListViewController: UIViewController {
             print("cannot parse notification user info")
             return
         }
-        EventRequest.publicEvents[eventId] = nil
+        EventRequest.removePublicEvent(with: eventId)
         self.tableView.reloadData()
     }
     
@@ -121,9 +127,7 @@ class EventListViewController: UIViewController {
             if succeeded {
                 let numberOfPublicEventsAfterUpdate = EventRequest.publicEvents.count
                 if numberOfPublicEventsAfterUpdate > numberOfPublicEventsBeforeUpdate {
-                    self.displayInfo(info: "发现了\(numberOfPublicEventsAfterUpdate - numberOfPublicEventsBeforeUpdate)个新的微活动")
-                } else {
-                    self.displayInfo(info: "没有更新的微活动了")
+                    self.displayInfo(info: "\(numberOfPublicEventsAfterUpdate - numberOfPublicEventsBeforeUpdate)个新的微活动")
                 }
                 self.tableView.reloadData()
             }
@@ -210,11 +214,7 @@ class EventListViewController: UIViewController {
 extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        if EventRequest.publicEvents.count == 0 {
-            return 1
-        }
-        
-        return EventRequest.publicEvents.count + 1
+        return self.numberOfSection
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

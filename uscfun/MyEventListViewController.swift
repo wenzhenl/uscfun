@@ -13,7 +13,8 @@ class MyEventListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    let emptyPlaceholder = "你好像还没有参加任何微活动，快去参加一波吧！"
+    var numberOfSection = 1
+    var emptyPlaceholder = "正在加载数据，请稍后......"
     
     lazy var infoLabel: UILabel = {
         let heightOfInfoLabel = CGFloat(29.0)
@@ -52,6 +53,10 @@ class MyEventListViewController: UIViewController {
             EventRequest.fetchNewerMyOngoingEventsInBackground {
                 succeeded, error in
                 if succeeded {
+                    self.numberOfSection = EventRequest.publicEvents.count + 1
+                    if EventRequest.publicEvents.count == 0 {
+                        self.emptyPlaceholder = "你好像还没有参加任何微活动，快去参加一波吧！"
+                    }
                     self.tableView.reloadData()
                 }
                 else if error != nil {
@@ -90,7 +95,7 @@ class MyEventListViewController: UIViewController {
             print("cannot get user info from user did quit event notification")
             return
         }
-        EventRequest.myOngoingEvents[eventId] = EventRequest.publicEvents[eventId]
+//        EventRequest.myOngoingEvents[eventId] = EventRequest.publicEvents[eventId]
         self.tableView.reloadData()
     }
     
@@ -99,7 +104,7 @@ class MyEventListViewController: UIViewController {
             print("cannot get user info from user did quit event notification")
             return
         }
-        EventRequest.myOngoingEvents[eventId] = nil
+        EventRequest.removeMyOngoingEvent(with: eventId)
         self.tableView.reloadData()
     }
     
@@ -417,7 +422,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                         EventRequest.myOngoingEvents[finalizedCell.eventId!]?.setComplete(for: AVUser.current()!) {
                             succeeded, error in
                             if succeeded {
-                                EventRequest.myOngoingEvents[finalizedCell.eventId!] = nil
+                                EventRequest.removeMyOngoingEvent(with: finalizedCell.eventId!)
                                 tableView.deleteSections(IndexSet([indexPath.section]), with: .fade)
                             }
                             
@@ -432,7 +437,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                             EventRequest.myOngoingEvents[finalizedCell.eventId!]?.setComplete(for: AVUser.current()!) {
                                 succeeded, error in
                                 if succeeded {
-                                    EventRequest.myOngoingEvents[finalizedCell.eventId!] = nil
+                                    EventRequest.removeMyOngoingEvent(with: finalizedCell.eventId!)
                                     tableView.deleteSections(IndexSet([indexPath.section]), with: .fade)
                                     UserDefaults.hasSeenCompleteEventTip = true
                                 }
