@@ -207,12 +207,7 @@ class MyEventListViewController: UIViewController {
 extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        
-        if EventRequest.myOngoingEvents.count == 0 {
-            return 1
-        }
-        
-        return EventRequest.myOngoingEvents.count + 1
+        return self.numberOfSection
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
