@@ -70,7 +70,7 @@ class EventRequest {
     private static let timeOf2070 = Date(timeIntervalSince1970: 60*60*24*365*100)
     
     static func cleanPublicEventsInBackground(handler: (() -> Void)?) {
-        DispatchQueue.global(qos: .background).async {
+        concurrentPublicEventQueue.async(flags: .barrier) {
             for id in _publicEvents.keys {
                 let event = _publicEvents[id]!
                 if event.status != .isSecured && event.status != .isPending {
@@ -84,7 +84,7 @@ class EventRequest {
     }
     
     static func cleanMyOngoingEventsInBackground(handler: (() -> Void)?) {
-        DispatchQueue.global(qos: .background).async {
+        concurrentMyOngoingEventQueue.async(flags: .barrier) {
             for id in _myOngoingEvents.keys {
                 let event = _myOngoingEvents[id]!
                 if event.status != .isFinalized && event.status != .isSecured && event.status != .isPending {
@@ -261,19 +261,24 @@ class EventRequest {
                 handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: "cannot get events"))
                 return
             }
-            for event in events {
-                if !event.members.contains(AVUser.current()!) {
-                    EventRequest._publicEvents[event.objectId!] = event
-                    
-                    if event.updatedAt! > EventRequest.newestUpdatedAtOfPublicEvents {
-                        EventRequest.newestUpdatedAtOfPublicEvents = event.updatedAt!
-                    }
-                    if event.updatedAt! < EventRequest.oldestUpdatedAtOfPublicEvents {
-                        EventRequest.oldestUpdatedAtOfPublicEvents = event.updatedAt!
+            
+            concurrentPublicEventQueue.async(flags: .barrier) {
+                for event in events {
+                    if !event.members.contains(AVUser.current()!) {
+                        EventRequest._publicEvents[event.objectId!] = event
+                        
+                        if event.updatedAt! > EventRequest.newestUpdatedAtOfPublicEvents {
+                            EventRequest.newestUpdatedAtOfPublicEvents = event.updatedAt!
+                        }
+                        if event.updatedAt! < EventRequest.oldestUpdatedAtOfPublicEvents {
+                            EventRequest.oldestUpdatedAtOfPublicEvents = event.updatedAt!
+                        }
                     }
                 }
+                DispatchQueue.main.async {
+                    handler?(true, nil)
+                }
             }
-            handler?(true, nil)
         }
     }
     
@@ -290,19 +295,24 @@ class EventRequest {
                 handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: "cannot get events"))
                 return
             }
-            for event in events {
-                if event.status != .isFailed && !(event.completedBy ?? []).contains(AVUser.current()!) {
-                    EventRequest._myOngoingEvents[event.objectId!] = event
-                    
-                    if event.updatedAt! > EventRequest.newestUpdatedAtOfMyOngoingEvents {
-                        EventRequest.newestUpdatedAtOfMyOngoingEvents = event.updatedAt!
-                    }
-                    if event.updatedAt! < EventRequest.oldestUpdatedAtOfMyOngoingEvents {
-                        EventRequest.oldestUpdatedAtOfMyOngoingEvents = event.updatedAt!
+            
+            concurrentMyOngoingEventQueue.async(flags: .barrier) {
+                for event in events {
+                    if event.status != .isFailed && !(event.completedBy ?? []).contains(AVUser.current()!) {
+                        EventRequest._myOngoingEvents[event.objectId!] = event
+                        
+                        if event.updatedAt! > EventRequest.newestUpdatedAtOfMyOngoingEvents {
+                            EventRequest.newestUpdatedAtOfMyOngoingEvents = event.updatedAt!
+                        }
+                        if event.updatedAt! < EventRequest.oldestUpdatedAtOfMyOngoingEvents {
+                            EventRequest.oldestUpdatedAtOfMyOngoingEvents = event.updatedAt!
+                        }
                     }
                 }
+                DispatchQueue.main.async {
+                    handler?(true, nil)
+                }
             }
-            handler?(true, nil)
         }
     }
     
