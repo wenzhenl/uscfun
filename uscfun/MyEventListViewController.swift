@@ -295,12 +295,16 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                     cell.ifReadView.layer.borderColor = event.finalizedColor.cgColor
                     cell.ifReadView.backgroundColor = UIColor.clear
                 }
+                cell.ifReadViewColor = event.finalizedColor
+                
                 cell.eventNameLabel.text = event.name
                 cell.eventNameLabel.numberOfLines = 0
                 cell.latestMessageLabel.text = "tap to read"
                 cell.statusView.backgroundColor = event.statusColor
                 cell.statusView.layer.masksToBounds = true
                 cell.statusView.layer.cornerRadius = cell.statusView.frame.size.width / 2
+                cell.statusViewColor = event.statusColor
+                
                 cell.eventId = event.objectId
                 return cell
 
@@ -328,6 +332,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 cell.statusView.backgroundColor = event.statusColor
                 cell.statusView.layer.masksToBounds = true
                 cell.statusView.layer.cornerRadius = cell.statusView.frame.size.width / 2
+                cell.statusViewColor = event.statusColor
                 
                 cell.chatButton.accessibilityHint = event.objectId
                 cell.chatButton.addTarget(self, action: #selector(joinDiscussion(sender:)), for: .touchUpInside)

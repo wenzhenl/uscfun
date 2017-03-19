@@ -111,6 +111,7 @@ extension EventHistoryViewController: UITableViewDataSource, UITableViewDelegate
             cell.statusView.backgroundColor = event.statusColor
             cell.statusView.layer.masksToBounds = true
             cell.statusView.layer.cornerRadius = cell.statusView.frame.size.width / 2
+            cell.statusViewColor = event.statusColor
             
             cell.moreButton.isHidden = true
             

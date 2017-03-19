@@ -24,6 +24,8 @@ class EventSnapshotTableViewCell: UITableViewCell {
     @IBOutlet weak var chatButton: UIButton!
     @IBOutlet weak var statusView: UIView!
     
+    var statusViewColor: UIColor!
+    
     var eventId: String?
     var due: Date?
     var timer: Timer?
@@ -50,6 +52,20 @@ class EventSnapshotTableViewCell: UITableViewCell {
             } else {
                 remainingTimeLabel.text = gapFromNow
             }
+        }
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        if selected {
+            statusView.backgroundColor = statusViewColor
+        }
+    }
+    
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        super.setHighlighted(highlighted, animated: animated)
+        if highlighted {
+            statusView.backgroundColor = statusViewColor
         }
     }
 }
