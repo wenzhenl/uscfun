@@ -35,8 +35,18 @@ class EventDetailViewController: UIViewController {
     var creator: User!
     var detailSections = [EventDetailCell]()
     
-    var infoLabel: UILabel!
-    let heightOfInfoLabel = CGFloat(29.0)
+    lazy var infoLabel: UILabel = {
+        let heightOfInfoLabel = CGFloat(29.0)
+        let infoLabel = UILabel(frame: CGRect(x: 0.0, y: -heightOfInfoLabel, width: self.view.frame.size.width, height: heightOfInfoLabel))
+        infoLabel.numberOfLines = 0
+        infoLabel.textAlignment = .center
+        infoLabel.lineBreakMode = .byWordWrapping
+        infoLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        infoLabel.backgroundColor = UIColor.white
+        infoLabel.textColor = UIColor.buttonPink
+        infoLabel.isHidden = true
+        return infoLabel
+    }()
     
     var timer: Timer?
     
@@ -47,23 +57,18 @@ class EventDetailViewController: UIViewController {
         self.tableView.tableFooterView = UIView()
         self.joinButton.backgroundColor = UIColor.buttonPink
         self.chatButton.backgroundColor = UIColor.buttonBlue
-        self.populateSections()
         creator = User(user: event.createdBy)
         
         setupJoinButton()
+        populateSections()
         
-        infoLabel = UILabel(frame: CGRect(x: 0.0, y: -heightOfInfoLabel, width: view.frame.size.width, height: heightOfInfoLabel))
-        infoLabel.numberOfLines = 0
-        infoLabel.textAlignment = .center
-        infoLabel.lineBreakMode = .byWordWrapping
-        infoLabel.font = UIFont.boldSystemFont(ofSize: 16)
-        infoLabel.isHidden = true
         view.addSubview(infoLabel)
-        
-        /// important for animation to work properly
         self.navigationController?.navigationBar.isTranslucent = false
-        
-        if timer == nil {
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        if timer == nil && event.due > Date() {
             timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(updateRemainingTime), userInfo: nil, repeats: true)
         }
     }
@@ -72,6 +77,8 @@ class EventDetailViewController: UIViewController {
         super.viewDidDisappear(true)
         infoLabel.isHidden = true
         infoLabel.frame.origin = CGPoint.zero
+        timer?.invalidate()
+        timer = nil
     }
     
     func updateRemainingTime() {
@@ -100,17 +107,6 @@ class EventDetailViewController: UIViewController {
             joinButton.backgroundColor = UIColor.buttonPink
             joinButton.setTitleColor(UIColor.white, for: .normal)
         }
-        
-        switch event.status {
-        case .isCancelled, .isFailed, .isCompleted:
-            joinButton.isEnabled = false
-        case .isFinalized:
-            if event.relationWithMe != .createdByMe {
-                joinButton.isEnabled = false
-            }
-        default:
-            break
-        }
     }
     
     func populateSections() {
@@ -122,7 +118,7 @@ class EventDetailViewController: UIViewController {
         detailSections.append(EventDetailCell.remainingNumberCell)
         detailSections.append(EventDetailCell.numberCell)
 //        if event.members.count > 1 {
-            detailSections.append(EventDetailCell.memberCell)
+//            detailSections.append(EventDetailCell.memberCell)
 //        }
         detailSections.append(EventDetailCell.remainingTimeCell)
         if event.startTime != nil {
@@ -182,8 +178,6 @@ class EventDetailViewController: UIViewController {
     
     func displayInfo(info: String) {
         self.infoLabel.isHidden = false
-        self.infoLabel.backgroundColor = UIColor.white
-        self.infoLabel.textColor = UIColor.buttonPink
         self.infoLabel.text = info
         
         UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
@@ -198,7 +192,7 @@ class EventDetailViewController: UIViewController {
                 DispatchQueue.main.asyncAfter(deadline: time) {
                     UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
                         _ in
-                        self.infoLabel.frame.origin.y = -self.heightOfInfoLabel
+                        self.infoLabel.frame.origin.y = -self.infoLabel.frame.height
                         self.view.layoutIfNeeded()
                     }) {
                         finished in
@@ -281,9 +275,9 @@ class EventDetailViewController: UIViewController {
             case mapSegueIdentifier:
                 let destination = segue.destination
                 if let mapVC = destination as? MapViewController {
-                    mapVC.placename = event?.location
-                    mapVC.latitude = event?.whereCreated?.latitude
-                    mapVC.longitude = event?.whereCreated?.longitude
+                    mapVC.placename = event.location
+                    mapVC.latitude = event.whereCreated?.latitude
+                    mapVC.longitude = event.whereCreated?.longitude
                 }
             case userProfileSugueIdentifier:
                 let destination = segue.destination

@@ -487,6 +487,14 @@ class Event {
         }
     }
     
+    /// Refresh self based on latest data fetch from server
+    ///
+    /// - parameter data:   the latest data fetched from server
+
+    func refresh(data: AVObject) {
+        
+    }
+    
     /// Add a new member to the event
     ///
     /// - parameter newMember:   the new member that is about to join
