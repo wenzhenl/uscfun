@@ -62,15 +62,15 @@ class EventListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         EventRequest.cleanPublicEventsInBackground {
-            EventRequest.fetchNewerPublicEventsInBackground {
-                succeeded, error in
-                if succeeded {
-                    self.tableView.reloadData()
-                }
-                else if error != nil {
-                    self.displayInfo(info: error!.localizedDescription)
-                }
-            }
+//            EventRequest.fetchNewerPublicEventsInBackground {
+//                succeeded, error in
+//                if succeeded {
+//                    self.tableView.reloadData()
+//                }
+//                else if error != nil {
+//                    self.displayInfo(info: error!.localizedDescription)
+//                }
+//            }
         }
     }
     
