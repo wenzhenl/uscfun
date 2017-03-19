@@ -33,7 +33,7 @@ class EventDetailViewController: UIViewController {
     
     var event: Event!
     var creator: User!
-    var memberAvatars: [UIImage]!
+    var memberAvatars = [UIImage]()
     
     var detailSections = [EventDetailCell]()
     
@@ -59,14 +59,8 @@ class EventDetailViewController: UIViewController {
         self.tableView.tableFooterView = UIView()
         self.joinButton.backgroundColor = UIColor.buttonPink
         self.chatButton.backgroundColor = UIColor.buttonBlue
-        creator = User(user: event.createdBy)
         
-        memberAvatars = [UIImage]()
-        for memberData in event.members {
-            if let member = User(user: memberData) {
-                memberAvatars.append(member.avatar ?? #imageLiteral(resourceName: "user-4"))
-            }
-        }
+        creator = User(user: event.createdBy)
         
         setupJoinButton()
         populateSections()
@@ -119,7 +113,12 @@ class EventDetailViewController: UIViewController {
     }
     
     func populateSections() {
-        // Populate the cells
+        memberAvatars.removeAll()
+        for memberData in event.members {
+            if let member = User(user: memberData) {
+                memberAvatars.append(member.avatar ?? #imageLiteral(resourceName: "user-4"))
+            }
+        }
         detailSections.removeAll()
         detailSections.append(EventDetailCell.statusCell)
         detailSections.append(EventDetailCell.titleCell)
