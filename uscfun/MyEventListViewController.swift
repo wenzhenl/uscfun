@@ -15,23 +15,25 @@ class MyEventListViewController: UIViewController {
     
     let emptyPlaceholder = "你好像还没有参加任何微活动，快去参加一波吧！"
     
-    var infoLabel: UILabel!
-    let heightOfInfoLabel = CGFloat(29.0)
+    lazy var infoLabel: UILabel = {
+        let heightOfInfoLabel = CGFloat(29.0)
+        let infoLabel = UILabel(frame: CGRect(x: 0.0, y: -heightOfInfoLabel, width: self.view.frame.size.width, height: heightOfInfoLabel))
+        infoLabel.numberOfLines = 0
+        infoLabel.textAlignment = .center
+        infoLabel.lineBreakMode = .byWordWrapping
+        infoLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        infoLabel.backgroundColor = UIColor.white
+        infoLabel.textColor = UIColor.buttonPink
+        infoLabel.isHidden = true
+        return infoLabel
+    }()
     
     override func viewDidLoad() {
-        
-        print("view did load called")
-        
         super.viewDidLoad()
 
         self.tableView.scrollsToTop = true
-        if EventRequest.myOngoingEvents.count > 0 {
-            self.tableView.backgroundColor = UIColor.backgroundGray
-        } else {
-            self.tableView.backgroundColor = UIColor.white
-        }
-        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
         self.tableView.tableFooterView = UIView()
+        self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.separatorStyle = .none
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "homeRefresh"), object: nil)
@@ -40,22 +42,23 @@ class MyEventListViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleQuitEvent(notification:)), name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleEventExpired(notification:)), name: NSNotification.Name(rawValue: "eventDidExpired"), object: nil)
         
-        infoLabel = UILabel(frame: CGRect(x: 0.0, y: -heightOfInfoLabel, width: view.frame.size.width, height: heightOfInfoLabel))
-        infoLabel.numberOfLines = 0
-        infoLabel.textAlignment = .center
-        infoLabel.lineBreakMode = .byWordWrapping
-        infoLabel.font = UIFont.boldSystemFont(ofSize: 16)
-        infoLabel.isHidden = true
         view.addSubview(infoLabel)
-        
-        /// important for animation to work properly
         self.navigationController?.navigationBar.isTranslucent = false
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        print("view will appear called")
         super.viewWillAppear(true)
-        self.tableView.reloadData()
+        EventRequest.cleanMyOngoingEventsInBackground {
+            EventRequest.fetchNewerMyOngoingEventsInBackground {
+                succeeded, error in
+                if succeeded {
+                    self.tableView.reloadData()
+                }
+                else if error != nil {
+                    self.displayInfo(info: error!.localizedDescription)
+                }
+            }
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -79,7 +82,7 @@ class MyEventListViewController: UIViewController {
     }
     
     func handlePostNewEvent() {
-        handleRefresh()
+        print("user did post new event")
     }
     
     func handleQuitEvent(notification: Notification) {
@@ -92,34 +95,7 @@ class MyEventListViewController: UIViewController {
     }
     
     func handleEventExpired(notification: Notification) {
-        guard let userInfo = notification.userInfo, let eventId = userInfo["eventId"] as? String  else {
-            print("cannot get user info from event did expired notification")
-            return
-        }
-        
-        if EventRequest.myOngoingEvents.keys.contains(eventId) {
-            EventRequest.fetchOneEvent(with: eventId) {
-                error, event in
-                if let event = event {
-                    EventRequest.myOngoingEvents[eventId] = event
-                }
-                if let event = EventRequest.myOngoingEvents[eventId] {
-                    switch event.status {
-                    case .isFailed, .isCancelled, .isCompleted:
-                        if let eventSection = self.sectionForEvent(eventId: eventId) {
-                            EventRequest.myOngoingEvents[eventId] = nil
-                            self.tableView.deleteSections(IndexSet([eventSection]), with: .fade)
-                        }
-                    case .isFinalized:
-                        if let eventSection = self.sectionForEvent(eventId: eventId) {
-                            self.tableView.reloadSections(IndexSet([eventSection]), with: .automatic)
-                        }
-                    default:
-                        break
-                    }
-                }
-            }
-        }
+        self.tableView.reloadData()
     }
     
     func handleRefresh() {
@@ -127,16 +103,11 @@ class MyEventListViewController: UIViewController {
         EventRequest.fetchNewerMyOngoingEventsInBackground() {
             succeeded, error in
             if succeeded {
-                if EventRequest.myOngoingEvents.count > 0 {
-                    self.tableView.backgroundColor = UIColor.backgroundGray
-                } else {
-                    self.tableView.backgroundColor = UIColor.white
-                }
                 let numberOfMyOngoingEventsAfterUpdate = EventRequest.myOngoingEvents.count
                 if numberOfMyOngoingEventsAfterUpdate > numberOfMyOngoingEventsBeforeUpdate {
-                    self.displayInfo(info: "发现了\(numberOfMyOngoingEventsAfterUpdate - numberOfMyOngoingEventsBeforeUpdate)个新的微活动")
+                    print("发现了\(numberOfMyOngoingEventsAfterUpdate - numberOfMyOngoingEventsBeforeUpdate)个新的微活动")
                 } else {
-                    self.displayInfo(info: "没有更新的微活动了")
+                    print("没有更新的微活动了")
                 }
                 self.tableView.reloadData()
             }
@@ -148,8 +119,6 @@ class MyEventListViewController: UIViewController {
     
     func displayInfo(info: String) {
         self.infoLabel.isHidden = false
-        self.infoLabel.backgroundColor = UIColor.white
-        self.infoLabel.textColor = UIColor.buttonPink
         self.infoLabel.text = info
         
         UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
@@ -164,7 +133,7 @@ class MyEventListViewController: UIViewController {
                 DispatchQueue.main.asyncAfter(deadline: time) {
                     UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
                         _ in
-                        self.infoLabel.frame.origin.y = -self.heightOfInfoLabel
+                        self.infoLabel.frame.origin.y = -self.infoLabel.frame.height
                         self.view.layoutIfNeeded()
                     }) {
                         finished in
@@ -224,8 +193,6 @@ class MyEventListViewController: UIViewController {
 extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        
-        print("number of sections called")
         
         if EventRequest.myOngoingEvents.count == 0 {
             return 1
@@ -340,6 +307,8 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 cell.chatButton.accessibilityHint = event.objectId
                 cell.chatButton.addTarget(self, action: #selector(joinDiscussion(sender:)), for: .touchUpInside)
                 
+                cell.moreButton.isHidden = true
+                
                 cell.eventId = event.objectId
                 
                 cell.due = event.due
@@ -352,7 +321,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if EventRequest.myOngoingEvents.count == 0 {
-            return 0
+            return CGFloat.leastNormalMagnitude
         }
         return 1 / UIScreen.main.scale
     }

@@ -64,6 +64,20 @@ class EventRequest {
         }
     }
     
+    static func cleanMyOngoingEventsInBackground(handler: (() -> Void)?) {
+        DispatchQueue.global(qos: .background).async {
+            for id in myOngoingEvents.keys {
+                let event = myOngoingEvents[id]!
+                if event.status != .isFinalized && event.status != .isSecured && event.status != .isPending {
+                    myOngoingEvents[id] = nil
+                }
+            }
+            DispatchQueue.main.async {
+                handler?()
+            }
+        }
+    }
+    
     static func preLoadData() {
         EventRequest.fetchNewerMyOngoingEvents(inBackground: false, currentNewestUpdatedTime: timeOf1970, handler: nil)
         EventRequest.fetchNewerPublicEvents(inBackground: false, currentNewestUpdatedTime: timeOf1970, handler: nil)
