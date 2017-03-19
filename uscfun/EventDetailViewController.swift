@@ -278,6 +278,10 @@ class EventDetailViewController: UIViewController {
         self.present(alertViewController, animated: true, completion: nil)
     }
     
+    func checkProfile(sender: UIButton) {
+        performSegue(withIdentifier: userProfileSugueIdentifier, sender: sender)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destination = segue.destination.contentViewController
         if let identifier = segue.identifier {
@@ -290,7 +294,14 @@ class EventDetailViewController: UIViewController {
                 }
             case userProfileSugueIdentifier:
                 if let upVC = destination as? UserProfileViewController {
-                    upVC.other = creator
+                    switch sender {
+                    case is UIButton:
+                        upVC.other = User(user: event.members[(sender as! UIButton).tag])
+                    case is UserProfileCell:
+                        upVC.other = creator
+                    default:
+                        break
+                    }
                 }
             case editEventSegueIdentifier:
                 if let eeVC = destination as? EditEventViewController {
@@ -313,7 +324,7 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if detailSections[indexPath.section] == .mapCell {
-            performSegue(withIdentifier: mapSegueIdentifier, sender: self)
+            performSegue(withIdentifier: mapSegueIdentifier, sender: tableView.cellForRow(at: indexPath))
         }
         
         if detailSections[indexPath.section] == .creatorCell {
@@ -430,13 +441,15 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
         case .memberCell:
             let cell = Bundle.main.loadNibNamed("KeyScrollViewTableViewCell", owner: self, options: nil)?.first as! KeyScrollViewTableViewCell
             for i in 0..<memberAvatars.count {
-                let buttonWidth = CGFloat(30.0)
+                let buttonWidth = CGFloat(44.0)
                 let xPosition = buttonWidth * CGFloat(i)
-                let button = UIButton(frame: CGRect(x: xPosition, y: (44.0 - buttonWidth) * 0.5, width: buttonWidth, height: buttonWidth))
+                let button = UIButton(frame: CGRect(x: xPosition, y: (60.0 - buttonWidth) * 0.5, width: buttonWidth, height: buttonWidth))
                 button.setBackgroundImage(memberAvatars[i], for: .normal)
                 button.layer.cornerRadius = buttonWidth / 2.0
                 button.layer.masksToBounds = true
                 button.contentMode = .scaleAspectFit
+                button.tag = i
+                button.addTarget(self, action: #selector(checkProfile(sender:)), for: .touchUpInside)
                 cell.mainScrollView.contentSize.width = buttonWidth * CGFloat(i+1)
                 cell.mainScrollView.addSubview(button)
             }
