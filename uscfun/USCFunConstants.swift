@@ -52,7 +52,6 @@ struct EventKeyConstants {
     static let keyOfObjectId = "objectId"
     
     static let keyOfCompletedBy = "completedBy"
-    static let keyOfHasUnreadMessage = "hasUnreadMessage"
 
     static let keyOfSystemNotificationOfUpdatedEvents = "updatedEventIds"
 }

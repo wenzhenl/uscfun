@@ -528,9 +528,6 @@ extension Event {
     }
     
     var hasUnread: Bool {
-        if (self.hasUnreadMessage ?? []).contains(AVUser.current()!) {
-            return true
-        }
-        return false
+        return true
     }
 }

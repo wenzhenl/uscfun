@@ -183,9 +183,6 @@ class Event {
     /// and no longer needs the chat room
     var completedBy: [AVUser]?
     
-    /// The members who has unread message for this event
-    var hasUnreadMessage: [AVUser]?
-    
     var status: EventStatus {
         if isCancelled {
             return EventStatus.isCancelled
@@ -342,10 +339,6 @@ class Event {
         /// check property for individual member
         if let completedBy = data.value(forKey: EventKeyConstants.keyOfCompletedBy) as? [AVUser] {
            self.completedBy = completedBy
-        }
-        
-        if let hasUnreadMessage = data.value(forKey: EventKeyConstants.keyOfHasUnreadMessage) as? [AVUser] {
-            self.hasUnreadMessage = hasUnreadMessage
         }
     }
     
@@ -545,6 +538,7 @@ class Event {
         
         do {
             try eventObject.save(with: option)
+            print(eventObject)
             let updatedEvent = Event(data: eventObject)
             handler(updatedEvent, nil)
         } catch let error {
@@ -632,42 +626,6 @@ class Event {
         } catch let error {
             print("cannot complete event for member \(error.localizedDescription)")
             handler(false, EventError.systemError(localizedDescriotion: "无法完结活动，请检查网络", debugDescription: error.localizedDescription))
-        }
-    }
-    
-    /// indicate that member has read the message
-    ///
-    /// - parameter member:   the member that read the message
-    /// - parameter handler:  handle the creation depending on the operation is successful or not
-    /// - parameter succeeded: indicate if the operation is successful
-    /// - parameter error: optional error information if operation fails
-    
-    func setRead(for member: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
-        
-        guard let _ = members.index(of: member) else {
-            handler(false, EventError.systemError(localizedDescriotion: "用户没有参与此微活动", debugDescription: "user is not a member"))
-            return
-        }
-        
-        guard let memberIndex = hasUnreadMessage?.index(of: member) else {
-            handler(false, EventError.systemError(localizedDescriotion: "用户没有未读信息", debugDescription: "user has no unread message"))
-            return
-        }
-        
-        let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId!)
-        let query = AVQuery()
-        let option = AVSaveOption()
-        option.query = query
-        
-        eventObject.remove(member, forKey: EventKeyConstants.keyOfHasUnreadMessage)
-        
-        do {
-            try eventObject.save(with: option)
-            hasUnreadMessage?.remove(at: memberIndex)
-            handler(true, nil)
-        } catch let error {
-            print("cannot remove member \(error.localizedDescription)")
-            handler(false, EventError.systemError(localizedDescriotion: "无法设定已读，请检查网络", debugDescription: error.localizedDescription))
         }
     }
 }
