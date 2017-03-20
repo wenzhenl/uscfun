@@ -16,33 +16,23 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="211"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="210"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="211"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="当前成员:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HJd-Tt-cX0">
-                        <rect key="frame" x="8" y="11.5" width="65.5" height="120.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W4z-Dg-e5N">
-                        <rect key="frame" x="8" y="140" width="304" height="60"/>
+                        <rect key="frame" x="8" y="70.5" width="304" height="70"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="60" id="Doo-9z-Cec"/>
+                            <constraint firstAttribute="height" constant="70" id="Doo-9z-Cec"/>
                         </constraints>
                     </scrollView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailingMargin" secondItem="W4z-Dg-e5N" secondAttribute="trailing" id="9Kj-h5-rUG"/>
-                    <constraint firstItem="W4z-Dg-e5N" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="CyY-5u-GYF"/>
-                    <constraint firstItem="HJd-Tt-cX0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="DBn-oP-irU"/>
-                    <constraint firstItem="HJd-Tt-cX0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="UbL-QW-fK0"/>
-                    <constraint firstItem="W4z-Dg-e5N" firstAttribute="top" secondItem="HJd-Tt-cX0" secondAttribute="bottom" constant="8" symbolic="YES" id="hJE-HL-8aT"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="W4z-Dg-e5N" secondAttribute="bottom" id="uvI-FE-7lA"/>
+                    <constraint firstItem="W4z-Dg-e5N" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Hfo-E2-xGU"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="W4z-Dg-e5N" secondAttribute="trailing" id="dZY-Za-hYZ"/>
+                    <constraint firstItem="W4z-Dg-e5N" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="ndU-7r-FEh"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="mainLabel" destination="HJd-Tt-cX0" id="ljh-hR-BQD"/>
                 <outlet property="mainScrollView" destination="W4z-Dg-e5N" id="GWV-Ug-6sU"/>
             </connections>
             <point key="canvasLocation" x="71" y="45.5"/>

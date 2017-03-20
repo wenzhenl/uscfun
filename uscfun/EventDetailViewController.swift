@@ -114,9 +114,12 @@ class EventDetailViewController: UIViewController {
     
     func populateSections() {
         memberAvatars.removeAll()
+        memberAvatars.append(creator.avatar ?? #imageLiteral(resourceName: "user-4"))
         for memberData in event.members {
-            if let member = User(user: memberData) {
-                memberAvatars.append(member.avatar ?? #imageLiteral(resourceName: "user-4"))
+            if memberData != event.createdBy {
+                if let member = User(user: memberData) {
+                    memberAvatars.append(member.avatar ?? #imageLiteral(resourceName: "user-4"))
+                }
             }
         }
         detailSections.removeAll()
@@ -439,18 +442,34 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
             return cell
         case .memberCell:
             let cell = Bundle.main.loadNibNamed("KeyScrollViewTableViewCell", owner: self, options: nil)?.first as! KeyScrollViewTableViewCell
+            let numberOfMysteriousMembers = event.maximumAttendingPeople - event.remainingSeats - memberAvatars.count
+            var possibleLabelWidth = CGFloat(0)
+            
             for i in 0..<memberAvatars.count {
-                let buttonWidth = CGFloat(44.0)
-                let xPosition = buttonWidth * CGFloat(i)
-                let button = UIButton(frame: CGRect(x: xPosition, y: (60.0 - buttonWidth) * 0.5, width: buttonWidth, height: buttonWidth))
+                let buttonWidth = CGFloat(35.0)
+                let margin = CGFloat(2.0)
+                let xPosition = buttonWidth * CGFloat(i) + margin * CGFloat(i) + possibleLabelWidth
+                let button = UIButton(frame: CGRect(x: xPosition, y: (70.0 - buttonWidth) * 0.5, width: buttonWidth, height: buttonWidth))
                 button.setBackgroundImage(memberAvatars[i], for: .normal)
                 button.layer.cornerRadius = buttonWidth / 2.0
                 button.layer.masksToBounds = true
                 button.contentMode = .scaleAspectFit
                 button.tag = i
                 button.addTarget(self, action: #selector(checkProfile(sender:)), for: .touchUpInside)
-                cell.mainScrollView.contentSize.width = buttonWidth * CGFloat(i+1)
+                cell.mainScrollView.contentSize.width = (buttonWidth + margin) * CGFloat(i+1) + possibleLabelWidth
                 cell.mainScrollView.addSubview(button)
+                
+                if i == 0 && numberOfMysteriousMembers > 0 {
+                    print("number of unseen members: \(numberOfMysteriousMembers)")
+                    possibleLabelWidth = CGFloat(20.0)
+                    let label = UILabel(frame: CGRect(x: xPosition + buttonWidth, y: (70.0 - buttonWidth) * 0.5, width: buttonWidth, height: buttonWidth))
+                    label.textAlignment = .left
+                    label.text = "+\(numberOfMysteriousMembers)"
+                    label.textColor = UIColor.buttonPink
+                    label.font = UIFont.boldSystemFont(ofSize: 13)
+                    cell.mainScrollView.contentSize.width += possibleLabelWidth
+                    cell.mainScrollView.addSubview(label)
+                }
             }
             cell.selectionStyle = .none
             return cell

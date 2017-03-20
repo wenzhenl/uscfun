@@ -9,7 +9,5 @@
 import UIKit
 
 class KeyScrollViewTableViewCell: UITableViewCell {
-
-    @IBOutlet weak var mainLabel: UILabel!
     @IBOutlet weak var mainScrollView: UIScrollView!
 }
