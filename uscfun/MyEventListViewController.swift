@@ -53,8 +53,8 @@ class MyEventListViewController: UIViewController {
             EventRequest.fetchNewerMyOngoingEventsInBackground {
                 succeeded, error in
                 if succeeded {
-                    self.numberOfSection = EventRequest.publicEvents.count + 1
-                    if EventRequest.publicEvents.count == 0 {
+                    self.numberOfSection = EventRequest.myOngoingEvents.count + 1
+                    if EventRequest.myOngoingEvents.count == 0 {
                         self.emptyPlaceholder = "你好像还没有参加任何微活动，快去参加一波吧！"
                     }
                     self.tableView.reloadData()
