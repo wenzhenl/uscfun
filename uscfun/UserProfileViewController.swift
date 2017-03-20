@@ -43,7 +43,7 @@ class UserProfileViewController: UIViewController {
             genderTitle = "他"
         }
         else {
-            genderTitle = "Ta"
+            genderTitle = "TA"
         }
     }
     
