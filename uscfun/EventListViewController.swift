@@ -112,8 +112,9 @@ class EventListViewController: UIViewController {
             print("cannot parse notification user info")
             return
         }
-        EventRequest.removePublicEvent(with: eventId)
-        self.tableView.reloadData()
+        EventRequest.removePublicEvent(with: eventId) {
+            self.tableView.reloadData()
+        }
     }
     
     func handleQuitEvent() {

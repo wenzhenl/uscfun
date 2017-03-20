@@ -104,8 +104,9 @@ class MyEventListViewController: UIViewController {
             print("cannot get user info from user did quit event notification")
             return
         }
-        EventRequest.removeMyOngoingEvent(with: eventId)
-        self.tableView.reloadData()
+        EventRequest.removeMyOngoingEvent(with: eventId) {
+            self.tableView.reloadData()
+        }
     }
     
     func handleEventExpired(notification: Notification) {
@@ -417,8 +418,10 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                         EventRequest.myOngoingEvents[finalizedCell.eventId!]?.setComplete(for: AVUser.current()!) {
                             succeeded, error in
                             if succeeded {
-                                EventRequest.removeMyOngoingEvent(with: finalizedCell.eventId!)
-                                tableView.deleteSections(IndexSet([indexPath.section]), with: .fade)
+                                EventRequest.removeMyOngoingEvent(with: finalizedCell.eventId!) {
+                                    print("about to delete sections")
+                                    self.tableView.deleteSections(IndexSet([indexPath.section]), with: .fade)
+                                }
                             }
                             
                             if error != nil {
@@ -432,8 +435,10 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                             EventRequest.myOngoingEvents[finalizedCell.eventId!]?.setComplete(for: AVUser.current()!) {
                                 succeeded, error in
                                 if succeeded {
-                                    EventRequest.removeMyOngoingEvent(with: finalizedCell.eventId!)
-                                    tableView.deleteSections(IndexSet([indexPath.section]), with: .fade)
+                                    EventRequest.removeMyOngoingEvent(with: finalizedCell.eventId!) {
+                                        print("about to delete sections")
+                                        self.tableView.deleteSections(IndexSet([indexPath.section]), with: .fade)
+                                    }
                                     UserDefaults.hasSeenCompleteEventTip = true
                                 }
                                 

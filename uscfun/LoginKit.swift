@@ -230,8 +230,8 @@ class LoginKit {
     
     static func signOut() {
         UserDefaults.hasLoggedIn = false
-        EventRequest.removeAllPublicEvents()
-        EventRequest.removeAllMyOngoingEvents()
+        EventRequest.removeAllPublicEvents(handler: nil)
+        EventRequest.removeAllMyOngoingEvents(handler: nil)
         
         LCChatKit.sharedInstance().close() {
             succeed, error in

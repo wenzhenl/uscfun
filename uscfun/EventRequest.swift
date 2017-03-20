@@ -69,27 +69,41 @@ class EventRequest {
     private static let timeOf1970 = Date(timeIntervalSince1970: 0)
     private static let timeOf2070 = Date(timeIntervalSince1970: 60*60*24*365*100)
     
-    static func removeMyOngoingEvent(with id: String) {
+    static func removeMyOngoingEvent(with id: String, handler: (() -> Void)?) {
         concurrentMyOngoingEventQueue.async(flags: .barrier) {
             _myOngoingEvents[id] = nil
+            DispatchQueue.main.async {
+                print("delete my ongoing event successfully")
+                handler?()
+            }
         }
     }
     
-    static func removePublicEvent(with id: String) {
+    static func removePublicEvent(with id: String, handler: (() -> Void)?) {
         concurrentPublicEventQueue.async(flags: .barrier) {
             _publicEvents[id] = nil
+            DispatchQueue.main.async {
+                print("delete public event successfully")
+                handler?()
+            }
         }
     }
     
-    static func removeAllMyOngoingEvents() {
+    static func removeAllMyOngoingEvents(handler: (() -> Void)?) {
         concurrentMyOngoingEventQueue.async(flags: .barrier) {
             _myOngoingEvents.removeAll()
+            DispatchQueue.main.async {
+                handler?()
+            }
         }
     }
     
-    static func removeAllPublicEvents() {
+    static func removeAllPublicEvents(handler: (() -> Void)?) {
         concurrentPublicEventQueue.async(flags: .barrier) {
             _publicEvents.removeAll()
+            DispatchQueue.main.async {
+                handler?()
+            }
         }
     }
     
