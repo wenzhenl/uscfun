@@ -496,17 +496,12 @@ class Event {
         
         let option = AVSaveOption()
         option.query = query
-        option.fetchWhenSave = true
         eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: -1)
         eventObject.addUniqueObject(newMember, forKey: EventKeyConstants.keyOfMembers)
         do {
             try eventObject.save(with: option)
-            if let updatedRemainingSeats = eventObject.value(forKey: EventKeyConstants.keyOfRemainingSeats) as? Int {
-                self.remainingSeats = updatedRemainingSeats
-            }
-            if let updatedMembers = eventObject.value(forKey: EventKeyConstants.keyOfMembers) as? [AVUser] {
-                self.members = updatedMembers
-            }
+            self.remainingSeats -= 1
+            self.members.append(newMember)
             handler(true, nil)
         } catch let error {
             print("cannot add member \(error.localizedDescription)")
@@ -524,7 +519,7 @@ class Event {
     
     func remove(member: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         
-        guard let _ = members.index(of: member) else {
+        guard let memberIndex = members.index(of: member) else {
             handler(false, EventError.systemError(localizedDescriotion: "用户没有参与此微活动", debugDescription: "user is not a member"))
             return
         }
@@ -536,19 +531,14 @@ class Event {
         
         let option = AVSaveOption()
         option.query = query
-        option.fetchWhenSave = true
         
         eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: 1)
         eventObject.remove(member, forKey: EventKeyConstants.keyOfMembers)
         
         do {
             try eventObject.save(with: option)
-            if let updatedRemainingSeats = eventObject.value(forKey: EventKeyConstants.keyOfRemainingSeats) as? Int {
-                self.remainingSeats = updatedRemainingSeats
-            }
-            if let updatedMembers = eventObject.value(forKey: EventKeyConstants.keyOfMembers) as? [AVUser] {
-                self.members = updatedMembers
-            }
+            self.remainingSeats += 1
+            self.members.remove(at: memberIndex)
             handler(true, nil)
         } catch let error {
             print("cannot remove member \(error.localizedDescription)")
