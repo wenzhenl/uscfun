@@ -23,7 +23,7 @@ class User {
     //--MARK: optional settings
     var gender: Gender?
     var avatar: UIImage?
-    var allowsEventHistoryViewed: Bool = false
+    var allowsEventHistoryViewed: Bool = true
     var selfIntroduction: String?
     
     init(username: String, nickname: String) {
@@ -32,43 +32,41 @@ class User {
     }
     
     init?(user: AVUser?) {
-        if let user = user {
-            if let allkeys = user.allKeys() as? [String] {
-                self.username = user.username!
-                
-                guard allkeys.contains(UserKeyConstants.keyOfNickname), let nickname = user.value(forKey: UserKeyConstants.keyOfNickname) as? String else {
-                    return nil
-                }
-                self.nickname = nickname
-                
-                if allkeys.contains(UserKeyConstants.keyOfGender) {
-                    if let gender = user.value(forKey: UserKeyConstants.keyOfGender) as? String {
-                        self.gender = Gender(rawValue: gender)
-                    }
-                }
-                
-                if allkeys.contains(UserKeyConstants.keyOfAvatarUrl), let avatarUrl = user.value(forKey: UserKeyConstants.keyOfAvatarUrl) as? String {
-                    let avatarFile = AVFile(url: avatarUrl)
-                    if let avtarData = avatarFile.getData() {
-                        self.avatar = UIImage(data: avtarData)
-                    }
-                }
-                
-                if allkeys.contains(UserKeyConstants.keyOfAllowsEventHistoryViewed), let allowsEventHistoryViewed = user.value(forKey: UserKeyConstants.keyOfAllowsEventHistoryViewed) as? Bool {
-                    self.allowsEventHistoryViewed = allowsEventHistoryViewed
-                }
-                
-                if allkeys.contains(UserKeyConstants.keyOfSelfIntroduction), let selfIntroduction = user.value(forKey: UserKeyConstants.keyOfSelfIntroduction) as? String {
-                    self.selfIntroduction = selfIntroduction
-                }
-                return
+        guard let user = user else {
+            print("failed to create User from AVUser: data is nil")
+            return nil
+        }
+        
+        guard let username = user.username else {
+            print("failed to create User from AVUser: username is nil")
+            return nil
+        }
+        self.username = username
+        
+        guard let nickname = user.value(forKey: UserKeyConstants.keyOfNickname) as? String else {
+            print("failed to create User from AVUser: nickname is nil")
+            return nil
+        }
+        self.nickname = nickname
+        
+        if let gender = user.value(forKey: UserKeyConstants.keyOfGender) as? String {
+            self.gender = Gender(rawValue: gender)
+        }
+        
+        if let avatarUrl = user.value(forKey: UserKeyConstants.keyOfAvatarUrl) as? String {
+            let avatarFile = AVFile(url: avatarUrl)
+            if let avatarData = avatarFile.getData() {
+                self.avatar = UIImage(data: avatarData)
             }
         }
         
-        print("======Cannot even see AVUser========")
-        self.username = ""
-        self.nickname = ""
-        return nil
+        if let allowsEventHistoryViewed = user.value(forKey: UserKeyConstants.keyOfAllowsEventHistoryViewed) as? Bool {
+            self.allowsEventHistoryViewed = allowsEventHistoryViewed
+        }
+        
+        if let selfIntroduction = user.value(forKey: UserKeyConstants.keyOfSelfIntroduction) as? String {
+            self.selfIntroduction = selfIntroduction
+        }
     }
     
     var attendedEvents: OrderedDictionary<String, Event> {

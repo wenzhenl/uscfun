@@ -154,7 +154,7 @@ class LoginKit {
                     UserDefaults.nickname = current.value(forKey: UserKeyConstants.keyOfNickname) as! String?
                     UserDefaults.gender = .unknown
                     UserDefaults.selfIntroduction = nil
-                    UserDefaults.allowsEventHistoryViewed = false
+                    UserDefaults.allowsEventHistoryViewed = true
                     UserDefaults.hasLoggedIn = true
                     delegate?.userDidLoggedIn()
                     print("new nickname: \(UserDefaults.nickname ?? "")")
@@ -206,7 +206,7 @@ class LoginKit {
                 if let allowsEventHistoryViewed = updatedUser!.value(forKey: UserKeyConstants.keyOfAllowsEventHistoryViewed) as? Bool {
                     UserDefaults.allowsEventHistoryViewed = allowsEventHistoryViewed
                 } else {
-                    UserDefaults.allowsEventHistoryViewed = false
+                    UserDefaults.allowsEventHistoryViewed = true
                 }
             
                 if let selfIntroduction = updatedUser!.value(forKey: UserKeyConstants.keyOfSelfIntroduction) as? String {
