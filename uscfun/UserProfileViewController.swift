@@ -38,8 +38,12 @@ class UserProfileViewController: UIViewController {
         self.populateSections()
         if other.gender == .female {
             genderTitle = "她"
-        } else {
+        }
+        else if other.gender == .male {
             genderTitle = "他"
+        }
+        else {
+            genderTitle = "Ta"
         }
     }
     
@@ -86,13 +90,22 @@ class UserProfileViewController: UIViewController {
         self.tableView.reloadData()
     }
     
+    func avatarTapped() {
+        performSegue(withIdentifier: identifierToBigAvatar, sender: self)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
             switch identifier {
             case identifierToEventDetail:
-                let destination = segue.destination
+                let destination = segue.destination.contentViewController
                 if let edVC = destination as? EventDetailViewController {
                     edVC.event = showingCreatedEvents ? other.createdEvents[other.createdEvents.keys[(self.tableView.indexPathForSelectedRow?.section)! - numberOfPreservedSection]] : other.attendedEvents[other.attendedEvents.keys[(self.tableView.indexPathForSelectedRow?.section)! - numberOfPreservedSection]]
+                }
+            case identifierToBigAvatar:
+                let destination = segue.destination.contentViewController
+                if let bpVC = destination as? BigPictureViewController {
+                    bpVC.image = other.avatar
                 }
             default:
                 break
@@ -101,6 +114,7 @@ class UserProfileViewController: UIViewController {
     }
     
     let identifierToEventDetail = "go to event detail"
+    let identifierToBigAvatar = "go to see big picture"
 }
 
 extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
@@ -118,9 +132,12 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
         switch userProfileSections[indexPath.section] {
         case .avatarCell:
             let cell = Bundle.main.loadNibNamed("UserProfileHeaderTableViewCell", owner: self, options: nil)?.first as! UserProfileHeaderTableViewCell
-            cell.avatarImageView.image = other.avatar
-            cell.avatarImageView.layer.masksToBounds = true
-            cell.avatarImageView.layer.cornerRadius = cell.avatarImageView.frame.size.width / 2.0
+
+            cell.avatarButton.setBackgroundImage(other.avatar, for: .normal)
+            cell.avatarButton.layer.masksToBounds = true
+            cell.avatarButton.layer.cornerRadius = cell.avatarButton.frame.height / 2.0
+            cell.avatarButton.contentMode = .scaleAspectFit
+            cell.avatarButton.addTarget(self, action: #selector(avatarTapped), for: .touchUpInside)
             cell.genderLabel.text = other.gender?.rawValue ?? Gender.unknown.rawValue
             cell.selectionStyle = .none
             return cell

@@ -941,11 +941,44 @@ A different license may apply to other resources included in this package, inclu
                     <connections>
                         <outlet property="tableView" destination="ATz-BZ-9M4" id="HCh-gf-rlb"/>
                         <segue destination="nvQ-YZ-kHk" kind="show" identifier="go to event detail" id="xev-Vj-4Av"/>
+                        <segue destination="y9B-Dj-GTn" kind="presentation" identifier="go to see big picture" id="b1h-Fz-QgR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="48K-CO-jAF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1519" y="-5460"/>
+        </scene>
+        <!--Big Picture View Controller-->
+        <scene sceneID="hAu-H7-Ovt">
+            <objects>
+                <viewController id="y9B-Dj-GTn" customClass="BigPictureViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="SHI-1U-ru0"/>
+                        <viewControllerLayoutGuide type="bottom" id="Pr6-Ib-2fg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Vlx-Nm-BcW">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RwS-UA-bhR">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="RwS-UA-bhR" firstAttribute="height" secondItem="Vlx-Nm-BcW" secondAttribute="height" id="I6c-Dr-ohz"/>
+                            <constraint firstItem="RwS-UA-bhR" firstAttribute="centerY" secondItem="Vlx-Nm-BcW" secondAttribute="centerY" id="KDK-UE-7B2"/>
+                            <constraint firstItem="RwS-UA-bhR" firstAttribute="centerX" secondItem="Vlx-Nm-BcW" secondAttribute="centerX" id="kGx-yW-l90"/>
+                            <constraint firstItem="RwS-UA-bhR" firstAttribute="width" secondItem="Vlx-Nm-BcW" secondAttribute="width" id="sTI-mD-RC6"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="RwS-UA-bhR" id="jSd-rJ-rGD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vC7-uA-JyZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2312" y="-5460"/>
         </scene>
         <!--日常-->
         <scene sceneID="lOJ-Cp-s4N">
@@ -1516,6 +1549,6 @@ A different license may apply to other resources included in this package, inclu
         <image name="user" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="x52-9n-f72"/>
+        <segue reference="xev-Vj-4Av"/>
     </inferredMetricsTieBreakers>
 </document>
