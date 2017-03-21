@@ -73,7 +73,15 @@ class EventRequest {
         concurrentMyOngoingEventQueue.async(flags: .barrier) {
             _myOngoingEvents[id] = nil
             DispatchQueue.main.async {
-                print("delete my ongoing event successfully")
+                handler?()
+            }
+        }
+    }
+    
+    static func setMyOngoingEvent(event: Event, for id: String, handler: (() -> Void)?) {
+        concurrentMyOngoingEventQueue.async(flags: .barrier) {
+            _myOngoingEvents[id] = event
+            DispatchQueue.main.async {
                 handler?()
             }
         }
@@ -83,9 +91,15 @@ class EventRequest {
         concurrentPublicEventQueue.async(flags: .barrier) {
             _publicEvents[id] = nil
             DispatchQueue.main.async {
-                print("delete public event successfully")
                 handler?()
             }
+        }
+    }
+    
+    static func setPublicEvent(event: Event, for id: String, handler: (() -> Void)?) {
+        _publicEvents[id] = event
+        DispatchQueue.main.async {
+            handler?()
         }
     }
     
