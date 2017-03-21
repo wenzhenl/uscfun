@@ -345,10 +345,10 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section == 0 {
+        if EventRequest.myOngoingEvents.count == 0 {
             return CGFloat.leastNormalMagnitude
         }
-        
+                
         if section > 0 {
             let event = eventForSection(section: section)
             if event.status == .isFinalized {
