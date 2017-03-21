@@ -13,8 +13,15 @@ class MyEventListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    var numberOfSection = 1
-    var emptyPlaceholder = "正在加载数据，请稍后......"
+    var numberOfSection: Int {
+        if UserDefaults.hasPreloadedMyOngoingEvents {
+            return EventRequest.myOngoingEvents.count + 1
+        } else {
+            return 1
+        }
+    }
+    
+    var emptyPlaceholder = "正在加载数据，请稍后..."
     
     lazy var infoLabel: UILabel = {
         let heightOfInfoLabel = CGFloat(29.0)
@@ -31,39 +38,20 @@ class MyEventListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.tableView.scrollsToTop = true
         self.tableView.tableFooterView = UIView()
         self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.separatorStyle = .none
         
+        NotificationCenter.default.addObserver(self, selector: #selector(handlePreload), name: NSNotification.Name(rawValue: "finishedPreloadingMyOngoingEvents"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "homeRefresh"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handlePostNewEvent), name: NSNotification.Name(rawValue: "userDidPostNewEvent"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleJoinEvent(notification:)), name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleQuitEvent(notification:)), name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleJoinEvent), name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleQuitEvent), name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleEventExpired(notification:)), name: NSNotification.Name(rawValue: "eventDidExpired"), object: nil)
         
         view.addSubview(infoLabel)
         self.navigationController?.navigationBar.isTranslucent = false
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        EventRequest.cleanMyOngoingEventsInBackground {
-            EventRequest.fetchNewerMyOngoingEventsInBackground {
-                succeeded, error in
-                if succeeded {
-                    self.numberOfSection = EventRequest.myOngoingEvents.count + 1
-                    if EventRequest.myOngoingEvents.count == 0 {
-                        self.emptyPlaceholder = "你好像还没有参加任何微活动，快去参加一波吧！"
-                    }
-                    self.tableView.reloadData()
-                }
-                else if error != nil {
-                    self.displayInfo(info: error!.localizedDescription)
-                }
-            }
-        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -82,31 +70,37 @@ class MyEventListViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
+    func handlePreload() {
+        if UserDefaults.hasPreloadedMyOngoingEvents {
+            if EventRequest.myOngoingEvents.count == 0 {
+                emptyPlaceholder = "你好像还没有参加任何微活动，快去参加一波吧！"
+            }
+        } else {
+            UserDefaults.hasPreloadedMyOngoingEvents = true
+            emptyPlaceholder = "加载失败，请重新加载"
+        }
+        self.tableView.reloadData()
+    }
+    
     func handleTab() {
         self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
     
     func handlePostNewEvent() {
-        print("user did post new event")
+        EventRequest.fetchNewerMyOngoingEvents {
+            succeeded, error in
+            if succeeded {
+                self.tableView.reloadData()
+            }
+        }
     }
     
-    func handleJoinEvent(notification: Notification) {
-        guard let userInfo = notification.userInfo, let eventId = userInfo["eventId"] as? String  else {
-            print("cannot get user info from user did quit event notification")
-            return
-        }
-//        EventRequest.myOngoingEvents[eventId] = EventRequest.publicEvents[eventId]
+    func handleJoinEvent() {
         self.tableView.reloadData()
     }
     
-    func handleQuitEvent(notification: Notification) {
-        guard let userInfo = notification.userInfo, let eventId = userInfo["eventId"] as? String  else {
-            print("cannot get user info from user did quit event notification")
-            return
-        }
-        EventRequest.removeMyOngoingEvent(with: eventId) {
-            self.tableView.reloadData()
-        }
+    func handleQuitEvent() {
+        self.tableView.reloadData()
     }
     
     func handleEventExpired(notification: Notification) {
@@ -411,7 +405,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 action, index in
                 self.performSegue(withIdentifier: self.identifierToEventDetail, sender: tableView.cellForRow(at: index))
             }
-            let delete = UITableViewRowAction(style: .default, title: "完结") {
+            let delete = UITableViewRowAction(style: .default, title: "删除") {
                 action, index in
                 if let finalizedCell = tableView.cellForRow(at: indexPath) as? FinalizedEventSnapshotTableViewCell {
                     if UserDefaults.hasSeenCompleteEventTip {

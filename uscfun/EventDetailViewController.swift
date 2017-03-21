@@ -178,7 +178,19 @@ class EventDetailViewController: UIViewController {
                 self.populateSections()
                 self.tableView.reloadData()
                 self.setupJoinButton()
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil, userInfo: ["eventId": event.objectId!])
+                
+                let joinEventGroup = DispatchGroup()
+                joinEventGroup.enter()
+                EventRequest.setMyOngoingEvent(event: self.event, for: self.event.objectId!, handler: nil)
+                joinEventGroup.leave()
+                
+                joinEventGroup.enter()
+                EventRequest.removePublicEvent(with: self.event.objectId!, handler: nil)
+                joinEventGroup.leave()
+                
+                joinEventGroup.notify(queue: DispatchQueue.main) {
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil, userInfo: nil)
+                }
                 self.displayInfo(info: "活动已经加入我的日常")
             }
             else if error != nil {
@@ -229,7 +241,20 @@ class EventDetailViewController: UIViewController {
                     self.populateSections()
                     self.tableView.reloadData()
                     self.setupJoinButton()
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil, userInfo: ["eventId": self.event.objectId!])
+                    
+                    let quitEventGroup = DispatchGroup()
+                    quitEventGroup.enter()
+                    EventRequest.setPublicEvent(event: self.event, for: self.event.objectId!, handler: nil)
+                    quitEventGroup.leave()
+                    
+                    quitEventGroup.enter()
+                    EventRequest.removeMyOngoingEvent(with: self.event.objectId!, handler: nil)
+                    quitEventGroup.leave()
+                    
+                    quitEventGroup.notify(queue: DispatchQueue.main) {
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil, userInfo: nil)
+                    }
+                    
                     self.displayInfo(info: "活动已从我的日常移除")
                 }
                 else if error != nil {

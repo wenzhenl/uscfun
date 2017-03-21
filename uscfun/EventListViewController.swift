@@ -19,8 +19,14 @@ class EventListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    var numberOfSection = 1
-    var emptyPlaceholder = "正在加载数据，请稍后......"
+    var numberOfSection: Int {
+        if UserDefaults.hasPreloadedPublicEvents {
+            return EventRequest.publicEvents.count + 1
+        } else {
+            return 1
+        }
+    }
+    var emptyPlaceholder = "正在加载数据，请稍后..."
 
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -52,34 +58,15 @@ class EventListViewController: UIViewController {
         
         AppDelegate.systemNotificationDelegate = self
         
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(handlePreload), name: NSNotification.Name(rawValue: "finishedPreloadingPublicEvents"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "findRefresh"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleJoinEvent(notification:)), name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleJoinEvent), name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleQuitEvent), name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil)
         
         view.addSubview(infoLabel)
         self.navigationController?.navigationBar.isTranslucent = false
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        EventRequest.cleanPublicEventsInBackground {
-            EventRequest.fetchNewerPublicEventsInBackground {
-                succeeded, error in
-                if succeeded {
-                    self.numberOfSection = EventRequest.publicEvents.count + 1
-                    if EventRequest.publicEvents.count == 0 {
-                        self.emptyPlaceholder = "好像微活动都被参加完了，少年快去发起一波吧！"
-                    }
-                    self.tableView.reloadData()
-                }
-                else if error != nil {
-                    self.displayInfo(info: error!.localizedDescription)
-                }
-            }
-        }
-    }
-    
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
         infoLabel.isHidden = true
@@ -96,6 +83,18 @@ class EventListViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
+    func handlePreload() {
+        if UserDefaults.hasPreloadedPublicEvents {
+            if EventRequest.publicEvents.count == 0 {
+                emptyPlaceholder = "好像微活动都被参加完了，少年快去发起一波吧！"
+            }
+        } else {
+            UserDefaults.hasPreloadedPublicEvents = true
+            emptyPlaceholder = "加载失败，请重新加载"
+        }
+        self.tableView.reloadData()
+    }
+    
     func handleTab() {
         if self.tableView.contentOffset != CGPoint.zero {
             self.tableView.setContentOffset(.zero, animated: true)
@@ -107,18 +106,12 @@ class EventListViewController: UIViewController {
         }
     }
     
-    func handleJoinEvent(notification: Notification) {
-        guard let userInfo = notification.userInfo, let eventId = userInfo["eventId"] as? String else {
-            print("cannot parse notification user info")
-            return
-        }
-        EventRequest.removePublicEvent(with: eventId) {
-            self.tableView.reloadData()
-        }
+    func handleJoinEvent() {
+        self.tableView.reloadData()
     }
     
     func handleQuitEvent() {
-        print("user did quit event")
+        self.tableView.reloadData()
     }
     
     func handleRefresh() {

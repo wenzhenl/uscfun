@@ -256,8 +256,23 @@ class EventRequest {
     }
     
     static func preLoadData() {
-        EventRequest.fetchNewerMyOngoingEvents(inBackground: false, currentNewestUpdatedTime: timeOf1970, handler: nil)
-        EventRequest.fetchNewerPublicEvents(inBackground: false, currentNewestUpdatedTime: timeOf1970, handler: nil)
+        EventRequest.fetchNewerMyOngoingEvents(inBackground: false, currentNewestUpdatedTime: timeOf1970) {
+            succeeded, error in
+            if succeeded {
+                UserDefaults.hasPreloadedMyOngoingEvents = true
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "finishedPreloadingMyOngoingEvents"), object: nil, userInfo: nil)
+            }
+        }
+        
+        EventRequest.fetchNewerPublicEvents(inBackground: false, currentNewestUpdatedTime: timeOf1970) {
+            succeeded, error in
+            if succeeded {
+                UserDefaults.hasPreloadedPublicEvents = true
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "finishedPreloadingPublicEvents"), object: nil, userInfo: nil)
+
+            }
+            
+        }
     }
     
     //--MARK: functions for fetch public events
