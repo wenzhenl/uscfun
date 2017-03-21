@@ -222,7 +222,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if EventRequest.publicEvents.count == 0 {
-            return self.tableView.frame.height
+            return self.tableView.frame.height - 44.0
         }
         
         if EventRequest.publicEvents.count > 0 && indexPath.section == 0 {
