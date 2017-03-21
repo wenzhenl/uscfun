@@ -41,7 +41,18 @@ class EventRequest {
     
     fileprivate static let concurrentMyOngoingEventQueue = DispatchQueue(label: "com.leeyukuang.myongoing.uscfun", attributes: .concurrent)
     fileprivate static let concurrentPublicEventQueue = DispatchQueue(label: "com.leeyukuang.public.uscfun", attributes: .concurrent)
-
+    
+    private static let timeOf1970 = Date(timeIntervalSince1970: 0)
+    private static let timeOf2070 = Date(timeIntervalSince1970: 60*60*24*365*100)
+    
+    private static var _myOngoingEvents = OrderedDictionary<String, Event>()
+    private static var newestUpdatedAtOfMyOngoingEvents = timeOf1970
+    private static var oldestUpdatedAtOfMyOngoingEvents = timeOf2070
+    
+    private static var _publicEvents = OrderedDictionary<String, Event>()
+    private static var newestUpdatedAtOfPublicEvents = timeOf1970
+    private static var oldestUpdatedAtOfPublicEvents = timeOf2070
+    
     static var myOngoingEvents: OrderedDictionary<String, Event> {
         var myOngoingEventsCopy: OrderedDictionary<String, Event>!
         concurrentMyOngoingEventQueue.sync {
@@ -58,20 +69,29 @@ class EventRequest {
         return publicEventsCopy
     }
     
-    private static var _myOngoingEvents = OrderedDictionary<String, Event>()
-    private static var newestUpdatedAtOfMyOngoingEvents = timeOf1970
-    private static var oldestUpdatedAtOfMyOngoingEvents = timeOf2070
-
-    private static var _publicEvents = OrderedDictionary<String, Event>()
-    private static var newestUpdatedAtOfPublicEvents = timeOf1970
-    private static var oldestUpdatedAtOfPublicEvents = timeOf2070
-    
-    private static let timeOf1970 = Date(timeIntervalSince1970: 0)
-    private static let timeOf2070 = Date(timeIntervalSince1970: 60*60*24*365*100)
-    
     static func removeMyOngoingEvent(with id: String, handler: (() -> Void)?) {
         concurrentMyOngoingEventQueue.async(flags: .barrier) {
+            
+            if _myOngoingEvents[id]?.updatedAt == newestUpdatedAtOfMyOngoingEvents {
+                newestUpdatedAtOfMyOngoingEvents = timeOf1970
+                for key in _myOngoingEvents.keys {
+                    if _myOngoingEvents[key]!.updatedAt! > newestUpdatedAtOfMyOngoingEvents {
+                        newestUpdatedAtOfMyOngoingEvents = _myOngoingEvents[key]!.updatedAt!
+                    }
+                }
+            }
+            
+            if _myOngoingEvents[id]?.updatedAt == oldestUpdatedAtOfMyOngoingEvents {
+                oldestUpdatedAtOfMyOngoingEvents = timeOf2070
+                for key in _myOngoingEvents.keys {
+                    if _myOngoingEvents[key]!.updatedAt! < oldestUpdatedAtOfMyOngoingEvents {
+                        oldestUpdatedAtOfMyOngoingEvents = _myOngoingEvents[key]!.updatedAt!
+                    }
+                }
+            }
+            
             _myOngoingEvents[id] = nil
+            
             DispatchQueue.main.async {
                 handler?()
             }
@@ -80,7 +100,63 @@ class EventRequest {
     
     static func setMyOngoingEvent(event: Event, for id: String, handler: (() -> Void)?) {
         concurrentMyOngoingEventQueue.async(flags: .barrier) {
+            
+            if event.updatedAt! > newestUpdatedAtOfMyOngoingEvents {
+                newestUpdatedAtOfMyOngoingEvents = event.updatedAt!
+            }
+            
+            if event.updatedAt! < oldestUpdatedAtOfMyOngoingEvents {
+                oldestUpdatedAtOfMyOngoingEvents = event.updatedAt!
+            }
+            
             _myOngoingEvents[id] = event
+            
+            DispatchQueue.main.async {
+                handler?()
+            }
+        }
+    }
+    
+    static func removeAllMyOngoingEvents(handler: (() -> Void)?) {
+        concurrentMyOngoingEventQueue.async(flags: .barrier) {
+            newestUpdatedAtOfMyOngoingEvents = timeOf1970
+            oldestUpdatedAtOfMyOngoingEvents = timeOf2070
+            _myOngoingEvents.removeAll()
+            DispatchQueue.main.async {
+                handler?()
+            }
+        }
+    }
+    
+    static func cleanMyOngoingEventsInBackground(handler: (() -> Void)?) {
+        concurrentMyOngoingEventQueue.async(flags: .barrier) {
+            var removedUpdatedAts = [Date]()
+            for id in _myOngoingEvents.keys {
+                let event = _myOngoingEvents[id]!
+                if event.status != .isFinalized && event.status != .isSecured && event.status != .isPending {
+                    removedUpdatedAts.append(event.updatedAt!)
+                    _myOngoingEvents[id] = nil
+                }
+            }
+            
+            if removedUpdatedAts.contains(newestUpdatedAtOfMyOngoingEvents) {
+                newestUpdatedAtOfMyOngoingEvents = timeOf1970
+                for key in _myOngoingEvents.keys {
+                    if _myOngoingEvents[key]!.updatedAt! > newestUpdatedAtOfMyOngoingEvents {
+                        newestUpdatedAtOfMyOngoingEvents = _myOngoingEvents[key]!.updatedAt!
+                    }
+                }
+            }
+            
+            if removedUpdatedAts.contains(oldestUpdatedAtOfMyOngoingEvents) {
+                oldestUpdatedAtOfMyOngoingEvents = timeOf2070
+                for key in _myOngoingEvents.keys {
+                    if _myOngoingEvents[key]!.updatedAt! < oldestUpdatedAtOfMyOngoingEvents {
+                        oldestUpdatedAtOfMyOngoingEvents = _myOngoingEvents[key]!.updatedAt!
+                    }
+                }
+            }
+            
             DispatchQueue.main.async {
                 handler?()
             }
@@ -89,7 +165,27 @@ class EventRequest {
     
     static func removePublicEvent(with id: String, handler: (() -> Void)?) {
         concurrentPublicEventQueue.async(flags: .barrier) {
+            
+            if _publicEvents[id]?.updatedAt == newestUpdatedAtOfPublicEvents {
+                newestUpdatedAtOfPublicEvents = timeOf1970
+                for key in _publicEvents.keys {
+                    if _publicEvents[key]!.updatedAt! > newestUpdatedAtOfPublicEvents {
+                        newestUpdatedAtOfPublicEvents = _publicEvents[key]!.updatedAt!
+                    }
+                }
+            }
+            
+            if _publicEvents[id]?.updatedAt == oldestUpdatedAtOfPublicEvents {
+                oldestUpdatedAtOfPublicEvents = timeOf2070
+                for key in _publicEvents.keys {
+                    if _publicEvents[key]!.updatedAt! < oldestUpdatedAtOfPublicEvents {
+                        oldestUpdatedAtOfPublicEvents = _publicEvents[key]!.updatedAt!
+                    }
+                }
+            }
+            
             _publicEvents[id] = nil
+            
             DispatchQueue.main.async {
                 handler?()
             }
@@ -97,23 +193,26 @@ class EventRequest {
     }
     
     static func setPublicEvent(event: Event, for id: String, handler: (() -> Void)?) {
+        
+        if event.updatedAt! > newestUpdatedAtOfPublicEvents {
+            newestUpdatedAtOfPublicEvents = event.updatedAt!
+        }
+        
+        if event.updatedAt! < oldestUpdatedAtOfPublicEvents {
+            oldestUpdatedAtOfPublicEvents = event.updatedAt!
+        }
+        
         _publicEvents[id] = event
+        
         DispatchQueue.main.async {
             handler?()
         }
     }
     
-    static func removeAllMyOngoingEvents(handler: (() -> Void)?) {
-        concurrentMyOngoingEventQueue.async(flags: .barrier) {
-            _myOngoingEvents.removeAll()
-            DispatchQueue.main.async {
-                handler?()
-            }
-        }
-    }
-    
     static func removeAllPublicEvents(handler: (() -> Void)?) {
         concurrentPublicEventQueue.async(flags: .barrier) {
+            newestUpdatedAtOfPublicEvents = timeOf1970
+            oldestUpdatedAtOfPublicEvents = timeOf2070
             _publicEvents.removeAll()
             DispatchQueue.main.async {
                 handler?()
@@ -123,26 +222,33 @@ class EventRequest {
     
     static func cleanPublicEventsInBackground(handler: (() -> Void)?) {
         concurrentPublicEventQueue.async(flags: .barrier) {
+            var removedUpdatedAts = [Date]()
             for id in _publicEvents.keys {
                 let event = _publicEvents[id]!
                 if event.status != .isSecured && event.status != .isPending {
+                    removedUpdatedAts.append(event.updatedAt!)
                     _publicEvents[id] = nil
                 }
             }
-            DispatchQueue.main.async {
-                handler?()
-            }
-        }
-    }
-    
-    static func cleanMyOngoingEventsInBackground(handler: (() -> Void)?) {
-        concurrentMyOngoingEventQueue.async(flags: .barrier) {
-            for id in _myOngoingEvents.keys {
-                let event = _myOngoingEvents[id]!
-                if event.status != .isFinalized && event.status != .isSecured && event.status != .isPending {
-                    _myOngoingEvents[id] = nil
+            
+            if removedUpdatedAts.contains(newestUpdatedAtOfPublicEvents) {
+                newestUpdatedAtOfPublicEvents = timeOf1970
+                for key in _publicEvents.keys {
+                    if _publicEvents[key]!.updatedAt! > newestUpdatedAtOfPublicEvents {
+                        newestUpdatedAtOfPublicEvents = _publicEvents[key]!.updatedAt!
+                    }
                 }
             }
+            
+            if removedUpdatedAts.contains(oldestUpdatedAtOfPublicEvents) {
+                oldestUpdatedAtOfPublicEvents = timeOf2070
+                for key in _publicEvents.keys {
+                    if _publicEvents[key]!.updatedAt! < oldestUpdatedAtOfPublicEvents {
+                        oldestUpdatedAtOfPublicEvents = _publicEvents[key]!.updatedAt!
+                    }
+                }
+            }
+            
             DispatchQueue.main.async {
                 handler?()
             }
