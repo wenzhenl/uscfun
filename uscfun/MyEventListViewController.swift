@@ -21,7 +21,17 @@ class MyEventListViewController: UIViewController {
         }
     }
     
-    var emptyPlaceholder = "正在加载数据，请稍后..."
+    var emptyPlaceholder: String {
+        if UserDefaults.hasPreloadedMyOngoingEvents {
+            if EventRequest.myOngoingEvents.count == 0 {
+                return "你好像还没有参加任何微活动，快去参加一波吧！"
+            } else {
+                return "加载失败，请重新加载"
+            }
+        } else {
+            return "正在加载数据，请稍后..."
+        }
+    }
     
     lazy var infoLabel: UILabel = {
         let heightOfInfoLabel = CGFloat(29.0)
@@ -71,14 +81,7 @@ class MyEventListViewController: UIViewController {
     }
     
     func handlePreload() {
-        if UserDefaults.hasPreloadedMyOngoingEvents {
-            if EventRequest.myOngoingEvents.count == 0 {
-                emptyPlaceholder = "你好像还没有参加任何微活动，快去参加一波吧！"
-            }
-        } else {
-            UserDefaults.hasPreloadedMyOngoingEvents = true
-            emptyPlaceholder = "加载失败，请重新加载"
-        }
+        UserDefaults.hasPreloadedMyOngoingEvents = true
         self.tableView.reloadData()
     }
     

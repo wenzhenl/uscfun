@@ -26,8 +26,19 @@ class EventListViewController: UIViewController {
             return 1
         }
     }
-    var emptyPlaceholder = "正在加载数据，请稍后..."
-
+    
+    var emptyPlaceholder: String {
+        if UserDefaults.hasPreloadedPublicEvents {
+            if EventRequest.publicEvents.count == 0 {
+                return "好像微活动都被参加完了，少年快去发起一波吧！"
+            } else {
+                return "加载失败，请重新加载"
+            }
+        } else {
+            return "正在加载数据，请稍后..."
+        }
+    }
+    
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
@@ -84,14 +95,7 @@ class EventListViewController: UIViewController {
     }
     
     func handlePreload() {
-        if UserDefaults.hasPreloadedPublicEvents {
-            if EventRequest.publicEvents.count == 0 {
-                emptyPlaceholder = "好像微活动都被参加完了，少年快去发起一波吧！"
-            }
-        } else {
-            UserDefaults.hasPreloadedPublicEvents = true
-            emptyPlaceholder = "加载失败，请重新加载"
-        }
+        UserDefaults.hasPreloadedPublicEvents = true
         self.tableView.reloadData()
     }
     
