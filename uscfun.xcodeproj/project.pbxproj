@@ -110,6 +110,7 @@
 		0AE5C54D1DB1E2CC00B455F4 /* LabelArrowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5C54B1DB1E2CC00B455F4 /* LabelArrowTableViewCell.swift */; };
 		0AE5C54E1DB1E2CC00B455F4 /* LabelArrowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AE5C54C1DB1E2CC00B455F4 /* LabelArrowTableViewCell.xib */; };
 		0AEA03FB1E727216008CB371 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEA03FA1E727216008CB371 /* FeedbackViewController.swift */; };
+		0AEDE4EE1E823B5A00B56979 /* RefreshView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AEDE4ED1E823B5A00B56979 /* RefreshView.xib */; };
 		0AEFEA581DC12A46005231C4 /* KeyScrollViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEFEA561DC12A46005231C4 /* KeyScrollViewTableViewCell.swift */; };
 		0AEFEA591DC12A46005231C4 /* KeyScrollViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AEFEA571DC12A46005231C4 /* KeyScrollViewTableViewCell.xib */; };
 		0AF0BD8B1E6AD7190091B999 /* EventCreatorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF0BD891E6AD7190091B999 /* EventCreatorTableViewCell.swift */; };
@@ -231,6 +232,7 @@
 		0AE5C54B1DB1E2CC00B455F4 /* LabelArrowTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelArrowTableViewCell.swift; sourceTree = "<group>"; };
 		0AE5C54C1DB1E2CC00B455F4 /* LabelArrowTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelArrowTableViewCell.xib; sourceTree = "<group>"; };
 		0AEA03FA1E727216008CB371 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
+		0AEDE4ED1E823B5A00B56979 /* RefreshView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RefreshView.xib; sourceTree = "<group>"; };
 		0AEFEA561DC12A46005231C4 /* KeyScrollViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyScrollViewTableViewCell.swift; sourceTree = "<group>"; };
 		0AEFEA571DC12A46005231C4 /* KeyScrollViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KeyScrollViewTableViewCell.xib; sourceTree = "<group>"; };
 		0AF0BD891E6AD7190091B999 /* EventCreatorTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCreatorTableViewCell.swift; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 		0A3D2B571D7B9215004F57EF /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				0AEDE4EC1E823B3700B56979 /* CustomViews */,
 				0A427FAA1D97F555007A96BE /* TableViewCells */,
 				0AFA61AA1D7DF65800042EFA /* EventViewControllers */,
 				0A6D922D1E665243008501B9 /* NewEventViewControllers */,
@@ -430,6 +433,14 @@
 			name = Login;
 			sourceTree = "<group>";
 		};
+		0AEDE4EC1E823B3700B56979 /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				0AEDE4ED1E823B5A00B56979 /* RefreshView.xib */,
+			);
+			name = CustomViews;
+			sourceTree = "<group>";
+		};
 		0AFA61A91D7DF60800042EFA /* MeViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -582,6 +593,7 @@
 				0A427FB21D97F627007A96BE /* ImageViewTableViewCell.xib in Resources */,
 				0A6834C51D56858C002E9B0D /* Assets.xcassets in Resources */,
 				0A5332BF1E6B2C8800C50186 /* CollectionViewTableViewCell.xib in Resources */,
+				0AEDE4EE1E823B5A00B56979 /* RefreshView.xib in Resources */,
 				0ADA4D2E1D9A46970001A376 /* SingleButtonTableViewCell.xib in Resources */,
 				0AE5C54E1DB1E2CC00B455F4 /* LabelArrowTableViewCell.xib in Resources */,
 				0A5332CB1E6C304900C50186 /* SegmentedTableViewCell.xib in Resources */,

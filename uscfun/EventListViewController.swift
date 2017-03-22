@@ -41,7 +41,20 @@ class EventListViewController: UIViewController {
     
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor.clear
+        refreshControl.backgroundColor = UIColor.clear
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
+        let customRefreshView = Bundle.main.loadNibNamed("RefreshView", owner: self, options: nil)?.first as! UIView
+        customRefreshView.frame = refreshControl.bounds
+        customRefreshView.backgroundColor = UIColor.backgroundGray
+        let customImageView = customRefreshView.viewWithTag(1) as! UIImageView
+        
+        UIView.animate(withDuration: 0.25, delay: 0, options: [.autoreverse,.repeat], animations: {
+            customImageView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+            customImageView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI * 2))
+        }, completion: nil)
+        
+        refreshControl.addSubview(customRefreshView)
         return refreshControl
     }()
     

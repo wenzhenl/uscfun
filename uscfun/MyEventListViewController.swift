@@ -86,7 +86,7 @@ class MyEventListViewController: UIViewController {
     }
     
     func handleTab() {
-        self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        self.tableView.setContentOffset(.zero, animated: true)
     }
     
     func handlePostNewEvent() {
