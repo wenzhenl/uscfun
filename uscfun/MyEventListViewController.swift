@@ -64,6 +64,11 @@ class MyEventListViewController: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = false
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.tabBarController?.tabBar.items![USCFunConstants.indexOfMyEventList].badgeValue = nil
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
         infoLabel.isHidden = true

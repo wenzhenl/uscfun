@@ -91,6 +91,11 @@ class EventListViewController: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = false
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.tabBarController?.tabBar.items![USCFunConstants.indexOfEventList].badgeValue = nil
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
         infoLabel.isHidden = true
@@ -125,6 +130,7 @@ class EventListViewController: UIViewController {
     
     func handleJoinEvent() {
         self.tableView.reloadData()
+        self.tabBarController?.selectedIndex = 0
     }
     
     func handleQuitEvent() {

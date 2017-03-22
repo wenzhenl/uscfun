@@ -175,10 +175,6 @@ class EventDetailViewController: UIViewController {
             succeeded, error in
             SVProgressHUD.dismiss()
             if succeeded {
-                self.populateSections()
-                self.tableView.reloadData()
-                self.setupJoinButton()
-                
                 let joinEventGroup = DispatchGroup()
                 joinEventGroup.enter()
                 EventRequest.setMyOngoingEvent(event: self.event, for: self.event.objectId!, handler: nil)
@@ -190,8 +186,9 @@ class EventDetailViewController: UIViewController {
                 
                 joinEventGroup.notify(queue: DispatchQueue.main) {
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil, userInfo: nil)
+                    self.tabBarController?.tabBar.items![USCFunConstants.indexOfMyEventList].badgeValue = "1"
+                    _ = self.navigationController?.popViewController(animated: true)
                 }
-                self.displayInfo(info: "活动已经加入我的日常")
             }
             else if error != nil {
                 self.displayInfo(info: error!.localizedDescription)
@@ -238,10 +235,6 @@ class EventDetailViewController: UIViewController {
                 succeeded, error in
                 SVProgressHUD.dismiss()
                 if succeeded {
-                    self.populateSections()
-                    self.tableView.reloadData()
-                    self.setupJoinButton()
-                    
                     let quitEventGroup = DispatchGroup()
                     quitEventGroup.enter()
                     EventRequest.setPublicEvent(event: self.event, for: self.event.objectId!, handler: nil)
@@ -253,9 +246,9 @@ class EventDetailViewController: UIViewController {
                     
                     quitEventGroup.notify(queue: DispatchQueue.main) {
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil, userInfo: nil)
+                        self.tabBarController?.tabBar.items![USCFunConstants.indexOfEventList].badgeValue = "1"
+                        _ = self.navigationController?.popViewController(animated: true)
                     }
-                    
-                    self.displayInfo(info: "活动已从我的日常移除")
                 }
                 else if error != nil {
                     self.displayInfo(info: error!.localizedDescription)
