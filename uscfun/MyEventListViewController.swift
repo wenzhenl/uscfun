@@ -54,6 +54,7 @@ class MyEventListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.tableView.scrollsToTop = true
         self.tableView.tableFooterView = UIView()
         self.tableView.backgroundColor = UIColor.backgroundGray
@@ -65,6 +66,7 @@ class MyEventListViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleJoinEvent), name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleQuitEvent), name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleEventExpired(notification:)), name: NSNotification.Name(rawValue: "eventDidExpired"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleEventDetailExit(notification:)), name: NSNotification.Name(rawValue: "eventDetailViewControllerDidDisappear"), object: nil)
         
         view.addSubview(infoLabel)
         self.navigationController?.navigationBar.isTranslucent = false
@@ -121,6 +123,21 @@ class MyEventListViewController: UIViewController {
     
     func handleEventExpired(notification: Notification) {
         self.tableView.reloadData()
+    }
+    
+    func handleEventDetailExit(notification: Notification) {
+        guard let userInfo = notification.userInfo, let exitAfter = userInfo["exitAfter"] as? ExitAfter else {
+            print("cannot parse notification for exitAfter")
+            return
+        }
+        switch exitAfter {
+        case .join:
+            self.tabBarController?.selectedIndex = USCFunConstants.indexOfMyEventList
+        case .quit:
+            self.tabBarController?.selectedIndex = USCFunConstants.indexOfEventList
+        default:
+            break
+        }
     }
     
     func handleRefresh() {

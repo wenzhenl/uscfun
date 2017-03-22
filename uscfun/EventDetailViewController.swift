@@ -25,6 +25,12 @@ enum EventDetailCell {
     case noteCell
 }
 
+enum ExitAfter: String {
+    case none = "none"
+    case join = "join"
+    case quit = "quit"
+}
+
 class EventDetailViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
@@ -51,6 +57,8 @@ class EventDetailViewController: UIViewController {
     }()
     
     var timer: Timer?
+    
+    var exitAfter = ExitAfter.none
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,6 +90,8 @@ class EventDetailViewController: UIViewController {
         infoLabel.frame.origin = CGPoint.zero
         timer?.invalidate()
         timer = nil
+        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "eventDetailViewControllerDidDisappear"), object: nil, userInfo: ["exitAfter": self.exitAfter])
     }
     
     func updateRemainingTime() {
@@ -185,7 +195,8 @@ class EventDetailViewController: UIViewController {
                 joinEventGroup.leave()
                 
                 joinEventGroup.notify(queue: DispatchQueue.main) {
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil, userInfo: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil, userInfo: ["eventId": self.event.objectId!])
+                    self.exitAfter = .join
                     _ = self.navigationController?.popViewController(animated: true)
                 }
             }
@@ -245,6 +256,7 @@ class EventDetailViewController: UIViewController {
                     
                     quitEventGroup.notify(queue: DispatchQueue.main) {
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil, userInfo: nil)
+                        self.exitAfter = .quit
                         _ = self.navigationController?.popViewController(animated: true)
                     }
                 }
