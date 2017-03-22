@@ -33,6 +33,12 @@ class MyEventListViewController: UIViewController {
         }
     }
     
+    var numberOfNewEvents: Int = 0 {
+        didSet {
+            self.tabBarController?.tabBar.items![USCFunConstants.indexOfMyEventList].badgeValue = numberOfNewEvents > 0 ? "\(numberOfNewEvents)" : nil
+        }
+    }
+    
     lazy var infoLabel: UILabel = {
         let heightOfInfoLabel = CGFloat(29.0)
         let infoLabel = UILabel(frame: CGRect(x: 0.0, y: -heightOfInfoLabel, width: self.view.frame.size.width, height: heightOfInfoLabel))
@@ -66,7 +72,7 @@ class MyEventListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.tabBarController?.tabBar.items![USCFunConstants.indexOfMyEventList].badgeValue = nil
+        self.numberOfNewEvents = 0
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -104,6 +110,7 @@ class MyEventListViewController: UIViewController {
     }
     
     func handleJoinEvent() {
+        self.numberOfNewEvents += 1
         self.tableView.reloadData()
     }
     

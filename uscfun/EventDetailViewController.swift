@@ -186,7 +186,6 @@ class EventDetailViewController: UIViewController {
                 
                 joinEventGroup.notify(queue: DispatchQueue.main) {
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil, userInfo: nil)
-                    self.tabBarController?.tabBar.items![USCFunConstants.indexOfMyEventList].badgeValue = "1"
                     _ = self.navigationController?.popViewController(animated: true)
                 }
             }
@@ -246,7 +245,6 @@ class EventDetailViewController: UIViewController {
                     
                     quitEventGroup.notify(queue: DispatchQueue.main) {
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil, userInfo: nil)
-                        self.tabBarController?.tabBar.items![USCFunConstants.indexOfEventList].badgeValue = "1"
                         _ = self.navigationController?.popViewController(animated: true)
                     }
                 }

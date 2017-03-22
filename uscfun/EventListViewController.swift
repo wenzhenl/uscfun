@@ -39,6 +39,12 @@ class EventListViewController: UIViewController {
         }
     }
     
+    var numberOfNewEvents: Int = 0 {
+        didSet {
+            self.tabBarController?.tabBar.items![USCFunConstants.indexOfEventList].badgeValue = numberOfNewEvents > 0 ? "\(numberOfNewEvents)" : nil
+        }
+    }
+    
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = UIColor.clear
@@ -93,7 +99,7 @@ class EventListViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.tabBarController?.tabBar.items![USCFunConstants.indexOfEventList].badgeValue = nil
+        self.numberOfNewEvents = 0
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -130,10 +136,10 @@ class EventListViewController: UIViewController {
     
     func handleJoinEvent() {
         self.tableView.reloadData()
-        self.tabBarController?.selectedIndex = 0
     }
     
     func handleQuitEvent() {
+        self.numberOfNewEvents += 1
         self.tableView.reloadData()
     }
     
