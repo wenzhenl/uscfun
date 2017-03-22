@@ -25,4 +25,3 @@ pod install
 
 依赖包安装完成后，用Xcode打开 uscfun.xcworkspace 而不是uscfun.xcodeproj
 用数据线连接到自己的手机，点击Xcode Run即可。
-test
