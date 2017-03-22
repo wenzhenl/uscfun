@@ -6,6 +6,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,10 +18,9 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blackfish" translatesAutoresizingMaskIntoConstraints="NO" id="dA7-bb-NCz">
-                    <rect key="frame" x="172" y="318.5" width="30" height="30"/>
+                    <rect key="frame" x="21" y="167" width="333.5" height="333.5"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="30" id="5zC-zn-fWT"/>
-                        <constraint firstAttribute="height" constant="30" id="A4J-9E-D9R"/>
+                        <constraint firstAttribute="width" secondItem="dA7-bb-NCz" secondAttribute="height" multiplier="1:1" id="FdI-Ps-c2K"/>
                     </constraints>
                 </imageView>
             </subviews>
@@ -27,6 +28,7 @@
             <constraints>
                 <constraint firstItem="dA7-bb-NCz" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="aZY-1L-vVK"/>
                 <constraint firstItem="dA7-bb-NCz" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="fQu-hw-Ld1"/>
+                <constraint firstItem="dA7-bb-NCz" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" multiplier="0.5" id="fiT-WA-bDF"/>
             </constraints>
         </view>
     </objects>

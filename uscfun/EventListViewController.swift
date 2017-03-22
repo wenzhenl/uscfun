@@ -52,12 +52,12 @@ class EventListViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
         let customRefreshView = Bundle.main.loadNibNamed("RefreshView", owner: self, options: nil)?.first as! UIView
         customRefreshView.frame = refreshControl.bounds
-        customRefreshView.backgroundColor = UIColor.backgroundGray
+        customRefreshView.backgroundColor = UIColor.themeYellow
         let customImageView = customRefreshView.viewWithTag(1) as! UIImageView
         
-        UIView.animate(withDuration: 0.25, delay: 0, options: [.autoreverse,.repeat], animations: {
-            customImageView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-            customImageView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI * 2))
+        UIView.animate(withDuration: 0.5, delay: 0, options: [.autoreverse,.curveLinear,.repeat], animations: {
+            customRefreshView.backgroundColor = UIColor.buttonBlue
+            customRefreshView.backgroundColor = UIColor.buttonPink
         }, completion: nil)
         
         refreshControl.addSubview(customRefreshView)
@@ -127,8 +127,7 @@ class EventListViewController: UIViewController {
         if self.tableView.contentOffset != CGPoint.zero {
             self.tableView.setContentOffset(.zero, animated: true)
         } else {
-            let offset = CGPoint(x: 0, y: -self.refreshControl.frame.height)
-            self.tableView.setContentOffset(offset, animated: true)
+            self.tableView.contentOffset.y = -118.5
             self.refreshControl.beginRefreshing()
             handleRefresh()
         }
@@ -157,7 +156,7 @@ class EventListViewController: UIViewController {
             else if error != nil {
                 self.displayInfo(info: error!.localizedDescription)
             }
-            self.tableView.setContentOffset(.zero, animated: true)
+            self.tableView.contentOffset = .zero
             self.refreshControl.endRefreshing()
         }
     }
