@@ -72,7 +72,6 @@ class MyEventListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.numberOfNewEvents = 0
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -97,10 +96,12 @@ class MyEventListViewController: UIViewController {
     }
     
     func handleTab() {
+        self.numberOfNewEvents = 0
         self.tableView.setContentOffset(.zero, animated: true)
     }
     
     func handlePostNewEvent() {
+        numberOfNewEvents += 1
         EventRequest.fetchNewerMyOngoingEvents {
             succeeded, error in
             if succeeded {
