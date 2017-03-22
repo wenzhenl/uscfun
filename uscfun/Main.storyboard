@@ -773,7 +773,7 @@ A different license may apply to other resources included in this package, inclu
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="B04-zs-U9w">
-                                <rect key="frame" x="0.0" y="20" width="414" height="716"/>
+                                <rect key="frame" x="0.0" y="64" width="414" height="628"/>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -941,7 +941,7 @@ A different license may apply to other resources included in this package, inclu
                     <connections>
                         <outlet property="tableView" destination="ATz-BZ-9M4" id="HCh-gf-rlb"/>
                         <segue destination="nvQ-YZ-kHk" kind="show" identifier="go to event detail" id="xev-Vj-4Av"/>
-                        <segue destination="y9B-Dj-GTn" kind="presentation" identifier="go to see big picture" id="b1h-Fz-QgR"/>
+                        <segue destination="y9B-Dj-GTn" kind="presentation" identifier="go to see big picture" modalTransitionStyle="crossDissolve" id="b1h-Fz-QgR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="48K-CO-jAF" userLabel="First Responder" sceneMemberID="firstResponder"/>
