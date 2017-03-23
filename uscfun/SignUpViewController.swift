@@ -101,6 +101,23 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         UIApplication.shared.statusBarStyle = .default
     }
     
+    fileprivate let identifierToWeb = "check privacy policy"
+    fileprivate let identifierToPassword = "go to password"
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            switch identifier {
+            case identifierToWeb:
+                if let webVC = segue.destination.contentViewController as? WebViewController {
+                    webVC.url = URL(string: USCFunConstants.urlOfPrivacy)
+                    webVC.webTitle = "使用协议"
+                }
+            default:
+                break
+            }
+        }
+    }
+    
     @IBAction func goBack(_ sender: UIBarButtonItem) {
         emailTextField.resignFirstResponder()
         confirmationCodeTextField.resignFirstResponder()
@@ -151,7 +168,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         do {
             if try LoginKit.checkIfConfirmationCodeMatches(email: email, code: confirmationCode) {
                 UserDefaults.newEmail = email
-                performSegue(withIdentifier: "go to password", sender: self)
+                performSegue(withIdentifier: identifierToPassword, sender: self)
             }
         } catch let error {
             errorLabel.text = error.localizedDescription
@@ -160,7 +177,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
     }
     
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
-        self.performSegue(withIdentifier: "check privacy policy", sender: self)
+        self.performSegue(withIdentifier: identifierToWeb, sender: self)
         return false
     }
     

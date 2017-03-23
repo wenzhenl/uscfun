@@ -21,6 +21,9 @@ class USCFunConstants {
     static let indexOfEventList = 1
     static let indexOfNotification = 2
     static let indexOfMe = 3
+    
+    static let urlOfPrivacy = "http://www.baidu.com/"
+    
 }
 
 struct UserKeyConstants {

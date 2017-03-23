@@ -60,6 +60,8 @@ class EventDetailViewController: UIViewController {
     
     var exitAfter = ExitAfter.none
     
+    var textViewUrl: URL?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.view.backgroundColor = UIColor.white
@@ -313,7 +315,9 @@ class EventDetailViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         let destination = segue.destination.contentViewController
+        
         if let identifier = segue.identifier {
             switch identifier {
             case mapSegueIdentifier:
@@ -466,6 +470,7 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
             let cell = Bundle.main.loadNibNamed("TitleTextViewTableViewCell", owner: self, options: nil)?.first as! TitleTextViewTableViewCell
             cell.titleLabel.text = "补充说明："
             cell.textView.text = event.note
+            cell.textView.delegate = self
             cell.selectionStyle = .none
             return cell
         case .memberCell:
@@ -543,5 +548,16 @@ extension EventDetailViewController: EditEventViewControllerDelegate {
         self.setupJoinButton()
         self.populateSections()
         self.tableView.reloadData()
+    }
+}
+
+extension EventDetailViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
+        if let webVC = UIStoryboard(name: "Login", bundle: nil).instantiateViewController(withIdentifier: "common use web vc") as? WebViewController {
+            textViewUrl = URL
+            webVC.url = URL
+            self.navigationController?.pushViewController(webVC, animated: true)
+        }
+        return false
     }
 }

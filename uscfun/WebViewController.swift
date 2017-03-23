@@ -12,13 +12,19 @@ class WebViewController: UIViewController, UIWebViewDelegate {
 
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var indicatorView: UIActivityIndicatorView!
+    
+    var url: URL?
+    var webTitle: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "使用协议"
+        self.title = webTitle
         self.webView.delegate = self
-        if let url = URL(string: "http://usrichange.com/") {
+        if let url = url {
             let request = URLRequest(url: url)
             webView.loadRequest(request)
+        } else {
+            print("url is nil")
         }
     }
     
