@@ -75,6 +75,7 @@ class MyEventListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        self.numberOfNewEvents = 0
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -99,7 +100,6 @@ class MyEventListViewController: UIViewController {
     }
     
     func handleTab() {
-        self.numberOfNewEvents = 0
         self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
     
@@ -533,6 +533,6 @@ extension Event {
     }
     
     var hasUnread: Bool {
-        return true
+        return false
     }
 }

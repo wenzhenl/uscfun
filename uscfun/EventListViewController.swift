@@ -125,13 +125,7 @@ class EventListViewController: UIViewController {
     }
     
     func handleTab() {
-        if self.tableView.contentOffset != CGPoint.zero {
-            self.tableView.setContentOffset(.zero, animated: true)
-        } else {
-            self.tableView.contentOffset.y = -118.5
-            self.refreshControl.beginRefreshing()
-            handleRefresh()
-        }
+       self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
     
     func handleJoinEvent() {
