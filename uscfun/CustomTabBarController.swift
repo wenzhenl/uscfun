@@ -29,8 +29,6 @@ class CustomTabBarController: UITabBarController {
     }
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        print("last:\(lastSelectedTag)")
-        print("cur:\(item.tag)")
         if item.tag == lastSelectedTag {
             switch item.tag {
             case 0:

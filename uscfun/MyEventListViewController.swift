@@ -54,6 +54,7 @@ class MyEventListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.view.backgroundColor = UIColor.white
         
         self.tableView.scrollsToTop = true
         self.tableView.tableFooterView = UIView()
