@@ -20,9 +20,9 @@ class MapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = ""
         
-        self.title = "地图"
-        let navigationImage = #imageLiteral(resourceName: "navigation").scaleTo(width: 22, height: 22)
+        let navigationImage = #imageLiteral(resourceName: "navigation").scaleTo(width: 20, height: 20)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: navigationImage, style: .plain, target: self, action: #selector(route))
         
         let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)

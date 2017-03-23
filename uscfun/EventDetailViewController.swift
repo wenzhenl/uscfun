@@ -60,8 +60,6 @@ class EventDetailViewController: UIViewController {
     
     var exitAfter = ExitAfter.none
     
-    var textViewUrl: URL?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.view.backgroundColor = UIColor.white
@@ -554,7 +552,6 @@ extension EventDetailViewController: EditEventViewControllerDelegate {
 extension EventDetailViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
         if let webVC = UIStoryboard(name: "Login", bundle: nil).instantiateViewController(withIdentifier: "common use web vc") as? WebViewController {
-            textViewUrl = URL
             webVC.url = URL
             self.navigationController?.pushViewController(webVC, animated: true)
         }

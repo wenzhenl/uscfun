@@ -778,10 +778,11 @@ A different license may apply to other resources included in this package, inclu
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="B04-zs-U9w" firstAttribute="top" secondItem="t5y-iJ-I1J" secondAttribute="bottom" id="79t-sW-be2"/>
-                            <constraint firstItem="B04-zs-U9w" firstAttribute="centerX" secondItem="zif-mf-3IF" secondAttribute="centerX" id="Npg-BB-w1t"/>
-                            <constraint firstItem="fqI-za-q8J" firstAttribute="top" secondItem="B04-zs-U9w" secondAttribute="bottom" id="WMm-Yz-IFP"/>
+                            <constraint firstItem="B04-zs-U9w" firstAttribute="centerX" secondItem="zif-mf-3IF" secondAttribute="centerX" id="Cw5-bT-L9Z"/>
+                            <constraint firstItem="B04-zs-U9w" firstAttribute="centerX" secondItem="zif-mf-3IF" secondAttribute="centerX" id="WMV-yW-yP0"/>
                             <constraint firstItem="B04-zs-U9w" firstAttribute="width" secondItem="zif-mf-3IF" secondAttribute="width" id="qOF-at-76s"/>
+                            <constraint firstItem="fqI-za-q8J" firstAttribute="top" secondItem="B04-zs-U9w" secondAttribute="bottom" id="wLZ-gg-VYb"/>
+                            <constraint firstItem="B04-zs-U9w" firstAttribute="top" secondItem="t5y-iJ-I1J" secondAttribute="bottom" id="xoN-fa-Idn"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="MAP" id="w0o-K4-zzP"/>
