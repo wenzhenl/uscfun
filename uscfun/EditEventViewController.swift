@@ -65,14 +65,14 @@ class EditEventViewController: FormViewController {
                 }
             }
             
-            +++ Section("减少最低出行人数") {
+            +++ Section("减少最低成行人数") {
                 $0.hidden = Condition.function(["hideMinPeople"]) {
                     _ in
                     return self.event.minimumAttendingPeople == 2
                 }
             }
             <<< StepperRow("minPeople") {
-                $0.title = "最低出行人数："
+                $0.title = "最低成行人数："
                 $0.value = Double(event.minimumAttendingPeople)
                 $0.add(rule: RuleSmallerOrEqualThan(max: Double(event.minimumAttendingPeople)))
                 $0.add(rule: RuleGreaterOrEqualThan(min: 2.0))
