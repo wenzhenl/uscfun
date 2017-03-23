@@ -49,7 +49,7 @@ class EventListViewController: UIViewController {
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = UIColor.clear
         refreshControl.backgroundColor = UIColor.clear
-        refreshControl.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
+//        refreshControl.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
         let customRefreshView = Bundle.main.loadNibNamed("RefreshView", owner: self, options: nil)?.first as! UIView
         customRefreshView.frame = refreshControl.bounds
         customRefreshView.backgroundColor = UIColor.themeYellow
@@ -146,13 +146,13 @@ class EventListViewController: UIViewController {
                 if numberOfPublicEventsAfterUpdate > numberOfPublicEventsBeforeUpdate {
                     self.displayInfo(info: "\(numberOfPublicEventsAfterUpdate - numberOfPublicEventsBeforeUpdate)个新的微活动")
                 }
+                self.refreshControl.endRefreshing()
                 self.tableView.reloadData()
             }
             else if error != nil {
+                self.refreshControl.endRefreshing()
                 self.displayInfo(info: error!.localizedDescription)
             }
-            self.tableView.contentOffset = .zero
-            self.refreshControl.endRefreshing()
         }
     }
     
@@ -352,6 +352,14 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             performSegue(withIdentifier: identifierToEventDetail, sender: tableView.cellForRow(at: indexPath))
         }
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension EventListViewController: UIScrollViewDelegate {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if self.refreshControl.isRefreshing {
+            self.handleRefresh()
+        }
     }
 }
 
