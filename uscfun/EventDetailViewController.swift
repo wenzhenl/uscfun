@@ -273,6 +273,11 @@ class EventDetailViewController: UIViewController {
         self.present(alertViewController, animated: true, completion: nil)
     }
     
+    var snapshot: UIImage? {
+        self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        return self.tableView.screenshot
+    }
+    
     @IBAction func takeActions(_ sender: UIBarButtonItem) {
         let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let shareToFriend = UIAlertAction(title: "分享给微信好友", style: .default) {
@@ -282,6 +287,10 @@ class EventDetailViewController: UIViewController {
             let ext = WXWebpageObject()
             ext.webpageUrl = "http://usrichange.com"
             message.mediaObject = ext
+            
+            if let snapshot = self.snapshot {
+                message.setThumbImage(snapshot)
+            }
             
             let req = SendMessageToWXReq()
             req.bText = false
@@ -295,7 +304,12 @@ class EventDetailViewController: UIViewController {
             message.title = self.event!.name
             let ext = WXWebpageObject()
             ext.webpageUrl = "http://usrichange.com"
+            
             message.mediaObject = ext
+            
+            if let snapshot = self.snapshot {
+                message.setThumbImage(snapshot)
+            }
             
             let req = SendMessageToWXReq()
             req.bText = false

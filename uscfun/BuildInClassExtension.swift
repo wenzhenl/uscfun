@@ -8,6 +8,28 @@
 
 import Foundation
 
+extension UIViewController {
+    var contentViewController: UIViewController {
+        if let navcon = self as? UINavigationController {
+            return navcon.visibleViewController!
+        } else {
+            return self
+        }
+    }
+}
+
+extension UIView {
+    var screenshot: UIImage? {
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, UIScreen.main.scale)
+        drawHierarchy(in: self.bounds, afterScreenUpdates: true)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return image
+    }
+}
+
+
 extension UIColor {
     class var themeYellow: UIColor {
         return UIColor(red: 1.0, green: 0.988, blue: 0.0, alpha: 1.0)
