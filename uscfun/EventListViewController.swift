@@ -81,6 +81,8 @@ class EventListViewController: UIViewController {
         return infoLabel
     }()
     
+    var timer: Timer?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.view.backgroundColor = UIColor.white
@@ -104,6 +106,11 @@ class EventListViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
+        if timer == nil {
+            timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(updateRemainingTime), userInfo: nil, repeats: true)
+        }
+        
         self.numberOfNewEvents = 0
     }
     
@@ -111,6 +118,8 @@ class EventListViewController: UIViewController {
         super.viewDidDisappear(true)
         infoLabel.isHidden = true
         infoLabel.frame.origin = CGPoint.zero
+        timer?.invalidate()
+        timer = nil
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -121,6 +130,10 @@ class EventListViewController: UIViewController {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    func updateRemainingTime() {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "needToUpdateRemainingTime"), object: nil, userInfo: nil)
     }
     
     func handlePreload(notification: Notification) {
@@ -329,7 +342,6 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             cell.eventId = event.objectId
             
             cell.due = event.due
-            cell.timerStarted()
             
             return cell
         }

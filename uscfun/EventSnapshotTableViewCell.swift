@@ -28,23 +28,9 @@ class EventSnapshotTableViewCell: UITableViewCell {
     
     var eventId: String?
     var due: Date?
-    var timer: Timer?
-    
-    func timerStarted() {
-        if timer == nil {
-            timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(update), userInfo: nil, repeats: true)
-        }
-    }
     
     func update() {
         if let due = due {
-            
-            if due < Date() {
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "eventDidExpired"), object: nil, userInfo: ["eventId": eventId ?? ""])
-                timer?.invalidate()
-                timer = nil
-            }
-            
             let gapFromNow = due.gapFromNow
             if gapFromNow == "" {
                 remainingTimeLabel.textColor = UIColor.darkGray
@@ -53,6 +39,11 @@ class EventSnapshotTableViewCell: UITableViewCell {
                 remainingTimeLabel.text = gapFromNow
             }
         }
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        NotificationCenter.default.addObserver(self, selector: #selector(update), name: NSNotification.Name(rawValue: "needToUpdateRemainingTime"), object: nil)
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -67,5 +58,9 @@ class EventSnapshotTableViewCell: UITableViewCell {
         if highlighted {
             statusView.backgroundColor = statusViewColor
         }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
