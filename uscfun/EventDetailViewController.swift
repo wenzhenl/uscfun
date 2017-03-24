@@ -283,14 +283,12 @@ class EventDetailViewController: UIViewController {
         let shareToFriend = UIAlertAction(title: "分享给微信好友", style: .default) {
             _ in
             let message = WXMediaMessage()
-            message.title = self.event!.name
+            message.title = "我正在usc日常上发起微活动：" + self.event!.name
             let ext = WXWebpageObject()
-            ext.webpageUrl = "http://usrichange.com"
+            ext.webpageUrl = "http://www.baidu.com"
             message.mediaObject = ext
-            
-            if let snapshot = self.snapshot {
-                message.setThumbImage(snapshot)
-            }
+            message.description = "剩余席位:" + String(self.event.remainingSeats) + " 已经参加:" + String(self.event.maximumAttendingPeople - self.event.remainingSeats)
+            message.setThumbImage(#imageLiteral(resourceName: "uscfun").scaleTo(width: 100, height: 100))
             
             let req = SendMessageToWXReq()
             req.bText = false
@@ -301,16 +299,13 @@ class EventDetailViewController: UIViewController {
         let shareToMoment = UIAlertAction(title: "分享到朋友圈", style: .default) {
             _ in
             let message = WXMediaMessage()
-            message.title = self.event!.name
+            message.title = "我正在usc日常上发起微活动：" + self.event!.name
             let ext = WXWebpageObject()
-            ext.webpageUrl = "http://usrichange.com"
-            
+            ext.webpageUrl = "http://www.baidu.com"
             message.mediaObject = ext
-            
-            if let snapshot = self.snapshot {
-                message.setThumbImage(snapshot)
-            }
-            
+            message.description = "剩余席位:" + String(self.event.remainingSeats) + " 已经参加:" + String(self.event.maximumAttendingPeople - self.event.remainingSeats)
+            message.setThumbImage(#imageLiteral(resourceName: "uscfun").scaleTo(width: 100, height: 100))
+
             let req = SendMessageToWXReq()
             req.bText = false
             req.message = message
