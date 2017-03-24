@@ -61,7 +61,7 @@ class MyEventListViewController: UIViewController {
         self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.separatorStyle = .none
         
-        NotificationCenter.default.addObserver(self, selector: #selector(handlePreload), name: NSNotification.Name(rawValue: "finishedPreloadingMyOngoingEvents"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handlePreload(notification:)), name: NSNotification.Name(rawValue: "finishedPreloadingMyOngoingEvents"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "homeRefresh"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handlePostNewEvent), name: NSNotification.Name(rawValue: "userDidPostNewEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleJoinEvent), name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil)
@@ -94,7 +94,7 @@ class MyEventListViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
-    func handlePreload() {
+    func handlePreload(notification: Notification) {
         UserDefaults.hasPreloadedMyOngoingEvents = true
         self.tableView.reloadData()
     }

@@ -261,20 +261,22 @@ class EventRequest {
         }
     }
     
-    static func preLoadData() {
-        EventRequest.fetchNewerMyOngoingEvents(inBackground: false, currentNewestUpdatedTime: timeOf1970) {
+    static func preLoadData(inBackground: Bool = false) {
+        EventRequest.fetchNewerMyOngoingEvents(inBackground: inBackground, currentNewestUpdatedTime: timeOf1970) {
             succeeded, error in
-            if succeeded {
-                UserDefaults.hasPreloadedMyOngoingEvents = true
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "finishedPreloadingMyOngoingEvents"), object: nil, userInfo: nil)
+            UserDefaults.hasPreloadedMyOngoingEvents = succeeded
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "finishedPreloadingMyOngoingEvents"), object: nil, userInfo: ["succeeded": succeeded])
+            if error != nil {
+                print("failed to preload my ongoing events: \(error!.localizedDescription)")
             }
         }
         
-        EventRequest.fetchNewerPublicEvents(inBackground: false, currentNewestUpdatedTime: timeOf1970) {
+        EventRequest.fetchNewerPublicEvents(inBackground: inBackground, currentNewestUpdatedTime: timeOf1970) {
             succeeded, error in
-            if succeeded {
-                UserDefaults.hasPreloadedPublicEvents = true
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "finishedPreloadingPublicEvents"), object: nil, userInfo: nil)
+            UserDefaults.hasPreloadedPublicEvents = succeeded
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "finishedPreloadingPublicEvents"), object: nil, userInfo: ["succeeded": succeeded])
+            if error != nil {
+                print("failed to preload public events: \(error!.localizedDescription)")
             }
         }
     }

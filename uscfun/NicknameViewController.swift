@@ -77,7 +77,7 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
             try LoginKit.signUp()
             SVProgressHUD.dismiss()
             print("sign up successfully")
-            EventRequest.preLoadData()
+            EventRequest.preLoadData(inBackground: true)
             let appDelegate = UIApplication.shared.delegate! as! AppDelegate
             let initialViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
             appDelegate.window?.rootViewController = initialViewController
