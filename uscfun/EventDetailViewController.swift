@@ -247,12 +247,14 @@ class EventDetailViewController: UIViewController {
                 if succeeded {
                     let quitEventGroup = DispatchGroup()
                     quitEventGroup.enter()
-                    EventRequest.setPublicEvent(event: self.event, for: self.event.objectId!, handler: nil)
-                    quitEventGroup.leave()
+                    EventRequest.setPublicEvent(event: self.event, for: self.event.objectId!) {
+                        quitEventGroup.leave()
+                    }
                     
                     quitEventGroup.enter()
-                    EventRequest.removeMyOngoingEvent(with: self.event.objectId!, handler: nil)
-                    quitEventGroup.leave()
+                    EventRequest.removeMyOngoingEvent(with: self.event.objectId!) {
+                        quitEventGroup.leave()
+                    }
                     
                     quitEventGroup.notify(queue: DispatchQueue.main) {
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil, userInfo: nil)
