@@ -553,10 +553,13 @@ extension EventDetailViewController: EditEventViewControllerDelegate {
 
 extension EventDetailViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
-        if let webVC = UIStoryboard(name: "Login", bundle: nil).instantiateViewController(withIdentifier: "common use web vc") as? WebViewController {
-            webVC.url = URL
-            self.navigationController?.pushViewController(webVC, animated: true)
+        if URL.scheme == "http" || URL.scheme == "https" {
+            if let webVC = UIStoryboard(name: "Login", bundle: nil).instantiateViewController(withIdentifier: "common use web vc") as? WebViewController {
+                webVC.url = URL
+                self.navigationController?.pushViewController(webVC, animated: true)
+            }
+            return false
         }
-        return false
+        return true
     }
 }
