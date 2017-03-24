@@ -139,8 +139,8 @@ extension AppDelegate: WXApiDelegate {
 }
 
 extension AppDelegate: AVIMClientDelegate {
-    func conversation(_ conversation: AVIMConversation!, didReceive message: AVIMTypedMessage!) {
-        print(message.text)
+    func conversation(_ conversation: AVIMConversation, didReceive message: AVIMTypedMessage) {
+        print(message.text ?? "")
         SVProgressHUD.showInfo(withStatus: message.text)
         let delay = 3 * Double(NSEC_PER_SEC)
         let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)

@@ -577,6 +577,9 @@ class EventRequest {
     //--MARK: fetch one event with its object id
     static func fetchOneEvent(with objectId: String, handler: @escaping (_ error: Error?, _ result: Event?) -> Void) {
         let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
+        query.includeKey(EventKeyConstants.keyOfCreatedBy)
+        query.includeKey(EventKeyConstants.keyOfMembers)
+        query.includeKey(EventKeyConstants.keyOfCompletedBy)
         query.getObjectInBackground(withId: objectId) {
             object, error in
             if error != nil {
