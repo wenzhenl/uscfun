@@ -7,7 +7,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,17 +17,17 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blackfish" translatesAutoresizingMaskIntoConstraints="NO" id="dA7-bb-NCz">
-                    <rect key="frame" x="21" y="167" width="333.5" height="333.5"/>
+                    <rect key="frame" x="168" y="607" width="40" height="40"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="dA7-bb-NCz" secondAttribute="height" multiplier="1:1" id="FdI-Ps-c2K"/>
+                        <constraint firstAttribute="height" constant="40" id="GWh-UA-1gd"/>
                     </constraints>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="dA7-bb-NCz" secondAttribute="bottom" constant="20" symbolic="YES" id="XJE-4s-Llb"/>
                 <constraint firstItem="dA7-bb-NCz" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="aZY-1L-vVK"/>
-                <constraint firstItem="dA7-bb-NCz" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="fQu-hw-Ld1"/>
-                <constraint firstItem="dA7-bb-NCz" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" multiplier="0.5" id="fiT-WA-bDF"/>
             </constraints>
         </view>
     </objects>

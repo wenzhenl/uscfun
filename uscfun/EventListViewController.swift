@@ -50,21 +50,20 @@ class EventListViewController: UIViewController {
         }
     }
     
+    var isRefreshAnimating = false
+    var customRefreshView: UIView = UIView()
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = UIColor.clear
         refreshControl.backgroundColor = UIColor.clear
-        let customRefreshView = Bundle.main.loadNibNamed("RefreshView", owner: self, options: nil)?.first as! UIView
-        customRefreshView.frame = refreshControl.bounds
-        customRefreshView.backgroundColor = UIColor.themeYellow
-        let customImageView = customRefreshView.viewWithTag(1) as! UIImageView
+        self.customRefreshView = (Bundle.main.loadNibNamed("RefreshView", owner: self, options: nil)?.first as? UIView)!
+        self.customRefreshView.frame = refreshControl.bounds
+        self.customRefreshView.backgroundColor = UIColor.clear
+        let customImageView = self.customRefreshView.viewWithTag(1) as! UIImageView
         
-        UIView.animate(withDuration: 0.5, delay: 0, options: [.autoreverse,.curveLinear,.repeat], animations: {
-            customRefreshView.backgroundColor = UIColor.buttonBlue
-            customRefreshView.backgroundColor = UIColor.buttonPink
-        }, completion: nil)
+        self.isRefreshAnimating = false
         
-        refreshControl.addSubview(customRefreshView)
+        refreshControl.addSubview(self.customRefreshView)
         return refreshControl
     }()
     
@@ -385,6 +384,66 @@ extension EventListViewController: UIScrollViewDelegate {
         if self.refreshControl.isRefreshing {
             self.handleRefresh()
         }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if self.refreshControl.isRefreshing && !self.isRefreshAnimating {
+            animateRefreshView()
+        }
+    }
+    
+    func animateRefreshView() {
+        
+        if !self.isRefreshAnimating {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.customRefreshView.viewWithTag(1)?.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+            })
+        }
+        self.isRefreshAnimating = true
+        UIView.animateKeyframes(withDuration: 0.8, delay: 0.0, options: .calculationModeCubic, animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 1/4, animations: {
+                self.customRefreshView.viewWithTag(1)?.transform = (self.customRefreshView.viewWithTag(1)?.transform.rotated(by: CGFloat(M_PI_2)))!
+                self.customRefreshView.backgroundColor = UIColor.themeYellow
+            })
+            UIView.addKeyframe(withRelativeStartTime: 1/4, relativeDuration: 1/4, animations: {
+                self.customRefreshView.viewWithTag(1)?.transform = (self.customRefreshView.viewWithTag(1)?.transform.rotated(by: -CGFloat(M_PI_2)))!
+                self.customRefreshView.backgroundColor = UIColor.buttonBlue
+            })
+            UIView.addKeyframe(withRelativeStartTime: 2/4, relativeDuration: 1/4, animations: {
+                self.customRefreshView.viewWithTag(1)?.transform = (self.customRefreshView.viewWithTag(1)?.transform.rotated(by: -CGFloat(M_PI_2)))!
+                self.customRefreshView.backgroundColor = UIColor.buttonPink
+            })
+            UIView.addKeyframe(withRelativeStartTime: 3/4, relativeDuration: 1/4, animations: {
+                self.customRefreshView.viewWithTag(1)?.transform = (self.customRefreshView.viewWithTag(1)?.transform.rotated(by: CGFloat(M_PI_2)))!
+                self.customRefreshView.backgroundColor = UIColor.white
+            })
+        }, completion: {
+            finished in
+            if self.refreshControl.isRefreshing {
+                self.animateRefreshView()
+            } else {
+                self.resetAnimation()
+            }
+        })
+        
+//        UIView.animate(withDuration: 0.3, delay: 0, options: [.autoreverse, .curveLinear, .repeat], animations: {
+//            self.customRefreshView.backgroundColor = UIColor.avatarTomato
+//            self.customRefreshView.backgroundColor = UIColor.avatarGreen
+//            self.customRefreshView.viewWithTag(1)?.transform = (self.customRefreshView.viewWithTag(1)?.transform.rotated(by: CGFloat(M_PI_2)))!
+//        }, completion: {
+//            finished in
+//            if self.refreshControl.isRefreshing {
+//                self.animateRefreshView()
+//            } else {
+//                self.resetAnimation()
+//            }
+//        })
+    }
+    
+    func resetAnimation() {
+        self.customRefreshView.backgroundColor = UIColor.clear
+        self.customRefreshView.viewWithTag(1)?.transform = .identity
+        self.isRefreshAnimating = false
     }
 }
 
