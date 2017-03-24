@@ -177,7 +177,10 @@ class EditEventViewController: FormViewController {
             SVProgressHUD.dismiss()
             if succeeded {
                 delegate?.userDidUpdatedEvent(event: event)
-                self.presentingViewController?.dismiss(animated: true, completion: nil)
+                EventRequest.setMyOngoingEvent(event: event, for: event.objectId!) {
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidUpdateEvent"), object: nil, userInfo: nil)
+                    self.presentingViewController?.dismiss(animated: true, completion: nil)
+                }
             } else {
                 self.saveButtonItem.isEnabled = true
             }

@@ -96,7 +96,8 @@ class EventListViewController: UIViewController {
         AppDelegate.systemNotificationDelegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(handlePreload(notification:)), name: NSNotification.Name(rawValue: "finishedPreloadingPublicEvents"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "findRefresh"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "tabBarItemSelected"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleTabRefresh), name: NSNotification.Name(rawValue: "findRefresh"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleJoinEvent), name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleQuitEvent), name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil)
         
@@ -110,8 +111,6 @@ class EventListViewController: UIViewController {
         if timer == nil {
             timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(updateRemainingTime), userInfo: nil, repeats: true)
         }
-        
-        self.numberOfNewEvents = 0
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -148,7 +147,11 @@ class EventListViewController: UIViewController {
     }
     
     func handleTab() {
-       self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        self.numberOfNewEvents = 0
+    }
+    
+    func handleTabRefresh() {
+        self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
     
     func handleJoinEvent() {

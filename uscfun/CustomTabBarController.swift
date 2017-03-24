@@ -29,6 +29,7 @@ class CustomTabBarController: UITabBarController {
     }
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "tabBarItemSelected"), object: nil, userInfo: nil)
         if item.tag == lastSelectedTag {
             switch item.tag {
             case 0:

@@ -70,13 +70,14 @@ class MyEventListViewController: UIViewController {
         self.tableView.separatorStyle = .none
         
         NotificationCenter.default.addObserver(self, selector: #selector(handlePreload(notification:)), name: NSNotification.Name(rawValue: "finishedPreloadingMyOngoingEvents"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "homeRefresh"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "tabBarItemSelected"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleTabRefresh), name: NSNotification.Name(rawValue: "homeRefresh"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handlePostNewEvent), name: NSNotification.Name(rawValue: "userDidPostNewEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleJoinEvent), name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleQuitEvent), name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleEventExpired(notification:)), name: NSNotification.Name(rawValue: "eventDidExpired"), object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(handleEventDetailExit(notification:)), name: NSNotification.Name(rawValue: "eventDetailViewControllerDidDisappear"), object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateEvent(notification:)), name: NSNotification.Name(rawValue: "userDidUpdateEvent"), object: nil)
+
         view.addSubview(infoLabel)
         self.navigationController?.navigationBar.isTranslucent = false
     }
@@ -87,8 +88,6 @@ class MyEventListViewController: UIViewController {
         if timer == nil {
             timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(updateRemainingTime), userInfo: nil, repeats: true)
         }
-        
-        self.numberOfNewEvents = 0
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -126,16 +125,24 @@ class MyEventListViewController: UIViewController {
     }
     
     func handleTab() {
+        self.numberOfNewEvents = 0
+    }
+    
+    func handleTabRefresh() {
         self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
     
     func handlePostNewEvent() {
         numberOfNewEvents += 1
         self.tabBarController?.selectedIndex = USCFunConstants.indexOfMyEventList
-        EventRequest.fetchNewerMyOngoingEvents {
+        EventRequest.fetchNewerMyOngoingEventsInBackground {
             succeeded, error in
             if succeeded {
                 self.tableView.reloadData()
+            }
+            
+            if error != nil {
+                self.displayInfo(info: error!.localizedDescription)
             }
         }
     }
@@ -150,6 +157,10 @@ class MyEventListViewController: UIViewController {
     }
     
     func handleEventExpired(notification: Notification) {
+        self.tableView.reloadData()
+    }
+    
+    func handleUpdateEvent(notification: Notification) {
         self.tableView.reloadData()
     }
     
