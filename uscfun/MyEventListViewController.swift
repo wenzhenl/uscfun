@@ -13,6 +13,8 @@ class MyEventListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
+    var preloadDataSucceeded = true
+    
     var numberOfSection: Int {
         if UserDefaults.hasPreloadedMyOngoingEvents {
             return EventRequest.myOngoingEvents.count + 1
@@ -23,10 +25,14 @@ class MyEventListViewController: UIViewController {
     
     var emptyPlaceholder: String {
         if UserDefaults.hasPreloadedMyOngoingEvents {
-            if EventRequest.myOngoingEvents.count == 0 {
+            if !preloadDataSucceeded {
+                return "预加载失败，请手动加载"
+            }
+            else if EventRequest.myOngoingEvents.count == 0 {
                 return "你好像还没有参加任何微活动，快去参加一波吧！"
-            } else {
-                return "加载失败，请重新加载"
+            }
+            else {
+                return ""
             }
         } else {
             return "正在加载数据，请稍后..."
@@ -95,8 +101,15 @@ class MyEventListViewController: UIViewController {
     }
     
     func handlePreload(notification: Notification) {
-        UserDefaults.hasPreloadedMyOngoingEvents = true
+        guard let info = notification.userInfo as? [String: Bool], let succeeded = info["succeeded"] else {
+            print("cannot parse preload my ongoing events notification")
+            return
+            
+        }
+        print("my ongoing preload notification received:\(succeeded)")
+        preloadDataSucceeded = succeeded
         self.tableView.reloadData()
+        preloadDataSucceeded = true
     }
     
     func handleTab() {

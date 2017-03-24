@@ -19,6 +19,8 @@ class EventListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
+    var preloadDataSucceeded = true
+
     var numberOfSection: Int {
         if UserDefaults.hasPreloadedPublicEvents {
             return EventRequest.publicEvents.count + 1
@@ -29,10 +31,13 @@ class EventListViewController: UIViewController {
     
     var emptyPlaceholder: String {
         if UserDefaults.hasPreloadedPublicEvents {
-            if EventRequest.publicEvents.count == 0 {
+            if !preloadDataSucceeded {
+                return "加载失败，请重新加载"
+            }
+            else if EventRequest.publicEvents.count == 0 {
                 return "好像微活动都被参加完了，少年快去发起一波吧！"
             } else {
-                return "加载失败，请重新加载"
+                return ""
             }
         } else {
             return "正在加载数据，请稍后..."
@@ -49,7 +54,6 @@ class EventListViewController: UIViewController {
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = UIColor.clear
         refreshControl.backgroundColor = UIColor.clear
-//        refreshControl.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
         let customRefreshView = Bundle.main.loadNibNamed("RefreshView", owner: self, options: nil)?.first as! UIView
         customRefreshView.frame = refreshControl.bounds
         customRefreshView.backgroundColor = UIColor.themeYellow
@@ -89,7 +93,7 @@ class EventListViewController: UIViewController {
         
         AppDelegate.systemNotificationDelegate = self
         
-        NotificationCenter.default.addObserver(self, selector: #selector(handlePreload), name: NSNotification.Name(rawValue: "finishedPreloadingPublicEvents"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handlePreload(notification:)), name: NSNotification.Name(rawValue: "finishedPreloadingPublicEvents"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "findRefresh"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleJoinEvent), name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleQuitEvent), name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil)
@@ -119,9 +123,15 @@ class EventListViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
-    func handlePreload() {
-        UserDefaults.hasPreloadedPublicEvents = true
+    func handlePreload(notification: Notification) {
+        guard let info = notification.userInfo as? [String: Bool], let succeeded = info["succeeded"] else {
+            print("cannot parse preload public events notification")
+            return
+        }
+        print("public preload notification received:\(succeeded)")
+        preloadDataSucceeded = succeeded
         self.tableView.reloadData()
+        preloadDataSucceeded = true
     }
     
     func handleTab() {
