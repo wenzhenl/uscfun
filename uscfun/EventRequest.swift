@@ -75,7 +75,7 @@ class EventRequest {
             if _myOngoingEvents[id]?.updatedAt == newestUpdatedAtOfMyOngoingEvents {
                 newestUpdatedAtOfMyOngoingEvents = timeOf1970
                 for key in _myOngoingEvents.keys {
-                    if _myOngoingEvents[key]!.updatedAt! > newestUpdatedAtOfMyOngoingEvents {
+                    if key != id && _myOngoingEvents[key]!.updatedAt! > newestUpdatedAtOfMyOngoingEvents {
                         newestUpdatedAtOfMyOngoingEvents = _myOngoingEvents[key]!.updatedAt!
                     }
                 }
@@ -84,7 +84,7 @@ class EventRequest {
             if _myOngoingEvents[id]?.updatedAt == oldestUpdatedAtOfMyOngoingEvents {
                 oldestUpdatedAtOfMyOngoingEvents = timeOf2070
                 for key in _myOngoingEvents.keys {
-                    if _myOngoingEvents[key]!.updatedAt! < oldestUpdatedAtOfMyOngoingEvents {
+                    if key != id && _myOngoingEvents[key]!.updatedAt! < oldestUpdatedAtOfMyOngoingEvents {
                         oldestUpdatedAtOfMyOngoingEvents = _myOngoingEvents[key]!.updatedAt!
                     }
                 }
@@ -119,6 +119,7 @@ class EventRequest {
     
     static func removeAllMyOngoingEvents(handler: (() -> Void)?) {
         concurrentMyOngoingEventQueue.async(flags: .barrier) {
+            
             newestUpdatedAtOfMyOngoingEvents = timeOf1970
             oldestUpdatedAtOfMyOngoingEvents = timeOf2070
             _myOngoingEvents.removeAll()
@@ -130,6 +131,7 @@ class EventRequest {
     
     static func cleanMyOngoingEventsInBackground(handler: (() -> Void)?) {
         concurrentMyOngoingEventQueue.async(flags: .barrier) {
+            
             var removedUpdatedAts = [Date]()
             for id in _myOngoingEvents.keys {
                 let event = _myOngoingEvents[id]!
@@ -169,7 +171,7 @@ class EventRequest {
             if _publicEvents[id]?.updatedAt == newestUpdatedAtOfPublicEvents {
                 newestUpdatedAtOfPublicEvents = timeOf1970
                 for key in _publicEvents.keys {
-                    if _publicEvents[key]!.updatedAt! > newestUpdatedAtOfPublicEvents {
+                    if key != id && _publicEvents[key]!.updatedAt! > newestUpdatedAtOfPublicEvents {
                         newestUpdatedAtOfPublicEvents = _publicEvents[key]!.updatedAt!
                     }
                 }
@@ -178,7 +180,7 @@ class EventRequest {
             if _publicEvents[id]?.updatedAt == oldestUpdatedAtOfPublicEvents {
                 oldestUpdatedAtOfPublicEvents = timeOf2070
                 for key in _publicEvents.keys {
-                    if _publicEvents[key]!.updatedAt! < oldestUpdatedAtOfPublicEvents {
+                    if key != id && _publicEvents[key]!.updatedAt! < oldestUpdatedAtOfPublicEvents {
                         oldestUpdatedAtOfPublicEvents = _publicEvents[key]!.updatedAt!
                     }
                 }
@@ -193,24 +195,27 @@ class EventRequest {
     }
     
     static func setPublicEvent(event: Event, for id: String, handler: (() -> Void)?) {
-        
-        if event.updatedAt! > newestUpdatedAtOfPublicEvents {
-            newestUpdatedAtOfPublicEvents = event.updatedAt!
-        }
-        
-        if event.updatedAt! < oldestUpdatedAtOfPublicEvents {
-            oldestUpdatedAtOfPublicEvents = event.updatedAt!
-        }
-        
-        _publicEvents[id] = event
-        
-        DispatchQueue.main.async {
-            handler?()
+        concurrentPublicEventQueue.async(flags: .barrier) {
+            
+            if event.updatedAt! > newestUpdatedAtOfPublicEvents {
+                newestUpdatedAtOfPublicEvents = event.updatedAt!
+            }
+            
+            if event.updatedAt! < oldestUpdatedAtOfPublicEvents {
+                oldestUpdatedAtOfPublicEvents = event.updatedAt!
+            }
+            
+            _publicEvents[id] = event
+            
+            DispatchQueue.main.async {
+                handler?()
+            }
         }
     }
     
     static func removeAllPublicEvents(handler: (() -> Void)?) {
         concurrentPublicEventQueue.async(flags: .barrier) {
+            
             newestUpdatedAtOfPublicEvents = timeOf1970
             oldestUpdatedAtOfPublicEvents = timeOf2070
             _publicEvents.removeAll()
@@ -222,6 +227,7 @@ class EventRequest {
     
     static func cleanPublicEventsInBackground(handler: (() -> Void)?) {
         concurrentPublicEventQueue.async(flags: .barrier) {
+            
             var removedUpdatedAts = [Date]()
             for id in _publicEvents.keys {
                 let event = _publicEvents[id]!
@@ -269,9 +275,7 @@ class EventRequest {
             if succeeded {
                 UserDefaults.hasPreloadedPublicEvents = true
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "finishedPreloadingPublicEvents"), object: nil, userInfo: nil)
-
             }
-            
         }
     }
     
@@ -438,13 +442,13 @@ class EventRequest {
             concurrentPublicEventQueue.async(flags: .barrier) {
                 for event in events {
                     if !event.members.contains(AVUser.current()!) {
-                        EventRequest._publicEvents[event.objectId!] = event
+                        _publicEvents[event.objectId!] = event
                         
-                        if event.updatedAt! > EventRequest.newestUpdatedAtOfPublicEvents {
-                            EventRequest.newestUpdatedAtOfPublicEvents = event.updatedAt!
+                        if event.updatedAt! > newestUpdatedAtOfPublicEvents {
+                            newestUpdatedAtOfPublicEvents = event.updatedAt!
                         }
-                        if event.updatedAt! < EventRequest.oldestUpdatedAtOfPublicEvents {
-                            EventRequest.oldestUpdatedAtOfPublicEvents = event.updatedAt!
+                        if event.updatedAt! < oldestUpdatedAtOfPublicEvents {
+                            oldestUpdatedAtOfPublicEvents = event.updatedAt!
                         }
                     }
                 }
@@ -472,13 +476,13 @@ class EventRequest {
             concurrentMyOngoingEventQueue.async(flags: .barrier) {
                 for event in events {
                     if event.status != .isFailed && !(event.completedBy ?? []).contains(AVUser.current()!) {
-                        EventRequest._myOngoingEvents[event.objectId!] = event
+                        _myOngoingEvents[event.objectId!] = event
                         
-                        if event.updatedAt! > EventRequest.newestUpdatedAtOfMyOngoingEvents {
-                            EventRequest.newestUpdatedAtOfMyOngoingEvents = event.updatedAt!
+                        if event.updatedAt! > newestUpdatedAtOfMyOngoingEvents {
+                            newestUpdatedAtOfMyOngoingEvents = event.updatedAt!
                         }
-                        if event.updatedAt! < EventRequest.oldestUpdatedAtOfMyOngoingEvents {
-                            EventRequest.oldestUpdatedAtOfMyOngoingEvents = event.updatedAt!
+                        if event.updatedAt! < oldestUpdatedAtOfMyOngoingEvents {
+                            oldestUpdatedAtOfMyOngoingEvents = event.updatedAt!
                         }
                     }
                 }
