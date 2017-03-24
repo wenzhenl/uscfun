@@ -163,6 +163,7 @@ class EventListViewController: UIViewController {
     }
     
     func handleRefresh() {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         let numberOfPublicEventsBeforeUpdate = EventRequest.publicEvents.count
         EventRequest.fetchNewerPublicEventsInBackground() {
             succeeded, error in
@@ -178,6 +179,7 @@ class EventListViewController: UIViewController {
                 self.refreshControl.endRefreshing()
                 self.displayInfo(info: error!.localizedDescription)
             }
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
         }
     }
     
@@ -393,17 +395,12 @@ extension EventListViewController: UIScrollViewDelegate {
     }
     
     func animateRefreshView() {
-        
-        if !self.isRefreshAnimating {
-            UIView.animate(withDuration: 0.2, animations: {
-                self.customRefreshView.viewWithTag(1)?.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-            })
-        }
         self.isRefreshAnimating = true
+        self.customRefreshView.viewWithTag(2)?.isHidden = true
         UIView.animateKeyframes(withDuration: 0.8, delay: 0.0, options: .calculationModeCubic, animations: {
             UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 1/4, animations: {
                 self.customRefreshView.viewWithTag(1)?.transform = (self.customRefreshView.viewWithTag(1)?.transform.rotated(by: CGFloat(M_PI_2)))!
-                self.customRefreshView.backgroundColor = UIColor.themeYellow
+                self.customRefreshView.backgroundColor = UIColor.buttonPink
             })
             UIView.addKeyframe(withRelativeStartTime: 1/4, relativeDuration: 1/4, animations: {
                 self.customRefreshView.viewWithTag(1)?.transform = (self.customRefreshView.viewWithTag(1)?.transform.rotated(by: -CGFloat(M_PI_2)))!
@@ -415,7 +412,7 @@ extension EventListViewController: UIScrollViewDelegate {
             })
             UIView.addKeyframe(withRelativeStartTime: 3/4, relativeDuration: 1/4, animations: {
                 self.customRefreshView.viewWithTag(1)?.transform = (self.customRefreshView.viewWithTag(1)?.transform.rotated(by: CGFloat(M_PI_2)))!
-                self.customRefreshView.backgroundColor = UIColor.white
+                self.customRefreshView.backgroundColor = UIColor.buttonBlue
             })
         }, completion: {
             finished in
@@ -425,22 +422,10 @@ extension EventListViewController: UIScrollViewDelegate {
                 self.resetAnimation()
             }
         })
-        
-//        UIView.animate(withDuration: 0.3, delay: 0, options: [.autoreverse, .curveLinear, .repeat], animations: {
-//            self.customRefreshView.backgroundColor = UIColor.avatarTomato
-//            self.customRefreshView.backgroundColor = UIColor.avatarGreen
-//            self.customRefreshView.viewWithTag(1)?.transform = (self.customRefreshView.viewWithTag(1)?.transform.rotated(by: CGFloat(M_PI_2)))!
-//        }, completion: {
-//            finished in
-//            if self.refreshControl.isRefreshing {
-//                self.animateRefreshView()
-//            } else {
-//                self.resetAnimation()
-//            }
-//        })
     }
     
     func resetAnimation() {
+        self.customRefreshView.viewWithTag(2)?.isHidden = false
         self.customRefreshView.backgroundColor = UIColor.clear
         self.customRefreshView.viewWithTag(1)?.transform = .identity
         self.isRefreshAnimating = false
