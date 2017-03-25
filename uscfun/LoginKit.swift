@@ -87,6 +87,17 @@ class LoginKit {
     }
     
     static func checkIfConfirmationCodeMatches(email: String, code: String)throws -> Bool {
+        var error: NSError?
+        
+        AVCloud.callFunction(inBackground: "checkIfConfirmationCodeMatches", withParameters: ["email": email]) {
+            object, error in
+            if let matched = object as? [String: Bool] {
+                print("if matched: \(matched["succeeded"])")
+            }
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        }
         return true
 //        var error: NSError?
 //        if let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfConfirmationCodeMatches, withParameters: ["email": email, "code": code], error: &error) as? Bool {
