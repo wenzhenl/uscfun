@@ -150,8 +150,35 @@ class EditEventViewController: FormViewController {
                         self.saveButtonItem.isEnabled = true
                     }
             }
+        
+            +++ Section() {
+                $0.hidden = Condition.function(["hideDelete"]) {
+                    _ in
+                    return self.event.members.count > 1
+                }
+            }
+            <<< ButtonRow("delete") {
+                $0.title = "删除微活动"
+                }.cellSetup {
+                    cell, row in
+                    cell.tintColor = UIColor.red
+                }
+                .onCellSelection {
+                    [weak self] (cell, row) in
+                    self?.showAlert()
+            }
     }
 
+    func showAlert() {
+        let alertController = UIAlertController(title: "确定要删除微活动么? 只有还没有人报名的微活动可以删除", message: nil, preferredStyle: .actionSheet)
+        let okay = UIAlertAction(title: "确定删除", style: .destructive) {
+            _ in
+        }
+        let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        alertController.addAction(okay)
+        alertController.addAction(cancel)
+        present(alertController, animated: true, completion: nil)
+    }
     
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         self.presentingViewController?.dismiss(animated: true, completion: nil)
