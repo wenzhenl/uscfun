@@ -77,6 +77,7 @@ class MyEventListViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleQuitEvent), name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleEventExpired(notification:)), name: NSNotification.Name(rawValue: "eventDidExpired"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateEvent(notification:)), name: NSNotification.Name(rawValue: "userDidUpdateEvent"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleCancelEvent(notification:)), name: NSNotification.Name(rawValue: "userDidCancelEvent"), object: nil)
 
         view.addSubview(infoLabel)
         self.navigationController?.navigationBar.isTranslucent = false
@@ -161,6 +162,10 @@ class MyEventListViewController: UIViewController {
     }
     
     func handleUpdateEvent(notification: Notification) {
+        self.tableView.reloadData()
+    }
+    
+    func handleCancelEvent(notification: Notification) {
         self.tableView.reloadData()
     }
     

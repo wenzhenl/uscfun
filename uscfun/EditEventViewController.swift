@@ -21,9 +21,26 @@ class EditEventViewController: FormViewController {
     var event: Event!
     var delegate: EditEventViewControllerDelegate?
     
+    var errorLabel: UILabel!
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.errorLabel.isHidden = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "修改微活动"
+        
+        if let navigationBar = self.navigationController?.navigationBar {
+            errorLabel = UILabel(frame: CGRect(x: navigationBar.frame.width/4, y: 0, width: navigationBar.frame.width/2, height: navigationBar.frame.height))
+            errorLabel.textAlignment = .center
+            errorLabel.textColor = UIColor.red
+            errorLabel.font = UIFont.systemFont(ofSize: 13)
+            errorLabel.numberOfLines = 0
+            navigationBar.addSubview(errorLabel)
+            errorLabel.isHidden = true
+        }
         
         saveButtonItem.isEnabled = false
         
@@ -41,6 +58,8 @@ class EditEventViewController: FormViewController {
                 if row.value! > self.event.due {
                     self.saveButtonItem.isEnabled = true
                 }
+                self.errorLabel.isHidden = true
+                self.title = "修改微活动"
             }
             
             +++ Section("增加最多容纳人数")
@@ -63,6 +82,8 @@ class EditEventViewController: FormViewController {
                 if row.value! > Double(self.event.maximumAttendingPeople) {
                     self.saveButtonItem.isEnabled = true
                 }
+                self.errorLabel.isHidden = true
+                self.title = "修改微活动"
             }
             
             +++ Section("减少最低成行人数") {
@@ -96,6 +117,8 @@ class EditEventViewController: FormViewController {
                     if row.value! < Double(self.event.minimumAttendingPeople) {
                         self.saveButtonItem.isEnabled = true
                     }
+                    self.errorLabel.isHidden = true
+                    self.title = "修改微活动"
             }
             
             +++ Section("更新时间地点")
@@ -109,6 +132,8 @@ class EditEventViewController: FormViewController {
                     if row.value != self.event.startTime {
                         self.saveButtonItem.isEnabled = true
                     }
+                    self.errorLabel.isHidden = true
+                    self.title = "修改微活动"
             }
             
             <<< DateTimeRow("eventEndTime"){
@@ -121,6 +146,8 @@ class EditEventViewController: FormViewController {
                     if row.value != self.event.endTime {
                         self.saveButtonItem.isEnabled = true
                     }
+                    self.errorLabel.isHidden = true
+                    self.title = "修改微活动"
             }
             
             <<< LocationAddressRow("eventLocation") {
@@ -138,6 +165,8 @@ class EditEventViewController: FormViewController {
                     if row.value != self.event.location || row.latitude != self.event.whereCreated?.latitude || row.longitude != self.event.whereCreated?.longitude {
                         self.saveButtonItem.isEnabled = true
                     }
+                    self.errorLabel.isHidden = true
+                    self.title = "修改微活动"
             }
 
             +++ Section("更新补充说明")
@@ -149,6 +178,8 @@ class EditEventViewController: FormViewController {
                     if row.value != self.event.note {
                         self.saveButtonItem.isEnabled = true
                     }
+                    self.errorLabel.isHidden = true
+                    self.title = "修改微活动"
             }
         
             +++ Section() {
@@ -173,14 +204,23 @@ class EditEventViewController: FormViewController {
         let alertController = UIAlertController(title: "确定要删除微活动么? 只有还没有人报名的微活动可以删除", message: nil, preferredStyle: .actionSheet)
         let okay = UIAlertAction(title: "确定删除", style: .destructive) {
             _ in
+            SVProgressHUD.show()
             self.event.cancel {
                 succeeded, error in
+                SVProgressHUD.dismiss()
                 if succeeded {
                     print("delete successfully")
-                    self.presentingViewController?.dismiss(animated: true, completion: nil)
+                    EventRequest.removeMyOngoingEvent(with: self.event.objectId!) {
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidCancelEvent"), object: nil, userInfo: ["eventId": self.event.objectId!])
+
+                        self.presentingViewController?.dismiss(animated: true, completion: nil)
+                    }
                 }
                 
                 if error != nil {
+                    self.errorLabel.text = error!.localizedDescription
+                    self.title = ""
+                    self.errorLabel.isHidden = false
                     print(error!.localizedDescription)
                 }
             }
@@ -219,8 +259,13 @@ class EditEventViewController: FormViewController {
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidUpdateEvent"), object: nil, userInfo: nil)
                     self.presentingViewController?.dismiss(animated: true, completion: nil)
                 }
-            } else {
+            }
+            else if error != nil {
                 self.saveButtonItem.isEnabled = true
+                self.errorLabel.text = error!.localizedDescription
+                self.title = ""
+                self.errorLabel.isHidden = false
+                print(error!.localizedDescription)
             }
         }
     }
