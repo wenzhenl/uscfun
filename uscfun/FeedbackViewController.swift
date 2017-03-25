@@ -25,7 +25,7 @@ class FeedbackViewController: UIViewController {
             print("feedback is set")
             textView.text = newValue
             sendButton.isEnabled = !newValue.isEmpty
-            placeholderLabel.text = newValue.isEmpty ? "请写下USC日常存在的问题，或者你有什么建议，也欢迎提供给我们" : ""
+            placeholderLabel.text = newValue.isEmpty ? "请写下usc日常存在的问题，如果你有什么建议，也欢迎提供给我们" : ""
             UserDefaults.feedback = newValue
         }
     }

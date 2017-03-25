@@ -457,9 +457,14 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
             cell.selectionStyle = .none
             return cell
         case .locationCell:
-            let cell = Bundle.main.loadNibNamed("TitleContentTableViewCell", owner: self, options: nil)?.first as! TitleContentTableViewCell
+            let cell = Bundle.main.loadNibNamed("TitleTextViewTableViewCell", owner: self, options: nil)?.first as! TitleTextViewTableViewCell
             cell.titleLabel.text = "微活动地点："
-            cell.contentLabel.text = event.location
+            cell.textView.text = event.location
+            cell.textView.isEditable = false
+            cell.textView.textColor = UIColor.darkText
+            cell.textView.font = UIFont.boldSystemFont(ofSize: 17)
+            cell.textView.textAlignment = .center
+            cell.textView.dataDetectorTypes = [.address]
             cell.selectionStyle = .none
             return cell
         case .mapCell:
@@ -563,7 +568,7 @@ extension EventDetailViewController: EditEventViewControllerDelegate {
 extension EventDetailViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
         if URL.scheme == "http" || URL.scheme == "https" {
-            if let webVC = UIStoryboard(name: "Login", bundle: nil).instantiateViewController(withIdentifier: "common use web vc") as? WebViewController {
+            if let webVC = UIStoryboard(name: "Login", bundle: nil).instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentifierOfWebViewController) as? WebViewController {
                 webVC.url = URL
                 self.navigationController?.pushViewController(webVC, animated: true)
             }

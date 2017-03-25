@@ -12,7 +12,6 @@ import UIKit
 class USCFunConstants {
     
     static let minimumPasswordLength = 5
-    static let storyboardIdentifierOfCustomizedAlertViewController = "Customized Alert View Controller"
     static let nameOfSchool = "usc"
     
     static let avatarColorOptions = [UIColor.avatarBlue, UIColor.avatarCyan, UIColor.avatarPink, UIColor.avatarGolden, UIColor.avatarOrange, UIColor.avatarTomato, UIColor.avatarGreen]
@@ -24,6 +23,9 @@ class USCFunConstants {
     
     static let urlOfPrivacy = "http://www.baidu.com/"
     
+    //-MARK: storyboard identifiers
+    static let storyboardIdentifierOfCustomizedAlertViewController = "Customized Alert View Controller"
+    static let storyboardIdentifierOfWebViewController = "common use web vc"
 }
 
 struct UserKeyConstants {
