@@ -31,6 +31,10 @@ class EventSnapshotTableViewCell: UITableViewCell {
     
     func update() {
         if let due = due {
+            if due < Date() {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "eventDidExpired"), object: nil, userInfo: nil)
+                NotificationCenter.default.removeObserver(self)
+            }
             let gapFromNow = due.gapFromNow
             if gapFromNow == "" {
                 remainingTimeLabel.textColor = UIColor.darkGray
