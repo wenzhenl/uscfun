@@ -627,6 +627,42 @@ class Event {
             handler(false, EventError.systemError(localizedDescriotion: "活动无法更新", debugDescription: error.localizedDescription))
         }
     }
+    
+    /// Cancel the event
+    ///
+    /// - parameter handler:  handle the creation depending on the operation is successful or not
+    /// - parameter succeeded: indicate if the operation is successful
+    /// - parameter error: optional error information if operation fails
+    
+    func cancel(handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
+        
+        guard createdBy == AVUser.current()! else {
+            handler(false, EventError.systemError(localizedDescriotion: "你没有权限删除此微活动", debugDescription: "user is not creator"))
+            return
+        }
+        
+        guard members.count == 1 else {
+            handler(false, EventError.systemError(localizedDescriotion: "已经有人参加了微活动", debugDescription: "there are people attending"))
+            return
+        }
+        
+        let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId!)
+        let query = AVQuery()
+        query.whereKey(EventKeyConstants.keyOfMembers, equalTo: [AVUser.current()!])
+        
+        let option = AVSaveOption()
+        option.query = query
+        
+        eventObject.setObject(true, forKey: EventKeyConstants.keyOfIsCancelled)
+        do {
+            try eventObject.save(with: option)
+            self.isCancelled = true
+            handler(true, nil)
+        } catch let error {
+            print("cannot delete \(error.localizedDescription)")
+            handler(false, EventError.systemError(localizedDescriotion: "活动已经有人参加了", debugDescription: error.localizedDescription))
+        }
+    }
 
     /// indicate that member has completed the event
     ///

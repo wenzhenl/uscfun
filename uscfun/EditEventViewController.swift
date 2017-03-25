@@ -173,6 +173,17 @@ class EditEventViewController: FormViewController {
         let alertController = UIAlertController(title: "确定要删除微活动么? 只有还没有人报名的微活动可以删除", message: nil, preferredStyle: .actionSheet)
         let okay = UIAlertAction(title: "确定删除", style: .destructive) {
             _ in
+            self.event.cancel {
+                succeeded, error in
+                if succeeded {
+                    print("delete successfully")
+                    self.presentingViewController?.dismiss(animated: true, completion: nil)
+                }
+                
+                if error != nil {
+                    print(error!.localizedDescription)
+                }
+            }
         }
         let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
         alertController.addAction(okay)
