@@ -2,7 +2,7 @@
 
 from leancloud import Engine
 from leancloud import LeanEngineError
-
+from leancloud import Object
 from app import app
 
 import smtplib
@@ -16,25 +16,30 @@ engine = Engine(app)
 @engine.define
 def requestConfirmationCode(**params):
     if 'email' in params:
-        fromaddr = "richangteam@gmail.com"
-        toaddr = params['email']
-        password = "580230richang"
-
-        code = ''.join(choice(digits) for i in xrange(6))
-
-        message = MIMEMultipart()
-        message['From'] = fromaddr
-        message['To'] = toaddr
-        message['Subject'] = "【USC日常】你的注册验证码是 " + code
-        body = ""
-        body += "同学你好!\n\n你正在注册使用USC日常，你的验证码是 "
-        body += code
-        body += ".\n此验证码将会在20分钟后失效，请尽快"
-        "验证。\n如果你并没有注册USC日常，请忽略此邮件。\n"
-        "\n\nUSC日常APP"
-        message.attach(MIMEText(body, 'plain'))
-
         try:
+            fromaddr = "richangteam@gmail.com"
+            toaddr = params['email']
+            password = "580230richang"
+
+            code = ''.join(choice(digits) for i in xrange(6))
+            ConfirmationCode = Object.extend('ConfirmationCode')
+            concode = ConfirmationCode()
+            concode.set('email', toaddr)
+            concode.set('code', code)
+            concode.save()
+
+            message = MIMEMultipart()
+            message['From'] = fromaddr
+            message['To'] = toaddr
+            message['Subject'] = "【USC日常】你的注册验证码是 " + code
+            body = ""
+            body += "同学你好!\n\n你正在注册使用USC日常，你的验证码是 "
+            body += code
+            body += ".\n此验证码将会在20分钟后失效，请尽快"
+            body += "验证。\n如果你并没有注册USC日常，请忽略此邮件。\n"
+            body += "\n\nUSC日常APP"
+            message.attach(MIMEText(body, 'plain'))
+
             server = smtplib.SMTP('smtp.gmail.com', '587')
             server.ehlo()
             server.starttls()
