@@ -19,6 +19,8 @@ import json
 
 engine = Engine(app)
 
+uscSystemConversationId = "58d5288eda2f600064f2c605"
+
 @engine.define
 def checkIfEmailIsTaken(**params):
     if 'email' in params:
@@ -147,6 +149,15 @@ def receiveFeedback(**params):
             raise LeanEngineError('发送反馈失败，请稍后重试')
     else:
         raise LeanEngineError('邮箱反馈都不能为空')
+@engine.before_save('_User')
+def before_user_save(user):
+    client_id = user.get('username') + "_system_notification"
+    headers = {'Content-Type': 'application/json', \
+        'X-LC-Id': '0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz', \
+        'X-LC-Key': '86bDxHaspqbCjqxWm53txUxb,master'}
+    url = 'https://leancloud.cn/1.1/rtm/broadcast/subscription'
+    data = {"conv_id": uscSystemConversationId, "client_id": client_id}
+    requests.post(url, data=json.dumps(data), headers=headers)
 
 @engine.after_save('Event')
 def after_event_save(event):
@@ -154,12 +165,12 @@ def after_event_save(event):
     headers = {'Content-Type': 'application/json', \
         'X-LC-Id': '0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz', \
         'X-LC-Key': '86bDxHaspqbCjqxWm53txUxb,master'}
-    url = 'https://api.leancloud.cn/1.1/rtm/broadcast'
+    url = 'https://leancloud.cn/1.1/rtm/broadcast/subscriber'
     data = {"from_peer": "sys", \
             "message": "{\"_lctype\":-1,\"_lctext\":\"new event\", \
             \"_lcattrs\":{\"reason\": \"new\", \
             \"eventId\": \"" + eventId + "\"}}", \
-             "conv_id": "58d5288eda2f600064f2c605"}
+             "conv_id": uscSystemConversationId}
     requests.post(url, data=json.dumps(data), headers=headers)
 
 @engine.after_update('Event')
@@ -168,10 +179,10 @@ def after_event_update(event):
     headers = {'Content-Type': 'application/json', \
         'X-LC-Id': '0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz', \
         'X-LC-Key': '86bDxHaspqbCjqxWm53txUxb,master'}
-    url = 'https://api.leancloud.cn/1.1/rtm/broadcast'
+    url = 'https://leancloud.cn/1.1/rtm/broadcast/subscriber'
     data = {"from_peer": "sys", \
             "message": "{\"_lctype\":-1,\"_lctext\":\"new event\", \
             \"_lcattrs\":{\"reason\": \"updated\", \
             \"eventId\": \"" + eventId + "\"}}", \
-             "conv_id": "58d5288eda2f600064f2c605"}
+             "conv_id": uscSystemConversationId}
     requests.post(url, data=json.dumps(data), headers=headers)
