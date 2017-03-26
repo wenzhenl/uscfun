@@ -12,6 +12,8 @@ from email.MIMEText import MIMEText
 from string import digits
 from random import choice
 
+import datetime
+
 engine = Engine(app)
 
 @engine.define
@@ -74,7 +76,31 @@ def requestConfirmationCode(**params):
 
 @engine.define
 def checkIfConfirmationCodeMatches(**params):
-    return True
+    if 'email' in params and 'code' in params:
+        try:
+            email = params['email']
+            code = params['code']
+            ConfirmationCode = Object.extend('ConfirmationCode')
+            twentyMinutesAgo = datetime.datetime.now() - datetime.timedelta(minutes=20)
+            print(twentyMinutesAgo)
+            query1 = ConfirmationCode.query
+            query2 = ConfirmationCode.query
+            query3 = ConfirmationCode.query
+            query1.equal_to('email', email)
+            query2.equal_to('code', code)
+            query3.greater_than_or_equal_to('updatedAt', twentyMinutesAgo)
+            query12 = Query.and_(query1, query2)
+            query = Query.and_(query12, query3)
+            query_list = query.find()
+            if len(query_list) == 0:
+                return False
+            else:
+                return True
+        except Exception as e:
+            print e
+            raise LeanEngineError('系统错误：无法验证验证码')
+    else:
+        raise LeanEngineError('邮箱已经验证码都不能为空')
 
 @engine.define
 def receiveFeedback(**params):
