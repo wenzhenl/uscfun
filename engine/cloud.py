@@ -3,6 +3,7 @@
 from leancloud import Engine
 from leancloud import LeanEngineError
 from leancloud import Object
+from leancloud import Query
 from app import app
 
 import smtplib
@@ -12,6 +13,24 @@ from string import digits
 from random import choice
 
 engine = Engine(app)
+
+@engine.define
+def checkIfEmailIsTaken(**params):
+    if 'email' in params:
+        try:
+            email = params['email']
+            query = Query('_User')
+            query.equal_to('email', email)
+            query_list = query.find()
+            if len(query_list) == 0:
+                return False
+            else:
+                return True
+        except Exception as e:
+            print e
+            raise LeanEngineError('系统错误，无法查询邮箱是否占用')
+    else:
+        raise LeanEngineError('没有提供邮箱地址')
 
 @engine.define
 def requestConfirmationCode(**params):
@@ -47,18 +66,19 @@ def requestConfirmationCode(**params):
             text = message.as_string()
             server.sendmail(fromaddr, toaddr, text)
             server.quit()
-        except:
+        except Exception as e:
+            print e
             raise LeanEngineError('发送验证码失败，请稍后重试')
     else:
         raise LeanEngineError('没有提供邮箱地址')
 
 @engine.define
-def hello(**params):
-    if 'name' in params:
-        return 'Hello, {}!'.format(params['name'])
-    else:
-        return 'Hello, LeanCloud!'
+def checkIfConfirmationCodeMatches(**params):
+    return True
 
+@engine.define
+def receiveFeedback(**params):
+    return True
 
 @engine.before_save('Todo')
 def before_todo_save(todo):
