@@ -1,4 +1,5 @@
-# coding: utf-8
+# -*- coding: utf8 -*-
+__author__ = "Wenzheng Li"
 
 from leancloud import Engine
 from leancloud import LeanEngineError
@@ -44,10 +45,18 @@ def requestConfirmationCode(**params):
 
             code = ''.join(choice(digits) for i in xrange(6))
             ConfirmationCode = Object.extend('ConfirmationCode')
-            concode = ConfirmationCode()
-            concode.set('email', toaddr)
-            concode.set('code', code)
-            concode.save()
+            query = Query(ConfirmationCode)
+            query.equal_to('email', toaddr)
+            query_list = query.find()
+            if len(query_list) > 0:
+                concode = query_list[0]
+                concode.set('code', code)
+                concode.save()
+            else:
+                concode = ConfirmationCode()
+                concode.set('email', toaddr)
+                concode.set('code', code)
+                concode.save()
 
             message = MIMEMultipart()
             message['From'] = fromaddr
@@ -72,7 +81,7 @@ def requestConfirmationCode(**params):
             print e
             raise LeanEngineError('发送验证码失败，请稍后重试')
     else:
-        raise LeanEngineError('没有提供邮箱地址')
+        raise LeanEngineError('邮箱地址不能为空')
 
 @engine.define
 def checkIfConfirmationCodeMatches(**params):
@@ -104,7 +113,37 @@ def checkIfConfirmationCodeMatches(**params):
 
 @engine.define
 def receiveFeedback(**params):
-    return True
+    if 'email' in params and 'feedback' in params:
+        try:
+            fromaddr = "richangteam@gmail.com"
+            toaddr = "richangteam@gmail.com"
+            password = "580230richang"
+
+            email = params['email']
+            print email
+            feedback = params['feedback']
+            print feedback
+
+            message = MIMEMultipart()
+            message['From'] = fromaddr
+            message['To'] = toaddr
+            message['Subject'] = "【USC日常】你的注册验证码是 "
+            # body = "反馈来自" + email
+            body = feedback
+            message.attach(MIMEText(body, 'plain'))
+
+            server = smtplib.SMTP('smtp.gmail.com', '587')
+            server.ehlo()
+            server.starttls()
+            server.login(fromaddr, password)
+            text = message.as_string()
+            server.sendmail(fromaddr, toaddr, text)
+            server.quit()
+        except Exception as e:
+            print e
+            raise LeanEngineError('发送反馈失败，请稍后重试')
+    else:
+        raise LeanEngineError('邮箱反馈都不能为空')
 
 @engine.before_save('Todo')
 def before_todo_save(todo):
