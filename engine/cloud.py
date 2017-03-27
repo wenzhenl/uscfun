@@ -27,31 +27,40 @@ engine = Engine(app)
 
 @engine.define
 def checkIfEmailIsTaken(**params):
+    print 'check if email is taken starts'
     if 'email' in params:
         try:
             email = params['email']
+            print "email: " + email
             query = Query('_User')
             query.equal_to('email', email)
             query_list = query.find()
+            print('check if email is taken ends')
             if len(query_list) == 0:
                 return False
             else:
                 return True
         except Exception as e:
             print e
+            print('check if email is taken ends')
             raise LeanEngineError('系统错误，无法查询邮箱是否占用')
     else:
+        print "email cannot be empty"
+        print('check if email is taken ends')
         raise LeanEngineError('没有提供邮箱地址')
 
 @engine.define
 def requestConfirmationCode(**params):
+    print 'request confirmation code starts'
     if 'email' in params:
         try:
             fromaddr = "richangteam@gmail.com"
             toaddr = params['email']
+            print "toaddr: " + toaddr
             password = "580230richang"
 
             code = ''.join(choice(digits) for i in xrange(6))
+            print "code: " + code
             ConfirmationCode = Object.extend('ConfirmationCode')
             query = Query(ConfirmationCode)
             query.equal_to('email', toaddr)
@@ -86,18 +95,26 @@ def requestConfirmationCode(**params):
             text = message.as_string()
             server.sendmail(fromaddr, toaddr, text)
             server.quit()
+            print 'request confirmation code ends'
+            return True
         except Exception as e:
             print e
+            print 'request confirmation code ends'
             raise LeanEngineError('发送验证码失败，请稍后重试')
     else:
+        print "email cannot be empty"
+        print 'request confirmation code ends'
         raise LeanEngineError('邮箱地址不能为空')
 
 @engine.define
 def checkIfConfirmationCodeMatches(**params):
+    print "check if confirmation code matches starts"
     if 'email' in params and 'code' in params:
         try:
             email = params['email']
+            print "email: " + email
             code = params['code']
+            print "code: " + code
             ConfirmationCode = Object.extend('ConfirmationCode')
             twentyMinutesAgo = datetime.datetime.now() - datetime.timedelta(minutes=20)
             print(twentyMinutesAgo)
@@ -110,18 +127,24 @@ def checkIfConfirmationCodeMatches(**params):
             query12 = Query.and_(query1, query2)
             query = Query.and_(query12, query3)
             query_list = query.find()
+            print "check if confirmation code matches ends"
+
             if len(query_list) == 0:
                 return False
             else:
                 return True
         except Exception as e:
             print e
+            print "check if confirmation code matches ends"
             raise LeanEngineError('系统错误：无法验证验证码')
     else:
-        raise LeanEngineError('邮箱已经验证码都不能为空')
+        print "email and code cannot be empty"
+        print "check if confirmation code matches ends"
+        raise LeanEngineError('邮箱以及验证码都不能为空')
 
 @engine.define
 def receiveFeedback(**params):
+    print "receive feedback starts"
     if 'email' in params and 'feedback' in params:
         try:
             fromaddr = "richangteam@gmail.com"
@@ -129,9 +152,9 @@ def receiveFeedback(**params):
             password = "580230richang"
 
             email = params['email']
-            print email
+            print "email:" + email
             feedback = params['feedback']
-            print feedback
+            print "feedback: " + feedback
 
             message = MIMEMultipart()
             message['From'] = fromaddr
@@ -148,15 +171,20 @@ def receiveFeedback(**params):
             text = message.as_string()
             server.sendmail(fromaddr, toaddr, text)
             server.quit()
+            print "receive feedback ends"
+            return True
         except Exception as e:
             print e
+            print "receive feedback ends"
             raise LeanEngineError('发送反馈失败，请稍后重试')
     else:
+        print "email cannot be empty"
+        print "receive feedback ends"
         raise LeanEngineError('邮箱反馈都不能为空')
 
 @engine.define
 def createSystemConversationIfNotExists(**params):
-    print "creating system conversation if not exists..."
+    print "create system conversation if not exists starts"
     if 'email' in params:
         try:
             email = params['email']
@@ -180,41 +208,55 @@ def createSystemConversationIfNotExists(**params):
                 data = {"name": institution, \
                         "sys": True}
                 requests.post(url, data=json.dumps(data), headers=headers)
+            print "create system conversation if not exists ends"
+            return True
         except Exception as e:
             print e
+            print "create system conversation if not exists ends"
             raise LeanEngineError('创建系统对话失败，请稍后重试')
     else:
+        print "email cannot be empty"
+        print "create system conversation if not exists ends"
         raise LeanEngineError('邮箱不能为空')
 
 @engine.define
 def subscribeToSystemConversation(**params):
-    print "subscribing to system conversation..."
+    print "subscribe to system conversation starts"
     if 'clientId' in params and 'institution' in params:
-        client_id = params['clientId']
-        print "clientId:" + client_id
-        institution = params['institution']
-        print "institution:" + institution
-        Conversation = Object.extend('_Conversation')
-        query1 = Conversation.query
-        query2 = Conversation.query
-        query1.equal_to('name', institution)
-        query2.equal_to('sys', True)
-        query = Query.and_(query1, query2)
-        query_list = query.find()
-        if len(query_list) == 0:
-            raise LeanEngineError('没有找到系统对话')
-        else:
-            conversation = query_list[0]
-            conversation_id = conversation.get('objectId')
-            print "conversationId:" + conversation_id
+        try:
+            client_id = params['clientId']
+            print "clientId:" + client_id
+            institution = params['institution']
+            print "institution:" + institution
+            Conversation = Object.extend('_Conversation')
+            query1 = Conversation.query
+            query2 = Conversation.query
+            query1.equal_to('name', institution)
+            query2.equal_to('sys', True)
+            query = Query.and_(query1, query2)
+            query_list = query.find()
+            if len(query_list) == 0:
+                raise LeanEngineError('没有找到系统对话')
+            else:
+                conversation = query_list[0]
+                conversation_id = conversation.get('objectId')
+                print "conversationId:" + conversation_id
 
-            headers = {'Content-Type': 'application/json', \
-                'X-LC-Id': APP_ID, \
-                'X-LC-Key': MASTER_KEY + ',master'}
-            url = 'https://leancloud.cn/1.1/rtm/conversation/subscription'
-            data = {"conv_id": conversation_id, "client_id": client_id}
-            requests.post(url, data=json.dumps(data), headers=headers)
+                headers = {'Content-Type': 'application/json', \
+                    'X-LC-Id': APP_ID, \
+                    'X-LC-Key': MASTER_KEY + ',master'}
+                url = 'https://leancloud.cn/1.1/rtm/conversation/subscription'
+                data = {"conv_id": conversation_id, "client_id": client_id}
+                requests.post(url, data=json.dumps(data), headers=headers)
+            print "subscribe to system conversation ends"
+            return True
+        except Exception as e:
+            print e
+            print "subscribe to system conversation ends"
+            raise LeanEngineError('订阅系统通知失败，请稍后重试')
     else:
+        print "client id and institution must not be empty"
+        print "subscribe to system conversation ends"
         raise LeanEngineError('client id and institution must be not empty')
 
 @engine.after_save('Event')
@@ -276,3 +318,23 @@ def after_event_update(event):
                 \"eventId\": \"" + eventId + "\"}}", \
                  "conv_id": conversation_id}
         requests.post(url, data=json.dumps(data), headers=headers)
+
+@engine.define
+def _receiversOffline(**params):
+    print('_receiversOffline start')
+    # params['content'] 为消息内容
+    content = params['content']
+    short_content = content
+    print('short_content:', short_content)
+    payloads = {
+        # 自增未读消息的数目，不想自增就设为数字
+        'badge': 'Increment',
+        'sound': 'default',
+        # 使用开发证书
+        '_profile': 'dev',
+        'alert': short_content,
+    }
+    print('_receiversOffline end')
+    return {
+        'pushMessage': json.dumps(payloads),
+    }

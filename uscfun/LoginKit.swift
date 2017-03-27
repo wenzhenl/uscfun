@@ -75,53 +75,54 @@ class LoginKit {
     static var delegate: LoginDelegate?
     
     static func checkIfEmailIsTaken(email: String)throws -> Bool {
-        return false
-//        var error: NSError?
-//        if let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfEmailIsTaken, withParameters: ["email": email], error: &error) as? Bool {
-//            return result
-//        } else if error != nil {
-//            throw SignUpError.systemError(localizedDescriotion: "网络故障：无法连接服务器", debugDescription: error!.localizedDescription)
-//        } else {
-//            throw SignUpError.systemError(localizedDescriotion: "网络故障：无法连接服务器", debugDescription: "cannot check confirmation code")
-//        }
+        var error: NSError?
+        let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfEmailIsTaken, withParameters: ["email": email], error: &error)
+        if error != nil {
+            throw SignUpError.systemError(localizedDescriotion: "无法验证邮箱是否被占用", debugDescription: error!.localizedDescription)
+        }
+        
+        guard let isTaken = result as? Bool else {
+            throw SignUpError.systemError(localizedDescriotion: "无法验证邮箱是否被占用", debugDescription: "cannot check if email is taken")
+        }
+        
+        return isTaken
     }
     
     static func checkIfConfirmationCodeMatches(email: String, code: String)throws -> Bool {
-//        var error: NSError?
-//        
-//        AVCloud.callFunction(inBackground: "checkIfConfirmationCodeMatches", withParameters: ["email": email]) {
-//            object, error in
-//            if let matched = object as? [String: Bool] {
-//                print("if matched: \(matched["succeeded"])")
-//            }
-//            if error != nil {
-//                print(error!.localizedDescription)
-//            }
-//        }
-        return true
-//        var error: NSError?
-//        if let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfConfirmationCodeMatches, withParameters: ["email": email, "code": code], error: &error) as? Bool {
-//            return result
-//        } else if error != nil {
-//            throw SignUpError.systemError(localizedDescriotion: "系统故障：无法验证验证码", debugDescription: error!.localizedDescription)
-//        } else {
-//            throw SignUpError.systemError(localizedDescriotion: "系统故障：无法验证验证码", debugDescription: "cannot check confirmation code")
-//        }
+        var error: NSError?
+        let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfConfirmationCodeMatches, withParameters: ["email": email, "code": code], error: &error)
+        if error != nil {
+            throw SignUpError.systemError(localizedDescriotion: "无法验证验证码", debugDescription: error!.localizedDescription)
+        }
+        
+        guard let matched = result as? Bool else {
+            throw SignUpError.systemError(localizedDescriotion: "无法验证验证码", debugDescription: "cannot check if confirmation code matches")
+        }
+        
+        return matched
     }
     
     static func requestConfirmationCode(email: String)throws {
-//        var error: NSError?
-//        AVCloud.callFunction("requestConfirmationCode",
-//                             withParameters: ["email": email],
-//                             error: &error)
-//        if error != nil {
-//            throw SignUpError.systemError(localizedDescriotion: "系统故障：无法发送验证码", debugDescription: error!.localizedDescription)
-//        }
+        var error: NSError?
+        let result = AVCloud.callFunction(LeanEngineFunctions.nameOfRequestConfirmationCode, withParameters: ["email": email], error: &error)
+        if error != nil {
+            throw SignUpError.systemError(localizedDescriotion: "无法发送验证码", debugDescription: error!.localizedDescription)
+        }
+        
+        guard let succeeded = result as? Bool, succeeded == true else {
+            throw SignUpError.systemError(localizedDescriotion: "无法验证验证码", debugDescription: "cannot send confirmation code")
+        }
     }
     
     static func createSystemConversationIfNotExists(email: String)throws {
         var error: NSError?
-        AVCloud.callFunction(LeanEngineFunctions.nameOfCreateSystemConversationIfNotExists, withParameters: ["email": email], error: &error)
+        let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCreateSystemConversationIfNotExists, withParameters: ["email": email], error: &error)
+        
+        guard let succeeded = result as? Bool, succeeded == true else {
+            print("cannot create system conversation")
+            throw SignUpError.systemError(localizedDescriotion: "无法创建系统对话", debugDescription: "cannot create system conversation")
+        }
+        
         if error != nil {
             print(error!)
             throw SignUpError.systemError(localizedDescriotion: "无法创建系统对话", debugDescription: error!.localizedDescription)
@@ -130,10 +131,15 @@ class LoginKit {
     
     static func subscribeToSystemConversation(clientId: String, institution: String)throws {
         var error: NSError?
-        AVCloud.callFunction(LeanEngineFunctions.nameOfSubscribeToSystemConversation, withParameters: ["clientId": clientId, "institution": institution], error: &error)
+        let result = AVCloud.callFunction(LeanEngineFunctions.nameOfSubscribeToSystemConversation, withParameters: ["clientId": clientId, "institution": institution], error: &error)
         if error != nil {
             print(error!)
             throw SignUpError.systemError(localizedDescriotion: "无法订阅系统对话", debugDescription: error!.localizedDescription)
+        }
+        
+        guard let succeeded = result as? Bool, succeeded == true else {
+            print("cannot subscribe system conversation")
+            throw SignUpError.systemError(localizedDescriotion: "无法订阅系统对话", debugDescription: "cannot subscribe system conversation")
         }
     }
     
