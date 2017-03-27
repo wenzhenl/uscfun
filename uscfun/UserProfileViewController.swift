@@ -21,6 +21,7 @@ class UserProfileViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
+    var user: AVUser!
     var other: User!
     var showingCreatedEvents = true
     var userProfileSections = [UserProfileCell]()
@@ -29,6 +30,9 @@ class UserProfileViewController: UIViewController {
    
     var genderTitle: String!
  
+    var attendedEvents = OrderedDictionary<String, Event>()
+    var createdEvents = OrderedDictionary<String, Event>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = other.nickname
@@ -36,6 +40,29 @@ class UserProfileViewController: UIViewController {
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, -10, 0)
         self.tableView.tableFooterView = UIView()
         self.populateSections()
+        other = User(user: user)
+        EventRequest.fetchEventsCreated(by: user) {
+            error, events in
+            if let events = events {
+                for event in events {
+                    self.createdEvents[event.objectId!] = event
+                }
+            }
+            EventRequest.fetchEventsAttended(by: self.user) {
+                error, events in
+                if let events = events {
+                    for event in events {
+                        self.attendedEvents[event.objectId!] = event
+                    }
+                }
+                self.populateSections()
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    func populateSections() {
+        //--MARK: populate the cells
         if other.gender == .female {
             genderTitle = "她"
         }
@@ -45,10 +72,7 @@ class UserProfileViewController: UIViewController {
         else {
             genderTitle = "TA"
         }
-    }
-    
-    func populateSections() {
-        //--MARK: populate the cells
+
         userProfileSections.removeAll()
         userProfileSections.append(UserProfileCell.avatarCell)
         userProfileSections.append(UserProfileCell.statCell)
@@ -57,18 +81,18 @@ class UserProfileViewController: UIViewController {
         
         if other.allowsEventHistoryViewed {
             if showingCreatedEvents {
-                if other.createdEvents.count == 0 {
+                if createdEvents.count == 0 {
                     userProfileSections.append(UserProfileCell.noEventCell)
                 } else {
                     print(userProfileSections.count)
-                    userProfileSections += Array(repeating: UserProfileCell.eventCell, count: other.createdEvents.count)
+                    userProfileSections += Array(repeating: UserProfileCell.eventCell, count: createdEvents.count)
                      print(userProfileSections.count)
                 }
             } else {
-                if other.attendedEvents.count == 0 {
+                if attendedEvents.count == 0 {
                     userProfileSections.append(UserProfileCell.noEventCell)
                 } else {
-                    userProfileSections += Array(repeating: UserProfileCell.eventCell, count: other.attendedEvents.count)
+                    userProfileSections += Array(repeating: UserProfileCell.eventCell, count: attendedEvents.count)
                 }
             }
         } else {
@@ -100,7 +124,7 @@ class UserProfileViewController: UIViewController {
             case identifierToEventDetail:
                 let destination = segue.destination.contentViewController
                 if let edVC = destination as? EventDetailViewController {
-                    edVC.event = showingCreatedEvents ? other.createdEvents[other.createdEvents.keys[(self.tableView.indexPathForSelectedRow?.section)! - numberOfPreservedSection]] : other.attendedEvents[other.attendedEvents.keys[(self.tableView.indexPathForSelectedRow?.section)! - numberOfPreservedSection]]
+                    edVC.event = showingCreatedEvents ? createdEvents[createdEvents.keys[(self.tableView.indexPathForSelectedRow?.section)! - numberOfPreservedSection]] : attendedEvents[attendedEvents.keys[(self.tableView.indexPathForSelectedRow?.section)! - numberOfPreservedSection]]
                 }
             case identifierToBigAvatar:
                 let destination = segue.destination.contentViewController
@@ -144,9 +168,9 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
         case .statCell:
             let cell = Bundle.main.loadNibNamed("TandemLabelTableViewCell", owner: self, options: nil)?.first as! TandemLabelTableViewCell
             cell.leftLabel.textColor = UIColor.darkGray
-            cell.leftLabel.text = "发起微活动：" + String(other.createdEvents.count)
+            cell.leftLabel.text = "发起微活动：" + String(createdEvents.count)
             cell.rightLabel.textColor = UIColor.darkGray
-            cell.rightLabel.text = "参加微活动：" + String(other.attendedEvents.count)
+            cell.rightLabel.text = "参加微活动：" + String(attendedEvents.count)
             cell.selectionStyle = .none
             return cell
         case .introductionCell:
@@ -167,7 +191,7 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
         case .eventCell:
             let cell = Bundle.main.loadNibNamed("EventSnapshotTableViewCell", owner: self, options: nil)?.first as! EventSnapshotTableViewCell
             var event: Event!
-            event = showingCreatedEvents ? other.createdEvents[other.createdEvents.keys[indexPath.section - numberOfPreservedSection]] : other.attendedEvents[other.attendedEvents.keys[indexPath.section - numberOfPreservedSection]]
+            event = showingCreatedEvents ? createdEvents[createdEvents.keys[indexPath.section - numberOfPreservedSection]] : attendedEvents[attendedEvents.keys[indexPath.section - numberOfPreservedSection]]
             let creator = User(user: event.createdBy)!
             cell.eventNameLabel.text = event.name
             cell.creatorLabel.text = "发起人：" + creator.nickname
@@ -200,7 +224,7 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
             let cell = Bundle.main.loadNibNamed("EmptySectionPlaceholderTableViewCell", owner: self, options: nil)?.first as! EmptySectionPlaceholderTableViewCell
             if !other.allowsEventHistoryViewed {
                 cell.mainTextView.text = "用户没有公开活动历史"
-            } else if other.createdEvents.count == 0 {
+            } else if createdEvents.count == 0 {
                 cell.mainTextView.text = "用户还没有发起过任何活动"
             } else {
                 cell.mainTextView.text = "用户还没有参加过任何活动"

@@ -68,12 +68,4 @@ class User {
             self.selfIntroduction = selfIntroduction
         }
     }
-    
-    var attendedEvents: OrderedDictionary<String, Event> {
-        return EventRequest.publicEvents
-    }
-    
-    var createdEvents: OrderedDictionary<String, Event> {
-        return EventRequest.myOngoingEvents
-    }
 }

@@ -18,20 +18,41 @@ class EventHistoryViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var eventHistorySource: EventHistorySource!
-    var previousEvents: OrderedDictionary<String, Event>!
+    var previousEvents = OrderedDictionary<String, Event>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.view.backgroundColor = UIColor.white
         self.tableView.backgroundColor = UIColor.backgroundGray
-        previousEvents = eventHistorySource == .created ? EventRequest.myOngoingEvents : EventRequest.publicEvents
-        
         tableView.tableFooterView = UIView()
         
         if eventHistorySource == .created {
             self.title = "我发起过的活动"
         } else {
             self.title = "我参加过的活动"
+        }
+        
+        switch eventHistorySource {
+        case .created:
+            EventRequest.fetchEventsCreated(by: AVUser.current()!) {
+                error, events in
+                if let events = events {
+                    for event in events {
+                        self.previousEvents[event.objectId!] = event
+                    }
+                }
+                self.tableView.reloadData()
+            }
+        case .attended:
+            EventRequest.fetchEventsAttended(by: AVUser.current()!) {
+                error, events in
+                if let events = events {
+                    for event in events {
+                        self.previousEvents[event.objectId!] = event
+                    }
+                }
+                self.tableView.reloadData()
+            }
         }
     }
     

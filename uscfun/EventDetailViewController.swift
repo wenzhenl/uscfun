@@ -339,7 +339,7 @@ class EventDetailViewController: UIViewController {
                 if let upVC = destination as? UserProfileViewController {
                     switch sender {
                     case is UIButton:
-                        upVC.other = User(user: event.members[(sender as! UIButton).tag])
+                        upVC.user = event.members[(sender as! UIButton).tag]
                     case is EventCreatorTableViewCell:
                         upVC.other = creator
                     default:
