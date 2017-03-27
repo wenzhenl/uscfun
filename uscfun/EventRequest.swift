@@ -45,6 +45,11 @@ class EventRequest {
         case older
     }
     
+    enum EventSource {
+        case myongoing
+        case mypublic
+    }
+    
     //--MARK: common private function for fetching data from server
     
     private static func fetchData(inBackground: Bool, with query: AVQuery, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
@@ -403,14 +408,6 @@ class EventRequest {
     static func setPublicEvent(event: Event, for id: String, handler: (() -> Void)?) {
         concurrentPublicEventQueue.async(flags: .barrier) {
             
-            if event.createdAt! > newestCreatedAtOfPublicEvents {
-                newestCreatedAtOfPublicEvents = event.createdAt!
-            }
-            
-            if event.createdAt! < oldestCreatedAtOfPublicEvents {
-                oldestCreatedAtOfPublicEvents = event.createdAt!
-            }
-            
             _publicEvents[id] = event
             
             DispatchQueue.main.async {
@@ -467,7 +464,7 @@ class EventRequest {
         }
     }
     
-    //--MARK: functions for fetch public events
+    //--MARK: functions for fetch newer public events
     
     static func fetchNewerPublicEvents() {
         fetchNewerPublicEvents(inBackground: false, currentNewestCreatedTime: EventRequest.newestCreatedAtOfPublicEvents, handler: nil)
@@ -513,6 +510,8 @@ class EventRequest {
         }
     }
     
+    //--MARK: functions for fetch older public events
+
     static func fetchOlderPublicEvents() {
         fetchOlderPublicEvents(inBackground: false, currentOldestCreatedTime: EventRequest.oldestCreatedAtOfPublicEvents, handler: nil)
     }
@@ -558,7 +557,8 @@ class EventRequest {
         }
     }
     
-    
+    //--MARK: private function for handling fetched public events
+
     private static func fetchPublicEvents(for type: FetchType, inBackground: Bool, with query: AVQuery, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
         print("fetch my public events")
         fetchData(inBackground: inBackground, with: query) {
