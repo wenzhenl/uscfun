@@ -149,6 +149,39 @@ def receiveFeedback(**params):
             raise LeanEngineError('发送反馈失败，请稍后重试')
     else:
         raise LeanEngineError('邮箱反馈都不能为空')
+
+@engine.define
+def createSystemConversationIfNotExists(**params):
+    print "creating system conversation if not exists..."
+    if 'email' in params:
+        try:
+            email = params['email']
+            print "email:" + email
+            suffix = email[email.find('@')+1:]
+            print "suffix:" + suffix
+            instituion = suffix[:suffix.find('.')]
+            print "instituion:"" + instituion
+            Conversation = Object.extend('_Conversation')
+            query1 = Conversation.query
+            query2 = Conversation.query
+            query1.equal_to('name', instituion)
+            query2.equal_to('sys', True)
+            query = Query.and_(query1, query2)
+            query_list = query.find()
+            if len(query_list) == 0:
+                headers = {'Content-Type': 'application/json', \
+                    'X-LC-Id': '0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz', \
+                    'X-LC-Key': 'XRGhgA5IwbqTWzosKRh3nzRY'}
+                url = "https://api.leancloud.cn/1.1/classes/_Conversation"
+                data = {"name": instituion, \
+                        "sys": True}
+                requests.post(url, data=json.dumps(data), headers=headers)
+        except Exception as e:
+            print e
+            raise LeanEngineError('创建系统对话失败，请稍后重试')
+    else:
+        raise LeanEngineError('邮箱不能为空')
+
 @engine.before_save('_User')
 def before_user_save(user):
     client_id = user.get('username') + "_system_notification"
