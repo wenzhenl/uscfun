@@ -12,7 +12,6 @@ import UIKit
 class USCFunConstants {
     
     static let minimumPasswordLength = 5
-    static let nameOfSchool = "usc"
     
     static let avatarColorOptions = [UIColor.avatarBlue, UIColor.avatarCyan, UIColor.avatarPink, UIColor.avatarGolden, UIColor.avatarOrange, UIColor.avatarTomato, UIColor.avatarGreen]
     

@@ -227,7 +227,7 @@ class Event {
         self.conversationId = ""
         self.members = [createdBy]
         self.isCancelled = false
-        self.institution = USCFunConstants.nameOfSchool
+        self.institution = createdBy.email!.institutionCode!
     }
     
     

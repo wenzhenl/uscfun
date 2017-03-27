@@ -300,7 +300,7 @@ class EventRequest {
         query.order(byAscending: EventKeyConstants.keyOfDue)
         query.includeKey(EventKeyConstants.keyOfCreatedBy)
         query.includeKey(EventKeyConstants.keyOfMembers)
-        query.whereKey(EventKeyConstants.keyOfInstitution, equalTo: USCFunConstants.nameOfSchool)
+        query.whereKey(EventKeyConstants.keyOfInstitution, equalTo: AVUser.current()!.email!.institutionCode!)
         query.whereKey(EventKeyConstants.keyOfUpdatedAt, greaterThan: currentNewestUpdatedTime)
         
         /// define events must be still pending
@@ -336,7 +336,7 @@ class EventRequest {
         query.order(byAscending: EventKeyConstants.keyOfDue)
         query.includeKey(EventKeyConstants.keyOfCreatedBy)
         query.includeKey(EventKeyConstants.keyOfMembers)
-        query.whereKey(EventKeyConstants.keyOfInstitution, equalTo: USCFunConstants.nameOfSchool)
+        query.whereKey(EventKeyConstants.keyOfInstitution, equalTo: AVUser.current()!.email!.institutionCode!)
         query.whereKey(EventKeyConstants.keyOfUpdatedAt, lessThan: currentOldestUpdatedTime)
         
         /// define events must be still pending
@@ -374,7 +374,7 @@ class EventRequest {
         query.order(byAscending: EventKeyConstants.keyOfDue)
         query.includeKey(EventKeyConstants.keyOfCreatedBy)
         query.includeKey(EventKeyConstants.keyOfMembers)
-        query.whereKey(EventKeyConstants.keyOfInstitution, equalTo: USCFunConstants.nameOfSchool)
+        query.whereKey(EventKeyConstants.keyOfInstitution, equalTo: AVUser.current()!.email!.institutionCode!)
         query.whereKey(EventKeyConstants.keyOfUpdatedAt, greaterThan: currentNewestUpdatedTime)
         
         /// define events must be not cancelled
@@ -409,7 +409,7 @@ class EventRequest {
         query.order(byAscending: EventKeyConstants.keyOfDue)
         query.includeKey(EventKeyConstants.keyOfCreatedBy)
         query.includeKey(EventKeyConstants.keyOfMembers)
-        query.whereKey(EventKeyConstants.keyOfInstitution, equalTo: USCFunConstants.nameOfSchool)
+        query.whereKey(EventKeyConstants.keyOfInstitution, equalTo: AVUser.current()!.email!.institutionCode!)
         query.whereKey(EventKeyConstants.keyOfUpdatedAt, lessThan: currentOldestUpdatedTime)
         
         /// define events must be not cancelled
