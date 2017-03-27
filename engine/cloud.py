@@ -324,7 +324,7 @@ def _receiversOffline(**params):
     print('_receiversOffline start')
     # params['content'] 为消息内容
     content = params['content']
-    short_content = content
+    short_content = content[content.find('_lctext')+10:content.find('_lcattrs')-3]
     print('short_content:', short_content)
     payloads = {
         # 自增未读消息的数目，不想自增就设为数字
