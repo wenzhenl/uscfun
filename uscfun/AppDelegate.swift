@@ -211,8 +211,7 @@ extension AppDelegate: LoginDelegate {
         LCChatKit.sharedInstance().disableSingleSignOn = true
         
         // set AVIMClient to receive system broadcast
-        let systemClient = AVUser.current()!.username! + "_system_notification"
-        client = AVIMClient(clientId: systemClient)
+        client = AVIMClient(clientId: UserDefaults.email!.systemClientId!)
         client?.delegate = self
         client?.open() {
             succeed, error in
@@ -224,7 +223,7 @@ extension AppDelegate: LoginDelegate {
                 print(error!.localizedDescription)
             }
             
-            AVInstallation.current().remove(systemClient, forKey: "channels")
+            AVInstallation.current().remove(UserDefaults.email!.systemClientId!, forKey: "channels")
             AVInstallation.current().saveInBackground()
         }
         

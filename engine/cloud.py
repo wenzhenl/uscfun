@@ -163,12 +163,12 @@ def createSystemConversationIfNotExists(**params):
             print "email:" + email
             suffix = email[email.find('@')+1:]
             print "suffix:" + suffix
-            instituion = suffix[:suffix.find('.')]
-            print "instituion:" + instituion
+            institution = suffix[:suffix.find('.')]
+            print "institution:" + institution
             Conversation = Object.extend('_Conversation')
             query1 = Conversation.query
             query2 = Conversation.query
-            query1.equal_to('name', instituion)
+            query1.equal_to('name', institution)
             query2.equal_to('sys', True)
             query = Query.and_(query1, query2)
             query_list = query.find()
@@ -177,7 +177,7 @@ def createSystemConversationIfNotExists(**params):
                     'X-LC-Id': APP_ID, \
                     'X-LC-Key': APP_KEY}
                 url = "https://api.leancloud.cn/1.1/classes/_Conversation"
-                data = {"name": instituion, \
+                data = {"name": institution, \
                         "sys": True}
                 requests.post(url, data=json.dumps(data), headers=headers)
         except Exception as e:
@@ -186,46 +186,46 @@ def createSystemConversationIfNotExists(**params):
     else:
         raise LeanEngineError('邮箱不能为空')
 
-@engine.before_save('_User')
-def before_user_save(user):
-    print "before user save called..."
-    email = user.get('email')
-    print "email:" + email
-    suffix = email[email.find('@')+1:]
-    print "suffix:" + suffix
-    instituion = suffix[:suffix.find('.')]
-    print "instituion:" + instituion
-    Conversation = Object.extend('_Conversation')
-    query1 = Conversation.query
-    query2 = Conversation.query
-    query1.equal_to('name', instituion)
-    query2.equal_to('sys', True)
-    query = Query.and_(query1, query2)
-    query_list = query.find()
-    if len(query_list) == 0:
-        raise LeanEngineError('没有找到系统对话')
-    else:
-        conversation = query_list[0]
-        conversation_id = conversation.get('objectId')
-        print "conversationId:" + conversation_id
-        client_id = user.get('username') + "_sys"
+@engine.define
+def subscribeToSystemConversation(**params):
+    print "subscribing to system conversation..."
+    if 'clientId' in params and 'institution' in params:
+        client_id = params['clientId']
         print "clientId:" + client_id
-        headers = {'Content-Type': 'application/json', \
-            'X-LC-Id': APP_ID, \
-            'X-LC-Key': MASTER_KEY + ',master'}
-        url = 'https://leancloud.cn/1.1/rtm/broadcast/subscription'
-        data = {"conv_id": conversation_id, "client_id": client_id}
-        requests.post(url, data=json.dumps(data), headers=headers)
+        institution = params['institution']
+        print "institution:" + institution
+        Conversation = Object.extend('_Conversation')
+        query1 = Conversation.query
+        query2 = Conversation.query
+        query1.equal_to('name', institution)
+        query2.equal_to('sys', True)
+        query = Query.and_(query1, query2)
+        query_list = query.find()
+        if len(query_list) == 0:
+            raise LeanEngineError('没有找到系统对话')
+        else:
+            conversation = query_list[0]
+            conversation_id = conversation.get('objectId')
+            print "conversationId:" + conversation_id
+
+            headers = {'Content-Type': 'application/json', \
+                'X-LC-Id': APP_ID, \
+                'X-LC-Key': MASTER_KEY + ',master'}
+            url = 'https://leancloud.cn/1.1/rtm/conversation/subscription'
+            data = {"conv_id": conversation_id, "client_id": client_id}
+            requests.post(url, data=json.dumps(data), headers=headers)
+    else:
+        raise LeanEngineError('client id and institution must be not empty')
 
 @engine.after_save('Event')
 def after_event_save(event):
     print("after event save called...")
-    instituion = event.get('institution')
-    print "instituion:" + instituion
+    institution = event.get('institution')
+    print "institution:" + institution
     Conversation = Object.extend('_Conversation')
     query1 = Conversation.query
     query2 = Conversation.query
-    query1.equal_to('name', instituion)
+    query1.equal_to('name', institution)
     query2.equal_to('sys', True)
     query = Query.and_(query1, query2)
     query_list = query.find()
@@ -250,12 +250,12 @@ def after_event_save(event):
 @engine.after_update('Event')
 def after_event_update(event):
     print("after event update called...")
-    instituion = event.get('institution')
-    print "instituion:" + instituion
+    institution = event.get('institution')
+    print "institution:" + institution
     Conversation = Object.extend('_Conversation')
     query1 = Conversation.query
     query2 = Conversation.query
-    query1.equal_to('name', instituion)
+    query1.equal_to('name', institution)
     query2.equal_to('sys', True)
     query = Query.and_(query1, query2)
     query_list = query.find()

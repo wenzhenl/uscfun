@@ -124,8 +124,16 @@ class LoginKit {
         AVCloud.callFunction(LeanEngineFunctions.nameOfCreateSystemConversationIfNotExists, withParameters: ["email": email], error: &error)
         if error != nil {
             print(error!)
-            print(error!.localizedDescription)
             throw SignUpError.systemError(localizedDescriotion: "无法创建系统对话", debugDescription: error!.localizedDescription)
+        }
+    }
+    
+    static func subscribeToSystemConversation(clientId: String, institution: String)throws {
+        var error: NSError?
+        AVCloud.callFunction(LeanEngineFunctions.nameOfSubscribeToSystemConversation, withParameters: ["clientId": clientId, "institution": institution], error: &error)
+        if error != nil {
+            print(error!)
+            throw SignUpError.systemError(localizedDescriotion: "无法订阅系统对话", debugDescription: error!.localizedDescription)
         }
     }
     
@@ -146,6 +154,13 @@ class LoginKit {
         // create institution system conversation if not exist
         do {
             try createSystemConversationIfNotExists(email: email)
+        } catch let error {
+            throw error
+        }
+        
+        // subscribe to institution system conversation
+        do {
+            try subscribeToSystemConversation(clientId: email.systemClientId ?? "unknown", institution: email.institutionCode ?? "unknown")
         } catch let error {
             throw error
         }
