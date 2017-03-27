@@ -39,6 +39,12 @@ extension EventRequestError: LocalizedError {
 
 class EventRequest {
     
+    //--MARK: common fetch type
+    enum FetchType {
+        case newer
+        case older
+    }
+    
     //--MARK: common private function for fetching data from server
     
     private static func fetchData(inBackground: Bool, with query: AVQuery, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
@@ -103,7 +109,7 @@ class EventRequest {
     //--MARK: common function for preloading data
     
     static func preLoadData(inBackground: Bool = false) {
-        EventRequest.fetchNewerMyOngoingEvents(inBackground: inBackground, currentNewestUpdatedTime: timeOf1970) {
+        EventRequest.fetchNewerMyOngoingEvents(inBackground: inBackground, currentNewestCreatedTime: timeOf1970) {
             succeeded, error in
             UserDefaults.hasPreloadedMyOngoingEvents = true
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "finishedPreloadingMyOngoingEvents"), object: nil, userInfo: ["succeeded": succeeded])
@@ -112,7 +118,7 @@ class EventRequest {
             }
         }
         
-        EventRequest.fetchNewerPublicEvents(inBackground: inBackground, currentNewestUpdatedTime: timeOf1970) {
+        EventRequest.fetchNewerPublicEvents(inBackground: inBackground, currentNewestCreatedTime: timeOf1970) {
             succeeded, error in
             UserDefaults.hasPreloadedPublicEvents = true
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "finishedPreloadingPublicEvents"), object: nil, userInfo: ["succeeded": succeeded])
@@ -244,24 +250,24 @@ class EventRequest {
     //--MARK: functions for fetch my ongoing events
     
     static func fetchNewerMyOngoingEvents() {
-        fetchNewerMyOngoingEvents(inBackground: false, currentNewestUpdatedTime: EventRequest.newestCreatedAtOfMyOngoingEvents, handler: nil)
+        fetchNewerMyOngoingEvents(inBackground: false, currentNewestCreatedTime: EventRequest.newestCreatedAtOfMyOngoingEvents, handler: nil)
     }
     
     static func fetchNewerMyOngoingEvents(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        fetchNewerMyOngoingEvents(inBackground: false, currentNewestUpdatedTime: EventRequest.newestCreatedAtOfMyOngoingEvents, handler: handler)
+        fetchNewerMyOngoingEvents(inBackground: false, currentNewestCreatedTime: EventRequest.newestCreatedAtOfMyOngoingEvents, handler: handler)
     }
     
     static func fetchNewerMyOngoingEventsInBackground(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        fetchNewerMyOngoingEvents(inBackground: true, currentNewestUpdatedTime: EventRequest.newestCreatedAtOfMyOngoingEvents, handler: handler)
+        fetchNewerMyOngoingEvents(inBackground: true, currentNewestCreatedTime: EventRequest.newestCreatedAtOfMyOngoingEvents, handler: handler)
     }
     
-    static func fetchNewerMyOngoingEvents(inBackground: Bool, currentNewestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+    static func fetchNewerMyOngoingEvents(inBackground: Bool, currentNewestCreatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
         let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
         query.order(byAscending: EventKeyConstants.keyOfDue)
         query.includeKey(EventKeyConstants.keyOfCreatedBy)
         query.includeKey(EventKeyConstants.keyOfMembers)
         query.whereKey(EventKeyConstants.keyOfInstitution, equalTo: AVUser.current()!.email!.institutionCode!)
-        query.whereKey(EventKeyConstants.keyOfUpdatedAt, greaterThan: currentNewestUpdatedTime)
+        query.whereKey(EventKeyConstants.keyOfCreatedAt, greaterThan: currentNewestCreatedTime)
         
         /// define events must be not cancelled
         query.whereKey(EventKeyConstants.keyOfIsCancelled, equalTo: false)
@@ -279,24 +285,24 @@ class EventRequest {
     }
     
     static func fetchOlderMyOngoingEvents() {
-        fetchOlderMyOngoingEvents(inBackground: false, currentOldestUpdatedTime: EventRequest.oldestCreatedAtOfMyOngoingEvents, handler: nil)
+        fetchOlderMyOngoingEvents(inBackground: false, currentOldestCreatedTime: EventRequest.oldestCreatedAtOfMyOngoingEvents, handler: nil)
     }
     
     static func fetchOlderMyOngoingEvents(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        fetchOlderMyOngoingEvents(inBackground: false, currentOldestUpdatedTime: EventRequest.oldestCreatedAtOfMyOngoingEvents, handler: handler)
+        fetchOlderMyOngoingEvents(inBackground: false, currentOldestCreatedTime: EventRequest.oldestCreatedAtOfMyOngoingEvents, handler: handler)
     }
     
     static func fetchOlderMyOngoingEventsInBackground(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        fetchOlderMyOngoingEvents(inBackground: true, currentOldestUpdatedTime: EventRequest.oldestCreatedAtOfMyOngoingEvents, handler: handler)
+        fetchOlderMyOngoingEvents(inBackground: true, currentOldestCreatedTime: EventRequest.oldestCreatedAtOfMyOngoingEvents, handler: handler)
     }
     
-    static func fetchOlderMyOngoingEvents(inBackground: Bool, currentOldestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+    static func fetchOlderMyOngoingEvents(inBackground: Bool, currentOldestCreatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
         let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
         query.order(byAscending: EventKeyConstants.keyOfDue)
         query.includeKey(EventKeyConstants.keyOfCreatedBy)
         query.includeKey(EventKeyConstants.keyOfMembers)
         query.whereKey(EventKeyConstants.keyOfInstitution, equalTo: AVUser.current()!.email!.institutionCode!)
-        query.whereKey(EventKeyConstants.keyOfUpdatedAt, lessThan: currentOldestUpdatedTime)
+        query.whereKey(EventKeyConstants.keyOfCreatedAt, lessThan: currentOldestCreatedTime)
         
         /// define events must be not cancelled
         query.whereKey(EventKeyConstants.keyOfIsCancelled, equalTo: false)
@@ -464,24 +470,31 @@ class EventRequest {
     //--MARK: functions for fetch public events
     
     static func fetchNewerPublicEvents() {
-        fetchNewerPublicEvents(inBackground: false, currentNewestUpdatedTime: EventRequest.newestCreatedAtOfPublicEvents, handler: nil)
+        fetchNewerPublicEvents(inBackground: false, currentNewestCreatedTime: EventRequest.newestCreatedAtOfPublicEvents, handler: nil)
     }
     
     static func fetchNewerPublicEvents(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        fetchNewerPublicEvents(inBackground: false, currentNewestUpdatedTime: EventRequest.newestCreatedAtOfPublicEvents, handler: handler)
+        fetchNewerPublicEvents(inBackground: false, currentNewestCreatedTime: EventRequest.newestCreatedAtOfPublicEvents, handler: handler)
     }
     
     static func fetchNewerPublicEventsInBackground(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        fetchNewerPublicEvents(inBackground: true, currentNewestUpdatedTime: EventRequest.newestCreatedAtOfPublicEvents, handler: handler)
+        fetchNewerPublicEvents(inBackground: true, currentNewestCreatedTime: EventRequest.newestCreatedAtOfPublicEvents, handler: handler)
     }
     
-    static func fetchNewerPublicEvents(inBackground: Bool, currentNewestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+    static func fetchNewerPublicEvents(inBackground: Bool, currentNewestCreatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
         let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
-        query.order(byAscending: EventKeyConstants.keyOfDue)
+        /// sort events by createdAt, always fetch the newest created events
+        query.order(byDescending: EventKeyConstants.keyOfCreatedAt)
+        
+        /// include AVUser
         query.includeKey(EventKeyConstants.keyOfCreatedBy)
         query.includeKey(EventKeyConstants.keyOfMembers)
+
+        /// events must belong to user's institution
         query.whereKey(EventKeyConstants.keyOfInstitution, equalTo: AVUser.current()!.email!.institutionCode!)
-        query.whereKey(EventKeyConstants.keyOfUpdatedAt, greaterThan: currentNewestUpdatedTime)
+        
+        /// events must newer than current newest
+        query.whereKey(EventKeyConstants.keyOfCreatedAt, greaterThan: currentNewestCreatedTime)
         
         /// define events must be still pending
         query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date().timeIntervalSince1970)
@@ -491,33 +504,42 @@ class EventRequest {
         query.whereKey(EventKeyConstants.keyOfIsCancelled, equalTo: false)
         
         query.cachePolicy = .networkElseCache
-        query.maxCacheAge = 24*3600
+        query.maxCacheAge = USCFunConstants.MAXCACHEAGE
+        query.limit = USCFunConstants.QUERYLIMIT
         
-        fetchPublicEvents(inBackground: inBackground, with: query) {
+        fetchPublicEvents(for: FetchType.newer, inBackground: inBackground, with: query) {
             succeeded, error in
             handler?(succeeded, error)
         }
     }
     
     static func fetchOlderPublicEvents() {
-        fetchOlderPublicEvents(inBackground: false, currentOldestUpdatedTime: EventRequest.oldestCreatedAtOfPublicEvents, handler: nil)
+        fetchOlderPublicEvents(inBackground: false, currentOldestCreatedTime: EventRequest.oldestCreatedAtOfPublicEvents, handler: nil)
     }
     
     static func fetchOlderPublicEvents(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        fetchOlderPublicEvents(inBackground: false, currentOldestUpdatedTime: EventRequest.oldestCreatedAtOfPublicEvents, handler: handler)
+        fetchOlderPublicEvents(inBackground: false, currentOldestCreatedTime: EventRequest.oldestCreatedAtOfPublicEvents, handler: handler)
     }
     
     static func fetchOlderPublicEventsInBackground(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        fetchOlderPublicEvents(inBackground: true, currentOldestUpdatedTime: EventRequest.oldestCreatedAtOfPublicEvents, handler: handler)
+        fetchOlderPublicEvents(inBackground: true, currentOldestCreatedTime: EventRequest.oldestCreatedAtOfPublicEvents, handler: handler)
     }
     
-    static func fetchOlderPublicEvents(inBackground: Bool, currentOldestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+    static func fetchOlderPublicEvents(inBackground: Bool, currentOldestCreatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
         let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
-        query.order(byAscending: EventKeyConstants.keyOfDue)
+        
+        /// sort events by createdAt
+        query.order(byDescending: EventKeyConstants.keyOfCreatedAt)
+        
+        /// include AVUser
         query.includeKey(EventKeyConstants.keyOfCreatedBy)
         query.includeKey(EventKeyConstants.keyOfMembers)
+        
+        /// events must belong to user's institution
         query.whereKey(EventKeyConstants.keyOfInstitution, equalTo: AVUser.current()!.email!.institutionCode!)
-        query.whereKey(EventKeyConstants.keyOfUpdatedAt, lessThan: currentOldestUpdatedTime)
+        
+        /// events must newer than current newest
+        query.whereKey(EventKeyConstants.keyOfCreatedAt, lessThan: currentOldestCreatedTime)
         
         /// define events must be still pending
         query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date().timeIntervalSince1970)
@@ -527,16 +549,17 @@ class EventRequest {
         query.whereKey(EventKeyConstants.keyOfIsCancelled, equalTo: false)
         
         query.cachePolicy = .networkElseCache
-        query.maxCacheAge = 24*3600
+        query.maxCacheAge = USCFunConstants.MAXCACHEAGE
+        query.limit = USCFunConstants.QUERYLIMIT
         
-        fetchPublicEvents(inBackground: inBackground, with: query) {
+        fetchPublicEvents(for: FetchType.older, inBackground: inBackground, with: query) {
             succeeded, error in
             handler?(succeeded, error)
         }
     }
     
     
-    private static func fetchPublicEvents(inBackground: Bool, with query: AVQuery, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+    private static func fetchPublicEvents(for type: FetchType, inBackground: Bool, with query: AVQuery, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
         print("fetch my public events")
         fetchData(inBackground: inBackground, with: query) {
             error, events in
@@ -551,6 +574,13 @@ class EventRequest {
             }
             
             concurrentPublicEventQueue.async(flags: .barrier) {
+                
+                if type == .newer && events.count >= USCFunConstants.QUERYLIMIT {
+                    _publicEvents.removeAll()
+                    newestCreatedAtOfPublicEvents = timeOf1970
+                    oldestCreatedAtOfPublicEvents = timeOf2070
+                }
+                
                 for event in events {
                     if !event.members.contains(AVUser.current()!) {
                         _publicEvents[event.objectId!] = event

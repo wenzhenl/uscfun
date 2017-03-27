@@ -22,6 +22,9 @@ class USCFunConstants {
     
     static let urlOfPrivacy = "http://www.baidu.com/"
     
+    static let QUERYLIMIT = 100
+    static let MAXCACHEAGE = TimeInterval(24 * 3600)
+    
     //-MARK: storyboard identifiers
     static let storyboardIdentifierOfCustomizedAlertViewController = "Customized Alert View Controller"
     static let storyboardIdentifierOfWebViewController = "common use web vc"
@@ -57,7 +60,7 @@ struct EventKeyConstants {
     static let keyOfWhereCreated = "whereCreated"
     static let keyOfNote = "note"
     
-    static let keyOfUpdatedAt = "updatedAt"
+    static let keyOfCreatedAt = "createdAt"
     static let keyOfObjectId = "objectId"
     
     static let keyOfCompletedBy = "completedBy"
