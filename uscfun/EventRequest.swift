@@ -114,7 +114,8 @@ class EventRequest {
     //--MARK: common function for preloading data
     
     static func preLoadData() {
-        
+        fetchNewerMyOngoingEvents()
+        fetchNewerPublicEvents()
     }
     
     static func preLoadDataInBackground() {
@@ -386,6 +387,14 @@ class EventRequest {
     }
     
     //--MARK: functions for fetch newer my ongoing events
+    
+    static func fetchNewerMyOngoingEvents() {
+        fetchEvents(for: .myongoing, by: .newer, inBackground: false, currentCreatedTime: newestCreatedAtOfMyOngoingEvents, handler: nil)
+    }
+    
+    static func fetchNewerPublicEvents() {
+        fetchEvents(for: .mypublic, by: .newer, inBackground: false, currentCreatedTime: newestCreatedAtOfPublicEvents, handler: nil)
+    }
     
     static func fetchNewerMyOngoingEventsInBackground(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
         fetchEvents(for: .myongoing, by: .newer, inBackground: true, currentCreatedTime: newestCreatedAtOfMyOngoingEvents, handler: handler)
