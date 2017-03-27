@@ -76,7 +76,9 @@ class LoginKit {
     
     static func checkIfEmailIsTaken(email: String)throws -> Bool {
         var error: NSError?
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfEmailIsTaken, withParameters: ["email": email], error: &error)
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
         if error != nil {
             print(error!)
             throw SignUpError.systemError(localizedDescriotion: "无法验证邮箱是否被占用", debugDescription: error!.localizedDescription)
@@ -92,7 +94,9 @@ class LoginKit {
     
     static func checkIfConfirmationCodeMatches(email: String, code: String)throws -> Bool {
         var error: NSError?
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfConfirmationCodeMatches, withParameters: ["email": email, "code": code], error: &error)
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
         if error != nil {
             print(error!)
             throw SignUpError.systemError(localizedDescriotion: "无法验证验证码", debugDescription: error!.localizedDescription)
@@ -106,19 +110,23 @@ class LoginKit {
         return matched
     }
     
-    static func requestConfirmationCode(email: String)throws {
-        var error: NSError?
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        let result = AVCloud.callFunction(LeanEngineFunctions.nameOfRequestConfirmationCode, withParameters: ["email": email], error: &error)
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        if error != nil {
-            print(error!)
-            throw SignUpError.systemError(localizedDescriotion: "无法发送验证码", debugDescription: error!.localizedDescription)
-        }
-        
-        guard let succeeded = result as? Bool, succeeded == true else {
-            print("failed to request confirmation code: cannot parse return value")
-            throw SignUpError.systemError(localizedDescriotion: "无法验证验证码", debugDescription: "cannot send confirmation code")
+    static func requestConfirmationCode(email: String, handler: @escaping (_ succeed: Bool, _ error: Error?) -> Void) {
+        AVCloud.callFunction(inBackground: LeanEngineFunctions.nameOfRequestConfirmationCode, withParameters: ["email": email]) {
+            result, error in
+            if error != nil {
+                print(error!)
+                handler(false, error!)
+                return
+            }
+            
+            guard let succeeded = result as? Bool, succeeded == true else {
+                print("failed to request confirmation code: cannot parse return value")
+                handler(false, nil)
+                return
+            }
+            
+            handler(true, nil)
+            return
         }
     }
     
@@ -209,6 +217,7 @@ class LoginKit {
         var error: NSError?
         if file.save(&error) {
             user.setObject(file.url, forKey: UserKeyConstants.keyOfAvatarUrl)
+            
             if user.signUp(&error) {
                 if let current = AVUser.current() {
                     UserDefaults.email = current.email

@@ -130,13 +130,20 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
             errorLabel.isHidden = false
             return
         }
-        do {
-            try LoginKit.requestConfirmationCode(email: email)
-            errorLabel.text = "验证码已经发送至邮箱，请注意查收"
-            errorLabel.isHidden = false
-        } catch let error {
-            errorLabel.text = error.localizedDescription
-            errorLabel.isHidden = false
+        requestConfirmationCodeButton.isEnabled = false
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        LoginKit.requestConfirmationCode(email: email) {
+            succeeded, error in
+            self.requestConfirmationCodeButton.isEnabled = true
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            
+            if error != nil {
+                self.errorLabel.text = error!.localizedDescription
+                self.errorLabel.isEnabled = false
+            } else {
+                self.errorLabel.text = "验证码已经发送至邮箱，请注意查收"
+                self.errorLabel.isHidden = false
+            }
         }
     }
     
