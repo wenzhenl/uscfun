@@ -143,7 +143,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                 
                 if succeed {
                     print("login successfully")
-                    EventRequest.preLoadData(inBackground: true)
+                    EventRequest.preLoadDataInBackground()
                     let appDelegate = UIApplication.shared.delegate! as! AppDelegate
                     let initialViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
                     appDelegate.window?.rootViewController = initialViewController
