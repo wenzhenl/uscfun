@@ -154,68 +154,6 @@ class EventRequest {
         return myOngoingEventsCopy
     }
     
-    //--MARK: {get, set} of my ongoing events
-    
-    static func removeMyOngoingEvent(with id: String, handler: (() -> Void)?) {
-        concurrentMyOngoingEventQueue.async(flags: .barrier) {
-            
-            if _myOngoingEvents[id]?.createdAt == newestCreatedAtOfMyOngoingEvents {
-                newestCreatedAtOfMyOngoingEvents = timeOf1970
-                for key in _myOngoingEvents.keys {
-                    if key != id && _myOngoingEvents[key]!.createdAt! > newestCreatedAtOfMyOngoingEvents {
-                        newestCreatedAtOfMyOngoingEvents = _myOngoingEvents[key]!.createdAt!
-                    }
-                }
-            }
-            
-            if _myOngoingEvents[id]?.createdAt == oldestCreatedAtOfMyOngoingEvents {
-                oldestCreatedAtOfMyOngoingEvents = timeOf2070
-                for key in _myOngoingEvents.keys {
-                    if key != id && _myOngoingEvents[key]!.createdAt! < oldestCreatedAtOfMyOngoingEvents {
-                        oldestCreatedAtOfMyOngoingEvents = _myOngoingEvents[key]!.createdAt!
-                    }
-                }
-            }
-            
-            _myOngoingEvents[id] = nil
-            
-            DispatchQueue.main.async {
-                handler?()
-            }
-        }
-    }
-    
-    static func setMyOngoingEvent(event: Event, for id: String, handler: (() -> Void)?) {
-        concurrentMyOngoingEventQueue.async(flags: .barrier) {
-            
-            if event.createdAt! > newestCreatedAtOfMyOngoingEvents {
-                newestCreatedAtOfMyOngoingEvents = event.createdAt!
-            }
-            
-            if event.createdAt! < oldestCreatedAtOfMyOngoingEvents {
-                oldestCreatedAtOfMyOngoingEvents = event.createdAt!
-            }
-            
-            _myOngoingEvents[id] = event
-            
-            DispatchQueue.main.async {
-                handler?()
-            }
-        }
-    }
-    
-    static func removeAllMyOngoingEvents(handler: (() -> Void)?) {
-        concurrentMyOngoingEventQueue.async(flags: .barrier) {
-            
-            newestCreatedAtOfMyOngoingEvents = timeOf1970
-            oldestCreatedAtOfMyOngoingEvents = timeOf2070
-            _myOngoingEvents.removeAll()
-            DispatchQueue.main.async {
-                handler?()
-            }
-        }
-    }
-    
     static func cleanMyOngoingEventsInBackground(handler: (() -> Void)?) {
         concurrentMyOngoingEventQueue.async(flags: .barrier) {
             
@@ -376,28 +314,63 @@ class EventRequest {
     }
     
     //--MARK: {get, set} of public events
-    static func removePublicEvent(with id: String, handler: (() -> Void)?) {
-        concurrentPublicEventQueue.async(flags: .barrier) {
-            
-            if _publicEvents[id]?.createdAt == newestCreatedAtOfPublicEvents {
-                newestCreatedAtOfPublicEvents = timeOf1970
-                for key in _publicEvents.keys {
-                    if key != id && _publicEvents[key]!.createdAt! > newestCreatedAtOfPublicEvents {
-                        newestCreatedAtOfPublicEvents = _publicEvents[key]!.createdAt!
+    static func removeEvent(with id: String, for source: EventSource, handler: (() -> Void)?) {
+        
+        var concurrentQueue: DispatchQueue!
+     
+        /// choose concurent queue
+        switch source {
+        case .myongoing:
+            concurrentQueue = concurrentMyOngoingEventQueue
+        case .mypublic:
+            concurrentQueue = concurrentPublicEventQueue
+        }
+        
+        concurrentQueue.async(flags: .barrier) {
+            var eventsCopy: OrderedDictionary<String, Event>!
+            var newestCreatedAt: Date!
+            var oldestCreatedAt: Date!
+            switch source {
+            case .myongoing:
+                eventsCopy = _myOngoingEvents
+                newestCreatedAt = newestCreatedAtOfMyOngoingEvents
+                oldestCreatedAt = oldestCreatedAtOfMyOngoingEvents
+            case .mypublic:
+                eventsCopy = _publicEvents
+                newestCreatedAt = newestCreatedAtOfPublicEvents
+                oldestCreatedAt = oldestCreatedAtOfPublicEvents
+            }
+            if eventsCopy[id]?.createdAt == newestCreatedAt {
+                newestCreatedAt = timeOf1970
+                for key in eventsCopy.keys {
+                    if key != id && eventsCopy[key]!.createdAt! > newestCreatedAt {
+                        newestCreatedAt = eventsCopy[key]!.createdAt!
                     }
                 }
             }
             
-            if _publicEvents[id]?.createdAt == oldestCreatedAtOfPublicEvents {
-                oldestCreatedAtOfPublicEvents = timeOf2070
-                for key in _publicEvents.keys {
-                    if key != id && _publicEvents[key]!.createdAt! < oldestCreatedAtOfPublicEvents {
-                        oldestCreatedAtOfPublicEvents = _publicEvents[key]!.createdAt!
+            if eventsCopy[id]?.createdAt == oldestCreatedAt {
+                oldestCreatedAt = timeOf2070
+                for key in eventsCopy.keys {
+                    if key != id && eventsCopy[key]!.createdAt! < oldestCreatedAt {
+                        oldestCreatedAt = eventsCopy[key]!.createdAt!
                     }
                 }
             }
             
-            _publicEvents[id] = nil
+            eventsCopy[id] = nil
+            
+            /// restore data
+            switch source {
+            case .myongoing:
+                _myOngoingEvents = eventsCopy
+                newestCreatedAtOfMyOngoingEvents = newestCreatedAt
+                oldestCreatedAtOfMyOngoingEvents = oldestCreatedAt
+            case .mypublic:
+                _publicEvents = eventsCopy
+                newestCreatedAtOfPublicEvents = newestCreatedAt
+                oldestCreatedAtOfPublicEvents = oldestCreatedAt
+            }
             
             DispatchQueue.main.async {
                 handler?()
