@@ -32,7 +32,7 @@ class EventHistoryViewController: UIViewController {
             self.title = "我参加过的活动"
         }
         
-        switch eventHistorySource {
+        switch eventHistorySource! {
         case .created:
             EventRequest.fetchEventsCreated(by: AVUser.current()!) {
                 error, events in
