@@ -43,6 +43,7 @@ class EventRequest {
     enum FetchType {
         case newer
         case older
+        case current
     }
     
     enum EventSource {
@@ -389,70 +390,11 @@ class EventRequest {
     //--MARK: function for refresh events
     
     static func refreshMyOngoingEvents() {
-        refreshEvents(for: .myongoing, handler: nil)
+        fetchEvents(for: .myongoing, by: .current, inBackground: false, currentCreatedTime: newestCreatedAtOfMyOngoingEvents, handler: nil)
     }
     
     static func refreshPublicEvents() {
-        refreshEvents(for: .mypublic, handler: nil)
-    }
-    
-    static func refreshEvents(for source: EventSource, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
-        switch source {
-        case .myongoing:
-            query.whereKey(EventKeyConstants.keyOfObjectId, containedIn: myOngoingEvents.keys)
-        case .mypublic:
-            query.whereKey(EventKeyConstants.keyOfObjectId, containedIn: publicEvents.keys)
-        }
-        
-        /// include AVUser
-        query.includeKey(EventKeyConstants.keyOfCreatedBy)
-        query.includeKey(EventKeyConstants.keyOfMembers)
-        query.includeKey(EventKeyConstants.keyOfCompletedBy)
-
-        query.cachePolicy = .networkElseCache
-        query.maxCacheAge = USCFunConstants.MAXCACHEAGE
-        query.limit = USCFunConstants.QUERYLIMIT
-        
-        var concurrentQueue: DispatchQueue!
-        
-        /// choose concurent queue
-        switch source {
-        case .myongoing:
-            concurrentQueue = concurrentMyOngoingEventQueue
-        case .mypublic:
-            concurrentQueue = concurrentPublicEventQueue
-        }
-        
-        fetchData(inBackground: false, with: query) {
-            error, events in
-            if error != nil {
-                print(error!)
-                handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: error!.localizedDescription))
-                return
-            }
-            guard let events = events else {
-                handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: "cannot get events"))
-                return
-            }
-            
-            print("updated events number: \(events.count)")
-            
-            concurrentQueue.async(flags: .barrier) {
-                for event in events {
-                    switch source {
-                    case .myongoing:
-                        _myOngoingEvents[event.objectId!] = event
-                    case .mypublic:
-                        _publicEvents[event.objectId!] = event
-                    }
-                }
-                
-                DispatchQueue.main.async {
-                    handler?(true, nil)
-                }
-            }
-        }
+        fetchEvents(for: .mypublic, by: .current, inBackground: false, currentCreatedTime: newestCreatedAtOfPublicEvents, handler: nil)
     }
 
     //--MARK: functions for fetch newer my ongoing events
@@ -492,7 +434,7 @@ class EventRequest {
         
         /// sort events by createdAt, always fetch the newest created events
         query.order(byDescending: EventKeyConstants.keyOfCreatedAt)
-        
+ 
         /// include AVUser
         query.includeKey(EventKeyConstants.keyOfCreatedBy)
         query.includeKey(EventKeyConstants.keyOfMembers)
@@ -501,22 +443,25 @@ class EventRequest {
         /// events must belong to user's institution
         query.whereKey(EventKeyConstants.keyOfInstitution, equalTo: AVUser.current()!.email!.institutionCode!)
         
-        /// events must newer or older than current
-        switch type {
-        case .newer:
-            query.whereKey(EventKeyConstants.keyOfCreatedAt, greaterThan: currentCreatedTime)
-        case .older:
-            query.whereKey(EventKeyConstants.keyOfCreatedAt, lessThan: currentCreatedTime)
-        }
-        
-        switch source {
-        case .myongoing:
-            /// define events must be mine
+        switch (source, type) {
+        case (.myongoing, .newer):
             query.whereKey(EventKeyConstants.keyOfMembers, containsAllObjectsIn: [AVUser.current()!])
-        case .mypublic:
-            /// define events must be still pending
+            query.whereKey(EventKeyConstants.keyOfCreatedAt, greaterThan: currentCreatedTime)
+        case (.myongoing, .older):
+            query.whereKey(EventKeyConstants.keyOfMembers, containsAllObjectsIn: [AVUser.current()!])
+            query.whereKey(EventKeyConstants.keyOfCreatedAt, lessThan: currentCreatedTime)
+        case (.mypublic, .newer):
             query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date().timeIntervalSince1970)
             query.whereKey(EventKeyConstants.keyOfRemainingSeats, greaterThan: 0)
+            query.whereKey(EventKeyConstants.keyOfCreatedAt, greaterThan: currentCreatedTime)
+        case (.mypublic, .older):
+            query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date().timeIntervalSince1970)
+            query.whereKey(EventKeyConstants.keyOfRemainingSeats, greaterThan: 0)
+            query.whereKey(EventKeyConstants.keyOfCreatedAt, lessThan: currentCreatedTime)
+        case (.myongoing, .current):
+            query.whereKey(EventKeyConstants.keyOfObjectId, containedIn: myOngoingEvents.keys)
+        case (.mypublic, .current):
+            query.whereKey(EventKeyConstants.keyOfObjectId, containedIn: publicEvents.keys)
         }
      
         /// define events must be not cancelled
@@ -579,9 +524,15 @@ class EventRequest {
                     oldestCreatedAt = timeOf2070
                 }
                 
+                if type == .current {
+                    print("updated events for \(source) number: \(events.count)")
+                }
+                
                 for event in events {
-                    switch source {
-                    case .myongoing:
+                    switch (source, type) {
+                    case (_, .current):
+                        eventsCopy[event.objectId!] = event
+                    case (.myongoing, _):
                         if event.status != .isFailed && !(event.completedBy ?? []).contains(AVUser.current()!) {
                             eventsCopy[event.objectId!] = event
                             
@@ -592,7 +543,7 @@ class EventRequest {
                                 oldestCreatedAt = event.createdAt!
                             }
                         }
-                    case .mypublic:
+                    case (.mypublic, _):
                         if !event.members.contains(AVUser.current()!) {
                             eventsCopy[event.objectId!] = event
                             
