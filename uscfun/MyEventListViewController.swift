@@ -45,6 +45,11 @@ class MyEventListViewController: UIViewController {
         }
     }
     
+    lazy var refreshController: UIRefreshControl = {
+        let refreshController = UIRefreshControl()
+        return refreshController
+    }()
+    
     lazy var infoLabel: UILabel = {
         let heightOfInfoLabel = CGFloat(29.0)
         let infoLabel = UILabel(frame: CGRect(x: 0.0, y: -heightOfInfoLabel, width: self.view.frame.size.width, height: heightOfInfoLabel))
@@ -68,6 +73,8 @@ class MyEventListViewController: UIViewController {
         self.tableView.tableFooterView = UIView()
         self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.separatorStyle = .none
+        
+        self.tableView.addSubview(self.refreshController)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handlePreload(notification:)), name: NSNotification.Name(rawValue: "finishedPreloadingMyOngoingEvents"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "tabBarItemSelected"), object: nil)
@@ -202,18 +209,20 @@ class MyEventListViewController: UIViewController {
     
     func handleRefresh() {
         let numberOfMyOngoingEventsBeforeUpdate = EventRequest.myOngoingEvents.count
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         EventRequest.fetchNewerMyOngoingEventsInBackground() {
             succeeded, error in
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
             if succeeded {
                 let numberOfMyOngoingEventsAfterUpdate = EventRequest.myOngoingEvents.count
                 if numberOfMyOngoingEventsAfterUpdate > numberOfMyOngoingEventsBeforeUpdate {
-                    print("发现了\(numberOfMyOngoingEventsAfterUpdate - numberOfMyOngoingEventsBeforeUpdate)个新的微活动")
-                } else {
-                    print("没有更新的微活动了")
+                    print("\(numberOfMyOngoingEventsAfterUpdate - numberOfMyOngoingEventsBeforeUpdate)个新的微活动")
                 }
+                self.refreshController.endRefreshing()
                 self.tableView.reloadData()
             }
             else if error != nil {
+                self.refreshController.endRefreshing()
                 self.displayInfo(info: error!.localizedDescription)
             }
         }
@@ -605,5 +614,13 @@ extension Event {
     
     var hasUnread: Bool {
         return false
+    }
+}
+
+extension MyEventListViewController: UIScrollViewDelegate {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if self.refreshController.isRefreshing {
+            self.handleRefresh()
+        }
     }
 }
