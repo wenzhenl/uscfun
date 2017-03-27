@@ -392,24 +392,28 @@ class EventRequest {
         fetchEvents(for: .myongoing, by: .newer, inBackground: false, currentCreatedTime: newestCreatedAtOfMyOngoingEvents, handler: nil)
     }
     
-    static func fetchNewerPublicEvents() {
-        fetchEvents(for: .mypublic, by: .newer, inBackground: false, currentCreatedTime: newestCreatedAtOfPublicEvents, handler: nil)
-    }
-    
     static func fetchNewerMyOngoingEventsInBackground(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
         fetchEvents(for: .myongoing, by: .newer, inBackground: true, currentCreatedTime: newestCreatedAtOfMyOngoingEvents, handler: handler)
     }
     
+    //--MARK: functions for fetch older my ongoing events
+
     static func fetchOlderMyOngoingEventsInBackground(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
         fetchEvents(for: .myongoing, by: .older, inBackground: true, currentCreatedTime: oldestCreatedAtOfMyOngoingEvents, handler: handler)
     }
     
     //--MARK: functions for fetch newer public events
 
+    static func fetchNewerPublicEvents() {
+        fetchEvents(for: .mypublic, by: .newer, inBackground: false, currentCreatedTime: newestCreatedAtOfPublicEvents, handler: nil)
+    }
+
     static func fetchNewerPublicEventsInBackground(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
         fetchEvents(for: .mypublic, by: .newer, inBackground: true, currentCreatedTime: newestCreatedAtOfPublicEvents, handler: handler)
     }
     
+    //--MARK: functions for fetch older my ongoing events
+
     static func fetchOlderPublicEventsInBackground(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
         fetchEvents(for: .mypublic, by: .older, inBackground: true, currentCreatedTime: oldestCreatedAtOfPublicEvents, handler: handler)
     }
@@ -550,5 +554,26 @@ class EventRequest {
                 }
             }
         }
+    }
+    
+    static func fetchEventsCreated(by user: AVUser, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
+        let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
+        query.includeKey(EventKeyConstants.keyOfCreatedBy)
+        query.includeKey(EventKeyConstants.keyOfMembers)
+        query.includeKey(EventKeyConstants.keyOfCompletedBy)
+        query.whereKey(EventKeyConstants.keyOfCreatedBy, equalTo: user)
+        query.whereKey(EventKeyConstants.keyOfCompletedBy, containsAllObjectsIn: [user])
+        fetchData(inBackground: true, with: query, handler: handler)
+    }
+    
+    static func fetchEventsAttended(by user: AVUser, handler: @escaping (_ error: Error?, _ results: [Event]?) -> Void) {
+        let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
+        query.includeKey(EventKeyConstants.keyOfCreatedBy)
+        query.includeKey(EventKeyConstants.keyOfMembers)
+        query.includeKey(EventKeyConstants.keyOfCompletedBy)
+        query.whereKey(EventKeyConstants.keyOfCreatedBy, notEqualTo: user)
+        query.whereKey(EventKeyConstants.keyOfMembers, containsAllObjectsIn: [user])
+        query.whereKey(EventKeyConstants.keyOfCompletedBy, containsAllObjectsIn: [user])
+        fetchData(inBackground: true, with: query, handler: handler)
     }
 }
