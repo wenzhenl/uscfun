@@ -181,8 +181,17 @@ class EventListViewController: UIViewController {
             EventRequest.fetchEvent(with: eventId) {
                 error, event in
                 if let event = event {
-                    EventRequest.setEvent(event: event, with: event.objectId!, for: .mypublic) {
-                        self.tableView.reloadData()
+                    if event.isCancelled {
+                        if let section = self.sectionForEvent(eventId: event.objectId!) {
+                            
+                            EventRequest.removeEvent(with: event.objectId!, for: .mypublic) {
+                                self.tableView.deleteSections(IndexSet([section]), with: .automatic)
+                            }
+                        }
+                    } else {
+                        EventRequest.setEvent(event: event, with: event.objectId!, for: .mypublic) {
+                            self.tableView.reloadData()
+                        }
                     }
                 }
             }

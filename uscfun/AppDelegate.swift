@@ -73,7 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
-
+    
     func applicationDidBecomeActive(_ application: UIApplication) {
         
         print("APPLICATION DID BECOME ACTIVE")
@@ -91,9 +91,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.updateUserAvatar()
         }
         
-        /// update events
-        EventRequest.refreshMyOngoingEvents()
-        EventRequest.refreshPublicEvents()
+        let cleanGroup = DispatchGroup()
+        cleanGroup.enter()
+        /// clean non-valid events
+        EventRequest.cleanEventsInBackground(for: .myongoing) {
+            cleanGroup.leave()
+        }
+        cleanGroup.enter()
+        EventRequest.cleanEventsInBackground(for: .mypublic) {
+            cleanGroup.leave()
+        }
+        cleanGroup.notify(queue: DispatchQueue.main) {
+            /// update events
+            EventRequest.refreshMyOngoingEvents()
+            EventRequest.refreshPublicEvents()
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

@@ -179,10 +179,21 @@ class MyEventListViewController: UIViewController {
             EventRequest.fetchEvent(with: eventId) {
                 error, event in
                 
-                // #warning if there's error, the update might be lost forever
+                // TODO: if there's error, the update might be lost forever
                 if let event = event {
-                    EventRequest.setEvent(event: event, with: event.objectId!, for: .myongoing) {
-                        self.tableView.reloadData()
+                    
+                    if event.isCancelled {
+                        print("my ongoing events should not get cancelled")
+                        if let section = self.sectionForEvent(eventId: event.objectId!) {
+                            
+                            EventRequest.removeEvent(with: event.objectId!, for: .myongoing) {
+                                self.tableView.deleteSections(IndexSet([section]), with: .automatic)
+                            }
+                        }
+                    } else {
+                        EventRequest.setEvent(event: event, with: event.objectId!, for: .myongoing) {
+                            self.tableView.reloadData()
+                        }
                     }
                 }
             }
