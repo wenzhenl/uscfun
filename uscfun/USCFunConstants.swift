@@ -70,6 +70,7 @@ struct LeanEngineFunctions {
     static let nameOfCheckIfEmailIsTaken = "checkIfEmailIsTaken"
     static let nameOfRequestConfirmationCode = "requestConfirmationCode"
     static let nameOfCheckIfConfirmationCodeMatches = "checkIfConfirmationCodeMatches"
+    static let nameOfCreateSystemConversationIfNotExists = "createSystemConversationIfNotExists"
     static let nameOfReceiveFeedback = "receiveFeedback"
 }
 

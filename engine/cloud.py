@@ -160,7 +160,7 @@ def createSystemConversationIfNotExists(**params):
             suffix = email[email.find('@')+1:]
             print "suffix:" + suffix
             instituion = suffix[:suffix.find('.')]
-            print "instituion:"" + instituion
+            print "instituion:" + instituion
             Conversation = Object.extend('_Conversation')
             query1 = Conversation.query
             query2 = Conversation.query

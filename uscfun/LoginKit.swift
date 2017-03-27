@@ -119,6 +119,16 @@ class LoginKit {
 //        }
     }
     
+    static func createSystemConversationIfNotExists(email: String)throws {
+        var error: NSError?
+        AVCloud.callFunction(LeanEngineFunctions.nameOfCreateSystemConversationIfNotExists, withParameters: ["email": email], error: &error)
+        if error != nil {
+            print(error!)
+            print(error!.localizedDescription)
+            throw SignUpError.systemError(localizedDescriotion: "无法创建系统对话", debugDescription: error!.localizedDescription)
+        }
+    }
+    
     static func signUp()throws {
         
         guard let email = UserDefaults.newEmail, email.isValid else {
@@ -131,6 +141,13 @@ class LoginKit {
         
         guard let nickname = UserDefaults.newNickname, !nickname.isWhitespaces else {
             throw SignUpError.systemError(localizedDescriotion: "昵称不能为空", debugDescription: "failed to sign up: nickname is missing")
+        }
+        
+        // create institution system conversation if not exist
+        do {
+            try createSystemConversationIfNotExists(email: email)
+        } catch let error {
+            throw error
         }
         
         // save user info in server
