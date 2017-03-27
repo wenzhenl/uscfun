@@ -35,12 +35,14 @@ class UserProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = other.nickname
         self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, -10, 0)
         self.tableView.tableFooterView = UIView()
-        self.populateSections()
         other = User(user: user)
+        self.title = other.nickname
+
+        let fetchGroup = DispatchGroup()
+        fetchGroup.enter()
         EventRequest.fetchEventsCreated(by: user) {
             error, events in
             if let events = events {
@@ -48,17 +50,23 @@ class UserProfileViewController: UIViewController {
                     self.createdEvents[event.objectId!] = event
                 }
             }
-            EventRequest.fetchEventsAttended(by: self.user) {
-                error, events in
-                if let events = events {
-                    for event in events {
-                        self.attendedEvents[event.objectId!] = event
-                    }
-                }
-                self.populateSections()
-                self.tableView.reloadData()
-            }
+            fetchGroup.leave()
         }
+        fetchGroup.enter()
+        EventRequest.fetchEventsAttended(by: self.user) {
+            error, events in
+            if let events = events {
+                for event in events {
+                    self.attendedEvents[event.objectId!] = event
+                }
+            }
+            fetchGroup.leave()
+        }
+        fetchGroup.notify(queue: DispatchQueue.main) {
+            self.populateSections()
+            self.tableView.reloadData()
+        }
+        self.populateSections()
     }
     
     func populateSections() {
@@ -84,9 +92,7 @@ class UserProfileViewController: UIViewController {
                 if createdEvents.count == 0 {
                     userProfileSections.append(UserProfileCell.noEventCell)
                 } else {
-                    print(userProfileSections.count)
                     userProfileSections += Array(repeating: UserProfileCell.eventCell, count: createdEvents.count)
-                     print(userProfileSections.count)
                 }
             } else {
                 if attendedEvents.count == 0 {

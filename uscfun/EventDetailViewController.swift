@@ -341,7 +341,7 @@ class EventDetailViewController: UIViewController {
                     case is UIButton:
                         upVC.user = event.members[(sender as! UIButton).tag]
                     case is EventCreatorTableViewCell:
-                        upVC.other = creator
+                        upVC.user = event.createdBy
                     default:
                         break
                     }
