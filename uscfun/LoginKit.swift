@@ -87,17 +87,17 @@ class LoginKit {
     }
     
     static func checkIfConfirmationCodeMatches(email: String, code: String)throws -> Bool {
-        var error: NSError?
-        
-        AVCloud.callFunction(inBackground: "checkIfConfirmationCodeMatches", withParameters: ["email": email]) {
-            object, error in
-            if let matched = object as? [String: Bool] {
-                print("if matched: \(matched["succeeded"])")
-            }
-            if error != nil {
-                print(error!.localizedDescription)
-            }
-        }
+//        var error: NSError?
+//        
+//        AVCloud.callFunction(inBackground: "checkIfConfirmationCodeMatches", withParameters: ["email": email]) {
+//            object, error in
+//            if let matched = object as? [String: Bool] {
+//                print("if matched: \(matched["succeeded"])")
+//            }
+//            if error != nil {
+//                print(error!.localizedDescription)
+//            }
+//        }
         return true
 //        var error: NSError?
 //        if let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfConfirmationCodeMatches, withParameters: ["email": email, "code": code], error: &error) as? Bool {
@@ -110,13 +110,13 @@ class LoginKit {
     }
     
     static func requestConfirmationCode(email: String)throws {
-        var error: NSError?
-        AVCloud.callFunction("requestConfirmationCode",
-                             withParameters: ["email": email],
-                             error: &error)
-        if error != nil {
-            throw SignUpError.systemError(localizedDescriotion: "系统故障：无法发送验证码", debugDescription: error!.localizedDescription)
-        }
+//        var error: NSError?
+//        AVCloud.callFunction("requestConfirmationCode",
+//                             withParameters: ["email": email],
+//                             error: &error)
+//        if error != nil {
+//            throw SignUpError.systemError(localizedDescriotion: "系统故障：无法发送验证码", debugDescription: error!.localizedDescription)
+//        }
     }
     
     static func signUp()throws {
