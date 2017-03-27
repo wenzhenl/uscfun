@@ -46,12 +46,12 @@ class EventRequest {
     private static let timeOf2070 = Date(timeIntervalSince1970: 60*60*24*365*100)
     
     private static var _myOngoingEvents = OrderedDictionary<String, Event>()
-    private static var newestUpdatedAtOfMyOngoingEvents = timeOf1970
-    private static var oldestUpdatedAtOfMyOngoingEvents = timeOf2070
+    private static var newestCreatedAtOfMyOngoingEvents = timeOf1970
+    private static var oldestCreatedAtOfMyOngoingEvents = timeOf2070
     
     private static var _publicEvents = OrderedDictionary<String, Event>()
-    private static var newestUpdatedAtOfPublicEvents = timeOf1970
-    private static var oldestUpdatedAtOfPublicEvents = timeOf2070
+    private static var newestCreatedAtOfPublicEvents = timeOf1970
+    private static var oldestCreatedAtOfPublicEvents = timeOf2070
     
     static var myOngoingEvents: OrderedDictionary<String, Event> {
         var myOngoingEventsCopy: OrderedDictionary<String, Event>!
@@ -72,20 +72,20 @@ class EventRequest {
     static func removeMyOngoingEvent(with id: String, handler: (() -> Void)?) {
         concurrentMyOngoingEventQueue.async(flags: .barrier) {
             
-            if _myOngoingEvents[id]?.updatedAt == newestUpdatedAtOfMyOngoingEvents {
-                newestUpdatedAtOfMyOngoingEvents = timeOf1970
+            if _myOngoingEvents[id]?.updatedAt == newestCreatedAtOfMyOngoingEvents {
+                newestCreatedAtOfMyOngoingEvents = timeOf1970
                 for key in _myOngoingEvents.keys {
-                    if key != id && _myOngoingEvents[key]!.updatedAt! > newestUpdatedAtOfMyOngoingEvents {
-                        newestUpdatedAtOfMyOngoingEvents = _myOngoingEvents[key]!.updatedAt!
+                    if key != id && _myOngoingEvents[key]!.updatedAt! > newestCreatedAtOfMyOngoingEvents {
+                        newestCreatedAtOfMyOngoingEvents = _myOngoingEvents[key]!.updatedAt!
                     }
                 }
             }
             
-            if _myOngoingEvents[id]?.updatedAt == oldestUpdatedAtOfMyOngoingEvents {
-                oldestUpdatedAtOfMyOngoingEvents = timeOf2070
+            if _myOngoingEvents[id]?.updatedAt == oldestCreatedAtOfMyOngoingEvents {
+                oldestCreatedAtOfMyOngoingEvents = timeOf2070
                 for key in _myOngoingEvents.keys {
-                    if key != id && _myOngoingEvents[key]!.updatedAt! < oldestUpdatedAtOfMyOngoingEvents {
-                        oldestUpdatedAtOfMyOngoingEvents = _myOngoingEvents[key]!.updatedAt!
+                    if key != id && _myOngoingEvents[key]!.updatedAt! < oldestCreatedAtOfMyOngoingEvents {
+                        oldestCreatedAtOfMyOngoingEvents = _myOngoingEvents[key]!.updatedAt!
                     }
                 }
             }
@@ -101,12 +101,12 @@ class EventRequest {
     static func setMyOngoingEvent(event: Event, for id: String, handler: (() -> Void)?) {
         concurrentMyOngoingEventQueue.async(flags: .barrier) {
             
-            if event.updatedAt! > newestUpdatedAtOfMyOngoingEvents {
-                newestUpdatedAtOfMyOngoingEvents = event.updatedAt!
+            if event.updatedAt! > newestCreatedAtOfMyOngoingEvents {
+                newestCreatedAtOfMyOngoingEvents = event.updatedAt!
             }
             
-            if event.updatedAt! < oldestUpdatedAtOfMyOngoingEvents {
-                oldestUpdatedAtOfMyOngoingEvents = event.updatedAt!
+            if event.updatedAt! < oldestCreatedAtOfMyOngoingEvents {
+                oldestCreatedAtOfMyOngoingEvents = event.updatedAt!
             }
             
             _myOngoingEvents[id] = event
@@ -120,8 +120,8 @@ class EventRequest {
     static func removeAllMyOngoingEvents(handler: (() -> Void)?) {
         concurrentMyOngoingEventQueue.async(flags: .barrier) {
             
-            newestUpdatedAtOfMyOngoingEvents = timeOf1970
-            oldestUpdatedAtOfMyOngoingEvents = timeOf2070
+            newestCreatedAtOfMyOngoingEvents = timeOf1970
+            oldestCreatedAtOfMyOngoingEvents = timeOf2070
             _myOngoingEvents.removeAll()
             DispatchQueue.main.async {
                 handler?()
@@ -141,20 +141,20 @@ class EventRequest {
                 }
             }
             
-            if removedUpdatedAts.contains(newestUpdatedAtOfMyOngoingEvents) {
-                newestUpdatedAtOfMyOngoingEvents = timeOf1970
+            if removedUpdatedAts.contains(newestCreatedAtOfMyOngoingEvents) {
+                newestCreatedAtOfMyOngoingEvents = timeOf1970
                 for key in _myOngoingEvents.keys {
-                    if _myOngoingEvents[key]!.updatedAt! > newestUpdatedAtOfMyOngoingEvents {
-                        newestUpdatedAtOfMyOngoingEvents = _myOngoingEvents[key]!.updatedAt!
+                    if _myOngoingEvents[key]!.updatedAt! > newestCreatedAtOfMyOngoingEvents {
+                        newestCreatedAtOfMyOngoingEvents = _myOngoingEvents[key]!.updatedAt!
                     }
                 }
             }
             
-            if removedUpdatedAts.contains(oldestUpdatedAtOfMyOngoingEvents) {
-                oldestUpdatedAtOfMyOngoingEvents = timeOf2070
+            if removedUpdatedAts.contains(oldestCreatedAtOfMyOngoingEvents) {
+                oldestCreatedAtOfMyOngoingEvents = timeOf2070
                 for key in _myOngoingEvents.keys {
-                    if _myOngoingEvents[key]!.updatedAt! < oldestUpdatedAtOfMyOngoingEvents {
-                        oldestUpdatedAtOfMyOngoingEvents = _myOngoingEvents[key]!.updatedAt!
+                    if _myOngoingEvents[key]!.updatedAt! < oldestCreatedAtOfMyOngoingEvents {
+                        oldestCreatedAtOfMyOngoingEvents = _myOngoingEvents[key]!.updatedAt!
                     }
                 }
             }
@@ -168,20 +168,20 @@ class EventRequest {
     static func removePublicEvent(with id: String, handler: (() -> Void)?) {
         concurrentPublicEventQueue.async(flags: .barrier) {
             
-            if _publicEvents[id]?.updatedAt == newestUpdatedAtOfPublicEvents {
-                newestUpdatedAtOfPublicEvents = timeOf1970
+            if _publicEvents[id]?.updatedAt == newestCreatedAtOfPublicEvents {
+                newestCreatedAtOfPublicEvents = timeOf1970
                 for key in _publicEvents.keys {
-                    if key != id && _publicEvents[key]!.updatedAt! > newestUpdatedAtOfPublicEvents {
-                        newestUpdatedAtOfPublicEvents = _publicEvents[key]!.updatedAt!
+                    if key != id && _publicEvents[key]!.updatedAt! > newestCreatedAtOfPublicEvents {
+                        newestCreatedAtOfPublicEvents = _publicEvents[key]!.updatedAt!
                     }
                 }
             }
             
-            if _publicEvents[id]?.updatedAt == oldestUpdatedAtOfPublicEvents {
-                oldestUpdatedAtOfPublicEvents = timeOf2070
+            if _publicEvents[id]?.updatedAt == oldestCreatedAtOfPublicEvents {
+                oldestCreatedAtOfPublicEvents = timeOf2070
                 for key in _publicEvents.keys {
-                    if key != id && _publicEvents[key]!.updatedAt! < oldestUpdatedAtOfPublicEvents {
-                        oldestUpdatedAtOfPublicEvents = _publicEvents[key]!.updatedAt!
+                    if key != id && _publicEvents[key]!.updatedAt! < oldestCreatedAtOfPublicEvents {
+                        oldestCreatedAtOfPublicEvents = _publicEvents[key]!.updatedAt!
                     }
                 }
             }
@@ -197,12 +197,12 @@ class EventRequest {
     static func setPublicEvent(event: Event, for id: String, handler: (() -> Void)?) {
         concurrentPublicEventQueue.async(flags: .barrier) {
             
-            if event.updatedAt! > newestUpdatedAtOfPublicEvents {
-                newestUpdatedAtOfPublicEvents = event.updatedAt!
+            if event.updatedAt! > newestCreatedAtOfPublicEvents {
+                newestCreatedAtOfPublicEvents = event.updatedAt!
             }
             
-            if event.updatedAt! < oldestUpdatedAtOfPublicEvents {
-                oldestUpdatedAtOfPublicEvents = event.updatedAt!
+            if event.updatedAt! < oldestCreatedAtOfPublicEvents {
+                oldestCreatedAtOfPublicEvents = event.updatedAt!
             }
             
             _publicEvents[id] = event
@@ -216,8 +216,8 @@ class EventRequest {
     static func removeAllPublicEvents(handler: (() -> Void)?) {
         concurrentPublicEventQueue.async(flags: .barrier) {
             
-            newestUpdatedAtOfPublicEvents = timeOf1970
-            oldestUpdatedAtOfPublicEvents = timeOf2070
+            newestCreatedAtOfPublicEvents = timeOf1970
+            oldestCreatedAtOfPublicEvents = timeOf2070
             _publicEvents.removeAll()
             DispatchQueue.main.async {
                 handler?()
@@ -237,20 +237,20 @@ class EventRequest {
                 }
             }
             
-            if removedUpdatedAts.contains(newestUpdatedAtOfPublicEvents) {
-                newestUpdatedAtOfPublicEvents = timeOf1970
+            if removedUpdatedAts.contains(newestCreatedAtOfPublicEvents) {
+                newestCreatedAtOfPublicEvents = timeOf1970
                 for key in _publicEvents.keys {
-                    if _publicEvents[key]!.updatedAt! > newestUpdatedAtOfPublicEvents {
-                        newestUpdatedAtOfPublicEvents = _publicEvents[key]!.updatedAt!
+                    if _publicEvents[key]!.updatedAt! > newestCreatedAtOfPublicEvents {
+                        newestCreatedAtOfPublicEvents = _publicEvents[key]!.updatedAt!
                     }
                 }
             }
             
-            if removedUpdatedAts.contains(oldestUpdatedAtOfPublicEvents) {
-                oldestUpdatedAtOfPublicEvents = timeOf2070
+            if removedUpdatedAts.contains(oldestCreatedAtOfPublicEvents) {
+                oldestCreatedAtOfPublicEvents = timeOf2070
                 for key in _publicEvents.keys {
-                    if _publicEvents[key]!.updatedAt! < oldestUpdatedAtOfPublicEvents {
-                        oldestUpdatedAtOfPublicEvents = _publicEvents[key]!.updatedAt!
+                    if _publicEvents[key]!.updatedAt! < oldestCreatedAtOfPublicEvents {
+                        oldestCreatedAtOfPublicEvents = _publicEvents[key]!.updatedAt!
                     }
                 }
             }
@@ -284,15 +284,15 @@ class EventRequest {
     //--MARK: functions for fetch public events
     
     static func fetchNewerPublicEvents() {
-        fetchNewerPublicEvents(inBackground: false, currentNewestUpdatedTime: EventRequest.newestUpdatedAtOfPublicEvents, handler: nil)
+        fetchNewerPublicEvents(inBackground: false, currentNewestUpdatedTime: EventRequest.newestCreatedAtOfPublicEvents, handler: nil)
     }
     
     static func fetchNewerPublicEvents(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        fetchNewerPublicEvents(inBackground: false, currentNewestUpdatedTime: EventRequest.newestUpdatedAtOfPublicEvents, handler: handler)
+        fetchNewerPublicEvents(inBackground: false, currentNewestUpdatedTime: EventRequest.newestCreatedAtOfPublicEvents, handler: handler)
     }
     
     static func fetchNewerPublicEventsInBackground(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        fetchNewerPublicEvents(inBackground: true, currentNewestUpdatedTime: EventRequest.newestUpdatedAtOfPublicEvents, handler: handler)
+        fetchNewerPublicEvents(inBackground: true, currentNewestUpdatedTime: EventRequest.newestCreatedAtOfPublicEvents, handler: handler)
     }
     
     static func fetchNewerPublicEvents(inBackground: Bool, currentNewestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
@@ -320,15 +320,15 @@ class EventRequest {
     }
     
     static func fetchOlderPublicEvents() {
-        fetchOlderPublicEvents(inBackground: false, currentOldestUpdatedTime: EventRequest.oldestUpdatedAtOfPublicEvents, handler: nil)
+        fetchOlderPublicEvents(inBackground: false, currentOldestUpdatedTime: EventRequest.oldestCreatedAtOfPublicEvents, handler: nil)
     }
     
     static func fetchOlderPublicEvents(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        fetchOlderPublicEvents(inBackground: false, currentOldestUpdatedTime: EventRequest.oldestUpdatedAtOfPublicEvents, handler: handler)
+        fetchOlderPublicEvents(inBackground: false, currentOldestUpdatedTime: EventRequest.oldestCreatedAtOfPublicEvents, handler: handler)
     }
     
     static func fetchOlderPublicEventsInBackground(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        fetchOlderPublicEvents(inBackground: true, currentOldestUpdatedTime: EventRequest.oldestUpdatedAtOfPublicEvents, handler: handler)
+        fetchOlderPublicEvents(inBackground: true, currentOldestUpdatedTime: EventRequest.oldestCreatedAtOfPublicEvents, handler: handler)
     }
     
     static func fetchOlderPublicEvents(inBackground: Bool, currentOldestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
@@ -358,15 +358,15 @@ class EventRequest {
     //--MARK: functions for fetch my ongoing events
     
     static func fetchNewerMyOngoingEvents() {
-        fetchNewerMyOngoingEvents(inBackground: false, currentNewestUpdatedTime: EventRequest.newestUpdatedAtOfMyOngoingEvents, handler: nil)
+        fetchNewerMyOngoingEvents(inBackground: false, currentNewestUpdatedTime: EventRequest.newestCreatedAtOfMyOngoingEvents, handler: nil)
     }
     
     static func fetchNewerMyOngoingEvents(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        fetchNewerMyOngoingEvents(inBackground: false, currentNewestUpdatedTime: EventRequest.newestUpdatedAtOfMyOngoingEvents, handler: handler)
+        fetchNewerMyOngoingEvents(inBackground: false, currentNewestUpdatedTime: EventRequest.newestCreatedAtOfMyOngoingEvents, handler: handler)
     }
     
     static func fetchNewerMyOngoingEventsInBackground(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        fetchNewerMyOngoingEvents(inBackground: true, currentNewestUpdatedTime: EventRequest.newestUpdatedAtOfMyOngoingEvents, handler: handler)
+        fetchNewerMyOngoingEvents(inBackground: true, currentNewestUpdatedTime: EventRequest.newestCreatedAtOfMyOngoingEvents, handler: handler)
     }
     
     static func fetchNewerMyOngoingEvents(inBackground: Bool, currentNewestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
@@ -393,15 +393,15 @@ class EventRequest {
     }
     
     static func fetchOlderMyOngoingEvents() {
-        fetchOlderMyOngoingEvents(inBackground: false, currentOldestUpdatedTime: EventRequest.oldestUpdatedAtOfMyOngoingEvents, handler: nil)
+        fetchOlderMyOngoingEvents(inBackground: false, currentOldestUpdatedTime: EventRequest.oldestCreatedAtOfMyOngoingEvents, handler: nil)
     }
     
     static func fetchOlderMyOngoingEvents(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        fetchOlderMyOngoingEvents(inBackground: false, currentOldestUpdatedTime: EventRequest.oldestUpdatedAtOfMyOngoingEvents, handler: handler)
+        fetchOlderMyOngoingEvents(inBackground: false, currentOldestUpdatedTime: EventRequest.oldestCreatedAtOfMyOngoingEvents, handler: handler)
     }
     
     static func fetchOlderMyOngoingEventsInBackground(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        fetchOlderMyOngoingEvents(inBackground: true, currentOldestUpdatedTime: EventRequest.oldestUpdatedAtOfMyOngoingEvents, handler: handler)
+        fetchOlderMyOngoingEvents(inBackground: true, currentOldestUpdatedTime: EventRequest.oldestCreatedAtOfMyOngoingEvents, handler: handler)
     }
     
     static func fetchOlderMyOngoingEvents(inBackground: Bool, currentOldestUpdatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
@@ -446,11 +446,11 @@ class EventRequest {
                     if !event.members.contains(AVUser.current()!) {
                         _publicEvents[event.objectId!] = event
                         
-                        if event.updatedAt! > newestUpdatedAtOfPublicEvents {
-                            newestUpdatedAtOfPublicEvents = event.updatedAt!
+                        if event.updatedAt! > newestCreatedAtOfPublicEvents {
+                            newestCreatedAtOfPublicEvents = event.updatedAt!
                         }
-                        if event.updatedAt! < oldestUpdatedAtOfPublicEvents {
-                            oldestUpdatedAtOfPublicEvents = event.updatedAt!
+                        if event.updatedAt! < oldestCreatedAtOfPublicEvents {
+                            oldestCreatedAtOfPublicEvents = event.updatedAt!
                         }
                     }
                 }
@@ -480,11 +480,11 @@ class EventRequest {
                     if event.status != .isFailed && !(event.completedBy ?? []).contains(AVUser.current()!) {
                         _myOngoingEvents[event.objectId!] = event
                         
-                        if event.updatedAt! > newestUpdatedAtOfMyOngoingEvents {
-                            newestUpdatedAtOfMyOngoingEvents = event.updatedAt!
+                        if event.updatedAt! > newestCreatedAtOfMyOngoingEvents {
+                            newestCreatedAtOfMyOngoingEvents = event.updatedAt!
                         }
-                        if event.updatedAt! < oldestUpdatedAtOfMyOngoingEvents {
-                            oldestUpdatedAtOfMyOngoingEvents = event.updatedAt!
+                        if event.updatedAt! < oldestCreatedAtOfMyOngoingEvents {
+                            oldestCreatedAtOfMyOngoingEvents = event.updatedAt!
                         }
                     }
                 }
@@ -518,19 +518,19 @@ class EventRequest {
 //            for event in events {
 //                if event.members.contains(AVUser.current()!) {
 //                    EventRequest._myOngoingEvents[event.objectId!] = event
-//                    if event.updatedAt! > EventRequest.newestUpdatedAtOfMyOngoingEvents {
-//                        EventRequest.newestUpdatedAtOfMyOngoingEvents = event.updatedAt!
+//                    if event.updatedAt! > EventRequest.newestCreatedAtOfMyOngoingEvents {
+//                        EventRequest.newestCreatedAtOfMyOngoingEvents = event.updatedAt!
 //                    }
-//                    if event.updatedAt! < EventRequest.oldestUpdatedAtOfMyOngoingEvents {
-//                        EventRequest.oldestUpdatedAtOfMyOngoingEvents = event.updatedAt!
+//                    if event.updatedAt! < EventRequest.oldestCreatedAtOfMyOngoingEvents {
+//                        EventRequest.oldestCreatedAtOfMyOngoingEvents = event.updatedAt!
 //                    }
 //                } else {
 //                    EventRequest._publicEvents[event.objectId!] = event
-//                    if event.updatedAt! > EventRequest.newestUpdatedAtOfPublicEvents {
-//                        EventRequest.newestUpdatedAtOfPublicEvents = event.updatedAt!
+//                    if event.updatedAt! > EventRequest.newestCreatedAtOfPublicEvents {
+//                        EventRequest.newestCreatedAtOfPublicEvents = event.updatedAt!
 //                    }
-//                    if event.updatedAt! < EventRequest.oldestUpdatedAtOfPublicEvents {
-//                        EventRequest.oldestUpdatedAtOfPublicEvents = event.updatedAt!
+//                    if event.updatedAt! < EventRequest.oldestCreatedAtOfPublicEvents {
+//                        EventRequest.oldestCreatedAtOfPublicEvents = event.updatedAt!
 //                    }
 //                }
 //            }
