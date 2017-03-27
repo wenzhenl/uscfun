@@ -151,6 +151,7 @@ class EventRequest {
     private static var _myOngoingEvents = OrderedDictionary<String, Event>()
     private static var newestCreatedAtOfMyOngoingEvents = timeOf1970
     private static var oldestCreatedAtOfMyOngoingEvents = timeOf2070
+    public static var thereIsUnfetchedOldMyOngoingEvents = false
     
     static var myOngoingEvents: OrderedDictionary<String, Event> {
         var myOngoingEventsCopy: OrderedDictionary<String, Event>!
@@ -167,6 +168,7 @@ class EventRequest {
     private static var _publicEvents = OrderedDictionary<String, Event>()
     private static var newestCreatedAtOfPublicEvents = timeOf1970
     private static var oldestCreatedAtOfPublicEvents = timeOf2070
+    public static var thereIsUnfetchedPublicEvents = false
     
     static var publicEvents: OrderedDictionary<String, Event> {
         var publicEventsCopy: OrderedDictionary<String, Event>!
@@ -516,6 +518,24 @@ class EventRequest {
                     eventsCopy = _publicEvents
                     newestCreatedAt = newestCreatedAtOfPublicEvents
                     oldestCreatedAt = oldestCreatedAtOfPublicEvents
+                }
+                
+                /// judge if there is more old data based on fetched number
+                switch (source, type) {
+                case (.myongoing, .newer):
+                    if !UserDefaults.hasPreloadedMyOngoingEvents {
+                        thereIsUnfetchedOldMyOngoingEvents = events.count >= USCFunConstants.QUERYLIMIT
+                    }
+                case (.mypublic, .newer):
+                    if !UserDefaults.hasPreloadedPublicEvents {
+                        thereIsUnfetchedPublicEvents = events.count >= USCFunConstants.QUERYLIMIT
+                    }
+                case (.myongoing, .older):
+                    thereIsUnfetchedOldMyOngoingEvents = events.count >= USCFunConstants.QUERYLIMIT
+                case (.mypublic, .older):
+                    thereIsUnfetchedPublicEvents = events.count >= USCFunConstants.QUERYLIMIT
+                default:
+                    break
                 }
                 
                 if type == .newer && events.count >= USCFunConstants.QUERYLIMIT {

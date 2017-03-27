@@ -207,6 +207,8 @@ class EventListViewController: UIViewController {
                 let numberOfPublicEventsAfterUpdate = EventRequest.publicEvents.count
                 if numberOfPublicEventsAfterUpdate > numberOfPublicEventsBeforeUpdate {
                     self.displayInfo(info: "\(numberOfPublicEventsAfterUpdate - numberOfPublicEventsBeforeUpdate)个新的微活动")
+                } else {
+                    self.displayInfo(info: "没有更新的微活动了")
                 }
                 self.refreshControl.endRefreshing()
                 self.tableView.reloadData()
@@ -403,6 +405,16 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = UIColor.white
+        if indexPath.section == EventRequest.publicEvents.count && EventRequest.thereIsUnfetchedPublicEvents {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+            EventRequest.fetchOlderPublicEventsInBackground {
+                succeeded, error in
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                if succeeded {
+                    self.tableView.reloadData()
+                }
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {

@@ -328,6 +328,20 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
         return 270
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.white
+        if indexPath.section == EventRequest.myOngoingEvents.count && EventRequest.thereIsUnfetchedOldMyOngoingEvents {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+            EventRequest.fetchOlderMyOngoingEventsInBackground {
+                succeeded, error in
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                if succeeded {
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if EventRequest.myOngoingEvents.count == 0 {
