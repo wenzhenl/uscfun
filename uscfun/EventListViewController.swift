@@ -10,11 +10,6 @@ import UIKit
 import SVProgressHUD
 import ChatKit
 
-protocol SystemNotificationDelegate {
-    func systemDidUpdateExistingEvents(ids: [String])
-    func systemDidUpdateNewEvents()
-}
-
 class EventListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
@@ -92,14 +87,14 @@ class EventListViewController: UIViewController {
         self.tableView.tableFooterView = UIView()
         self.tableView.backgroundColor = UIColor.backgroundGray
         
-        AppDelegate.systemNotificationDelegate = self
-        
         NotificationCenter.default.addObserver(self, selector: #selector(handlePreload(notification:)), name: NSNotification.Name(rawValue: "finishedPreloadingPublicEvents"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "tabBarItemSelected"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleTabRefresh), name: NSNotification.Name(rawValue: "findRefresh"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleJoinEvent), name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleQuitEvent), name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNewEventAvailable(notification:)), name: NSNotification.Name(rawValue: "newEventAvailable"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleUpdatedEventAvailable(notification:)), name: NSNotification.Name(rawValue: "updatedEventAvailable"), object: nil)
+
         view.addSubview(infoLabel)
         self.navigationController?.navigationBar.isTranslucent = false
     }
@@ -160,6 +155,38 @@ class EventListViewController: UIViewController {
     func handleQuitEvent() {
         self.numberOfNewEvents += 1
         self.tableView.reloadData()
+    }
+    
+    func handleNewEventAvailable(notification: Notification) {
+        guard let info = notification.userInfo as? [String: String], let eventId = info["eventId"] else {
+            print("cannot parse UpdatedEventAvailable notification")
+            return
+        }
+        EventRequest.fetchEvent(with: eventId) {
+            error, event in
+            if let event = event {
+                if event.createdBy != AVUser.current()! {
+                    self.numberOfNewEvents += 1
+                }
+            }
+        }
+    }
+    
+    func handleUpdatedEventAvailable(notification: Notification) {
+        guard let info = notification.userInfo as? [String: String], let eventId = info["eventId"] else {
+            print("cannot parse UpdatedEventAvailable notification")
+            return
+        }
+        if EventRequest.publicEvents.keys.contains(eventId) {
+            EventRequest.fetchEvent(with: eventId) {
+                error, event in
+                if let event = event {
+                    EventRequest.setEvent(event: event, with: event.objectId!, for: .mypublic) {
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+        }
     }
     
     func handleRefresh() {
@@ -432,20 +459,3 @@ extension EventListViewController: UIScrollViewDelegate {
     }
 }
 
-extension EventListViewController: SystemNotificationDelegate {
-    func systemDidUpdateExistingEvents(ids: [String]) {
-        print("updating existing events")
-//        EventRequest.fetchEvents(inBackground: true, with: ids) {
-//            succeeded, error in
-//            if succeeded {
-//                self.tableView.reloadData()
-//            } else if error != nil {
-//                print(error!.localizedDescription)
-//            }
-//        }
-    }
-    
-    func systemDidUpdateNewEvents() {
-        print("new events coming")
-    }
-}

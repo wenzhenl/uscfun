@@ -17,8 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var client: AVIMClient?
     
-    static var systemNotificationDelegate: SystemNotificationDelegate?
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         //--MARK: register for notification
@@ -92,6 +90,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if UserDefaults.needToSaveAvatarEventually {
             UserDefaults.updateUserAvatar()
         }
+        
+        /// update events
+        EventRequest.refreshMyOngoingEvents()
+        EventRequest.refreshPublicEvents()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -141,34 +143,23 @@ extension AppDelegate: WXApiDelegate {
 extension AppDelegate: AVIMClientDelegate {
     func conversation(_ conversation: AVIMConversation, didReceive message: AVIMTypedMessage) {
         print(message.text ?? "")
-        SVProgressHUD.showInfo(withStatus: message.text)
-        let delay = 3 * Double(NSEC_PER_SEC)
-        let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
-        DispatchQueue.main.asyncAfter(deadline: time) {
-            SVProgressHUD.dismiss()
+//        SVProgressHUD.showInfo(withStatus: message.text)
+//        let delay = 3 * Double(NSEC_PER_SEC)
+//        let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
+//        DispatchQueue.main.asyncAfter(deadline: time) {
+//            SVProgressHUD.dismiss()
+//        }
+        
+        guard let reason = message.attributes?["reason"] as? String, let eventId = message.attributes?["eventId"] as? String else {
+            print("cannot parse message attributes")
+            return
         }
         
-        if let concatenatedUpdatedIds = message.attributes?[EventKeyConstants.keyOfSystemNotificationOfUpdatedEvents] as? String {
-            let updatedIds = concatenatedUpdatedIds.components(separatedBy: ",")
-            var existingEventsIds = [String]()
-            var newEventsIds = [String]()
-            
-            for id in updatedIds {
-                print(id)
-                if EventRequest.myOngoingEvents.keys.contains(id) || EventRequest.publicEvents.keys.contains(id) {
-                    existingEventsIds.append(id)
-                } else {
-                    newEventsIds.append(id)
-                }
-            }
-            
-            if existingEventsIds.count > 0 {
-                AppDelegate.systemNotificationDelegate?.systemDidUpdateExistingEvents(ids: existingEventsIds)
-            }
-            
-            if newEventsIds.count > 0 {
-                AppDelegate.systemNotificationDelegate?.systemDidUpdateNewEvents()
-            }
+        if reason == "new" {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newEventAvailable"), object: nil, userInfo: ["eventId": eventId])
+        }
+        else if reason == "updated" {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updatedEventAvailable"), object: nil, userInfo: ["eventId": eventId])
         }
     }
 }

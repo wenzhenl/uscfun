@@ -78,6 +78,7 @@ class MyEventListViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleEventExpired(notification:)), name: NSNotification.Name(rawValue: "eventDidExpired"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateEvent(notification:)), name: NSNotification.Name(rawValue: "userDidUpdateEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleCancelEvent(notification:)), name: NSNotification.Name(rawValue: "userDidCancelEvent"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleUpdatedEventAvailable(notification:)), name: NSNotification.Name(rawValue: "updatedEventAvailable"), object: nil)
 
         view.addSubview(infoLabel)
         self.navigationController?.navigationBar.isTranslucent = false
@@ -167,6 +168,25 @@ class MyEventListViewController: UIViewController {
     
     func handleCancelEvent(notification: Notification) {
         self.tableView.reloadData()
+    }
+    
+    func handleUpdatedEventAvailable(notification: Notification) {
+        guard let info = notification.userInfo as? [String: String], let eventId = info["eventId"] else {
+            print("cannot parse UpdatedEventAvailable notification")
+            return
+        }
+        if EventRequest.myOngoingEvents.keys.contains(eventId) {
+            EventRequest.fetchEvent(with: eventId) {
+                error, event in
+                
+                // #warning if there's error, the update might be lost forever
+                if let event = event {
+                    EventRequest.setEvent(event: event, with: event.objectId!, for: .myongoing) {
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+        }
     }
     
     func handleRefresh() {

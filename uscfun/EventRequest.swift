@@ -386,6 +386,75 @@ class EventRequest {
         }
     }
     
+    //--MARK: function for refresh events
+    
+    static func refreshMyOngoingEvents() {
+        refreshEvents(for: .myongoing, handler: nil)
+    }
+    
+    static func refreshPublicEvents() {
+        refreshEvents(for: .mypublic, handler: nil)
+    }
+    
+    static func refreshEvents(for source: EventSource, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+        let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
+        switch source {
+        case .myongoing:
+            query.whereKey(EventKeyConstants.keyOfObjectId, containedIn: myOngoingEvents.keys)
+        case .mypublic:
+            query.whereKey(EventKeyConstants.keyOfObjectId, containedIn: publicEvents.keys)
+        }
+        
+        /// include AVUser
+        query.includeKey(EventKeyConstants.keyOfCreatedBy)
+        query.includeKey(EventKeyConstants.keyOfMembers)
+        query.includeKey(EventKeyConstants.keyOfCompletedBy)
+
+        query.cachePolicy = .networkElseCache
+        query.maxCacheAge = USCFunConstants.MAXCACHEAGE
+        query.limit = USCFunConstants.QUERYLIMIT
+        
+        var concurrentQueue: DispatchQueue!
+        
+        /// choose concurent queue
+        switch source {
+        case .myongoing:
+            concurrentQueue = concurrentMyOngoingEventQueue
+        case .mypublic:
+            concurrentQueue = concurrentPublicEventQueue
+        }
+        
+        fetchData(inBackground: false, with: query) {
+            error, events in
+            if error != nil {
+                print(error!)
+                handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: error!.localizedDescription))
+                return
+            }
+            guard let events = events else {
+                handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: "cannot get events"))
+                return
+            }
+            
+            print("updated events number: \(events.count)")
+            
+            concurrentQueue.async(flags: .barrier) {
+                for event in events {
+                    switch source {
+                    case .myongoing:
+                        _myOngoingEvents[event.objectId!] = event
+                    case .mypublic:
+                        _publicEvents[event.objectId!] = event
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    handler?(true, nil)
+                }
+            }
+        }
+    }
+
     //--MARK: functions for fetch newer my ongoing events
     
     static func fetchNewerMyOngoingEvents() {
