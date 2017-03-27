@@ -210,7 +210,7 @@ class EditEventViewController: FormViewController {
                 SVProgressHUD.dismiss()
                 if succeeded {
                     print("delete successfully")
-                    EventRequest.removeMyOngoingEvent(with: self.event.objectId!) {
+                    EventRequest.removeEvent(with: self.event.objectId!, for: .myongoing) {
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidCancelEvent"), object: nil, userInfo: ["eventId": self.event.objectId!])
 
                         self.presentingViewController?.dismiss(animated: true, completion: nil)
@@ -255,7 +255,7 @@ class EditEventViewController: FormViewController {
             SVProgressHUD.dismiss()
             if succeeded {
                 delegate?.userDidUpdatedEvent(event: event)
-                EventRequest.setMyOngoingEvent(event: event, for: event.objectId!) {
+                EventRequest.setEvent(event: event, with: event.objectId!, for: .myongoing) {
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidUpdateEvent"), object: nil, userInfo: nil)
                     self.presentingViewController?.dismiss(animated: true, completion: nil)
                 }

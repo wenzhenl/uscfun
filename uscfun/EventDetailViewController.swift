@@ -187,11 +187,11 @@ class EventDetailViewController: UIViewController {
             if succeeded {
                 let joinEventGroup = DispatchGroup()
                 joinEventGroup.enter()
-                EventRequest.setMyOngoingEvent(event: self.event, for: self.event.objectId!, handler: nil)
+                EventRequest.setEvent(event: self.event, with: self.event.objectId!, for: .myongoing, handler: nil)
                 joinEventGroup.leave()
                 
                 joinEventGroup.enter()
-                EventRequest.removePublicEvent(with: self.event.objectId!, handler: nil)
+                EventRequest.removeEvent(with: self.event.objectId!, for: .mypublic, handler: nil)
                 joinEventGroup.leave()
                 
                 joinEventGroup.notify(queue: DispatchQueue.main) {
@@ -247,12 +247,12 @@ class EventDetailViewController: UIViewController {
                 if succeeded {
                     let quitEventGroup = DispatchGroup()
                     quitEventGroup.enter()
-                    EventRequest.setPublicEvent(event: self.event, for: self.event.objectId!) {
+                    EventRequest.setEvent(event: self.event, with: self.event.objectId!, for: .mypublic) {
                         quitEventGroup.leave()
                     }
                     
                     quitEventGroup.enter()
-                    EventRequest.removeMyOngoingEvent(with: self.event.objectId!) {
+                    EventRequest.removeEvent(with: self.event.objectId!, for: .myongoing) {
                         quitEventGroup.leave()
                     }
                     

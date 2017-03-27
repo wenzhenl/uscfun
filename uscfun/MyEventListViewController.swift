@@ -475,7 +475,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                         EventRequest.myOngoingEvents[finalizedCell.eventId!]?.setComplete(for: AVUser.current()!) {
                             succeeded, error in
                             if succeeded {
-                                EventRequest.removeMyOngoingEvent(with: finalizedCell.eventId!) {
+                                EventRequest.removeEvent(with: finalizedCell.eventId!, for: .myongoing) {
                                     print("about to delete finalized event")
                                     self.tableView.deleteSections(IndexSet([indexPath.section]), with: .fade)
                                 }

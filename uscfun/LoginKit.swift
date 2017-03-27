@@ -303,8 +303,8 @@ class LoginKit {
         UserDefaults.hasLoggedIn = false
         UserDefaults.hasPreloadedMyOngoingEvents = false
         UserDefaults.hasPreloadedPublicEvents = false
-        EventRequest.removeAllPublicEvents(handler: nil)
-        EventRequest.removeAllMyOngoingEvents(handler: nil)
+        EventRequest.removeAllEvents(for: .myongoing, handler: nil)
+        EventRequest.removeAllEvents(for: .mypublic, handler: nil)
         
         LCChatKit.sharedInstance().close() {
             succeed, error in

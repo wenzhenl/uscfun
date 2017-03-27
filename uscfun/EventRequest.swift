@@ -154,42 +154,6 @@ class EventRequest {
         return myOngoingEventsCopy
     }
     
-    static func cleanMyOngoingEventsInBackground(handler: (() -> Void)?) {
-        concurrentMyOngoingEventQueue.async(flags: .barrier) {
-            
-            var removedUpdatedAts = [Date]()
-            for id in _myOngoingEvents.keys {
-                let event = _myOngoingEvents[id]!
-                if event.status != .isFinalized && event.status != .isSecured && event.status != .isPending {
-                    removedUpdatedAts.append(event.createdAt!)
-                    _myOngoingEvents[id] = nil
-                }
-            }
-            
-            if removedUpdatedAts.contains(newestCreatedAtOfMyOngoingEvents) {
-                newestCreatedAtOfMyOngoingEvents = timeOf1970
-                for key in _myOngoingEvents.keys {
-                    if _myOngoingEvents[key]!.createdAt! > newestCreatedAtOfMyOngoingEvents {
-                        newestCreatedAtOfMyOngoingEvents = _myOngoingEvents[key]!.createdAt!
-                    }
-                }
-            }
-            
-            if removedUpdatedAts.contains(oldestCreatedAtOfMyOngoingEvents) {
-                oldestCreatedAtOfMyOngoingEvents = timeOf2070
-                for key in _myOngoingEvents.keys {
-                    if _myOngoingEvents[key]!.createdAt! < oldestCreatedAtOfMyOngoingEvents {
-                        oldestCreatedAtOfMyOngoingEvents = _myOngoingEvents[key]!.createdAt!
-                    }
-                }
-            }
-            
-            DispatchQueue.main.async {
-                handler?()
-            }
-        }
-    }
-    
     //--MARK: functions for fetch my ongoing events
     
     static func fetchNewerMyOngoingEvents() {
@@ -340,6 +304,7 @@ class EventRequest {
                 newestCreatedAt = newestCreatedAtOfPublicEvents
                 oldestCreatedAt = oldestCreatedAtOfPublicEvents
             }
+            
             if eventsCopy[id]?.createdAt == newestCreatedAt {
                 newestCreatedAt = timeOf1970
                 for key in eventsCopy.keys {
@@ -378,10 +343,35 @@ class EventRequest {
         }
     }
     
-    static func setPublicEvent(event: Event, for id: String, handler: (() -> Void)?) {
-        concurrentPublicEventQueue.async(flags: .barrier) {
+    static func setEvent(event: Event, with id: String, for source: EventSource, handler: (() -> Void)?) {
+        var concurrentQueue: DispatchQueue!
+        
+        /// choose concurent queue
+        switch source {
+        case .myongoing:
+            concurrentQueue = concurrentMyOngoingEventQueue
+        case .mypublic:
+            concurrentQueue = concurrentPublicEventQueue
+        }
+        
+        concurrentQueue.async(flags: .barrier) {
+            var eventsCopy: OrderedDictionary<String, Event>!
+            switch source {
+            case .myongoing:
+                eventsCopy = _myOngoingEvents
+            case .mypublic:
+                eventsCopy = _publicEvents
+            }
             
-            _publicEvents[id] = event
+            eventsCopy[id] = event
+            
+            /// restore data
+            switch source {
+            case .myongoing:
+                _myOngoingEvents = eventsCopy
+            case .mypublic:
+                _publicEvents = eventsCopy
+            }
             
             DispatchQueue.main.async {
                 handler?()
@@ -389,46 +379,107 @@ class EventRequest {
         }
     }
     
-    static func removeAllPublicEvents(handler: (() -> Void)?) {
-        concurrentPublicEventQueue.async(flags: .barrier) {
+    static func removeAllEvents(for source: EventSource, handler: (() -> Void)?) {
+        var concurrentQueue: DispatchQueue!
+        
+        /// choose concurent queue
+        switch source {
+        case .myongoing:
+            concurrentQueue = concurrentMyOngoingEventQueue
+        case .mypublic:
+            concurrentQueue = concurrentPublicEventQueue
+        }
+        
+        concurrentQueue.async(flags: .barrier) {
+            switch source {
+            case .myongoing:
+                newestCreatedAtOfMyOngoingEvents = timeOf1970
+                oldestCreatedAtOfMyOngoingEvents = timeOf2070
+                _myOngoingEvents.removeAll()
+            case .mypublic:
+                newestCreatedAtOfPublicEvents = timeOf1970
+                oldestCreatedAtOfPublicEvents = timeOf2070
+                _publicEvents.removeAll()
+            }
             
-            newestCreatedAtOfPublicEvents = timeOf1970
-            oldestCreatedAtOfPublicEvents = timeOf2070
-            _publicEvents.removeAll()
             DispatchQueue.main.async {
                 handler?()
             }
         }
     }
     
-    static func cleanPublicEventsInBackground(handler: (() -> Void)?) {
-        concurrentPublicEventQueue.async(flags: .barrier) {
+    static func cleanEventsInBackground(for source: EventSource, handler: (() -> Void)?) {
+        var concurrentQueue: DispatchQueue!
+        
+        /// choose concurent queue
+        switch source {
+        case .myongoing:
+            concurrentQueue = concurrentMyOngoingEventQueue
+        case .mypublic:
+            concurrentQueue = concurrentPublicEventQueue
+        }
+
+        concurrentQueue.async(flags: .barrier) {
+            
+            var eventsCopy: OrderedDictionary<String, Event>!
+            var newestCreatedAt: Date!
+            var oldestCreatedAt: Date!
+            switch source {
+            case .myongoing:
+                eventsCopy = _myOngoingEvents
+                newestCreatedAt = newestCreatedAtOfMyOngoingEvents
+                oldestCreatedAt = oldestCreatedAtOfMyOngoingEvents
+            case .mypublic:
+                eventsCopy = _publicEvents
+                newestCreatedAt = newestCreatedAtOfPublicEvents
+                oldestCreatedAt = oldestCreatedAtOfPublicEvents
+            }
             
             var removedUpdatedAts = [Date]()
-            for id in _publicEvents.keys {
-                let event = _publicEvents[id]!
-                if event.status != .isSecured && event.status != .isPending {
-                    removedUpdatedAts.append(event.createdAt!)
-                    _publicEvents[id] = nil
-                }
-            }
-            
-            if removedUpdatedAts.contains(newestCreatedAtOfPublicEvents) {
-                newestCreatedAtOfPublicEvents = timeOf1970
-                for key in _publicEvents.keys {
-                    if _publicEvents[key]!.createdAt! > newestCreatedAtOfPublicEvents {
-                        newestCreatedAtOfPublicEvents = _publicEvents[key]!.createdAt!
+            for id in eventsCopy.keys {
+                let event = eventsCopy[id]!
+                switch source {
+                case .myongoing:
+                    if event.status != .isFinalized && event.status != .isSecured && event.status != .isPending {
+                        removedUpdatedAts.append(event.createdAt!)
+                        eventsCopy[id] = nil
+                    }
+                case .mypublic:
+                    if event.status != .isSecured && event.status != .isPending {
+                        removedUpdatedAts.append(event.createdAt!)
+                        eventsCopy[id] = nil
                     }
                 }
             }
             
-            if removedUpdatedAts.contains(oldestCreatedAtOfPublicEvents) {
-                oldestCreatedAtOfPublicEvents = timeOf2070
-                for key in _publicEvents.keys {
-                    if _publicEvents[key]!.createdAt! < oldestCreatedAtOfPublicEvents {
-                        oldestCreatedAtOfPublicEvents = _publicEvents[key]!.createdAt!
+            if removedUpdatedAts.contains(newestCreatedAt) {
+                newestCreatedAt = timeOf1970
+                for key in eventsCopy.keys {
+                    if eventsCopy[key]!.createdAt! > newestCreatedAt {
+                        newestCreatedAt = eventsCopy[key]!.createdAt!
                     }
                 }
+            }
+            
+            if removedUpdatedAts.contains(oldestCreatedAt) {
+                oldestCreatedAt = timeOf2070
+                for key in eventsCopy.keys {
+                    if eventsCopy[key]!.createdAt! < oldestCreatedAt {
+                        oldestCreatedAt = eventsCopy[key]!.createdAt!
+                    }
+                }
+            }
+            
+            /// restore data
+            switch source {
+            case .myongoing:
+                _myOngoingEvents = eventsCopy
+                newestCreatedAtOfMyOngoingEvents = newestCreatedAt
+                oldestCreatedAtOfMyOngoingEvents = oldestCreatedAt
+            case .mypublic:
+                _publicEvents = eventsCopy
+                newestCreatedAtOfPublicEvents = newestCreatedAt
+                oldestCreatedAtOfPublicEvents = oldestCreatedAt
             }
             
             DispatchQueue.main.async {
