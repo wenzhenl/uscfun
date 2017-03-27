@@ -78,10 +78,12 @@ class LoginKit {
         var error: NSError?
         let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfEmailIsTaken, withParameters: ["email": email], error: &error)
         if error != nil {
+            print(error!)
             throw SignUpError.systemError(localizedDescriotion: "无法验证邮箱是否被占用", debugDescription: error!.localizedDescription)
         }
         
         guard let isTaken = result as? Bool else {
+            print("failed to check if email is taken: cannot parse return value")
             throw SignUpError.systemError(localizedDescriotion: "无法验证邮箱是否被占用", debugDescription: "cannot check if email is taken")
         }
         
@@ -92,10 +94,12 @@ class LoginKit {
         var error: NSError?
         let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfConfirmationCodeMatches, withParameters: ["email": email, "code": code], error: &error)
         if error != nil {
+            print(error!)
             throw SignUpError.systemError(localizedDescriotion: "无法验证验证码", debugDescription: error!.localizedDescription)
         }
         
         guard let matched = result as? Bool else {
+            print("failed to check if confirmation code match: cannot parse return value")
             throw SignUpError.systemError(localizedDescriotion: "无法验证验证码", debugDescription: "cannot check if confirmation code matches")
         }
         
@@ -104,22 +108,28 @@ class LoginKit {
     
     static func requestConfirmationCode(email: String)throws {
         var error: NSError?
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         let result = AVCloud.callFunction(LeanEngineFunctions.nameOfRequestConfirmationCode, withParameters: ["email": email], error: &error)
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
         if error != nil {
+            print(error!)
             throw SignUpError.systemError(localizedDescriotion: "无法发送验证码", debugDescription: error!.localizedDescription)
         }
         
         guard let succeeded = result as? Bool, succeeded == true else {
+            print("failed to request confirmation code: cannot parse return value")
             throw SignUpError.systemError(localizedDescriotion: "无法验证验证码", debugDescription: "cannot send confirmation code")
         }
     }
     
     static func createSystemConversationIfNotExists(email: String)throws {
         var error: NSError?
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCreateSystemConversationIfNotExists, withParameters: ["email": email], error: &error)
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
         
         guard let succeeded = result as? Bool, succeeded == true else {
-            print("cannot create system conversation")
+            print("failed to create system conversation: cannot parse return value")
             throw SignUpError.systemError(localizedDescriotion: "无法创建系统对话", debugDescription: "cannot create system conversation")
         }
         
@@ -131,14 +141,16 @@ class LoginKit {
     
     static func subscribeToSystemConversation(clientId: String, institution: String)throws {
         var error: NSError?
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         let result = AVCloud.callFunction(LeanEngineFunctions.nameOfSubscribeToSystemConversation, withParameters: ["clientId": clientId, "institution": institution], error: &error)
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
         if error != nil {
             print(error!)
             throw SignUpError.systemError(localizedDescriotion: "无法订阅系统对话", debugDescription: error!.localizedDescription)
         }
         
         guard let succeeded = result as? Bool, succeeded == true else {
-            print("cannot subscribe system conversation")
+            print("failed to subscribe to system conversation: cannot parse return value")
             throw SignUpError.systemError(localizedDescriotion: "无法订阅系统对话", debugDescription: "cannot subscribe system conversation")
         }
     }

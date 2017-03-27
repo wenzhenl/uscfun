@@ -169,6 +169,9 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
             if try LoginKit.checkIfConfirmationCodeMatches(email: email, code: confirmationCode) {
                 UserDefaults.newEmail = email
                 performSegue(withIdentifier: identifierToPassword, sender: self)
+            } else {
+                errorLabel.text = "验证码不正确，请重新输入"
+                errorLabel.isHidden = false
             }
         } catch let error {
             errorLabel.text = error.localizedDescription
