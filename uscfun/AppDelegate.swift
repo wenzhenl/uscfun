@@ -225,6 +225,7 @@ extension AppDelegate: LoginDelegate {
             }
             
             AVInstallation.current().remove(systemClient, forKey: "channels")
+            AVInstallation.current().saveInBackground()
         }
         
         LCChatKit.sharedInstance().open(withClientId: AVUser.current()!.username!) {
