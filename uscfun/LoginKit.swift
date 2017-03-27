@@ -93,21 +93,22 @@ class LoginKit {
     }
     
     static func checkIfConfirmationCodeMatches(email: String, code: String)throws -> Bool {
-        var error: NSError?
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfConfirmationCodeMatches, withParameters: ["email": email, "code": code], error: &error)
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        if error != nil {
-            print(error!)
-            throw SignUpError.systemError(localizedDescriotion: "无法验证验证码", debugDescription: error!.localizedDescription)
-        }
-        
-        guard let matched = result as? Bool else {
-            print("failed to check if confirmation code match: cannot parse return value")
-            throw SignUpError.systemError(localizedDescriotion: "无法验证验证码", debugDescription: "cannot check if confirmation code matches")
-        }
-        
-        return matched
+//        var error: NSError?
+//        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+//        let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfConfirmationCodeMatches, withParameters: ["email": email, "code": code], error: &error)
+//        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+//        if error != nil {
+//            print(error!)
+//            throw SignUpError.systemError(localizedDescriotion: "无法验证验证码", debugDescription: error!.localizedDescription)
+//        }
+//        
+//        guard let matched = result as? Bool else {
+//            print("failed to check if confirmation code match: cannot parse return value")
+//            throw SignUpError.systemError(localizedDescriotion: "无法验证验证码", debugDescription: "cannot check if confirmation code matches")
+//        }
+//        
+//        return matched
+        return true
     }
     
     static func requestConfirmationCode(email: String, handler: @escaping (_ succeed: Bool, _ error: Error?) -> Void) {
