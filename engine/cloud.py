@@ -1,6 +1,8 @@
 # -*- coding: utf8 -*-
 __author__ = "Wenzheng Li"
 
+import os
+
 from leancloud import Engine
 from leancloud import LeanEngineError
 from leancloud import Object
@@ -17,9 +19,11 @@ import datetime
 import requests
 import json
 
-engine = Engine(app)
+APP_ID = os.environ['LEANCLOUD_APP_ID']
+APP_KEY = os.environ['LEANCLOUD_APP_KEY']
+MASTER_KEY = os.environ['LEANCLOUD_APP_MASTER_KEY']
 
-uscSystemConversationId = "58d5288eda2f600064f2c605"
+engine = Engine(app)
 
 @engine.define
 def checkIfEmailIsTaken(**params):
@@ -170,8 +174,8 @@ def createSystemConversationIfNotExists(**params):
             query_list = query.find()
             if len(query_list) == 0:
                 headers = {'Content-Type': 'application/json', \
-                    'X-LC-Id': '0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz', \
-                    'X-LC-Key': 'XRGhgA5IwbqTWzosKRh3nzRY'}
+                    'X-LC-Id': APP_ID, \
+                    'X-LC-Key': APP_KEY}
                 url = "https://api.leancloud.cn/1.1/classes/_Conversation"
                 data = {"name": instituion, \
                         "sys": True}
@@ -184,38 +188,91 @@ def createSystemConversationIfNotExists(**params):
 
 @engine.before_save('_User')
 def before_user_save(user):
-    client_id = user.get('username') + "_system_notification"
-    headers = {'Content-Type': 'application/json', \
-        'X-LC-Id': '0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz', \
-        'X-LC-Key': '86bDxHaspqbCjqxWm53txUxb,master'}
-    url = 'https://leancloud.cn/1.1/rtm/broadcast/subscription'
-    data = {"conv_id": uscSystemConversationId, "client_id": client_id}
-    requests.post(url, data=json.dumps(data), headers=headers)
+    print "before user save called..."
+    email = user.get('email')
+    print "email:" + email
+    suffix = email[email.find('@')+1:]
+    print "suffix:" + suffix
+    instituion = suffix[:suffix.find('.')]
+    print "instituion:" + instituion
+    Conversation = Object.extend('_Conversation')
+    query1 = Conversation.query
+    query2 = Conversation.query
+    query1.equal_to('name', instituion)
+    query2.equal_to('sys', True)
+    query = Query.and_(query1, query2)
+    query_list = query.find()
+    if len(query_list) == 0:
+        raise LeanEngineError('没有找到系统对话')
+    else:
+        conversation = query_list[0]
+        conversation_id = conversation.get('objectId')
+        print "conversationId:" + conversation_id
+        client_id = user.get('username') + "_sys"
+        print "clientId:" + client_id
+        headers = {'Content-Type': 'application/json', \
+            'X-LC-Id': APP_ID, \
+            'X-LC-Key': MASTER_KEY + ',master'}
+        url = 'https://leancloud.cn/1.1/rtm/broadcast/subscription'
+        data = {"conv_id": conversation_id, "client_id": client_id}
+        requests.post(url, data=json.dumps(data), headers=headers)
 
 @engine.after_save('Event')
 def after_event_save(event):
-    eventId = event.get('objectId')
-    headers = {'Content-Type': 'application/json', \
-        'X-LC-Id': '0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz', \
-        'X-LC-Key': '86bDxHaspqbCjqxWm53txUxb,master'}
-    url = 'https://leancloud.cn/1.1/rtm/broadcast/subscriber'
-    data = {"from_peer": "sys", \
-            "message": "{\"_lctype\":-1,\"_lctext\":\"new event\", \
-            \"_lcattrs\":{\"reason\": \"new\", \
-            \"eventId\": \"" + eventId + "\"}}", \
-             "conv_id": uscSystemConversationId}
-    requests.post(url, data=json.dumps(data), headers=headers)
+    print("after event save called...")
+    instituion = event.get('institution')
+    print "instituion:" + instituion
+    Conversation = Object.extend('_Conversation')
+    query1 = Conversation.query
+    query2 = Conversation.query
+    query1.equal_to('name', instituion)
+    query2.equal_to('sys', True)
+    query = Query.and_(query1, query2)
+    query_list = query.find()
+    if len(query_list) == 0:
+        raise LeanEngineError('没有找到系统对话')
+    else:
+        conversation = query_list[0]
+        conversation_id = conversation.get('objectId')
+        print "conversationId:" + conversation_id
+        eventId = event.get('objectId')
+        headers = {'Content-Type': 'application/json', \
+            'X-LC-Id': APP_ID, \
+            'X-LC-Key': MASTER_KEY + ',master'}
+        url = 'https://leancloud.cn/1.1/rtm/broadcast/subscriber'
+        data = {"from_peer": "sys", \
+                "message": "{\"_lctype\":-1,\"_lctext\":\"new event\", \
+                \"_lcattrs\":{\"reason\": \"new\", \
+                \"eventId\": \"" + eventId + "\"}}", \
+                 "conv_id": conversation_id}
+        requests.post(url, data=json.dumps(data), headers=headers)
 
 @engine.after_update('Event')
 def after_event_update(event):
-    eventId = event.get('objectId')
-    headers = {'Content-Type': 'application/json', \
-        'X-LC-Id': '0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz', \
-        'X-LC-Key': '86bDxHaspqbCjqxWm53txUxb,master'}
-    url = 'https://leancloud.cn/1.1/rtm/broadcast/subscriber'
-    data = {"from_peer": "sys", \
-            "message": "{\"_lctype\":-1,\"_lctext\":\"new event\", \
-            \"_lcattrs\":{\"reason\": \"updated\", \
-            \"eventId\": \"" + eventId + "\"}}", \
-             "conv_id": uscSystemConversationId}
-    requests.post(url, data=json.dumps(data), headers=headers)
+    print("after event update called...")
+    instituion = event.get('institution')
+    print "instituion:" + instituion
+    Conversation = Object.extend('_Conversation')
+    query1 = Conversation.query
+    query2 = Conversation.query
+    query1.equal_to('name', instituion)
+    query2.equal_to('sys', True)
+    query = Query.and_(query1, query2)
+    query_list = query.find()
+    if len(query_list) == 0:
+        raise LeanEngineError('没有找到系统对话')
+    else:
+        conversation = query_list[0]
+        conversation_id = conversation.get('objectId')
+        print "conversationId:" + conversation_id
+        eventId = event.get('objectId')
+        headers = {'Content-Type': 'application/json', \
+            'X-LC-Id': APP_ID, \
+            'X-LC-Key': MASTER_KEY + ',master'}
+        url = 'https://leancloud.cn/1.1/rtm/broadcast/subscriber'
+        data = {"from_peer": "sys", \
+                "message": "{\"_lctype\":-1,\"_lctext\":\"updated event\", \
+                \"_lcattrs\":{\"reason\": \"updated\", \
+                \"eventId\": \"" + eventId + "\"}}", \
+                 "conv_id": conversation_id}
+        requests.post(url, data=json.dumps(data), headers=headers)
