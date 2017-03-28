@@ -28,6 +28,8 @@ class MeViewController: UIViewController {
         print("Me View Controller did load")
         
         self.navigationController?.view.backgroundColor = UIColor.white
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+
         self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.tableFooterView = UIView()
     }

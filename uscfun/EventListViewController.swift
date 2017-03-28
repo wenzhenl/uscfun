@@ -83,6 +83,7 @@ class EventListViewController: UIViewController {
         print("EventList view did load")
 
         self.navigationController?.view.backgroundColor = UIColor.white
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 
         self.tableView.scrollsToTop = true
         self.tableView.addSubview(self.refreshControl)

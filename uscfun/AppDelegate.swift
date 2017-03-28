@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         LCCKInputViewPluginTakePhoto.registerSubclass()
         LCCKInputViewPluginPickImage.registerSubclass()
         LCCKInputViewPluginLocation.registerSubclass()
-        
+                
         LoginKit.delegate = self
         
         // PRE-LOAD DATA
@@ -105,10 +105,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 cleanGroup.leave()
             }
             cleanGroup.notify(queue: DispatchQueue.main) {
-                /// update events
-                EventRequest.refreshMyOngoingEvents()
-                EventRequest.refreshPublicEvents()
+                print("clean events finished")
             }
+            print("thank god, cleaning finally finished")
         }
     }
 
