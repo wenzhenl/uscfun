@@ -289,6 +289,13 @@ class EventListViewController: UIViewController {
         }
         conversation.isEnableAutoJoin = true
         conversation.hidesBottomBarWhenPushed = true
+        conversation.isDisableTitleAutoConfig = true
+        conversation.disablesAutomaticKeyboardDismissal = false
+        conversation.viewDidLoadBlock = {
+            viewController in
+            viewController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
+            viewController?.navigationItem.title = event.name
+        }
         self.navigationController?.pushViewController(conversation, animated: true)
     }
 }
