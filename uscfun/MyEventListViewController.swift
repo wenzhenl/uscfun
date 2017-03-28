@@ -516,7 +516,11 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 conversation.viewDidLoadBlock = {
                     viewController in
                     viewController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
-                    viewController?.navigationItem.title = event.name
+                    viewController?.navigationItem.title = event.name + "(" + String(event.members.count) + ")"
+                }
+                conversation.configureBarButtonItemStyle(.groupProfile) {
+                    action in
+                    print("group prifle here")
                 }
                 self.navigationController?.pushViewController(conversation, animated: true)
             } else {
