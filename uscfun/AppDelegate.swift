@@ -157,12 +157,6 @@ extension AppDelegate: WXApiDelegate {
 extension AppDelegate: AVIMClientDelegate {
     func conversation(_ conversation: AVIMConversation, didReceive message: AVIMTypedMessage) {
         print(message.text ?? "")
-//        SVProgressHUD.showInfo(withStatus: message.text)
-//        let delay = 3 * Double(NSEC_PER_SEC)
-//        let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
-//        DispatchQueue.main.asyncAfter(deadline: time) {
-//            SVProgressHUD.dismiss()
-//        }
         
         guard let reason = message.attributes?["reason"] as? String, let eventId = message.attributes?["eventId"] as? String else {
             print("cannot parse message attributes")
@@ -216,7 +210,7 @@ extension AppDelegate: LoginDelegate {
         LCChatKit.sharedInstance().disableSingleSignOn = true
         
         // set AVIMClient to receive system broadcast
-        client = AVIMClient(clientId: UserDefaults.email!.systemClientId!)
+        client = AVIMClient(clientId: UserDefaults.email!)
         client?.delegate = self
         client?.open() {
             succeed, error in
@@ -227,9 +221,6 @@ extension AppDelegate: LoginDelegate {
             if error != nil {
                 print(error!.localizedDescription)
             }
-            
-            AVInstallation.current().remove(UserDefaults.email!.systemClientId!, forKey: "channels")
-            AVInstallation.current().saveInBackground()
         }
         
         LCChatKit.sharedInstance().open(withClientId: AVUser.current()!.username!) {
