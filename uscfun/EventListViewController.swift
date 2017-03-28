@@ -79,6 +79,9 @@ class EventListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("EventList view did load")
+
         self.navigationController?.view.backgroundColor = UIColor.white
 
         self.tableView.scrollsToTop = true

@@ -23,6 +23,9 @@ class NotificationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("Notification View Controller did load")
+        
         self.navigationController?.view.backgroundColor = UIColor.white
         self.tableView.tableFooterView = UIView()
         self.tableView.separatorStyle = .none

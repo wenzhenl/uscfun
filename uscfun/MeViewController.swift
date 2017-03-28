@@ -24,6 +24,9 @@ class MeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("Me View Controller did load")
+        
         self.navigationController?.view.backgroundColor = UIColor.white
         self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.tableFooterView = UIView()

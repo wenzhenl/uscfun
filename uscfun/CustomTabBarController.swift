@@ -15,12 +15,21 @@ class CustomTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("custom tab bar controller view did load")
+        
         customTabBar.postButton.addTarget(self, action: #selector(startEvent), for: .touchUpInside)
         
         var i = 0
         for item in customTabBar.items! {
             item.tag = i
             i += 1
+        }
+        
+        for vc in self.viewControllers! {
+            if let vc = vc as? UINavigationController {
+                _ = vc.visibleViewController?.view
+            }
         }
     }
     
