@@ -91,20 +91,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.updateUserAvatar()
         }
         
-        let cleanGroup = DispatchGroup()
-        cleanGroup.enter()
-        /// clean non-valid events
-        EventRequest.cleanEventsInBackground(for: .myongoing) {
-            cleanGroup.leave()
-        }
-        cleanGroup.enter()
-        EventRequest.cleanEventsInBackground(for: .mypublic) {
-            cleanGroup.leave()
-        }
-        cleanGroup.notify(queue: DispatchQueue.main) {
-            /// update events
-            EventRequest.refreshMyOngoingEvents()
-            EventRequest.refreshPublicEvents()
+        if UserDefaults.hasLoggedIn {
+            let cleanGroup = DispatchGroup()
+            cleanGroup.enter()
+            /// clean non-valid events
+            EventRequest.cleanEventsInBackground(for: .myongoing) {
+                cleanGroup.leave()
+            }
+            cleanGroup.enter()
+            EventRequest.cleanEventsInBackground(for: .mypublic) {
+                cleanGroup.leave()
+            }
+            cleanGroup.notify(queue: DispatchQueue.main) {
+                /// update events
+                EventRequest.refreshMyOngoingEvents()
+                EventRequest.refreshPublicEvents()
+            }
         }
     }
 
