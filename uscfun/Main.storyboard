@@ -763,7 +763,7 @@ A different license may apply to other resources included in this package, inclu
         <!--MAP-->
         <scene sceneID="kSr-aN-Onr">
             <objects>
-                <viewController id="jln-hf-hFc" customClass="MapViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="universal map view controller" id="jln-hf-hFc" customClass="MapViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="t5y-iJ-I1J"/>
                         <viewControllerLayoutGuide type="bottom" id="fqI-za-q8J"/>
@@ -913,7 +913,7 @@ A different license may apply to other resources included in this package, inclu
         <!--User Profile View Controller-->
         <scene sceneID="jtB-0M-62G">
             <objects>
-                <viewController id="Uge-ze-E6d" customClass="UserProfileViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="user profile view controller" id="Uge-ze-E6d" customClass="UserProfileViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="s5r-bM-b2v"/>
                         <viewControllerLayoutGuide type="bottom" id="qad-wm-gs1"/>
@@ -1550,6 +1550,6 @@ A different license may apply to other resources included in this package, inclu
         <image name="user" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="yWY-SI-ViN"/>
+        <segue reference="xev-Vj-4Av"/>
     </inferredMetricsTieBreakers>
 </document>

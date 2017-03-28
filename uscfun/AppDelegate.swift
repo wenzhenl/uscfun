@@ -41,6 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if UserDefaults.hasLoggedIn {
             userDidLoggedIn()
             EventRequest.preLoadData()
+            UserDefaults.hasPreloadedMyOngoingEvents = true
+            UserDefaults.hasPreloadedPublicEvents = true
         }
         
         // choose login scene or home scene based on if loggedin
@@ -209,13 +211,10 @@ extension AppDelegate: LoginDelegate {
         
         LCChatKit.sharedInstance().disableSingleSignOn = true
         
-        // set AVIMClient to receive system broadcast
-        client = AVIMClient(clientId: UserDefaults.email!)
-        client?.delegate = self
-        client?.open() {
+        LCChatKit.sharedInstance().open(withClientId: AVUser.current()!.username!) {
             succeed, error in
             if succeed {
-                print("client open successfully")
+                print("LCChatKit open successfully")
             }
             
             if error != nil {
@@ -223,10 +222,38 @@ extension AppDelegate: LoginDelegate {
             }
         }
         
-        LCChatKit.sharedInstance().open(withClientId: AVUser.current()!.username!) {
+        LCChatKit.sharedInstance().avatarImageViewCornerRadiusBlock = {
+            avatarImageViewSize in
+            if avatarImageViewSize.height > 0 {
+                return avatarImageViewSize.height / 2
+            }
+            return 5
+        }
+        
+        LCChatKit.sharedInstance().openProfileBlock = {
+            userId, id, parentViewController in
+            let userProfileVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentifierOfUserProfilerViewController) as! UserProfileViewController
+            userProfileVC.user = AVUser.current()!
+            parentViewController?.navigationController?.pushViewController(userProfileVC, animated: true)
+        }
+        
+        LCChatKit.sharedInstance().previewLocationMessageBlock = {
+            location, geolocations, userInfo in
+            let mapVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentifierOfMapViewController) as! MapViewController
+            mapVC.latitude = location?.coordinate.latitude
+            mapVC.longitude = location?.coordinate.longitude
+            mapVC.placename = geolocations
+            if let fromController = userInfo?["LCCKPreviewLocationMessageUserInfoKeyFromController"] as? UIViewController {
+                fromController.navigationController?.pushViewController(mapVC, animated: true)
+            }
+        }
+        // set AVIMClient to receive system broadcast
+        client = AVIMClient(clientId: UserDefaults.email!)
+        client?.delegate = self
+        client?.open() {
             succeed, error in
             if succeed {
-                print("LCChatKit open successfully")
+                print("client open successfully")
             }
             
             if error != nil {

@@ -28,6 +28,8 @@ class USCFunConstants {
     //-MARK: storyboard identifiers
     static let storyboardIdentifierOfCustomizedAlertViewController = "Customized Alert View Controller"
     static let storyboardIdentifierOfWebViewController = "common use web vc"
+    static let storyboardIdentifierOfUserProfilerViewController = "user profile view controller"
+    static let storyboardIdentifierOfMapViewController = "universal map view controller"
 }
 
 struct UserKeyConstants {

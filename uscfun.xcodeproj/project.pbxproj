@@ -24,6 +24,7 @@
 		0A2CC20E1DAE1B1E00AB840F /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A2CC20D1DAE1B1E00AB840F /* libWeChatSDK.a */; };
 		0A3062661E767419001E3696 /* FinalizedEventSnapshotTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3062641E767419001E3696 /* FinalizedEventSnapshotTableViewCell.swift */; };
 		0A3062671E767419001E3696 /* FinalizedEventSnapshotTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A3062651E767419001E3696 /* FinalizedEventSnapshotTableViewCell.xib */; };
+		0A31D56C1E8A7633000964A2 /* CustomizedChatKit.Other.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0A31D56B1E8A7633000964A2 /* CustomizedChatKit.Other.bundle */; };
 		0A3D2B591D7B9256004F57EF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A3D2B581D7B9256004F57EF /* Main.storyboard */; };
 		0A3D2B5B1D7B9299004F57EF /* EventListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3D2B5A1D7B9299004F57EF /* EventListViewController.swift */; };
 		0A3D2B5D1D7B9351004F57EF /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3D2B5C1D7B9351004F57EF /* EventDetailViewController.swift */; };
@@ -140,6 +141,7 @@
 		0A2CC2101DAE1B2D00AB840F /* WXApiObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		0A3062641E767419001E3696 /* FinalizedEventSnapshotTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinalizedEventSnapshotTableViewCell.swift; sourceTree = "<group>"; };
 		0A3062651E767419001E3696 /* FinalizedEventSnapshotTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FinalizedEventSnapshotTableViewCell.xib; sourceTree = "<group>"; };
+		0A31D56B1E8A7633000964A2 /* CustomizedChatKit.Other.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CustomizedChatKit.Other.bundle; sourceTree = "<group>"; };
 		0A3D2B581D7B9256004F57EF /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		0A3D2B5A1D7B9299004F57EF /* EventListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListViewController.swift; sourceTree = "<group>"; };
 		0A3D2B5C1D7B9351004F57EF /* EventDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
@@ -260,6 +262,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A31D56A1E8A751F000964A2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0A31D56B1E8A7633000964A2 /* CustomizedChatKit.Other.bundle */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		0A3D2B571D7B9215004F57EF /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -379,6 +389,7 @@
 				0A6834BC1D56858C002E9B0D /* uscfun */,
 				0A6834BB1D56858C002E9B0D /* Products */,
 				6B9364B2497E6D322436E689 /* Pods */,
+				0A31D56A1E8A751F000964A2 /* Resources */,
 				3F1C918CE9A3604DE99E8313 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -573,6 +584,7 @@
 				0A0185861DC48602009A7874 /* LabelImgArrowTableViewCell.xib in Resources */,
 				0A9CB44D1D6FF5FC00608D27 /* Login.storyboard in Resources */,
 				0A427FAE1D97F579007A96BE /* TextViewTableViewCell.xib in Resources */,
+				0A31D56C1E8A7633000964A2 /* CustomizedChatKit.Other.bundle in Resources */,
 				0A3062671E767419001E3696 /* FinalizedEventSnapshotTableViewCell.xib in Resources */,
 				0A96D3D21DADBF5B00AB272A /* ImgKeyValueArrowTableViewCell.xib in Resources */,
 				0A8483791E693F7300B7B29A /* EventStatusTableViewCell.xib in Resources */,
