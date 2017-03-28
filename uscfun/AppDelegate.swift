@@ -196,10 +196,11 @@ extension AppDelegate: LoginDelegate {
         }
         
         LCChatKit.sharedInstance().fetchConversationHandler = {
-            conversation, error in
+            conversation, conversationController in
             if conversation == nil {
                 print("cannot fetch conversation")
             } else {
+                SVProgressHUD.show(withStatus: "正在加载历史记录...")
                 print("successfully fetched conversation")
             }
         }
@@ -207,6 +208,12 @@ extension AppDelegate: LoginDelegate {
         LCChatKit.sharedInstance().conversationInvalidedHandler = {
             conversationId, vc, user, error in
             print(error!)
+        }
+        
+        LCChatKit.sharedInstance().loadLatestMessagesHandler = {
+            conversationController, succeeded, error in
+            SVProgressHUD.dismiss()
+            print("load latest message handler successfully")
         }
         
         LCChatKit.sharedInstance().disableSingleSignOn = true

@@ -8,6 +8,7 @@
 
 import UIKit
 import ChatKit
+import SVProgressHUD
 
 class MyEventListViewController: UIViewController {
 
@@ -304,6 +305,7 @@ class MyEventListViewController: UIViewController {
             viewController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
             viewController?.navigationItem.title = event.name
         }
+        
         self.navigationController?.pushViewController(conversation, animated: true)
     }
 }
