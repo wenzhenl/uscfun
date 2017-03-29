@@ -113,13 +113,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if timer == nil {
             timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(updateRemainingTime), userInfo: nil, repeats: true)
         }
-        
-        /// clean expired events
-        if !UserDefaults.isfirstActiveFollowingLaunching {
-            print("I am busy cleaning expired public events")
-            EventRequest.cleanEventsInBackground(for: .mypublic, handler: nil)
-        }
-        UserDefaults.isfirstActiveFollowingLaunching = false
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
