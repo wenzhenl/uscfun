@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import ChatKit
+import SVProgressHUD
 
 enum UserProfileCell {
     case avatarCell
@@ -35,12 +37,18 @@ class UserProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
         self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, -10, 0)
         self.tableView.tableFooterView = UIView()
+        
         other = User(user: user)
         self.title = other.nickname
-
+        if user != AVUser.current()! {
+            let messageImage = #imageLiteral(resourceName: "send").scaleTo(width: 22, height: 22)
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: messageImage, style: .plain, target: self, action: #selector(sendMessage))
+        }
+        
         let fetchGroup = DispatchGroup()
         fetchGroup.enter()
         EventRequest.fetchEventsCreated(by: user) {
@@ -122,6 +130,27 @@ class UserProfileViewController: UIViewController {
     
     func avatarTapped() {
         performSegue(withIdentifier: identifierToBigAvatar, sender: self)
+    }
+    
+    func sendMessage() {
+        guard let conversation = LCCKConversationViewController(peerId: other.username) else {
+            SVProgressHUD.showError(withStatus: "无法连接网络")
+            return
+        }
+        conversation.isEnableAutoJoin = true
+        conversation.hidesBottomBarWhenPushed = true
+        conversation.isDisableTitleAutoConfig = true
+        conversation.disablesAutomaticKeyboardDismissal = false
+        conversation.viewDidLoadBlock = {
+            viewController in
+            viewController?.navigationItem.title = self.other.nickname
+            viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        }
+        conversation.configureBarButtonItemStyle(.singleProfile) {
+            action in
+            print("single prifle here")
+        }
+        self.navigationController?.pushViewController(conversation, animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

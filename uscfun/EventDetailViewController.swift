@@ -181,7 +181,6 @@ class EventDetailViewController: UIViewController {
         conversation.disablesAutomaticKeyboardDismissal = false
         conversation.viewDidLoadBlock = {
             viewController in
-            viewController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
             viewController?.navigationItem.title = self.event.name
             viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         }

@@ -16,6 +16,7 @@ class BigPictureViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = UIColor.black
         imageView.backgroundColor = UIColor.black
         imageView.image = image

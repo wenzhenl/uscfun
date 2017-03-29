@@ -73,6 +73,9 @@ class MyEventListViewController: UIViewController {
         
         self.navigationController?.view.backgroundColor = UIColor.white
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        self.navigationController?.navigationBar.tintColor = UIColor.darkGray
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
+
         self.tableView.scrollsToTop = true
         self.tableView.tableFooterView = UIView()
         self.tableView.backgroundColor = UIColor.backgroundGray
@@ -305,7 +308,6 @@ class MyEventListViewController: UIViewController {
         conversation.disablesAutomaticKeyboardDismissal = false
         conversation.viewDidLoadBlock = {
             viewController in
-            viewController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
             viewController?.navigationItem.title = event.name
             viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         }
@@ -519,7 +521,6 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 conversation.disablesAutomaticKeyboardDismissal = false
                 conversation.viewDidLoadBlock = {
                     viewController in
-                    viewController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
                     viewController?.navigationItem.title = event.name + "(" + String(event.members.count) + ")"
                     viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
                 }

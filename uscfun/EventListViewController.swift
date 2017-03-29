@@ -84,7 +84,8 @@ class EventListViewController: UIViewController {
 
         self.navigationController?.view.backgroundColor = UIColor.white
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-
+        self.navigationController?.navigationBar.tintColor = UIColor.darkGray
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
         self.tableView.scrollsToTop = true
         self.tableView.addSubview(self.refreshControl)
      
@@ -297,7 +298,6 @@ class EventListViewController: UIViewController {
         conversation.disablesAutomaticKeyboardDismissal = false
         conversation.viewDidLoadBlock = {
             viewController in
-            viewController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
             viewController?.navigationItem.title = event.name
             viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         }
