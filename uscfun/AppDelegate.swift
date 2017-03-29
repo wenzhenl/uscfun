@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        UserDefaults.isfirstActiveFollowingLaunching = true
+        
         //--MARK: register for notification
         registerForPushNotifications(application: application)
         //--MARK: register wechat account
@@ -113,22 +115,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         /// clean expired events
-        if UserDefaults.hasLoggedIn {
-            let cleanGroup = DispatchGroup()
-            cleanGroup.enter()
-            /// clean non-valid events
-            EventRequest.cleanEventsInBackground(for: .myongoing) {
-                cleanGroup.leave()
-            }
-            cleanGroup.enter()
-            EventRequest.cleanEventsInBackground(for: .mypublic) {
-                cleanGroup.leave()
-            }
-            cleanGroup.notify(queue: DispatchQueue.main) {
-                print("clean events finished")
-            }
-            print("thank god, cleaning finally finished")
+        if !UserDefaults.isfirstActiveFollowingLaunching {
+            EventRequest.cleanEventsInBackground(for: .mypublic, handler: nil)
         }
+        UserDefaults.isfirstActiveFollowingLaunching = false
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

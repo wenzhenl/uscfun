@@ -292,7 +292,7 @@ extension UserDefaults {
         }
     }
     
-    //-MARK: feedback
+    //--MARK: feedback
     class var feedback: String? {
         get {
             return UserDefaults.standard.string(forKey: "user_feedback")
@@ -320,5 +320,15 @@ extension UserDefaults {
             return
         }
         handler?(true, nil)
+    }
+    
+    //--MARK: indicate this application becomes active immediately after launch
+    class var isfirstActiveFollowingLaunching: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "isfirstActiveFollowingLaunching_Key")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "isfirstActiveFollowingLaunching_Key")
+        }
     }
 }
