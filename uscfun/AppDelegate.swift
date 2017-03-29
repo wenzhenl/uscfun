@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var client: AVIMClient?
+    var timer: Timer?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
@@ -70,6 +71,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        timer?.invalidate()
+        timer = nil
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -93,6 +96,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.updateUserAvatar()
         }
         
+        /// restart timer to update remaining time
+        if timer == nil {
+            timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(updateRemainingTime), userInfo: nil, repeats: true)
+        }
+        
+        /// clean expired events
         if UserDefaults.hasLoggedIn {
             let cleanGroup = DispatchGroup()
             cleanGroup.enter()
@@ -144,6 +153,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func registerForPushNotifications(application: UIApplication) {
         let notificationSettings = UIUserNotificationSettings(types: [UIUserNotificationType.badge, .sound, .alert], categories: nil)
         application.registerUserNotificationSettings(notificationSettings)
+    }
+    
+    func updateRemainingTime() {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "needToUpdateRemainingTime"), object: nil, userInfo: nil)
     }
 }
 
