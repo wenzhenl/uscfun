@@ -31,18 +31,19 @@ leancloud.init("0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz", "XRGhgA5IwbqTWzosKRh3nzRY")
 #     conversation = query_list[0]
 #     conversation_id = conversation.get('objectId')
 #     print "conversationId:" + conversation_id
-#     eventId = "some event"
+eventId = "some event"
 headers = {'Content-Type': 'application/json', \
     'X-LC-Id': "0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz", \
     'X-LC-Key': '86bDxHaspqbCjqxWm53txUxb,master'}
-url = 'https://leancloud.cn/1.1/rtm/broadcast/subscription'
-# data = {"from_peer": "sys", \
-#         "message": "{\"_lctype\":-1,\"_lctext\":\"new event\", \
-#         \"_lcattrs\":{\"reason\": \"new\", \
-#         \"eventId\": \"" + eventId + "\"}}", \
-#          "conv_id": conversation_id}
-data = {"conv_id": "58d87ab18d6d810061627b75", "client_id": "hahaha"}
-requests.post(url, data=json.dumps(data), headers=headers)
+url = 'https://api.leancloud.cn/1.1/rtm/broadcast'
+data = {"from_peer": "sys", \
+        "message": "{\"_lctype\":-1,\"_lctext\":\"new event\", \
+        \"_lcattrs\":{\"reason\": \"new\", \
+        \"eventId\": \"" + eventId + "\"}}", \
+         "conv_id": "58d87ab18d6d810061627b75"}
+# data = {"conv_id": "58d87ab18d6d810061627b75", "client_id": "hahaha"}
+response = requests.post(url, data=json.dumps(data), headers=headers)
+print(json.loads(response.text))
 #
 # curl -X POST \
 #   -H "X-LC-Id: 0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz" \

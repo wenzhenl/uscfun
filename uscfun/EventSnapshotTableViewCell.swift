@@ -30,6 +30,7 @@ class EventSnapshotTableViewCell: UITableViewCell {
     var due: Date?
     
     func update() {
+        print("received need to update notification")
         if let due = due {
             if due < Date() {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "eventDidExpired"), object: nil, userInfo: nil)

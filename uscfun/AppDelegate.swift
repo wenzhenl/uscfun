@@ -257,6 +257,30 @@ extension AppDelegate: LoginDelegate {
                 fromController.navigationController?.pushViewController(mapVC, animated: true)
             }
         }
+        
+        LCChatKit.sharedInstance().sendMessageHookBlock = {
+            conversationController, message, completion in
+            guard let conversationId = conversationController?.conversationId, let text = message?.text else {
+                print("something goes wrong with send message hook")
+                completion?(true, nil)
+                return
+            }
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newMessageForFinalizedEvents"), object: nil, userInfo: ["action": "send", "conversationId": conversationId, "text": text])
+            completion?(true, nil)
+        }
+        
+        LCChatKit.sharedInstance().filterMessagesBlock = {
+            conversation, messages, completion in
+            guard let conversationId = conversation?.conversationId, let text = messages?.last?.text else {
+                print("something goes wrong with filter message hook")
+                completion?(messages, nil)
+                return
+            }
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newMessageForFinalizedEvents"), object: nil, userInfo: ["action": "receive", "conversationId": conversationId, "text": text])
+            completion?(messages, nil)
+        }
+        
+        
         // set AVIMClient to receive system broadcast
         client = AVIMClient(clientId: UserDefaults.email!)
         client?.delegate = self

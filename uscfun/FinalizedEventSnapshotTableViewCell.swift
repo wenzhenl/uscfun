@@ -18,6 +18,23 @@ class FinalizedEventSnapshotTableViewCell: UITableViewCell {
     
     var eventId: String?
     
+    func update(notification: Notification) {
+        guard let userInfo = notification.userInfo as? [String: String], let action = userInfo["action"], let conversationId = userInfo["conversationId"], let text = userInfo["text"] else {
+            return
+        }
+        if conversationId == EventRequest.myOngoingEvents[eventId!]?.conversationId {
+            self.latestMessageLabel.text = text
+            if action == "receive" {
+                self.ifReadView.backgroundColor = ifReadViewColor
+            }
+        }
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        NotificationCenter.default.addObserver(self, selector: #selector(update(notification:)), name: NSNotification.Name(rawValue: "newMessageForFinalizedEvents"), object: nil)
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         if selected {
@@ -32,5 +49,9 @@ class FinalizedEventSnapshotTableViewCell: UITableViewCell {
             ifReadView.backgroundColor = ifReadViewColor
             statusView.backgroundColor = statusViewColor
         }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }

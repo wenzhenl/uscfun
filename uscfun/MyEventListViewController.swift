@@ -97,6 +97,7 @@ class MyEventListViewController: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = false
     }
     
+    /// -warning: become ative will not call this method
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
@@ -124,6 +125,7 @@ class MyEventListViewController: UIViewController {
     }
     
     func updateRemainingTime() {
+        print("post need update notification")
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "needToUpdateRemainingTime"), object: nil, userInfo: nil)
     }
     
