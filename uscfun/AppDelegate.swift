@@ -92,7 +92,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if num != 0 {
             let currentInstallation = AVInstallation.current()
             currentInstallation.setValue(0, forKey: "badge")
-            currentInstallation.saveEventually()
+            var error: NSError?
+            if currentInstallation.save(&error) {
+                print("reset badge successfully")
+            } else if error != nil {
+                print(error!)
+            }
             application.cancelAllLocalNotifications()
             application.applicationIconBadgeNumber = 0
         }
@@ -201,6 +206,8 @@ extension AppDelegate: AVIMClientDelegate {
 extension AppDelegate: LoginDelegate {
     func userDidLoggedIn() {
         
+//        AVIMClient.setUserOptions([AVIMUserOptionUseUnread: true])
+        
         LCChatKit.sharedInstance().fetchProfilesBlock = {
             userIds, completionHandler in
             var users = [LCCKUser]()
@@ -304,7 +311,7 @@ extension AppDelegate: LoginDelegate {
                 print(error!.localizedDescription)
             }
         }
-
+        
         // set AVIMClient to receive system broadcast
         systemNotificationClient = AVIMClient(clientId: UserDefaults.email!)
         systemNotificationClient?.delegate = self
