@@ -24,7 +24,6 @@
 		0A2CC20E1DAE1B1E00AB840F /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A2CC20D1DAE1B1E00AB840F /* libWeChatSDK.a */; };
 		0A3062661E767419001E3696 /* FinalizedEventSnapshotTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3062641E767419001E3696 /* FinalizedEventSnapshotTableViewCell.swift */; };
 		0A3062671E767419001E3696 /* FinalizedEventSnapshotTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A3062651E767419001E3696 /* FinalizedEventSnapshotTableViewCell.xib */; };
-		0A31D56C1E8A7633000964A2 /* CustomizedChatKit.Other.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0A31D56B1E8A7633000964A2 /* CustomizedChatKit.Other.bundle */; };
 		0A3D2B591D7B9256004F57EF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A3D2B581D7B9256004F57EF /* Main.storyboard */; };
 		0A3D2B5B1D7B9299004F57EF /* EventListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3D2B5A1D7B9299004F57EF /* EventListViewController.swift */; };
 		0A3D2B5D1D7B9351004F57EF /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3D2B5C1D7B9351004F57EF /* EventDetailViewController.swift */; };
@@ -100,6 +99,7 @@
 		0AAE42E01D9A289D00B34601 /* ImgKeyValueTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AAE42DE1D9A289D00B34601 /* ImgKeyValueTableViewCell.xib */; };
 		0AAE42E21D9A2CC500B34601 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAE42E11D9A2CC500B34601 /* MapKit.framework */; };
 		0AAE42E41D9A2F8B00B34601 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE42E31D9A2F8B00B34601 /* MapViewController.swift */; };
+		0ABA18831E8B7566002DA704 /* CustomizedChatKit.Other.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0ABA18821E8B7566002DA704 /* CustomizedChatKit.Other.bundle */; };
 		0ADA4D2D1D9A46970001A376 /* SingleButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADA4D2B1D9A46970001A376 /* SingleButtonTableViewCell.swift */; };
 		0ADA4D2E1D9A46970001A376 /* SingleButtonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0ADA4D2C1D9A46970001A376 /* SingleButtonTableViewCell.xib */; };
 		0ADE0C9D1DB1F140009F89A0 /* UpdateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE0C9C1DB1F140009F89A0 /* UpdateProfileViewController.swift */; };
@@ -141,7 +141,6 @@
 		0A2CC2101DAE1B2D00AB840F /* WXApiObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		0A3062641E767419001E3696 /* FinalizedEventSnapshotTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinalizedEventSnapshotTableViewCell.swift; sourceTree = "<group>"; };
 		0A3062651E767419001E3696 /* FinalizedEventSnapshotTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FinalizedEventSnapshotTableViewCell.xib; sourceTree = "<group>"; };
-		0A31D56B1E8A7633000964A2 /* CustomizedChatKit.Other.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CustomizedChatKit.Other.bundle; sourceTree = "<group>"; };
 		0A3D2B581D7B9256004F57EF /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		0A3D2B5A1D7B9299004F57EF /* EventListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListViewController.swift; sourceTree = "<group>"; };
 		0A3D2B5C1D7B9351004F57EF /* EventDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
@@ -221,6 +220,7 @@
 		0AAE42E11D9A2CC500B34601 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		0AAE42E31D9A2F8B00B34601 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		0AB3FFC71D97B30B0088B8C0 /* uscfun-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "uscfun-Bridging-Header.h"; sourceTree = "<group>"; };
+		0ABA18821E8B7566002DA704 /* CustomizedChatKit.Other.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CustomizedChatKit.Other.bundle; path = uscfun/CustomizedChatKit.Other.bundle; sourceTree = "<group>"; };
 		0ACFD5971DBAD14200E33E53 /* uscfun.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = uscfun.entitlements; sourceTree = "<group>"; };
 		0ADA4D2B1D9A46970001A376 /* SingleButtonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleButtonTableViewCell.swift; sourceTree = "<group>"; };
 		0ADA4D2C1D9A46970001A376 /* SingleButtonTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SingleButtonTableViewCell.xib; sourceTree = "<group>"; };
@@ -265,7 +265,7 @@
 		0A31D56A1E8A751F000964A2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				0A31D56B1E8A7633000964A2 /* CustomizedChatKit.Other.bundle */,
+				0ABA18821E8B7566002DA704 /* CustomizedChatKit.Other.bundle */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -584,7 +584,7 @@
 				0A0185861DC48602009A7874 /* LabelImgArrowTableViewCell.xib in Resources */,
 				0A9CB44D1D6FF5FC00608D27 /* Login.storyboard in Resources */,
 				0A427FAE1D97F579007A96BE /* TextViewTableViewCell.xib in Resources */,
-				0A31D56C1E8A7633000964A2 /* CustomizedChatKit.Other.bundle in Resources */,
+				0ABA18831E8B7566002DA704 /* CustomizedChatKit.Other.bundle in Resources */,
 				0A3062671E767419001E3696 /* FinalizedEventSnapshotTableViewCell.xib in Resources */,
 				0A96D3D21DADBF5B00AB272A /* ImgKeyValueArrowTableViewCell.xib in Resources */,
 				0A8483791E693F7300B7B29A /* EventStatusTableViewCell.xib in Resources */,
