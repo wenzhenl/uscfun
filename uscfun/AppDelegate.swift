@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        UserDefaults.timesOfAppDidBecomeActive = 0
+
         //--MARK: register for notification
         registerForPushNotifications(application: application)
         //--MARK: register wechat account
@@ -66,22 +68,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+        print("applicationWillResignActive")
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        print("applicationDidEnterBackground")
+
         timer?.invalidate()
         timer = nil
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        print("applicationWillEnterForeground")
+
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
         
         print("APPLICATION DID BECOME ACTIVE")
+        
+        UserDefaults.timesOfAppDidBecomeActive += 1
+        
         let num = application.applicationIconBadgeNumber
         if num != 0 {
             let currentInstallation = AVInstallation.current()
@@ -122,11 +132,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        
+        print("application will terminate")
+        
         UserDefaults.hasPreloadedMyOngoingEvents = false
         UserDefaults.hasPreloadedPublicEvents = false
     }
     
     func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
+        
+        print("didRegister notificationSettings")
+
         if notificationSettings.types.contains(.alert) {
             application.registerForRemoteNotifications()
         }
@@ -171,6 +187,10 @@ extension AppDelegate: WXApiDelegate {
 extension AppDelegate: AVIMClientDelegate {
     func conversation(_ conversation: AVIMConversation, didReceive message: AVIMTypedMessage) {
         print(message.text ?? "")
+        
+        print("times of app did become active \(UserDefaults.timesOfAppDidBecomeActive)")
+        guard UserDefaults.timesOfAppDidBecomeActive > 1 else { return }
+        
         guard let reason = message.attributes?["reason"] as? String, let eventId = message.attributes?["eventId"] as? String else {
             print("cannot parse message attributes")
             return
