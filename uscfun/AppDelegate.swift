@@ -171,7 +171,6 @@ extension AppDelegate: WXApiDelegate {
 extension AppDelegate: AVIMClientDelegate {
     func conversation(_ conversation: AVIMConversation, didReceive message: AVIMTypedMessage) {
         print(message.text ?? "")
-        
         guard let reason = message.attributes?["reason"] as? String, let eventId = message.attributes?["eventId"] as? String else {
             print("cannot parse message attributes")
             return

@@ -553,7 +553,6 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                                         self.tableView.deleteSections(IndexSet([indexPath.section]), with: .fade)
                                     }
                                 }
-                                UserDefaults.hasSeenCompleteEventTip = true
                             }
 
                             if error != nil {
