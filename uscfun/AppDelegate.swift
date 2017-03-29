@@ -199,7 +199,7 @@ extension AppDelegate: LoginDelegate {
             if conversation == nil {
                 print("cannot fetch conversation")
             } else {
-                SVProgressHUD.show(withStatus: "正在加载历史记录...")
+                SVProgressHUD.show()
                 print("successfully fetched conversation")
             }
         }

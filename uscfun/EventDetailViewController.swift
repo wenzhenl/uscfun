@@ -184,6 +184,10 @@ class EventDetailViewController: UIViewController {
             viewController?.navigationItem.title = self.event.name
             viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         }
+        conversation.viewDidDisappearBlock = {
+            viewController in
+            SVProgressHUD.dismiss()
+        }
         self.navigationController?.pushViewController(conversation, animated: true)
     }
     

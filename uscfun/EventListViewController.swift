@@ -84,7 +84,6 @@ class EventListViewController: UIViewController {
 
         self.navigationController?.view.backgroundColor = UIColor.white
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        self.navigationController?.navigationBar.tintColor = UIColor.darkGray
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
         self.tableView.scrollsToTop = true
         self.tableView.addSubview(self.refreshControl)
@@ -300,6 +299,10 @@ class EventListViewController: UIViewController {
             viewController in
             viewController?.navigationItem.title = event.name
             viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        }
+        conversation.viewDidDisappearBlock = {
+            viewController in
+            SVProgressHUD.dismiss()
         }
         self.navigationController?.pushViewController(conversation, animated: true)
     }

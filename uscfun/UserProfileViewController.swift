@@ -48,7 +48,8 @@ class UserProfileViewController: UIViewController {
             let messageImage = #imageLiteral(resourceName: "send").scaleTo(width: 22, height: 22)
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: messageImage, style: .plain, target: self, action: #selector(sendMessage))
         }
-        
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+
         let fetchGroup = DispatchGroup()
         fetchGroup.enter()
         EventRequest.fetchEventsCreated(by: user) {
@@ -145,6 +146,10 @@ class UserProfileViewController: UIViewController {
             viewController in
             viewController?.navigationItem.title = self.other.nickname
             viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        }
+        conversation.viewDidDisappearBlock = {
+            viewController in
+            SVProgressHUD.dismiss()
         }
         conversation.configureBarButtonItemStyle(.singleProfile) {
             action in

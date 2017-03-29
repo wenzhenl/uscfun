@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ChatKit
 
 struct NotificationUscFun {
     var title: String
@@ -28,12 +29,16 @@ class NotificationViewController: UIViewController {
         
         self.navigationController?.view.backgroundColor = UIColor.white
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        self.navigationController?.navigationBar.tintColor = UIColor.darkGray
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
         self.tableView.tableFooterView = UIView()
         self.tableView.separatorStyle = .none
-
-//        notifications = [Notification(title: "完成活动",content: "下雨天出去滑个雪好不好",eventId: "1", isRead: false), Notification(title: "取消活动",content: "副教授积分的设计费束带结发世纪东方健康是福京东方快递费绝对是蒋介石",eventId: "2", isRead: false), Notification(title: "完成活动",content: "下雨天出去滑个雪好不好",eventId: "1", isRead: false)]
+        self.tableView.isHidden = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+//        let conversationList = LCCKConversationListViewController()
+//        self.present(conversationList, animated: true, completion: nil)
     }
 }
 

@@ -73,7 +73,6 @@ class MyEventListViewController: UIViewController {
         
         self.navigationController?.view.backgroundColor = UIColor.white
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        self.navigationController?.navigationBar.tintColor = UIColor.darkGray
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
 
         self.tableView.scrollsToTop = true
@@ -311,6 +310,10 @@ class MyEventListViewController: UIViewController {
             viewController?.navigationItem.title = event.name
             viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         }
+        conversation.viewDidDisappearBlock = {
+            viewController in
+            SVProgressHUD.dismiss()
+        }
         self.navigationController?.pushViewController(conversation, animated: true)
     }
 }
@@ -523,6 +526,10 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                     viewController in
                     viewController?.navigationItem.title = event.name + "(" + String(event.members.count) + ")"
                     viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+                }
+                conversation.viewDidDisappearBlock = {
+                    viewController in
+                    SVProgressHUD.dismiss()
                 }
                 conversation.configureBarButtonItemStyle(.groupProfile) {
                     action in
