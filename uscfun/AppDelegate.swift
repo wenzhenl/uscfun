@@ -238,8 +238,12 @@ extension AppDelegate: LoginDelegate {
         
         LCChatKit.sharedInstance().openProfileBlock = {
             userId, id, parentViewController in
+            guard let userId = userId else { return }
             let userProfileVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentifierOfUserProfilerViewController) as! UserProfileViewController
-            userProfileVC.user = AVUser.current()!
+            let query = AVQuery(className: "_User")
+            query.whereKey("username", equalTo: userId)
+            guard let objects = query.findObjects(), objects.count > 0, let user = objects[0] as? AVUser else { return }
+            userProfileVC.user = user
             parentViewController?.navigationController?.pushViewController(userProfileVC, animated: true)
         }
         

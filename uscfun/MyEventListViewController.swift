@@ -307,6 +307,7 @@ class MyEventListViewController: UIViewController {
             viewController in
             viewController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
             viewController?.navigationItem.title = event.name
+            viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         }
         self.navigationController?.pushViewController(conversation, animated: true)
     }
@@ -520,6 +521,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                     viewController in
                     viewController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
                     viewController?.navigationItem.title = event.name + "(" + String(event.members.count) + ")"
+                    viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
                 }
                 conversation.configureBarButtonItemStyle(.groupProfile) {
                     action in

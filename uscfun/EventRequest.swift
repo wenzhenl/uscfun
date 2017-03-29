@@ -603,6 +603,9 @@ class EventRequest {
         query.includeKey(EventKeyConstants.keyOfCompletedBy)
         query.whereKey(EventKeyConstants.keyOfCreatedBy, equalTo: user)
         query.whereKey(EventKeyConstants.keyOfCompletedBy, containsAllObjectsIn: [user])
+        query.cachePolicy = .networkElseCache
+        query.maxCacheAge = USCFunConstants.MAXCACHEAGE
+        query.limit = USCFunConstants.QUERYLIMIT
         fetchData(inBackground: true, with: query, handler: handler)
     }
     
@@ -614,6 +617,9 @@ class EventRequest {
         query.whereKey(EventKeyConstants.keyOfCreatedBy, notEqualTo: user)
         query.whereKey(EventKeyConstants.keyOfMembers, containsAllObjectsIn: [user])
         query.whereKey(EventKeyConstants.keyOfCompletedBy, containsAllObjectsIn: [user])
+        query.cachePolicy = .networkElseCache
+        query.maxCacheAge = USCFunConstants.MAXCACHEAGE
+        query.limit = USCFunConstants.QUERYLIMIT
         fetchData(inBackground: true, with: query, handler: handler)
     }
 }

@@ -183,6 +183,7 @@ class EventDetailViewController: UIViewController {
             viewController in
             viewController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
             viewController?.navigationItem.title = self.event.name
+            viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         }
         self.navigationController?.pushViewController(conversation, animated: true)
     }
