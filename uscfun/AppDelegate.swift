@@ -15,7 +15,7 @@ import SVProgressHUD
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var client: AVIMClient?
+    var systemNotificationClient: AVIMClient?
     var timer: Timer?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -294,9 +294,9 @@ extension AppDelegate: LoginDelegate {
         }
 
         // set AVIMClient to receive system broadcast
-        client = AVIMClient(clientId: UserDefaults.email!)
-        client?.delegate = self
-        client?.open() {
+        systemNotificationClient = AVIMClient(clientId: UserDefaults.email!)
+        systemNotificationClient?.delegate = self
+        systemNotificationClient?.open() {
             succeed, error in
             if succeed {
                 print("client open successfully")
