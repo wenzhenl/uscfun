@@ -20,8 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        UserDefaults.timesOfAppDidBecomeActive = 0
-
         //--MARK: register for notification
         registerForPushNotifications(application: application)
         //--MARK: register wechat account
@@ -89,8 +87,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         
         print("APPLICATION DID BECOME ACTIVE")
-        
-        UserDefaults.timesOfAppDidBecomeActive += 1
         
         let num = application.applicationIconBadgeNumber
         if num != 0 {
@@ -187,9 +183,6 @@ extension AppDelegate: WXApiDelegate {
 extension AppDelegate: AVIMClientDelegate {
     func conversation(_ conversation: AVIMConversation, didReceive message: AVIMTypedMessage) {
         print(message.text ?? "")
-        
-        print("times of app did become active \(UserDefaults.timesOfAppDidBecomeActive)")
-        guard UserDefaults.timesOfAppDidBecomeActive > 1 else { return }
         
         guard let reason = message.attributes?["reason"] as? String, let eventId = message.attributes?["eventId"] as? String else {
             print("cannot parse message attributes")

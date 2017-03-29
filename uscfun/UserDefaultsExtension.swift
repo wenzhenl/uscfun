@@ -321,14 +321,4 @@ extension UserDefaults {
         }
         handler?(true, nil)
     }
-    
-    //-MARK: count the times app becomes active
-    class var timesOfAppDidBecomeActive: Int {
-        get {
-            return UserDefaults.standard.integer(forKey: "New_timesOfAppDidBecomeActive_Reserved")
-        }
-        set {
-            UserDefaults.standard.setValue(newValue, forKey: "New_timesOfAppDidBecomeActive_Reserved")
-        }
-    }
 }
