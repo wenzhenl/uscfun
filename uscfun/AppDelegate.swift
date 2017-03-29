@@ -116,6 +116,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         /// clean expired events
         if !UserDefaults.isfirstActiveFollowingLaunching {
+            print("I am busy cleaning expired public events")
             EventRequest.cleanEventsInBackground(for: .mypublic, handler: nil)
         }
         UserDefaults.isfirstActiveFollowingLaunching = false
