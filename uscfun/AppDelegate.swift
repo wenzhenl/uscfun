@@ -217,17 +217,6 @@ extension AppDelegate: LoginDelegate {
         
         LCChatKit.sharedInstance().disableSingleSignOn = true
         
-        LCChatKit.sharedInstance().open(withClientId: AVUser.current()!.username!) {
-            succeed, error in
-            if succeed {
-                print("LCChatKit open successfully")
-            }
-            
-            if error != nil {
-                print(error!.localizedDescription)
-            }
-        }
-        
         LCChatKit.sharedInstance().avatarImageViewCornerRadiusBlock = {
             avatarImageViewSize in
             if avatarImageViewSize.height > 0 {
@@ -280,7 +269,17 @@ extension AppDelegate: LoginDelegate {
             completion?(messages, nil)
         }
         
-        
+        LCChatKit.sharedInstance().open(withClientId: AVUser.current()!.username!) {
+            succeed, error in
+            if succeed {
+                print("LCChatKit open successfully")
+            }
+            
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        }
+
         // set AVIMClient to receive system broadcast
         client = AVIMClient(clientId: UserDefaults.email!)
         client?.delegate = self
