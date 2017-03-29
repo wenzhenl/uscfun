@@ -390,7 +390,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 
                 cell.eventNameLabel.text = event.name
                 cell.eventNameLabel.numberOfLines = 0
-                cell.latestMessageLabel.text = "tap to read"
+                cell.latestMessageLabel.text = "点击查看"
                 cell.statusView.backgroundColor = event.statusColor
                 cell.statusView.layer.masksToBounds = true
                 cell.statusView.layer.cornerRadius = cell.statusView.frame.size.width / 2
@@ -547,7 +547,11 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                             if succeeded {
                                 EventRequest.removeEvent(with: finalizedCell.eventId!, for: .myongoing) {
                                     print("about to delete finalized event")
-                                    self.tableView.deleteSections(IndexSet([indexPath.section]), with: .fade)
+                                    if EventRequest.myOngoingEvents.count == 0 {
+                                        self.tableView.reloadData()
+                                    } else {
+                                        self.tableView.deleteSections(IndexSet([indexPath.section]), with: .fade)
+                                    }
                                 }
                                 UserDefaults.hasSeenCompleteEventTip = true
                             }
