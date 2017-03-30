@@ -549,30 +549,22 @@ class EventRequest {
                 }
                 
                 for event in events {
+                    if event.createdAt! > newestCreatedAt {
+                        newestCreatedAt = event.createdAt!
+                    }
+                    if event.createdAt! < oldestCreatedAt {
+                        oldestCreatedAt = event.createdAt!
+                    }
                     switch (source, type) {
                     case (_, .current):
                         eventsCopy[event.objectId!] = event
                     case (.myongoing, _):
                         if event.status != .isFailed && !(event.completedBy ?? []).contains(AVUser.current()!) {
                             eventsCopy[event.objectId!] = event
-                            
-                            if event.createdAt! > newestCreatedAt {
-                                newestCreatedAt = event.createdAt!
-                            }
-                            if event.createdAt! < oldestCreatedAt {
-                                oldestCreatedAt = event.createdAt!
-                            }
                         }
                     case (.mypublic, _):
                         if !event.members.contains(AVUser.current()!) {
                             eventsCopy[event.objectId!] = event
-                            
-                            if event.createdAt! > newestCreatedAt {
-                                newestCreatedAt = event.createdAt!
-                            }
-                            if event.createdAt! < oldestCreatedAt {
-                                oldestCreatedAt = event.createdAt!
-                            }
                         }
                     }
                 }
