@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SVProgressHUD
+import ChatKit
 
 enum MeCell {
     case profileTableCell(image: UIImage, text: String, segueId: String)
@@ -91,6 +93,36 @@ class MeViewController: UIViewController {
         }
     }
     
+    func sendMessage() {
+        guard let conversation = LCCKConversationViewController(peerId: USCFunConstants.systemAdministratorClientId) else {
+            SVProgressHUD.showError(withStatus: "无法连接网络")
+            return
+        }
+        conversation.isEnableAutoJoin = true
+        conversation.hidesBottomBarWhenPushed = true
+        conversation.isDisableTitleAutoConfig = true
+        conversation.disablesAutomaticKeyboardDismissal = false
+        conversation.viewDidLoadBlock = {
+            viewController in
+            viewController?.navigationItem.title = "日常小管家"
+            viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        }
+        conversation.viewDidAppearBlock = {
+            (viewController, animated) in
+            print("conversation controller view did appear")
+            viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        }
+        
+        conversation.viewWillDisappearBlock = {
+            (viewController, animated) in
+            print("conversation controller view will disappear")
+            viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+            SVProgressHUD.dismiss()
+        }
+        
+        self.navigationController?.pushViewController(conversation, animated: true)
+    }
+
     let textOfAllowEventHistroyViewed = "公开活动历史"
     let textOfCreatedHistory = "我发起过的活动"
     let textOfAttendedHistory = "我参加过的活动"
@@ -190,6 +222,9 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
             print(segueId)
             if segueId == segueIdOfRateUSCFun {
                 UIApplication.shared.openURL(URL(string : "itms-apps://itunes.apple.com/app/id1073401869")!)
+            }
+            if segueId == segueIdOfFeedback {
+                sendMessage()
             }
             else {
                 self.performSegue(withIdentifier: segueId, sender: self)
