@@ -30,28 +30,19 @@ class FinalizedEventSnapshotTableViewCell: UITableViewCell {
         }
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        NotificationCenter.default.addObserver(self, selector: #selector(update(notification:)), name: NSNotification.Name(rawValue: "newMessageForFinalizedEvents"), object: nil)
-    }
-    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         if selected {
-            ifReadView.backgroundColor = ifReadViewColor
-            statusView.backgroundColor = statusViewColor
+            ifReadView.backgroundColor = UIColor.clear
+            statusView.backgroundColor = UIColor.clear
         }
     }
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
         if highlighted {
-            ifReadView.backgroundColor = ifReadViewColor
-            statusView.backgroundColor = statusViewColor
+            ifReadView.backgroundColor = UIColor.clear
+            statusView.backgroundColor = UIColor.clear
         }
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
 }

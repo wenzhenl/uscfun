@@ -54,14 +54,14 @@ class EventSnapshotTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         if selected {
-            statusView.backgroundColor = statusViewColor
+            statusView.backgroundColor = UIColor.clear
         }
     }
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
         if highlighted {
-            statusView.backgroundColor = statusViewColor
+            statusView.backgroundColor = UIColor.clear
         }
     }
     
