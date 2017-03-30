@@ -16,6 +16,8 @@
 		0A0185861DC48602009A7874 /* LabelImgArrowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A0185841DC48602009A7874 /* LabelImgArrowTableViewCell.xib */; };
 		0A022FA71D73D066004077A4 /* FindBackPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A022FA61D73D066004077A4 /* FindBackPasswordViewController.swift */; };
 		0A2506A81DB1A8E80099E812 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2506A71DB1A8E80099E812 /* WebViewController.swift */; };
+		0A250B331E8CC8A50066BDA6 /* ConversationRecord.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A250B321E8CC8A50066BDA6 /* ConversationRecord.plist */; };
+		0A250B351E8CC8CE0066BDA6 /* ConversationRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A250B341E8CC8CE0066BDA6 /* ConversationRecord.swift */; };
 		0A2CC2041DAE166D00AB840F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A2CC2031DAE166D00AB840F /* SystemConfiguration.framework */; };
 		0A2CC2061DAE16AA00AB840F /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A2CC2051DAE16AA00AB840F /* CoreTelephony.framework */; };
 		0A2CC2081DAE17A600AB840F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A2CC2071DAE17A600AB840F /* libz.tbd */; };
@@ -131,6 +133,8 @@
 		0A0185841DC48602009A7874 /* LabelImgArrowTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelImgArrowTableViewCell.xib; sourceTree = "<group>"; };
 		0A022FA61D73D066004077A4 /* FindBackPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindBackPasswordViewController.swift; sourceTree = "<group>"; };
 		0A2506A71DB1A8E80099E812 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		0A250B321E8CC8A50066BDA6 /* ConversationRecord.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ConversationRecord.plist; sourceTree = "<group>"; };
+		0A250B341E8CC8CE0066BDA6 /* ConversationRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationRecord.swift; sourceTree = "<group>"; };
 		0A2CC2031DAE166D00AB840F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0A2CC2051DAE16AA00AB840F /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		0A2CC2071DAE17A600AB840F /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -262,6 +266,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A250B311E8CC8600066BDA6 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				0A250B321E8CC8A50066BDA6 /* ConversationRecord.plist */,
+				0A250B341E8CC8CE0066BDA6 /* ConversationRecord.swift */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
 		0A31D56A1E8A751F000964A2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -386,6 +399,7 @@
 		0A6834B11D56858C002E9B0D = {
 			isa = PBXGroup;
 			children = (
+				0A250B311E8CC8600066BDA6 /* Data */,
 				0A6834BC1D56858C002E9B0D /* uscfun */,
 				0A6834BB1D56858C002E9B0D /* Products */,
 				6B9364B2497E6D322436E689 /* Pods */,
@@ -603,6 +617,7 @@
 				0A6834C51D56858C002E9B0D /* Assets.xcassets in Resources */,
 				0A5332BF1E6B2C8800C50186 /* CollectionViewTableViewCell.xib in Resources */,
 				0AEDE4EE1E823B5A00B56979 /* RefreshView.xib in Resources */,
+				0A250B331E8CC8A50066BDA6 /* ConversationRecord.plist in Resources */,
 				0ADA4D2E1D9A46970001A376 /* SingleButtonTableViewCell.xib in Resources */,
 				0AE5C54E1DB1E2CC00B455F4 /* LabelArrowTableViewCell.xib in Resources */,
 				0A5332CB1E6C304900C50186 /* SegmentedTableViewCell.xib in Resources */,
@@ -706,6 +721,7 @@
 				0ADE0C9D1DB1F140009F89A0 /* UpdateProfileViewController.swift in Sources */,
 				0A8483601E683ED500B7B29A /* TimeDisplayTableViewCell.swift in Sources */,
 				0A2506A81DB1A8E80099E812 /* WebViewController.swift in Sources */,
+				0A250B351E8CC8CE0066BDA6 /* ConversationRecord.swift in Sources */,
 				0A52FD681DB098F8000D17D8 /* LCCKUser.m in Sources */,
 				0A963DB31D7122D000E0532F /* SignInViewController.swift in Sources */,
 				0A6D92321E669965008501B9 /* EventSnapshotTableViewCell.swift in Sources */,

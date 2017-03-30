@@ -169,7 +169,18 @@ class MyEventListViewController: UIViewController {
     
     
     func handlerNewMessage(notification: Notification) {
+        guard let userInfo = notification.userInfo as? [String: String], let action = userInfo["action"], let conversationId = userInfo["conversationId"], let text = userInfo["text"] else {
+            return
+        }
         
+        for id in EventRequest.myOngoingEvents.keys {
+            let event = EventRequest.myOngoingEvents[id]!
+            if event.conversationId == conversationId {
+                if action == "receive" {
+                    event.hasUnread = true
+                }
+            }
+        }
     }
     
     func handleUpdatedEventAvailable(notification: Notification) {

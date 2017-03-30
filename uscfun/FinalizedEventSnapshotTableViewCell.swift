@@ -18,18 +18,6 @@ class FinalizedEventSnapshotTableViewCell: UITableViewCell {
     
     var eventId: String?
     
-    func update(notification: Notification) {
-        guard let userInfo = notification.userInfo as? [String: String], let action = userInfo["action"], let conversationId = userInfo["conversationId"], let text = userInfo["text"] else {
-            return
-        }
-        if conversationId == EventRequest.myOngoingEvents[eventId!]?.conversationId {
-            self.latestMessageLabel.text = text
-            if action == "receive" {
-                self.ifReadView.backgroundColor = ifReadViewColor
-            }
-        }
-    }
-    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         if selected {
