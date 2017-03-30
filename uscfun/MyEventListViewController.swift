@@ -169,7 +169,7 @@ class MyEventListViewController: UIViewController {
     
     
     func handlerNewMessage(notification: Notification) {
-        guard let userInfo = notification.userInfo as? [String: String], let action = userInfo["action"], let conversationId = userInfo["conversationId"], let text = userInfo["text"] else {
+        guard let userInfo = notification.userInfo as? [String: Any], let action = userInfo["action"] as? String, let conversationId = userInfo["conversationId"] as? String, let text = userInfo["text"] as? String, let deliveredTime = userInfo["deliveredTime"] as? Double else {
             return
         }
         
@@ -182,10 +182,10 @@ class MyEventListViewController: UIViewController {
                 if event.conversationId == conversationId {
                     var newRecord: ConversationRecord? = nil
                     if action == "send" {
-                        newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: false, lastUpdatedAt: Date().timeIntervalSince1970)
+                        newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: false, lastUpdatedAt: deliveredTime)
                     }
                     else if action == "receive" {
-                        newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: true, lastUpdatedAt: Date().timeIntervalSince1970)
+                        newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: true, lastUpdatedAt: deliveredTime)
                     }
                     if newRecord != nil {
                         do {
@@ -196,11 +196,17 @@ class MyEventListViewController: UIViewController {
                     }
                     EventRequest.setEvent(event: event, with: event.objectId!, for: .myongoing) {
                         self.tableView.reloadData()
+                        return
                     }
                     return
                 }
             }
             
+            return
+        }
+        
+        if conversationRecord.latestMessage == text && conversationRecord.lastUpdatedAt == deliveredTime {
+            print("old message")
             return
         }
         
@@ -212,10 +218,10 @@ class MyEventListViewController: UIViewController {
         
         var newRecord: ConversationRecord? = nil
         if action == "send" {
-            newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: false, lastUpdatedAt: Date().timeIntervalSince1970)
+            newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: false, lastUpdatedAt: deliveredTime)
         }
         else if action == "receive" {
-            newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: true, lastUpdatedAt: Date().timeIntervalSince1970)
+            newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: true, lastUpdatedAt: deliveredTime)
         }
         if newRecord != nil {
             do {
@@ -590,18 +596,15 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 }
                 
                 /// set conversation to be read
-                if let record = event.conversationRecord {
-                    let newRecord = ConversationRecord(eventId: record.eventId, latestMessage: record.latestMessage, isUnread: false, lastUpdatedAt: record.lastUpdatedAt)
-                    print("I am setting to unread:\(record.isUnread)")
+                if var record = event.conversationRecord {
+                    record.isUnread = false
                     do {
-                        try ConversationList.addRecord(conversationId: event.conversationId, record: newRecord)
-//                        self.tableView.reloadSections(IndexSet([indexPath.section]), with: .automatic)
-                        self.tableView.reloadData()
+                        try ConversationList.addRecord(conversationId: event.conversationId, record: record)
+                            self.tableView.reloadSections(IndexSet([indexPath.section]), with: .automatic)
                     } catch let error {
                         print("failed to set conversation to be read: \(error)")
                     }
                 }
-                
                 self.navigationController?.pushViewController(conversation, animated: true)
             } else {
                 performSegue(withIdentifier: identifierToEventDetail, sender: tableView.cellForRow(at: indexPath))
