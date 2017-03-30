@@ -700,6 +700,18 @@ extension Event: Comparable {
     
     static func < (lhs: Event, rhs: Event) -> Bool {
         
+        /// public events after preloading
+        if !lhs.members.contains(AVUser.current()!) && !rhs.members.contains(AVUser.current()!)  && UserDefaults.hasPreloadedPublicEvents {
+            return lhs.createdAt! > rhs.createdAt!
+        }
+        
+        /// my ongoing events after preloading
+        if lhs.members.contains(AVUser.current()!) && rhs.members.contains(AVUser.current()!)  && UserDefaults.hasPreloadedMyOngoingEvents {
+            if lhs.status == .isFinalized && rhs.status != .isFinalized { return true }
+            if lhs.status != .isFinalized && rhs.status == .isFinalized { return false }
+            return lhs.updatedAt! > rhs.updatedAt!
+        }
+        
         /// order is: finalized < secured < pending < completed < failed < cancelled
         if lhs.status == .isFinalized && rhs.status != .isFinalized { return true }
         if lhs.status != .isFinalized && rhs.status == .isFinalized { return false }
