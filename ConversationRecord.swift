@@ -9,7 +9,6 @@
 import Foundation
 
 struct ConversationRecord {
-    var conversationId: String
     var eventId: String
     var latestMessage: String?
     var isUnread: Bool
@@ -19,20 +18,21 @@ struct ConversationList {
     static func parseConversationRecords() -> [String: ConversationRecord]? {
         
         guard let plist = Plist(name: "ConversationRecord") else { return nil }
-        guard let conversationData = plist.getValuesInPlistFile() as? [[String: Any]] else { return nil }
+        guard let conversationList = plist.getValuesInPlistFile() as? [String: [String: Any]] else { return nil }
+        
         var results = [String: ConversationRecord]()
-        for record in conversationData {
-            let conversationId = record[keyOfConversationId] as! String
-            let eventId = record[keyOfEventId] as! String
-            let latestMessage = record[keyOfLatestMessage] as! String?
-            let isUnread = record[keyOfIsUnread] as! Bool
-            
-            results[conversationId] = ConversationRecord(conversationId: conversationId, eventId: eventId, latestMessage: latestMessage, isUnread: isUnread)
+        
+        for (conversationId, conversation) in conversationList {
+            let eventId = conversation[keyOfEventId] as! String
+            let latestMessage = conversation[keyOfLatestMessage] as! String?
+            let isUnread = conversation[keyOfIsUnread] as! Bool
+            results[conversationId] = ConversationRecord(eventId: eventId, latestMessage: latestMessage, isUnread: isUnread)
         }
+        
         return results
     }
     
-    static func addRecord(conversationId: String, eventId: String, latestMessage: String?, isUnread: Bool = false)throws {
+    static func addRecord(conversationId: String, record: ConversationRecord)throws {
         guard let plist = Plist(name: "ConversationRecord") else {
             print("cannot get plist file")
             return
@@ -41,16 +41,15 @@ struct ConversationList {
             print("cannot get mutable plist file")
             return
         }
-        var record = [String: Any]()
-        record[keyOfConversationId] = conversationId
-        record[keyOfEventId] = eventId
-        record[keyOfLatestMessage] = latestMessage
-        record[keyOfIsUnread] = isUnread
+        var recordValue = [String: Any]()
+        recordValue[keyOfEventId] = record.eventId
+        recordValue[keyOfLatestMessage] = record.latestMessage
+        recordValue[keyOfIsUnread] = record.isUnread
         
-        records.add(NSDictionary(dictionary: record))
+        records[conversationId] = recordValue
         
         do {
-            try plist.addValuesToPlistFile(array: records)
+            try plist.addValuesToPlistFile(dictionary: records)
         } catch let error {
             throw error
         }
@@ -100,30 +99,30 @@ struct Plist {
         }
     }
     
-    func getValuesInPlistFile() -> NSArray? {
+    func getValuesInPlistFile() -> NSDictionary? {
         let fileManager = FileManager.default
         if fileManager.fileExists(atPath: destPath!) {
-            guard let arr = NSArray(contentsOfFile: destPath!) else { return nil }
-            return arr
+            guard let dictionary = NSDictionary(contentsOfFile: destPath!) else { return nil }
+            return dictionary
         } else {
             return nil
         }
     }
     
-    func getMutablePlistFile() -> NSMutableArray? {
+    func getMutablePlistFile() -> NSMutableDictionary? {
         let fileManager = FileManager.default
         if fileManager.fileExists(atPath: destPath!) {
-            guard let arr = NSMutableArray(contentsOfFile: destPath!) else { return nil }
-            return arr
+            guard let dictionary = NSMutableDictionary(contentsOfFile: destPath!) else { return nil }
+            return dictionary
         } else {
             return nil
         }
     }
     
-    func addValuesToPlistFile(array:NSArray)throws {
+    func addValuesToPlistFile(dictionary: NSDictionary)throws {
         let fileManager = FileManager.default
         if fileManager.fileExists(atPath: destPath!) {
-            if !array.write(toFile: destPath!, atomically: false) {
+            if !dictionary.write(toFile: destPath!, atomically: false) {
                 print("File not written successfully")
                 throw PlistError.FileNotWritten
             }

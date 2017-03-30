@@ -399,11 +399,11 @@
 		0A6834B11D56858C002E9B0D = {
 			isa = PBXGroup;
 			children = (
-				0A250B311E8CC8600066BDA6 /* Data */,
 				0A6834BC1D56858C002E9B0D /* uscfun */,
 				0A6834BB1D56858C002E9B0D /* Products */,
 				6B9364B2497E6D322436E689 /* Pods */,
 				0A31D56A1E8A751F000964A2 /* Resources */,
+				0A250B311E8CC8600066BDA6 /* Data */,
 				3F1C918CE9A3604DE99E8313 /* Frameworks */,
 			);
 			sourceTree = "<group>";

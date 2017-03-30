@@ -173,14 +173,53 @@ class MyEventListViewController: UIViewController {
             return
         }
         
-        for id in EventRequest.myOngoingEvents.keys {
-            let event = EventRequest.myOngoingEvents[id]!
-            if event.conversationId == conversationId {
-                if action == "receive" {
-                    event.hasUnread = true
+        guard let conversationRecords = ConversationList.parseConversationRecords(), let conversationRecord = conversationRecords[conversationId] else {
+            
+            /// if the conversation is not in record yet
+            print("conversation is not in record yet")
+            for id in EventRequest.myOngoingEvents.keys {
+                let event = EventRequest.myOngoingEvents[id]!
+                if event.conversationId == conversationId {
+                    var newRecord: ConversationRecord? = nil
+                    if action == "send" {
+                        newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: false)
+                    }
+                    else if action == "receive" {
+                        newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: true)
+                    }
+                    if newRecord != nil {
+                        do {
+                            try ConversationList.addRecord(conversationId: conversationId, record: newRecord!)
+                        } catch let error {
+                            print("save conversation record failed: \(error)")
+                        }
+                    }
+                    self.tableView.reloadData()
+                    return
                 }
             }
+            
+            return
         }
+        
+        /// if the conversation is already in record
+
+        var newRecord: ConversationRecord? = nil
+        if action == "send" {
+            newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: false)
+        }
+        else if action == "receive" {
+            newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: true)
+        }
+        if newRecord != nil {
+            do {
+                try ConversationList.addRecord(conversationId: conversationId, record: newRecord!)
+            } catch let error {
+                print("save conversation record failed: \(error)")
+            }
+        }
+        
+        self.tableView.reloadData()
     }
     
     func handleUpdatedEventAvailable(notification: Notification) {
@@ -393,7 +432,19 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
 
             if event.status == .isFinalized {
                 let cell = Bundle.main.loadNibNamed("FinalizedEventSnapshotTableViewCell", owner: self, options: nil)?.first as! FinalizedEventSnapshotTableViewCell
-                if event.hasUnread {
+                
+                var isUnread = false
+                var latestMessage = "点击查看"
+                if let records = ConversationList.parseConversationRecords() {
+                    if let record = records[event.conversationId] {
+                        isUnread = record.isUnread
+                        if record.latestMessage != nil {
+                            latestMessage = record.latestMessage!
+                        }
+                    }
+                }
+                
+                if isUnread {
                     cell.ifReadView.layer.cornerRadius = 4
                     cell.ifReadView.backgroundColor = event.finalizedColor
                 } else {
@@ -406,7 +457,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 
                 cell.eventNameLabel.text = event.name
                 cell.eventNameLabel.numberOfLines = 0
-                cell.latestMessageLabel.text = "点击查看"
+                cell.latestMessageLabel.text = latestMessage
                 cell.statusView.backgroundColor = event.statusColor
                 cell.statusView.layer.masksToBounds = true
                 cell.statusView.layer.cornerRadius = cell.statusView.frame.size.width / 2
@@ -642,10 +693,6 @@ extension Event {
             return .joinedByMe
         }
         return .noneOfMyBusiness
-    }
-    
-    var hasUnread: Bool {
-        return false
     }
 }
 
