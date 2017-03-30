@@ -589,6 +589,19 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                     SVProgressHUD.dismiss()
                 }
                 
+                /// set conversation to be read
+                if let record = event.conversationRecord {
+                    let newRecord = ConversationRecord(eventId: record.eventId, latestMessage: record.latestMessage, isUnread: false, lastUpdatedAt: record.lastUpdatedAt)
+                    print("I am setting to unread:\(record.isUnread)")
+                    do {
+                        try ConversationList.addRecord(conversationId: event.conversationId, record: newRecord)
+//                        self.tableView.reloadSections(IndexSet([indexPath.section]), with: .automatic)
+                        self.tableView.reloadData()
+                    } catch let error {
+                        print("failed to set conversation to be read: \(error)")
+                    }
+                }
+                
                 self.navigationController?.pushViewController(conversation, animated: true)
             } else {
                 performSegue(withIdentifier: identifierToEventDetail, sender: tableView.cellForRow(at: indexPath))
