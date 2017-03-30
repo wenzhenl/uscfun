@@ -16,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="uS7-OC-m4X">
@@ -28,9 +28,8 @@
                     </segmentedControl>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="topMargin" secondItem="uS7-OC-m4X" secondAttribute="top" id="O1A-Nc-rPx"/>
+                    <constraint firstItem="uS7-OC-m4X" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="H2p-He-Jae"/>
                     <constraint firstItem="uS7-OC-m4X" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="VWD-8z-gwn"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="uS7-OC-m4X" secondAttribute="bottom" id="at7-PT-XDT"/>
                     <constraint firstAttribute="trailingMargin" secondItem="uS7-OC-m4X" secondAttribute="trailing" id="c2S-3p-4rO"/>
                 </constraints>
             </tableViewCellContentView>
