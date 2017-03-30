@@ -365,10 +365,20 @@ class MyEventListViewController: UIViewController {
             viewController?.navigationItem.title = event.name
             viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         }
-        conversation.viewDidDisappearBlock = {
-            viewController in
+        
+        conversation.viewDidAppearBlock = {
+            (viewController, animated) in
+            print("conversation controller view did appear")
+            viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        }
+        
+        conversation.viewWillDisappearBlock = {
+            (viewController, animated) in
+            print("conversation controller view will disappear")
+            viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
             SVProgressHUD.dismiss()
         }
+        
         self.navigationController?.pushViewController(conversation, animated: true)
     }
 }
@@ -592,8 +602,17 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                     viewController?.navigationItem.title = event.name + "(" + String(event.members.count) + ")"
                     viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
                 }
-                conversation.viewDidDisappearBlock = {
-                    viewController in
+                
+                conversation.viewDidAppearBlock = {
+                    (viewController, animated) in
+                    print("conversation controller view did appear")
+                    viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+                }
+                
+                conversation.viewWillDisappearBlock = {
+                    (viewController, animated) in
+                    print("conversation controller view will disappear")
+                    viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
                     SVProgressHUD.dismiss()
                 }
                 
@@ -607,6 +626,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                         print("failed to set conversation to be read: \(error)")
                     }
                 }
+                
                 self.navigationController?.pushViewController(conversation, animated: true)
             } else {
                 performSegue(withIdentifier: identifierToEventDetail, sender: tableView.cellForRow(at: indexPath))

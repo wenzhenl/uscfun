@@ -184,8 +184,17 @@ class EventDetailViewController: UIViewController {
             viewController?.navigationItem.title = self.event.name
             viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         }
-        conversation.viewDidDisappearBlock = {
-            viewController in
+        
+        conversation.viewDidAppearBlock = {
+            (viewController, animated) in
+            print("conversation controller view did appear")
+            viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        }
+        
+        conversation.viewWillDisappearBlock = {
+            (viewController, animated) in
+            print("conversation controller view will disappear")
+            viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
             SVProgressHUD.dismiss()
         }
         self.navigationController?.pushViewController(conversation, animated: true)
