@@ -107,19 +107,16 @@ class MeViewController: UIViewController {
             viewController?.navigationItem.title = "日常小管家"
             viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         }
-        
         conversation.viewDidAppearBlock = {
             (viewController, animated) in
             print("conversation controller view did appear")
             viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-            viewController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
         }
         
         conversation.viewWillDisappearBlock = {
             (viewController, animated) in
             print("conversation controller view will disappear")
             viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-            viewController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
             SVProgressHUD.dismiss()
         }
         

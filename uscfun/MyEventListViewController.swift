@@ -370,14 +370,12 @@ class MyEventListViewController: UIViewController {
             (viewController, animated) in
             print("conversation controller view did appear")
             viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-            viewController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
         }
         
         conversation.viewWillDisappearBlock = {
             (viewController, animated) in
             print("conversation controller view will disappear")
             viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-            viewController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
             SVProgressHUD.dismiss()
         }
         
@@ -609,14 +607,12 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                     (viewController, animated) in
                     print("conversation controller view did appear")
                     viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-                    viewController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
                 }
                 
                 conversation.viewWillDisappearBlock = {
                     (viewController, animated) in
                     print("conversation controller view will disappear")
                     viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-                    viewController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
                     SVProgressHUD.dismiss()
                 }
                 
