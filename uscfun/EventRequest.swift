@@ -206,24 +206,6 @@ class EventRequest {
                 oldestCreatedAt = oldestCreatedAtOfPublicEvents
             }
             
-            if eventsCopy[id]?.createdAt == newestCreatedAt {
-                newestCreatedAt = timeOf1970
-                for key in eventsCopy.keys {
-                    if key != id && eventsCopy[key]!.createdAt! > newestCreatedAt {
-                        newestCreatedAt = eventsCopy[key]!.createdAt!
-                    }
-                }
-            }
-            
-            if eventsCopy[id]?.createdAt == oldestCreatedAt {
-                oldestCreatedAt = timeOf2070
-                for key in eventsCopy.keys {
-                    if key != id && eventsCopy[key]!.createdAt! < oldestCreatedAt {
-                        oldestCreatedAt = eventsCopy[key]!.createdAt!
-                    }
-                }
-            }
-            
             eventsCopy[id] = nil
             
             /// restore data
@@ -336,37 +318,16 @@ class EventRequest {
                 oldestCreatedAt = oldestCreatedAtOfPublicEvents
             }
             
-            var removedUpdatedAts = [Date]()
             for id in eventsCopy.keys {
                 let event = eventsCopy[id]!
                 switch source {
                 case .myongoing:
                     if event.status != .isFinalized && event.status != .isSecured && event.status != .isPending {
-                        removedUpdatedAts.append(event.createdAt!)
                         eventsCopy[id] = nil
                     }
                 case .mypublic:
                     if event.status != .isSecured && event.status != .isPending {
-                        removedUpdatedAts.append(event.createdAt!)
                         eventsCopy[id] = nil
-                    }
-                }
-            }
-            
-            if removedUpdatedAts.contains(newestCreatedAt) {
-                newestCreatedAt = timeOf1970
-                for key in eventsCopy.keys {
-                    if eventsCopy[key]!.createdAt! > newestCreatedAt {
-                        newestCreatedAt = eventsCopy[key]!.createdAt!
-                    }
-                }
-            }
-            
-            if removedUpdatedAts.contains(oldestCreatedAt) {
-                oldestCreatedAt = timeOf2070
-                for key in eventsCopy.keys {
-                    if eventsCopy[key]!.createdAt! < oldestCreatedAt {
-                        oldestCreatedAt = eventsCopy[key]!.createdAt!
                     }
                 }
             }
