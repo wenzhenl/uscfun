@@ -96,6 +96,7 @@
 		0A9CB44F1D6FF8D800608D27 /* USCFunConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB44E1D6FF8D800608D27 /* USCFunConstants.swift */; };
 		0A9CB4511D6FFAA500608D27 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB4501D6FFAA500608D27 /* User.swift */; };
 		0A9CB4531D7006F400608D27 /* PreLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB4521D7006F400608D27 /* PreLoginViewController.swift */; };
+		0AA4562D1E8D019D0026A5DC /* LeanCloudExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA4562C1E8D019D0026A5DC /* LeanCloudExtension.swift */; };
 		0AA82B101DCDAEB90016B278 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA82B0F1DCDAEB90016B278 /* UserProfileViewController.swift */; };
 		0AAE42DF1D9A289D00B34601 /* ImgKeyValueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE42DD1D9A289D00B34601 /* ImgKeyValueTableViewCell.swift */; };
 		0AAE42E01D9A289D00B34601 /* ImgKeyValueTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AAE42DE1D9A289D00B34601 /* ImgKeyValueTableViewCell.xib */; };
@@ -218,6 +219,7 @@
 		0A9CB44E1D6FF8D800608D27 /* USCFunConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USCFunConstants.swift; sourceTree = "<group>"; };
 		0A9CB4501D6FFAA500608D27 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		0A9CB4521D7006F400608D27 /* PreLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreLoginViewController.swift; sourceTree = "<group>"; };
+		0AA4562C1E8D019D0026A5DC /* LeanCloudExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeanCloudExtension.swift; sourceTree = "<group>"; };
 		0AA82B0F1DCDAEB90016B278 /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		0AAE42DD1D9A289D00B34601 /* ImgKeyValueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImgKeyValueTableViewCell.swift; sourceTree = "<group>"; };
 		0AAE42DE1D9A289D00B34601 /* ImgKeyValueTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImgKeyValueTableViewCell.xib; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 				0A71119C1DBEC87000742F2D /* UserDefaultsExtension.swift */,
 				0A9CB44E1D6FF8D800608D27 /* USCFunConstants.swift */,
 				0A5830CA1DD45A2800E06B4A /* OrderedDictionary.swift */,
+				0AA4562C1E8D019D0026A5DC /* LeanCloudExtension.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -699,6 +702,7 @@
 				0A5332C21E6B2D7200C50186 /* ImageViewCollectionViewCell.swift in Sources */,
 				0A5332CD1E6D02AA00C50186 /* EditEventViewController.swift in Sources */,
 				0A5332BE1E6B2C8800C50186 /* CollectionViewTableViewCell.swift in Sources */,
+				0AA4562D1E8D019D0026A5DC /* LeanCloudExtension.swift in Sources */,
 				0A5830CB1DD45A2800E06B4A /* OrderedDictionary.swift in Sources */,
 				0A963DB51D7122E200E0532F /* SignUpViewController.swift in Sources */,
 				0AF0BD8B1E6AD7190091B999 /* EventCreatorTableViewCell.swift in Sources */,

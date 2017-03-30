@@ -265,22 +265,58 @@ extension AppDelegate: LoginDelegate {
         
         LCChatKit.sharedInstance().sendMessageHookBlock = {
             conversationController, message, completion in
-            guard let conversationId = conversationController?.conversationId, let text = message?.text else {
+            guard let conversationId = conversationController?.conversationId, let message = message else {
                 print("something goes wrong with send message hook")
                 completion?(true, nil)
                 return
             }
+            
+            var text = ""
+            let mediaType = MessageMediaType(rawValue: Int(message.mediaType))!
+            switch mediaType {
+            case .plain:
+                text = message.text ?? ""
+            case .image:
+                text = "[图片]"
+            case .audio:
+                text = "[语音信息]"
+            case .video:
+                text = "[视频信息]"
+            case .geolocation:
+                text = "[位置]"
+            case .file:
+                text = "[文件]"
+            }
+            
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newMessageForFinalizedEvents"), object: nil, userInfo: ["action": "send", "conversationId": conversationId, "text": text])
             completion?(true, nil)
         }
         
         LCChatKit.sharedInstance().filterMessagesBlock = {
             conversation, messages, completion in
-            guard let conversationId = conversation?.conversationId, let text = messages?.last?.text else {
+            guard let conversationId = conversation?.conversationId, let message = messages?.last else {
                 print("something goes wrong with filter message hook")
                 completion?(messages, nil)
                 return
             }
+            
+            var text = ""
+            let mediaType = MessageMediaType(rawValue: Int(message.mediaType))!
+            switch mediaType {
+            case .plain:
+                text = message.text ?? ""
+            case .image:
+                text = "[图片]"
+            case .audio:
+                text = "[语音信息]"
+            case .video:
+                text = "[视频信息]"
+            case .geolocation:
+                text = "[位置]"
+            case .file:
+                text = "[文件]"
+            }
+            
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newMessageForFinalizedEvents"), object: nil, userInfo: ["action": "receive", "conversationId": conversationId, "text": text])
             completion?(messages, nil)
         }
