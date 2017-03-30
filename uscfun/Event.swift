@@ -386,7 +386,7 @@ class Event {
             succeeded, error in
             if succeeded {
                 if isTransient {
-                    client.createConversation(withName: "讨论区:" + self.name, clientIds: [], attributes: nil, options: AVIMConversationOption.transient) {
+                    client.createConversation(withName: self.name, clientIds: [], attributes: nil, options: AVIMConversationOption.transient) {
                         conversation, error in
                         if error == nil {
                             guard let conversation = conversation else {
