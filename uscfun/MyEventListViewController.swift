@@ -194,7 +194,9 @@ class MyEventListViewController: UIViewController {
                             print("save conversation record failed: \(error)")
                         }
                     }
-                    self.tableView.reloadData()
+                    EventRequest.setEvent(event: event, with: event.objectId!, for: .myongoing) {
+                        self.tableView.reloadData()
+                    }
                     return
                 }
             }
@@ -203,7 +205,11 @@ class MyEventListViewController: UIViewController {
         }
         
         /// if the conversation is already in record
-
+        guard let event = EventRequest.myOngoingEvents[conversationRecord.eventId], event.status == .isFinalized else {
+            print("the event is not finalized yet")
+            return
+        }
+        
         var newRecord: ConversationRecord? = nil
         if action == "send" {
             newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: false, lastUpdatedAt: Date().timeIntervalSince1970)
@@ -219,7 +225,9 @@ class MyEventListViewController: UIViewController {
             }
         }
         
-        self.tableView.reloadData()
+        EventRequest.setEvent(event: event, with: event.objectId!, for: .myongoing) {
+            self.tableView.reloadData()
+        }
     }
     
     func handleUpdatedEventAvailable(notification: Notification) {

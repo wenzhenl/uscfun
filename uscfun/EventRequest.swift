@@ -141,8 +141,8 @@ class EventRequest {
     
     //--MARK: common private time constant
     
-    private static let timeOf1970 = Date(timeIntervalSince1970: 0)
-    private static let timeOf2070 = Date(timeIntervalSince1970: 60*60*24*365*100)
+    fileprivate static let timeOf1970 = Date(timeIntervalSince1970: 0)
+    fileprivate static let timeOf2070 = Date(timeIntervalSince1970: 60*60*24*365*100)
     
     //--MARK: interface for my ongoing events
     

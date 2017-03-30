@@ -709,6 +709,10 @@ extension Event: Comparable {
         if lhs.members.contains(AVUser.current()!) && rhs.members.contains(AVUser.current()!)  && UserDefaults.hasPreloadedMyOngoingEvents {
             if lhs.status == .isFinalized && rhs.status != .isFinalized { return true }
             if lhs.status != .isFinalized && rhs.status == .isFinalized { return false }
+            if lhs.status == .isFinalized && rhs.status == .isFinalized {
+                return (lhs.conversationRecord?.lastUpdatedAt ?? 0.0) > (rhs.conversationRecord?.lastUpdatedAt ?? 0.0)
+            }
+
             return lhs.updatedAt! > rhs.updatedAt!
         }
         
