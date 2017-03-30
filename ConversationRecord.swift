@@ -12,6 +12,7 @@ struct ConversationRecord {
     var eventId: String
     var latestMessage: String?
     var isUnread: Bool
+    var lastUpdatedAt: Double?
 }
 
 struct ConversationList {
@@ -26,7 +27,8 @@ struct ConversationList {
             let eventId = conversation[keyOfEventId] as! String
             let latestMessage = conversation[keyOfLatestMessage] as! String?
             let isUnread = conversation[keyOfIsUnread] as! Bool
-            results[conversationId] = ConversationRecord(eventId: eventId, latestMessage: latestMessage, isUnread: isUnread)
+            let lastUpdatedAt = conversation[keyOfLastUpdatedAt] as! Double?
+            results[conversationId] = ConversationRecord(eventId: eventId, latestMessage: latestMessage, isUnread: isUnread, lastUpdatedAt: lastUpdatedAt)
         }
         
         return results
@@ -45,7 +47,7 @@ struct ConversationList {
         recordValue[keyOfEventId] = record.eventId
         recordValue[keyOfLatestMessage] = record.latestMessage
         recordValue[keyOfIsUnread] = record.isUnread
-        
+        recordValue[keyOfLastUpdatedAt] = record.lastUpdatedAt
         records[conversationId] = recordValue
         
         do {
@@ -59,6 +61,7 @@ struct ConversationList {
     static let keyOfEventId = "eventId"
     static let keyOfLatestMessage = "latestMessage"
     static let keyOfIsUnread = "isUnread"
+    static let keyOfLastUpdatedAt = "lastUpdatedAt"
 }
 
 struct Plist {

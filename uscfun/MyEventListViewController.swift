@@ -182,10 +182,10 @@ class MyEventListViewController: UIViewController {
                 if event.conversationId == conversationId {
                     var newRecord: ConversationRecord? = nil
                     if action == "send" {
-                        newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: false)
+                        newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: false, lastUpdatedAt: Date().timeIntervalSince1970)
                     }
                     else if action == "receive" {
-                        newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: true)
+                        newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: true, lastUpdatedAt: Date().timeIntervalSince1970)
                     }
                     if newRecord != nil {
                         do {
@@ -206,10 +206,10 @@ class MyEventListViewController: UIViewController {
 
         var newRecord: ConversationRecord? = nil
         if action == "send" {
-            newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: false)
+            newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: false, lastUpdatedAt: Date().timeIntervalSince1970)
         }
         else if action == "receive" {
-            newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: true)
+            newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: true, lastUpdatedAt: Date().timeIntervalSince1970)
         }
         if newRecord != nil {
             do {
@@ -435,12 +435,10 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 
                 var isUnread = false
                 var latestMessage = "点击查看"
-                if let records = ConversationList.parseConversationRecords() {
-                    if let record = records[event.conversationId] {
-                        isUnread = record.isUnread
-                        if record.latestMessage != nil {
-                            latestMessage = record.latestMessage!
-                        }
+                if let record = event.conversationRecord {
+                    isUnread = record.isUnread
+                    if record.latestMessage != nil {
+                        latestMessage = record.latestMessage!
                     }
                 }
                 
@@ -693,6 +691,15 @@ extension Event {
             return .joinedByMe
         }
         return .noneOfMyBusiness
+    }
+    
+    var conversationRecord: ConversationRecord? {
+        if let records = ConversationList.parseConversationRecords() {
+            if let record = records[self.conversationId] {
+                return record
+            }
+        }
+        return nil
     }
 }
 
