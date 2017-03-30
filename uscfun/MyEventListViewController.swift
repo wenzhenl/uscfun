@@ -182,7 +182,7 @@ class MyEventListViewController: UIViewController {
                 if event.conversationId == conversationId {
                     var newRecord: ConversationRecord? = nil
                     if action == "send" {
-                        newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: false, lastUpdatedAt: sendTimestamp)
+                        newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: false, lastUpdatedAt: Int64(Date().timeIntervalSince1970))
                     }
                     else if action == "receive" {
                         newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: true, lastUpdatedAt: sendTimestamp)
@@ -220,7 +220,7 @@ class MyEventListViewController: UIViewController {
         
         var newRecord: ConversationRecord? = nil
         if action == "send" {
-            newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: false, lastUpdatedAt: sendTimestamp)
+            newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: false, lastUpdatedAt: Int64(Date().timeIntervalSince1970))
         }
         else if action == "receive" {
             newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: true, lastUpdatedAt: sendTimestamp)

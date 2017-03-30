@@ -304,6 +304,12 @@ extension AppDelegate: LoginDelegate {
             
             print("catched filtered message \(message)")
             
+            guard message.clientId != AVUser.current()!.username else {
+                print("my own message")
+                completion?(messages, nil)
+                return
+            }
+            
             var text = ""
             let mediaType = MessageMediaType(rawValue: Int(message.mediaType))!
             switch mediaType {
