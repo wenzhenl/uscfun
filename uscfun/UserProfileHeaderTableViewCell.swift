@@ -9,7 +9,6 @@
 import UIKit
 
 class UserProfileHeaderTableViewCell: UITableViewCell {
-
     @IBOutlet weak var avatarButton: UIButton!
     @IBOutlet weak var genderLabel: UILabel!
 }
