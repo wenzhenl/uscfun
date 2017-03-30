@@ -71,7 +71,6 @@ class MyEventListViewController: UIViewController {
         
         self.navigationController?.view.backgroundColor = UIColor.white
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
 
         self.tableView.scrollsToTop = true
         self.tableView.tableFooterView = UIView()

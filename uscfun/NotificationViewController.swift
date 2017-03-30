@@ -29,16 +29,13 @@ class NotificationViewController: UIViewController {
         
         self.navigationController?.view.backgroundColor = UIColor.white
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
+
         self.tableView.tableFooterView = UIView()
         self.tableView.separatorStyle = .none
-        self.tableView.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-//        let conversationList = LCCKConversationListViewController()
-//        self.present(conversationList, animated: true, completion: nil)
     }
 }
 

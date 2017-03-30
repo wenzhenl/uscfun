@@ -29,7 +29,7 @@ class MeViewController: UIViewController {
         
         self.navigationController?.view.backgroundColor = UIColor.white
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
+
         self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.tableFooterView = UIView()
     }
