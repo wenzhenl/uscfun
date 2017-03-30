@@ -17,11 +17,11 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4U1-VH-87S">
-                        <rect key="frame" x="224.5" y="8" width="8" height="8"/>
+                        <rect key="frame" x="224.5" y="18" width="8" height="8"/>
                         <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="4U1-VH-87S" secondAttribute="height" id="C6a-6I-3yI"/>
@@ -29,7 +29,7 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="火热报名中" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L0u-cE-4JX">
-                        <rect key="frame" x="240.5" y="8" width="71.5" height="8"/>
+                        <rect key="frame" x="240.5" y="12" width="71.5" height="19.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -37,12 +37,10 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="L0u-cE-4JX" firstAttribute="leading" secondItem="4U1-VH-87S" secondAttribute="trailing" constant="8" symbolic="YES" id="8LH-VM-pHn"/>
-                    <constraint firstItem="L0u-cE-4JX" firstAttribute="top" secondItem="4U1-VH-87S" secondAttribute="top" id="BZi-t0-Onq"/>
                     <constraint firstItem="4U1-VH-87S" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Ubq-nv-P7p"/>
-                    <constraint firstItem="L0u-cE-4JX" firstAttribute="bottom" secondItem="4U1-VH-87S" secondAttribute="bottom" id="Ugq-DY-tWi"/>
                     <constraint firstAttribute="trailingMargin" secondItem="L0u-cE-4JX" secondAttribute="trailing" id="eRI-Mx-Tea"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="L0u-cE-4JX" secondAttribute="bottom" id="oNH-Kj-ScB"/>
-                    <constraint firstItem="L0u-cE-4JX" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="x8B-A5-zYa"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="L0u-cE-4JX" secondAttribute="bottom" constant="4" id="oNH-Kj-ScB"/>
+                    <constraint firstItem="L0u-cE-4JX" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="4" id="x8B-A5-zYa"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
