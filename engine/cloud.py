@@ -322,9 +322,21 @@ def after_event_update(event):
 @engine.define
 def _receiversOffline(**params):
     print('_receiversOffline start')
-    # params['content'] 为消息内容
+    print(params)
     content = params['content']
-    short_content = content[content.find('_lctext')+10:content.find('_lcattrs')-3]
+    mediaType = content[content.find('_lctype')+9:content.find('_lctype')+11]
+    if mediaType == "-1":
+        short_content = content[content.find('_lctext')+10:content.find('_lcattrs')-3]
+    elif mediaType == "-2":
+        short_content = "[图片]"
+    elif mediaType == "-3":
+        short_content = "[语音信息]"
+    elif mediaType == "-4":
+        short_content = "[视频信息]"
+    elif mediaType == "-5":
+        short_content = "[位置]"
+    elif mediaType == "-6":
+        short_content = "[文件]"
     print('short_content:', short_content)
     payloads = {
         # 自增未读消息的数目，不想自增就设为数字
