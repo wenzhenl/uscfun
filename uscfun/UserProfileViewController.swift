@@ -44,10 +44,10 @@ class UserProfileViewController: UIViewController {
         
         other = User(user: user)
         self.title = other.nickname
-        if user != AVUser.current()! {
-            let messageImage = #imageLiteral(resourceName: "send").scaleTo(width: 22, height: 22)
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: messageImage, style: .plain, target: self, action: #selector(sendMessage))
-        }
+//        if user != AVUser.current()! {
+//            let messageImage = #imageLiteral(resourceName: "send").scaleTo(width: 22, height: 22)
+//            self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: messageImage, style: .plain, target: self, action: #selector(sendMessage))
+//        }
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 
         let fetchGroup = DispatchGroup()

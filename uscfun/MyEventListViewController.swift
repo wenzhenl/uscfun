@@ -514,10 +514,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                     viewController in
                     SVProgressHUD.dismiss()
                 }
-                conversation.configureBarButtonItemStyle(.groupProfile) {
-                    action in
-                    print("group prifle here")
-                }
+                
                 self.navigationController?.pushViewController(conversation, animated: true)
             } else {
                 performSegue(withIdentifier: identifierToEventDetail, sender: tableView.cellForRow(at: indexPath))
