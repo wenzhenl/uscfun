@@ -233,13 +233,13 @@ extension AppDelegate: LoginDelegate {
         
         LCChatKit.sharedInstance().disableSingleSignOn = true
         
-        LCChatKit.sharedInstance().avatarImageViewCornerRadiusBlock = {
-            avatarImageViewSize in
-            if avatarImageViewSize.height > 0 {
-                return avatarImageViewSize.height / 2
-            }
-            return 5
-        }
+//        LCChatKit.sharedInstance().avatarImageViewCornerRadiusBlock = {
+//            avatarImageViewSize in
+//            if avatarImageViewSize.height > 0 {
+//                return avatarImageViewSize.height / 2
+//            }
+//            return 5
+//        }
         
         LCChatKit.sharedInstance().openProfileBlock = {
             userId, id, parentViewController in
