@@ -12,7 +12,7 @@ struct ConversationRecord {
     var eventId: String
     var latestMessage: String?
     var isUnread: Bool
-    var lastUpdatedAt: Double?
+    var lastUpdatedAt: Int64?
 }
 
 struct ConversationList {
@@ -27,7 +27,7 @@ struct ConversationList {
             let eventId = conversation[keyOfEventId] as! String
             let latestMessage = conversation[keyOfLatestMessage] as! String?
             let isUnread = conversation[keyOfIsUnread] as! Bool
-            let lastUpdatedAt = conversation[keyOfLastUpdatedAt] as! Double?
+            let lastUpdatedAt = conversation[keyOfLastUpdatedAt] as! Int64?
             results[conversationId] = ConversationRecord(eventId: eventId, latestMessage: latestMessage, isUnread: isUnread, lastUpdatedAt: lastUpdatedAt)
         }
         

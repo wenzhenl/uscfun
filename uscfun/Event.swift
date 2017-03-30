@@ -710,7 +710,7 @@ extension Event: Comparable {
             if lhs.status == .isFinalized && rhs.status != .isFinalized { return true }
             if lhs.status != .isFinalized && rhs.status == .isFinalized { return false }
             if lhs.status == .isFinalized && rhs.status == .isFinalized {
-                return (lhs.conversationRecord?.lastUpdatedAt ?? 0.0) > (rhs.conversationRecord?.lastUpdatedAt ?? 0.0)
+                return (lhs.conversationRecord?.lastUpdatedAt ?? 0) > (rhs.conversationRecord?.lastUpdatedAt ?? 0)
             }
 
             return lhs.updatedAt! > rhs.updatedAt!

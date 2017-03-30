@@ -290,7 +290,7 @@ extension AppDelegate: LoginDelegate {
                 text = "[文件]"
             }
             
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newMessageForFinalizedEvents"), object: nil, userInfo: ["action": "send", "conversationId": conversationId, "text": text, "deliveredTime": Double(message.deliveredTimestamp)])
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newMessageForFinalizedEvents"), object: nil, userInfo: ["action": "send", "conversationId": conversationId, "text": text, "sendTimestamp": message.sendTimestamp])
             completion?(true, nil)
         }
         
@@ -321,7 +321,7 @@ extension AppDelegate: LoginDelegate {
                 text = "[文件]"
             }
             
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newMessageForFinalizedEvents"), object: nil, userInfo: ["action": "receive", "conversationId": conversationId, "text": text, "deliveredTime": Double(message.deliveredTimestamp)])
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newMessageForFinalizedEvents"), object: nil, userInfo: ["action": "receive", "conversationId": conversationId, "text": text, "sendTimestamp": message.sendTimestamp])
             completion?(messages, nil)
         }
         

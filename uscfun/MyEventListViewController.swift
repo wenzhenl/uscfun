@@ -169,7 +169,7 @@ class MyEventListViewController: UIViewController {
     
     
     func handlerNewMessage(notification: Notification) {
-        guard let userInfo = notification.userInfo as? [String: Any], let action = userInfo["action"] as? String, let conversationId = userInfo["conversationId"] as? String, let text = userInfo["text"] as? String, let deliveredTime = userInfo["deliveredTime"] as? Double else {
+        guard let userInfo = notification.userInfo as? [String: Any], let action = userInfo["action"] as? String, let conversationId = userInfo["conversationId"] as? String, let text = userInfo["text"] as? String, let sendTimestamp = userInfo["sendTimestamp"] as? Int64 else {
             return
         }
         
@@ -182,10 +182,10 @@ class MyEventListViewController: UIViewController {
                 if event.conversationId == conversationId {
                     var newRecord: ConversationRecord? = nil
                     if action == "send" {
-                        newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: false, lastUpdatedAt: deliveredTime)
+                        newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: false, lastUpdatedAt: sendTimestamp)
                     }
                     else if action == "receive" {
-                        newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: true, lastUpdatedAt: deliveredTime)
+                        newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: true, lastUpdatedAt: sendTimestamp)
                     }
                     if newRecord != nil {
                         do {
@@ -205,7 +205,9 @@ class MyEventListViewController: UIViewController {
             return
         }
         
-        if conversationRecord.latestMessage == text && conversationRecord.lastUpdatedAt == deliveredTime {
+        print("send time \(sendTimestamp)")
+        
+        if conversationRecord.latestMessage == text && conversationRecord.lastUpdatedAt == sendTimestamp {
             print("old message")
             return
         }
@@ -218,10 +220,10 @@ class MyEventListViewController: UIViewController {
         
         var newRecord: ConversationRecord? = nil
         if action == "send" {
-            newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: false, lastUpdatedAt: deliveredTime)
+            newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: false, lastUpdatedAt: sendTimestamp)
         }
         else if action == "receive" {
-            newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: true, lastUpdatedAt: deliveredTime)
+            newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: true, lastUpdatedAt: sendTimestamp)
         }
         if newRecord != nil {
             do {
