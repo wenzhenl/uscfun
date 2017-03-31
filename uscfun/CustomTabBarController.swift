@@ -31,6 +31,7 @@ class CustomTabBarController: UITabBarController {
                 _ = vc.visibleViewController?.view
             }
         }
+        self.selectedIndex = USCFunConstants.indexOfEventList
     }
     
     func startEvent() {
