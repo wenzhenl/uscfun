@@ -45,6 +45,7 @@ struct UserKeyConstants {
 
 struct EventKeyConstants {
     static let classNameOfEvent = "Event"
+    static let classNameOfConversation = "_Conversation"
     static let keyOfName = "name"
     static let keyOfMaximumAttendingPeople = "maximumAttendingPeople"
     static let keyOfRemainingSeats = "remainingSeats"
@@ -54,8 +55,7 @@ struct EventKeyConstants {
     static let keyOfCreatedBy = "createdBy"
     static let keyOfMembers = "members"
     static let keyOfIsCancelled = "isCancelled"
-    static let keyOfTransientConversationId = "transientConversationId"
-    static let keyOfConversationId = "conversationId"
+    static let keyOfConversation = "conversation"
     static let keyOfInstitution = "institution"
     
     static let keyOfStartTime = "startTime"

@@ -271,7 +271,7 @@ class EventListViewController: UIViewController {
     func joinDiscussion(sender: UIButton) {
         guard let eventId = sender.accessibilityHint else { return }
         guard let event = EventRequest.publicEvents[eventId] else { return }
-        guard let conversation = LCCKConversationViewController(conversationId: event.transientConversationId) else {
+        guard let conversation = LCCKConversationViewController(conversationId: event.conversationId) else {
             self.displayInfo(info: "网络错误，无法进入评论区")
             return
         }

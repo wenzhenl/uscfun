@@ -9,6 +9,7 @@
 import Foundation
 import AVOSCloud
 import AVOSCloudIM
+import ChatKit
 
 /// possible errors with event
 enum EventError: Error {
@@ -149,12 +150,7 @@ class Event {
     /// The creator of the event
     var createdBy: AVUser
     
-    /// The chat room for general users to discuss the event to decide if they actually want
-    /// to join
-    var transientConversationId: String
-    
-    /// The chat room used after the event is finalized, it only contains the formal members
-    /// of the event
+    /// The id of the associated conversation of the event
     var conversationId: String
     
     /// The members of the event including creator
@@ -223,7 +219,6 @@ class Event {
         self.minimumAttendingPeople = minimumAttendingPeople
         self.due = due
         self.createdBy = createdBy
-        self.transientConversationId = ""
         self.conversationId = ""
         self.members = [createdBy]
         self.isCancelled = false
@@ -279,13 +274,7 @@ class Event {
         }
         self.createdBy = createdBy
         
-        guard let transientConversationId = data.value(forKey: EventKeyConstants.keyOfTransientConversationId) as? String else {
-            print("failed to create Event from AVObject: no transient conversation")
-            return nil
-        }
-        self.transientConversationId = transientConversationId
-        
-        guard let conversationId = data.value(forKey: EventKeyConstants.keyOfConversationId) as? String else {
+        guard let conversation = data.value(forKey: EventKeyConstants.keyOfConversation) as? AVObject, let conversationId = conversation.objectId else {
             print("failed to create Event from AVObject: no conversation")
             return nil
         }
@@ -349,73 +338,21 @@ class Event {
     /// - parameter error: optional error information if operation fails
     
     func post(handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
-        createConversation(isTransient: true) {
-            succeeded, error in
-            if succeeded {
-                self.createConversation(isTransient: false) {
-                    succeeded, error in
-                    if succeeded {
-                        self.saveDataToSever() {
-                            succeeded, error in
-                            if succeeded {
-                                handler(true, nil)
-                            } else {
-                                handler(false, error)
-                            }
-                        }
-                    } else {
-                        handler(false, error)
-                    }
-                }
-            } else {
+        LCChatKit.sharedInstance().createConversation(withMembers: [], type: LCCKConversationType.group, unique: false) {
+            conversation, error in
+            guard let conversationId = conversation?.conversationId else {
                 handler(false, error)
+                return
             }
-        }
-    }
-    
-    /// Creates conversations associated with an event
-    ///
-    /// - parameter isTransient: indicates whether the conversation is transient. The transient conversation is used for public discussion. The non-transient conversation is used for private discussion among formal members
-    /// - parameter handler:     handle the creation depending on the operation is successful or not
-    /// - parameter succeeded: indicate if the operation is successful
-    /// - parameter error: optional error information if operation fails
-    
-    private func createConversation(isTransient: Bool, handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
-        let client = AVIMClient(clientId: AVUser.current()!.username!)
-        client.open() {
-            succeeded, error in
-            if succeeded {
-                if isTransient {
-                    client.createConversation(withName: self.name, clientIds: [], attributes: nil, options: AVIMConversationOption.transient) {
-                        conversation, error in
-                        if error == nil {
-                            guard let conversation = conversation else {
-                                handler(false, EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: "cannot fetch transient conversation"))
-                                return
-                            }
-                            self.transientConversationId = conversation.conversationId!
-                            handler(true, nil)
-                        } else {
-                            handler(false, error!)
-                        }
-                    }
-                } else {
-                    client.createConversation(withName: self.name, clientIds: []) {
-                        conversation, error in
-                        if error == nil {
-                            guard let conversation = conversation else {
-                                handler(false, EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: "cannot fetch conversation"))
-                                return
-                            }
-                            self.conversationId = conversation.conversationId!
-                            handler(true, nil)
-                        } else {
-                            handler(false, error!)
-                        }
-                    }
+            print("successfully created conversation with id \(conversationId)")
+            self.conversationId = conversationId
+            self.saveDataToSever {
+                succeeded, error in
+                if succeeded {
+                    print("successfully created event \(self.name)")
                 }
-            } else {
-                handler(false, EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: "cannot open AVIMClient"))
+                
+                handler(succeeded, error)
             }
         }
     }
@@ -427,17 +364,14 @@ class Event {
     /// - parameter error: optional error information if operation fails
     
     private func saveDataToSever(handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
-        let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent)
-        
-        guard transientConversationId != "" else {
-            handler(false, EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: "transient conversation id is missing"))
-            return
-        }
         
         guard conversationId != "" else {
-            handler(false, EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: "conversation id is missing"))
+            print("failed to save event data: conversationId is missing")
+            handler(false, EventError.systemError(localizedDescriotion: "没有实现创建活动聊天室", debugDescription: "the conversation id is missing"))
             return
         }
+        
+        let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent)
         
         eventObject.setObject(name, forKey: EventKeyConstants.keyOfName)
         eventObject.setObject(maximumAttendingPeople, forKey: EventKeyConstants.keyOfMaximumAttendingPeople)
@@ -447,8 +381,9 @@ class Event {
         
         eventObject.setObject(createdBy, forKey: EventKeyConstants.keyOfCreatedBy)
         eventObject.setObject(members, forKey: EventKeyConstants.keyOfMembers)
-        eventObject.setObject(transientConversationId, forKey: EventKeyConstants.keyOfTransientConversationId)
-        eventObject.setObject(conversationId, forKey: EventKeyConstants.keyOfConversationId)
+        
+        let conversation = AVObject(className: EventKeyConstants.classNameOfConversation, objectId: conversationId)
+        eventObject.setObject(conversation, forKey: EventKeyConstants.keyOfConversation)
         eventObject.setObject(isCancelled, forKey: EventKeyConstants.keyOfIsCancelled)
         eventObject.setObject(institution, forKey: EventKeyConstants.keyOfInstitution)
         
