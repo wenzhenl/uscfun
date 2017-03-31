@@ -208,9 +208,8 @@ class Event {
     ///
     /// - returns: The new 'Event' instance
     ///
-    /// - warning: The transient conversation id for people to discuss the event
-    ///   and the conversation id for event members to discuss the event,
-    ///   neither of those conversations are created yet.
+    /// - warning: the conversation id for discussing the event
+    ///   is not created yet.
     
     init(name: String, maximumAttendingPeople: Int, remainingSeats: Int, minimumAttendingPeople: Int, due: Date, createdBy: AVUser) {
         self.name = name
@@ -338,6 +337,7 @@ class Event {
     /// - parameter error: optional error information if operation fails
     
     func post(handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
+        
         LCChatKit.sharedInstance().createConversation(withMembers: [], type: LCCKConversationType.group, unique: false) {
             conversation, error in
             guard let conversationId = conversation?.conversationId else {
@@ -367,7 +367,7 @@ class Event {
         
         guard conversationId != "" else {
             print("failed to save event data: conversationId is missing")
-            handler(false, EventError.systemError(localizedDescriotion: "没有实现创建活动聊天室", debugDescription: "the conversation id is missing"))
+            handler(false, EventError.systemError(localizedDescriotion: "没有创建活动聊天室", debugDescription: "the conversation id is missing"))
             return
         }
         
