@@ -342,8 +342,11 @@ extension AppDelegate: LoginDelegate {
             }
         }
         
-        // set AVIMClient to receive system broadcast
-        systemNotificationClient = AVIMClient(clientId: UserDefaults.email!)
+        /// set AVIMClient to receive system broadcast
+        /// The system client id is replace '@' and '.' with '_' in email
+        /// and linked with '_sys', this should be the same id used to subscribe system 
+        /// conversation during sign up
+        systemNotificationClient = AVIMClient(clientId: AVUser.current()!.email!.systemClientId!)
         systemNotificationClient?.delegate = self
         systemNotificationClient?.open() {
             succeed, error in

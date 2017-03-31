@@ -25,7 +25,7 @@ class USCFunConstants {
     static let QUERYLIMIT = 100
     static let MAXCACHEAGE = TimeInterval(24 * 3600)
     
-    static let systemAdministratorClientId = "systemAdministratorClientId"
+    static let systemAdministratorClientId = "RICHANGXIAOGUANJIA_SYSTEMADMINISTRATOR_CLIENTID"
     
     //-MARK: storyboard identifiers
     static let storyboardIdentifierOfCustomizedAlertViewController = "Customized Alert View Controller"

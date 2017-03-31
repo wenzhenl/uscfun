@@ -155,6 +155,13 @@ extension Email {
         guard dotToken.count == 2 else { return nil }
         return token[0] + "_" + dotToken[0] + "_" + dotToken[1]
     }
+    
+    var systemClientId: String? {
+        if replaceAtAndDotByUnderscore != nil {
+            return replaceAtAndDotByUnderscore! + "_sys"
+        }
+        return nil
+    }
 }
 
 extension String {

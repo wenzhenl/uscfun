@@ -187,7 +187,7 @@ class LoginKit {
         
         // subscribe to institution system conversation
         do {
-            try subscribeToSystemConversation(clientId: email, institution: email.institutionCode ?? "unknown")
+            try subscribeToSystemConversation(clientId: email.systemClientId!, institution: email.institutionCode ?? "unknown")
         } catch let error {
             throw error
         }
