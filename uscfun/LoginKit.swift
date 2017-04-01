@@ -243,26 +243,27 @@ class LoginKit {
         }
     }
     
-    static func signIn(email: String, password: String, handler: @escaping (_ succeed: Bool, _ error: Error?) -> Void) {
+    static func signIn(email: String, password: String, handler: @escaping (_ succeed: Bool, _ error: NSError?) -> Void) {
         
         AVUser.logInWithUsername(inBackground: email, password: password) {
             updatedUser, error in
+            
             if updatedUser != nil {
-                
+               
                 guard let nickname = updatedUser?.value(forKey: UserKeyConstants.keyOfNickname) as? String else {
-                    handler(false, SignInError.systemError(localizedDescriotion: "登录失败：无法找到昵称", debugDescription: "failed to sign in: nickname is missing"))
+                    handler(false, NSError(domain: USCFunErrorConstants.domain, code: USCFunErrorConstants.kUSCFunErrorUserNicknameMissing, userInfo: [NSLocalizedDescriptionKey: "failed to sign in: nickname is missing"]))
                     return
                 }
                 
                 guard let avatarUrl = updatedUser!.value(forKey: UserKeyConstants.keyOfAvatarUrl) as? String else {
-                        handler(false, SignInError.systemError(localizedDescriotion: "登录失败：无法找到用户头像", debugDescription: "failed to sign in: avatar is missing"))
+                    handler(false, NSError(domain: USCFunErrorConstants.domain, code: USCFunErrorConstants.kUSCFunErrorUserAvatarMissing, userInfo: [NSLocalizedDescriptionKey: "failed to sign in: avatar is missing"]))
                         return
                 }
                 
                 let file = AVFile(url: avatarUrl)
                 var avatarError: NSError?
                 guard let avatarData = file.getData(&avatarError) else {
-                    handler(false, SignInError.systemError(localizedDescriotion: "登录失败：无法加载用户头像", debugDescription: "failed to sign in: cannot download avatar"))
+                    handler(false, avatarError)
                     return
                 }
                 
@@ -294,7 +295,7 @@ class LoginKit {
                 
                 handler(true, nil)
             } else {
-                handler(false, error)
+                handler(false, error as NSError?)
             }
         }
     }

@@ -151,9 +151,9 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                 }
                 
                 if error != nil {
-                    print(error!.localizedDescription)
+                    print(error!)
                     self.emailTextField.becomeFirstResponder()
-                    self.errorLabel.text = error!.localizedDescription
+                    self.errorLabel.text = error!.customDescription
                     self.errorLabel.isHidden = false
                 }
             }
