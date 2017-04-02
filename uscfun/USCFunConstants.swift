@@ -21,6 +21,7 @@ class USCFunConstants {
     static let indexOfMe = 3
     
     static let urlOfPrivacy = "http://www.baidu.com/"
+    static let appURL = "itms-apps://itunes.apple.com/app/id1163062860"
     
     static let QUERYLIMIT = 100
     static let MAXCACHEAGE = TimeInterval(24 * 3600)

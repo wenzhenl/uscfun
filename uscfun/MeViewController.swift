@@ -93,7 +93,7 @@ class MeViewController: UIViewController {
         }
     }
     
-    func sendMessage() {
+    func sendFeedback() {
         guard let conversation = LCCKConversationViewController(peerId: USCFunConstants.systemAdministratorClientId) else {
             SVProgressHUD.showError(withStatus: "无法连接网络")
             return
@@ -217,14 +217,15 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
         selectedIndex = indexPath
         switch meSections[indexPath.section][indexPath.row] {
         case .profileTableCell( _ , _ , let segueId):
+            print(segueId)
             self.performSegue(withIdentifier: segueId, sender: self)
         case .labelArrowTableCell(_, let segueId):
             print(segueId)
             if segueId == segueIdOfRateUSCFun {
-                UIApplication.shared.openURL(URL(string : "itms-apps://itunes.apple.com/app/id1073401869")!)
+                UIApplication.shared.openURL(URL(string : USCFunConstants.appURL)!)
             }
             if segueId == segueIdOfFeedback {
-                sendMessage()
+                sendFeedback()
             }
             else {
                 self.performSegue(withIdentifier: segueId, sender: self)
