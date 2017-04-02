@@ -153,8 +153,8 @@ extension Email {
         guard token.count == 2 else { return nil }
         let dot = "."
         let dotToken = token[1].components(separatedBy: dot)
-        guard dotToken.count == 2 else { return nil }
-        return token[0] + "_" + dotToken[0] + "_" + dotToken[1]
+        guard dotToken.count >= 2 else { return nil }
+        return token[0] + "_" + dotToken.joined(separator: "_")
     }
     
     var systemClientId: String? {
