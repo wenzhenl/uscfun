@@ -26,6 +26,7 @@
 		0A2CC20E1DAE1B1E00AB840F /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A2CC20D1DAE1B1E00AB840F /* libWeChatSDK.a */; };
 		0A3062661E767419001E3696 /* FinalizedEventSnapshotTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3062641E767419001E3696 /* FinalizedEventSnapshotTableViewCell.swift */; };
 		0A3062671E767419001E3696 /* FinalizedEventSnapshotTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A3062651E767419001E3696 /* FinalizedEventSnapshotTableViewCell.xib */; };
+		0A37CCE71E90FED7000CC7E7 /* NSErrorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A37CCE61E90FED7000CC7E7 /* NSErrorExtension.swift */; };
 		0A3D2B591D7B9256004F57EF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A3D2B581D7B9256004F57EF /* Main.storyboard */; };
 		0A3D2B5B1D7B9299004F57EF /* EventListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3D2B5A1D7B9299004F57EF /* EventListViewController.swift */; };
 		0A3D2B5D1D7B9351004F57EF /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3D2B5C1D7B9351004F57EF /* EventDetailViewController.swift */; };
@@ -146,6 +147,7 @@
 		0A2CC2101DAE1B2D00AB840F /* WXApiObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		0A3062641E767419001E3696 /* FinalizedEventSnapshotTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinalizedEventSnapshotTableViewCell.swift; sourceTree = "<group>"; };
 		0A3062651E767419001E3696 /* FinalizedEventSnapshotTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FinalizedEventSnapshotTableViewCell.xib; sourceTree = "<group>"; };
+		0A37CCE61E90FED7000CC7E7 /* NSErrorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSErrorExtension.swift; sourceTree = "<group>"; };
 		0A3D2B581D7B9256004F57EF /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		0A3D2B5A1D7B9299004F57EF /* EventListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListViewController.swift; sourceTree = "<group>"; };
 		0A3D2B5C1D7B9351004F57EF /* EventDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 				0A9CB44E1D6FF8D800608D27 /* USCFunConstants.swift */,
 				0A5830CA1DD45A2800E06B4A /* OrderedDictionary.swift */,
 				0AA4562C1E8D019D0026A5DC /* LeanCloudExtension.swift */,
+				0A37CCE61E90FED7000CC7E7 /* NSErrorExtension.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -748,6 +751,7 @@
 				0ADE0C9F1DB1F173009F89A0 /* EventHistoryViewController.swift in Sources */,
 				0AAE42E41D9A2F8B00B34601 /* MapViewController.swift in Sources */,
 				0A6834BE1D56858C002E9B0D /* AppDelegate.swift in Sources */,
+				0A37CCE71E90FED7000CC7E7 /* NSErrorExtension.swift in Sources */,
 				0A00DB101DD924BE00A81189 /* SearchResultsTableViewController.swift in Sources */,
 				0A00DB061DD90DEA00A81189 /* ImageRow.swift in Sources */,
 				0A9CB4531D7006F400608D27 /* PreLoginViewController.swift in Sources */,

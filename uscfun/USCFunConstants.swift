@@ -34,12 +34,6 @@ class USCFunConstants {
     static let storyboardIdentifierOfMapViewController = "universal map view controller"
 }
 
-struct USCFunErrorConstants {
-    static let domain = "USC Fun Error Domain"
-    static let kUSCFunErrorUserNicknameMissing = 10001
-    static let kUSCFunErrorUserAvatarMissing = 10002
-}
-
 struct UserKeyConstants {
     static let keyOfNickname = "nickname"
     static let keyOfAvatarUrl = "avatarUrl"

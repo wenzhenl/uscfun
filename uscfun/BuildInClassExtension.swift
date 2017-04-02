@@ -8,21 +8,6 @@
 
 import Foundation
 
-extension NSError {
-    var customDescription: String? {
-        switch self.code {
-        case 210:
-            return "邮箱密码不匹配"
-        case 211:
-            return "用户名不存在"
-        case -1009:
-            return "无网络连接，请检查网络"
-        default:
-            return "系统错误，请稍后再试"
-        }
-    }
-}
-
 extension UIViewController {
     var contentViewController: UIViewController {
         if let navcon = self as? UINavigationController {
