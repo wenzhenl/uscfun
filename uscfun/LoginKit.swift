@@ -9,34 +9,6 @@
 import Foundation
 import ChatKit
 
-/// possible errors with sign up
-enum SignUpError: Error {
-    case systemError(localizedDescriotion: String, debugDescription: String)
-}
-
-extension SignUpError: LocalizedError {
-    public var errorDescription: String? {
-        switch self {
-        case .systemError(let description, _):
-            return description
-        }
-    }
-    
-    public var failureReason: String? {
-        switch self {
-        case .systemError(_, let description):
-            return description
-        }
-    }
-    
-    public var recoverySuggestion: String? {
-        switch self {
-        case .systemError(_, let description):
-            return description
-        }
-    }
-}
-
 protocol LoginDelegate {
     func userDidLoggedIn()
 }
@@ -53,42 +25,44 @@ class LoginKit {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
         if error != nil {
             print(error!)
-            throw SignUpError.systemError(localizedDescriotion: "无法验证邮箱是否被占用", debugDescription: error!.localizedDescription)
+            throw error!
         }
         
         guard let isTaken = result as? Bool else {
             print("failed to check if email is taken: cannot parse return value")
-            throw SignUpError.systemError(localizedDescriotion: "无法验证邮箱是否被占用", debugDescription: "cannot check if email is taken")
+            throw NSError(domain: USCFunErrorConstants.domain,
+                          code: USCFunErrorConstants.kUSCFunErrorLeanEngineResultsNotExpected,
+                          userInfo: [NSLocalizedDescriptionKey: "failed to check if email is taken: cannot parse return value"])
         }
         
         return isTaken
     }
     
     static func checkIfConfirmationCodeMatches(email: String, code: String)throws -> Bool {
-//        var error: NSError?
-//        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-//        let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfConfirmationCodeMatches, withParameters: ["email": email, "code": code], error: &error)
-//        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-//        if error != nil {
-//            print(error!)
-//            throw SignUpError.systemError(localizedDescriotion: "无法验证验证码", debugDescription: error!.localizedDescription)
-//        }
-//        
-//        guard let matched = result as? Bool else {
-//            print("failed to check if confirmation code match: cannot parse return value")
-//            throw SignUpError.systemError(localizedDescriotion: "无法验证验证码", debugDescription: "cannot check if confirmation code matches")
-//        }
-//        
-//        return matched
-        return true
+        var error: NSError?
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfConfirmationCodeMatches, withParameters: ["email": email, "code": code], error: &error)
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        if error != nil {
+            print(error!)
+            throw error!
+        }
+        
+        guard let isMatched = result as? Bool else {
+            print("failed to check if confirmation code match: cannot parse return value")
+            throw NSError(domain: USCFunErrorConstants.domain,
+                          code: USCFunErrorConstants.kUSCFunErrorLeanEngineResultsNotExpected,
+                          userInfo: [NSLocalizedDescriptionKey: "failed to check if confirmation code match: cannot parse return value"])
+        }
+        return isMatched
     }
     
-    static func requestConfirmationCode(email: String, handler: @escaping (_ succeed: Bool, _ error: Error?) -> Void) {
+    static func requestConfirmationCode(email: String, handler: @escaping (_ succeed: Bool, _ error: NSError?) -> Void) {
         AVCloud.callFunction(inBackground: LeanEngineFunctions.nameOfRequestConfirmationCode, withParameters: ["email": email]) {
             result, error in
             if error != nil {
                 print(error!)
-                handler(false, error!)
+                handler(false, error! as NSError?)
                 return
             }
             
@@ -111,12 +85,14 @@ class LoginKit {
         
         guard let succeeded = result as? Bool, succeeded == true else {
             print("failed to create system conversation: cannot parse return value")
-            throw SignUpError.systemError(localizedDescriotion: "无法创建系统对话", debugDescription: "cannot create system conversation")
+            throw NSError(domain: USCFunErrorConstants.domain,
+                          code: USCFunErrorConstants.kUSCFunErrorLeanEngineResultsNotExpected,
+                          userInfo: [NSLocalizedDescriptionKey: "failed to create system conversation: cannot parse return value"])
         }
         
         if error != nil {
             print(error!)
-            throw SignUpError.systemError(localizedDescriotion: "无法创建系统对话", debugDescription: error!.localizedDescription)
+            throw error!
         }
     }
     
@@ -125,29 +101,38 @@ class LoginKit {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         let result = AVCloud.callFunction(LeanEngineFunctions.nameOfSubscribeToSystemConversation, withParameters: ["clientId": clientId, "institution": institution], error: &error)
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        if error != nil {
-            print(error!)
-            throw SignUpError.systemError(localizedDescriotion: "无法订阅系统对话", debugDescription: error!.localizedDescription)
-        }
         
         guard let succeeded = result as? Bool, succeeded == true else {
             print("failed to subscribe to system conversation: cannot parse return value")
-            throw SignUpError.systemError(localizedDescriotion: "无法订阅系统对话", debugDescription: "cannot subscribe system conversation")
+            throw NSError(domain: USCFunErrorConstants.domain,
+                          code: USCFunErrorConstants.kUSCFunErrorLeanEngineResultsNotExpected,
+                          userInfo: [NSLocalizedDescriptionKey: "failed to subscribe to system conversation: cannot parse return value"])
+        }
+
+        if error != nil {
+            print(error!)
+            throw error!
         }
     }
     
     static func signUp()throws {
         
         guard let email = UserDefaults.newEmail, email.isValid else {
-            throw SignUpError.systemError(localizedDescriotion: "邮箱格式不正确，请重新输入", debugDescription: "failed to sign up: email is not right")
+            throw NSError(domain: USCFunErrorConstants.domain,
+                          code: USCFunErrorConstants.kUSCFunErrorInvalidEmail,
+                          userInfo: [NSLocalizedDescriptionKey: "failed to sign up: invalid email"])
         }
         
         guard let password = LoginKit.password, password.characters.count >= USCFunConstants.minimumPasswordLength, !password.characters.contains(" ") else {
-            throw SignUpError.systemError(localizedDescriotion: "密码不符合要求", debugDescription: "failed to sign up: password format is not right")
+            throw NSError(domain: USCFunErrorConstants.domain,
+                          code: USCFunErrorConstants.kUSCFunErrorInvalidPassword,
+                          userInfo: [NSLocalizedDescriptionKey: "failed to sign up: invalid password"])
         }
         
         guard let nickname = UserDefaults.newNickname, !nickname.isWhitespaces else {
-            throw SignUpError.systemError(localizedDescriotion: "昵称不能为空", debugDescription: "failed to sign up: nickname is missing")
+            throw NSError(domain: USCFunErrorConstants.domain,
+                          code: USCFunErrorConstants.kUSCFunErrorInvalidNickname,
+                          userInfo: [NSLocalizedDescriptionKey: "failed to sign up: invalid nickname"])
         }
         
         // create institution system conversation if not exist
@@ -177,11 +162,15 @@ class LoginKit {
                                                 backgroundColor: USCFunConstants.avatarColorOptions[randomIndex],
                                                 width: 100,
                                                 height: 100) else {
-            throw SignUpError.systemError(localizedDescriotion: "系统故障，无法创建默认头像", debugDescription: "failed to sign up: cannot create default avatar")
+            throw NSError(domain: USCFunErrorConstants.domain,
+                          code: USCFunErrorConstants.kUSCFunErrorCreateDefaultAvatarFailed,
+                          userInfo: [NSLocalizedDescriptionKey: "failed to sign up: create default avatar failed"])
         }
         
         guard let data =  UIImagePNGRepresentation(avatar) else {
-            throw SignUpError.systemError(localizedDescriotion: "上传默认头像失败", debugDescription: "failed to sign up: cannot upload default avatar")
+            throw NSError(domain: USCFunErrorConstants.domain,
+                          code: USCFunErrorConstants.kUSCFunErrorUploadDefaultAvatarFailed,
+                          userInfo: [NSLocalizedDescriptionKey: "failed to sign up: upload default avatar failed"])
         }
         let file = AVFile(data: data)
         
@@ -208,10 +197,12 @@ class LoginKit {
                 UserDefaults.newEmail = nil
                 UserDefaults.newNickname = nil
             } else {
-                throw SignUpError.systemError(localizedDescriotion: "系统故障：注册失败", debugDescription: error.debugDescription)
+                throw error!
             }
         } else {
-            throw SignUpError.systemError(localizedDescriotion: "上传默认头像失败", debugDescription: error.debugDescription)
+            throw NSError(domain: USCFunErrorConstants.domain,
+                          code: USCFunErrorConstants.kUSCFunErrorUploadDefaultAvatarFailed,
+                          userInfo: [NSLocalizedDescriptionKey: "failed to sign up: upload default avatar failed"])
         }
     }
     

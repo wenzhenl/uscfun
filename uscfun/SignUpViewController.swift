@@ -138,7 +138,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
             
             if error != nil {
-                self.errorLabel.text = error!.localizedDescription
+                self.errorLabel.text = error!.customDescription
                 self.errorLabel.isEnabled = false
             } else {
                 self.errorLabel.text = "验证码已经发送至邮箱，请注意查收"
@@ -161,7 +161,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
                 return
             }
         } catch let error {
-            errorLabel.text = error.localizedDescription
+            errorLabel.text = (error as NSError).customDescription
             errorLabel.isHidden = false
             return
         }
@@ -181,7 +181,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
                 errorLabel.isHidden = false
             }
         } catch let error {
-            errorLabel.text = error.localizedDescription
+            errorLabel.text = (error as NSError).customDescription
             errorLabel.isHidden = false
         }
     }
@@ -207,7 +207,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
                     return true
                 }
             } catch let error {
-                errorLabel.text = error.localizedDescription
+                errorLabel.text = (error as NSError).customDescription
                 errorLabel.isHidden = false
                 return true
             }

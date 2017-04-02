@@ -15,6 +15,14 @@ struct USCFunErrorConstants {
     
     //--MARK: error code
     
+    /// error code for sign up
+    static let kUSCFunErrorLeanEngineResultsNotExpected = 10000
+    static let kUSCFunErrorInvalidEmail = 10001
+    static let kUSCFunErrorInvalidPassword = 10002
+    static let kUSCFunErrorInvalidNickname = 10003
+    static let kUSCFunErrorCreateDefaultAvatarFailed = 10004
+    static let kUSCFunErrorUploadDefaultAvatarFailed = 10005
+    
     /// error code for sign in
     static let kUSCFunErrorUserNicknameMissing = 20000
     static let kUSCFunErrorUserAvatarMissing = 20001
