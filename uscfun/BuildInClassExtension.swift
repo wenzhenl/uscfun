@@ -133,7 +133,8 @@ extension Email {
         return token[1]
     }
     
-    /// The assumed email format is as "wenzhenl@usc.edu"
+    /// The assumed email format is as "wenzhenl@cs.usc.edu"
+    /// The instituion code should be immediate prefix of .edu
     var institutionCode: String? {
         guard self.isValid else { return nil }
         let delimiter = "@"
@@ -141,8 +142,8 @@ extension Email {
         guard token.count == 2 else { return nil }
         let dot = "."
         let dotToken = token[1].components(separatedBy: dot)
-        guard dotToken.count == 2 else { return nil }
-        return dotToken[0]
+        guard dotToken.count >= 2 else { return nil }
+        return dotToken[dotToken.count - 2]
     }
     
     var replaceAtAndDotByUnderscore: String? {
