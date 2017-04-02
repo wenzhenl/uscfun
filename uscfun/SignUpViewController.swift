@@ -131,20 +131,21 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
             return
         }
         requestConfirmationCodeButton.isEnabled = false
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        LoginKit.requestConfirmationCode(email: email) {
-            succeeded, error in
-            self.requestConfirmationCodeButton.isEnabled = true
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            
-            if error != nil {
-                self.errorLabel.text = error!.customDescription
-                self.errorLabel.isEnabled = false
+        do {
+            try LoginKit.requestConfirmationCode(email: email)
+            errorLabel.text = "验证码已经发送至邮箱，请注意查收"
+            errorLabel.isHidden = false
+        } catch let error as NSError {
+            /// timeout error, but the email probably sent
+            if error.domain == "NSURLErrorDomain" && error.code == -1001 {
+                errorLabel.text = "验证码已经发送至邮箱，请注意查收"
+                errorLabel.isHidden = false
             } else {
-                self.errorLabel.text = "验证码已经发送至邮箱，请注意查收"
-                self.errorLabel.isHidden = false
+                errorLabel.text = error.customDescription
+                errorLabel.isHidden = false
             }
         }
+        requestConfirmationCodeButton.isEnabled = true
     }
     
     @IBAction func goNext(_ sender: UIBarButtonItem) {

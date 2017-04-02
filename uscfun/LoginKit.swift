@@ -23,6 +23,7 @@ class LoginKit {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfEmailIsTaken, withParameters: ["email": email], error: &error)
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        
         if error != nil {
             print(error!)
             throw error!
@@ -43,6 +44,7 @@ class LoginKit {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfConfirmationCodeMatches, withParameters: ["email": email, "code": code], error: &error)
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        
         if error != nil {
             print(error!)
             throw error!
@@ -54,26 +56,26 @@ class LoginKit {
                           code: USCFunErrorConstants.kUSCFunErrorLeanEngineResultsNotExpected,
                           userInfo: [NSLocalizedDescriptionKey: "failed to check if confirmation code match: cannot parse return value"])
         }
+        
         return isMatched
     }
     
-    static func requestConfirmationCode(email: String, handler: @escaping (_ succeed: Bool, _ error: NSError?) -> Void) {
-        AVCloud.callFunction(inBackground: LeanEngineFunctions.nameOfRequestConfirmationCode, withParameters: ["email": email]) {
-            result, error in
-            if error != nil {
-                print(error!)
-                handler(false, error! as NSError?)
-                return
-            }
-            
-            guard let succeeded = result as? Bool, succeeded == true else {
-                print("failed to request confirmation code: cannot parse return value")
-                handler(false, nil)
-                return
-            }
-            
-            handler(true, nil)
-            return
+    static func requestConfirmationCode(email: String)throws {
+        var error: NSError?
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        let result = AVCloud.callFunction(LeanEngineFunctions.nameOfRequestConfirmationCode, withParameters: ["email": email], error: &error)
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+
+        if error != nil {
+            print(error!)
+            throw error!
+        }
+        
+        guard let succeeded = result as? Bool, succeeded == true else {
+            print("failed to request confirmation code: cannot parse return value")
+            throw NSError(domain: USCFunErrorConstants.domain,
+                          code: USCFunErrorConstants.kUSCFunErrorLeanEngineResultsNotExpected,
+                          userInfo: [NSLocalizedDescriptionKey: "failed to request confirmation code: cannot parse return value"])
         }
     }
     
@@ -83,16 +85,16 @@ class LoginKit {
         let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCreateSystemConversationIfNotExists, withParameters: ["email": email], error: &error)
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
         
+        if error != nil {
+            print(error!)
+            throw error!
+        }
+        
         guard let succeeded = result as? Bool, succeeded == true else {
             print("failed to create system conversation: cannot parse return value")
             throw NSError(domain: USCFunErrorConstants.domain,
                           code: USCFunErrorConstants.kUSCFunErrorLeanEngineResultsNotExpected,
                           userInfo: [NSLocalizedDescriptionKey: "failed to create system conversation: cannot parse return value"])
-        }
-        
-        if error != nil {
-            print(error!)
-            throw error!
         }
     }
     
@@ -102,16 +104,16 @@ class LoginKit {
         let result = AVCloud.callFunction(LeanEngineFunctions.nameOfSubscribeToSystemConversation, withParameters: ["clientId": clientId, "institution": institution], error: &error)
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
         
+        if error != nil {
+            print(error!)
+            throw error!
+        }
+        
         guard let succeeded = result as? Bool, succeeded == true else {
             print("failed to subscribe to system conversation: cannot parse return value")
             throw NSError(domain: USCFunErrorConstants.domain,
                           code: USCFunErrorConstants.kUSCFunErrorLeanEngineResultsNotExpected,
                           userInfo: [NSLocalizedDescriptionKey: "failed to subscribe to system conversation: cannot parse return value"])
-        }
-
-        if error != nil {
-            print(error!)
-            throw error!
         }
     }
     
