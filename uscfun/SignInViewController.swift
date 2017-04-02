@@ -29,6 +29,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var stopButtonItem: UIBarButtonItem!
+    @IBOutlet weak var findBackPasswordButtonItem: UIBarButtonItem!
     
     var email: String {
         get {
@@ -134,13 +135,13 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         } else {
             SVProgressHUD.show()
             stopButtonItem.isEnabled = false
-            
+            findBackPasswordButtonItem.isEnabled = false
             LoginKit.signIn(email: email, password: password) {
                 succeed, error in
                 
                 SVProgressHUD.dismiss()
                 self.stopButtonItem.isEnabled = true
-                
+                self.findBackPasswordButtonItem.isEnabled = true
                 if succeed {
                     print("login successfully")
                     EventRequest.preLoadDataInBackground()

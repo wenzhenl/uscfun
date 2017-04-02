@@ -299,6 +299,7 @@
                         <outlet property="containerView" destination="VeZ-Mb-y6A" id="5bd-hX-xmM"/>
                         <outlet property="emailTextField" destination="KR5-am-Z5U" id="w7T-sb-JVY"/>
                         <outlet property="errorLabel" destination="ePc-St-HOt" id="lTl-ZD-ARM"/>
+                        <outlet property="findBackPasswordButtonItem" destination="MUE-IJ-f9v" id="UiY-LA-lRL"/>
                         <outlet property="passwordTextField" destination="cCW-P9-gjU" id="fhB-54-gq4"/>
                         <outlet property="signInButton" destination="daY-3i-byf" id="05f-aR-aBW"/>
                         <outlet property="stopButtonItem" destination="sAM-Y6-BA3" id="FI5-Tc-uG0"/>

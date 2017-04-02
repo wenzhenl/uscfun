@@ -263,7 +263,7 @@ class LoginKit {
                 let file = AVFile(url: avatarUrl)
                 var avatarError: NSError?
                 guard let avatarData = file.getData(&avatarError) else {
-                    handler(false, avatarError)
+                    handler(false, NSError(domain: USCFunErrorConstants.domain, code: USCFunErrorConstants.kUSCFunErrorUserAvatarMissing, userInfo: [NSLocalizedDescriptionKey: avatarError!.localizedDescription]))
                     return
                 }
                 
