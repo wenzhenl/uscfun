@@ -292,36 +292,6 @@ extension UserDefaults {
         }
     }
     
-    //--MARK: feedback
-    class var feedback: String? {
-        get {
-            return UserDefaults.standard.string(forKey: "user_feedback")
-        }
-        set {
-            UserDefaults.standard.setValue(newValue, forKey: "user_feedback")
-        }
-    }
-    
-    static func sendFeedback(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
-        guard let feedback = UserDefaults.feedback, !feedback.isEmpty else { return }
-        
-        var error: NSError?
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        let result = AVCloud.callFunction(LeanEngineFunctions.nameOfReceiveFeedback, withParameters: ["email": UserDefaults.email!, "feedback": UserDefaults.feedback!], error: &error)
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        if error != nil {
-            print(error!)
-            handler?(false, error!)
-        }
-        
-        guard let succeeded = result as? Bool, succeeded == true else {
-            print("failed to send feedback: cannot parse return value")
-            handler?(false, nil)
-            return
-        }
-        handler?(true, nil)
-    }
-    
     //--MARK: indicate this application becomes active immediately after launch
     class var isfirstActiveFollowingLaunching: Bool {
         get {

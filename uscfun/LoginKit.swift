@@ -37,34 +37,6 @@ extension SignUpError: LocalizedError {
     }
 }
 
-/// possible errors with sign in
-enum SignInError: Error {
-    case systemError(localizedDescriotion: String, debugDescription: String)
-}
-
-extension SignInError: LocalizedError {
-    public var errorDescription: String? {
-        switch self {
-        case .systemError(let description, _):
-            return description
-        }
-    }
-    
-    public var failureReason: String? {
-        switch self {
-        case .systemError(_, let description):
-            return description
-        }
-    }
-    
-    public var recoverySuggestion: String? {
-        switch self {
-        case .systemError(_, let description):
-            return description
-        }
-    }
-}
-
 protocol LoginDelegate {
     func userDidLoggedIn()
 }

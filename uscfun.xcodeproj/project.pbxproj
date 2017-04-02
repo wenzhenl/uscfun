@@ -113,7 +113,6 @@
 		0AE5C54A1DB1DFB500B455F4 /* ProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AE5C5481DB1DFB500B455F4 /* ProfileTableViewCell.xib */; };
 		0AE5C54D1DB1E2CC00B455F4 /* LabelArrowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5C54B1DB1E2CC00B455F4 /* LabelArrowTableViewCell.swift */; };
 		0AE5C54E1DB1E2CC00B455F4 /* LabelArrowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AE5C54C1DB1E2CC00B455F4 /* LabelArrowTableViewCell.xib */; };
-		0AEA03FB1E727216008CB371 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEA03FA1E727216008CB371 /* FeedbackViewController.swift */; };
 		0AEDE4EE1E823B5A00B56979 /* RefreshView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AEDE4ED1E823B5A00B56979 /* RefreshView.xib */; };
 		0AEFEA581DC12A46005231C4 /* KeyScrollViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEFEA561DC12A46005231C4 /* KeyScrollViewTableViewCell.swift */; };
 		0AEFEA591DC12A46005231C4 /* KeyScrollViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AEFEA571DC12A46005231C4 /* KeyScrollViewTableViewCell.xib */; };
@@ -239,7 +238,6 @@
 		0AE5C5481DB1DFB500B455F4 /* ProfileTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileTableViewCell.xib; sourceTree = "<group>"; };
 		0AE5C54B1DB1E2CC00B455F4 /* LabelArrowTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelArrowTableViewCell.swift; sourceTree = "<group>"; };
 		0AE5C54C1DB1E2CC00B455F4 /* LabelArrowTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelArrowTableViewCell.xib; sourceTree = "<group>"; };
-		0AEA03FA1E727216008CB371 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		0AEDE4ED1E823B5A00B56979 /* RefreshView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RefreshView.xib; sourceTree = "<group>"; };
 		0AEFEA561DC12A46005231C4 /* KeyScrollViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyScrollViewTableViewCell.swift; sourceTree = "<group>"; };
 		0AEFEA571DC12A46005231C4 /* KeyScrollViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KeyScrollViewTableViewCell.xib; sourceTree = "<group>"; };
@@ -475,7 +473,6 @@
 				0A3D2B5E1D7B938B004F57EF /* MeViewController.swift */,
 				0ADE0C9C1DB1F140009F89A0 /* UpdateProfileViewController.swift */,
 				0ADE0C9E1DB1F173009F89A0 /* EventHistoryViewController.swift */,
-				0AEA03FA1E727216008CB371 /* FeedbackViewController.swift */,
 				0ADE0CA21DB1F19D009F89A0 /* AboutViewController.swift */,
 				0A5332CE1E6D23A400C50186 /* OpenSourceViewController.swift */,
 			);
@@ -693,7 +690,6 @@
 				0AEFEA581DC12A46005231C4 /* KeyScrollViewTableViewCell.swift in Sources */,
 				0A71119B1DBEC79400742F2D /* BuildInClassExtension.swift in Sources */,
 				0AF0BD8F1E6AD72F0091B999 /* EventStatusBarTableViewCell.swift in Sources */,
-				0AEA03FB1E727216008CB371 /* FeedbackViewController.swift in Sources */,
 				0A98340E1E64572C00A5D894 /* NewEventNumberOfPeopleViewController.swift in Sources */,
 				0A00DB081DD90F5B00A81189 /* LocationAddressRow.swift in Sources */,
 				0A3D2B5B1D7B9299004F57EF /* EventListViewController.swift in Sources */,
