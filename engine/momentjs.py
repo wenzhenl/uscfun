@@ -21,3 +21,9 @@ class momentjs(object):
 
     def fromNow(self):
         return self.render("fromNow()")
+
+    def isExpired(self):
+        if self.timestamp < datetime.now():
+            return True
+        else:
+            return False

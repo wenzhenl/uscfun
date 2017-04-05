@@ -80,7 +80,7 @@
     }
 
     #name {
-        font-size: 16px;
+        font-size: 18px;
         font-weight: bold;
         padding: 5px;
     }
@@ -148,13 +148,13 @@
     <div id="status">
         {% if event.get('isCancelled') == true %}
         <span class="isCancelled"></span><span>已取消</span>
-        {% elif event.get('maximumAttendingPeople') - event.get('remainingSeats') > event.get('minimumAttendingPeople') %}
+        {% elif not momentjs(event.get('due')).isExpired() and event.get('maximumAttendingPeople') - event.get('remainingSeats') > event.get('minimumAttendingPeople') %}
         <span class="isSecured"></span><span>达到最低人数</span>
-        {% elif event.get('remainingSeats') > 0 %}
+        {% elif not momentjs(event.get('due')).isExpired() and event.get('remainingSeats') > 0 %}
         <span class="isPending"></span><span> 火热报名中</span>
-        {% elif event.get('remainingSeats') > 0 %}
+        {% elif (not momentjs(event.get('due')).isExpired() and event.get('remainingSeats') <= 0) or (momentjs(event.get('due')).isExpired() and event.get('maximumAttendingPeople') - event.get('remainingSeats') >= event.get('minimumAttendingPeople')) %}
         <span class="isFinalized"></span><span> 约定成功</span>
-        {% elif event.get('remainingSeats') > 0 %}
+        {% elif momentjs(event.get('due')).isExpired() and event.get('maximumAttendingPeople') - event.get('remainingSeats') < event.get('minimumAttendingPeople') %}
         <span class="isFailed"></span><span> 约定失败</span>
         {% endif %}
     </div>
