@@ -171,14 +171,14 @@
         <div id="numRemainSeats">{{event.get('remainingSeats')}}</div>
         </div>
         <p class="title">离报名截止还剩：</p>
-        <p class="content">{{momentjs(event.get('due')).fromNow()}}</p>
+        <p class="content">{{momentjs(event.get('due'))}}</p>
         {% if event.get('startTime') %}
         <p class="title">微活动开始时间：</p>
-        <p class="content">{{event.get('startTime')}}</p>
+        <p class="content">{{momentjs(event.get('startTime'))}}</p>
         {% endif %}
         {% if event.get('endTime') %}
         <p class="title">微活动结束时间：</p>
-        <p class="content">{{event.get('endTime')}}</p>
+        <p class="content">{{momentjs(event.get('endTime'))}}</p>
         {% endif %}
         {% if event.get('location') %}
         <p class="title">微活动地点：</p>

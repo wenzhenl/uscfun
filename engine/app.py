@@ -12,6 +12,8 @@ from leancloud import Object
 from leancloud import Query
 from leancloud import LeanEngineError
 
+from momentjs import momentjs
+
 app = Flask(__name__)
 sockets = Sockets(app)
 
