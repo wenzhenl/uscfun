@@ -111,12 +111,12 @@
 
     p.title {
         color: grey;
-        font-size: 17px;
+        font-size: 14px;
     }
 
     p.content {
         color: black;
-        font-size: 20px;
+        font-size: 17px;
         font-weight: bold;
         text-align: center;
     }
@@ -142,6 +142,7 @@
         color: rgb(13, 179, 244);
     }
     </style>
+    <script src="/static/js/moment.min.js"></script>
 </head>
 <body>
     <div id="status">
@@ -170,15 +171,15 @@
         <img style=" width: 60px; height: 60px;" src="/static/images/clip2.png"/>
         <div id="numRemainSeats">{{event.get('remainingSeats')}}</div>
         </div>
-        <p class="title">离报名截止还剩：</p>
-        <p class="content">{{momentjs(event.get('due'))}}</p>
+        <p class="title">微活动报名截止：</p>
+        <p class="content">{{momentjs(event.get('due')).fromNow()}}</p>
         {% if event.get('startTime') %}
         <p class="title">微活动开始时间：</p>
-        <p class="content">{{momentjs(event.get('startTime'))}}</p>
+        <p class="content">{{momentjs(event.get('startTime')).calendar()}}</p>
         {% endif %}
         {% if event.get('endTime') %}
         <p class="title">微活动结束时间：</p>
-        <p class="content">{{momentjs(event.get('endTime'))}}</p>
+        <p class="content">{{momentjs(event.get('endTime')).calendar()}}</p>
         {% endif %}
         {% if event.get('location') %}
         <p class="title">微活动地点：</p>
@@ -197,5 +198,4 @@
         <a style="position: absolute; right: 0; width: 50px; background-color: blue; color: white; text-align: center; line-height: 60px;" target="_blank" href="https://itunes.apple.com/us/app/id1073401869">打开</a>
     </div>
 </body>
-<script src="/static/js/moment.min.js"></script>
 </html>
