@@ -136,14 +136,8 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
             errorLabel.text = "验证码已经发送至邮箱，请注意查收"
             errorLabel.isHidden = false
         } catch let error as NSError {
-            /// timeout error, but the email probably sent
-            if error.domain == "NSURLErrorDomain" && error.code == -1001 {
-                errorLabel.text = "验证码已经发送至邮箱，请注意查收"
-                errorLabel.isHidden = false
-            } else {
-                errorLabel.text = error.customDescription
-                errorLabel.isHidden = false
-            }
+            errorLabel.text = error.customDescription
+            errorLabel.isHidden = false
         }
         requestConfirmationCodeButton.isEnabled = true
     }
