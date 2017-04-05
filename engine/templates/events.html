@@ -22,6 +22,7 @@
     a {
         text-decoration: none;
     }
+
     #appstore {
         position: fixed;
         bottom: 0;
@@ -33,15 +34,66 @@
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         line-height: 60px;
     }
+
+    #status {
+        text-align: right;
+    }
+
+    span.isCancelled {
+        background-color: grey;
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        border-radius: 5px;
+    }
+
+    span.isSecured {
+        background-color: yellow;
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        border-radius: 5px;
+    }
+
+    span.isPending {
+        background-color: red;
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        border-radius: 5px;
+    }
+
+    span.isFinalized {
+        background-color: green;
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        border-radius: 5px;
+    }
+
+    span.isFailed {
+        background-color: grey;
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        border-radius: 5px;
+    }
     </style>
 </head>
 <body>
+    <div id="status">
+        {% if event.get('isCancelled') == true %}
+        <span class="isCancelled"></span><span>活动已取消</span>
+        {% elif event.get('maximumAttendingPeople') - event.get('remainingSeats') > event.get('minimumAttendingPeople') %}
+        <span class="isSecured"></span><span>达到最低人数</span>
+        {% elif event.get('remainingSeats') > 0 %}
+        <span class="isPending"></span><span> 火热报名中</span>
+        {% endif %}
+    </div>
     <div id="appstore">
         <img style="width: 40px; height: 40px; vertical-align: middle; margin-bottom: 0.75em;" src="/static/images/uscfun.svg"/>
         <span>USC日常</span>
         <a style="position: absolute; right: 0; width: 50px; background-color: blue; color: white; text-align: center; line-height: 60px;" target="_blank" href="https://itunes.apple.com/us/app/id1073401869">打开</a>
     </div>
-    <p>{{event.get('createdBy').get('avatarUrl')}}</p>
-    <img style="width: 60px; height: 60px; display: block; margin: 0 auto;" src="{{event.get('createdBy').get('avatarUrl')}}"/>
 </body>
 </html>
