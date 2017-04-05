@@ -94,10 +94,30 @@
         background-color: rgb(239, 239, 244);
     }
 
-    #creator {
-        height: 80px;
+    div.header {
+        position: absolute;
         width: 100%;
-        line-height: 80px;
+        height: 1px;
+        right: 0;
+        left: 0;
+        background-color: silver;
+    }
+
+    #creator {
+        height:70px;
+        width: 100%;
+        line-height: 70px;
+    }
+
+    p.title {
+        color: grey;
+    }
+
+    p.content {
+        color: black;
+        font-size: 17px;
+        font-weight: bold;
+        text-align: center;
     }
     </style>
 </head>
@@ -121,6 +141,29 @@
         <img style="width: 40px; height: 40px; border-radius: 20px; vertical-align: middle; margin-bottom: 0.75em;" src="{{event.get('createdBy').get('avatarUrl')}}"/>
         <span style="color: grey; font-size:15px;">{{event.get('createdBy').get('nickname')}}</span>
     </div>
+    <div class="header"></div>
+    <div id="details">
+        <p class="title">微活动剩余席位：</p>
+        <p class="content">5</p>
+        <p class="title">离报名截止还剩：</p>
+        {% if event.get('startTime') %}
+        <p class="title">微活动开始时间：</p>
+        <p class="content">{{event.get('startTime')}}</p>
+        {% endif %}
+        {% if event.get('endTime') %}
+        <p class="title">微活动结束时间：</p>
+        <p class="content">{{event.get('endTime')}}</p>
+        {% endif %}
+        {% if event.get('location') %}
+        <p class="title">微活动地点：</p>
+        <p class="content">{{event.get('location')}}</p>
+        {% endif %}
+        {% if event.get('note') %}
+        <p class="title">补充说明：</p>
+        <p>{{event.get('note')}}</p>
+        {% endif %}
+    </div>
+
     <div id="appstore">
         <img style="width: 40px; height: 40px; vertical-align: middle; margin-bottom: 0.75em;" src="/static/images/uscfun.svg"/>
         <span>USC日常</span>
