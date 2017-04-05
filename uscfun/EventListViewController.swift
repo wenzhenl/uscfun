@@ -195,8 +195,6 @@ class EventListViewController: UIViewController {
                 let numberOfPublicEventsAfterUpdate = EventRequest.publicEvents.count
                 if numberOfPublicEventsAfterUpdate > numberOfPublicEventsBeforeUpdate {
                     self.displayInfo(info: "\(numberOfPublicEventsAfterUpdate - numberOfPublicEventsBeforeUpdate)个新的微活动")
-                } else {
-                    self.displayInfo(info: "没有更新的微活动了")
                 }
                 self.refreshControl.endRefreshing()
                 self.tableView.reloadData()
@@ -441,6 +439,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
 extension EventListViewController: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if self.refreshControl.isRefreshing {
+            (self.customRefreshView.viewWithTag(2) as! UILabel).text = "正在拼命加载中..."
             self.handleRefresh()
         }
     }
@@ -452,8 +451,10 @@ extension EventListViewController: UIScrollViewDelegate {
     }
     
     func animateRefreshView() {
+        if !self.isRefreshAnimating {
+            (self.customRefreshView.viewWithTag(2) as! UILabel).text = "话说已经可以松手了"
+        }
         self.isRefreshAnimating = true
-        self.customRefreshView.viewWithTag(2)?.isHidden = true
         UIView.animateKeyframes(withDuration: 0.8, delay: 0.0, options: .calculationModeCubic, animations: {
             UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 1/4, animations: {
                 self.customRefreshView.viewWithTag(1)?.transform = (self.customRefreshView.viewWithTag(1)?.transform.rotated(by: CGFloat(M_PI_2)))!
@@ -482,7 +483,7 @@ extension EventListViewController: UIScrollViewDelegate {
     }
     
     func resetAnimation() {
-        self.customRefreshView.viewWithTag(2)?.isHidden = false
+        (self.customRefreshView.viewWithTag(2) as! UILabel).text = "看见浮夸后松手"
         self.customRefreshView.backgroundColor = UIColor.clear
         self.customRefreshView.viewWithTag(1)?.transform = .identity
         self.isRefreshAnimating = false
