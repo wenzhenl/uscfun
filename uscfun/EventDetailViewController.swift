@@ -306,7 +306,7 @@ class EventDetailViewController: UIViewController {
             let message = WXMediaMessage()
             message.title = "我正在usc日常上发起微活动：" + self.event!.name
             let ext = WXWebpageObject()
-            ext.webpageUrl = "http://www.baidu.com"
+            ext.webpageUrl = USCFunConstants.shareEventURL + self.event!.objectId!
             message.mediaObject = ext
             message.description = "剩余席位:" + String(self.event.remainingSeats) + " 已经参加:" + String(self.event.maximumAttendingPeople - self.event.remainingSeats)
             message.setThumbImage(#imageLiteral(resourceName: "uscfun").scaleTo(width: 100, height: 100))
@@ -322,7 +322,7 @@ class EventDetailViewController: UIViewController {
             let message = WXMediaMessage()
             message.title = "我正在usc日常上发起微活动：" + self.event!.name
             let ext = WXWebpageObject()
-            ext.webpageUrl = "http://www.baidu.com"
+            ext.webpageUrl = USCFunConstants.shareEventURL + self.event!.objectId!
             message.mediaObject = ext
             message.description = "剩余席位:" + String(self.event.remainingSeats) + " 已经参加:" + String(self.event.maximumAttendingPeople - self.event.remainingSeats)
             message.setThumbImage(#imageLiteral(resourceName: "uscfun").scaleTo(width: 100, height: 100))
