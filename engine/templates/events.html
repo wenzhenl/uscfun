@@ -78,17 +78,48 @@
         display: inline-block;
         border-radius: 5px;
     }
+
+    #name {
+        font-size: 16px;
+        font-weight: bold;
+        padding: 5px;
+    }
+
+    div.footer {
+        position: absolute;
+        width: 100%;
+        height: 10px;
+        right: 0;
+        left: 0;
+        background-color: rgb(239, 239, 244);
+    }
+
+    #creator {
+        height: 80px;
+        width: 100%;
+        line-height: 80px;
+    }
     </style>
 </head>
 <body>
     <div id="status">
         {% if event.get('isCancelled') == true %}
-        <span class="isCancelled"></span><span>活动已取消</span>
+        <span class="isCancelled"></span><span>已取消</span>
         {% elif event.get('maximumAttendingPeople') - event.get('remainingSeats') > event.get('minimumAttendingPeople') %}
         <span class="isSecured"></span><span>达到最低人数</span>
         {% elif event.get('remainingSeats') > 0 %}
         <span class="isPending"></span><span> 火热报名中</span>
+        {% elif event.get('remainingSeats') > 0 %}
+        <span class="isFinalized"></span><span> 约定成功</span>
+        {% elif event.get('remainingSeats') > 0 %}
+        <span class="isFailed"></span><span> 约定失败</span>
         {% endif %}
+    </div>
+    <div id="name">{{event.get('name')}}</div>
+    <div class="footer"></div>
+    <div id="creator">
+        <img style="width: 40px; height: 40px; border-radius: 20px; vertical-align: middle; margin-bottom: 0.75em;" src="{{event.get('createdBy').get('avatarUrl')}}"/>
+        <span style="color: grey; font-size:15px;">{{event.get('createdBy').get('nickname')}}</span>
     </div>
     <div id="appstore">
         <img style="width: 40px; height: 40px; vertical-align: middle; margin-bottom: 0.75em;" src="/static/images/uscfun.svg"/>
