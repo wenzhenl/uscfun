@@ -304,7 +304,15 @@ class EventDetailViewController: UIViewController {
         let shareToFriend = UIAlertAction(title: "分享给微信好友", style: .default) {
             _ in
             let message = WXMediaMessage()
-            message.title = "我正在usc日常上发起微活动：" + self.event!.name
+            switch self.event!.relationWithMe {
+            case .createdByMe:
+                message.title = "我正在usc日常上发起微活动：" + self.event!.name
+            case .joinedByMe:
+                message.title = "我正在usc日常上参加微活动：" + self.event!.name
+            case .noneOfMyBusiness:
+                message.title = "我推荐usc日常上微活动：" + self.event!.name
+            }
+            
             let ext = WXWebpageObject()
             ext.webpageUrl = USCFunConstants.shareEventURL + self.event!.objectId!
             message.mediaObject = ext
@@ -320,7 +328,15 @@ class EventDetailViewController: UIViewController {
         let shareToMoment = UIAlertAction(title: "分享到朋友圈", style: .default) {
             _ in
             let message = WXMediaMessage()
-            message.title = "我正在usc日常上发起微活动：" + self.event!.name
+            switch self.event!.relationWithMe {
+            case .createdByMe:
+                message.title = "我正在usc日常上发起微活动：" + self.event!.name
+            case .joinedByMe:
+                message.title = "我正在usc日常上参加微活动：" + self.event!.name
+            case .noneOfMyBusiness:
+                message.title = "我推荐usc日常上微活动：" + self.event!.name
+            }
+            
             let ext = WXWebpageObject()
             ext.webpageUrl = USCFunConstants.shareEventURL + self.event!.objectId!
             message.mediaObject = ext
