@@ -8,6 +8,10 @@ from flask_sockets import Sockets
 
 from views.todos import todos_view
 
+from leancloud import Object
+from leancloud import Query
+from leancloud import LeanEngineError
+
 app = Flask(__name__)
 sockets = Sockets(app)
 
@@ -23,13 +27,14 @@ def index():
 def agreement():
     return render_template('agreement.html')
 
-@app.route('/time')
-def time():
-    return str(datetime.now())
-
-
-@sockets.route('/echo')
-def echo_socket(ws):
-    while True:
-        message = ws.receive()
-        ws.send(message)
+@app.route('/events/<id>')
+def event(id):
+    try:
+        query = Query('Event')
+        query.include('createdBy')
+        query.include('members')
+        event = query.get(id)
+    except LeanEngineError as e:
+        print(e)
+        raise e
+    return render_template('events.html', event=event)

@@ -1,0 +1,47 @@
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>活动详情</title>
+    <style>
+    body {
+        font: 13px/22px 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+    }
+    h2 {
+        font-size: 2em;
+    }
+    p, li {
+        margin-bottom: 1em;
+    }
+    ul, ol {
+        margin-left: 2em;
+        padding: 0;
+    }
+    a {
+        text-decoration: none;
+    }
+    #appstore {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        height: 60px;
+        width: 100%;
+        background-color: #fff;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        line-height: 60px;
+    }
+    </style>
+</head>
+<body>
+    <div id="appstore">
+        <img style="width: 40px; height: 40px; vertical-align: middle; margin-bottom: 0.75em;" src="/static/images/uscfun.svg"/>
+        <span>USC日常</span>
+        <a style="position: absolute; right: 0; width: 50px; background-color: blue; color: white; text-align: center; line-height: 60px;" target="_blank" href="https://itunes.apple.com/us/app/id1073401869">打开</a>
+    </div>
+    <p>{{event.get('createdBy').get('avatarUrl')}}</p>
+    <img style="width: 60px; height: 60px; display: block; margin: 0 auto;" src="{{event.get('createdBy').get('avatarUrl')}}"/>
+</body>
+</html>
