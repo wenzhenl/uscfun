@@ -104,8 +104,8 @@
     }
 
     #creator {
-        height:70px;
         width: 100%;
+        height:70px;
         line-height: 70px;
     }
 
@@ -118,6 +118,27 @@
         font-size: 17px;
         font-weight: bold;
         text-align: center;
+    }
+
+    #remainingSeats{
+        width: 100%;
+        height: auto;
+        margin: auto;
+        text-align: center;
+        position: relative;
+    }
+
+    #numRemainSeats {
+        position: absolute;
+        margin: auto;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        font-weight: bold;
+        font-size: 17px;
+        height: 30px;
+        color: blue;
     }
     </style>
 </head>
@@ -144,8 +165,12 @@
     <div class="header"></div>
     <div id="details">
         <p class="title">微活动剩余席位：</p>
-        <p class="content">5</p>
+        <div id="remainingSeats">
+        <img style=" width: 40px; height: 40px;" src="/static/images/clip2.png"/>
+        <div id="numRemainSeats">{{event.get('remainingSeats')}}</div>
+        </div>
         <p class="title">离报名截止还剩：</p>
+        <p class="content">{{event.get('due')}}</p>
         {% if event.get('startTime') %}
         <p class="title">微活动开始时间：</p>
         <p class="content">{{event.get('startTime')}}</p>
@@ -164,6 +189,7 @@
         {% endif %}
     </div>
 
+    <div style="height: 100px;"></div>
     <div id="appstore">
         <img style="width: 40px; height: 40px; vertical-align: middle; margin-bottom: 0.75em;" src="/static/images/uscfun.svg"/>
         <span>USC日常</span>
