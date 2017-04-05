@@ -3,6 +3,10 @@ Pods/
 xcuserdata
 *.xcuserstate
 .DS_Store
-engine/*
-!engine/uscfun.py
-!engine/cloud.py
+engine/.leancloud
+engine/.leanignore
+engine/README.md
+engine/LICENSE
+engine/*.pyc
+engine/runtime.txt
+engine/test.py
