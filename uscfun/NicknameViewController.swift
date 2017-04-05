@@ -85,7 +85,7 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
         } catch let error {
             SVProgressHUD.dismiss()
             nicknameTextField.becomeFirstResponder()
-            errorLabel.text = error.localizedDescription
+            errorLabel.text = (error as NSError).customDescription
             errorLabel.isHidden = false
         }
     }
