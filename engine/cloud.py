@@ -23,6 +23,8 @@ APP_ID = os.environ['LEANCLOUD_APP_ID']
 APP_KEY = os.environ['LEANCLOUD_APP_KEY']
 MASTER_KEY = os.environ['LEANCLOUD_APP_MASTER_KEY']
 
+admin = "wenzhenl_usc_edu"
+
 # conversation_url = "https://api.leancloud.cn/1.1/classes/_Conversation"
 # subscribe_url = 'https://leancloud.cn/1.1/rtm/conversation/subscription'
 # broadcast_url = 'https://leancloud.cn/1.1/rtm/broadcast/subscriber'
@@ -270,19 +272,21 @@ def subscribeToSystemConversation(**params):
 @engine.after_save('_Conversation')
 def after_conversation_save(conversation):
     print("after conversation save started")
+    print "conversation id:" + conversation.get('objectId')
+
     headers = {'Content-Type': 'application/json', \
         'X-LC-Id': APP_ID, \
         'X-LC-Key': MASTER_KEY + ',master'}
 
     # if it is an event associated conversation
-    if conversation.get('sys') == False and conversation.get('unique') == False:
-
-        data = {"from_peer": admin, \
-                "message": "{\"_lctype\":-1,\"_lctext\":\"You can start conversation now\", \
-                \"_lcattrs\":{\"reason\": \"new\", \
-                \"eventId\": \"" + eventId + "\"}}", \
-                 "conv_id": conversation.get('objectId')}
-        requests.post(message_url, data=json.dumps(data), headers=headers)
+    # if conversation.get('sys') == False and conversation.get('unique') == False:
+    print "catched event associated conversation: " + conversation.get('objectId')
+    data = {"from_peer": admin, \
+            "message": "{\"_lctype\":-1,\"_lctext\":\"You can start conversation now\", \
+            \"_lcattrs\":{\"username\": \"日常小管家\", \"conversationType\": 1}}", \
+             "conv_id": conversation.get('objectId')}
+    requests.post(message_url, data=json.dumps(data), headers=headers)
+    print("after conversation save ended")
 
 @engine.after_save('Event')
 def after_event_save(event):
