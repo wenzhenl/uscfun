@@ -111,11 +111,12 @@
 
     p.title {
         color: grey;
+        font-size: 17px;
     }
 
     p.content {
         color: black;
-        font-size: 17px;
+        font-size: 20px;
         font-weight: bold;
         text-align: center;
     }
@@ -136,7 +137,7 @@
         right: 0;
         bottom: 0;
         font-weight: bold;
-        font-size: 17px;
+        font-size: 20px;
         height: 30px;
         color: rgb(13, 179, 244);
     }
@@ -159,18 +160,18 @@
     <div id="name">{{event.get('name')}}</div>
     <div class="footer"></div>
     <div id="creator">
-        <img style="width: 40px; height: 40px; border-radius: 20px; vertical-align: middle; margin-bottom: 0.75em;" src="{{event.get('createdBy').get('avatarUrl')}}"/>
+        <img style="width: 40px; height: 40px; border-radius: 20px; vertical-align: middle; margin-bottom: 0.75em;" alt="发起人：" src="{{event.get('createdBy').get('avatarUrl')}}"/>
         <span style="color: grey; font-size:15px;">{{event.get('createdBy').get('nickname')}}</span>
     </div>
     <div class="header"></div>
     <div id="details">
         <p class="title">微活动剩余席位：</p>
         <div id="remainingSeats">
-        <img style=" width: 40px; height: 40px;" src="/static/images/clip2.png"/>
+        <img style=" width: 60px; height: 60px;" src="/static/images/clip2.png"/>
         <div id="numRemainSeats">{{event.get('remainingSeats')}}</div>
         </div>
         <p class="title">离报名截止还剩：</p>
-        <p class="content">{{event.get('due')}}</p>
+        <p class="content">{{momentjs(event.get('due')).fromNow()}}</p>
         {% if event.get('startTime') %}
         <p class="title">微活动开始时间：</p>
         <p class="content">{{event.get('startTime')}}</p>
@@ -196,4 +197,5 @@
         <a style="position: absolute; right: 0; width: 50px; background-color: blue; color: white; text-align: center; line-height: 60px;" target="_blank" href="https://itunes.apple.com/us/app/id1073401869">打开</a>
     </div>
 </body>
+<script src="/static/js/moment.min.js"></script>
 </html>

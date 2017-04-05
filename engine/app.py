@@ -15,9 +15,11 @@ from leancloud import LeanEngineError
 app = Flask(__name__)
 sockets = Sockets(app)
 
+# Set jinja template global
+app.jinja_env.globals['momentjs'] = momentjs
+
 # 动态路由
 app.register_blueprint(todos_view, url_prefix='/todos')
-
 
 @app.route('/')
 def index():
