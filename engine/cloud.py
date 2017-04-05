@@ -23,6 +23,16 @@ APP_ID = os.environ['LEANCLOUD_APP_ID']
 APP_KEY = os.environ['LEANCLOUD_APP_KEY']
 MASTER_KEY = os.environ['LEANCLOUD_APP_MASTER_KEY']
 
+# conversation_url = "https://api.leancloud.cn/1.1/classes/_Conversation"
+# subscribe_url = 'https://leancloud.cn/1.1/rtm/conversation/subscription'
+# broadcast_url = 'https://leancloud.cn/1.1/rtm/broadcast/subscriber'
+# message_url = 'https://api.leancloud.cn/1.1/rtm/messages'
+
+conversation_url = "https://us-api.leancloud.cn/1.1/classes/_Conversation"
+subscribe_url = 'https://leancloud.cn/1.1/rtm/conversation/subscription'
+broadcast_url = 'https://leancloud.cn/1.1/rtm/broadcast/subscriber'
+message_url = 'https://us-api.leancloud.cn/1.1/rtm/messages'
+
 engine = Engine(app)
 
 @engine.define
@@ -204,10 +214,9 @@ def createSystemConversationIfNotExists(**params):
                 headers = {'Content-Type': 'application/json', \
                     'X-LC-Id': APP_ID, \
                     'X-LC-Key': APP_KEY}
-                url = "https://api.leancloud.cn/1.1/classes/_Conversation"
                 data = {"name": institution, \
                         "sys": True}
-                requests.post(url, data=json.dumps(data), headers=headers)
+                requests.post(conversation_url, data=json.dumps(data), headers=headers)
             print "create system conversation if not exists ends"
             return True
         except Exception as e:
@@ -245,9 +254,8 @@ def subscribeToSystemConversation(**params):
                 headers = {'Content-Type': 'application/json', \
                     'X-LC-Id': APP_ID, \
                     'X-LC-Key': MASTER_KEY + ',master'}
-                url = 'https://leancloud.cn/1.1/rtm/conversation/subscription'
                 data = {"conv_id": conversation_id, "client_id": client_id}
-                requests.post(url, data=json.dumps(data), headers=headers)
+                requests.post(subscribe_url, data=json.dumps(data), headers=headers)
             print "subscribe to system conversation ends"
             return True
         except Exception as e:
@@ -259,9 +267,26 @@ def subscribeToSystemConversation(**params):
         print "subscribe to system conversation ends"
         raise LeanEngineError('client id and institution must be not empty')
 
+@engine.after_save('_Conversation')
+def after_conversation_save(conversation):
+    print("after conversation save started")
+    headers = {'Content-Type': 'application/json', \
+        'X-LC-Id': APP_ID, \
+        'X-LC-Key': MASTER_KEY + ',master'}
+
+    # if it is an event associated conversation
+    if conversation.get('sys') == False and conversation.get('unique') == False:
+
+        data = {"from_peer": admin, \
+                "message": "{\"_lctype\":-1,\"_lctext\":\"You can start conversation now\", \
+                \"_lcattrs\":{\"reason\": \"new\", \
+                \"eventId\": \"" + eventId + "\"}}", \
+                 "conv_id": conversation.get('objectId')}
+        requests.post(message_url, data=json.dumps(data), headers=headers)
+
 @engine.after_save('Event')
 def after_event_save(event):
-    print("after event save called...")
+    print("after event save started")
     institution = event.get('institution')
     print "institution:" + institution
     Conversation = Object.extend('_Conversation')
@@ -281,13 +306,13 @@ def after_event_save(event):
         headers = {'Content-Type': 'application/json', \
             'X-LC-Id': APP_ID, \
             'X-LC-Key': MASTER_KEY + ',master'}
-        url = 'https://leancloud.cn/1.1/rtm/broadcast/subscriber'
         data = {"from_peer": "sys", \
                 "message": "{\"_lctype\":-1,\"_lctext\":\"new event\", \
                 \"_lcattrs\":{\"reason\": \"new\", \
                 \"eventId\": \"" + eventId + "\"}}", \
                  "conv_id": conversation_id}
-        requests.post(url, data=json.dumps(data), headers=headers)
+        requests.post(broadcast_url, data=json.dumps(data), headers=headers)
+    print("after event save ended")
 
 @engine.after_update('Event')
 def after_event_update(event):
@@ -311,13 +336,12 @@ def after_event_update(event):
         headers = {'Content-Type': 'application/json', \
             'X-LC-Id': APP_ID, \
             'X-LC-Key': MASTER_KEY + ',master'}
-        url = 'https://leancloud.cn/1.1/rtm/broadcast/subscriber'
         data = {"from_peer": "sys", \
                 "message": "{\"_lctype\":-1,\"_lctext\":\"updated event\", \
                 \"_lcattrs\":{\"reason\": \"updated\", \
                 \"eventId\": \"" + eventId + "\"}}", \
                  "conv_id": conversation_id}
-        requests.post(url, data=json.dumps(data), headers=headers)
+        requests.post(broadcast_url, data=json.dumps(data), headers=headers)
 
 @engine.define
 def _receiversOffline(**params):
