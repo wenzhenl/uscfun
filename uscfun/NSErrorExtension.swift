@@ -26,6 +26,18 @@ struct USCFunErrorConstants {
     /// error code for sign in
     static let kUSCFunErrorUserNicknameMissing = 20000
     static let kUSCFunErrorUserAvatarMissing = 20001
+    
+    /// error code for event
+    static let kUSCFunErrorEventConversationIdMissing = 30000
+    static let kUSCFunErrorEventAddMemberFailed = 30001
+    static let kUSCFunErrorEventInvalidMember = 30002
+    static let kUSCFunErrorEventRemoveMemberFailed = 30003
+    static let kUSCFunErrorEventInvalidCreatedBy = 30004
+    static let kUSCFunErrorEventInvalidUpdateData = 30005
+    static let kUSCFunErrorEventCancelFailedDueToExistingMember = 30006
+    
+    /// error code from LeanCloud
+    static let kLeanCloudErrorSaveOptionError = 305
 }
 
 extension NSError {
@@ -50,6 +62,14 @@ extension NSError {
                 return "获取用户昵称失败"
             case USCFunErrorConstants.kUSCFunErrorUserAvatarMissing:
                 return "获取用户头像失败"
+            case USCFunErrorConstants.kUSCFunErrorEventAddMemberFailed:
+                return "报名已经结束"
+            case USCFunErrorConstants.kUSCFunErrorEventRemoveMemberFailed:
+                return "微活动已经约定成功"
+            case USCFunErrorConstants.kUSCFunErrorEventInvalidUpdateData:
+                return "更新数据不符合要求"
+            case USCFunErrorConstants.kUSCFunErrorEventCancelFailedDueToExistingMember:
+                return "无法取消，已经有人参加了"
             default:
                 return "系统错误，请稍后再试"
             }

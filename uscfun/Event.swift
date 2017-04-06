@@ -11,34 +11,6 @@ import AVOSCloud
 import AVOSCloudIM
 import ChatKit
 
-/// possible errors with event
-enum EventError: Error {
-    case systemError(localizedDescriotion: String, debugDescription: String)
-}
-
-extension EventError: LocalizedError {
-    public var errorDescription: String? {
-        switch self {
-        case .systemError(let description, _):
-            return description
-        }
-    }
-    
-    public var failureReason: String? {
-        switch self {
-        case .systemError(_, let description):
-            return description
-        }
-    }
-    
-    public var recoverySuggestion: String? {
-        switch self {
-        case .systemError(_, let description):
-            return description
-        }
-    }
-}
-
 /// possible status of an event
 enum EventStatus: CustomStringConvertible {
     
@@ -65,7 +37,7 @@ enum EventStatus: CustomStringConvertible {
     /// This flag indicates that the event has been cancelled explicitly
     case isCancelled
     
-    /// This flag indicates that the event in unknown state
+    /// in case any situation not covered by the above
     case isUnknown
     
     /// description of status
@@ -90,8 +62,8 @@ enum EventStatus: CustomStringConvertible {
 /// The 'Event' class, event must include information of name, type, maximum capacity,
 /// remaining seats, minimum number of people required, and the due.
 /// At the same time, the event can include optional information such as the start time,
-/// the end time, the location name, the geographic information, the expected fee, the
-/// transportation method, and additional information the creator want to provide.
+/// the end time, the location name, the geographic information,
+/// and additional information the creator want to provide.
 /// The event will also include images uploaded by the user.
 /// The class also include properties set by the system.
 
@@ -136,9 +108,6 @@ class Event {
     /// The additional information that the creator wants others to know
     var note: String?
     
-    /// The attached images with the event
-    var imageUrl: [String]?
-    
     //--MARK: system properties of event
     
     /// The creator of the event
@@ -171,15 +140,16 @@ class Event {
     var updatedAt: Date?
     
     var status: EventStatus {
+        let now = Date()
         if isCancelled {
             return EventStatus.isCancelled
-        } else if due > Date() && maximumAttendingPeople - remainingSeats >= minimumAttendingPeople && remainingSeats > 0 {
+        } else if due > now && maximumAttendingPeople - remainingSeats >= minimumAttendingPeople && remainingSeats > 0 {
             return EventStatus.isSecured
-        } else if due > Date() && remainingSeats > 0 {
+        } else if due > now && remainingSeats > 0 {
             return EventStatus.isPending
-        } else if due > Date() && remainingSeats <= 0 || due < Date() && maximumAttendingPeople - remainingSeats >= minimumAttendingPeople {
+        } else if due > now && remainingSeats <= 0 || due <= now && maximumAttendingPeople - remainingSeats >= minimumAttendingPeople {
             return EventStatus.isFinalized
-        } else if due < Date() && maximumAttendingPeople - remainingSeats < minimumAttendingPeople {
+        } else if due <= now && maximumAttendingPeople - remainingSeats < minimumAttendingPeople {
             return EventStatus.isFailed
         } else {
             return EventStatus.isUnknown
@@ -327,12 +297,12 @@ class Event {
     /// - parameter succeeded: indicate if the operation is successful
     /// - parameter error: optional error information if operation fails
     
-    func post(handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
+    func post(handler: @escaping (_ succeeded: Bool, _ error: NSError?) -> Void) {
         
         LCChatKit.sharedInstance().createConversation(withMembers: [], type: LCCKConversationType.group, unique: false) {
             conversation, error in
             guard let conversationId = conversation?.conversationId else {
-                handler(false, error)
+                handler(false, error as NSError?)
                 return
             }
             print("successfully created conversation with id \(conversationId)")
@@ -342,7 +312,6 @@ class Event {
                 if succeeded {
                     print("successfully created event \(self.name)")
                 }
-                
                 handler(succeeded, error)
             }
         }
@@ -354,11 +323,13 @@ class Event {
     /// - parameter succeeded: indicate if the operation is successful
     /// - parameter error: optional error information if operation fails
     
-    private func saveDataToSever(handler: @escaping (_ succeeded: Bool, _ error: Error?) -> Void) {
+    private func saveDataToSever(handler: @escaping (_ succeeded: Bool, _ error: NSError?) -> Void) {
         
         guard conversationId != "" else {
             print("failed to save event data: conversationId is missing")
-            handler(false, EventError.systemError(localizedDescriotion: "没有创建活动聊天室", debugDescription: "the conversation id is missing"))
+            handler(false, NSError(domain: USCFunErrorConstants.domain,
+                                   code: USCFunErrorConstants.kUSCFunErrorEventConversationIdMissing,
+                                   userInfo: [NSLocalizedDescriptionKey: "failed to save event data: conversationId is missing"]))
             return
         }
         
@@ -403,7 +374,7 @@ class Event {
         if eventObject.save(&error) {
             handler(true, nil)
         } else {
-            handler(false,  EventError.systemError(localizedDescriotion: "网络错误，请稍后再试", debugDescription: error.debugDescription))
+            handler(false, error)
         }
     }
     
@@ -433,8 +404,14 @@ class Event {
             self.neededBy.append(newMember)
             handler(true, nil)
         } catch let error {
-            print("cannot add member \(error.localizedDescription)")
-            handler(false, EventError.systemError(localizedDescriotion: "无法加入：网络错误或者已经满员了", debugDescription: error.localizedDescription))
+            print("cannot add member \(error)")
+            if (error as NSError).code == USCFunErrorConstants.kLeanCloudErrorSaveOptionError {
+                handler(false, NSError(domain: USCFunErrorConstants.domain,
+                                       code: USCFunErrorConstants.kUSCFunErrorEventAddMemberFailed,
+                                       userInfo: [NSLocalizedDescriptionKey: "failed to add member: passed joining time"]))
+            } else {
+                handler(false, error)
+            }
         }
     }
     
@@ -449,7 +426,9 @@ class Event {
     func remove(member: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         
         guard let memberIndex = members.index(of: member), let neededIndex = neededBy.index(of: member) else {
-            handler(false, EventError.systemError(localizedDescriotion: "用户没有参与此微活动", debugDescription: "user is not a member"))
+            handler(false, NSError(domain: USCFunErrorConstants.domain,
+                                   code: USCFunErrorConstants.kUSCFunErrorEventInvalidMember,
+                                   userInfo: [NSLocalizedDescriptionKey: "failed to remove member: not a member"]))
             return
         }
         
@@ -471,8 +450,14 @@ class Event {
             self.neededBy.remove(at: neededIndex)
             handler(true, nil)
         } catch let error {
-            print("cannot remove member \(error.localizedDescription)")
-            handler(false, EventError.systemError(localizedDescriotion: "活动已经约定成功或者已经过期了", debugDescription: error.localizedDescription))
+            print("cannot remove member \(error)")
+            if (error as NSError).code == USCFunErrorConstants.kLeanCloudErrorSaveOptionError {
+                handler(false, NSError(domain: USCFunErrorConstants.domain,
+                                       code: USCFunErrorConstants.kUSCFunErrorEventRemoveMemberFailed,
+                                       userInfo: [NSLocalizedDescriptionKey: "failed to remove member: passed removing time"]))
+            } else {
+                handler(false, error)
+            }
         }
     }
     
@@ -492,11 +477,16 @@ class Event {
     func update(newDue: Date, newMaximumAttendingPeople: Int, newMinimumAttendingPeople: Int, newStartTime: Date?, newEndTime: Date?, newLocation: String?, newWhereCreated: AVGeoPoint?, newNote: String?, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         
         guard createdBy == AVUser.current()! else {
-            handler(false, EventError.systemError(localizedDescriotion: "没有权限修改", debugDescription: "only the creator can update the event"))
+            handler(false, NSError(domain: USCFunErrorConstants.domain,
+                                   code: USCFunErrorConstants.kUSCFunErrorEventInvalidCreatedBy,
+                                   userInfo: [NSLocalizedDescriptionKey: "failed to update event: not creator"]))
             return
         }
+        
         guard newDue >= due && newMaximumAttendingPeople >= maximumAttendingPeople && newMinimumAttendingPeople <= minimumAttendingPeople && newMinimumAttendingPeople >= 2 else {
-            handler(false, EventError.systemError(localizedDescriotion: "不符合修改要求", debugDescription: "the updated due or maximum attending people are not allowed"))
+            handler(false, NSError(domain: USCFunErrorConstants.domain,
+                                   code: USCFunErrorConstants.kUSCFunErrorEventInvalidUpdateData,
+                                   userInfo: [NSLocalizedDescriptionKey: "failed to update event: unexpected due or maximum attending people"]))
             return
         }
         
@@ -553,8 +543,8 @@ class Event {
             
             handler(true, nil)
         } catch let error {
-            print("cannot update event \(error.localizedDescription)")
-            handler(false, EventError.systemError(localizedDescriotion: "活动无法更新", debugDescription: error.localizedDescription))
+            print("cannot update event \(error)")
+            handler(false, error)
         }
     }
     
@@ -567,12 +557,16 @@ class Event {
     func cancel(handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         
         guard createdBy == AVUser.current()! else {
-            handler(false, EventError.systemError(localizedDescriotion: "你没有权限删除此微活动", debugDescription: "user is not creator"))
+            handler(false, NSError(domain: USCFunErrorConstants.domain,
+                                   code: USCFunErrorConstants.kUSCFunErrorEventInvalidCreatedBy,
+                                   userInfo: [NSLocalizedDescriptionKey: "failed to cancel event: not creator"]))
             return
         }
         
         guard members.count == 1 else {
-            handler(false, EventError.systemError(localizedDescriotion: "已经有人参加了微活动", debugDescription: "there are people attending"))
+            handler(false, NSError(domain: USCFunErrorConstants.domain,
+                                   code: USCFunErrorConstants.kUSCFunErrorEventCancelFailedDueToExistingMember,
+                                   userInfo: [NSLocalizedDescriptionKey: "failed to cancel event: already attended by people"]))
             return
         }
         
@@ -589,8 +583,8 @@ class Event {
             self.isCancelled = true
             handler(true, nil)
         } catch let error {
-            print("cannot delete \(error.localizedDescription)")
-            handler(false, EventError.systemError(localizedDescriotion: "活动已经有人参加了", debugDescription: error.localizedDescription))
+            print("cannot cancel event \(error)")
+            handler(false, error)
         }
     }
 
@@ -604,7 +598,9 @@ class Event {
     func close(for member: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         
         guard let _ = members.index(of: member), let neededIndex = neededBy.index(of: member) else {
-            handler(false, EventError.systemError(localizedDescriotion: "用户没有参与此微活动", debugDescription: "user is not a member"))
+            handler(false, NSError(domain: USCFunErrorConstants.domain,
+                                   code: USCFunErrorConstants.kUSCFunErrorEventInvalidMember,
+                                   userInfo: [NSLocalizedDescriptionKey: "failed to close event: not a member"]))
             return
         }
         
@@ -619,8 +615,8 @@ class Event {
             neededBy.remove(at: neededIndex)
             handler(true, nil)
         } catch let error {
-            print("cannot complete event for member \(error.localizedDescription)")
-            handler(false, EventError.systemError(localizedDescriotion: "无法完结活动，请检查网络", debugDescription: error.localizedDescription))
+            print("cannot close event for member \(error)")
+            handler(false, error)
         }
     }
 }
@@ -630,13 +626,13 @@ extension Event: Comparable {
     
     static func < (lhs: Event, rhs: Event) -> Bool {
         
-        /// public events after preloading
-        if !lhs.members.contains(AVUser.current()!) && !rhs.members.contains(AVUser.current()!)  && UserDefaults.hasPreloadedPublicEvents {
+        /// public events
+        if !lhs.members.contains(AVUser.current()!) && !rhs.members.contains(AVUser.current()!) {
             return lhs.createdAt! > rhs.createdAt!
         }
         
-        /// my ongoing events after preloading
-        if lhs.members.contains(AVUser.current()!) && rhs.members.contains(AVUser.current()!)  && UserDefaults.hasPreloadedMyOngoingEvents {
+        /// my ongoing events
+        if lhs.members.contains(AVUser.current()!) && rhs.members.contains(AVUser.current()!) {
             if lhs.status == .isFinalized && rhs.status != .isFinalized { return true }
             if lhs.status != .isFinalized && rhs.status == .isFinalized { return false }
             if lhs.status == .isFinalized && rhs.status == .isFinalized {
