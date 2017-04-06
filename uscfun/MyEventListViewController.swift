@@ -697,7 +697,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                     let alertVC = UIAlertController(title: "请确认微活动已经完结，不再需要继续讨论。完结活动可以在活动历史中查看。", message: nil, preferredStyle: .actionSheet)
                     let okay = UIAlertAction(title: "确认删除", style: .destructive) {
                         _ in
-                        EventRequest.myOngoingEvents[finalizedCell.eventId!]?.setComplete(for: AVUser.current()!) {
+                        EventRequest.myOngoingEvents[finalizedCell.eventId!]?.close(for: AVUser.current()!) {
                             succeeded, error in
                             if succeeded {
                                 EventRequest.removeEvent(with: finalizedCell.eventId!, for: .myongoing) {

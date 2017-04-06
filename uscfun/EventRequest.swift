@@ -94,7 +94,7 @@ class EventRequest {
         let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
         query.includeKey(EventKeyConstants.keyOfCreatedBy)
         query.includeKey(EventKeyConstants.keyOfMembers)
-        query.includeKey(EventKeyConstants.keyOfCompletedBy)
+        query.includeKey(EventKeyConstants.keyOfNeededBy)
         query.getObjectInBackground(withId: objectId) {
             object, error in
             if error != nil {
@@ -401,7 +401,7 @@ class EventRequest {
         /// include AVUser
         query.includeKey(EventKeyConstants.keyOfCreatedBy)
         query.includeKey(EventKeyConstants.keyOfMembers)
-        query.includeKey(EventKeyConstants.keyOfCompletedBy)
+        query.includeKey(EventKeyConstants.keyOfNeededBy)
         
         /// events must belong to user's institution
         query.whereKey(EventKeyConstants.keyOfInstitution, equalTo: AVUser.current()!.email!.institutionCode!)
@@ -409,9 +409,11 @@ class EventRequest {
         switch (source, type) {
         case (.myongoing, .newer):
             query.whereKey(EventKeyConstants.keyOfMembers, containsAllObjectsIn: [AVUser.current()!])
+            query.whereKey(EventKeyConstants.keyOfNeededBy, containsAllObjectsIn: [AVUser.current()!])
             query.whereKey(EventKeyConstants.keyOfCreatedAt, greaterThan: currentCreatedTime)
         case (.myongoing, .older):
             query.whereKey(EventKeyConstants.keyOfMembers, containsAllObjectsIn: [AVUser.current()!])
+            query.whereKey(EventKeyConstants.keyOfNeededBy, containsAllObjectsIn: [AVUser.current()!])
             query.whereKey(EventKeyConstants.keyOfCreatedAt, lessThan: currentCreatedTime)
         case (.mypublic, .newer):
             query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date().timeIntervalSince1970)
@@ -520,9 +522,7 @@ class EventRequest {
                     case (_, .current):
                         eventsCopy[event.objectId!] = event
                     case (.myongoing, _):
-                        if event.status != .isFailed && !(event.completedBy ?? []).contains(AVUser.current()!) {
-                            eventsCopy[event.objectId!] = event
-                        }
+                        eventsCopy[event.objectId!] = event
                     case (.mypublic, _):
                         if !event.members.contains(AVUser.current()!) {
                             eventsCopy[event.objectId!] = event
@@ -553,9 +553,8 @@ class EventRequest {
         let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
         query.includeKey(EventKeyConstants.keyOfCreatedBy)
         query.includeKey(EventKeyConstants.keyOfMembers)
-        query.includeKey(EventKeyConstants.keyOfCompletedBy)
+        query.includeKey(EventKeyConstants.keyOfNeededBy)
         query.whereKey(EventKeyConstants.keyOfCreatedBy, equalTo: user)
-        query.whereKey(EventKeyConstants.keyOfCompletedBy, containsAllObjectsIn: [user])
         query.cachePolicy = .networkElseCache
         query.maxCacheAge = USCFunConstants.MAXCACHEAGE
         query.limit = USCFunConstants.QUERYLIMIT
@@ -566,10 +565,9 @@ class EventRequest {
         let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
         query.includeKey(EventKeyConstants.keyOfCreatedBy)
         query.includeKey(EventKeyConstants.keyOfMembers)
-        query.includeKey(EventKeyConstants.keyOfCompletedBy)
+        query.includeKey(EventKeyConstants.keyOfNeededBy)
         query.whereKey(EventKeyConstants.keyOfCreatedBy, notEqualTo: user)
         query.whereKey(EventKeyConstants.keyOfMembers, containsAllObjectsIn: [user])
-        query.whereKey(EventKeyConstants.keyOfCompletedBy, containsAllObjectsIn: [user])
         query.cachePolicy = .networkElseCache
         query.maxCacheAge = USCFunConstants.MAXCACHEAGE
         query.limit = USCFunConstants.QUERYLIMIT

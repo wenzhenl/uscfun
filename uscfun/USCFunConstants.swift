@@ -70,7 +70,7 @@ struct EventKeyConstants {
     static let keyOfCreatedAt = "createdAt"
     static let keyOfObjectId = "objectId"
     
-    static let keyOfCompletedBy = "completedBy"
+    static let keyOfNeededBy = "neededBy"
 
     static let keyOfSystemNotificationOfUpdatedEvents = "updatedEventIds"
 }

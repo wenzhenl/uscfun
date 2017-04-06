@@ -65,12 +65,8 @@ enum EventStatus: CustomStringConvertible {
     /// This flag indicates that the event has been cancelled explicitly
     case isCancelled
     
-    /// This flag indicates that the event has been executed and it will not be shown at
-    /// user's my attending events section
-    case isCompleted
-    
-    /// in case any situation not covered by the above
-    case isUnKnown
+    /// This flag indicates that the event in unknown state
+    case isUnknown
     
     /// description of status
     var description: String {
@@ -85,10 +81,8 @@ enum EventStatus: CustomStringConvertible {
             return "约定失败"
         case .isCancelled:
             return "已取消"
-        case .isCompleted:
-            return "已完结"
-        case .isUnKnown:
-            return "不晓得"
+        case .isUnknown:
+            return "未知状态"
         }
     }
 }
@@ -156,6 +150,9 @@ class Event {
     /// The members of the event including creator
     var members: [AVUser]
     
+    /// The members who still need the event
+    var neededBy: [AVUser]
+    
     /// The flag indicates that the event has been cancelled explicitly
     var isCancelled: Bool
     
@@ -172,18 +169,10 @@ class Event {
     
     /// The update time fetched from Leancloud
     var updatedAt: Date?
-
-    //--MARK: indicators for individual member
-    
-    /// The members who indicates that he has already completed the event
-    /// and no longer needs the chat room
-    var completedBy: [AVUser]?
     
     var status: EventStatus {
         if isCancelled {
             return EventStatus.isCancelled
-        } else if (completedBy ?? []).contains(AVUser.current()!) {
-            return EventStatus.isCompleted
         } else if due > Date() && maximumAttendingPeople - remainingSeats >= minimumAttendingPeople && remainingSeats > 0 {
             return EventStatus.isSecured
         } else if due > Date() && remainingSeats > 0 {
@@ -193,7 +182,7 @@ class Event {
         } else if due < Date() && maximumAttendingPeople - remainingSeats < minimumAttendingPeople {
             return EventStatus.isFailed
         } else {
-            return EventStatus.isUnKnown
+            return EventStatus.isUnknown
         }
     }
     
@@ -220,6 +209,7 @@ class Event {
         self.createdBy = createdBy
         self.conversationId = ""
         self.members = [createdBy]
+        self.neededBy = [createdBy]
         self.isCancelled = false
         self.institution = createdBy.email!.institutionCode!
     }
@@ -285,6 +275,12 @@ class Event {
         }
         self.members = members
 
+        guard let neededBy = data.value(forKey: EventKeyConstants.keyOfNeededBy) as? [AVUser] else {
+            print("failed to create Event from AVObject: no neededBy")
+            return nil
+        }
+        self.neededBy = neededBy
+        
         guard let isCancelled = data.value(forKey: EventKeyConstants.keyOfIsCancelled) as? Bool else {
             print("failed to create Event from AVObject: no isCancelled")
             return nil
@@ -323,11 +319,6 @@ class Event {
         self.objectId = data.objectId
         self.createdAt = data.createdAt
         self.updatedAt = data.updatedAt
-        
-        /// check property for individual member
-        if let completedBy = data.value(forKey: EventKeyConstants.keyOfCompletedBy) as? [AVUser] {
-           self.completedBy = completedBy
-        }
     }
     
     /// Posts an event to server, it consists of three steps: creating transient conversation, creating conversation and save data to server
@@ -381,6 +372,7 @@ class Event {
         
         eventObject.setObject(createdBy, forKey: EventKeyConstants.keyOfCreatedBy)
         eventObject.setObject(members, forKey: EventKeyConstants.keyOfMembers)
+        eventObject.setObject(neededBy, forKey: EventKeyConstants.keyOfNeededBy)
         
         let conversation = AVObject(className: EventKeyConstants.classNameOfConversation, objectId: conversationId)
         eventObject.setObject(conversation, forKey: EventKeyConstants.keyOfConversation)
@@ -433,10 +425,12 @@ class Event {
         option.query = query
         eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: -1)
         eventObject.addUniqueObject(newMember, forKey: EventKeyConstants.keyOfMembers)
+        eventObject.addUniqueObject(newMember, forKey: EventKeyConstants.keyOfNeededBy)
         do {
             try eventObject.save(with: option)
             self.remainingSeats -= 1
             self.members.append(newMember)
+            self.neededBy.append(newMember)
             handler(true, nil)
         } catch let error {
             print("cannot add member \(error.localizedDescription)")
@@ -454,7 +448,7 @@ class Event {
     
     func remove(member: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         
-        guard let memberIndex = members.index(of: member) else {
+        guard let memberIndex = members.index(of: member), let neededIndex = neededBy.index(of: member) else {
             handler(false, EventError.systemError(localizedDescriotion: "用户没有参与此微活动", debugDescription: "user is not a member"))
             return
         }
@@ -469,11 +463,12 @@ class Event {
         
         eventObject.incrementKey(EventKeyConstants.keyOfRemainingSeats, byAmount: 1)
         eventObject.remove(member, forKey: EventKeyConstants.keyOfMembers)
-        
+        eventObject.remove(member, forKey: EventKeyConstants.keyOfNeededBy)
         do {
             try eventObject.save(with: option)
             self.remainingSeats += 1
             self.members.remove(at: memberIndex)
+            self.neededBy.remove(at: neededIndex)
             handler(true, nil)
         } catch let error {
             print("cannot remove member \(error.localizedDescription)")
@@ -599,16 +594,16 @@ class Event {
         }
     }
 
-    /// indicate that member has completed the event
+    /// indicate that member doesn't need the event
     ///
-    /// - parameter member:            the member that is about to complete the event
+    /// - parameter member:            the member that is about to close the event
     /// - parameter handler:           handle the creation depending on the operation is successful or not
     /// - parameter succeeded:         indicate if the operation is successful
     /// - parameter error:             optional error information if operation fails
     
-    func setComplete(for member: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
+    func close(for member: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
         
-        guard let _ = members.index(of: member) else {
+        guard let _ = members.index(of: member), let neededIndex = neededBy.index(of: member) else {
             handler(false, EventError.systemError(localizedDescriotion: "用户没有参与此微活动", debugDescription: "user is not a member"))
             return
         }
@@ -618,10 +613,10 @@ class Event {
         let option = AVSaveOption()
         option.query = query
         option.fetchWhenSave = true
-        eventObject.addUniqueObject(member, forKey: EventKeyConstants.keyOfCompletedBy)
+        eventObject.remove(member, forKey: EventKeyConstants.keyOfNeededBy)
         do {
             try eventObject.save(with: option)
-            self.completedBy?.append(member)
+            neededBy.remove(at: neededIndex)
             handler(true, nil)
         } catch let error {
             print("cannot complete event for member \(error.localizedDescription)")
@@ -651,7 +646,7 @@ extension Event: Comparable {
             return lhs.updatedAt! > rhs.updatedAt!
         }
         
-        /// order is: finalized < secured < pending < completed < failed < cancelled
+        /// order is: finalized < secured < pending < failed < cancelled
         if lhs.status == .isFinalized && rhs.status != .isFinalized { return true }
         if lhs.status != .isFinalized && rhs.status == .isFinalized { return false }
         if lhs.status == .isSecured && rhs.status != .isSecured { return true }
@@ -660,8 +655,6 @@ extension Event: Comparable {
         if lhs.status != .isCancelled && rhs.status == .isCancelled { return true }
         if lhs.status == .isFailed && rhs.status != .isFailed { return false }
         if lhs.status != .isFailed && rhs.status == .isFailed { return true }
-        if lhs.status == .isCompleted && rhs.status != .isCompleted { return false }
-        if lhs.status != .isCompleted && rhs.status == .isCompleted { return true }
         
         return lhs.due < rhs.due
     }
