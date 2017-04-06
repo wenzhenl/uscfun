@@ -148,11 +148,16 @@ class MyEventListViewController: UIViewController {
         
         if !UserDefaults.hasRemindedOpenRemoteNotification {
             UserDefaults.hasRemindedOpenRemoteNotification = true
-            let alertView = SCLAlertView()
+            let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
+            let alertView = SCLAlertView(appearance: appearance)
             alertView.addButton("请通知我") {
                 let notificationSettings = UIUserNotificationSettings(types: [UIUserNotificationType.badge, .sound, .alert], categories: nil)
                 UIApplication.shared.registerUserNotificationSettings(notificationSettings)
             }
+            alertView.addButton("暂时不要") {
+                print("remind opening remote notification ignored")
+            }
+            
             alertView.showSuccess("打开通知", subTitle: "恭喜你成功发起了第一个微活动，请打开通知，防止错过小伙伴们对于你发起的微活动的询问。")
         }
     }
@@ -163,12 +168,17 @@ class MyEventListViewController: UIViewController {
         
         if !UserDefaults.hasRemindedOpenRemoteNotification {
             UserDefaults.hasRemindedOpenRemoteNotification = true
-            let alertView = SCLAlertView()
+            let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
+            let alertView = SCLAlertView(appearance: appearance)
             alertView.addButton("请通知我") {
                 let notificationSettings = UIUserNotificationSettings(types: [UIUserNotificationType.badge, .sound, .alert], categories: nil)
                 UIApplication.shared.registerUserNotificationSettings(notificationSettings)
             }
-            alertView.showSuccess("打开通知", subTitle: "恭喜你参加了第一个微活动，请打开通知，防止错过小伙伴们对于你发起的微活动的询问。")
+            alertView.addButton("暂时不要") {
+                print("remind opening remote notification ignored")
+            }
+            
+            alertView.showSuccess("打开通知", subTitle: "恭喜你成功参加了第一个微活动，请打开通知，防止错过小伙伴们对于活动的讨论。")
         }
     }
     
