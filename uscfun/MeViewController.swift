@@ -224,7 +224,7 @@ extension MeViewController: UITableViewDataSource, UITableViewDelegate{
             if segueId == segueIdOfRateUSCFun {
                 UIApplication.shared.openURL(URL(string : USCFunConstants.appURL)!)
             }
-            if segueId == segueIdOfFeedback {
+            else if segueId == segueIdOfFeedback {
                 sendFeedback()
             }
             else {
