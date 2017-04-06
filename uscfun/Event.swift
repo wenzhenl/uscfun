@@ -385,7 +385,7 @@ class Event {
     /// - parameter succeeded: indicate if the operation is successful
     /// - parameter error:       optional error information if operation fails
     
-    func add(newMember: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
+    func add(newMember: AVUser, handler: (_ succeeded: Bool, _ error: NSError?) -> Void) {
         
         let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: self.objectId!)
         let query = AVQuery()
@@ -410,7 +410,7 @@ class Event {
                                        code: USCFunErrorConstants.kUSCFunErrorEventAddMemberFailed,
                                        userInfo: [NSLocalizedDescriptionKey: "failed to add member: passed joining time"]))
             } else {
-                handler(false, error)
+                handler(false, error as NSError?)
             }
         }
     }
@@ -423,7 +423,7 @@ class Event {
     /// - parameter succeeded: indicate if the operation is successful
     /// - parameter error: optional error information if operation fails
     
-    func remove(member: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
+    func remove(member: AVUser, handler: (_ succeeded: Bool, _ error: NSError?) -> Void) {
         
         guard let memberIndex = members.index(of: member), let neededIndex = neededBy.index(of: member) else {
             handler(false, NSError(domain: USCFunErrorConstants.domain,
@@ -456,7 +456,7 @@ class Event {
                                        code: USCFunErrorConstants.kUSCFunErrorEventRemoveMemberFailed,
                                        userInfo: [NSLocalizedDescriptionKey: "failed to remove member: passed removing time"]))
             } else {
-                handler(false, error)
+                handler(false, error as NSError?)
             }
         }
     }
@@ -474,7 +474,7 @@ class Event {
     /// - parameter succeeded: indicate if the operation is successful
     /// - parameter error:                      optional error information if operation fails
     
-    func update(newDue: Date, newMaximumAttendingPeople: Int, newMinimumAttendingPeople: Int, newStartTime: Date?, newEndTime: Date?, newLocation: String?, newWhereCreated: AVGeoPoint?, newNote: String?, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
+    func update(newDue: Date, newMaximumAttendingPeople: Int, newMinimumAttendingPeople: Int, newStartTime: Date?, newEndTime: Date?, newLocation: String?, newWhereCreated: AVGeoPoint?, newNote: String?, handler: (_ succeeded: Bool, _ error: NSError?) -> Void) {
         
         guard createdBy == AVUser.current()! else {
             handler(false, NSError(domain: USCFunErrorConstants.domain,
@@ -544,7 +544,7 @@ class Event {
             handler(true, nil)
         } catch let error {
             print("cannot update event \(error)")
-            handler(false, error)
+            handler(false, error as NSError?)
         }
     }
     
@@ -554,7 +554,7 @@ class Event {
     /// - parameter succeeded: indicate if the operation is successful
     /// - parameter error: optional error information if operation fails
     
-    func cancel(handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
+    func cancel(handler: (_ succeeded: Bool, _ error: NSError?) -> Void) {
         
         guard createdBy == AVUser.current()! else {
             handler(false, NSError(domain: USCFunErrorConstants.domain,
@@ -584,7 +584,7 @@ class Event {
             handler(true, nil)
         } catch let error {
             print("cannot cancel event \(error)")
-            handler(false, error)
+            handler(false, error as NSError?)
         }
     }
 
@@ -595,7 +595,7 @@ class Event {
     /// - parameter succeeded:         indicate if the operation is successful
     /// - parameter error:             optional error information if operation fails
     
-    func close(for member: AVUser, handler: (_ succeeded: Bool, _ error: Error?) -> Void) {
+    func close(for member: AVUser, handler: (_ succeeded: Bool, _ error: NSError?) -> Void) {
         
         guard let _ = members.index(of: member), let neededIndex = neededBy.index(of: member) else {
             handler(false, NSError(domain: USCFunErrorConstants.domain,
@@ -616,7 +616,7 @@ class Event {
             handler(true, nil)
         } catch let error {
             print("cannot close event for member \(error)")
-            handler(false, error)
+            handler(false, error as NSError?)
         }
     }
 }

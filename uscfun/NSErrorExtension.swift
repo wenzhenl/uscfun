@@ -41,7 +41,7 @@ struct USCFunErrorConstants {
 }
 
 extension NSError {
-    var customDescription: String? {
+    var customDescription: String {
         
         /// handle errors thrown by LeanCloud
         if self.domain == "AVOS Cloud Error Domain" {
@@ -50,6 +50,16 @@ extension NSError {
                 return "邮箱密码不匹配"
             case 211:
                 return "用户名不存在"
+            default:
+                return "系统错误，请稍后再试"
+            }
+        }
+        
+        /// handle errors thrown by AVIM
+        else if self.domain == "AVOSCloudIMErrorDomain" {
+            switch self.code {
+            case 5:
+                return "无网络连接，请检查网络"
             default:
                 return "系统错误，请稍后再试"
             }
@@ -66,6 +76,10 @@ extension NSError {
                 return "报名已经结束"
             case USCFunErrorConstants.kUSCFunErrorEventRemoveMemberFailed:
                 return "微活动已经约定成功"
+            case USCFunErrorConstants.kUSCFunErrorEventInvalidMember:
+                return "用户没有参加该活动"
+            case USCFunErrorConstants.kUSCFunErrorEventInvalidCreatedBy:
+                return "不是活动的发起人"
             case USCFunErrorConstants.kUSCFunErrorEventInvalidUpdateData:
                 return "更新数据不符合要求"
             case USCFunErrorConstants.kUSCFunErrorEventCancelFailedDueToExistingMember:

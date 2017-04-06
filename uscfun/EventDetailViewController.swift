@@ -222,7 +222,7 @@ class EventDetailViewController: UIViewController {
                 }
             }
             else if error != nil {
-                self.displayInfo(info: error!.localizedDescription)
+                self.displayInfo(info: error!.customDescription)
             }
         }
     }
@@ -284,7 +284,7 @@ class EventDetailViewController: UIViewController {
                     }
                 }
                 else if error != nil {
-                    self.displayInfo(info: error!.localizedDescription)
+                    self.displayInfo(info: error!.customDescription)
                 }
             }
         }

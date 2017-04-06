@@ -711,7 +711,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                             }
 
                             if error != nil {
-                                self.displayInfo(info: error!.localizedDescription)
+                                self.displayInfo(info: error!.customDescription)
                             }
                         }
                     }

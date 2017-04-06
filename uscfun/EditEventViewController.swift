@@ -218,10 +218,10 @@ class EditEventViewController: FormViewController {
                 }
                 
                 if error != nil {
-                    self.errorLabel.text = error!.localizedDescription
+                    self.errorLabel.text = error!.customDescription
                     self.title = ""
                     self.errorLabel.isHidden = false
-                    print(error!.localizedDescription)
+                    print(error!)
                 }
             }
         }
@@ -262,10 +262,10 @@ class EditEventViewController: FormViewController {
             }
             else if error != nil {
                 self.saveButtonItem.isEnabled = true
-                self.errorLabel.text = error!.localizedDescription
+                self.errorLabel.text = error!.customDescription
                 self.title = ""
                 self.errorLabel.isHidden = false
-                print(error!.localizedDescription)
+                print(error!)
             }
         }
     }

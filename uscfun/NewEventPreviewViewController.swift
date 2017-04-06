@@ -107,9 +107,9 @@ class NewEventPreviewViewController: UIViewController {
                 self.clearNewEventUserDefaults()
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidPostNewEvent"), object: nil, userInfo: nil)
                 self.presentingViewController?.dismiss(animated: true, completion: nil)
-            } else {
-                print(error.debugDescription)
-                self.errorLabel.text = error?.localizedDescription
+            } else if error != nil {
+                print(error!)
+                self.errorLabel.text = error!.customDescription
                 self.errorLabel.isHidden = false
                 self.postButton.isEnabled = true
             }
