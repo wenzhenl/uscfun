@@ -10,7 +10,7 @@ import Foundation
 
 extension UserDefaults {
     
-    /// user sign up variables
+    //--MARK: user sign up variables
     class var newEmail: String? {
         get {
             return UserDefaults.standard.string(forKey: "User_New_Email_Key")
@@ -29,7 +29,7 @@ extension UserDefaults {
         }
     }
 
-    /// user sign in variables
+    //--MARK: user sign in variables
     class var hasLoggedIn: Bool {
         get {
             return UserDefaults.standard.bool(forKey: "User_HasLoggIn_Key")
@@ -57,6 +57,7 @@ extension UserDefaults {
         }
     }
     
+    //--MARK: current user information
     class var email: String? {
         get {
             return UserDefaults.standard.string(forKey: "User_Email_Key")
@@ -188,7 +189,7 @@ extension UserDefaults {
         AVUser.current()!.saveEventually()
     }
     
-    //-MARK: new event info
+    //--MARK: new event info
     
     class var newEventName: String? {
         get {
@@ -299,6 +300,16 @@ extension UserDefaults {
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: "isfirstActiveFollowingLaunching_Key")
+        }
+    }
+    
+    //--MARK: tutorial related
+    class var shouldRemindOpenRemoteNotification: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "shouldRemindOpenRemoteNotification")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "shouldRemindOpenRemoteNotification")
         }
     }
 }
