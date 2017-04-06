@@ -22,18 +22,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
         UserDefaults.isfirstActiveFollowingLaunching = true
         
-        //--MARK: register for notification
-        registerForPushNotifications(application: application)
         //--MARK: register wechat account
         WXApi.registerApp("wx8f761834a81e3579")
         
         //--MARK: register leanclound account
-        AVOSCloud.setServiceRegion(.US)
-        LCChatKit.setAppId("PekMMQm8zL9QvMJgRicoeDJ9-MdYXbMMI", appKey: "SJMKewuanrMk3jF8bQg4aChy")
-        AVOSCloud.setApplicationId("PekMMQm8zL9QvMJgRicoeDJ9-MdYXbMMI", clientKey: "SJMKewuanrMk3jF8bQg4aChy")
-//        AVOSCloud.setServiceRegion(.CN)
-//        LCChatKit.setAppId("0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz", appKey: "XRGhgA5IwbqTWzosKRh3nzRY")
-//        AVOSCloud.setApplicationId("0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz", clientKey: "XRGhgA5IwbqTWzosKRh3nzRY")
+//        AVOSCloud.setServiceRegion(.US)
+//        LCChatKit.setAppId("PekMMQm8zL9QvMJgRicoeDJ9-MdYXbMMI", appKey: "SJMKewuanrMk3jF8bQg4aChy")
+//        AVOSCloud.setApplicationId("PekMMQm8zL9QvMJgRicoeDJ9-MdYXbMMI", clientKey: "SJMKewuanrMk3jF8bQg4aChy")
+        
+        AVOSCloud.setServiceRegion(.CN)
+        LCChatKit.setAppId("0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz", appKey: "XRGhgA5IwbqTWzosKRh3nzRY")
+        AVOSCloud.setApplicationId("0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz", clientKey: "XRGhgA5IwbqTWzosKRh3nzRY")
+        
         AVOSCloud.setAllLogsEnabled(true)
         AVAnalytics.trackAppOpened(launchOptions: launchOptions)
         
@@ -152,11 +152,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         return WXApi.handleOpen(url, delegate: self)
-    }
-    
-    func registerForPushNotifications(application: UIApplication) {
-        let notificationSettings = UIUserNotificationSettings(types: [UIUserNotificationType.badge, .sound, .alert], categories: nil)
-        application.registerUserNotificationSettings(notificationSettings)
     }
     
     func updateRemainingTime() {

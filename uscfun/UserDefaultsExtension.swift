@@ -304,12 +304,12 @@ extension UserDefaults {
     }
     
     //--MARK: tutorial related
-    class var shouldRemindOpenRemoteNotification: Bool {
+    class var hasRemindedOpenRemoteNotification: Bool {
         get {
-            return UserDefaults.standard.bool(forKey: "shouldRemindOpenRemoteNotification")
+            return UserDefaults.standard.bool(forKey: "hasRemindedOpenRemoteNotification")
         }
         set {
-            UserDefaults.standard.setValue(newValue, forKey: "shouldRemindOpenRemoteNotification")
+            UserDefaults.standard.setValue(newValue, forKey: "hasRemindedOpenRemoteNotification")
         }
     }
 }

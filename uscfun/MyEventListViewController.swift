@@ -9,6 +9,7 @@
 import UIKit
 import ChatKit
 import SVProgressHUD
+import SCLAlertView
 
 class MyEventListViewController: UIViewController {
 
@@ -144,11 +145,31 @@ class MyEventListViewController: UIViewController {
                 self.displayInfo(info: error!.localizedDescription)
             }
         }
+        
+        if !UserDefaults.hasRemindedOpenRemoteNotification {
+            UserDefaults.hasRemindedOpenRemoteNotification = true
+            let alertView = SCLAlertView()
+            alertView.addButton("请通知我") {
+                let notificationSettings = UIUserNotificationSettings(types: [UIUserNotificationType.badge, .sound, .alert], categories: nil)
+                UIApplication.shared.registerUserNotificationSettings(notificationSettings)
+            }
+            alertView.showSuccess("打开通知", subTitle: "恭喜你成功发起了第一个微活动，请打开通知，防止错过小伙伴们对于你发起的微活动的询问。")
+        }
     }
     
     func handleJoinEvent() {
         self.numberOfNewEvents += 1
         self.tableView.reloadData()
+        
+        if !UserDefaults.hasRemindedOpenRemoteNotification {
+            UserDefaults.hasRemindedOpenRemoteNotification = true
+            let alertView = SCLAlertView()
+            alertView.addButton("请通知我") {
+                let notificationSettings = UIUserNotificationSettings(types: [UIUserNotificationType.badge, .sound, .alert], categories: nil)
+                UIApplication.shared.registerUserNotificationSettings(notificationSettings)
+            }
+            alertView.showSuccess("打开通知", subTitle: "恭喜你参加了第一个微活动，请打开通知，防止错过小伙伴们对于你发起的微活动的询问。")
+        }
     }
     
     func handleQuitEvent() {

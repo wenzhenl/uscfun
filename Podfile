@@ -8,5 +8,6 @@ target 'uscfun' do
     pod 'AVOSCloudCrashReporting'
     pod 'SVProgressHUD'
     pod 'Eureka'
+    pod 'SCLAlertView'
 end
 
