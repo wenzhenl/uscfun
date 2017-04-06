@@ -146,11 +146,12 @@ class MyEventListViewController: UIViewController {
             }
         }
         
-        if !UserDefaults.hasRemindedOpenRemoteNotification {
-            UserDefaults.hasRemindedOpenRemoteNotification = true
+        if UserDefaults.shouldRemindOpenRemoteNotification {
+            UserDefaults.lastOpenRemoteNotificationRemindedAt = Date()
             let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
             let alertView = SCLAlertView(appearance: appearance)
             alertView.addButton("请通知我") {
+                UserDefaults.hasOpenedRemoteNotification = true
                 let notificationSettings = UIUserNotificationSettings(types: [UIUserNotificationType.badge, .sound, .alert], categories: nil)
                 UIApplication.shared.registerUserNotificationSettings(notificationSettings)
             }
@@ -158,7 +159,7 @@ class MyEventListViewController: UIViewController {
                 print("remind opening remote notification ignored")
             }
             
-            alertView.showSuccess("打开通知", subTitle: "恭喜你成功发起了第一个微活动，请打开通知，防止错过小伙伴们对于你发起的微活动的询问。")
+            alertView.showSuccess("打开通知", subTitle:     "恭喜你成功发起了第一个微活动，请打开通知，防止错过小伙伴们对于你发起的微活动的询问。")
         }
     }
     
@@ -166,11 +167,12 @@ class MyEventListViewController: UIViewController {
         self.numberOfNewEvents += 1
         self.tableView.reloadData()
         
-        if !UserDefaults.hasRemindedOpenRemoteNotification {
-            UserDefaults.hasRemindedOpenRemoteNotification = true
+        if UserDefaults.shouldRemindOpenRemoteNotification {
+            UserDefaults.lastOpenRemoteNotificationRemindedAt = Date()
             let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
             let alertView = SCLAlertView(appearance: appearance)
             alertView.addButton("请通知我") {
+                UserDefaults.hasOpenedRemoteNotification = true
                 let notificationSettings = UIUserNotificationSettings(types: [UIUserNotificationType.badge, .sound, .alert], categories: nil)
                 UIApplication.shared.registerUserNotificationSettings(notificationSettings)
             }

@@ -304,12 +304,34 @@ extension UserDefaults {
     }
     
     //--MARK: tutorial related
-    class var hasRemindedOpenRemoteNotification: Bool {
+    
+    /// remind user to open remote notification every 10 days
+    class var shouldRemindOpenRemoteNotification: Bool {
+        if hasOpenedRemoteNotification {
+            return false
+        }
+        else if Date().timeIntervalSince(lastOpenRemoteNotificationRemindedAt) > TimeInterval(10*24*3600) {
+            return true
+        }
+        return false
+    }
+    
+    class var lastOpenRemoteNotificationRemindedAt: Date {
         get {
-            return UserDefaults.standard.bool(forKey: "hasRemindedOpenRemoteNotification")
+            let interval = UserDefaults.standard.double(forKey: "lastOpenRemoteNotificationRemindedAt")
+            return Date(timeIntervalSince1970: interval)
         }
         set {
-            UserDefaults.standard.setValue(newValue, forKey: "hasRemindedOpenRemoteNotification")
+            UserDefaults.standard.setValue(newValue.timeIntervalSince1970, forKey: "lastOpenRemoteNotificationRemindedAt")
+        }
+    }
+    
+    class var hasOpenedRemoteNotification: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "hasOpenedRemoteNotification")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "hasOpenedRemoteNotification")
         }
     }
 }
