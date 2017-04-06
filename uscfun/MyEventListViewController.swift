@@ -106,6 +106,20 @@ class MyEventListViewController: UIViewController {
         super.viewDidAppear(true)
         infoLabel.isHidden = true
         infoLabel.frame.origin = CGPoint.zero
+        
+        if UserDefaults.shouldRemindRateApp {
+            UserDefaults.lastRateAppRemindedAt = Date()
+            let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
+            let alertView = SCLAlertView(appearance: appearance)
+            alertView.addButton("去评分") {
+                UserDefaults.hasRatedApp = true
+                UIApplication.shared.openURL(URL(string : USCFunConstants.appURL)!)
+            }
+            alertView.addButton("暂时不要") {
+                print("remind opening rate app ignored")
+            }
+            alertView.showInfo("给USC日常评分", subTitle: "如果觉得USC日常还不错的话，请去 app store 给我们一点鼓励吧！")
+        }
     }
     
     deinit {

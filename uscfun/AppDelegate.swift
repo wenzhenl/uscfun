@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var timer: Timer?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-                
+        
         UserDefaults.isfirstActiveFollowingLaunching = true
         
         //--MARK: register wechat account
@@ -42,6 +42,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         LCCKInputViewPluginLocation.registerSubclass()
                 
         LoginKit.delegate = self
+        
+        
+        /// check if it is a new version
+        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            print("version: \(version)")
+            if let currentVersion = UserDefaults.currentVersion {
+                if currentVersion != version {
+                    UserDefaults.currentVersion = version
+                    UserDefaults.lastRateAppRemindedAt = Date()
+                    UserDefaults.hasRatedApp = false
+                }
+            } else {
+                UserDefaults.currentVersion = version
+                UserDefaults.lastRateAppRemindedAt = Date()
+                UserDefaults.hasRatedApp = false
+            }
+        }
         
         // PRE-LOAD DATA
         if UserDefaults.hasLoggedIn {

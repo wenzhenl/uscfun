@@ -305,6 +305,16 @@ extension UserDefaults {
     
     //--MARK: tutorial related
     
+    /// current app version
+    class var currentVersion: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "currentVersion")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "currentVersion")
+        }
+    }
+    
     /// remind user to open remote notification every 10 days
     class var shouldRemindOpenRemoteNotification: Bool {
         if hasOpenedRemoteNotification {
@@ -332,6 +342,36 @@ extension UserDefaults {
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: "hasOpenedRemoteNotification")
+        }
+    }
+    
+    /// remind user to rate app in app store every 30 days
+    class var shouldRemindRateApp: Bool {
+        if hasRatedApp {
+            return false
+        }
+        else if Date().timeIntervalSince(lastRateAppRemindedAt) > TimeInterval(30*24*3600) {
+            return true
+        }
+        return false
+    }
+    
+    class var lastRateAppRemindedAt: Date {
+        get {
+            let interval = UserDefaults.standard.double(forKey: "lastRateAppRemindedAt")
+            return Date(timeIntervalSince1970: interval)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue.timeIntervalSince1970, forKey: "lastRateAppRemindedAt")
+        }
+    }
+    
+    class var hasRatedApp: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "hasRatedApp")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "hasRatedApp")
         }
     }
 }
