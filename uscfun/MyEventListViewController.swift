@@ -428,6 +428,36 @@ class MyEventListViewController: UIViewController {
         
         self.navigationController?.pushViewController(conversation, animated: true)
     }
+    
+    func deleteEventCell(at indexPath: IndexPath) {
+        let event = eventForSection(section: indexPath.section)
+        let alertVC = UIAlertController(title: "请确认微活动已经完结，不再需要继续讨论。完结活动可以在活动历史中查看。", message: nil, preferredStyle: .actionSheet)
+        let okay = UIAlertAction(title: "确认删除", style: .destructive) {
+            _ in
+            EventRequest.myOngoingEvents[event.objectId!]?.close(for: AVUser.current()!) {
+                succeeded, error in
+                if succeeded {
+                    EventRequest.removeEvent(with: event.objectId!, for: .myongoing) {
+                        print("about to delete finalized event")
+                        if EventRequest.myOngoingEvents.count == 0 {
+                            self.tableView.reloadData()
+                        } else {
+                            self.tableView.deleteSections(IndexSet([indexPath.section]), with: .fade)
+                        }
+                    }
+                }
+                
+                if error != nil {
+                    self.displayInfo(info: error!.customDescription)
+                }
+            }
+        }
+        
+        let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        alertVC.addAction(okay)
+        alertVC.addAction(cancel)
+        self.present(alertVC, animated: true, completion: nil)
+    }
 }
 
 extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource {
@@ -713,33 +743,8 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
             }
             let delete = UITableViewRowAction(style: .default, title: "删除") {
                 action, index in
-                if let finalizedCell = tableView.cellForRow(at: indexPath) as? FinalizedEventSnapshotTableViewCell {
-                    let alertVC = UIAlertController(title: "请确认微活动已经完结，不再需要继续讨论。完结活动可以在活动历史中查看。", message: nil, preferredStyle: .actionSheet)
-                    let okay = UIAlertAction(title: "确认删除", style: .destructive) {
-                        _ in
-                        EventRequest.myOngoingEvents[finalizedCell.eventId!]?.close(for: AVUser.current()!) {
-                            succeeded, error in
-                            if succeeded {
-                                EventRequest.removeEvent(with: finalizedCell.eventId!, for: .myongoing) {
-                                    print("about to delete finalized event")
-                                    if EventRequest.myOngoingEvents.count == 0 {
-                                        self.tableView.reloadData()
-                                    } else {
-                                        self.tableView.deleteSections(IndexSet([indexPath.section]), with: .fade)
-                                    }
-                                }
-                            }
-
-                            if error != nil {
-                                self.displayInfo(info: error!.customDescription)
-                            }
-                        }
-                    }
-                    
-                    let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-                    alertVC.addAction(okay)
-                    alertVC.addAction(cancel)
-                    self.present(alertVC, animated: true, completion: nil)
+                if tableView.cellForRow(at: indexPath) is FinalizedEventSnapshotTableViewCell {
+                    self.deleteEventCell(at: indexPath)
                 }
             }
             return [delete, more]

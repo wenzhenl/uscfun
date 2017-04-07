@@ -28,18 +28,19 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="wenzhenl发起" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nyf-tt-pDe">
-                        <rect key="frame" x="36" y="8" width="268" height="20"/>
+                        <rect key="frame" x="36" y="8" width="273" height="20"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ITW-UU-BF6">
-                        <rect key="frame" x="312" y="8" width="15" height="20"/>
+                        <rect key="frame" x="317" y="13" width="10" height="10"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="15" id="B7s-MD-sRI"/>
+                            <constraint firstAttribute="width" constant="10" id="B7s-MD-sRI"/>
+                            <constraint firstAttribute="width" secondItem="ITW-UU-BF6" secondAttribute="height" id="xdg-63-nyt"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
-                        <state key="normal" title="x">
+                        <state key="normal" image="delete">
                             <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                     </button>
@@ -120,7 +121,7 @@
                         </constraints>
                     </view>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rOj-CB-WGI">
-                        <rect key="frame" x="29" y="272.5" width="298" height="13"/>
+                        <rect key="frame" x="29" y="265" width="298" height="28"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <state key="normal" title="有一条最新消息">
                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -154,6 +155,7 @@
                     <constraint firstAttribute="trailingMargin" secondItem="I0X-dv-toC" secondAttribute="trailing" id="JIi-fj-mYI"/>
                     <constraint firstItem="pzq-lG-kIM" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="JPp-jZ-U9O"/>
                     <constraint firstItem="qWp-NC-VeT" firstAttribute="leading" secondItem="URe-7E-zSc" secondAttribute="trailing" constant="8" symbolic="YES" id="Miq-ut-Bba"/>
+                    <constraint firstItem="OXb-fL-QsA" firstAttribute="centerY" secondItem="rOj-CB-WGI" secondAttribute="centerY" id="Odv-8O-93p"/>
                     <constraint firstItem="9mW-jG-67E" firstAttribute="bottom" secondItem="URe-7E-zSc" secondAttribute="bottom" id="P3L-Xy-th2"/>
                     <constraint firstItem="OXb-fL-QsA" firstAttribute="top" secondItem="9mW-jG-67E" secondAttribute="bottom" constant="8" symbolic="YES" id="QS0-zd-rQT"/>
                     <constraint firstItem="8MT-LO-ODA" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="R83-o3-XMJ"/>
@@ -172,7 +174,7 @@
                     <constraint firstAttribute="trailingMargin" secondItem="YFd-J2-29L" secondAttribute="trailing" id="d6D-ss-ad7"/>
                     <constraint firstAttribute="trailingMargin" secondItem="ITW-UU-BF6" secondAttribute="trailing" id="gCF-0n-3Cq"/>
                     <constraint firstItem="rOj-CB-WGI" firstAttribute="leading" secondItem="OXb-fL-QsA" secondAttribute="trailing" constant="8" symbolic="YES" id="h5c-fK-C9H"/>
-                    <constraint firstItem="rOj-CB-WGI" firstAttribute="bottom" secondItem="OXb-fL-QsA" secondAttribute="bottom" id="iGF-ge-qJ4"/>
+                    <constraint firstItem="Nyf-tt-pDe" firstAttribute="centerY" secondItem="ITW-UU-BF6" secondAttribute="centerY" id="iGX-Uu-3nM"/>
                     <constraint firstItem="Nyf-tt-pDe" firstAttribute="leading" secondItem="pzq-lG-kIM" secondAttribute="trailing" constant="8" symbolic="YES" id="j9q-s9-3UT"/>
                     <constraint firstItem="9mW-jG-67E" firstAttribute="bottom" secondItem="3fZ-db-weF" secondAttribute="bottom" id="nyg-ZZ-kYO"/>
                     <constraint firstItem="9mW-jG-67E" firstAttribute="top" secondItem="3fZ-db-weF" secondAttribute="top" id="pQ1-0c-dec"/>
@@ -181,11 +183,8 @@
                     <constraint firstItem="I0X-dv-toC" firstAttribute="top" secondItem="YFd-J2-29L" secondAttribute="bottom" constant="8" symbolic="YES" id="rFZ-ud-SNa"/>
                     <constraint firstAttribute="trailingMargin" secondItem="eHf-1h-C7p" secondAttribute="trailing" id="soN-rw-q3u"/>
                     <constraint firstItem="3fZ-db-weF" firstAttribute="bottom" secondItem="qWp-NC-VeT" secondAttribute="bottom" id="tlO-Fw-fiW"/>
-                    <constraint firstItem="rOj-CB-WGI" firstAttribute="top" secondItem="OXb-fL-QsA" secondAttribute="top" id="udn-Bg-Zt5"/>
                     <constraint firstItem="YFd-J2-29L" firstAttribute="top" secondItem="pzq-lG-kIM" secondAttribute="bottom" constant="8" symbolic="YES" id="vB0-KX-SYh"/>
-                    <constraint firstItem="ITW-UU-BF6" firstAttribute="bottom" secondItem="Nyf-tt-pDe" secondAttribute="bottom" id="w6P-gN-B3B"/>
                     <constraint firstItem="9mW-jG-67E" firstAttribute="bottom" secondItem="F6A-m7-4oH" secondAttribute="bottom" id="wWN-K6-G8j"/>
-                    <constraint firstItem="ITW-UU-BF6" firstAttribute="top" secondItem="Nyf-tt-pDe" secondAttribute="top" id="zbN-qZ-hdy"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -208,5 +207,6 @@
     </objects>
     <resources>
         <image name="clip2" width="399" height="463"/>
+        <image name="delete" width="30" height="30"/>
     </resources>
 </document>
