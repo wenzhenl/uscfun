@@ -58,9 +58,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        /// should skip unread system notification messages
-        UserDefaults.shouldSkipUnreadAfterLaunch = true
-        
         // PRE-LOAD DATA
         if UserDefaults.hasLoggedIn {
             userDidLoggedIn()
@@ -218,7 +215,17 @@ extension AppDelegate: AVIMClientDelegate {
                 objects, error in
                 if let messages = objects as? [AVIMTypedMessage] {
                     for message in messages {
-                        print(message)
+                        guard let reason = message.attributes?["reason"] as? String, let eventId = message.attributes?["eventId"] as? String else {
+                            print("cannot parse message attributes")
+                            return
+                        }
+                        
+                        if reason == "new" {
+                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newEventAvailable"), object: nil, userInfo: ["eventId": eventId])
+                        }
+                        else if reason == "updated" {
+                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updatedEventAvailable"), object: nil, userInfo: ["eventId": eventId])
+                        }
                     }
                 }
                 
@@ -235,6 +242,9 @@ extension AppDelegate: AVIMClientDelegate {
 
 extension AppDelegate: LoginDelegate {
     func userDidLoggedIn() {
+        
+        /// should skip unread system notification messages
+        UserDefaults.shouldSkipUnreadAfterLaunch = true
         
         AVIMClient.setUserOptions([AVIMUserOptionUseUnread: true])
 
