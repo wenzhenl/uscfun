@@ -339,24 +339,7 @@ extension AppDelegate: LoginDelegate {
             
             print("catched send message \(message)")
             
-            var text = ""
-            let mediaType = MessageMediaType(rawValue: Int(message.mediaType))!
-            switch mediaType {
-            case .plain:
-                text = message.text ?? ""
-            case .image:
-                text = "[图片]"
-            case .audio:
-                text = "[语音信息]"
-            case .video:
-                text = "[视频信息]"
-            case .geolocation:
-                text = "[位置]"
-            case .file:
-                text = "[文件]"
-            }
-            
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newMessageForFinalizedEvents"), object: nil, userInfo: ["action": "send", "conversationId": conversationId, "text": text, "sendTimestamp": message.sendTimestamp])
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newMessageForMyEvents"), object: nil, userInfo: ["action": "send", "conversationId": conversationId, "message": message])
             completion?(true, nil)
         }
         
@@ -370,30 +353,7 @@ extension AppDelegate: LoginDelegate {
             
             print("catched filtered message \(message)")
             
-            guard message.clientId != AVUser.current()!.username else {
-                print("my own message")
-                completion?(messages, nil)
-                return
-            }
-            
-            var text = ""
-            let mediaType = MessageMediaType(rawValue: Int(message.mediaType))!
-            switch mediaType {
-            case .plain:
-                text = message.text ?? ""
-            case .image:
-                text = "[图片]"
-            case .audio:
-                text = "[语音信息]"
-            case .video:
-                text = "[视频信息]"
-            case .geolocation:
-                text = "[位置]"
-            case .file:
-                text = "[文件]"
-            }
-            
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newMessageForFinalizedEvents"), object: nil, userInfo: ["action": "receive", "conversationId": conversationId, "text": text, "sendTimestamp": message.sendTimestamp])
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newMessageForMyEvents"), object: nil, userInfo: ["action": "receive", "conversationId": conversationId, "message": message])
             completion?(messages, nil)
         }
         
