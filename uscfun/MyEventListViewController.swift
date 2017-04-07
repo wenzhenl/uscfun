@@ -538,7 +538,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 return cell
 
             } else {
-                let cell = Bundle.main.loadNibNamed("EventSnapshotTableViewCell", owner: self, options: nil)?.first as! EventSnapshotTableViewCell
+                let cell = Bundle.main.loadNibNamed("MyEventSnapshotTableViewCell", owner: self, options: nil)?.first as! MyEventSnapshotTableViewCell
                 cell.eventNameLabel.text = event.name
                 cell.creatorLabel.text = "发起人：" + creator.nickname
                 cell.creatorAvatarImageView.layer.masksToBounds = true
@@ -565,6 +565,27 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 
                 cell.chatButton.accessibilityHint = event.objectId
                 cell.chatButton.addTarget(self, action: #selector(joinDiscussion(sender:)), for: .touchUpInside)
+                
+                var isUnread = false
+                var latestMessage = "有一条新消息"
+                if let record = event.conversationRecord {
+                    isUnread = record.isUnread
+                    if record.latestMessage != nil {
+                        latestMessage = record.latestMessage!
+                    }
+                }
+                
+                if isUnread {
+                    cell.ifReadView.layer.cornerRadius = 4
+                    cell.ifReadView.backgroundColor = event.finalizedColor
+                } else {
+                    cell.ifReadView.layer.cornerRadius = 4
+                    cell.ifReadView.layer.borderWidth = 2
+                    cell.ifReadView.layer.borderColor = event.finalizedColor.cgColor
+                    cell.ifReadView.backgroundColor = UIColor.clear
+                }
+                cell.ifReadViewColor = event.finalizedColor
+                cell.latestMessageLabel.text = latestMessage
                 
                 cell.moreButton.isHidden = true
                 

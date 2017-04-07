@@ -105,6 +105,8 @@
 		0AAE42E41D9A2F8B00B34601 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE42E31D9A2F8B00B34601 /* MapViewController.swift */; };
 		0ABA18831E8B7566002DA704 /* CustomizedChatKit.Other.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0ABA18821E8B7566002DA704 /* CustomizedChatKit.Other.bundle */; };
 		0AD46F3A1E9748BC001DAF93 /* LoadDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD46F391E9748BC001DAF93 /* LoadDataViewController.swift */; };
+		0AD46F3D1E974F01001DAF93 /* MyEventSnapshotTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD46F3B1E974F01001DAF93 /* MyEventSnapshotTableViewCell.swift */; };
+		0AD46F3E1E974F01001DAF93 /* MyEventSnapshotTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AD46F3C1E974F01001DAF93 /* MyEventSnapshotTableViewCell.xib */; };
 		0ADA4D2D1D9A46970001A376 /* SingleButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADA4D2B1D9A46970001A376 /* SingleButtonTableViewCell.swift */; };
 		0ADA4D2E1D9A46970001A376 /* SingleButtonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0ADA4D2C1D9A46970001A376 /* SingleButtonTableViewCell.xib */; };
 		0ADE0C9D1DB1F140009F89A0 /* UpdateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE0C9C1DB1F140009F89A0 /* UpdateProfileViewController.swift */; };
@@ -231,6 +233,8 @@
 		0ABA18821E8B7566002DA704 /* CustomizedChatKit.Other.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CustomizedChatKit.Other.bundle; path = uscfun/CustomizedChatKit.Other.bundle; sourceTree = "<group>"; };
 		0ACFD5971DBAD14200E33E53 /* uscfun.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = uscfun.entitlements; sourceTree = "<group>"; };
 		0AD46F391E9748BC001DAF93 /* LoadDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadDataViewController.swift; sourceTree = "<group>"; };
+		0AD46F3B1E974F01001DAF93 /* MyEventSnapshotTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyEventSnapshotTableViewCell.swift; sourceTree = "<group>"; };
+		0AD46F3C1E974F01001DAF93 /* MyEventSnapshotTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyEventSnapshotTableViewCell.xib; sourceTree = "<group>"; };
 		0ADA4D2B1D9A46970001A376 /* SingleButtonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleButtonTableViewCell.swift; sourceTree = "<group>"; };
 		0ADA4D2C1D9A46970001A376 /* SingleButtonTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SingleButtonTableViewCell.xib; sourceTree = "<group>"; };
 		0ADE0C9C1DB1F140009F89A0 /* UpdateProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateProfileViewController.swift; sourceTree = "<group>"; };
@@ -363,6 +367,8 @@
 				0A0185841DC48602009A7874 /* LabelImgArrowTableViewCell.xib */,
 				0A6D92301E669965008501B9 /* EventSnapshotTableViewCell.swift */,
 				0A6D92311E669965008501B9 /* EventSnapshotTableViewCell.xib */,
+				0AD46F3B1E974F01001DAF93 /* MyEventSnapshotTableViewCell.swift */,
+				0AD46F3C1E974F01001DAF93 /* MyEventSnapshotTableViewCell.xib */,
 				0A84835A1E683D8C00B7B29A /* TitleContentTableViewCell.swift */,
 				0A84835B1E683D8C00B7B29A /* TitleContentTableViewCell.xib */,
 				0A84835E1E683ED500B7B29A /* TimeDisplayTableViewCell.swift */,
@@ -629,6 +635,7 @@
 				0A5332CB1E6C304900C50186 /* SegmentedTableViewCell.xib in Resources */,
 				0A8483611E683ED500B7B29A /* TimeDisplayTableViewCell.xib in Resources */,
 				0A8483691E6841A700B7B29A /* TandemLabelTableViewCell.xib in Resources */,
+				0AD46F3E1E974F01001DAF93 /* MyEventSnapshotTableViewCell.xib in Resources */,
 				0A8483751E68592B00B7B29A /* MapViewTableViewCell.xib in Resources */,
 				0AE5C54A1DB1DFB500B455F4 /* ProfileTableViewCell.xib in Resources */,
 				0A70C09C1DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.xib in Resources */,
@@ -746,6 +753,7 @@
 				0A8483741E68592B00B7B29A /* MapViewTableViewCell.swift in Sources */,
 				0A98340C1E64570400A5D894 /* NewEventDueViewController.swift in Sources */,
 				0A71119F1DBEC8BF00742F2D /* LoginKit.swift in Sources */,
+				0AD46F3D1E974F01001DAF93 /* MyEventSnapshotTableViewCell.swift in Sources */,
 				0A9A94581DC40C5F00B002D2 /* CustomizedAlertViewController.swift in Sources */,
 				0A84835C1E683D8C00B7B29A /* TitleContentTableViewCell.swift in Sources */,
 				0ADE0C9F1DB1F173009F89A0 /* EventHistoryViewController.swift in Sources */,
