@@ -94,33 +94,33 @@ class MeViewController: UIViewController {
     }
     
     func sendFeedback() {
-        guard let conversation = LCCKConversationViewController(peerId: USCFunConstants.systemAdministratorClientId) else {
+        guard let conversationViewController = LCCKConversationViewController(peerId: USCFunConstants.systemAdministratorClientId) else {
             SVProgressHUD.showError(withStatus: "无法连接网络")
             return
         }
-        conversation.isEnableAutoJoin = true
-        conversation.hidesBottomBarWhenPushed = true
-        conversation.isDisableTitleAutoConfig = true
-        conversation.disablesAutomaticKeyboardDismissal = false
-        conversation.viewDidLoadBlock = {
+        conversationViewController.isEnableAutoJoin = true
+        conversationViewController.hidesBottomBarWhenPushed = true
+        conversationViewController.isDisableTitleAutoConfig = true
+        conversationViewController.disablesAutomaticKeyboardDismissal = false
+        conversationViewController.viewDidLoadBlock = {
             viewController in
             viewController?.navigationItem.title = "日常小管家"
             viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         }
-        conversation.viewDidAppearBlock = {
+        conversationViewController.viewDidAppearBlock = {
             (viewController, animated) in
             print("conversation controller view did appear")
             viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         }
         
-        conversation.viewWillDisappearBlock = {
+        conversationViewController.viewWillDisappearBlock = {
             (viewController, animated) in
             print("conversation controller view will disappear")
             viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
             SVProgressHUD.dismiss()
         }
         
-        self.navigationController?.pushViewController(conversation, animated: true)
+        self.navigationController?.pushViewController(conversationViewController, animated: true)
     }
 
     let textOfAllowEventHistroyViewed = "公开活动历史"

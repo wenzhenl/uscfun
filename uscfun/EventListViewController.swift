@@ -269,34 +269,45 @@ class EventListViewController: UIViewController {
     func joinDiscussion(sender: UIButton) {
         guard let eventId = sender.accessibilityHint else { return }
         guard let event = EventRequest.publicEvents[eventId] else { return }
-        guard let conversation = LCCKConversationViewController(conversationId: event.conversationId) else {
+        guard let conversationViewController = LCCKConversationViewController(conversationId: event.conversationId) else {
             self.displayInfo(info: "网络错误，无法进入评论区")
             return
         }
-        conversation.isEnableAutoJoin = true
-        conversation.hidesBottomBarWhenPushed = true
-        conversation.isDisableTitleAutoConfig = true
-        conversation.disablesAutomaticKeyboardDismissal = false
-        conversation.viewDidLoadBlock = {
+        conversationViewController.isEnableAutoJoin = true
+        conversationViewController.hidesBottomBarWhenPushed = true
+        conversationViewController.isDisableTitleAutoConfig = true
+        conversationViewController.disablesAutomaticKeyboardDismissal = false
+        conversationViewController.viewDidLoadBlock = {
             viewController in
             viewController?.navigationItem.title = event.name
             viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         }
         
-        conversation.viewDidAppearBlock = {
+        conversationViewController.viewDidAppearBlock = {
             (viewController, animated) in
             print("conversation controller view did appear")
             viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         }
         
-        conversation.viewWillDisappearBlock = {
+        conversationViewController.viewWillDisappearBlock = {
             (viewController, animated) in
             print("conversation controller view will disappear")
             viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+            if !event.members.contains(AVUser.current()!) {
+                conversationViewController.getConversationIfExists().quit {
+                    succeeded, error in
+                    if succeeded {
+                        print("quit conversation successfully")
+                    }
+                    if error != nil {
+                        print(error!)
+                    }
+                }
+            }
             SVProgressHUD.dismiss()
         }
         
-        self.navigationController?.pushViewController(conversation, animated: true)
+        self.navigationController?.pushViewController(conversationViewController, animated: true)
     }
 }
 

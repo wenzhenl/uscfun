@@ -30,7 +30,11 @@ class USCFunConstants {
     
     static let systemAdministratorClientId = "wenzhenl_usc_edu"
     
-    //-MARK: storyboard identifiers
+    //--MARK: event conversation
+    static let welcomeMessage = "【系统】大家对于我发起的微活动有什么疑问的话，我们一起讨论一下。"
+    static let finalizedMessage = "【系统】我们的微活动约定成功了，聊天室已经被系统设为Pirate了。这条信息之下的对话内容全部来自于参加的各位。"
+    
+    //--MARK: storyboard identifiers
     static let storyboardIdentifierOfCustomizedAlertViewController = "Customized Alert View Controller"
     static let storyboardIdentifierOfWebViewController = "common use web vc"
     static let storyboardIdentifierOfUserProfilerViewController = "user profile view controller"
