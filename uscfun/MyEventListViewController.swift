@@ -398,6 +398,10 @@ class MyEventListViewController: UIViewController {
     
     func joinDiscussion(sender: UIButton) {
         guard let eventId = sender.accessibilityHint else { return }
+        joinDiscussion(eventId: eventId)
+    }
+    
+    func joinDiscussion(eventId: String) {
         guard let event = EventRequest.myOngoingEvents[eventId] else { return }
         guard let conversation = LCCKConversationViewController(conversationId: event.conversationId) else {
             self.displayInfo(info: "网络错误，无法进入评论区")
@@ -430,7 +434,7 @@ class MyEventListViewController: UIViewController {
     }
     
     func deleteEvent(sender: UIButton) {
-        self.deleteEvent(eventId: sender.accessibilityHint!)
+        deleteEvent(eventId: sender.accessibilityHint!)
     }
     
     func deleteEvent(eventId: String) {
@@ -693,46 +697,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
         if EventRequest.myOngoingEvents.count > 0 && indexPath.section > 0 {
             let event = self.eventForSection(section: indexPath.section)
             if event.status == .isFinalized {
-                guard let conversation = LCCKConversationViewController(conversationId: event.conversationId) else {
-                    self.displayInfo(info: "网络错误，无法进入评论区")
-                    tableView.deselectRow(at: indexPath, animated: true)
-                    return
-                }
-                conversation.isEnableAutoJoin = true
-                conversation.hidesBottomBarWhenPushed = true
-                conversation.isDisableTitleAutoConfig = true
-                conversation.disablesAutomaticKeyboardDismissal = false
-                conversation.viewDidLoadBlock = {
-                    viewController in
-                    viewController?.navigationItem.title = event.name + "(" + String(event.members.count) + ")"
-                    viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-                }
-                
-                conversation.viewDidAppearBlock = {
-                    (viewController, animated) in
-                    print("conversation controller view did appear")
-                    viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-                }
-                
-                conversation.viewWillDisappearBlock = {
-                    (viewController, animated) in
-                    print("conversation controller view will disappear")
-                    viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-                    SVProgressHUD.dismiss()
-                }
-                
-                /// set conversation to be read
-                if var record = event.conversationRecord {
-                    record.isUnread = false
-                    do {
-                        try ConversationList.addRecord(conversationId: event.conversationId, record: record)
-                            self.tableView.reloadSections(IndexSet([indexPath.section]), with: .automatic)
-                    } catch let error {
-                        print("failed to set conversation to be read: \(error)")
-                    }
-                }
-                
-                self.navigationController?.pushViewController(conversation, animated: true)
+                joinDiscussion(eventId: event.objectId!)
             } else {
                 performSegue(withIdentifier: identifierToEventDetail, sender: tableView.cellForRow(at: indexPath))
             }
