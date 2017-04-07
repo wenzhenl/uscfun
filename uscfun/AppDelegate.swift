@@ -131,6 +131,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if timer == nil {
             timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(updateRemainingTime), userInfo: nil, repeats: true)
         }
+        
+        /// clean public events if needed
+        if UserDefaults.shouldCleanPublicEvents {
+            let appDelegate = UIApplication.shared.delegate! as! AppDelegate
+            let loadVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentifierOfLoadDataViewController)
+            appDelegate.window?.rootViewController = loadVC
+            appDelegate.window?.makeKeyAndVisible()
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -245,6 +253,7 @@ extension AppDelegate: LoginDelegate {
         
         /// should skip unread system notification messages
         UserDefaults.shouldSkipUnreadAfterLaunch = true
+        UserDefaults.lastPublicEventsCleanedAt = Date()
         
         AVIMClient.setUserOptions([AVIMUserOptionUseUnread: true])
 

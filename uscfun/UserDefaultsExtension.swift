@@ -373,4 +373,22 @@ extension UserDefaults {
             UserDefaults.standard.setValue(newValue, forKey: "hasRatedApp")
         }
     }
+    
+    /// clean public events regularly every 30 minutes
+    class var shouldCleanPublicEvents: Bool {
+        if Date().timeIntervalSince(lastPublicEventsCleanedAt) > TimeInterval(30*3600) {
+            return true
+        }
+        return false
+    }
+    
+    class var lastPublicEventsCleanedAt: Date {
+        get {
+            let interval = UserDefaults.standard.double(forKey: "lastPublicEventsCleanedAt")
+            return Date(timeIntervalSince1970: interval)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue.timeIntervalSince1970, forKey: "lastPublicEventsCleanedAt")
+        }
+    }
 }

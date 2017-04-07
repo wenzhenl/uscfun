@@ -104,6 +104,7 @@
 		0AAE42E21D9A2CC500B34601 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAE42E11D9A2CC500B34601 /* MapKit.framework */; };
 		0AAE42E41D9A2F8B00B34601 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE42E31D9A2F8B00B34601 /* MapViewController.swift */; };
 		0ABA18831E8B7566002DA704 /* CustomizedChatKit.Other.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0ABA18821E8B7566002DA704 /* CustomizedChatKit.Other.bundle */; };
+		0AD46F3A1E9748BC001DAF93 /* LoadDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD46F391E9748BC001DAF93 /* LoadDataViewController.swift */; };
 		0ADA4D2D1D9A46970001A376 /* SingleButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADA4D2B1D9A46970001A376 /* SingleButtonTableViewCell.swift */; };
 		0ADA4D2E1D9A46970001A376 /* SingleButtonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0ADA4D2C1D9A46970001A376 /* SingleButtonTableViewCell.xib */; };
 		0ADE0C9D1DB1F140009F89A0 /* UpdateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE0C9C1DB1F140009F89A0 /* UpdateProfileViewController.swift */; };
@@ -229,6 +230,7 @@
 		0AB3FFC71D97B30B0088B8C0 /* uscfun-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "uscfun-Bridging-Header.h"; sourceTree = "<group>"; };
 		0ABA18821E8B7566002DA704 /* CustomizedChatKit.Other.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CustomizedChatKit.Other.bundle; path = uscfun/CustomizedChatKit.Other.bundle; sourceTree = "<group>"; };
 		0ACFD5971DBAD14200E33E53 /* uscfun.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = uscfun.entitlements; sourceTree = "<group>"; };
+		0AD46F391E9748BC001DAF93 /* LoadDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadDataViewController.swift; sourceTree = "<group>"; };
 		0ADA4D2B1D9A46970001A376 /* SingleButtonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleButtonTableViewCell.swift; sourceTree = "<group>"; };
 		0ADA4D2C1D9A46970001A376 /* SingleButtonTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SingleButtonTableViewCell.xib; sourceTree = "<group>"; };
 		0ADE0C9C1DB1F140009F89A0 /* UpdateProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateProfileViewController.swift; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 			children = (
 				0A6834BD1D56858C002E9B0D /* AppDelegate.swift */,
 				0AB3FFC71D97B30B0088B8C0 /* uscfun-Bridging-Header.h */,
+				0AD46F391E9748BC001DAF93 /* LoadDataViewController.swift */,
 				0A6834C91D56858C002E9B0D /* Info.plist */,
 				0A6834C61D56858C002E9B0D /* LaunchScreen.storyboard */,
 				0ACFD5971DBAD14200E33E53 /* uscfun.entitlements */,
@@ -699,6 +702,7 @@
 				0ADE0CA31DB1F19D009F89A0 /* AboutViewController.swift in Sources */,
 				0AE5C5491DB1DFB500B455F4 /* ProfileTableViewCell.swift in Sources */,
 				0A5332C21E6B2D7200C50186 /* ImageViewCollectionViewCell.swift in Sources */,
+				0AD46F3A1E9748BC001DAF93 /* LoadDataViewController.swift in Sources */,
 				0A5332CD1E6D02AA00C50186 /* EditEventViewController.swift in Sources */,
 				0A5332BE1E6B2C8800C50186 /* CollectionViewTableViewCell.swift in Sources */,
 				0AA4562D1E8D019D0026A5DC /* LeanCloudExtension.swift in Sources */,

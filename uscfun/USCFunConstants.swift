@@ -35,6 +35,7 @@ class USCFunConstants {
     static let storyboardIdentifierOfWebViewController = "common use web vc"
     static let storyboardIdentifierOfUserProfilerViewController = "user profile view controller"
     static let storyboardIdentifierOfMapViewController = "universal map view controller"
+    static let storyboardIdentifierOfLoadDataViewController = "load data view controller"
 }
 
 struct UserKeyConstants {
