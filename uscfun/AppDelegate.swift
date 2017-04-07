@@ -20,8 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        UserDefaults.isfirstActiveFollowingLaunching = true
-        
         //--MARK: register wechat account
         WXApi.registerApp("wx8f761834a81e3579")
         
@@ -29,12 +27,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        AVOSCloud.setServiceRegion(.US)
 //        LCChatKit.setAppId("PekMMQm8zL9QvMJgRicoeDJ9-MdYXbMMI", appKey: "SJMKewuanrMk3jF8bQg4aChy")
 //        AVOSCloud.setApplicationId("PekMMQm8zL9QvMJgRicoeDJ9-MdYXbMMI", clientKey: "SJMKewuanrMk3jF8bQg4aChy")
-        
+//        AVOSCloud.setAllLogsEnabled(true)
+
         AVOSCloud.setServiceRegion(.CN)
         LCChatKit.setAppId("0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz", appKey: "XRGhgA5IwbqTWzosKRh3nzRY")
         AVOSCloud.setApplicationId("0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz", clientKey: "XRGhgA5IwbqTWzosKRh3nzRY")
         
-        AVOSCloud.setAllLogsEnabled(true)
         AVAnalytics.trackAppOpened(launchOptions: launchOptions)
         
         LCCKInputViewPluginTakePhoto.registerSubclass()
@@ -59,6 +57,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 UserDefaults.hasRatedApp = false
             }
         }
+        
+        /// should skip unread system notification messages
+        UserDefaults.shouldSkipUnreadAfterLaunch = true
         
         // PRE-LOAD DATA
         if UserDefaults.hasLoggedIn {
@@ -200,13 +201,43 @@ extension AppDelegate: AVIMClientDelegate {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updatedEventAvailable"), object: nil, userInfo: ["eventId": eventId])
         }
     }
+    
+    func conversation(_ conversation: AVIMConversation, didReceiveUnread unread: Int) {
+        
+        print("fetching unread messages starts")
+        
+        if UserDefaults.shouldSkipUnreadAfterLaunch {
+            conversation.markAsReadInBackground()
+            UserDefaults.shouldSkipUnreadAfterLaunch = false
+            return
+        } else {
+            if unread <= 0 {
+                return
+            }
+            conversation.queryMessagesFromServer(withLimit: UInt(unread)) {
+                objects, error in
+                if let messages = objects as? [AVIMTypedMessage] {
+                    for message in messages {
+                        print(message)
+                    }
+                }
+                
+                if error != nil {
+                    print(error!)
+                }
+            }
+            conversation.markAsReadInBackground()
+        }
+        
+        print("fetching unread messages ends")
+    }
 }
 
 extension AppDelegate: LoginDelegate {
     func userDidLoggedIn() {
         
-//        AVIMClient.setUserOptions([AVIMUserOptionUseUnread: true])
-        
+        AVIMClient.setUserOptions([AVIMUserOptionUseUnread: true])
+
         LCChatKit.sharedInstance().fetchProfilesBlock = {
             userIds, completionHandler in
             var users = [LCCKUser]()
@@ -366,11 +397,11 @@ extension AppDelegate: LoginDelegate {
         systemNotificationClient?.open() {
             succeed, error in
             if succeed {
-                print("client open successfully")
+                print("system client open successfully")
             }
             
             if error != nil {
-                print(error!.localizedDescription)
+                print(error!)
             }
         }
     }

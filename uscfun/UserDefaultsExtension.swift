@@ -57,6 +57,15 @@ extension UserDefaults {
         }
     }
     
+    class var shouldSkipUnreadAfterLaunch: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "shouldSkipUnreadAfterLaunch")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "shouldSkipUnreadAfterLaunch")
+        }
+    }
+    
     //--MARK: current user information
     class var email: String? {
         get {
@@ -290,16 +299,6 @@ extension UserDefaults {
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: "New_Event_Note")
-        }
-    }
-    
-    //--MARK: indicate this application becomes active immediately after launch
-    class var isfirstActiveFollowingLaunching: Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: "isfirstActiveFollowingLaunching_Key")
-        }
-        set {
-            UserDefaults.standard.setValue(newValue, forKey: "isfirstActiveFollowingLaunching_Key")
         }
     }
     
