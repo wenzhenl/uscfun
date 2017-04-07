@@ -298,22 +298,17 @@ class EventDetailViewController: UIViewController {
                 SVProgressHUD.dismiss()
                 if succeeded {
                     
-                    LCChatKit.sharedInstance().client.conversationQuery().getConversationById(self.event.conversationId) {
-                        conversation, error in
-                        if let conversation = conversation {
-                            conversation.quit {
-                                succeeded, error in
-                                if succeeded {
-                                    print("quit event conversation successfully")
-                                }
-                                if error != nil {
-                                    print("failed to quit event conversation \(error!)")
-                                }
+                    if let conversation = LCChatKit.sharedInstance().client.conversation(forId: self.event.conversationId) {
+                        conversation.quit {
+                            succeeded, error in
+                            if succeeded {
+                                print("quit event conversation successfully")
+                            }
+                            if error != nil {
+                                print("failed to quit event conversation \(error!)")
                             }
                         }
-                        if error != nil {
-                            print("failed to quit event conversation \(error!)")
-                        }
+
                     }
                     
                     let quitEventGroup = DispatchGroup()

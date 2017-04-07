@@ -347,13 +347,15 @@ extension AppDelegate: LoginDelegate {
         
         LCChatKit.sharedInstance().filterMessagesBlock = {
             conversation, messages, completion in
-            guard let conversationId = conversation?.conversationId, let message = messages?.last else {
+            guard let conversationId = conversation?.conversationId,
+                let message = messages?.last,
+                conversationId == message.conversationId else {
                 print("something goes wrong with filter message hook")
                 completion?(messages, nil)
                 return
             }
             
-            print("catched filtered message \(message)")
+            print("catched \(conversationId) filtered message \(message.conversationId)")
             
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newMessageForMyEvents"), object: nil, userInfo: ["action": "receive", "conversationId": conversationId, "message": message])
             completion?(messages, nil)

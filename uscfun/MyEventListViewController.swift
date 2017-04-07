@@ -244,7 +244,7 @@ class MyEventListViewController: UIViewController {
             for id in EventRequest.myOngoingEvents.keys {
                 let event = EventRequest.myOngoingEvents[id]!
                 if event.conversationId == conversationId {
-                    var newRecord: ConversationRecord? = nil
+                    var newRecord: ConversationRecord?
                     if action == "send" {
                         newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: false, lastUpdatedAt: Int64(Date().timeIntervalSince1970))
                     }
@@ -284,22 +284,21 @@ class MyEventListViewController: UIViewController {
             newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: false, lastUpdatedAt: Int64(Date().timeIntervalSince1970))
         }
         else if action == "receive" {
-            if message.clientId == AVUser.current()!.username {
+            if message.clientId! == AVUser.current()!.username! && conversationRecord.lastUpdatedAt! < message.sendTimestamp {
                 newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: false, lastUpdatedAt: message.sendTimestamp)
-            } else if !(conversationRecord.latestMessage == text && conversationRecord.lastUpdatedAt == message.sendTimestamp) {
+            } else if conversationRecord.lastUpdatedAt! < message.sendTimestamp {
                 newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: true, lastUpdatedAt: message.sendTimestamp)
             }
         }
         if newRecord != nil {
             do {
                 try ConversationList.addRecord(conversationId: conversationId, record: newRecord!)
+                EventRequest.setEvent(event: event, with: event.objectId!, for: .myongoing) {
+                    self.tableView.reloadData()
+                }
             } catch let error {
                 print("save conversation record failed: \(error)")
             }
-        }
-        
-        EventRequest.setEvent(event: event, with: event.objectId!, for: .myongoing) {
-            self.tableView.reloadData()
         }
     }
     
@@ -464,18 +463,18 @@ class MyEventListViewController: UIViewController {
                 print("cannot get conversation from conversation view controller")
                 return
             }
-            
-            if !event.members.contains(AVUser.current()!) {
-                conversation.quit {
-                    succeeded, error in
-                    if succeeded {
-                        print("quit conversation successfully")
-                    }
-                    if error != nil {
-                        print(error!)
-                    }
-                }
-            }
+//
+//            if !event.members.contains(AVUser.current()!) {
+//                conversation.quit {
+//                    succeeded, error in
+//                    if succeeded {
+//                        print("quit conversation successfully")
+//                    }
+//                    if error != nil {
+//                        print(error!)
+//                    }
+//                }
+//            }
             
             guard let conversationRecords = ConversationList.parseConversationRecords(), var conversationRecord = conversationRecords[conversation.conversationId!] else {
                 print("unable to set conversation to read")
