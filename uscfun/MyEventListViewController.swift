@@ -458,31 +458,14 @@ class MyEventListViewController: UIViewController {
             print("conversation controller view will disappear")
             viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
             SVProgressHUD.dismiss()
-
-            guard let conversation = conversationViewController.getConversationIfExists() else {
-                print("cannot get conversation from conversation view controller")
-                return
-            }
-//
-//            if !event.members.contains(AVUser.current()!) {
-//                conversation.quit {
-//                    succeeded, error in
-//                    if succeeded {
-//                        print("quit conversation successfully")
-//                    }
-//                    if error != nil {
-//                        print(error!)
-//                    }
-//                }
-//            }
             
-            guard let conversationRecords = ConversationList.parseConversationRecords(), var conversationRecord = conversationRecords[conversation.conversationId!] else {
+            guard let conversationRecords = ConversationList.parseConversationRecords(), var conversationRecord = conversationRecords[event.conversationId] else {
                 print("unable to set conversation to read")
                 return
             }
             conversationRecord.isUnread = false
             do {
-                try ConversationList.addRecord(conversationId: conversation.conversationId!, record: conversationRecord)
+                try ConversationList.addRecord(conversationId: event.conversationId, record: conversationRecord)
                 self.tableView.reloadData()
                 print("reset conversation successfully")
             } catch let error {

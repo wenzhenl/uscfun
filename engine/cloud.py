@@ -25,15 +25,15 @@ MASTER_KEY = os.environ['LEANCLOUD_APP_MASTER_KEY']
 
 admin = "wenzhenl_usc_edu"
 
-# conversation_url = "https://api.leancloud.cn/1.1/classes/_Conversation"
-# subscribe_url = 'https://leancloud.cn/1.1/rtm/conversation/subscription'
-# broadcast_url = 'https://leancloud.cn/1.1/rtm/broadcast/subscriber'
-# message_url = 'https://api.leancloud.cn/1.1/rtm/messages'
-
-conversation_url = "https://us-api.leancloud.cn/1.1/classes/_Conversation"
+conversation_url = "https://api.leancloud.cn/1.1/classes/_Conversation"
 subscribe_url = 'https://leancloud.cn/1.1/rtm/conversation/subscription'
 broadcast_url = 'https://leancloud.cn/1.1/rtm/broadcast/subscriber'
-message_url = 'https://us-api.leancloud.cn/1.1/rtm/messages'
+message_url = 'https://api.leancloud.cn/1.1/rtm/messages'
+
+# conversation_url = "https://us-api.leancloud.cn/1.1/classes/_Conversation"
+# subscribe_url = 'https://leancloud.cn/1.1/rtm/conversation/subscription'
+# broadcast_url = 'https://leancloud.cn/1.1/rtm/broadcast/subscriber'
+# message_url = 'https://us-api.leancloud.cn/1.1/rtm/messages'
 
 engine = Engine(app)
 
@@ -155,46 +155,6 @@ def checkIfConfirmationCodeMatches(**params):
         raise LeanEngineError('邮箱以及验证码都不能为空')
 
 @engine.define
-def receiveFeedback(**params):
-    print "receive feedback starts"
-    if 'email' in params and 'feedback' in params:
-        try:
-            fromaddr = "richangteam@gmail.com"
-            toaddr = "richangteam@gmail.com"
-            password = "580230richang"
-
-            email = params['email']
-            print "email:" + email
-            feedback = params['feedback']
-            print "feedback: " + feedback
-
-            message = MIMEMultipart()
-            message['From'] = fromaddr
-            message['To'] = toaddr
-            message['Subject'] = "来自用户的反馈"
-
-            message.attach(MIMEText(email.encode('utf-8'), 'plain', 'utf-8'))
-            message.attach(MIMEText(feedback.encode('utf-8'), 'plain', 'utf-8'))
-
-            server = smtplib.SMTP('smtp.gmail.com', '587')
-            server.ehlo()
-            server.starttls()
-            server.login(fromaddr, password)
-            text = message.as_string()
-            server.sendmail(fromaddr, toaddr, text)
-            server.quit()
-            print "receive feedback ends"
-            return True
-        except Exception as e:
-            print e
-            print "receive feedback ends"
-            raise LeanEngineError('发送反馈失败，请稍后重试')
-    else:
-        print "email cannot be empty"
-        print "receive feedback ends"
-        raise LeanEngineError('邮箱反馈都不能为空')
-
-@engine.define
 def createSystemConversationIfNotExists(**params):
     print "create system conversation if not exists starts"
     if 'email' in params:
@@ -269,24 +229,49 @@ def subscribeToSystemConversation(**params):
         print "subscribe to system conversation ends"
         raise LeanEngineError('client id and institution must be not empty')
 
-@engine.after_save('_Conversation')
-def after_conversation_save(conversation):
-    print("after conversation save started")
-    print "conversation id:" + conversation.get('objectId')
+@engine.define
+def joinConversation(**params):
+    print "join conversation starts"
+    if 'clientId' in params and 'conversationId' in params:
+        try:
+            client_id = params['clientId']
+            conversation_id = params['conversationId']
+            query = Query("_Conversation")
+            conversation = query.get(conversation_id)
+            conversation.add_unique('m', client_id)
+            conversation.save()
+            print "join conversation ends"
+            return True
+        except Exception as e:
+            print e
+            print "join conversation ends"
+            raise LeanEngineError('join conversation failed')
+    else:
+        print "client id and conversation id must not be empty"
+        print "join conversation ends"
+        raise LeanEngineError('join conversation failed')
 
-    headers = {'Content-Type': 'application/json', \
-        'X-LC-Id': APP_ID, \
-        'X-LC-Key': MASTER_KEY + ',master'}
-
-    # if it is an event associated conversation
-    # if conversation.get('sys') == False and conversation.get('unique') == False:
-    print "catched event associated conversation: " + conversation.get('objectId')
-    data = {"from_peer": admin, \
-            "message": "{\"_lctype\":-1,\"_lctext\":\"You can start conversation now\", \
-            \"_lcattrs\":{\"username\": \"日常小管家\", \"conversationType\": 1}}", \
-             "conv_id": conversation.get('objectId')}
-    requests.post(message_url, data=json.dumps(data), headers=headers)
-    print("after conversation save ended")
+@engine.define
+def quitConversation(**params):
+    print "quit conversation starts"
+    if 'clientId' in params and 'conversationId' in params:
+        try:
+            client_id = params['clientId']
+            conversation_id = params['conversationId']
+            query = Query("_Conversation")
+            conversation = query.get(conversation_id)
+            conversation.remove('m', client_id)
+            conversation.save()
+            print "quit conversation ends"
+            return True
+        except Exception as e:
+            print e
+            print "quit conversation ends"
+            raise LeanEngineError('quit conversation failed')
+    else:
+        print "client id and conversation id must not be empty"
+        print "quit conversation ends"
+        raise LeanEngineError('quit conversation failed')
 
 @engine.after_save('Event')
 def after_event_save(event):
@@ -351,30 +336,40 @@ def after_event_update(event):
 def _receiversOffline(**params):
     print('_receiversOffline start')
     print(params)
-    content = params['content']
-    mediaType = content[content.find('_lctype')+9:content.find('_lctype')+11]
-    if mediaType == "-1":
-        short_content = content[content.find('_lctext')+10:content.find('_lcattrs')-3]
-    elif mediaType == "-2":
-        short_content = "[图片]"
-    elif mediaType == "-3":
-        short_content = "[语音信息]"
-    elif mediaType == "-4":
-        short_content = "[视频信息]"
-    elif mediaType == "-5":
-        short_content = "[位置]"
-    elif mediaType == "-6":
-        short_content = "[文件]"
-    print('short_content:', short_content)
-    payloads = {
-        # 自增未读消息的数目，不想自增就设为数字
-        'badge': 'Increment',
-        'sound': 'default',
-        # 使用开发证书
-        '_profile': 'dev',
-        'alert': short_content,
-    }
-    print('_receiversOffline end')
-    return {
-        'pushMessage': json.dumps(payloads),
-    }
+
+    conversation_id = params['convId']
+    query = Query("_Conversation")
+    conversation = query.get(conversation_id)
+    # if it is system notification skip
+    if conversation.get('sys') == True:
+        return {
+            'skip': True
+        }
+    else:
+        content = params['content']
+        mediaType = content[content.find('_lctype')+9:content.find('_lctype')+11]
+        if mediaType == "-1":
+            short_content = content[content.find('_lctext')+10:content.find('_lcattrs')-3]
+        elif mediaType == "-2":
+            short_content = "[图片]"
+        elif mediaType == "-3":
+            short_content = "[语音信息]"
+        elif mediaType == "-4":
+            short_content = "[视频信息]"
+        elif mediaType == "-5":
+            short_content = "[位置]"
+        elif mediaType == "-6":
+            short_content = "[文件]"
+        print('short_content:', short_content)
+        payloads = {
+            # 自增未读消息的数目，不想自增就设为数字
+            'badge': 'Increment',
+            'sound': 'default',
+            # 使用开发证书
+            '_profile': 'dev',
+            'alert': short_content,
+        }
+        print('_receiversOffline end')
+        return {
+            'pushMessage': json.dumps(payloads),
+        }

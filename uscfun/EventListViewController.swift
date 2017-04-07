@@ -293,18 +293,19 @@ class EventListViewController: UIViewController {
             (viewController, animated) in
             print("conversation controller view will disappear")
             viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+            SVProgressHUD.dismiss()
+
             if !event.members.contains(AVUser.current()!) {
-                conversationViewController.getConversationIfExists().quit {
+                LeanEngine.quitConversation(clientId: AVUser.current()!.username!, conversationId: event.conversationId) {
                     succeeded, error in
                     if succeeded {
-                        print("quit conversation successfully")
+                        print("quit conversation after exit successfully")
                     }
                     if error != nil {
-                        print(error!)
+                        print("failed to quit conversation after exit \(error!)")
                     }
                 }
             }
-            SVProgressHUD.dismiss()
         }
         
         self.navigationController?.pushViewController(conversationViewController, animated: true)

@@ -86,6 +86,8 @@ struct LeanEngineFunctions {
     static let nameOfCheckIfConfirmationCodeMatches = "checkIfConfirmationCodeMatches"
     static let nameOfCreateSystemConversationIfNotExists = "createSystemConversationIfNotExists"
     static let nameOfSubscribeToSystemConversation = "subscribeToSystemConversation"
+    static let nameOfJoinConversation = "joinConversation"
+    static let nameOfQuitConversation = "quitConversation"
 }
 
 enum UIUserInterfaceIdiom : Int {

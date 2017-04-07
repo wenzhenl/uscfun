@@ -195,18 +195,18 @@ class EventDetailViewController: UIViewController {
             (viewController, animated) in
             print("conversation controller view will disappear")
             viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+            SVProgressHUD.dismiss()
             if !self.event.members.contains(AVUser.current()!) {
-                conversationViewController.getConversationIfExists().quit {
+                LeanEngine.quitConversation(clientId: AVUser.current()!.username!, conversationId: self.event.conversationId) {
                     succeeded, error in
                     if succeeded {
-                        print("quit conversation successfully")
+                        print("quit conversation after exit successfully")
                     }
                     if error != nil {
-                        print(error!)
+                        print("failed to quit conversation after exit \(error!)")
                     }
                 }
             }
-            SVProgressHUD.dismiss()
         }
         
         self.navigationController?.pushViewController(conversationViewController, animated: true)
@@ -219,18 +219,10 @@ class EventDetailViewController: UIViewController {
             SVProgressHUD.dismiss()
             if succeeded {
                 
-                LCChatKit.sharedInstance().client.conversationQuery().getConversationById(event.conversationId) {
-                    conversation, error in
-                    if let conversation = conversation {
-                        conversation.join {
-                            succeeded, error in
-                            if succeeded {
-                                print("join event conversation successfully")
-                            }
-                            if error != nil {
-                                print("failed to join event conversation \(error!)")
-                            }
-                        }
+                LeanEngine.joinConversation(clientId: AVUser.current()!.username!, conversationId: self.event.conversationId) {
+                    succeeded, error in
+                    if succeeded {
+                        print("join event conversation successfully")
                     }
                     if error != nil {
                         print("failed to join event conversation \(error!)")
@@ -298,17 +290,14 @@ class EventDetailViewController: UIViewController {
                 SVProgressHUD.dismiss()
                 if succeeded {
                     
-                    if let conversation = LCChatKit.sharedInstance().client.conversation(forId: self.event.conversationId) {
-                        conversation.quit {
-                            succeeded, error in
-                            if succeeded {
-                                print("quit event conversation successfully")
-                            }
-                            if error != nil {
-                                print("failed to quit event conversation \(error!)")
-                            }
+                    LeanEngine.quitConversation(clientId: AVUser.current()!.username!, conversationId: self.event.conversationId) {
+                        succeeded, error in
+                        if succeeded {
+                            print("quit event conversation successfully")
                         }
-
+                        if error != nil {
+                            print("failed to quit event conversation \(error!)")
+                        }
                     }
                     
                     let quitEventGroup = DispatchGroup()
