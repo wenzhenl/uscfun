@@ -218,6 +218,25 @@ class EventDetailViewController: UIViewController {
             succeeded, error in
             SVProgressHUD.dismiss()
             if succeeded {
+                
+                LCChatKit.sharedInstance().client.conversationQuery().getConversationById(event.conversationId) {
+                    conversation, error in
+                    if let conversation = conversation {
+                        conversation.join {
+                            succeeded, error in
+                            if succeeded {
+                                print("join event conversation successfully")
+                            }
+                            if error != nil {
+                                print("failed to join event conversation \(error!)")
+                            }
+                        }
+                    }
+                    if error != nil {
+                        print("failed to join event conversation \(error!)")
+                    }
+                }
+                
                 let joinEventGroup = DispatchGroup()
                 joinEventGroup.enter()
                 EventRequest.setEvent(event: self.event, with: self.event.objectId!, for: .myongoing, handler: nil)
@@ -278,6 +297,25 @@ class EventDetailViewController: UIViewController {
                 succeeded, error in
                 SVProgressHUD.dismiss()
                 if succeeded {
+                    
+                    LCChatKit.sharedInstance().client.conversationQuery().getConversationById(self.event.conversationId) {
+                        conversation, error in
+                        if let conversation = conversation {
+                            conversation.quit {
+                                succeeded, error in
+                                if succeeded {
+                                    print("quit event conversation successfully")
+                                }
+                                if error != nil {
+                                    print("failed to quit event conversation \(error!)")
+                                }
+                            }
+                        }
+                        if error != nil {
+                            print("failed to quit event conversation \(error!)")
+                        }
+                    }
+                    
                     let quitEventGroup = DispatchGroup()
                     quitEventGroup.enter()
                     EventRequest.setEvent(event: self.event, with: self.event.objectId!, for: .mypublic) {
