@@ -429,20 +429,25 @@ class MyEventListViewController: UIViewController {
         self.navigationController?.pushViewController(conversation, animated: true)
     }
     
-    func deleteEventCell(at indexPath: IndexPath) {
-        let event = eventForSection(section: indexPath.section)
+    func deleteEvent(sender: UIButton) {
+        self.deleteEvent(eventId: sender.accessibilityHint!)
+    }
+    
+    func deleteEvent(eventId: String) {
+        print("delete event cell starts")
+        guard let section = sectionForEvent(eventId: eventId) else { return }
         let alertVC = UIAlertController(title: "请确认微活动已经完结，不再需要继续讨论。完结活动可以在活动历史中查看。", message: nil, preferredStyle: .actionSheet)
         let okay = UIAlertAction(title: "确认删除", style: .destructive) {
             _ in
-            EventRequest.myOngoingEvents[event.objectId!]?.close(for: AVUser.current()!) {
+            EventRequest.myOngoingEvents[eventId]?.close(for: AVUser.current()!) {
                 succeeded, error in
                 if succeeded {
-                    EventRequest.removeEvent(with: event.objectId!, for: .myongoing) {
+                    EventRequest.removeEvent(with: eventId, for: .myongoing) {
                         print("about to delete finalized event")
                         if EventRequest.myOngoingEvents.count == 0 {
                             self.tableView.reloadData()
                         } else {
-                            self.tableView.deleteSections(IndexSet([indexPath.section]), with: .fade)
+                            self.tableView.deleteSections(IndexSet([section]), with: .fade)
                         }
                     }
                 }
@@ -618,6 +623,9 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 cell.latestMessageButton.accessibilityHint = event.objectId
                 cell.latestMessageButton.addTarget(self, action: #selector(joinDiscussion(sender:)), for: .touchUpInside)
                 
+                cell.moreButton.accessibilityHint = event.objectId
+                cell.moreButton.addTarget(self, action: #selector(deleteEvent(sender:)), for: .touchUpInside)
+                
                 cell.eventId = event.objectId
                 
                 cell.due = event.due
@@ -743,8 +751,8 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
             }
             let delete = UITableViewRowAction(style: .default, title: "删除") {
                 action, index in
-                if tableView.cellForRow(at: indexPath) is FinalizedEventSnapshotTableViewCell {
-                    self.deleteEventCell(at: indexPath)
+                if let finalizedCell = tableView.cellForRow(at: indexPath) as? FinalizedEventSnapshotTableViewCell {
+                    self.deleteEvent(eventId: finalizedCell.eventId!)
                 }
             }
             return [delete, more]
