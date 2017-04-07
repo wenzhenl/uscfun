@@ -96,6 +96,11 @@ class MyEventListViewController: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = false
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.tableView.reloadData()
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
         infoLabel.isHidden = true
@@ -246,7 +251,7 @@ class MyEventListViewController: UIViewController {
                 if event.conversationId == conversationId {
                     var newRecord: ConversationRecord?
                     if action == "send" {
-                        newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: false, lastUpdatedAt: Int64(Date().timeIntervalSince1970))
+                        newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: false, lastUpdatedAt: Int64(Date().timeIntervalSince1970 * 1000))
                     }
                     else if action == "receive" {
                         if message.clientId == AVUser.current()!.username {
@@ -281,7 +286,8 @@ class MyEventListViewController: UIViewController {
         
         var newRecord: ConversationRecord?
         if action == "send" {
-            newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: false, lastUpdatedAt: Int64(Date().timeIntervalSince1970))
+            print("send message for new record")
+            newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: false, lastUpdatedAt: Int64(Date().timeIntervalSince1970 * 1000))
         }
         else if action == "receive" {
             if message.clientId! == AVUser.current()!.username! && conversationRecord.lastUpdatedAt! < message.sendTimestamp {

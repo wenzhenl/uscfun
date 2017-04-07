@@ -342,6 +342,8 @@ def _receiversOffline(**params):
     conversation = query.get(conversation_id)
     # if it is system notification skip
     if conversation.get('sys') == True:
+        print "system notification, skip pushMessage"
+        print('_receiversOffline end')
         return {
             'skip': True
         }

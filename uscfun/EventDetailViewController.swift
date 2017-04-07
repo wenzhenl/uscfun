@@ -207,6 +207,18 @@ class EventDetailViewController: UIViewController {
                     }
                 }
             }
+            
+            guard let conversationRecords = ConversationList.parseConversationRecords(), var conversationRecord = conversationRecords[self.event.conversationId] else {
+                print("unable to set conversation to read")
+                return
+            }
+            conversationRecord.isUnread = false
+            do {
+                try ConversationList.addRecord(conversationId: self.event.conversationId, record: conversationRecord)
+                print("reset conversation successfully")
+            } catch let error {
+                print("reset conversation to read failed: \(error)")
+            }
         }
         
         self.navigationController?.pushViewController(conversationViewController, animated: true)

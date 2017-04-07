@@ -635,8 +635,9 @@ extension Event: Comparable {
         if lhs.members.contains(AVUser.current()!) && rhs.members.contains(AVUser.current()!) {
             if lhs.status == .isFinalized && rhs.status != .isFinalized { return true }
             if lhs.status != .isFinalized && rhs.status == .isFinalized { return false }
-            if lhs.status == .isFinalized && rhs.status == .isFinalized {
-                return (lhs.conversationRecord?.lastUpdatedAt ?? 0) > (rhs.conversationRecord?.lastUpdatedAt ?? 0)
+            
+            if let lhsLastUpdatedAt = lhs.conversationRecord?.lastUpdatedAt, let rhsLastUpdatedAt = rhs.conversationRecord?.lastUpdatedAt {
+                return lhsLastUpdatedAt > rhsLastUpdatedAt
             }
 
             return lhs.updatedAt! > rhs.updatedAt!
