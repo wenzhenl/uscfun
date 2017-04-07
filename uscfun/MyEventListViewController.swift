@@ -286,7 +286,7 @@ class MyEventListViewController: UIViewController {
         else if action == "receive" {
             if message.clientId == AVUser.current()!.username {
                 newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: false, lastUpdatedAt: message.sendTimestamp)
-            } else {
+            } else if !(conversationRecord.latestMessage == text && conversationRecord.lastUpdatedAt == message.sendTimestamp) {
                 newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: true, lastUpdatedAt: message.sendTimestamp)
             }
         }
@@ -484,6 +484,8 @@ class MyEventListViewController: UIViewController {
             conversationRecord.isUnread = false
             do {
                 try ConversationList.addRecord(conversationId: conversation.conversationId!, record: conversationRecord)
+                self.tableView.reloadData()
+                print("reset conversation successfully")
             } catch let error {
                 print("reset conversation to read failed: \(error)")
             }
