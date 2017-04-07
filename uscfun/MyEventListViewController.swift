@@ -383,8 +383,8 @@ class MyEventListViewController: UIViewController {
         case identifierToEventDetail:
             if let edVC = segue.destination as? EventDetailViewController {
                 switch sender {
-                case is EventSnapshotTableViewCell:
-                    edVC.event = EventRequest.myOngoingEvents[(sender as! EventSnapshotTableViewCell).eventId!]
+                case is MyEventSnapshotTableViewCell:
+                    edVC.event = EventRequest.myOngoingEvents[(sender as! MyEventSnapshotTableViewCell).eventId!]
                 case is FinalizedEventSnapshotTableViewCell:
                     edVC.event = EventRequest.myOngoingEvents[(sender as! FinalizedEventSnapshotTableViewCell).eventId!]
                 default:
@@ -574,7 +574,6 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                         latestMessage = record.latestMessage!
                     }
                 }
-                
                 if isUnread {
                     cell.ifReadView.layer.cornerRadius = 4
                     cell.ifReadView.backgroundColor = event.finalizedColor
@@ -585,9 +584,9 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                     cell.ifReadView.backgroundColor = UIColor.clear
                 }
                 cell.ifReadViewColor = event.finalizedColor
-                cell.latestMessageLabel.text = latestMessage
-                
-                cell.moreButton.isHidden = true
+                cell.latestMessageButton.setTitle(latestMessage, for: .normal)
+                cell.latestMessageButton.accessibilityHint = event.objectId
+                cell.latestMessageButton.addTarget(self, action: #selector(joinDiscussion(sender:)), for: .touchUpInside)
                 
                 cell.eventId = event.objectId
                 
