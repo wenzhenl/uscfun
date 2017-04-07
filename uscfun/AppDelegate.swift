@@ -96,6 +96,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         timer?.invalidate()
         timer = nil
+        UserDefaults.shouldSkipUnreadAfterLaunch = false
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -210,7 +211,7 @@ extension AppDelegate: AVIMClientDelegate {
     func conversation(_ conversation: AVIMConversation, didReceiveUnread unread: Int) {
         
         print("fetching unread messages starts")
-        
+        print("should skip unread: \(UserDefaults.shouldSkipUnreadAfterLaunch)")
         if UserDefaults.shouldSkipUnreadAfterLaunch {
             conversation.markAsReadInBackground()
             UserDefaults.shouldSkipUnreadAfterLaunch = false
