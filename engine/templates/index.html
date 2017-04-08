@@ -20,10 +20,14 @@
     }
     </style>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="/static/js/uscfun.js"></script>
 </head>
 <body>
-    <div><a target="" href="agreement" style="position: absolute; right: 10px; bottom: 10px; color: grey; font-size:17px;">使用协议</a></div>
-    <div style="height: 100px;"></div>
+    <!-- <div><a target="" href="agreement" style="position: absolute; right: 10px; bottom: 10px; color: grey; font-size:17px;">使用协议</a></div> -->
+    <!-- <div style="height: 100px;"></div>
     <div>
         <img style="width: 60px; height: 60px; display: block; margin: 0 auto;" src="/static/images/blackfish.svg"/>
         <h3>bring people together</h3>
@@ -32,6 +36,32 @@
         <a  target="_blank" href="https://itunes.apple.com/us/app/id1073401869">
             <img style="width: 360px; height: 66px;" src="/static/images/appstore.svg"/>
         </a>
+    </div>
+    <div style="height: 300px;"></div> -->
+    <div data-role="page" id="page1" data-pre="" data-next="#page2">
+        <div data-role="content">
+            <img style="height: 500px; display: block; margin: auto;" src="/static/images/WechatIMG16.png"/>
+        </div>
+    </div>
+    <div data-role="page" id="page2" data-pre="#page1" data-next="#page3">
+        <div data-role="content">
+            <img style="height: 500px; display: block; margin: auto;" src="/static/images/WechatIMG19.png"/>
+        </div>
+    </div>
+    <div data-role="page" id="page3" data-pre="#page2" data-next="#page4">
+        <div data-role="content">
+            <img style="height: 500px; display: block; margin: auto;" src="/static/images/WechatIMG17.png"/>
+        </div>
+    </div>
+    <div data-role="page" id="page4" data-pre="#page3" data-next="#page5">
+        <div data-role="content">
+            <img style="height: 500px; display: block; margin: auto;" src="/static/images/WechatIMG18.png"/>
+        </div>
+    </div>
+    <div data-role="page" id="page5" data-pre="#page4" data-next="">
+        <div data-role="content">
+            <img style="height: 500px; display: block; margin: auto;" src="/static/images/WechatIMG20.png"/>
+        </div>
     </div>
 </body>
 <html>
