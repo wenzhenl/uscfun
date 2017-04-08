@@ -348,20 +348,28 @@ def _receiversOffline(**params):
             'skip': True
         }
     else:
+        from_peer = params['fromPeer']
+        short_content = ""
+        query = Query("_User")
+        query.equal_to('username', from_peer)
+        query_list = query.find()
+        if len(query_list) > 0:
+            short_content = query_list[0].get('nickname') + ": "
+
         content = params['content']
         mediaType = content[content.find('_lctype')+9:content.find('_lctype')+11]
         if mediaType == "-1":
-            short_content = content[content.find('_lctext')+10:content.find('_lcattrs')-3]
+            short_content += content[content.find('_lctext')+10:content.find('_lcattrs')-3]
         elif mediaType == "-2":
-            short_content = "[图片]"
+            short_content += "[图片]"
         elif mediaType == "-3":
-            short_content = "[语音信息]"
+            short_content += "[语音信息]"
         elif mediaType == "-4":
-            short_content = "[视频信息]"
+            short_content += "[视频信息]"
         elif mediaType == "-5":
-            short_content = "[位置]"
+            short_content += "[位置]"
         elif mediaType == "-6":
-            short_content = "[文件]"
+            short_content += "[文件]"
         print('short_content:', short_content)
         payloads = {
             # 自增未读消息的数目，不想自增就设为数字
