@@ -14,10 +14,13 @@ protocol LoginDelegate {
 }
 
 class LoginKit {
+    
     static var password: String?
     
     static var delegate: LoginDelegate?
     
+    static var systemNotificationClient: AVIMClient?
+
     static func checkIfEmailIsTaken(email: String)throws -> Bool {
         var error: NSError?
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
@@ -279,7 +282,17 @@ class LoginKit {
                 print("LCChatKit closed successfully")
             }
             else if error != nil {
-                print(error!.localizedDescription)
+                print("failed to close LCChatKit \(error!)")
+            }
+        }
+        
+        LoginKit.systemNotificationClient?.close {
+            succeed, error in
+            if succeed {
+                print("system client closed successfully")
+            }
+            else if error != nil {
+                print("failed to close system client \(error!)")
             }
         }
         

@@ -15,7 +15,6 @@ import SVProgressHUD
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var systemNotificationClient: AVIMClient?
     var timer: Timer?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -377,9 +376,9 @@ extension AppDelegate: LoginDelegate {
         /// The system client id is replace '@' and '.' with '_' in email
         /// and linked with '_sys', this should be the same id used to subscribe system 
         /// conversation during sign up
-        systemNotificationClient = AVIMClient(clientId: AVUser.current()!.email!.systemClientId!)
-        systemNotificationClient?.delegate = self
-        systemNotificationClient?.open() {
+        LoginKit.systemNotificationClient = AVIMClient(clientId: AVUser.current()!.email!.systemClientId!)
+        LoginKit.systemNotificationClient?.delegate = self
+        LoginKit.systemNotificationClient?.open() {
             succeed, error in
             if succeed {
                 print("system client open successfully")
