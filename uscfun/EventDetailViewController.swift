@@ -212,12 +212,15 @@ class EventDetailViewController: UIViewController {
                 print("unable to set conversation to read")
                 return
             }
-            conversationRecord.isUnread = false
-            do {
-                try ConversationList.addRecord(conversationId: self.event.conversationId, record: conversationRecord)
-                print("reset conversation successfully")
-            } catch let error {
-                print("reset conversation to read failed: \(error)")
+            if conversationRecord.isUnread {
+                conversationRecord.isUnread = false
+                do {
+                    try ConversationList.addRecord(conversationId: self.event.conversationId, record: conversationRecord)
+                    print("reset conversation successfully")
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userReadMessage"), object: nil, userInfo: nil)
+                } catch let error {
+                    print("reset conversation to read failed: \(error)")
+                }
             }
         }
         

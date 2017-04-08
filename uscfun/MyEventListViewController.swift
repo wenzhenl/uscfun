@@ -41,9 +41,9 @@ class MyEventListViewController: UIViewController {
         }
     }
     
-    var numberOfNewEvents: Int = 0 {
+    var numberOfNewMessages: Int = 0 {
         didSet {
-            self.tabBarController?.tabBar.items![USCFunConstants.indexOfMyEventList].badgeValue = numberOfNewEvents > 0 ? "\(numberOfNewEvents)" : nil
+            self.tabBarController?.tabBar.items![USCFunConstants.indexOfMyEventList].badgeValue = numberOfNewMessages > 0 ? "\(numberOfNewMessages)" : nil
         }
     }
     
@@ -91,14 +91,10 @@ class MyEventListViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleCancelEvent(notification:)), name: NSNotification.Name(rawValue: "userDidCancelEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdatedEventAvailable(notification:)), name: NSNotification.Name(rawValue: "updatedEventAvailable"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handlerNewMessage(notification:)), name: NSNotification.Name(rawValue: "newMessageForMyEvents"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handlerReadNewMessage), name: NSNotification.Name(rawValue: "userReadMessage"), object: nil)
 
         view.addSubview(infoLabel)
         self.navigationController?.navigationBar.isTranslucent = false
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        self.tableView.reloadData()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -144,7 +140,7 @@ class MyEventListViewController: UIViewController {
     }
     
     func handleTab() {
-        self.numberOfNewEvents = 0
+        print("tabbed")
     }
     
     func handleTabRefresh() {
@@ -152,7 +148,6 @@ class MyEventListViewController: UIViewController {
     }
     
     func handlePostNewEvent() {
-        numberOfNewEvents += 1
         self.tabBarController?.selectedIndex = USCFunConstants.indexOfMyEventList
         EventRequest.fetchNewerMyOngoingEventsInBackground {
             succeeded, error in
@@ -183,7 +178,6 @@ class MyEventListViewController: UIViewController {
     }
     
     func handleJoinEvent() {
-        self.numberOfNewEvents += 1
         self.tableView.reloadData()
         
         if UserDefaults.shouldRemindOpenRemoteNotification {
@@ -219,6 +213,10 @@ class MyEventListViewController: UIViewController {
         self.tableView.reloadData()
     }
     
+    func handlerReadNewMessage() {
+        self.numberOfNewMessages -= 1
+        self.tableView.reloadData()
+    }
     
     func handlerNewMessage(notification: Notification) {
         guard let userInfo = notification.userInfo as? [String: Any], let action = userInfo["action"] as? String, let conversationId = userInfo["conversationId"] as? String, let message = userInfo["message"] as? AVIMTypedMessage else {
@@ -296,6 +294,11 @@ class MyEventListViewController: UIViewController {
             if message.clientId! == AVUser.current()!.username! && conversationRecord.lastUpdatedAt! < message.sendTimestamp {
                 newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: false, lastUpdatedAt: message.sendTimestamp)
             } else if conversationRecord.lastUpdatedAt! < message.sendTimestamp {
+                
+                if conversationRecord.isUnread == false {
+                    self.numberOfNewMessages += 1
+                }
+                
                 newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: true, lastUpdatedAt: message.sendTimestamp)
             }
         }
@@ -472,13 +475,16 @@ class MyEventListViewController: UIViewController {
                 print("unable to set conversation to read")
                 return
             }
-            conversationRecord.isUnread = false
-            do {
-                try ConversationList.addRecord(conversationId: event.conversationId, record: conversationRecord)
-                self.tableView.reloadData()
-                print("reset conversation successfully")
-            } catch let error {
-                print("reset conversation to read failed: \(error)")
+            if conversationRecord.isUnread {
+                conversationRecord.isUnread = false
+                self.numberOfNewMessages -= 1
+                do {
+                    try ConversationList.addRecord(conversationId: event.conversationId, record: conversationRecord)
+                    self.tableView.reloadData()
+                    print("reset conversation successfully")
+                } catch let error {
+                    print("reset conversation to read failed: \(error)")
+                }
             }
         }
         
