@@ -25,6 +25,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //--MARK: register wechat account
         WXApi.registerApp("wx8f761834a81e3579")
         
+        /// handle unread system notification by fetching
+        AVIMClient.setUserOptions([AVIMUserOptionUseUnread: true])
+        
         //--MARK: register leanclound account
 //        AVOSCloud.setServiceRegion(.US)
 //        LCChatKit.setAppId("PekMMQm8zL9QvMJgRicoeDJ9-MdYXbMMI", appKey: "SJMKewuanrMk3jF8bQg4aChy")
@@ -36,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AVOSCloud.setApplicationId("0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz", clientKey: "XRGhgA5IwbqTWzosKRh3nzRY")
         
         AVAnalytics.trackAppOpened(launchOptions: launchOptions)
-        
+
         LCCKInputViewPluginTakePhoto.registerSubclass()
         LCCKInputViewPluginPickImage.registerSubclass()
         LCCKInputViewPluginLocation.registerSubclass()
@@ -258,8 +261,6 @@ extension AppDelegate: LoginDelegate {
         UserDefaults.shouldSkipUnreadAfterLaunch = true
         UserDefaults.lastPublicEventsCleanedAt = Date()
         
-        AVIMClient.setUserOptions([AVIMUserOptionUseUnread: true])
-
         LCChatKit.sharedInstance().fetchProfilesBlock = {
             userIds, completionHandler in
             var users = [LCCKUser]()
