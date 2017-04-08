@@ -294,8 +294,9 @@ class MyEventListViewController: UIViewController {
             if message.clientId! == AVUser.current()!.username! && conversationRecord.lastUpdatedAt! < message.sendTimestamp {
                 newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: false, lastUpdatedAt: message.sendTimestamp)
             } else if conversationRecord.lastUpdatedAt! < message.sendTimestamp {
-                
+                print("received real new message")
                 if conversationRecord.isUnread == false {
+                    print("adding badge number: \(self.numberOfNewMessages)")
                     self.numberOfNewMessages += 1
                 }
                 
