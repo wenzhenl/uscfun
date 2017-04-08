@@ -284,6 +284,9 @@ class MyEventListViewController: UIViewController {
             return
         }
         
+        print("handle new message by sendTime \(message.sendTimestamp)")
+        print("conversation last updated at: \(conversationRecord.lastUpdatedAt!)")
+        
         var newRecord: ConversationRecord?
         if action == "send" {
             print("send message for new record")
