@@ -464,24 +464,24 @@ extension EventListViewController: UIScrollViewDelegate {
     
     func animateRefreshView() {
         if !self.isRefreshAnimating {
-            (self.customRefreshView.viewWithTag(2) as! UILabel).text = "话说已经可以松手了"
+            (self.customRefreshView.viewWithTag(2) as! UILabel).text = "可以松手了"
         }
         self.isRefreshAnimating = true
         UIView.animateKeyframes(withDuration: 0.8, delay: 0.0, options: .calculationModeCubic, animations: {
             UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 1/4, animations: {
-                self.customRefreshView.viewWithTag(1)?.transform = (self.customRefreshView.viewWithTag(1)?.transform.rotated(by: CGFloat(M_PI_2)))!
+                self.customRefreshView.viewWithTag(1)?.transform = (self.customRefreshView.viewWithTag(1)?.transform.rotated(by: CGFloat(M_PI_4)))!
                 self.customRefreshView.backgroundColor = UIColor.buttonPink
             })
             UIView.addKeyframe(withRelativeStartTime: 1/4, relativeDuration: 1/4, animations: {
-                self.customRefreshView.viewWithTag(1)?.transform = (self.customRefreshView.viewWithTag(1)?.transform.rotated(by: -CGFloat(M_PI_2)))!
+                self.customRefreshView.viewWithTag(1)?.transform = (self.customRefreshView.viewWithTag(1)?.transform.rotated(by: -CGFloat(M_PI_4)))!
                 self.customRefreshView.backgroundColor = UIColor.buttonBlue
             })
             UIView.addKeyframe(withRelativeStartTime: 2/4, relativeDuration: 1/4, animations: {
-                self.customRefreshView.viewWithTag(1)?.transform = (self.customRefreshView.viewWithTag(1)?.transform.rotated(by: -CGFloat(M_PI_2)))!
+                self.customRefreshView.viewWithTag(1)?.transform = (self.customRefreshView.viewWithTag(1)?.transform.rotated(by: -CGFloat(M_PI_4)))!
                 self.customRefreshView.backgroundColor = UIColor.buttonPink
             })
             UIView.addKeyframe(withRelativeStartTime: 3/4, relativeDuration: 1/4, animations: {
-                self.customRefreshView.viewWithTag(1)?.transform = (self.customRefreshView.viewWithTag(1)?.transform.rotated(by: CGFloat(M_PI_2)))!
+                self.customRefreshView.viewWithTag(1)?.transform = (self.customRefreshView.viewWithTag(1)?.transform.rotated(by: CGFloat(M_PI_4)))!
                 self.customRefreshView.backgroundColor = UIColor.buttonBlue
             })
         }, completion: {

@@ -618,7 +618,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 cell.ifReadViewColor = event.finalizedColor
                 
                 cell.eventNameLabel.text = event.name
-                cell.eventNameLabel.numberOfLines = 0
+                cell.eventNameLabel.numberOfLines = 1
                 cell.latestMessageLabel.text = latestMessage
                 cell.statusView.backgroundColor = event.statusColor
                 cell.statusView.layer.masksToBounds = true
@@ -630,6 +630,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
 
             } else {
                 let cell = Bundle.main.loadNibNamed("MyEventSnapshotTableViewCell", owner: self, options: nil)?.first as! MyEventSnapshotTableViewCell
+                cell.eventNameLabel.numberOfLines = 2
                 cell.eventNameLabel.text = event.name
                 cell.creatorLabel.text = "发起人：" + creator.nickname
                 cell.creatorAvatarImageView.layer.masksToBounds = true
