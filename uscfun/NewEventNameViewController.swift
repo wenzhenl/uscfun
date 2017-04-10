@@ -53,7 +53,7 @@ class NewEventNameViewController: UIViewController {
         self.textView.becomeFirstResponder()
     }
     
-    @IBAction func goNext(_ sender: UIBarButtonItem) {
+    @IBAction func goNext() {
         if eventName.characters.count >= 4 && eventName.characters.count <= 140 {
             performSegue(withIdentifier: "BeginEditingNewEventDue", sender: self)
         } else if eventName.characters.count < 4 {
@@ -86,6 +86,7 @@ extension NewEventNameViewController: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
+            goNext()
             return false
         }
         return true
