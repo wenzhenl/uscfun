@@ -391,6 +391,7 @@ class Event {
         let query = AVQuery()
         query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date().timeIntervalSince1970)
         query.whereKey(EventKeyConstants.keyOfRemainingSeats, greaterThanOrEqualTo: 1)
+        query.whereKey(EventKeyConstants.keyOfIsCancelled, equalTo: false)
         
         let option = AVSaveOption()
         option.query = query
@@ -436,7 +437,8 @@ class Event {
         let query = AVQuery()
         query.whereKey(EventKeyConstants.keyOfDue, greaterThan: Date().timeIntervalSince1970)
         query.whereKey(EventKeyConstants.keyOfRemainingSeats, greaterThan: 0)
-        
+        query.whereKey(EventKeyConstants.keyOfIsCancelled, equalTo: false)
+
         let option = AVSaveOption()
         option.query = query
         
