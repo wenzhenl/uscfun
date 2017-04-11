@@ -39,18 +39,54 @@ class ConversationMoreViewController: UIViewController {
         self.tableView.tableFooterView = UIView()
         self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.separatorStyle = .none
+        self.tableView.contentInset = UIEdgeInsetsMake(30, 0, 50, 0)
         self.title = "聊天详情"
         creator = User(user: event.createdBy)
         populateSections()
     }
     
     func populateSections() {
+        
         detailSections.removeAll()
         detailSections.append(.labelSwitchCell)
+        if event.status == .isFinalized {
+            memberAvatars.removeAll()
+            memberAvatars.append(creator.avatar ?? #imageLiteral(resourceName: "user-4"))
+            for memberData in event.members {
+                if memberData != event.createdBy {
+                    if let member = User(user: memberData) {
+                        memberAvatars.append(member.avatar ?? #imageLiteral(resourceName: "user-4"))
+                    }
+                }
+            }
+            detailSections.append(.titleCell)
+            detailSections.append(.creatorCell)
+            detailSections.append(.remainingNumberCell)
+            detailSections.append(.numberCell)
+            if event.members.count > 1 {
+                detailSections.append(.memberCell)
+            }
+            detailSections.append(.remainingTimeCell)
+            if event.startTime != nil {
+                detailSections.append(.startTimeCell)
+            }
+            if event.endTime != nil {
+                detailSections.append(.endTimeCell)
+            }
+            if event.location != nil {
+                detailSections.append(.locationCell)
+            }
+            if event.note != nil {
+                detailSections.append(.noteCell)
+            }
+            if event.whereCreated != nil {
+                detailSections.append(.mapCell)
+            }
+        }
     }
     
     func checkProfile(sender: UIButton) {
-//        performSegue(withIdentifier: userProfileSugueIdentifier, sender: sender)
+        performSegue(withIdentifier: userProfileSugueIdentifier, sender: sender)
     }
     
     func switchMuteMode(switchElement: UISwitch) {
@@ -77,19 +113,51 @@ class ConversationMoreViewController: UIViewController {
             }
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        let destination = segue.destination.contentViewController
+        
+        if let identifier = segue.identifier {
+            switch identifier {
+            case mapSegueIdentifier:
+                if let mapVC = destination as? MapViewController {
+                    mapVC.placename = event.location
+                    mapVC.latitude = event.whereCreated?.latitude
+                    mapVC.longitude = event.whereCreated?.longitude
+                }
+            case userProfileSugueIdentifier:
+                if let upVC = destination as? UserProfileViewController {
+                    switch sender {
+                    case is UIButton:
+                        upVC.user = event.members[(sender as! UIButton).tag]
+                    case is EventCreatorTableViewCell:
+                        upVC.user = event.createdBy
+                    default:
+                        break
+                    }
+                }
+            default:
+                break
+            }
+        }
+    }
+    
+    let mapSegueIdentifier = "go to see map"
+    let userProfileSugueIdentifier = "go to see user profile"
 }
 
 extension ConversationMoreViewController: UITableViewDelegate, UITableViewDataSource {
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if detailSections[indexPath.section] == .mapCell {
-//            performSegue(withIdentifier: mapSegueIdentifier, sender: self)
-//        }
-//        
-//        if detailSections[indexPath.section] == .creatorCell {
-//            performSegue(withIdentifier: userProfileSugueIdentifier, sender: tableView.cellForRow(at: indexPath))
-//        }
-//    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if detailSections[indexPath.section] == .mapCell {
+            performSegue(withIdentifier: mapSegueIdentifier, sender: self)
+        }
+        
+        if detailSections[indexPath.section] == .creatorCell {
+            performSegue(withIdentifier: userProfileSugueIdentifier, sender: tableView.cellForRow(at: indexPath))
+        }
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return detailSections.count
@@ -268,6 +336,9 @@ extension ConversationMoreViewController: UITableViewDelegate, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if detailSections[section] == .labelSwitchCell {
+            return 20
+        }
         if detailSections[section] == .titleCell {
             return 10
         }

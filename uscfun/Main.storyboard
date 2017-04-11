@@ -651,11 +651,13 @@ A different license may apply to other resources included in this package, inclu
                     </view>
                     <connections>
                         <outlet property="tableView" destination="CI7-Md-8C5" id="erj-R8-kwn"/>
+                        <segue destination="Uge-ze-E6d" kind="show" identifier="go to see user profile" id="cPP-sI-aVY"/>
+                        <segue destination="jln-hf-hFc" kind="show" identifier="go to see map" id="pku-hT-yzD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rKu-R9-TIK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-235" y="-5438"/>
+            <point key="canvasLocation" x="-730" y="-5438"/>
         </scene>
         <!--微活动详情-->
         <scene sceneID="OBR-Vi-A3T">
@@ -1570,6 +1572,8 @@ A different license may apply to other resources included in this package, inclu
         <image name="user" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="cPP-sI-aVY"/>
+        <segue reference="pku-hT-yzD"/>
         <segue reference="xev-Vj-4Av"/>
     </inferredMetricsTieBreakers>
 </document>

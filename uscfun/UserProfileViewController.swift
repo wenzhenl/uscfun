@@ -268,6 +268,8 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
             
             cell.moreButton.isHidden = true
             
+            cell.sealImageView.isHidden = true
+            
             return cell
         case .noEventCell:
             let cell = Bundle.main.loadNibNamed("EmptySectionPlaceholderTableViewCell", owner: self, options: nil)?.first as! EmptySectionPlaceholderTableViewCell

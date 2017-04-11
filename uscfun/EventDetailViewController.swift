@@ -224,6 +224,15 @@ class EventDetailViewController: UIViewController {
             }
         }
         
+        if event.members.contains(AVUser.current()!) {
+            conversationViewController.configureBarButtonItemStyle(.more) {
+                viewController, buttonItem, uievent in
+                let conversationMoreVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: USCFunConstants.storyboardIndetifierOfConversationMoreViewController) as! ConversationMoreViewController
+                conversationMoreVC.event = self.event
+                viewController?.navigationController?.pushViewController(conversationMoreVC, animated: true)
+            }
+        }
+        
         self.navigationController?.pushViewController(conversationViewController, animated: true)
     }
     
