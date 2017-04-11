@@ -104,6 +104,9 @@
 		0AAE42E21D9A2CC500B34601 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAE42E11D9A2CC500B34601 /* MapKit.framework */; };
 		0AAE42E41D9A2F8B00B34601 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE42E31D9A2F8B00B34601 /* MapViewController.swift */; };
 		0AB8F5A01E9C6AC200079E33 /* ConversationMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB8F59F1E9C6AC200079E33 /* ConversationMoreViewController.swift */; };
+		0AB8F5A31E9CBB6C00079E33 /* Welcome.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AB8F5A21E9CBB6C00079E33 /* Welcome.storyboard */; };
+		0AB8F5A71E9CBC5A00079E33 /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB8F5A61E9CBC5A00079E33 /* CardViewController.swift */; };
+		0AB8F5A91E9CBCAF00079E33 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB8F5A81E9CBCAF00079E33 /* PageViewController.swift */; };
 		0ABA18831E8B7566002DA704 /* CustomizedChatKit.Other.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0ABA18821E8B7566002DA704 /* CustomizedChatKit.Other.bundle */; };
 		0AD46F3A1E9748BC001DAF93 /* LoadDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD46F391E9748BC001DAF93 /* LoadDataViewController.swift */; };
 		0AD46F3D1E974F01001DAF93 /* MyEventSnapshotTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD46F3B1E974F01001DAF93 /* MyEventSnapshotTableViewCell.swift */; };
@@ -232,6 +235,9 @@
 		0AAE42E31D9A2F8B00B34601 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		0AB3FFC71D97B30B0088B8C0 /* uscfun-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "uscfun-Bridging-Header.h"; sourceTree = "<group>"; };
 		0AB8F59F1E9C6AC200079E33 /* ConversationMoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationMoreViewController.swift; sourceTree = "<group>"; };
+		0AB8F5A21E9CBB6C00079E33 /* Welcome.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Welcome.storyboard; sourceTree = "<group>"; };
+		0AB8F5A61E9CBC5A00079E33 /* CardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
+		0AB8F5A81E9CBCAF00079E33 /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		0ABA18821E8B7566002DA704 /* CustomizedChatKit.Other.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CustomizedChatKit.Other.bundle; path = uscfun/CustomizedChatKit.Other.bundle; sourceTree = "<group>"; };
 		0ACFD5971DBAD14200E33E53 /* uscfun.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = uscfun.entitlements; sourceTree = "<group>"; };
 		0AD46F391E9748BC001DAF93 /* LoadDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadDataViewController.swift; sourceTree = "<group>"; };
@@ -434,6 +440,7 @@
 		0A6834BC1D56858C002E9B0D /* uscfun */ = {
 			isa = PBXGroup;
 			children = (
+				0AB8F5A11E9CBB0F00079E33 /* Welcome */,
 				0A3D2B601D7B9408004F57EF /* Models */,
 				0A9CB44B1D6FF5C500608D27 /* Login */,
 				0A3D2B571D7B9215004F57EF /* Home */,
@@ -468,6 +475,16 @@
 				0A2506A71DB1A8E80099E812 /* WebViewController.swift */,
 			);
 			name = Login;
+			sourceTree = "<group>";
+		};
+		0AB8F5A11E9CBB0F00079E33 /* Welcome */ = {
+			isa = PBXGroup;
+			children = (
+				0AB8F5A21E9CBB6C00079E33 /* Welcome.storyboard */,
+				0AB8F5A61E9CBC5A00079E33 /* CardViewController.swift */,
+				0AB8F5A81E9CBCAF00079E33 /* PageViewController.swift */,
+			);
+			name = Welcome;
 			sourceTree = "<group>";
 		};
 		0AEDE4EC1E823B3700B56979 /* CustomViews */ = {
@@ -628,6 +645,7 @@
 				0AEFEA591DC12A46005231C4 /* KeyScrollViewTableViewCell.xib in Resources */,
 				0AF0BD8C1E6AD7190091B999 /* EventCreatorTableViewCell.xib in Resources */,
 				0A5332C71E6C1BE200C50186 /* UserProfileHeaderTableViewCell.xib in Resources */,
+				0AB8F5A31E9CBB6C00079E33 /* Welcome.storyboard in Resources */,
 				0A427FB21D97F627007A96BE /* ImageViewTableViewCell.xib in Resources */,
 				0A6834C51D56858C002E9B0D /* Assets.xcassets in Resources */,
 				0A5332BF1E6B2C8800C50186 /* CollectionViewTableViewCell.xib in Resources */,
@@ -761,6 +779,7 @@
 				0A9A94581DC40C5F00B002D2 /* CustomizedAlertViewController.swift in Sources */,
 				0A84835C1E683D8C00B7B29A /* TitleContentTableViewCell.swift in Sources */,
 				0ADE0C9F1DB1F173009F89A0 /* EventHistoryViewController.swift in Sources */,
+				0AB8F5A71E9CBC5A00079E33 /* CardViewController.swift in Sources */,
 				0AAE42E41D9A2F8B00B34601 /* MapViewController.swift in Sources */,
 				0A6834BE1D56858C002E9B0D /* AppDelegate.swift in Sources */,
 				0A37CCE71E90FED7000CC7E7 /* NSErrorExtension.swift in Sources */,
@@ -774,6 +793,7 @@
 				0A6D922F1E666AAE008501B9 /* NewEventPreviewViewController.swift in Sources */,
 				0A68D7FB1DB07F2000DDF3A5 /* EventRequest.swift in Sources */,
 				0AAE42DF1D9A289D00B34601 /* ImgKeyValueTableViewCell.swift in Sources */,
+				0AB8F5A91E9CBCAF00079E33 /* PageViewController.swift in Sources */,
 				0A8A79CE1E7FE77F00B87443 /* BigPictureViewController.swift in Sources */,
 				0AA82B101DCDAEB90016B278 /* UserProfileViewController.swift in Sources */,
 			);
