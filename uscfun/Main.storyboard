@@ -631,8 +631,27 @@ A different license may apply to other resources included in this package, inclu
                     <view key="view" contentMode="scaleToFill" id="2pT-ZI-7ya">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="CI7-Md-8C5">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="dFu-Ug-dYQ" id="Yok-Co-auZ"/>
+                                    <outlet property="delegate" destination="dFu-Ug-dYQ" id="yjQ-iU-BNV"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="CI7-Md-8C5" firstAttribute="height" secondItem="2pT-ZI-7ya" secondAttribute="height" id="3Uh-ax-g57"/>
+                            <constraint firstItem="CI7-Md-8C5" firstAttribute="centerY" secondItem="2pT-ZI-7ya" secondAttribute="centerY" id="XkD-at-KQR"/>
+                            <constraint firstItem="CI7-Md-8C5" firstAttribute="centerX" secondItem="2pT-ZI-7ya" secondAttribute="centerX" id="cbK-i3-FWm"/>
+                            <constraint firstItem="CI7-Md-8C5" firstAttribute="width" secondItem="2pT-ZI-7ya" secondAttribute="width" id="fzS-kj-E2G"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="CI7-Md-8C5" id="erj-R8-kwn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rKu-R9-TIK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

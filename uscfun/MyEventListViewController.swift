@@ -451,6 +451,7 @@ class MyEventListViewController: UIViewController {
             viewController in
             viewController?.navigationItem.title = event.name
             viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+//            viewController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray, NSFontAttributeName: UIFont.systemFont(ofSize: 15)]
         }
         
         conversationViewController.viewDidAppearBlock = {
@@ -484,7 +485,8 @@ class MyEventListViewController: UIViewController {
         
         conversationViewController.configureBarButtonItemStyle(.more) {
             viewController, buttonItem, uievent in
-            let conversationMoreVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: USCFunConstants.storyboardIndetifierOfConversationMoreViewController)
+            let conversationMoreVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: USCFunConstants.storyboardIndetifierOfConversationMoreViewController) as! ConversationMoreViewController
+            conversationMoreVC.event = event
             viewController?.navigationController?.pushViewController(conversationMoreVC, animated: true)
         }
         
