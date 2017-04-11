@@ -27,6 +27,8 @@ class MyEventSnapshotTableViewCell: UITableViewCell {
     @IBOutlet weak var ifReadView: UIView!
     @IBOutlet weak var latestMessageButton: UIButton!
     
+    @IBOutlet weak var sealImageView: UIImageView!
+    
     var statusViewColor: UIColor!
     var ifReadViewColor: UIColor!
     

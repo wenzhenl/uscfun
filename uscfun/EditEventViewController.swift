@@ -210,11 +210,9 @@ class EditEventViewController: FormViewController {
                 SVProgressHUD.dismiss()
                 if succeeded {
                     print("delete successfully")
-                    EventRequest.removeEvent(with: self.event.objectId!, for: .myongoing) {
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidCancelEvent"), object: nil, userInfo: ["eventId": self.event.objectId!])
-
-                        self.presentingViewController?.dismiss(animated: true, completion: nil)
-                    }
+                    SVProgressHUD.showSuccess(withStatus: "微活动成功取消")
+                    SVProgressHUD.dismiss(withDelay: TimeInterval(2.0))
+                    self.presentingViewController?.dismiss(animated: true, completion: nil)
                 }
                 
                 if error != nil {

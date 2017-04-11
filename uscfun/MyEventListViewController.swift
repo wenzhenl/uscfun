@@ -332,31 +332,20 @@ class MyEventListViewController: UIViewController {
                 // TODO: if there's error, the update might be lost forever
                 if let event = event {
                     
-                    if event.isCancelled {
-                        print("my ongoing events should not get cancelled")
-                        if let section = self.sectionForEvent(eventId: event.objectId!) {
-                            
-                            EventRequest.removeEvent(with: event.objectId!, for: .myongoing) {
-                                self.tableView.deleteSections(IndexSet([section]), with: .automatic)
+                    EventRequest.setEvent(event: event, with: event.objectId!, for: .myongoing) {
+                        self.tableView.reloadData()
+                    }
+                    
+                    if event.createdBy == AVUser.current()! && event.status == .isFinalized {
+                        LCChatKit.sharedInstance().sendWelcomeMessage(toConversationId: event.conversationId, text: USCFunConstants.finalizedMessage) {
+                            succeeded, error in
+                            if succeeded {
+                                print("send finalized message successfully")
+                            }
+                            if error != nil {
+                                print(error!)
                             }
                         }
-                    } else {
-                        EventRequest.setEvent(event: event, with: event.objectId!, for: .myongoing) {
-                            self.tableView.reloadData()
-                        }
-                        
-                        if event.createdBy == AVUser.current()! && event.status == .isFinalized {
-                            LCChatKit.sharedInstance().sendWelcomeMessage(toConversationId: event.conversationId, text: USCFunConstants.finalizedMessage) {
-                                succeeded, error in
-                                if succeeded {
-                                    print("send finalized message successfully")
-                                }
-                                if error != nil {
-                                    print(error!)
-                                }
-                            }
-                        }
-                        
                     }
                 }
             }
@@ -704,6 +693,15 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 cell.eventId = event.objectId
                 
                 cell.due = event.due
+                
+                switch event.status {
+                case .isCancelled:
+                    cell.sealImageView.image = #imageLiteral(resourceName: "cancelledSeal")
+                case .isFailed:
+                    cell.sealImageView.image = #imageLiteral(resourceName: "failedSeal")
+                default:
+                    cell.sealImageView.isHidden = true
+                }
                 
                 return cell
             }
