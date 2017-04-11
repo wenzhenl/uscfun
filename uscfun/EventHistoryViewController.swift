@@ -129,6 +129,17 @@ extension EventHistoryViewController: UITableViewDataSource, UITableViewDelegate
             
             cell.moreButton.isHidden = true
             
+            switch event.status {
+            case .isCancelled:
+                cell.sealImageView.image = #imageLiteral(resourceName: "cancelledSeal")
+            case .isFailed:
+                cell.sealImageView.image = #imageLiteral(resourceName: "failedSeal")
+            case .isFinalized:
+                cell.sealImageView.image = #imageLiteral(resourceName: "finalizedSeal")
+            default:
+                cell.sealImageView.isHidden = true
+            }
+            
             return cell
         }
     }
