@@ -29,7 +29,7 @@ class PageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         UIApplication.shared.isStatusBarHidden = true
-        view.backgroundColor = UIColor(red: 255.0/255, green: 218.0/255, blue: 68.0/255, alpha: 1.0)
+        view.backgroundColor = UIColor.themeYellow
         let welcomeCard1 = WelcomeCard(image: #imageLiteral(resourceName: "welcome1"), showButton: false)
         let welcomeCard2 = WelcomeCard(image: #imageLiteral(resourceName: "welcome2"), showButton: false)
         let welcomeCard3 = WelcomeCard(image: #imageLiteral(resourceName: "welcome3"), showButton: false)
@@ -46,6 +46,10 @@ class PageViewController: UIViewController {
         
         view.addSubview(pageContainer.view)
         view.bringSubview(toFront: pageControl)
+        
+        pageControl.currentPageIndicatorTintColor = UIColor.themeYellow
+        pageControl.tintColor = UIColor.darkText
+        pageControl.isUserInteractionEnabled = false
         pageControl.numberOfPages = welcomeCards.count
         pageControl.currentPage = 0
     }
