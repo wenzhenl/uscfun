@@ -24,8 +24,8 @@
                         <subviews>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="bzR-P3-avI">
                                 <rect key="frame" x="0.0" y="630" width="375" height="37"/>
-                                <color key="pageIndicatorTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="currentPageIndicatorTintColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="pageIndicatorTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="currentPageIndicatorTintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </pageControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -55,24 +55,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GMd-q3-pGy">
-                                <rect key="frame" x="0.0" y="91" width="375" height="36"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q6d-6Z-nIq">
-                                <rect key="frame" x="0.5" y="135" width="375" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcome1" translatesAutoresizingMaskIntoConstraints="NO" id="z0g-Y9-mCH">
-                                <rect key="frame" x="38" y="0.0" width="300" height="667"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="760" image="welcome3" translatesAutoresizingMaskIntoConstraints="NO" id="z0g-Y9-mCH">
+                                <rect key="frame" x="0.5" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BPo-xO-Od6">
-                                <rect key="frame" x="94" y="587" width="187.5" height="30"/>
+                                <rect key="frame" x="94" y="587" width="188" height="30"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="立即体验">
@@ -82,26 +70,18 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="GMd-q3-pGy" firstAttribute="width" secondItem="nML-aW-FYs" secondAttribute="width" id="0ud-N8-eAx"/>
-                            <constraint firstItem="z0g-Y9-mCH" firstAttribute="centerY" secondItem="nML-aW-FYs" secondAttribute="centerY" id="3Oo-kj-uHi"/>
+                            <constraint firstItem="z0g-Y9-mCH" firstAttribute="height" secondItem="nML-aW-FYs" secondAttribute="height" id="5lM-2b-uku"/>
                             <constraint firstItem="BPo-xO-Od6" firstAttribute="centerX" secondItem="nML-aW-FYs" secondAttribute="centerX" id="8Cy-s0-7oM"/>
                             <constraint firstItem="420-56-aiF" firstAttribute="top" secondItem="BPo-xO-Od6" secondAttribute="bottom" constant="50" id="8hw-r6-TFh"/>
-                            <constraint firstItem="q6d-6Z-nIq" firstAttribute="centerX" secondItem="nML-aW-FYs" secondAttribute="centerX" id="CQs-Je-YEW"/>
-                            <constraint firstItem="q6d-6Z-nIq" firstAttribute="width" secondItem="nML-aW-FYs" secondAttribute="width" id="EMA-Fe-1z0"/>
+                            <constraint firstItem="z0g-Y9-mCH" firstAttribute="centerY" secondItem="nML-aW-FYs" secondAttribute="centerY" id="GUq-i6-fEK"/>
+                            <constraint firstItem="z0g-Y9-mCH" firstAttribute="width" secondItem="nML-aW-FYs" secondAttribute="width" id="Qzv-9U-msJ"/>
                             <constraint firstItem="z0g-Y9-mCH" firstAttribute="centerX" secondItem="nML-aW-FYs" secondAttribute="centerX" id="R4Z-sh-Qfx"/>
-                            <constraint firstItem="GMd-q3-pGy" firstAttribute="centerX" secondItem="nML-aW-FYs" secondAttribute="centerX" id="Sbo-N7-b76"/>
-                            <constraint firstItem="z0g-Y9-mCH" firstAttribute="height" secondItem="nML-aW-FYs" secondAttribute="height" id="UmI-uv-AhW"/>
-                            <constraint firstItem="z0g-Y9-mCH" firstAttribute="width" secondItem="nML-aW-FYs" secondAttribute="width" multiplier="0.8" id="eig-jE-IPn"/>
-                            <constraint firstItem="GMd-q3-pGy" firstAttribute="top" secondItem="zBy-Ou-ggq" secondAttribute="bottom" constant="71" id="nsd-pO-Yvz"/>
-                            <constraint firstItem="q6d-6Z-nIq" firstAttribute="top" secondItem="GMd-q3-pGy" secondAttribute="bottom" constant="8" id="oya-sQ-LwS"/>
                             <constraint firstItem="BPo-xO-Od6" firstAttribute="width" secondItem="nML-aW-FYs" secondAttribute="width" multiplier="0.5" id="thr-Lq-lFn"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="button" destination="BPo-xO-Od6" id="M5U-Pz-xbA"/>
                         <outlet property="imageView" destination="z0g-Y9-mCH" id="6ac-fV-KPv"/>
-                        <outlet property="subtitleLabel" destination="q6d-6Z-nIq" id="BVg-1c-55x"/>
-                        <outlet property="titleLabel" destination="GMd-q3-pGy" id="p1Y-CX-8No"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z0k-Mh-qV1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -110,6 +90,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="welcome1" width="738" height="476"/>
+        <image name="welcome3" width="1242" height="2208"/>
     </resources>
 </document>

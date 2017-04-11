@@ -85,7 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 window?.rootViewController = initialViewController
                 window?.makeKeyAndVisible()
             } else {
-                UserDefaults.hasShownWelcomePages = true
+//                UserDefaults.hasShownWelcomePages = true
                 let storyboard = UIStoryboard(name: "Welcome", bundle: nil)
                 let initialViewController = storyboard.instantiateInitialViewController()
                 window?.rootViewController = initialViewController

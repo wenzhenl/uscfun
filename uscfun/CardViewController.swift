@@ -10,8 +10,6 @@ import UIKit
 
 class CardViewController: UIViewController {
 
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var button: UIButton!
     
@@ -20,9 +18,6 @@ class CardViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = welcomeCard.backgroundColor
-        titleLabel.text = welcomeCard.title
-        subtitleLabel.text = welcomeCard.subtitle
         imageView.image = welcomeCard.image
         button.isHidden = !welcomeCard.showButton
         button.layer.cornerRadius = button.bounds.height / 2.0

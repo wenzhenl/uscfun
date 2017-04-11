@@ -15,9 +15,6 @@ protocol ViewControllerProvider {
 
 struct WelcomeCard {
     var image: UIImage
-    var title: String
-    var subtitle: String
-    var backgroundColor: UIColor
     var showButton: Bool
 }
 
@@ -32,11 +29,11 @@ class PageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         UIApplication.shared.isStatusBarHidden = true
-        view.backgroundColor = UIColor.avatarGolden
-        let welcomeCard1 = WelcomeCard(image: #imageLiteral(resourceName: "welcome1"), title: "无论是", subtitle: "十分钟后韩国城一起吃午饭", backgroundColor: UIColor.avatarGolden, showButton: false)
-        let welcomeCard2 = WelcomeCard(image: #imageLiteral(resourceName: "welcome1"), title: "还是", subtitle: "这周末的hiking", backgroundColor: UIColor.avatarTomato, showButton: false)
-        let welcomeCard3 = WelcomeCard(image: #imageLiteral(resourceName: "welcome1"), title: "我们都", subtitle: "我们聚集USC的小伙伴们一起行动", backgroundColor: UIColor.avatarBlue, showButton: false)
-        let welcomeCard4 = WelcomeCard(image: #imageLiteral(resourceName: "welcome1"), title: "我们都", subtitle: "我们聚集USC的小伙伴们一起行动", backgroundColor: UIColor.avatarGolden, showButton: true)
+        view.backgroundColor = UIColor(red: 255.0/255, green: 218.0/255, blue: 68.0/255, alpha: 1.0)
+        let welcomeCard1 = WelcomeCard(image: #imageLiteral(resourceName: "welcome1"), showButton: false)
+        let welcomeCard2 = WelcomeCard(image: #imageLiteral(resourceName: "welcome2"), showButton: false)
+        let welcomeCard3 = WelcomeCard(image: #imageLiteral(resourceName: "welcome3"), showButton: false)
+        let welcomeCard4 = WelcomeCard(image: #imageLiteral(resourceName: "welcome4"), showButton: true)
         welcomeCards.append(welcomeCard1)
         welcomeCards.append(welcomeCard2)
         welcomeCards.append(welcomeCard3)

@@ -2,3 +2,13 @@ Color specification for USCFun icon
 Background yellow: fffc00
 Fill color for U: 29abe2
 U POS: x512, y568.55,w680
+
+four colors of iphone
+Green (145, 226, 116)
+Blue (61, 179, 232)
+Yellow (253, 238, 128)
+Red (225, 102, 110)
+White (240, 240, 242)
+
+Iphone 6 seize
+1242x2208
