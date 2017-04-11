@@ -38,6 +38,8 @@ struct USCFunErrorConstants {
     
     /// error code from LeanCloud
     static let kLeanCloudErrorSaveOptionError = 305
+    
+    static let kUSCFunErrorCannotParseLeanEnginResult = 90000
 }
 
 extension NSError {

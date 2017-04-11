@@ -273,6 +273,71 @@ def quitConversation(**params):
         print "quit conversation ends"
         raise LeanEngineError('quit conversation failed')
 
+@engine.define
+def muteConversation(**params):
+    print "mute conversation starts"
+    if 'clientId' in params and 'conversationId' in params:
+        try:
+            client_id = params['clientId']
+            conversation_id = params['conversationId']
+            query = Query("_Conversation")
+            conversation = query.get(conversation_id)
+            conversation.add_unique('mu', client_id)
+            conversation.save()
+            print "mute conversation ends"
+            return True
+        except Exception as e:
+            print e
+            print "mute conversation ends"
+            raise LeanEngineError('mute conversation failed')
+    else:
+        print "client id and conversation id must not be empty"
+        print "mute conversation ends"
+        raise LeanEngineError('mute conversation failed')
+
+@engine.define
+def unmuteConversation(**params):
+    print "unmute conversation starts"
+    if 'clientId' in params and 'conversationId' in params:
+        try:
+            client_id = params['clientId']
+            conversation_id = params['conversationId']
+            query = Query("_Conversation")
+            conversation = query.get(conversation_id)
+            conversation.remove('mu', client_id)
+            conversation.save()
+            print "unmute conversation ends"
+            return True
+        except Exception as e:
+            print e
+            print "unmute conversation ends"
+            raise LeanEngineError('unmute conversation failed')
+    else:
+        print "client id and conversation id must not be empty"
+        print "unmute conversation ends"
+        raise LeanEngineError('unmute conversation failed')
+
+@engine.define
+def isMutedInConversation(**params):
+    print "check if muted in conversation starts"
+    if 'clientId' in params and 'conversationId' in params:
+        try:
+            client_id = params['clientId']
+            conversation_id = params['conversationId']
+            query = Query("_Conversation")
+            conversation = query.get(conversation_id)
+            muteMembers = conversation.get('mu')
+            print "check if muted in conversation ends"
+            return client_id in muteMembers
+        except Exception as e:
+            print e
+            print "check if muted in conversation ends"
+            raise LeanEngineError('check if muted in conversation failed')
+    else:
+        print "client id and conversation id must not be empty"
+        print "check if muted in conversation ends"
+        raise LeanEngineError('check if muted in conversation failed')
+
 @engine.after_save('Event')
 def after_event_save(event):
     print("after event save started")

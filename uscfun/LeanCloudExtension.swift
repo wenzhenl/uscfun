@@ -18,6 +18,19 @@ enum MessageMediaType: Int {
     case file = -6
 }
 
+struct LeanEngineFunctions {
+    static let nameOfCheckIfEmailIsTaken = "checkIfEmailIsTaken"
+    static let nameOfRequestConfirmationCode = "requestConfirmationCode"
+    static let nameOfCheckIfConfirmationCodeMatches = "checkIfConfirmationCodeMatches"
+    static let nameOfCreateSystemConversationIfNotExists = "createSystemConversationIfNotExists"
+    static let nameOfSubscribeToSystemConversation = "subscribeToSystemConversation"
+    static let nameOfJoinConversation = "joinConversation"
+    static let nameOfQuitConversation = "quitConversation"
+    static let nameOfMuteConversation = "muteConversation"
+    static let nameOfUnmuteConversation = "unmuteConversation"
+    static let nameOfCheckIfMutedInConversation = "isMutedInConversation"
+}
+
 class LeanEngine {
     static func joinConversation(clientId: String, conversationId: String, handler: ((_ succeeded: Bool, _ error: NSError?) -> Void)?) {
         AVCloud.callFunction(inBackground: LeanEngineFunctions.nameOfJoinConversation, withParameters: ["clientId": clientId, "conversationId": conversationId]) {
@@ -43,5 +56,46 @@ class LeanEngine {
                 handler?(false, error as NSError?)
             }
         }
+    }
+    
+    static func muteConversation(clientId: String, conversationId: String, handler: ((_ succeeded: Bool, _ error: NSError?) -> Void)?) {
+        AVCloud.callFunction(inBackground: LeanEngineFunctions.nameOfMuteConversation, withParameters: ["clientId": clientId, "conversationId": conversationId]) {
+            result, error in
+            if let succeeded = result as? Bool, succeeded == true {
+                handler?(true, nil)
+                return
+            }
+            if error != nil {
+                handler?(false, error as NSError?)
+            }
+        }
+    }
+    
+    static func unmuteConversation(clientId: String, conversationId: String, handler: ((_ succeeded: Bool, _ error: NSError?) -> Void)?) {
+        AVCloud.callFunction(inBackground: LeanEngineFunctions.nameOfUnmuteConversation, withParameters: ["clientId": clientId, "conversationId": conversationId]) {
+            result, error in
+            if let succeeded = result as? Bool, succeeded == true {
+                handler?(true, nil)
+                return
+            }
+            if error != nil {
+                handler?(false, error as NSError?)
+            }
+        }
+    }
+    
+    static func isMutedInConversation(clientId: String, conversationId: String)throws -> Bool {
+        var error: NSError?
+        let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfMutedInConversation, withParameters: ["clientId": clientId, "conversationId": conversationId], error: &error)
+        if error != nil {
+            throw error!
+        }
+        
+        guard let isMuted = result as? Bool else {
+            print("cannot parse check if muted in conversation return value")
+            throw NSError(domain: USCFunErrorConstants.domain, code: USCFunErrorConstants.kUSCFunErrorCannotParseLeanEnginResult, userInfo: nil)
+        }
+        
+        return isMuted
     }
 }
