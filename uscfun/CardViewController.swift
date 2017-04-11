@@ -16,14 +16,15 @@ class CardViewController: UIViewController {
     @IBOutlet weak var button: UIButton!
     
     var pageIndex: Int?
-    var welcomeCard: WelcomeCard?
+    var welcomeCard: WelcomeCard!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = welcomeCard?.backgroundColor
-        titleLabel.text = welcomeCard?.title
-        subtitleLabel.text = welcomeCard?.subtitle
-        imageView.image = welcomeCard?.image
+        view.backgroundColor = welcomeCard.backgroundColor
+        titleLabel.text = welcomeCard.title
+        subtitleLabel.text = welcomeCard.subtitle
+        imageView.image = welcomeCard.image
+        button.isHidden = !welcomeCard.showButton
         button.layer.cornerRadius = button.bounds.height / 2.0
         button.backgroundColor = UIColor.buttonBlue
         button.addTarget(self, action: #selector(goSignUp), for: .touchUpInside)
