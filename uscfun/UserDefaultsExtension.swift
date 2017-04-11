@@ -391,4 +391,14 @@ extension UserDefaults {
             UserDefaults.standard.setValue(newValue.timeIntervalSince1970, forKey: "lastPublicEventsCleanedAt")
         }
     }
+    
+    /// remind user to be serious first time join an event
+    class var hasRemindedUserBeSeriousAboutJoining: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "hasRemindedUserBeSeriousAboutJoining")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "hasRemindedUserBeSeriousAboutJoining")
+        }
+    }
 }

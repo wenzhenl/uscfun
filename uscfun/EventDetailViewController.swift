@@ -9,6 +9,7 @@
 import UIKit
 import ChatKit
 import SVProgressHUD
+import SCLAlertView
 
 enum EventDetailCell {
     case statusCell
@@ -236,7 +237,7 @@ class EventDetailViewController: UIViewController {
         self.navigationController?.pushViewController(conversationViewController, animated: true)
     }
     
-    func joinEvent() {
+    func joinEventDecided() {
         SVProgressHUD.show()
         self.event.add(newMember: AVUser.current()!) {
             succeeded, error in
@@ -271,6 +272,24 @@ class EventDetailViewController: UIViewController {
             else if error != nil {
                 self.displayInfo(info: error!.customDescription)
             }
+        }
+    }
+    
+    func joinEvent() {
+        
+        if !UserDefaults.hasRemindedUserBeSeriousAboutJoining {
+            let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
+            let alertView = SCLAlertView(appearance: appearance)
+            alertView.addButton("确定参加") {
+                UserDefaults.hasRemindedUserBeSeriousAboutJoining = true
+                self.joinEventDecided()
+            }
+            alertView.addButton("手滑了") {
+                print("user decide not to join after reminder")
+            }
+            alertView.showWarning("参与须知", subTitle: "欢迎参加微活动！请确定你的确想要完成该活动，活动约定成功前你可以选择退出。约定成功后如果有事无法参加，请及时与队友沟通，无故爽约将会影响到你的信誉等级！")
+        } else {
+            joinEventDecided()
         }
     }
     
