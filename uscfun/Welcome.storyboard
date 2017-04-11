@@ -6,13 +6,14 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Page View Controller-->
         <scene sceneID="TjT-cf-h9i">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="pAh-h6-x3I" customClass="PageViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController"/>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="pAh-h6-x3I" customClass="PageViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rL3-0C-97z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-142" y="-63"/>
@@ -28,12 +29,52 @@
                     <view key="view" contentMode="scaleToFill" id="nML-aW-FYs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GMd-q3-pGy">
+                                <rect key="frame" x="0.0" y="91" width="375" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcome1" translatesAutoresizingMaskIntoConstraints="NO" id="z0g-Y9-mCH">
+                                <rect key="frame" x="38" y="0.0" width="300" height="667"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BPo-xO-Od6">
+                                <rect key="frame" x="94" y="629" width="187.5" height="30"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="立即体验">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="GMd-q3-pGy" firstAttribute="width" secondItem="nML-aW-FYs" secondAttribute="width" id="0ud-N8-eAx"/>
+                            <constraint firstItem="z0g-Y9-mCH" firstAttribute="centerY" secondItem="nML-aW-FYs" secondAttribute="centerY" id="3Oo-kj-uHi"/>
+                            <constraint firstItem="BPo-xO-Od6" firstAttribute="centerX" secondItem="nML-aW-FYs" secondAttribute="centerX" id="8Cy-s0-7oM"/>
+                            <constraint firstItem="420-56-aiF" firstAttribute="top" secondItem="BPo-xO-Od6" secondAttribute="bottom" constant="8" symbolic="YES" id="8hw-r6-TFh"/>
+                            <constraint firstItem="z0g-Y9-mCH" firstAttribute="centerX" secondItem="nML-aW-FYs" secondAttribute="centerX" id="R4Z-sh-Qfx"/>
+                            <constraint firstItem="GMd-q3-pGy" firstAttribute="centerX" secondItem="nML-aW-FYs" secondAttribute="centerX" id="Sbo-N7-b76"/>
+                            <constraint firstItem="z0g-Y9-mCH" firstAttribute="height" secondItem="nML-aW-FYs" secondAttribute="height" id="UmI-uv-AhW"/>
+                            <constraint firstItem="z0g-Y9-mCH" firstAttribute="width" secondItem="nML-aW-FYs" secondAttribute="width" multiplier="0.8" id="eig-jE-IPn"/>
+                            <constraint firstItem="GMd-q3-pGy" firstAttribute="top" secondItem="zBy-Ou-ggq" secondAttribute="bottom" constant="71" id="nsd-pO-Yvz"/>
+                            <constraint firstItem="BPo-xO-Od6" firstAttribute="width" secondItem="nML-aW-FYs" secondAttribute="width" multiplier="0.5" id="thr-Lq-lFn"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="button" destination="BPo-xO-Od6" id="M5U-Pz-xbA"/>
+                        <outlet property="imageView" destination="z0g-Y9-mCH" id="6ac-fV-KPv"/>
+                        <outlet property="label" destination="GMd-q3-pGy" id="1dk-ck-oBl"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z0k-Mh-qV1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="543" y="-68"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="welcome1" width="738" height="476"/>
+    </resources>
 </document>

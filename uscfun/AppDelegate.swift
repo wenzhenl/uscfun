@@ -79,10 +79,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window?.rootViewController = initialViewController
             window?.makeKeyAndVisible()
         } else {
-            let storyboard = UIStoryboard(name: "Login", bundle: nil)
-            let initialViewController = storyboard.instantiateInitialViewController()
-            window?.rootViewController = initialViewController
-            window?.makeKeyAndVisible()
+            if UserDefaults.hasShownWelcomePages {
+                let storyboard = UIStoryboard(name: "Login", bundle: nil)
+                let initialViewController = storyboard.instantiateInitialViewController()
+                window?.rootViewController = initialViewController
+                window?.makeKeyAndVisible()
+            } else {
+                UserDefaults.hasShownWelcomePages = true
+                let storyboard = UIStoryboard(name: "Welcome", bundle: nil)
+                let initialViewController = storyboard.instantiateInitialViewController()
+                window?.rootViewController = initialViewController
+                window?.makeKeyAndVisible()
+            }
         }
         return true
     }

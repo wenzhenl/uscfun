@@ -22,9 +22,13 @@ class PageViewController: UIPageViewController {
     var welcomeCards = [WelcomeCard]()
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor.themeYellow
+        let welcomeCard1 = WelcomeCard(image: #imageLiteral(resourceName: "welcome1"), note: "welcome")
+        welcomeCards.append(welcomeCard1)
+        welcomeCards.append(welcomeCard1)
+        welcomeCards.append(welcomeCard1)
         dataSource = self
         setViewControllers([initialViewController], direction: .forward, animated: false, completion: nil)
-
     }
 }
 

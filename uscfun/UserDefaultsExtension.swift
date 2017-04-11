@@ -401,4 +401,14 @@ extension UserDefaults {
             UserDefaults.standard.set(newValue, forKey: "hasRemindedUserBeSeriousAboutJoining")
         }
     }
+    
+    /// display welcome pages for new user
+    class var hasShownWelcomePages: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "hasShownWelcomePages")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "hasShownWelcomePages")
+        }
+    }
 }
