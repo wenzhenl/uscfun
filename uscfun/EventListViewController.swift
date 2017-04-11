@@ -102,6 +102,11 @@ class EventListViewController: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = false
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.tableView.reloadData()
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
         infoLabel.isHidden = true
@@ -193,6 +198,7 @@ class EventListViewController: UIViewController {
                 }
                 self.refreshControl.endRefreshing()
                 self.tableView.reloadData()
+                self.numberOfNewEvents = 0
             }
             else if error != nil {
                 self.refreshControl.endRefreshing()
