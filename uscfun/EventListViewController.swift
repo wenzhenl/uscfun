@@ -94,6 +94,7 @@ class EventListViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleTabRefresh), name: NSNotification.Name(rawValue: "findRefresh"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleJoinEvent), name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleQuitEvent), name: NSNotification.Name(rawValue: "userDidQuitEvent"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleEventExpired(notification:)), name: NSNotification.Name(rawValue: "eventDidExpired"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNewEventAvailable(notification:)), name: NSNotification.Name(rawValue: "newEventAvailable"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdatedEventAvailable(notification:)), name: NSNotification.Name(rawValue: "updatedEventAvailable"), object: nil)
 
@@ -129,7 +130,7 @@ class EventListViewController: UIViewController {
     }
     
     func handleTab() {
-        self.numberOfNewEvents = 0
+        print("event list tabbed")
     }
     
     func handleTabRefresh() {
@@ -141,7 +142,10 @@ class EventListViewController: UIViewController {
     }
     
     func handleQuitEvent() {
-        self.numberOfNewEvents += 1
+        self.tableView.reloadData()
+    }
+    
+    func handleEventExpired(notification: Notification) {
         self.tableView.reloadData()
     }
     
@@ -169,17 +173,8 @@ class EventListViewController: UIViewController {
             EventRequest.fetchEvent(with: eventId) {
                 error, event in
                 if let event = event {
-                    if event.isCancelled {
-                        if let section = self.sectionForEvent(eventId: event.objectId!) {
-                            
-                            EventRequest.removeEvent(with: event.objectId!, for: .mypublic) {
-                                self.tableView.deleteSections(IndexSet([section]), with: .automatic)
-                            }
-                        }
-                    } else {
-                        EventRequest.setEvent(event: event, with: event.objectId!, for: .mypublic) {
-                            self.tableView.reloadData()
-                        }
+                    EventRequest.setEvent(event: event, with: event.objectId!, for: .mypublic) {
+                        self.tableView.reloadData()
                     }
                 }
             }
@@ -414,6 +409,17 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             cell.eventId = event.objectId
             
             cell.due = event.due
+            
+            switch event.status {
+            case .isCancelled:
+                cell.sealImageView.image = #imageLiteral(resourceName: "cancelledSeal")
+            case .isFailed:
+                cell.sealImageView.image = #imageLiteral(resourceName: "failedSeal")
+            case .isFinalized:
+                cell.sealImageView.image = #imageLiteral(resourceName: "finalizedSeal")
+            default:
+                cell.sealImageView.isHidden = true
+            }
             
             return cell
         }

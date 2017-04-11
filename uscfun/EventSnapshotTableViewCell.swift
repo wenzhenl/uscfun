@@ -24,6 +24,8 @@ class EventSnapshotTableViewCell: UITableViewCell {
     @IBOutlet weak var chatButton: UIButton!
     @IBOutlet weak var statusView: UIView!
     
+    @IBOutlet weak var sealImageView: UIImageView!
+    
     var statusViewColor: UIColor!
     
     var eventId: String?
