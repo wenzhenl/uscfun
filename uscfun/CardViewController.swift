@@ -19,7 +19,7 @@ class CardViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.themeYellow
+        self.view.backgroundColor = UIColor.backgroundGray
         label.isHidden = true
         let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
         blurView.frame = view.bounds
@@ -27,5 +27,14 @@ class CardViewController: UIViewController {
         imageView.image = welcomeCard?.image
         view.bringSubview(toFront: imageView)
         view.bringSubview(toFront: button)
+        button.addTarget(self, action: #selector(goSignUp), for: .touchUpInside)
+    }
+    
+    func goSignUp() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let storyboard = UIStoryboard(name: "Login", bundle: nil)
+        let initialViewController = storyboard.instantiateInitialViewController()
+        appDelegate.window?.rootViewController = initialViewController
+        appDelegate.window?.makeKeyAndVisible()
     }
 }

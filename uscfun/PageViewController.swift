@@ -22,7 +22,8 @@ class PageViewController: UIPageViewController {
     var welcomeCards = [WelcomeCard]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.themeYellow
+        UIApplication.shared.isStatusBarHidden = true
+        self.view.backgroundColor = UIColor.white
         let welcomeCard1 = WelcomeCard(image: #imageLiteral(resourceName: "welcome1"), note: "welcome")
         welcomeCards.append(welcomeCard1)
         welcomeCards.append(welcomeCard1)

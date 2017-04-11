@@ -146,7 +146,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         /// clean public events if needed
-        if UserDefaults.shouldCleanPublicEvents {
+        if UserDefaults.hasLoggedIn && UserDefaults.shouldCleanPublicEvents {
             let appDelegate = UIApplication.shared.delegate! as! AppDelegate
             let loadVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentifierOfLoadDataViewController)
             appDelegate.window?.rootViewController = loadVC
