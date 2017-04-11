@@ -175,10 +175,21 @@ class EventDetailViewController: UIViewController {
             self.displayInfo(info: "网络错误，无法进入评论区")
             return
         }
-        conversationViewController.isEnableAutoJoin = true
+        
+        if !self.event.members.contains(AVUser.current()!) {
+            LeanEngine.joinConversation(clientId: AVUser.current()!.username!, conversationId: self.event.conversationId) {
+                succeeded, error in
+                if succeeded {
+                    print("join conversation before enter successfully")
+                }
+                if error != nil {
+                    print("failed to join conversation before enter \(error!)")
+                }
+            }
+        }
+        
         conversationViewController.hidesBottomBarWhenPushed = true
         conversationViewController.isDisableTitleAutoConfig = true
-        conversationViewController.disablesAutomaticKeyboardDismissal = false
         conversationViewController.viewDidLoadBlock = {
             viewController in
             viewController?.navigationItem.title = self.event.name

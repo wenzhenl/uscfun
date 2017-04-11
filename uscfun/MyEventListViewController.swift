@@ -453,7 +453,6 @@ class MyEventListViewController: UIViewController {
         conversationViewController.isEnableAutoJoin = true
         conversationViewController.hidesBottomBarWhenPushed = true
         conversationViewController.isDisableTitleAutoConfig = true
-        conversationViewController.disablesAutomaticKeyboardDismissal = false
         conversationViewController.viewDidLoadBlock = {
             viewController in
             viewController?.navigationItem.title = event.name
