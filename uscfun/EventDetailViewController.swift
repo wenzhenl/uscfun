@@ -56,8 +56,6 @@ class EventDetailViewController: UIViewController {
         return infoLabel
     }()
     
-    var timer: Timer?
-    
     var exitAfter = ExitAfter.none
     
     override func viewDidLoad() {
@@ -68,6 +66,8 @@ class EventDetailViewController: UIViewController {
         self.joinButton.backgroundColor = UIColor.buttonPink
         self.chatButton.backgroundColor = UIColor.buttonBlue
         
+        NotificationCenter.default.addObserver(self, selector: #selector(updateRemainingTime), name: NSNotification.Name(rawValue: "needToUpdateRemainingTime"), object: nil)
+        
         creator = User(user: event.createdBy)
         
         setupJoinButton()
@@ -77,30 +77,19 @@ class EventDetailViewController: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = false
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        if timer == nil && event.due > Date() {
-            timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(updateRemainingTime), userInfo: nil, repeats: true)
-        }
-    }
-    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
         infoLabel.isHidden = true
         infoLabel.frame.origin = CGPoint.zero
-        timer?.invalidate()
-        timer = nil
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "eventDetailViewControllerDidDisappear"), object: nil, userInfo: ["exitAfter": self.exitAfter])
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     func updateRemainingTime() {
-        
-        if event.due < Date() {
-            timer?.invalidate()
-            timer = nil
-        }
-        
         guard let timeCellIndex = detailSections.index(of: .remainingTimeCell) else { return }
         self.tableView.reloadSections(IndexSet([timeCellIndex]), with: .automatic)
     }
