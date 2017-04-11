@@ -54,11 +54,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     UserDefaults.currentVersion = version
                     UserDefaults.lastRateAppRemindedAt = Date()
                     UserDefaults.hasRatedApp = false
+                    UserDefaults.hasShownWelcomePages = false
                 }
             } else {
                 UserDefaults.currentVersion = version
                 UserDefaults.lastRateAppRemindedAt = Date()
                 UserDefaults.hasRatedApp = false
+                UserDefaults.hasShownWelcomePages = false
             }
         }
         
@@ -85,7 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 window?.rootViewController = initialViewController
                 window?.makeKeyAndVisible()
             } else {
-//                UserDefaults.hasShownWelcomePages = true
+                UserDefaults.hasShownWelcomePages = true
                 let storyboard = UIStoryboard(name: "Welcome", bundle: nil)
                 let initialViewController = storyboard.instantiateInitialViewController()
                 window?.rootViewController = initialViewController
