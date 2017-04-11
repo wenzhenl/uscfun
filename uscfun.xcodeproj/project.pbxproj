@@ -103,6 +103,7 @@
 		0AAE42E01D9A289D00B34601 /* ImgKeyValueTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AAE42DE1D9A289D00B34601 /* ImgKeyValueTableViewCell.xib */; };
 		0AAE42E21D9A2CC500B34601 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAE42E11D9A2CC500B34601 /* MapKit.framework */; };
 		0AAE42E41D9A2F8B00B34601 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE42E31D9A2F8B00B34601 /* MapViewController.swift */; };
+		0AB8F5A01E9C6AC200079E33 /* ConversationMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB8F59F1E9C6AC200079E33 /* ConversationMoreViewController.swift */; };
 		0ABA18831E8B7566002DA704 /* CustomizedChatKit.Other.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0ABA18821E8B7566002DA704 /* CustomizedChatKit.Other.bundle */; };
 		0AD46F3A1E9748BC001DAF93 /* LoadDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD46F391E9748BC001DAF93 /* LoadDataViewController.swift */; };
 		0AD46F3D1E974F01001DAF93 /* MyEventSnapshotTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD46F3B1E974F01001DAF93 /* MyEventSnapshotTableViewCell.swift */; };
@@ -230,6 +231,7 @@
 		0AAE42E11D9A2CC500B34601 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		0AAE42E31D9A2F8B00B34601 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		0AB3FFC71D97B30B0088B8C0 /* uscfun-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "uscfun-Bridging-Header.h"; sourceTree = "<group>"; };
+		0AB8F59F1E9C6AC200079E33 /* ConversationMoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationMoreViewController.swift; sourceTree = "<group>"; };
 		0ABA18821E8B7566002DA704 /* CustomizedChatKit.Other.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CustomizedChatKit.Other.bundle; path = uscfun/CustomizedChatKit.Other.bundle; sourceTree = "<group>"; };
 		0ACFD5971DBAD14200E33E53 /* uscfun.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = uscfun.entitlements; sourceTree = "<group>"; };
 		0AD46F391E9748BC001DAF93 /* LoadDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadDataViewController.swift; sourceTree = "<group>"; };
@@ -504,6 +506,7 @@
 				0A00DB0F1DD924BE00A81189 /* SearchResultsTableViewController.swift */,
 				0A5332CC1E6D02AA00C50186 /* EditEventViewController.swift */,
 				0A8A79CD1E7FE77F00B87443 /* BigPictureViewController.swift */,
+				0AB8F59F1E9C6AC200079E33 /* ConversationMoreViewController.swift */,
 			);
 			name = EventViewControllers;
 			sourceTree = "<group>";
@@ -741,6 +744,7 @@
 				0A6D92321E669965008501B9 /* EventSnapshotTableViewCell.swift in Sources */,
 				0A427FAD1D97F579007A96BE /* TextViewTableViewCell.swift in Sources */,
 				0A963DB71D716E6400E0532F /* NicknameViewController.swift in Sources */,
+				0AB8F5A01E9C6AC200079E33 /* ConversationMoreViewController.swift in Sources */,
 				0A8483681E6841A700B7B29A /* TandemLabelTableViewCell.swift in Sources */,
 				0A9834121E64577300A5D894 /* NewEventOptionalsViewController.swift in Sources */,
 				0A9CB44F1D6FF8D800608D27 /* USCFunConstants.swift in Sources */,

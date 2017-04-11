@@ -482,6 +482,12 @@ class MyEventListViewController: UIViewController {
             }
         }
         
+        conversationViewController.configureBarButtonItemStyle(.more) {
+            viewController, buttonItem, uievent in
+            let conversationMoreVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: USCFunConstants.storyboardIndetifierOfConversationMoreViewController)
+            viewController?.navigationController?.pushViewController(conversationMoreVC, animated: true)
+        }
+        
         self.navigationController?.pushViewController(conversationViewController, animated: true)
     }
     
@@ -779,17 +785,14 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
         guard EventRequest.myOngoingEvents.count > 0, indexPath.section > 0 else { return nil }
         let event = self.eventForSection(section: indexPath.section)
         if event.status == .isFinalized {
-            let more = UITableViewRowAction(style: .normal, title: "详情") {
-                action, index in
-                self.performSegue(withIdentifier: self.identifierToEventDetail, sender: tableView.cellForRow(at: index))
-            }
+            
             let delete = UITableViewRowAction(style: .default, title: "删除") {
                 action, index in
                 if let finalizedCell = tableView.cellForRow(at: indexPath) as? FinalizedEventSnapshotTableViewCell {
                     self.deleteEvent(eventId: finalizedCell.eventId!)
                 }
             }
-            return [delete, more]
+            return [delete]
         } else {
             return nil
         }

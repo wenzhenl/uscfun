@@ -620,6 +620,24 @@ A different license may apply to other resources included in this package, inclu
             </objects>
             <point key="canvasLocation" x="6238" y="-6255"/>
         </scene>
+        <!--Conversation More View Controller-->
+        <scene sceneID="8Dj-5h-iaF">
+            <objects>
+                <viewController storyboardIdentifier="conversation more view controller" id="dFu-Ug-dYQ" customClass="ConversationMoreViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6aa-UJ-nI5"/>
+                        <viewControllerLayoutGuide type="bottom" id="kUH-WL-vPj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2pT-ZI-7ya">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rKu-R9-TIK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-235" y="-5438"/>
+        </scene>
         <!--微活动详情-->
         <scene sceneID="OBR-Vi-A3T">
             <objects>
