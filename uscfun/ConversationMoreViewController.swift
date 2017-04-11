@@ -35,6 +35,10 @@ class ConversationMoreViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.scrollsToTop = true
+        self.tableView.tableFooterView = UIView()
+        self.tableView.backgroundColor = UIColor.backgroundGray
+        self.tableView.separatorStyle = .none
         self.title = "聊天详情"
         creator = User(user: event.createdBy)
         populateSections()
