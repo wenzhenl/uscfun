@@ -15,28 +15,47 @@ protocol ViewControllerProvider {
 
 struct WelcomeCard {
     var image: UIImage
-    var note: String
+    var title: String
+    var subtitle: String
+    var backgroundColor: UIColor
 }
 
-class PageViewController: UIPageViewController {
+class PageViewController: UIViewController {
+    @IBOutlet weak var pageControl: UIPageControl!
+    var pageContainer: UIPageViewController!
+    
     var welcomeCards = [WelcomeCard]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         UIApplication.shared.isStatusBarHidden = true
-        self.view.backgroundColor = UIColor.white
-        let welcomeCard1 = WelcomeCard(image: #imageLiteral(resourceName: "welcome1"), note: "welcome")
+        view.backgroundColor = UIColor.avatarGolden
+        let welcomeCard1 = WelcomeCard(image: #imageLiteral(resourceName: "welcome1"), title: "无论是", subtitle: "十分钟后韩国城一起吃午饭", backgroundColor: UIColor.avatarGolden)
+        let welcomeCard2 = WelcomeCard(image: #imageLiteral(resourceName: "welcome1"), title: "还是", subtitle: "这周末的hiking", backgroundColor: UIColor.avatarTomato)
+        let welcomeCard3 = WelcomeCard(image: #imageLiteral(resourceName: "welcome1"), title: "我们都", subtitle: "我们聚集USC的小伙伴们一起行动", backgroundColor: UIColor.avatarPink)
+        let welcomeCard4 = WelcomeCard(image: #imageLiteral(resourceName: "welcome1"), title: "我们都", subtitle: "我们聚集USC的小伙伴们一起行动", backgroundColor: UIColor.avatarGolden)
         welcomeCards.append(welcomeCard1)
-        welcomeCards.append(welcomeCard1)
-        welcomeCards.append(welcomeCard1)
-        dataSource = self
-        setViewControllers([initialViewController], direction: .forward, animated: false, completion: nil)
+        welcomeCards.append(welcomeCard2)
+        welcomeCards.append(welcomeCard3)
+        welcomeCards.append(welcomeCard4)
+
+        pageContainer = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+        pageContainer.delegate = self
+        pageContainer.dataSource = self
+        pageContainer.setViewControllers([initialViewController], direction: .forward, animated: false, completion: nil)
+        
+        view.addSubview(pageContainer.view)
+        view.bringSubview(toFront: pageControl)
+        pageControl.numberOfPages = welcomeCards.count
+        pageControl.currentPage = 0
     }
 }
 
-extension PageViewController: UIPageViewControllerDataSource {
+extension PageViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
         if let viewController = viewController as? CardViewController, let pageIndex = viewController.pageIndex, pageIndex > 0 {
+            pageControl.currentPage = pageIndex - 1
             return viewControllerAtIndex(pageIndex - 1)
         }
         
@@ -46,18 +65,11 @@ extension PageViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
         if let viewController = viewController as? CardViewController, let pageIndex = viewController.pageIndex, pageIndex < welcomeCards.count - 1 {
+            pageControl.currentPage = pageIndex + 1
             return viewControllerAtIndex(pageIndex + 1)
         }
         
         return nil
-    }
-    
-    func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        return welcomeCards.count
-    }
-    
-    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
-        return 0
     }
 }
 
