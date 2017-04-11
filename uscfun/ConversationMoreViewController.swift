@@ -35,20 +35,25 @@ class ConversationMoreViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         self.tableView.scrollsToTop = true
         self.tableView.tableFooterView = UIView()
-        self.tableView.backgroundColor = UIColor.backgroundGray
         self.tableView.separatorStyle = .none
-        self.tableView.contentInset = UIEdgeInsetsMake(30, 0, 50, 0)
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         self.title = "聊天详情"
         creator = User(user: event.createdBy)
+        if event.status == .isFinalized {
+            self.tableView.backgroundColor = UIColor.white
+        } else {
+            self.tableView.backgroundColor = UIColor.backgroundGray
+        }
+
         populateSections()
     }
     
     func populateSections() {
         
-        detailSections.removeAll()
-        detailSections.append(.labelSwitchCell)
+     
         if event.status == .isFinalized {
             memberAvatars.removeAll()
             memberAvatars.append(creator.avatar ?? #imageLiteral(resourceName: "user-4"))
@@ -59,7 +64,9 @@ class ConversationMoreViewController: UIViewController {
                     }
                 }
             }
+            detailSections.removeAll()
             detailSections.append(.titleCell)
+            detailSections.append(.labelSwitchCell)
             detailSections.append(.creatorCell)
             detailSections.append(.remainingNumberCell)
             detailSections.append(.numberCell)
@@ -82,6 +89,9 @@ class ConversationMoreViewController: UIViewController {
             if event.whereCreated != nil {
                 detailSections.append(.mapCell)
             }
+        } else {
+            detailSections.removeAll()
+            detailSections.append(.labelSwitchCell)
         }
     }
     
@@ -324,6 +334,11 @@ extension ConversationMoreViewController: UITableViewDelegate, UITableViewDataSo
         if detailSections[section] == .remainingNumberCell {
             return 1 / UIScreen.main.scale
         }
+        if event.status == .isFinalized {
+            if detailSections[section] == .labelSwitchCell {
+                return 1 / UIScreen.main.scale
+            }
+        }
         return 0
     }
     
@@ -337,9 +352,6 @@ extension ConversationMoreViewController: UITableViewDelegate, UITableViewDataSo
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if detailSections[section] == .labelSwitchCell {
-            return 20
-        }
-        if detailSections[section] == .titleCell {
             return 10
         }
         return 0
