@@ -342,6 +342,21 @@ def isMutedInConversation(**params):
         print "check if muted in conversation ends"
         raise LeanEngineError('check if muted in conversation failed')
 
+@engine.after_save('_Conversation')
+def after_conversation_save(conversation):
+    print("after conversation save started")
+    conversation_id = conversation.get('objectId')
+    print "conversationId: " + conversation_id
+    welcomeMessage = "[系统]大家对活动有任何疑问，欢迎在此讨论！"
+    headers = {'Content-Type': 'application/json', \
+        'X-LC-Id': APP_ID, \
+        'X-LC-Key': MASTER_KEY + ',master'}
+    data = {"from_peer": admin, \
+            "message": "{\"_lctype\":-1,\"_lctext\": \"" + welcomeMessage + "\", \
+            \"_lcattrs\":{\"reason\": \"welcome\"}}", \
+             "conv_id": conversation_id, "transient": False}
+    requests.post(messages_url, data=json.dumps(data), headers=headers)
+
 @engine.after_save('Event')
 def after_event_save(event):
     print("after event save started")
