@@ -13,7 +13,21 @@ class USCFunConstants {
     
     static let minimumPasswordLength = 5
     
-    static let avatarColorOptions = [UIColor.avatarBlue, UIColor.avatarCyan, UIColor.avatarPink, UIColor.avatarGolden, UIColor.avatarOrange, UIColor.avatarTomato, UIColor.avatarGreen]
+    static let avatarColorOptions = [UIColor.avatarBlue, UIColor.avatarCyan, UIColor.avatarPink, 
+                                     UIColor.avatarGolden, UIColor.avatarOrange, UIColor.avatarTomato,
+                                     UIColor.avatarGreen, UIColor.avatar1, UIColor.avatar2, 
+                                     UIColor.avatar3, UIColor.avatar4, UIColor.avatar5, UIColor.avatar6,
+                                     UIColor.avatar7, UIColor.avatar8, UIColor.avatar9, UIColor.avatar10,
+                                     UIColor.avatar11, UIColor.avatar12, UIColor.avatar13, UIColor.avatar14,
+                                     UIColor.avatar15, UIColor.avatar16, UIColor.avatar17, UIColor.avatar18,
+                                     UIColor.avatar19, UIColor.avatar20, UIColor.avatar21, UIColor.avatar22,
+                                     UIColor.avatar23, UIColor.avatar24, UIColor.avatar25, UIColor.avatar26,
+                                     UIColor.avatar27, UIColor.avatar28, UIColor.avatar29, UIColor.avatar30,
+                                     UIColor.avatar31, UIColor.avatar32, UIColor.avatar33, UIColor.avatar34,
+                                     UIColor.avatar35, UIColor.avatar36, UIColor.avatar37, UIColor.avatar38,
+                                     UIColor.avatar39, UIColor.avatar40, UIColor.avatar41, UIColor.avatar42,
+                                     UIColor.avatar43, UIColor.avatar44, UIColor.avatar45, UIColor.avatar46,
+                                     UIColor.avatar47, UIColor.avatar48, UIColor.avatar49, UIColor.avatar50]
     
     static let indexOfMyEventList = 0
     static let indexOfEventList = 1
