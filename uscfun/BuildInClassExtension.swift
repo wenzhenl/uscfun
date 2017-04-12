@@ -147,34 +147,34 @@ extension UIColor {
         return UIColor(red: 220/255.0, green: 64/255.0, blue: 56/255.0, alpha: 1.0)
     }
     class var avatar21: UIColor {
-        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+        return UIColor(red: 0/255.0, green: 200/255.0, blue: 248/255.0, alpha: 1.0)
     }
     class var avatar22: UIColor {
-        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+        return UIColor(red: 89/255.0, green: 196/255.0, blue: 197/255.0, alpha: 1.0)
     }
     class var avatar23: UIColor {
-        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+        return UIColor(red: 255/255.0, green: 195/255.0, blue: 60/255.0, alpha: 1.0)
     }
     class var avatar24: UIColor {
-        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+        return UIColor(red: 251/255.0, green: 226/255.0, blue: 180/255.0, alpha: 1.0)
     }
     class var avatar25: UIColor {
-        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+        return UIColor(red: 255/255.0, green: 76/255.0, blue: 101/255.0, alpha: 1.0)
     }
     class var avatar26: UIColor {
-        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+        return UIColor(red: 94/255.0, green: 65/255.0, blue: 47/255.0, alpha: 1.0)
     }
     class var avatar27: UIColor {
-        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+        return UIColor(red: 89/255.0, green: 196/255.0, blue: 197/255.0, alpha: 1.0)
     }
     class var avatar28: UIColor {
-        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+        return UIColor(red: 255/255.0, green: 195/255.0, blue: 60/255.0, alpha: 1.0)
     }
     class var avatar29: UIColor {
-        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+        return UIColor(red: 251/255.0, green: 226/255.0, blue: 180/255.0, alpha: 1.0)
     }
     class var avatar30: UIColor {
-        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+        return UIColor(red: 255/255.0, green: 76/255.0, blue: 101/255.0, alpha: 1.0)
     }
     class var avatar31: UIColor {
         return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
