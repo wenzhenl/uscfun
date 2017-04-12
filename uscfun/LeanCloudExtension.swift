@@ -19,6 +19,7 @@ enum MessageMediaType: Int {
 }
 
 enum SystemNotificationType: Int {
+    case urgentMessage = 0
     case eventCreated = 1
     case eventUpdated = 2
     case newVersionReleased = 3

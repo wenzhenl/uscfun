@@ -10,6 +10,7 @@ import UIKit
 import AVOSCloud
 import ChatKit
 import SVProgressHUD
+import SCLAlertView
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -215,7 +216,19 @@ extension AppDelegate: AVIMClientDelegate {
             print("cannot parse message attributes")
             return
         }
-        if notificationType == SystemNotificationType.eventCreated {
+        if notificationType == SystemNotificationType.urgentMessage {
+            guard let urgentMessage = message.attributes?["urgentMessage"] as? String else {
+                print("urgentMessage notification message missing")
+                return
+            }
+            let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
+            let alertView = SCLAlertView(appearance: appearance)
+            alertView.addButton("我知道了") {
+                print("user read urgent message")
+            }
+            alertView.showNotice("紧急通知", subTitle: urgentMessage)
+        }
+        else if notificationType == SystemNotificationType.eventCreated {
             print("received system notification event created")
             guard let eventId = message.attributes?["eventId"] as? String else {
                 print("eventCreated notification eventId missing")
@@ -264,7 +277,19 @@ extension AppDelegate: AVIMClientDelegate {
                             print("cannot parse message attributes")
                             return
                         }
-                        if notificationType == SystemNotificationType.eventCreated {
+                        if notificationType == SystemNotificationType.urgentMessage {
+                            guard let urgentMessage = message.attributes?["urgentMessage"] as? String else {
+                                print("urgentMessage notification message missing")
+                                return
+                            }
+                            let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
+                            let alertView = SCLAlertView(appearance: appearance)
+                            alertView.addButton("我知道了") {
+                                print("user read urgent message")
+                            }
+                            alertView.showNotice("紧急通知", subTitle: urgentMessage)
+                        }
+                        else if notificationType == SystemNotificationType.eventCreated {
                             print("received system notification event created")
                             guard let eventId = message.attributes?["eventId"] as? String else {
                                 print("eventCreated notification eventId missing")

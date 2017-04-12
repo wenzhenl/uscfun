@@ -29,12 +29,14 @@ MASTER_KEY = os.environ['LEANCLOUD_APP_MASTER_KEY']
 
 admin = "wenzhenl_usc_edu"
 # system notification type
-# eventId required
+### urgentMessage required
+# snUrgentMessage = 0
+### eventId required
 snEventCreated = 1
-#eventId required
+### eventId required
 snEventUpdated = 2
-#newVersion required
-#newVersionDescription
+### newVersion required
+### newVersionDescription
 snNewVersionReleased = 3
 
 conversation_url = "https://api.leancloud.cn/1.1/classes/_Conversation"
