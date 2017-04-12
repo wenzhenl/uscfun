@@ -107,16 +107,7 @@ class NewEventPreviewViewController: UIViewController {
             if succeeded {
                 self.clearNewEventUserDefaults()
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidPostNewEvent"), object: nil, userInfo: nil)
-                LCChatKit.sharedInstance().sendWelcomeMessage(toConversationId: event.conversationId, text: USCFunConstants.welcomeMessage) {
-                    succeeded, error in
-                    self.presentingViewController?.dismiss(animated: true, completion: nil)
-                    if succeeded {
-                        print("send welcome message successfully")
-                    }
-                    if error != nil {
-                        print(error!)
-                    }
-                }
+                self.presentingViewController?.dismiss(animated: true, completion: nil)
             } else if error != nil {
                 print(error!)
                 self.errorLabel.text = error!.customDescription

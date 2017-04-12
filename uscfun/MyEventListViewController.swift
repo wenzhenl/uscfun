@@ -335,18 +335,6 @@ class MyEventListViewController: UIViewController {
                     EventRequest.setEvent(event: event, with: event.objectId!, for: .myongoing) {
                         self.tableView.reloadData()
                     }
-                    
-                    if event.createdBy == AVUser.current()! && event.status == .isFinalized {
-                        LCChatKit.sharedInstance().sendWelcomeMessage(toConversationId: event.conversationId, text: USCFunConstants.finalizedMessage) {
-                            succeeded, error in
-                            if succeeded {
-                                print("send finalized message successfully")
-                            }
-                            if error != nil {
-                                print(error!)
-                            }
-                        }
-                    }
                 }
             }
         }
