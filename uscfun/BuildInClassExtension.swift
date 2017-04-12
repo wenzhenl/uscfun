@@ -86,7 +86,157 @@ extension UIColor {
         return UIColor(red: 255.0/255, green: 218.0/255, blue: 68.0/255, alpha: 1.0)
     }
     /// additional 50 colors
-    class var color1
+    class var avatar1: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar2: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar3: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar4: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar5: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar6: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar7: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar8: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar9: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar10: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar11: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar12: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar13: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar14: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar15: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar16: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar17: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar18: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar19: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar20: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar21: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar22: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar23: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar24: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar25: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar26: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar27: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar28: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar29: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar30: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar31: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar32: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar33: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar34: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar35: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar36: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar37: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar38: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar39: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar40: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar41: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar42: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar43: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar44: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar45: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar46: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar47: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar48: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar49: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+    class var avatar50: UIColor {
+        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+    }
+
     //--MARK: Color for highlighting my ongoing events
     class var eventHighlighted: UIColor {
         return themeYellow
