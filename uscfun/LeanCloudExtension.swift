@@ -19,9 +19,9 @@ enum MessageMediaType: Int {
 }
 
 enum SystemNotificationType: Int {
-    case eventCreated = -1
-    case eventUpdated = -2
-    case newVersionReleased = -3
+    case eventCreated = 1
+    case eventUpdated = 2
+    case newVersionReleased = 3
 }
 
 struct LeanEngineFunctions {

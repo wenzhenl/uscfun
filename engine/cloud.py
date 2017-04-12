@@ -389,8 +389,8 @@ def after_event_save(event):
             'X-LC-Key': MASTER_KEY + ',master'}
         data = {"from_peer": "sys", \
                 "message": "{\"_lctype\":-1,\"_lctext\":\"eventCreated\", \
-                \"_lcattrs\":{\"snType\": snEventCreated, \
-                \"eventId\": \"" + eventId + "\"}}", \
+                \"_lcattrs\":{\"snType\":" + str(snEventCreated) + \
+                ",\"eventId\": \"" + eventId + "\"}}", \
                  "conv_id": conversation_id}
         requests.post(subscriber_url, data=json.dumps(data), headers=headers)
     print("after event save ended")
@@ -419,8 +419,8 @@ def after_event_update(event):
             'X-LC-Key': MASTER_KEY + ',master'}
         data = {"from_peer": "sys", \
                 "message": "{\"_lctype\":-1,\"_lctext\":\"eventUpdated\", \
-                \"_lcattrs\":{\"snType\": snEventUpdated, \
-                \"eventId\": \"" + eventId + "\"}}", \
+                \"_lcattrs\":{\"snType\":" + str(snEventUpdated) + \
+                ",\"eventId\": \"" + eventId + "\"}}", \
                  "conv_id": conversation_id}
         requests.post(subscriber_url, data=json.dumps(data), headers=headers)
 
