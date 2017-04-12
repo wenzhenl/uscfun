@@ -1,7 +1,11 @@
-# -*- coding: utf8 -*-
+# -*- coding: utf-8 -*-
 __author__ = "Wenzheng Li"
 
 import os
+
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 from leancloud import Engine
 from leancloud import LeanEngineError
