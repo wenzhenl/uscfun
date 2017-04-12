@@ -207,34 +207,34 @@ extension UIColor {
         return UIColor(red: 110/255.0, green: 158/255.0, blue: 207/255.0, alpha: 1.0)
     }
     class var avatar41: UIColor {
-        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+        return UIColor(red: 117/255.0, green: 235/255.0, blue: 0/255.0, alpha: 1.0)
     }
     class var avatar42: UIColor {
-        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+        return UIColor(red: 83/255.0, green: 187/255.0, blue: 244/255.0, alpha: 1.0)
     }
     class var avatar43: UIColor {
-        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+        return UIColor(red: 255/255.0, green: 133/255.0, blue: 203/255.0, alpha: 1.0)
     }
     class var avatar44: UIColor {
-        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+        return UIColor(red: 255/255.0, green: 67/255.0, blue: 46/255.0, alpha: 1.0)
     }
     class var avatar45: UIColor {
-        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+        return UIColor(red: 255/255.0, green: 172/255.0, blue: 0/255.0, alpha: 1.0)
     }
     class var avatar46: UIColor {
-        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+        return UIColor(red: 53/255.0, green: 68/255.0, blue: 88/255.0, alpha: 1.0)
     }
     class var avatar47: UIColor {
-        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+        return UIColor(red: 58/255.0, green: 154/255.0, blue: 217/255.0, alpha: 1.0)
     }
     class var avatar48: UIColor {
-        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+        return UIColor(red: 41/255.0, green: 171/255.0, blue: 164/255.0, alpha: 1.0)
     }
     class var avatar49: UIColor {
-        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+        return UIColor(red: 233/255.0, green: 224/255.0, blue: 214/255.0, alpha: 1.0)
     }
     class var avatar50: UIColor {
-        return UIColor(red: /255.0, green: /255.0, blue: /255.0, alpha: 1.0)
+        return UIColor(red: 235/255.0, green: 114/255.0, blue: 96/255.0, alpha: 1.0)
     }
 
     //--MARK: Color for highlighting my ongoing events
