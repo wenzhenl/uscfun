@@ -53,3 +53,27 @@ curl -X POST \
 -H "Content-Type: application/json" \
 -d '{"from_peer": "1a", "to_peers":["wenzhenl@usc.edu","3d","4f"],"message": "{\"_lctype\":-1,\"_lctext\":\"这是一个纯文本消息\",\"_lcattrs\":{\"a\":\"_lcattrs 是用来存储用户自定义的一些键值对\"}}", "conv_id": "581973d06f354f00663072e7", "transient": false}' \
 https://us.leancloud.cn/1.1/rtm/messages
+
+# send admin message
+curl -X POST \
+-H "X-LC-Id: 0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz" \
+-H "X-LC-Key: 86bDxHaspqbCjqxWm53txUxb,master" \
+-H "Content-Type: application/json" \
+-d '{"from_peer": "wang_usc_edu", "message": "{\"_lctype\":-1,\"_lctext\":\"send from system\",\"_lcattrs\":{\"a\":\"_lcattrs 是用来存储用户自定义的一些键值对\"}}", "conv_id": "58edb5f72f301e0058f67e30", "transient": false}' \
+https://api.leancloud.cn/1.1/rtm/messages
+
+# urgent notification
+curl -X POST \
+-H "X-LC-Id: 0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz" \
+-H "X-LC-Key: 86bDxHaspqbCjqxWm53txUxb,master" \
+-H "Content-Type: application/json" \
+-d '{"from_peer": "sys", "message": "{\"_lctype\":-1,\"_lctext\":\"这是一个纯文本消息\",\"_lcattrs\":{\"snType\":0, \"urgentMessage\":\"下雨了，打雷了，赶快收衣服啊\"}}", "conv_id": "58de6a89128fe1005dcffa08"}' \
+https://leancloud.cn/1.1/rtm/broadcast/subscriber
+
+# new version notification
+curl -X POST \
+-H "X-LC-Id: 0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz" \
+-H "X-LC-Key: 86bDxHaspqbCjqxWm53txUxb,master" \
+-H "Content-Type: application/json" \
+-d '{"from_peer": "sys", "message": "{\"_lctype\":-1,\"_lctext\":\"这是一个纯文本消息\",\"_lcattrs\":{\"snType\":3, \"newVersion\":\"3.0.7\", \"newVersionDescription\":\"更新了很多很多内容\"}}", "conv_id": "58de6a89128fe1005dcffa08"}' \
+https://leancloud.cn/1.1/rtm/broadcast/subscriber
