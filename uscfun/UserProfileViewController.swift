@@ -206,6 +206,9 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
         case .avatarCell:
             let cell = Bundle.main.loadNibNamed("UserProfileHeaderTableViewCell", owner: self, options: nil)?.first as! UserProfileHeaderTableViewCell
 
+            if other.username != USCFunConstants.systemAdministratorClientId {
+                cell.officialBadgeButton.isHidden = true
+            }
             cell.avatarButton.setBackgroundImage(other.avatar, for: .normal)
             cell.avatarButton.layer.masksToBounds = true
             cell.avatarButton.layer.cornerRadius = cell.avatarButton.frame.height / 2.0
