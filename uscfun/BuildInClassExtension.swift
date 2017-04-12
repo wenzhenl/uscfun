@@ -32,11 +32,11 @@ extension UIView {
 
 extension UIColor {
     class var themeYellow: UIColor {
-        return UIColor(red: 255.0/255, green: 218.0/255, blue: 68.0/255, alpha: 1.0)
+        return UIColor(red: 1.0, green: 0.988, blue: 0.0, alpha: 1.0)
     }
     
     class func themeYellow(_ alpha: CGFloat) -> UIColor {
-        return UIColor(red: 255.0/255, green: 218.0/255, blue: 68.0/255, alpha: alpha)
+        return UIColor(red: 1.0, green: 0.988, blue: 0.0, alpha: alpha)
     }
     
     class var themeUSCRed: UIColor {
@@ -82,7 +82,11 @@ extension UIColor {
     class var avatarTomato: UIColor {
         return UIColor(red: 255.0/255, green: 99.0/255, blue: 71.0/255, alpha: 1.0)
     }
-    
+    class var avatarYellow: UIColor {
+        return UIColor(red: 255.0/255, green: 218.0/255, blue: 68.0/255, alpha: 1.0)
+    }
+    /// additional 50 colors
+    class var color1
     //--MARK: Color for highlighting my ongoing events
     class var eventHighlighted: UIColor {
         return themeYellow

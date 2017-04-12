@@ -29,7 +29,7 @@ class PageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         UIApplication.shared.isStatusBarHidden = true
-        view.backgroundColor = UIColor.themeYellow
+        view.backgroundColor = UIColor.avatarYellow
         let welcomeCard1 = WelcomeCard(image: #imageLiteral(resourceName: "welcome1"), showButton: false)
         let welcomeCard2 = WelcomeCard(image: #imageLiteral(resourceName: "welcome2"), showButton: false)
         let welcomeCard3 = WelcomeCard(image: #imageLiteral(resourceName: "welcome3"), showButton: false)
