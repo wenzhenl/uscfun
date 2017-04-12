@@ -28,6 +28,14 @@ APP_KEY = os.environ['LEANCLOUD_APP_KEY']
 MASTER_KEY = os.environ['LEANCLOUD_APP_MASTER_KEY']
 
 admin = "wenzhenl_usc_edu"
+# system notification type
+# eventId required
+snEventCreated = 1
+#eventId required
+snEventUpdated = 2
+#newVersion required
+#newVersionDescription
+snNewVersionReleased = 3
 
 conversation_url = "https://api.leancloud.cn/1.1/classes/_Conversation"
 subscription_url = 'https://leancloud.cn/1.1/rtm/conversation/subscription'
@@ -380,8 +388,8 @@ def after_event_save(event):
             'X-LC-Id': APP_ID, \
             'X-LC-Key': MASTER_KEY + ',master'}
         data = {"from_peer": "sys", \
-                "message": "{\"_lctype\":-1,\"_lctext\":\"new event\", \
-                \"_lcattrs\":{\"reason\": \"new\", \
+                "message": "{\"_lctype\":-1,\"_lctext\":\"eventCreated\", \
+                \"_lcattrs\":{\"snType\": snEventCreated, \
                 \"eventId\": \"" + eventId + "\"}}", \
                  "conv_id": conversation_id}
         requests.post(subscriber_url, data=json.dumps(data), headers=headers)
@@ -410,8 +418,8 @@ def after_event_update(event):
             'X-LC-Id': APP_ID, \
             'X-LC-Key': MASTER_KEY + ',master'}
         data = {"from_peer": "sys", \
-                "message": "{\"_lctype\":-1,\"_lctext\":\"updated event\", \
-                \"_lcattrs\":{\"reason\": \"updated\", \
+                "message": "{\"_lctype\":-1,\"_lctext\":\"eventUpdated\", \
+                \"_lcattrs\":{\"snType\": snEventUpdated, \
                 \"eventId\": \"" + eventId + "\"}}", \
                  "conv_id": conversation_id}
         requests.post(subscriber_url, data=json.dumps(data), headers=headers)

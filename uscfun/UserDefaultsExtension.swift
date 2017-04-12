@@ -314,6 +314,47 @@ extension UserDefaults {
         }
     }
     
+    /// latest app version
+    class var latestVersion: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "latestVersion")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "latestVersion")
+        }
+    }
+    
+    /// remind user to update new version every 7 days
+    class var shouldRemindUpdateNewVersion: Bool {
+        if currentVersion == latestVersion {
+            return false
+        }
+        else if Date().timeIntervalSince(lastUpdateNewVersionRemindedAt) > TimeInterval(7*24*3600) {
+            return true
+        }
+        return false
+    }
+    
+    class var lastUpdateNewVersionRemindedAt: Date {
+        get {
+            let interval = UserDefaults.standard.double(forKey: "lastUpdateNewVersionRemindedAt")
+            return Date(timeIntervalSince1970: interval)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue.timeIntervalSince1970, forKey: "lastUpdateNewVersionRemindedAt")
+        }
+    }
+    
+    /// latest app version description
+    class var newVersionDescription: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "newVersionDescription")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "newVersionDescription")
+        }
+    }
+    
     /// remind user to open remote notification every 10 days
     class var shouldRemindOpenRemoteNotification: Bool {
         if hasOpenedRemoteNotification {

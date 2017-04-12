@@ -9,6 +9,7 @@
 import UIKit
 import SVProgressHUD
 import ChatKit
+import SCLAlertView
 
 class EventListViewController: UIViewController {
 
@@ -117,6 +118,19 @@ class EventListViewController: UIViewController {
         super.viewDidAppear(true)
         infoLabel.isHidden = true
         infoLabel.frame.origin = CGPoint.zero
+        
+        if UserDefaults.shouldRemindUpdateNewVersion {
+            UserDefaults.lastUpdateNewVersionRemindedAt = Date()
+            let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
+            let alertView = SCLAlertView(appearance: appearance)
+            alertView.addButton("立即更新") {
+                UIApplication.shared.openURL(URL(string : USCFunConstants.appURL)!)
+            }
+            alertView.addButton("暂时不要") {
+                print("remind update new app version ignored")
+            }
+            alertView.showInfo("有新版本啦！", subTitle: UserDefaults.newVersionDescription ?? "")
+        }
     }
     
     deinit {

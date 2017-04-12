@@ -52,12 +52,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let currentVersion = UserDefaults.currentVersion {
                 if currentVersion != version {
                     UserDefaults.currentVersion = version
+                    UserDefaults.latestVersion = version
                     UserDefaults.lastRateAppRemindedAt = Date()
                     UserDefaults.hasRatedApp = false
                     UserDefaults.hasShownWelcomePages = false
                 }
             } else {
                 UserDefaults.currentVersion = version
+                UserDefaults.latestVersion = version
                 UserDefaults.lastRateAppRemindedAt = Date()
                 UserDefaults.hasRatedApp = false
                 UserDefaults.hasShownWelcomePages = false
@@ -209,16 +211,34 @@ extension AppDelegate: AVIMClientDelegate {
     func conversation(_ conversation: AVIMConversation, didReceive message: AVIMTypedMessage) {
         print(message.text ?? "")
         
-        guard let reason = message.attributes?["reason"] as? String, let eventId = message.attributes?["eventId"] as? String else {
+        guard let notificationTypeCode = message.attributes?["snType"] as? Int, let notificationType = SystemNotificationType(rawValue: notificationTypeCode) else {
             print("cannot parse message attributes")
             return
         }
-        
-        if reason == "new" {
+        if notificationType == SystemNotificationType.eventCreated {
+            print("received system notification event created")
+            guard let eventId = message.attributes?["eventId"] as? String else {
+                print("eventCreated notification eventId missing")
+                return
+            }
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newEventAvailable"), object: nil, userInfo: ["eventId": eventId])
         }
-        else if reason == "updated" {
+        else if notificationType == SystemNotificationType.eventUpdated {
+            print("received system notification event updated")
+            guard let eventId = message.attributes?["eventId"] as? String else {
+                print("eventUpdated notification eventId missing")
+                return
+            }
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updatedEventAvailable"), object: nil, userInfo: ["eventId": eventId])
+        }
+        else if notificationType == SystemNotificationType.newVersionReleased {
+            print("received system notification new version release")
+            guard let newVersion = message.attributes?["newVersion"] as? String, let description = message.attributes?["newVersionDescription"] as? String else {
+                print("newVersionReleased notification newVersion missing")
+                return
+            }
+            UserDefaults.latestVersion = newVersion
+            UserDefaults.newVersionDescription = description
         }
     }
     
@@ -238,16 +258,36 @@ extension AppDelegate: AVIMClientDelegate {
                 objects, error in
                 if let messages = objects as? [AVIMTypedMessage] {
                     for message in messages {
-                        guard let reason = message.attributes?["reason"] as? String, let eventId = message.attributes?["eventId"] as? String else {
+                        print(message.text ?? "")
+                        
+                        guard let notificationTypeCode = message.attributes?["snType"] as? Int, let notificationType = SystemNotificationType(rawValue: notificationTypeCode) else {
                             print("cannot parse message attributes")
                             return
                         }
-                        
-                        if reason == "new" {
+                        if notificationType == SystemNotificationType.eventCreated {
+                            print("received system notification event created")
+                            guard let eventId = message.attributes?["eventId"] as? String else {
+                                print("eventCreated notification eventId missing")
+                                return
+                            }
                             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newEventAvailable"), object: nil, userInfo: ["eventId": eventId])
                         }
-                        else if reason == "updated" {
+                        else if notificationType == SystemNotificationType.eventUpdated {
+                            print("received system notification event updated")
+                            guard let eventId = message.attributes?["eventId"] as? String else {
+                                print("eventUpdated notification eventId missing")
+                                return
+                            }
                             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updatedEventAvailable"), object: nil, userInfo: ["eventId": eventId])
+                        }
+                        else if notificationType == SystemNotificationType.newVersionReleased {
+                            print("received system notification new version release")
+                            guard let newVersion = message.attributes?["newVersion"] as? String, let description = message.attributes?["newVersionDescription"] as? String else {
+                                print("newVersionReleased notification newVersion missing")
+                                return
+                            }
+                            UserDefaults.latestVersion = newVersion
+                            UserDefaults.newVersionDescription = description
                         }
                     }
                 }

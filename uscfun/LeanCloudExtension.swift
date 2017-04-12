@@ -18,6 +18,12 @@ enum MessageMediaType: Int {
     case file = -6
 }
 
+enum SystemNotificationType: Int {
+    case eventCreated = -1
+    case eventUpdated = -2
+    case newVersionReleased = -3
+}
+
 struct LeanEngineFunctions {
     static let nameOfCheckIfEmailIsTaken = "checkIfEmailIsTaken"
     static let nameOfRequestConfirmationCode = "requestConfirmationCode"
