@@ -30,14 +30,14 @@ MASTER_KEY = os.environ['LEANCLOUD_APP_MASTER_KEY']
 admin = "wenzhenl_usc_edu"
 
 conversation_url = "https://api.leancloud.cn/1.1/classes/_Conversation"
-subscribe_url = 'https://leancloud.cn/1.1/rtm/conversation/subscription'
-broadcast_url = 'https://leancloud.cn/1.1/rtm/broadcast/subscriber'
-message_url = 'https://api.leancloud.cn/1.1/rtm/messages'
+subscription_url = 'https://leancloud.cn/1.1/rtm/conversation/subscription'
+subscriber_url = 'https://leancloud.cn/1.1/rtm/broadcast/subscriber'
+messages_url = 'https://api.leancloud.cn/1.1/rtm/messages'
 
 # conversation_url = "https://us-api.leancloud.cn/1.1/classes/_Conversation"
-# subscribe_url = 'https://leancloud.cn/1.1/rtm/conversation/subscription'
-# broadcast_url = 'https://leancloud.cn/1.1/rtm/broadcast/subscriber'
-# message_url = 'https://us-api.leancloud.cn/1.1/rtm/messages'
+# subscription_url = 'https://leancloud.cn/1.1/rtm/conversation/subscription'
+# subscriber_url = 'https://leancloud.cn/1.1/rtm/broadcast/subscriber'
+# messages_url = 'https://us-api.leancloud.cn/1.1/rtm/messages'
 
 engine = Engine(app)
 
@@ -221,7 +221,7 @@ def subscribeToSystemConversation(**params):
                     'X-LC-Id': APP_ID, \
                     'X-LC-Key': MASTER_KEY + ',master'}
                 data = {"conv_id": conversation_id, "client_id": client_id}
-                requests.post(subscribe_url, data=json.dumps(data), headers=headers)
+                requests.post(subscription_url, data=json.dumps(data), headers=headers)
             print "subscribe to system conversation ends"
             return True
         except Exception as e:
@@ -369,7 +369,7 @@ def after_event_save(event):
                 \"_lcattrs\":{\"reason\": \"new\", \
                 \"eventId\": \"" + eventId + "\"}}", \
                  "conv_id": conversation_id}
-        requests.post(broadcast_url, data=json.dumps(data), headers=headers)
+        requests.post(subscriber_url, data=json.dumps(data), headers=headers)
     print("after event save ended")
 
 @engine.after_update('Event')
@@ -399,7 +399,7 @@ def after_event_update(event):
                 \"_lcattrs\":{\"reason\": \"updated\", \
                 \"eventId\": \"" + eventId + "\"}}", \
                  "conv_id": conversation_id}
-        requests.post(broadcast_url, data=json.dumps(data), headers=headers)
+        requests.post(subscriber_url, data=json.dumps(data), headers=headers)
 
 @engine.define
 def _receiversOffline(**params):
