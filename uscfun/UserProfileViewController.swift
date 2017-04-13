@@ -57,7 +57,9 @@ class UserProfileViewController: UIViewController {
             error, events in
             if let events = events {
                 for event in events {
-                    self.createdEvents[event.objectId!] = event
+                    if event.status == .isFinalized {
+                        self.createdEvents[event.objectId!] = event
+                    }
                 }
             }
             fetchGroup.leave()
@@ -67,7 +69,9 @@ class UserProfileViewController: UIViewController {
             error, events in
             if let events = events {
                 for event in events {
-                    self.attendedEvents[event.objectId!] = event
+                    if event.status == .isFinalized {
+                        self.attendedEvents[event.objectId!] = event
+                    }
                 }
             }
             fetchGroup.leave()
