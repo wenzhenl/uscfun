@@ -33,7 +33,53 @@ class RatingBar: UIView {
     var delegate: RatingBarDelegate?
     var isDrawn = false
     
+    func createRatingView(_ image: UIImage) -> UIView {
+        let view = UIView(frame: self.bounds)
+        view.clipsToBounds = true
+        view.backgroundColor = UIColor.clear
+        for position in 0 ..< numberOfStars {
+            let imageView = UIImageView(image: image)
+            imageView.frame = CGRect(x: CGFloat(position) * self.bounds.size.width / CGFloat(numberOfStars), y: 0, width: self.bounds.size.width / CGFloat(numberOfStars), height: self.bounds.size.height)
+            imageView.contentMode = .scaleAspectFit
+            view.addSubview(imageView)
+        }
+        return view
+    }
     
+    func animateRatingChange() {
+        let ratingScoreInRatio = self.rating / self.ratingMax
+        self.foregroundRatingView.frame = CGRect(x: 0, y: 0, width: self.bounds.size.width * ratingScoreInRatio, height: self.bounds.size.height)
+    }
+    
+    func rateViewTapped(sender: UITapGestureRecognizer) {
+        if isIndicator { return }
+        let tapPoint = sender.location(in: self)
+        let offset = tapPoint.x
+        let ratingScore = offset / self.bounds.size.width * ratingMax
+        self.rating = self.allowsPartialStar ? ratingScore : round(ratingScore)
+    }
+    
+    func buildView() {
+        if isDrawn { return }
+        isDrawn = true
+        self.backgroundRatingView = self.createRatingView(darkStar)
+        self.foregroundRatingView = self.createRatingView(brightStar)
+        animateRatingChange()
+        self.addSubview(self.backgroundRatingView)
+        self.addSubview(self.foregroundRatingView)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(rateViewTapped))
+        tapGesture.numberOfTapsRequired = 1
+        self.addGestureRecognizer(tapGesture)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        buildView()
+        let animationTimeInterval = self.shouldAnimate ? self.animationTimeInterval : 0
+        UIView.animate(withDuration: animationTimeInterval, animations: {
+            self.animateRatingChange()
+        })
+    }
 }
 
 protocol RatingBarDelegate {
