@@ -13,6 +13,7 @@ import SVProgressHUD
 enum UserProfileCell {
     case avatarCell
     case statCell
+    case creditRecordCell
     case introductionCell
     case segmentedCell
     case eventCell
@@ -28,7 +29,7 @@ class UserProfileViewController: UIViewController {
     var showingCreatedEvents = true
     var userProfileSections = [UserProfileCell]()
     
-    let numberOfPreservedSection = 4
+    let numberOfPreservedSection = 5
    
     var genderTitle: String!
  
@@ -93,6 +94,7 @@ class UserProfileViewController: UIViewController {
         userProfileSections.removeAll()
         userProfileSections.append(UserProfileCell.avatarCell)
         userProfileSections.append(UserProfileCell.statCell)
+        userProfileSections.append(UserProfileCell.creditRecordCell)
         userProfileSections.append(UserProfileCell.introductionCell)
         userProfileSections.append(UserProfileCell.segmentedCell)
         
@@ -216,6 +218,16 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
             cell.avatarButton.addTarget(self, action: #selector(avatarTapped), for: .touchUpInside)
             cell.genderLabel.text = other.gender?.rawValue ?? Gender.unknown.rawValue
             cell.selectionStyle = .none
+            return cell
+        case .creditRecordCell:
+            let cell = Bundle.main.loadNibNamed("CreditRecordTableViewCell", owner: self, options: nil)?.first as! CreditRecordTableViewCell
+            cell.titleLabel.text = "信用等级："
+            cell.ratingBar.rating = 5.0
+            cell.ratingBar.ratingMin = 1.0
+            cell.ratingBar.allowsPartialStar = true
+            cell.ratingBar.isIndicator = true
+            cell.selectionStyle = .none
+
             return cell
         case .statCell:
             let cell = Bundle.main.loadNibNamed("TandemLabelTableViewCell", owner: self, options: nil)?.first as! TandemLabelTableViewCell

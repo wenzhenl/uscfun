@@ -60,6 +60,8 @@
 		0A6D922F1E666AAE008501B9 /* NewEventPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D922E1E666AAE008501B9 /* NewEventPreviewViewController.swift */; };
 		0A6D92321E669965008501B9 /* EventSnapshotTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D92301E669965008501B9 /* EventSnapshotTableViewCell.swift */; };
 		0A6D92331E669965008501B9 /* EventSnapshotTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A6D92311E669965008501B9 /* EventSnapshotTableViewCell.xib */; };
+		0A6F0B841E9F689800BB2FA7 /* CreditRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6F0B821E9F689800BB2FA7 /* CreditRecordTableViewCell.swift */; };
+		0A6F0B851E9F689800BB2FA7 /* CreditRecordTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A6F0B831E9F689800BB2FA7 /* CreditRecordTableViewCell.xib */; };
 		0A70C09B1DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A70C0991DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.swift */; };
 		0A70C09C1DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A70C09A1DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.xib */; };
 		0A70C09F1DBD3B4000C06354 /* LabelSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A70C09D1DBD3B4000C06354 /* LabelSwitchTableViewCell.swift */; };
@@ -194,6 +196,8 @@
 		0A6D922E1E666AAE008501B9 /* NewEventPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewEventPreviewViewController.swift; sourceTree = "<group>"; };
 		0A6D92301E669965008501B9 /* EventSnapshotTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSnapshotTableViewCell.swift; sourceTree = "<group>"; };
 		0A6D92311E669965008501B9 /* EventSnapshotTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventSnapshotTableViewCell.xib; sourceTree = "<group>"; };
+		0A6F0B821E9F689800BB2FA7 /* CreditRecordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreditRecordTableViewCell.swift; sourceTree = "<group>"; };
+		0A6F0B831E9F689800BB2FA7 /* CreditRecordTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreditRecordTableViewCell.xib; sourceTree = "<group>"; };
 		0A70C0991DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptySectionPlaceholderTableViewCell.swift; sourceTree = "<group>"; };
 		0A70C09A1DBD34A200C06354 /* EmptySectionPlaceholderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmptySectionPlaceholderTableViewCell.xib; sourceTree = "<group>"; };
 		0A70C09D1DBD3B4000C06354 /* LabelSwitchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelSwitchTableViewCell.swift; sourceTree = "<group>"; };
@@ -415,6 +419,8 @@
 				0A3062651E767419001E3696 /* FinalizedEventSnapshotTableViewCell.xib */,
 				0A4965C01E9F4BBB00161B15 /* RateMemberTableViewCell.swift */,
 				0A4965C11E9F4BBB00161B15 /* RateMemberTableViewCell.xib */,
+				0A6F0B821E9F689800BB2FA7 /* CreditRecordTableViewCell.swift */,
+				0A6F0B831E9F689800BB2FA7 /* CreditRecordTableViewCell.xib */,
 			);
 			name = TableViewCells;
 			sourceTree = "<group>";
@@ -647,6 +653,7 @@
 				0A96D3D21DADBF5B00AB272A /* ImgKeyValueArrowTableViewCell.xib in Resources */,
 				0A8483791E693F7300B7B29A /* EventStatusTableViewCell.xib in Resources */,
 				0A6D92331E669965008501B9 /* EventSnapshotTableViewCell.xib in Resources */,
+				0A6F0B851E9F689800BB2FA7 /* CreditRecordTableViewCell.xib in Resources */,
 				0AAE42E01D9A289D00B34601 /* ImgKeyValueTableViewCell.xib in Resources */,
 				0A5332C31E6B2D7200C50186 /* ImageViewCollectionViewCell.xib in Resources */,
 				0A70C0A01DBD3B4000C06354 /* LabelSwitchTableViewCell.xib in Resources */,
@@ -794,6 +801,7 @@
 				0AD46F3D1E974F01001DAF93 /* MyEventSnapshotTableViewCell.swift in Sources */,
 				0A9A94581DC40C5F00B002D2 /* CustomizedAlertViewController.swift in Sources */,
 				0A84835C1E683D8C00B7B29A /* TitleContentTableViewCell.swift in Sources */,
+				0A6F0B841E9F689800BB2FA7 /* CreditRecordTableViewCell.swift in Sources */,
 				0ADE0C9F1DB1F173009F89A0 /* EventHistoryViewController.swift in Sources */,
 				0AB8F5A71E9CBC5A00079E33 /* CardViewController.swift in Sources */,
 				0AAE42E41D9A2F8B00B34601 /* MapViewController.swift in Sources */,
