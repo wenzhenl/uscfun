@@ -36,6 +36,7 @@
 		0A427FAE1D97F579007A96BE /* TextViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A427FAC1D97F579007A96BE /* TextViewTableViewCell.xib */; };
 		0A427FB11D97F627007A96BE /* ImageViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A427FAF1D97F627007A96BE /* ImageViewTableViewCell.swift */; };
 		0A427FB21D97F627007A96BE /* ImageViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A427FB01D97F627007A96BE /* ImageViewTableViewCell.xib */; };
+		0A4965BD1E9F42F600161B15 /* RatingBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4965BC1E9F42F600161B15 /* RatingBar.swift */; };
 		0A52FD681DB098F8000D17D8 /* LCCKUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A52FD671DB098F8000D17D8 /* LCCKUser.m */; };
 		0A5332BE1E6B2C8800C50186 /* CollectionViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5332BC1E6B2C8800C50186 /* CollectionViewTableViewCell.swift */; };
 		0A5332BF1E6B2C8800C50186 /* CollectionViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A5332BD1E6B2C8800C50186 /* CollectionViewTableViewCell.xib */; };
@@ -163,6 +164,7 @@
 		0A427FAC1D97F579007A96BE /* TextViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextViewTableViewCell.xib; sourceTree = "<group>"; };
 		0A427FAF1D97F627007A96BE /* ImageViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewTableViewCell.swift; sourceTree = "<group>"; };
 		0A427FB01D97F627007A96BE /* ImageViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageViewTableViewCell.xib; sourceTree = "<group>"; };
+		0A4965BC1E9F42F600161B15 /* RatingBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingBar.swift; sourceTree = "<group>"; };
 		0A52FD661DB098F8000D17D8 /* LCCKUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCCKUser.h; sourceTree = "<group>"; };
 		0A52FD671DB098F8000D17D8 /* LCCKUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCCKUser.m; sourceTree = "<group>"; };
 		0A5332BC1E6B2C8800C50186 /* CollectionViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewTableViewCell.swift; sourceTree = "<group>"; };
@@ -491,6 +493,7 @@
 			isa = PBXGroup;
 			children = (
 				0AEDE4ED1E823B5A00B56979 /* RefreshView.xib */,
+				0A4965BC1E9F42F600161B15 /* RatingBar.swift */,
 			);
 			name = CustomViews;
 			sourceTree = "<group>";
@@ -742,6 +745,7 @@
 				0A8483781E693F7300B7B29A /* EventStatusTableViewCell.swift in Sources */,
 				0A8483701E68518600B7B29A /* TitleTextViewTableViewCell.swift in Sources */,
 				0A71119D1DBEC87000742F2D /* UserDefaultsExtension.swift in Sources */,
+				0A4965BD1E9F42F600161B15 /* RatingBar.swift in Sources */,
 				0A9CB4511D6FFAA500608D27 /* User.swift in Sources */,
 				0A96D3D11DADBF5B00AB272A /* ImgKeyValueArrowTableViewCell.swift in Sources */,
 				0A00DB0B1DD9109A00A81189 /* AddressPickerViewController.swift in Sources */,
