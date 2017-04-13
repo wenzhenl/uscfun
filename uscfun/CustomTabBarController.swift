@@ -32,22 +32,10 @@ class CustomTabBarController: UITabBarController {
             }
         }
         self.selectedIndex = USCFunConstants.indexOfEventList
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(finishedCleanEvents), name: NSNotification.Name(rawValue: "finishedCleanEvents"), object: nil)
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
     
     func startEvent() {
         performSegue(withIdentifier: "BeginStartingANewEvent", sender: self)
-    }
-    
-    func finishedCleanEvents() {
-        let appDelegate = UIApplication.shared.delegate! as! AppDelegate
-        appDelegate.window?.rootViewController = self
-        appDelegate.window?.makeKeyAndVisible()
     }
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {

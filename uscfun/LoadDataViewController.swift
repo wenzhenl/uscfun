@@ -16,7 +16,10 @@ class LoadDataViewController: UIViewController {
         print("clean public events starts")
         EventRequest.cleanEventsInBackground(for: .mypublic) {
             UserDefaults.lastPublicEventsCleanedAt = Date()
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "finishedCleanEvents"), object: nil, userInfo: nil)
+            let appDelegate = UIApplication.shared.delegate! as! AppDelegate
+            let initialVC = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+            appDelegate.window?.rootViewController = initialVC
+            appDelegate.window?.makeKeyAndVisible()
             print("clean public events ends")
         }
     }

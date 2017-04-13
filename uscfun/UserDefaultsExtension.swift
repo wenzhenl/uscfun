@@ -415,9 +415,9 @@ extension UserDefaults {
         }
     }
     
-    /// clean public events regularly every 10 minutes
+    /// clean public events regularly every 5 minutes
     class var shouldCleanPublicEvents: Bool {
-        if Date().timeIntervalSince(lastPublicEventsCleanedAt) > TimeInterval(10*60) {
+        if Date().timeIntervalSince(lastPublicEventsCleanedAt) > TimeInterval(5*60) {
             return true
         }
         return false
