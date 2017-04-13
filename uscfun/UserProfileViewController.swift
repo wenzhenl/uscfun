@@ -217,10 +217,14 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
             }
             cell.avatarButton.setBackgroundImage(other.avatar, for: .normal)
             cell.avatarButton.layer.masksToBounds = true
-            cell.avatarButton.layer.cornerRadius = cell.avatarButton.frame.height / 2.0
+            cell.avatarButton.layer.cornerRadius = 35
             cell.avatarButton.contentMode = .scaleAspectFit
             cell.avatarButton.addTarget(self, action: #selector(avatarTapped), for: .touchUpInside)
-            cell.genderLabel.text = other.gender?.rawValue ?? Gender.unknown.rawValue
+            if other.gender != nil && other.gender != Gender.unknown {
+                cell.genderLabel.text = other.gender!.rawValue
+            } else {
+                cell.genderLabel.text = ""
+            }
             cell.selectionStyle = .none
             return cell
         case .creditRecordCell:
@@ -306,10 +310,6 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if userProfileSections[indexPath.section] == .avatarCell {
-            return 90
-        }
-        
         return UITableViewAutomaticDimension
     }
     
@@ -361,7 +361,7 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if userProfileSections[section] == .avatarCell {
-            return 15
+            return 0
         }
         if userProfileSections[section] == .introductionCell {
             return 10
