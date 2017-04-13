@@ -1117,18 +1117,18 @@ Apache License
                                 <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Pkl-HI-A30" id="uhX-Yw-5VK">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3sH-Y8-wt4">
-                                            <rect key="frame" x="15" y="5" width="33.333333333333336" height="20.333333333333332"/>
+                                            <rect key="frame" x="15" y="4" width="34" height="21"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yvk-rT-99l">
-                                            <rect key="frame" x="14.999999999999996" y="25.333333333333332" width="43.666666666666664" height="14.333333333333334"/>
+                                            <rect key="frame" x="15" y="25" width="44" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
@@ -1184,6 +1184,43 @@ Apache License
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e38-NO-Dhn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2135" y="-3938"/>
+        </scene>
+        <!--Rate Event View Controller-->
+        <scene sceneID="F28-Ow-rsM">
+            <objects>
+                <viewController storyboardIdentifier="rating event view controller" id="mqu-ji-hxO" customClass="RateEventViewController" customModule="uscfun" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="lKq-Pc-8qM"/>
+                        <viewControllerLayoutGuide type="bottom" id="mcG-DV-4km"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hOl-u5-UH5">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IFz-zj-wRb">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="mqu-ji-hxO" id="ER2-6s-Xd3"/>
+                                    <outlet property="delegate" destination="mqu-ji-hxO" id="Izh-cZ-4Dt"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="IFz-zj-wRb" firstAttribute="centerY" secondItem="hOl-u5-UH5" secondAttribute="centerY" id="Dgy-zp-k8F"/>
+                            <constraint firstItem="IFz-zj-wRb" firstAttribute="height" secondItem="hOl-u5-UH5" secondAttribute="height" id="ZTO-Zr-L13"/>
+                            <constraint firstItem="IFz-zj-wRb" firstAttribute="width" secondItem="hOl-u5-UH5" secondAttribute="width" id="der-Yi-cHH"/>
+                            <constraint firstItem="IFz-zj-wRb" firstAttribute="centerX" secondItem="hOl-u5-UH5" secondAttribute="centerX" id="lp5-j0-gGp"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="IFz-zj-wRb" id="kDm-K3-jqh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Na-0v-xxk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2852" y="-3947"/>
         </scene>
         <!--User Profile View Controller-->
         <scene sceneID="jtB-0M-62G">

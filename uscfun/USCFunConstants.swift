@@ -51,6 +51,7 @@ class USCFunConstants {
     static let storyboardIdentifierOfMapViewController = "universal map view controller"
     static let storyboardIdentifierOfLoadDataViewController = "load data view controller"
     static let storyboardIndetifierOfConversationMoreViewController = "conversation more view controller"
+    static let storyboardIdentiferOfRateEventViewController = "rating event view controller"
 }
 
 struct UserKeyConstants {

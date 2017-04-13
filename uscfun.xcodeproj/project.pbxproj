@@ -37,6 +37,9 @@
 		0A427FB11D97F627007A96BE /* ImageViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A427FAF1D97F627007A96BE /* ImageViewTableViewCell.swift */; };
 		0A427FB21D97F627007A96BE /* ImageViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A427FB01D97F627007A96BE /* ImageViewTableViewCell.xib */; };
 		0A4965BD1E9F42F600161B15 /* RatingBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4965BC1E9F42F600161B15 /* RatingBar.swift */; };
+		0A4965BF1E9F4AE500161B15 /* RateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4965BE1E9F4AE500161B15 /* RateEventViewController.swift */; };
+		0A4965C21E9F4BBB00161B15 /* RateMemberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4965C01E9F4BBB00161B15 /* RateMemberTableViewCell.swift */; };
+		0A4965C31E9F4BBB00161B15 /* RateMemberTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A4965C11E9F4BBB00161B15 /* RateMemberTableViewCell.xib */; };
 		0A52FD681DB098F8000D17D8 /* LCCKUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A52FD671DB098F8000D17D8 /* LCCKUser.m */; };
 		0A5332BE1E6B2C8800C50186 /* CollectionViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5332BC1E6B2C8800C50186 /* CollectionViewTableViewCell.swift */; };
 		0A5332BF1E6B2C8800C50186 /* CollectionViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A5332BD1E6B2C8800C50186 /* CollectionViewTableViewCell.xib */; };
@@ -165,6 +168,9 @@
 		0A427FAF1D97F627007A96BE /* ImageViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewTableViewCell.swift; sourceTree = "<group>"; };
 		0A427FB01D97F627007A96BE /* ImageViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageViewTableViewCell.xib; sourceTree = "<group>"; };
 		0A4965BC1E9F42F600161B15 /* RatingBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingBar.swift; sourceTree = "<group>"; };
+		0A4965BE1E9F4AE500161B15 /* RateEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateEventViewController.swift; sourceTree = "<group>"; };
+		0A4965C01E9F4BBB00161B15 /* RateMemberTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateMemberTableViewCell.swift; sourceTree = "<group>"; };
+		0A4965C11E9F4BBB00161B15 /* RateMemberTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RateMemberTableViewCell.xib; sourceTree = "<group>"; };
 		0A52FD661DB098F8000D17D8 /* LCCKUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCCKUser.h; sourceTree = "<group>"; };
 		0A52FD671DB098F8000D17D8 /* LCCKUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCCKUser.m; sourceTree = "<group>"; };
 		0A5332BC1E6B2C8800C50186 /* CollectionViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewTableViewCell.swift; sourceTree = "<group>"; };
@@ -407,6 +413,8 @@
 				0A5332C91E6C304900C50186 /* SegmentedTableViewCell.xib */,
 				0A3062641E767419001E3696 /* FinalizedEventSnapshotTableViewCell.swift */,
 				0A3062651E767419001E3696 /* FinalizedEventSnapshotTableViewCell.xib */,
+				0A4965C01E9F4BBB00161B15 /* RateMemberTableViewCell.swift */,
+				0A4965C11E9F4BBB00161B15 /* RateMemberTableViewCell.xib */,
 			);
 			name = TableViewCells;
 			sourceTree = "<group>";
@@ -527,6 +535,7 @@
 				0A5332CC1E6D02AA00C50186 /* EditEventViewController.swift */,
 				0A8A79CD1E7FE77F00B87443 /* BigPictureViewController.swift */,
 				0AB8F59F1E9C6AC200079E33 /* ConversationMoreViewController.swift */,
+				0A4965BE1E9F4AE500161B15 /* RateEventViewController.swift */,
 			);
 			name = EventViewControllers;
 			sourceTree = "<group>";
@@ -651,6 +660,7 @@
 				0AB8F5A31E9CBB6C00079E33 /* Welcome.storyboard in Resources */,
 				0A427FB21D97F627007A96BE /* ImageViewTableViewCell.xib in Resources */,
 				0A6834C51D56858C002E9B0D /* Assets.xcassets in Resources */,
+				0A4965C31E9F4BBB00161B15 /* RateMemberTableViewCell.xib in Resources */,
 				0A5332BF1E6B2C8800C50186 /* CollectionViewTableViewCell.xib in Resources */,
 				0AEDE4EE1E823B5A00B56979 /* RefreshView.xib in Resources */,
 				0A250B331E8CC8A50066BDA6 /* ConversationRecord.plist in Resources */,
@@ -742,6 +752,8 @@
 				0AF0BD8B1E6AD7190091B999 /* EventCreatorTableViewCell.swift in Sources */,
 				0A022FA71D73D066004077A4 /* FindBackPasswordViewController.swift in Sources */,
 				0A5332CA1E6C304900C50186 /* SegmentedTableViewCell.swift in Sources */,
+				0A4965C21E9F4BBB00161B15 /* RateMemberTableViewCell.swift in Sources */,
+				0A4965BF1E9F4AE500161B15 /* RateEventViewController.swift in Sources */,
 				0A8483781E693F7300B7B29A /* EventStatusTableViewCell.swift in Sources */,
 				0A8483701E68518600B7B29A /* TitleTextViewTableViewCell.swift in Sources */,
 				0A71119D1DBEC87000742F2D /* UserDefaultsExtension.swift in Sources */,

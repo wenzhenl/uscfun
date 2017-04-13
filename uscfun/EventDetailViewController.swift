@@ -86,6 +86,13 @@ class EventDetailViewController: UIViewController {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "eventDetailViewControllerDidDisappear"), object: nil, userInfo: ["exitAfter": self.exitAfter])
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        let rateEventVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentiferOfRateEventViewController) as! RateEventViewController
+        rateEventVC.event = self.event
+        self.present(rateEventVC, animated: true, completion: nil)
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
