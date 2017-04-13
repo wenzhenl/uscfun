@@ -31,6 +31,10 @@ def index():
 def agreement():
     return render_template('agreement.html')
 
+@app.route('/credit')
+def agreement():
+    return render_template('credit.html')
+
 @app.route('/events/<id>')
 def event(id):
     try:

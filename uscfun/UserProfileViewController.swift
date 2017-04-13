@@ -222,11 +222,11 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
         case .creditRecordCell:
             let cell = Bundle.main.loadNibNamed("CreditRecordTableViewCell", owner: self, options: nil)?.first as! CreditRecordTableViewCell
             cell.titleLabel.text = "信用等级："
-            cell.ratingBar.rating = 5.0
+            cell.ratingBar.isUserInteractionEnabled = false
+            cell.ratingBar.rating = 2.5
             cell.ratingBar.ratingMin = 1.0
             cell.ratingBar.allowsPartialStar = true
             cell.ratingBar.isIndicator = true
-            cell.selectionStyle = .none
 
             return cell
         case .statCell:
@@ -327,6 +327,12 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if userProfileSections[indexPath.section] == .eventCell {
             performSegue(withIdentifier: identifierToEventDetail, sender: self)
+        }
+        else if userProfileSections[indexPath.section] == .creditRecordCell {
+            if let webVC = UIStoryboard(name: "Login", bundle: nil).instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentifierOfWebViewController) as? WebViewController {
+                webVC.url = URL(string: USCFunConstants.creditRecordURL)
+                self.navigationController?.pushViewController(webVC, animated: true)
+            }
         }
         tableView.deselectRow(at: indexPath, animated: false)
     }

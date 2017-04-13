@@ -38,6 +38,7 @@ class USCFunConstants {
     static let urlOfPrivacy = basicURL + "agreement"
     static let shareEventURL = basicURL + "events/"
     static let appURL = "itms-apps://itunes.apple.com/app/id1163062860"
+    static let creditRecordURL = basicURL + "credit"
     
     static let QUERYLIMIT = 100
     static let MAXCACHEAGE = TimeInterval(24 * 3600)
