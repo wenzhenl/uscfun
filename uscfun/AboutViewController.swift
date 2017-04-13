@@ -51,7 +51,7 @@ extension AboutViewController: UITableViewDelegate, UITableViewDataSource {
         let imageView = cell?.viewWithTag(1) as! UIImageView
         imageView.image = #imageLiteral(resourceName: "blackfish")
         let versionLabel = cell?.viewWithTag(2) as! UILabel
-        versionLabel.text = "USC日常 2.0.7"
+        versionLabel.text = "USC日常 " + (UserDefaults.currentVersion ?? "")
         versionLabel.textColor = UIColor.buttonPink
         versionLabel.textAlignment = .center
         return cell!

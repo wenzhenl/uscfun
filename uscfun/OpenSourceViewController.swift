@@ -15,5 +15,11 @@ class OpenSourceViewController: UIViewController {
         super.viewDidLoad()
         self.title = "开源协议"
         textView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0)
+        textView.isScrollEnabled = false
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        textView.isScrollEnabled = true
     }
 }
