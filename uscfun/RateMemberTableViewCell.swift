@@ -11,6 +11,7 @@ import UIKit
 class RateMemberTableViewCell: UITableViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var nickNameLabel: UILabel!
     @IBOutlet weak var ratingBar: RatingBar!
     
     override func awakeFromNib() {

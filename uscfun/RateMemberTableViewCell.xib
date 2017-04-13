@@ -21,14 +21,20 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PDm-Ev-nIp">
-                        <rect key="frame" x="8" y="30" width="50" height="50"/>
+                        <rect key="frame" x="8" y="8" width="50" height="50"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="PDm-Ev-nIp" secondAttribute="height" id="RuY-vY-0dM"/>
                             <constraint firstAttribute="height" constant="50" id="jg8-jw-Num"/>
                         </constraints>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CgS-EE-ohd">
+                        <rect key="frame" x="8" y="58" width="50" height="45.5"/>
+                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7VT-MP-jDT" customClass="RatingBar" customModule="uscfun" customModuleProvider="target">
-                        <rect key="frame" x="66" y="40" width="246" height="30"/>
+                        <rect key="frame" x="66" y="18" width="246" height="30"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="Yxi-6o-P1A"/>
@@ -44,15 +50,20 @@
                     </view>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="CgS-EE-ohd" firstAttribute="top" secondItem="PDm-Ev-nIp" secondAttribute="bottom" id="2VY-5p-Tj5"/>
+                    <constraint firstItem="CgS-EE-ohd" firstAttribute="leading" secondItem="PDm-Ev-nIp" secondAttribute="leading" id="6PG-L7-mnD"/>
                     <constraint firstItem="7VT-MP-jDT" firstAttribute="leading" secondItem="PDm-Ev-nIp" secondAttribute="trailing" constant="8" symbolic="YES" id="6Q1-bp-S4l"/>
                     <constraint firstAttribute="trailingMargin" secondItem="7VT-MP-jDT" secondAttribute="trailing" id="EAU-Ct-Z7a"/>
+                    <constraint firstItem="CgS-EE-ohd" firstAttribute="trailing" secondItem="PDm-Ev-nIp" secondAttribute="trailing" id="Fy3-jM-Lk9"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="CgS-EE-ohd" secondAttribute="bottom" id="GB2-zE-BTm"/>
                     <constraint firstItem="PDm-Ev-nIp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="Q6G-bw-4ww"/>
-                    <constraint firstItem="7VT-MP-jDT" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="biY-fN-uUx"/>
-                    <constraint firstItem="PDm-Ev-nIp" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="wNO-Ut-WNl"/>
+                    <constraint firstItem="PDm-Ev-nIp" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="uLK-H3-qdg"/>
+                    <constraint firstItem="7VT-MP-jDT" firstAttribute="centerY" secondItem="PDm-Ev-nIp" secondAttribute="centerY" id="xWc-te-wqB"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="avatarImageView" destination="PDm-Ev-nIp" id="u6Z-Ql-AVu"/>
+                <outlet property="nickNameLabel" destination="CgS-EE-ohd" id="8mg-j7-UC4"/>
                 <outlet property="ratingBar" destination="7VT-MP-jDT" id="8d6-H2-aJB"/>
             </connections>
             <point key="canvasLocation" x="96" y="52"/>

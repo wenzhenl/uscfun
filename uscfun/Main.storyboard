@@ -1215,11 +1215,28 @@ Apache License
                                     <outlet property="delegate" destination="mqu-ji-hxO" id="Izh-cZ-4Dt"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGC-bL-nUc">
+                                <rect key="frame" x="41.333333333333343" y="678" width="331.33333333333337" height="50"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="c5k-pM-QYj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <state key="normal" title="提交评价">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="submitRatings:" destination="mqu-ji-hxO" eventType="touchUpInside" id="AFW-fh-Q6x"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="mcG-DV-4km" firstAttribute="top" secondItem="qGC-bL-nUc" secondAttribute="bottom" constant="8" symbolic="YES" id="071-tM-301"/>
                             <constraint firstItem="3ej-dB-76Q" firstAttribute="width" secondItem="hOl-u5-UH5" secondAttribute="width" id="7Xa-qJ-VQE"/>
                             <constraint firstItem="IFz-zj-wRb" firstAttribute="top" secondItem="3ej-dB-76Q" secondAttribute="bottom" id="Ayg-qf-5Cd"/>
+                            <constraint firstItem="qGC-bL-nUc" firstAttribute="centerX" secondItem="hOl-u5-UH5" secondAttribute="centerX" id="Rrr-S6-Gad"/>
+                            <constraint firstItem="qGC-bL-nUc" firstAttribute="width" secondItem="hOl-u5-UH5" secondAttribute="width" multiplier="0.8" id="Xfj-uf-BaB"/>
                             <constraint firstItem="mcG-DV-4km" firstAttribute="top" secondItem="IFz-zj-wRb" secondAttribute="bottom" id="b86-Ws-nwb"/>
                             <constraint firstItem="IFz-zj-wRb" firstAttribute="width" secondItem="hOl-u5-UH5" secondAttribute="width" id="der-Yi-cHH"/>
                             <constraint firstItem="3ej-dB-76Q" firstAttribute="centerX" secondItem="hOl-u5-UH5" secondAttribute="centerX" id="kTo-yJ-DrD"/>
@@ -1228,7 +1245,9 @@ Apache License
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="submitButton" destination="qGC-bL-nUc" id="Hke-7x-aEr"/>
                         <outlet property="tableView" destination="IFz-zj-wRb" id="kDm-K3-jqh"/>
+                        <outlet property="toolBar" destination="3ej-dB-76Q" id="UJw-2g-4kO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Na-0v-xxk" userLabel="First Responder" sceneMemberID="firstResponder"/>
