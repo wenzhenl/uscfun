@@ -176,11 +176,6 @@ class UserProfileViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
             switch identifier {
-            case identifierToEventDetail:
-                let destination = segue.destination.contentViewController
-                if let edVC = destination as? EventDetailViewController {
-                    edVC.event = showingCreatedEvents ? createdEvents[createdEvents.keys[(self.tableView.indexPathForSelectedRow?.section)! - numberOfPreservedSection]] : attendedEvents[attendedEvents.keys[(self.tableView.indexPathForSelectedRow?.section)! - numberOfPreservedSection]]
-                }
             case identifierToBigAvatar:
                 let destination = segue.destination.contentViewController
                 if let bpVC = destination as? BigPictureViewController {
@@ -192,7 +187,6 @@ class UserProfileViewController: UIViewController {
         }
     }
     
-    let identifierToEventDetail = "go to event detail"
     let identifierToBigAvatar = "go to see big picture"
 }
 
@@ -261,7 +255,7 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
             cell.selectionStyle = .none
             return cell
         case .eventCell:
-            let cell = Bundle.main.loadNibNamed("EventSnapshotTableViewCell", owner: self, options: nil)?.first as! EventSnapshotTableViewCell
+            let cell = Bundle.main.loadNibNamed("CompletedEventSnapshotTableViewCell", owner: self, options: nil)?.first as! CompletedEventSnapshotTableViewCell
             var event: Event!
             event = showingCreatedEvents ? createdEvents[createdEvents.keys[indexPath.section - numberOfPreservedSection]] : attendedEvents[attendedEvents.keys[indexPath.section - numberOfPreservedSection]]
             let creator = User(user: event.createdBy)!
@@ -270,29 +264,11 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
             cell.creatorAvatarImageView.layer.masksToBounds = true
             cell.creatorAvatarImageView.layer.cornerRadius = cell.creatorAvatarImageView.frame.size.width / 2.0
             cell.creatorAvatarImageView.image = creator.avatar
+            cell.createdAtDateLabel.text = event.createdAt!.readableDate
+            cell.createdAtTimeLabel.text = event.createdAt!.readableTime
+            cell.attendingPeopleLabel.text = String(event.maximumAttendingPeople - event.remainingSeats)
             
-            cell.whitePaperImageView.image = event.whitePaper
-            
-            cell.needNumberLabel.text = String(event.remainingSeats)
-            let gapFromNow = event.due.gapFromNow
-            if gapFromNow == "" {
-                cell.remainingTimeLabel.textColor = UIColor.darkGray
-                cell.remainingTimeLabel.text = "报名已经结束"
-            } else {
-                cell.remainingTimeLabel.text = gapFromNow
-            }
-            cell.attendingLabel.text = "已经报名 " + String(event.maximumAttendingPeople - event.remainingSeats)
-            cell.minPeopleLabel.text = "最少成行 " + String(event.minimumAttendingPeople)
-            
-            cell.statusView.backgroundColor = event.statusColor
-            cell.statusView.layer.masksToBounds = true
-            cell.statusView.layer.cornerRadius = cell.statusView.frame.size.width / 2
-            cell.statusViewColor = event.statusColor
-            
-            cell.moreButton.isHidden = true
-            
-            cell.sealImageView.isHidden = true
-            
+            cell.selectionStyle = .none
             return cell
         case .noEventCell:
             let cell = Bundle.main.loadNibNamed("EmptySectionPlaceholderTableViewCell", owner: self, options: nil)?.first as! EmptySectionPlaceholderTableViewCell
@@ -329,10 +305,7 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if userProfileSections[indexPath.section] == .eventCell {
-            performSegue(withIdentifier: identifierToEventDetail, sender: self)
-        }
-        else if userProfileSections[indexPath.section] == .creditRecordCell {
+      if userProfileSections[indexPath.section] == .creditRecordCell {
             if let webVC = UIStoryboard(name: "Login", bundle: nil).instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentifierOfWebViewController) as? WebViewController {
                 webVC.url = URL(string: USCFunConstants.creditRecordURL)
                 self.navigationController?.pushViewController(webVC, animated: true)

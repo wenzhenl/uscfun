@@ -40,7 +40,7 @@
                         </state>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="女" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wqZ-hH-s1G">
-                        <rect key="frame" x="187.5" y="15" width="13.5" height="16"/>
+                        <rect key="frame" x="179.5" y="22" width="13.5" height="16"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -48,12 +48,12 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="P5D-t6-OAp" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="aBw-xi-BUo"/>
-                    <constraint firstItem="P5D-t6-OAp" firstAttribute="centerY" secondItem="wqZ-hH-s1G" secondAttribute="centerY" id="dz9-gQ-YG8"/>
                     <constraint firstItem="7O1-sF-6bc" firstAttribute="top" secondItem="P5D-t6-OAp" secondAttribute="bottom" constant="8" symbolic="YES" id="edG-yk-u2U"/>
                     <constraint firstItem="7O1-sF-6bc" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="mjX-Q7-fN8"/>
                     <constraint firstAttribute="bottomMargin" secondItem="7O1-sF-6bc" secondAttribute="bottom" id="n9G-TT-sWb"/>
                     <constraint firstItem="P5D-t6-OAp" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="rZl-Q2-fPS"/>
-                    <constraint firstItem="wqZ-hH-s1G" firstAttribute="leading" secondItem="P5D-t6-OAp" secondAttribute="trailing" constant="8" symbolic="YES" id="tod-7E-HYx"/>
+                    <constraint firstItem="wqZ-hH-s1G" firstAttribute="leading" secondItem="P5D-t6-OAp" secondAttribute="trailing" id="tod-7E-HYx"/>
+                    <constraint firstItem="P5D-t6-OAp" firstAttribute="bottom" secondItem="wqZ-hH-s1G" secondAttribute="bottom" id="wbm-MX-cNv"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

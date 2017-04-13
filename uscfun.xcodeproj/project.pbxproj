@@ -104,6 +104,8 @@
 		0A9CB4511D6FFAA500608D27 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB4501D6FFAA500608D27 /* User.swift */; };
 		0A9CB4531D7006F400608D27 /* PreLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9CB4521D7006F400608D27 /* PreLoginViewController.swift */; };
 		0AA4562D1E8D019D0026A5DC /* LeanCloudExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA4562C1E8D019D0026A5DC /* LeanCloudExtension.swift */; };
+		0AA546F61E9F978F00AE5DD9 /* CompletedEventSnapshotTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA546F41E9F978F00AE5DD9 /* CompletedEventSnapshotTableViewCell.swift */; };
+		0AA546F71E9F978F00AE5DD9 /* CompletedEventSnapshotTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AA546F51E9F978F00AE5DD9 /* CompletedEventSnapshotTableViewCell.xib */; };
 		0AA82B101DCDAEB90016B278 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA82B0F1DCDAEB90016B278 /* UserProfileViewController.swift */; };
 		0AAE42DF1D9A289D00B34601 /* ImgKeyValueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE42DD1D9A289D00B34601 /* ImgKeyValueTableViewCell.swift */; };
 		0AAE42E01D9A289D00B34601 /* ImgKeyValueTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AAE42DE1D9A289D00B34601 /* ImgKeyValueTableViewCell.xib */; };
@@ -240,6 +242,8 @@
 		0A9CB4501D6FFAA500608D27 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		0A9CB4521D7006F400608D27 /* PreLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreLoginViewController.swift; sourceTree = "<group>"; };
 		0AA4562C1E8D019D0026A5DC /* LeanCloudExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeanCloudExtension.swift; sourceTree = "<group>"; };
+		0AA546F41E9F978F00AE5DD9 /* CompletedEventSnapshotTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompletedEventSnapshotTableViewCell.swift; sourceTree = "<group>"; };
+		0AA546F51E9F978F00AE5DD9 /* CompletedEventSnapshotTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CompletedEventSnapshotTableViewCell.xib; sourceTree = "<group>"; };
 		0AA82B0F1DCDAEB90016B278 /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		0AAE42DD1D9A289D00B34601 /* ImgKeyValueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImgKeyValueTableViewCell.swift; sourceTree = "<group>"; };
 		0AAE42DE1D9A289D00B34601 /* ImgKeyValueTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImgKeyValueTableViewCell.xib; sourceTree = "<group>"; };
@@ -421,6 +425,8 @@
 				0A4965C11E9F4BBB00161B15 /* RateMemberTableViewCell.xib */,
 				0A6F0B821E9F689800BB2FA7 /* CreditRecordTableViewCell.swift */,
 				0A6F0B831E9F689800BB2FA7 /* CreditRecordTableViewCell.xib */,
+				0AA546F41E9F978F00AE5DD9 /* CompletedEventSnapshotTableViewCell.swift */,
+				0AA546F51E9F978F00AE5DD9 /* CompletedEventSnapshotTableViewCell.xib */,
 			);
 			name = TableViewCells;
 			sourceTree = "<group>";
@@ -667,6 +673,7 @@
 				0AB8F5A31E9CBB6C00079E33 /* Welcome.storyboard in Resources */,
 				0A427FB21D97F627007A96BE /* ImageViewTableViewCell.xib in Resources */,
 				0A6834C51D56858C002E9B0D /* Assets.xcassets in Resources */,
+				0AA546F71E9F978F00AE5DD9 /* CompletedEventSnapshotTableViewCell.xib in Resources */,
 				0A4965C31E9F4BBB00161B15 /* RateMemberTableViewCell.xib in Resources */,
 				0A5332BF1E6B2C8800C50186 /* CollectionViewTableViewCell.xib in Resources */,
 				0AEDE4EE1E823B5A00B56979 /* RefreshView.xib in Resources */,
@@ -798,6 +805,7 @@
 				0A8483741E68592B00B7B29A /* MapViewTableViewCell.swift in Sources */,
 				0A98340C1E64570400A5D894 /* NewEventDueViewController.swift in Sources */,
 				0A71119F1DBEC8BF00742F2D /* LoginKit.swift in Sources */,
+				0AA546F61E9F978F00AE5DD9 /* CompletedEventSnapshotTableViewCell.swift in Sources */,
 				0AD46F3D1E974F01001DAF93 /* MyEventSnapshotTableViewCell.swift in Sources */,
 				0A9A94581DC40C5F00B002D2 /* CustomizedAlertViewController.swift in Sources */,
 				0A84835C1E683D8C00B7B29A /* TitleContentTableViewCell.swift in Sources */,
