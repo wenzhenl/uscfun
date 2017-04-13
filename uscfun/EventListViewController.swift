@@ -336,6 +336,28 @@ class EventListViewController: UIViewController {
         
         self.navigationController?.pushViewController(conversationViewController, animated: true)
     }
+    
+    func deleteEvent(sender: UIButton) {
+        guard let eventId = sender.accessibilityHint else {
+            print("sender doesn't provide event id")
+            return
+        }
+        guard let section = sectionForEvent(eventId: eventId) else {
+            print("cannot locate event id section")
+            return
+        }
+        
+        print("delete public event cell starts")
+        EventRequest.removeEvent(with: eventId, for: .mypublic) {
+            print("about to delete invalid public event")
+            if EventRequest.publicEvents.count == 0 {
+                self.tableView.reloadData()
+            } else {
+                self.tableView.deleteSections(IndexSet([section]), with: .fade)
+            }
+            print("delete public event cell ends")
+        }
+    }
 }
 
 extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
@@ -424,7 +446,14 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             cell.chatButton.accessibilityHint = event.objectId
             cell.chatButton.addTarget(self, action: #selector(joinDiscussion(sender:)), for: .touchUpInside)
             
-            cell.moreButton.isHidden = true
+            switch event.status {
+            case .isPending, .isSecured:
+                cell.moreButton.isHidden = true
+            default:
+                cell.moreButton.isHidden = false
+            }
+            cell.moreButton.accessibilityHint = event.objectId!
+            cell.moreButton.addTarget(self, action: #selector(deleteEvent(sender:)), for: .touchUpInside)
             
             cell.eventId = event.objectId
             

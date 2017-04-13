@@ -35,7 +35,10 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ITW-UU-BF6">
-                        <rect key="frame" x="128" y="-3" width="199" height="42"/>
+                        <rect key="frame" x="297" y="-3" width="30" height="42"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="tHZ-d8-Nl2"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="25"/>
                         <state key="normal" title="×">
                             <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -168,7 +171,6 @@
                     <constraint firstItem="jsm-oc-TgJ" firstAttribute="centerX" secondItem="8MT-LO-ODA" secondAttribute="centerX" id="Tka-uI-TRr"/>
                     <constraint firstAttribute="bottomMargin" secondItem="eHf-1h-C7p" secondAttribute="bottom" id="U8S-gB-90B"/>
                     <constraint firstItem="URe-7E-zSc" firstAttribute="leading" secondItem="3fZ-db-weF" secondAttribute="trailing" constant="8" symbolic="YES" id="UXo-od-tYN"/>
-                    <constraint firstItem="ITW-UU-BF6" firstAttribute="leading" secondItem="Nyf-tt-pDe" secondAttribute="trailing" constant="8" symbolic="YES" id="Vep-xl-QKI"/>
                     <constraint firstItem="F6A-m7-4oH" firstAttribute="leading" secondItem="9mW-jG-67E" secondAttribute="trailing" constant="8" symbolic="YES" id="WLa-vQ-k6k"/>
                     <constraint firstItem="Nyf-tt-pDe" firstAttribute="top" secondItem="pzq-lG-kIM" secondAttribute="top" id="YRT-h0-OtV"/>
                     <constraint firstAttribute="trailingMargin" secondItem="rOj-CB-WGI" secondAttribute="trailing" id="ZLw-WJ-L7Y"/>

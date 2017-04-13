@@ -29,17 +29,20 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="wenzhenl发起" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e4B-uK-NRO">
-                        <rect key="frame" x="36" y="8" width="253" height="20"/>
+                        <rect key="frame" x="36" y="8" width="84" height="20"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9y-mb-XM3">
-                        <rect key="frame" x="297" y="8" width="15" height="20"/>
+                        <rect key="frame" x="282" y="-3" width="30" height="42"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="15" id="BRa-2k-o8C"/>
+                            <constraint firstAttribute="width" constant="30" id="BRa-2k-o8C"/>
                         </constraints>
-                        <state key="normal" title="Button" image="more"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                        <state key="normal" title="×">
+                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="260" verticalCompressionResistancePriority="760" text="有什么道理是开始注重外表后几年才能悟出来的？" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Xk-A7-0vu">
                         <rect key="frame" x="8" y="36" width="304" height="41"/>
@@ -126,7 +129,6 @@
                     </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="T9y-mb-XM3" firstAttribute="top" secondItem="e4B-uK-NRO" secondAttribute="top" id="0UO-lh-uIb"/>
                     <constraint firstAttribute="trailingMargin" secondItem="6Xk-A7-0vu" secondAttribute="trailing" id="0bL-u4-HHr"/>
                     <constraint firstItem="HvF-iy-kro" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="2Du-cr-iOO"/>
                     <constraint firstAttribute="trailingMargin" secondItem="95d-VG-LEJ" secondAttribute="trailing" id="6iG-PM-dse"/>
@@ -146,7 +148,6 @@
                     <constraint firstAttribute="trailingMargin" secondItem="nPq-aH-Ujl" secondAttribute="trailing" id="SRA-Wh-Msw"/>
                     <constraint firstAttribute="bottomMargin" secondItem="RDW-ex-fJV" secondAttribute="bottom" id="TDF-Js-i7O"/>
                     <constraint firstItem="95d-VG-LEJ" firstAttribute="top" secondItem="tuV-07-D7M" secondAttribute="bottom" constant="8" symbolic="YES" id="UF5-a6-7nR"/>
-                    <constraint firstItem="T9y-mb-XM3" firstAttribute="bottom" secondItem="e4B-uK-NRO" secondAttribute="bottom" id="VYT-3c-NOr"/>
                     <constraint firstItem="VF3-gf-1kS" firstAttribute="leading" secondItem="RDW-ex-fJV" secondAttribute="trailing" constant="8" symbolic="YES" id="WJZ-cV-lUh"/>
                     <constraint firstAttribute="trailingMargin" secondItem="T9y-mb-XM3" secondAttribute="trailing" id="Wk4-j8-nK1"/>
                     <constraint firstItem="RDW-ex-fJV" firstAttribute="top" secondItem="Gik-4K-7da" secondAttribute="top" id="Wpp-Ay-JZD"/>
@@ -154,12 +155,12 @@
                     <constraint firstItem="Xin-Zl-Y83" firstAttribute="leading" secondItem="VF3-gf-1kS" secondAttribute="trailing" constant="8" symbolic="YES" id="XE5-vR-Eau"/>
                     <constraint firstItem="e4B-uK-NRO" firstAttribute="top" secondItem="hlg-Jy-4tw" secondAttribute="top" id="XKy-XK-WCM"/>
                     <constraint firstItem="qKq-74-jDF" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="YR9-ZN-wLd"/>
+                    <constraint firstItem="T9y-mb-XM3" firstAttribute="centerY" secondItem="e4B-uK-NRO" secondAttribute="centerY" id="Yci-9T-i9o"/>
                     <constraint firstItem="RDW-ex-fJV" firstAttribute="top" secondItem="Xin-Zl-Y83" secondAttribute="top" id="bLY-07-Gbs"/>
                     <constraint firstItem="tuV-07-D7M" firstAttribute="top" secondItem="HvF-iy-kro" secondAttribute="bottom" id="cLx-hJ-l2U"/>
                     <constraint firstItem="RDW-ex-fJV" firstAttribute="top" secondItem="VF3-gf-1kS" secondAttribute="top" id="dUR-r6-RRf"/>
                     <constraint firstItem="6Xk-A7-0vu" firstAttribute="top" secondItem="hlg-Jy-4tw" secondAttribute="bottom" constant="8" symbolic="YES" id="dZw-Eo-e4V"/>
                     <constraint firstItem="95d-VG-LEJ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="ejh-Zc-5DB"/>
-                    <constraint firstItem="T9y-mb-XM3" firstAttribute="leading" secondItem="e4B-uK-NRO" secondAttribute="trailing" constant="8" symbolic="YES" id="gre-fe-Q9a"/>
                     <constraint firstItem="Xin-Zl-Y83" firstAttribute="bottom" secondItem="R8H-Mr-HNh" secondAttribute="bottom" id="hfh-cY-15T"/>
                     <constraint firstItem="hlg-Jy-4tw" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="iyN-jY-ZeB"/>
                     <constraint firstItem="hlg-Jy-4tw" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="lJl-kd-DtP"/>
@@ -193,6 +194,5 @@
     <resources>
         <image name="cancelledSeal" width="591" height="284"/>
         <image name="clip2" width="399" height="463"/>
-        <image name="more" width="30" height="30"/>
     </resources>
 </document>
