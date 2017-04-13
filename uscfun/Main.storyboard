@@ -269,7 +269,7 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XsW-qd-UNh">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <mutableString key="text">USC日常使用了以下开源项目，在此一并表示感谢:
+                                <string key="text">USC日常使用了以下开源项目，在此一并表示感谢:
 ====leancloud/ChatKit-OC====
 The MIT License (MIT)
 
@@ -777,7 +777,7 @@ Apache License
 	   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 	   See the License for the specific language governing permissions and
 	   limitations under the License.
-</mutableString>
+</string>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -1197,8 +1197,18 @@ Apache License
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3ej-dB-76Q">
+                                <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                                <items>
+                                    <barButtonItem systemItem="stop" id="BYM-SD-Vuv">
+                                        <connections>
+                                            <action selector="stopRating:" destination="mqu-ji-hxO" id="iNS-oD-T9Z"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IFz-zj-wRb">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="mqu-ji-hxO" id="ER2-6s-Xd3"/>
@@ -1208,10 +1218,13 @@ Apache License
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="IFz-zj-wRb" firstAttribute="centerY" secondItem="hOl-u5-UH5" secondAttribute="centerY" id="Dgy-zp-k8F"/>
-                            <constraint firstItem="IFz-zj-wRb" firstAttribute="height" secondItem="hOl-u5-UH5" secondAttribute="height" id="ZTO-Zr-L13"/>
+                            <constraint firstItem="3ej-dB-76Q" firstAttribute="width" secondItem="hOl-u5-UH5" secondAttribute="width" id="7Xa-qJ-VQE"/>
+                            <constraint firstItem="IFz-zj-wRb" firstAttribute="top" secondItem="3ej-dB-76Q" secondAttribute="bottom" id="Ayg-qf-5Cd"/>
+                            <constraint firstItem="mcG-DV-4km" firstAttribute="top" secondItem="IFz-zj-wRb" secondAttribute="bottom" id="b86-Ws-nwb"/>
                             <constraint firstItem="IFz-zj-wRb" firstAttribute="width" secondItem="hOl-u5-UH5" secondAttribute="width" id="der-Yi-cHH"/>
+                            <constraint firstItem="3ej-dB-76Q" firstAttribute="centerX" secondItem="hOl-u5-UH5" secondAttribute="centerX" id="kTo-yJ-DrD"/>
                             <constraint firstItem="IFz-zj-wRb" firstAttribute="centerX" secondItem="hOl-u5-UH5" secondAttribute="centerX" id="lp5-j0-gGp"/>
+                            <constraint firstItem="3ej-dB-76Q" firstAttribute="top" secondItem="lKq-Pc-8qM" secondAttribute="bottom" id="m6X-QV-ZH1"/>
                         </constraints>
                     </view>
                     <connections>

@@ -11,12 +11,13 @@ import UIKit
 class RatingBar: UIView {
     @IBInspectable var rating: CGFloat = 0 {
         didSet {
-            rating = max(rating, 0)
+            rating = max(rating, ratingMin)
             rating = min(rating, ratingMax)
             delegate?.ratingDidChange(ratingBar: self, rating: rating)
             self.setNeedsLayout()
         }
     }
+    @IBInspectable var ratingMin: CGFloat = 0.0
     @IBInspectable var ratingMax: CGFloat = 5.0
     @IBInspectable var numberOfStars: Int = 5
     @IBInspectable var shouldAnimate: Bool = false
@@ -56,7 +57,7 @@ class RatingBar: UIView {
         let tapPoint = sender.location(in: self)
         let offset = tapPoint.x
         let ratingScore = offset / self.bounds.size.width * ratingMax
-        self.rating = self.allowsPartialStar ? ratingScore : round(ratingScore)
+        self.rating = self.allowsPartialStar ? ratingScore : ceil(ratingScore)
     }
     
     func buildView() {

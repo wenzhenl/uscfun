@@ -27,6 +27,10 @@ class RateEventViewController: UIViewController {
             }
         }
     }
+    
+    @IBAction func stopRating(_ sender: UIBarButtonItem) {
+        self.presentingViewController?.dismiss(animated: true, completion: nil)
+    }
 }
 
 extension RateEventViewController: UITableViewDelegate, UITableViewDataSource {
@@ -51,6 +55,11 @@ extension RateEventViewController: UITableViewDelegate, UITableViewDataSource {
         let user = User(user: otherMembers[indexPath.row])
         cell.avatarImageView.image = user?.avatar
         cell.ratingBar.delegate = self
+        cell.ratingBar.ratingMin = 1.0
+        cell.ratingBar.rating = 3.5
+        cell.ratingBar.allowsPartialStar = true
+        cell.ratingBar.isIndicator = true
+        cell.ratingBar.shouldAnimate = true
         cell.selectionStyle = .none
         return cell
     }
