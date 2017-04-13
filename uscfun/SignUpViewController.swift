@@ -64,17 +64,24 @@ class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDel
         
         /// set up notice for user agreement
         noticeTextView.delegate = self
-        let notice = NSMutableAttributedString(string: "继续注册流程代表你已阅读并同意用户使用协议")
-        notice.addAttribute(NSLinkAttributeName, value: "http://www.google.com", range: NSRange(location: 15, length: 6))
-        notice.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.styleSingle.rawValue, range: NSRange(location: 15, length: 6))
+        let notice = "继续注册流程代表你已阅读并同意用户使用协议"
+        let attributedNotice = NSMutableAttributedString(string: notice)
+        let rangeOfNotice = (notice as NSString).range(of: notice)
+        attributedNotice.addAttribute(NSForegroundColorAttributeName, value: UIColor.darkGray, range: rangeOfNotice)
+
+        let agreementLink = "用户使用协议"
+        let rangeOfAgreementLink = (notice as NSString).range(of: agreementLink)
+        attributedNotice.addAttributes([NSLinkAttributeName: USCFunConstants.urlOfPrivacy], range: rangeOfAgreementLink)
+        attributedNotice.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.styleSingle.rawValue, range: rangeOfAgreementLink)
+        attributedNotice.addAttributes([NSForegroundColorAttributeName: UIColor.blue], range: rangeOfAgreementLink)
+        
         if DeviceType.IS_IPHONE_4_OR_LESS || DeviceType.IS_IPHONE_5 {
-            notice.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 14), range: NSRange(location: 0, length: 21))
+            attributedNotice.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 14), range: rangeOfNotice)
         } else {
-            notice.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 15), range: NSRange(location: 0, length: 21))
+            attributedNotice.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 15), range: rangeOfNotice)
         }
-        notice.addAttribute(NSForegroundColorAttributeName, value: UIColor.darkGray, range: NSRange(location: 0, length: 21))
-        noticeTextView.tintColor = UIColor.darkGray
-        noticeTextView.attributedText = notice
+        
+        noticeTextView.attributedText = attributedNotice
         noticeTextView.textAlignment = .center
         
         errorLabel.isHidden = true

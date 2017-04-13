@@ -44,11 +44,11 @@ class RateEventViewController: UIViewController {
 
 extension RateEventViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return otherMembers.count + 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return otherMembers.count
+        return 1
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -60,19 +60,47 @@ extension RateEventViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = Bundle.main.loadNibNamed("RateMemberTableViewCell", owner: self, options: nil)?.first as! RateMemberTableViewCell
-        let user = User(user: otherMembers[indexPath.row])
-        cell.avatarImageView.clipsToBounds = true
-        cell.avatarImageView.layer.cornerRadius = cell.avatarImageView.frame.size.height / 2.0
-        cell.avatarImageView.image = user?.avatar
-        cell.nickNameLabel.text = user?.nickname
-        cell.ratingBar.tag = indexPath.row
-        cell.ratingBar.delegate = self
-        cell.ratingBar.ratingMin = 1.0
-        cell.ratingBar.rating = otherMemberScore[indexPath.row]
-        cell.ratingBar.shouldAnimate = true
-        cell.selectionStyle = .none
-        return cell
+        
+        if indexPath.section == 0 {
+            let cell = Bundle.main.loadNibNamed("TitleTextViewTableViewCell", owner: self, options: nil)?.first as! TitleTextViewTableViewCell
+            cell.titleLabel.textAlignment = .center
+            cell.titleLabel.textColor = UIColor.darkGray
+            cell.titleLabel.font = UIFont.boldSystemFont(ofSize: 15)
+            cell.titleLabel.text = "评价队友"
+            cell.textView.delegate = self
+            cell.textView.isSelectable = true
+            cell.textView.textColor = UIColor.darkText
+            let notice = "USC小管家提醒您：\n活动结束后，互相评价可以提升信用等级。评价标准为一到五颗星，注意一颗星表明该成员是无故爽约！关于信用等级的详细内容，请参见【信用等级说明】"
+            let attributedNotice = NSMutableAttributedString(string: notice)
+            let rangeOfNotice = (notice as NSString).range(of: notice)
+            attributedNotice.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 15)], range: rangeOfNotice)
+            attributedNotice.addAttributes([NSForegroundColorAttributeName: UIColor.darkGray], range: rangeOfNotice)
+            let oneStarAlert = "注意一颗星表明该成员是无故爽约！"
+            let rangeOfOneStarAlert = (notice as NSString).range(of: oneStarAlert)
+            attributedNotice.addAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15)], range: rangeOfOneStarAlert)
+            let creditLink = "【信用等级说明】"
+            let rangeOfCreditLink = (notice as NSString).range(of: creditLink)
+            attributedNotice.addAttributes([NSForegroundColorAttributeName: UIColor.blue], range: rangeOfCreditLink)
+            attributedNotice.addAttributes([NSLinkAttributeName: USCFunConstants.creditRecordURL], range: rangeOfCreditLink)
+            cell.textView.attributedText = attributedNotice
+            cell.selectionStyle = .none
+            return cell
+
+        } else {
+            let cell = Bundle.main.loadNibNamed("RateMemberTableViewCell", owner: self, options: nil)?.first as! RateMemberTableViewCell
+            let user = User(user: otherMembers[indexPath.section - 1])
+            cell.avatarImageView.clipsToBounds = true
+            cell.avatarImageView.layer.cornerRadius = cell.avatarImageView.frame.size.height / 2.0
+            cell.avatarImageView.image = user?.avatar
+            cell.nickNameLabel.text = user?.nickname
+            cell.ratingBar.tag = indexPath.section - 1
+            cell.ratingBar.delegate = self
+            cell.ratingBar.ratingMin = 1.0
+            cell.ratingBar.rating = otherMemberScore[indexPath.section - 1]
+            cell.ratingBar.shouldAnimate = true
+            cell.selectionStyle = .none
+            return cell
+        }
     }
 }
 
@@ -80,5 +108,19 @@ extension RateEventViewController: RatingBarDelegate {
     func ratingDidChange(ratingBar: RatingBar, rating: CGFloat) {
         print("rating did change")
         otherMemberScore[ratingBar.tag] = rating
+    }
+}
+
+extension RateEventViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
+        print("link clicked")
+        if URL.scheme == "http" || URL.scheme == "https" {
+            if let webVC = UIStoryboard(name: "Login", bundle: nil).instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentifierOfWebViewController) as? WebViewController {
+                webVC.url = URL
+                self.navigationController?.pushViewController(webVC, animated: true)
+            }
+            return false
+        }
+        return true
     }
 }

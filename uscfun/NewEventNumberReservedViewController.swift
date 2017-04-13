@@ -57,10 +57,10 @@ class NewEventNumberReservedViewController: UIViewController {
     }
     
     @IBAction func goNext(_ sender: UIBarButtonItem) {
-        if numberReserved < UserDefaults.newEventMaxPeople {
+        if numberReserved < UserDefaults.newEventMinPeople {
             performSegue(withIdentifier: "GoNewEventOptionals", sender: self)
         } else {
-            errorLabel.text = "预留人数必须小于最多容纳人数"
+            errorLabel.text = "预留人数必须小于最少成行人数"
             errorLabel.isHidden = false
         }
     }
