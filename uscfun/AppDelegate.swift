@@ -114,6 +114,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         timer?.invalidate()
         timer = nil
         UserDefaults.shouldSkipUnreadAfterLaunch = false
+        
+        print("clean public events starts")
+        EventRequest.cleanEventsInBackground(for: .mypublic) {
+            print("clean public events ends")
+        }
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -148,14 +153,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         /// restart timer to update remaining time
         if timer == nil {
             timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(updateRemainingTime), userInfo: nil, repeats: true)
-        }
-        
-        /// clean public events if needed
-        if UserDefaults.hasLoggedIn && UserDefaults.shouldCleanPublicEvents {
-            let appDelegate = UIApplication.shared.delegate! as! AppDelegate
-            let loadVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentifierOfLoadDataViewController)
-            appDelegate.window?.rootViewController = loadVC
-            appDelegate.window?.makeKeyAndVisible()
         }
     }
 

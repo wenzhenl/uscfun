@@ -90,6 +90,7 @@ class EventListViewController: UIViewController {
         self.tableView.tableFooterView = UIView()
         self.tableView.backgroundColor = UIColor.backgroundGray
         
+        NotificationCenter.default.addObserver(self, selector: #selector(handleApplicationDidBecomesActive), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handlePreload(notification:)), name: NSNotification.Name(rawValue: "finishedPreloadingPublicEvents"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleTab), name: NSNotification.Name(rawValue: "tabBarItemSelected"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleTabRefresh), name: NSNotification.Name(rawValue: "findRefresh"), object: nil)
@@ -135,6 +136,11 @@ class EventListViewController: UIViewController {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    func handleApplicationDidBecomesActive() {
+        print("handle application did becomes active")
+        self.tableView.reloadData()
     }
     
     func handlePreload(notification: Notification) {
