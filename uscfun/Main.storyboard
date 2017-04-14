@@ -124,7 +124,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="50e-Gr-xsy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5283" y="-5460"/>
+            <point key="canvasLocation" x="6189.8550724637689" y="-5460.326086956522"/>
         </scene>
         <!--Event History View Controller-->
         <scene sceneID="qnb-vQ-MAa">
@@ -162,7 +162,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zBH-05-EuU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6238" y="-5438"/>
+            <point key="canvasLocation" x="7144.9275362318849" y="-5438.3152173913049"/>
         </scene>
         <!--About View Controller-->
         <scene sceneID="osy-Y1-jCb">
@@ -252,7 +252,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sb5-br-bHf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6996" y="-5460"/>
+            <point key="canvasLocation" x="7902.898550724638" y="-5460.326086956522"/>
         </scene>
         <!--Open Source View Controller-->
         <scene sceneID="XqP-Su-51k">
@@ -798,7 +798,7 @@ Apache License
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8GH-WE-vhI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7957" y="-5460"/>
+            <point key="canvasLocation" x="8863.7681159420299" y="-5460.326086956522"/>
         </scene>
         <!--我-->
         <scene sceneID="m1X-If-lu1">
@@ -912,7 +912,7 @@ Apache License
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rKu-R9-TIK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-730" y="-5438"/>
+            <point key="canvasLocation" x="1168" y="-4675"/>
         </scene>
         <!--微活动详情-->
         <scene sceneID="OBR-Vi-A3T">
@@ -997,7 +997,7 @@ Apache License
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y9J-Ob-CXo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="714" y="-5460"/>
+            <point key="canvasLocation" x="1620.289855072464" y="-5460.326086956522"/>
         </scene>
         <!--MAP-->
         <scene sceneID="kSr-aN-Onr">
@@ -1064,7 +1064,7 @@ Apache License
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aq8-VB-dyz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1000.0000000000001" y="-4663.04347826087"/>
+            <point key="canvasLocation" x="328" y="-4675"/>
         </scene>
         <!--Customized Alert View Controller-->
         <scene sceneID="xMq-WR-Fwj">
@@ -1198,18 +1198,8 @@ Apache License
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3ej-dB-76Q">
-                                <rect key="frame" x="0.0" y="20" width="414" height="44"/>
-                                <items>
-                                    <barButtonItem systemItem="stop" id="BYM-SD-Vuv">
-                                        <connections>
-                                            <action selector="stopRating:" destination="mqu-ji-hxO" id="iNS-oD-T9Z"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IFz-zj-wRb">
-                                <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="mqu-ji-hxO" id="ER2-6s-Xd3"/>
@@ -1234,26 +1224,30 @@ Apache License
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="mcG-DV-4km" firstAttribute="top" secondItem="qGC-bL-nUc" secondAttribute="bottom" constant="20" id="071-tM-301"/>
-                            <constraint firstItem="3ej-dB-76Q" firstAttribute="width" secondItem="hOl-u5-UH5" secondAttribute="width" id="7Xa-qJ-VQE"/>
-                            <constraint firstItem="IFz-zj-wRb" firstAttribute="top" secondItem="3ej-dB-76Q" secondAttribute="bottom" id="Ayg-qf-5Cd"/>
                             <constraint firstItem="qGC-bL-nUc" firstAttribute="centerX" secondItem="hOl-u5-UH5" secondAttribute="centerX" id="Rrr-S6-Gad"/>
                             <constraint firstItem="qGC-bL-nUc" firstAttribute="width" secondItem="hOl-u5-UH5" secondAttribute="width" multiplier="0.8" id="Xfj-uf-BaB"/>
-                            <constraint firstItem="mcG-DV-4km" firstAttribute="top" secondItem="IFz-zj-wRb" secondAttribute="bottom" id="b86-Ws-nwb"/>
+                            <constraint firstItem="IFz-zj-wRb" firstAttribute="height" secondItem="hOl-u5-UH5" secondAttribute="height" id="bab-jD-gHx"/>
                             <constraint firstItem="IFz-zj-wRb" firstAttribute="width" secondItem="hOl-u5-UH5" secondAttribute="width" id="der-Yi-cHH"/>
-                            <constraint firstItem="3ej-dB-76Q" firstAttribute="centerX" secondItem="hOl-u5-UH5" secondAttribute="centerX" id="kTo-yJ-DrD"/>
+                            <constraint firstItem="IFz-zj-wRb" firstAttribute="centerY" secondItem="hOl-u5-UH5" secondAttribute="centerY" id="kxf-PW-Glx"/>
                             <constraint firstItem="IFz-zj-wRb" firstAttribute="centerX" secondItem="hOl-u5-UH5" secondAttribute="centerX" id="lp5-j0-gGp"/>
-                            <constraint firstItem="3ej-dB-76Q" firstAttribute="top" secondItem="lKq-Pc-8qM" secondAttribute="bottom" id="m6X-QV-ZH1"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="h6P-V5-gP3">
+                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="Tvf-vc-yp9">
+                            <connections>
+                                <action selector="stopRating:" destination="mqu-ji-hxO" id="KCg-ew-QtQ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="stopRateButtonItem" destination="Tvf-vc-yp9" id="RPy-A3-z7R"/>
                         <outlet property="submitButton" destination="qGC-bL-nUc" id="Hke-7x-aEr"/>
                         <outlet property="tableView" destination="IFz-zj-wRb" id="kDm-K3-jqh"/>
-                        <outlet property="toolBar" destination="3ej-dB-76Q" id="UJw-2g-4kO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Na-0v-xxk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2852" y="-3947"/>
+            <point key="canvasLocation" x="739.13043478260875" y="-5460.326086956522"/>
         </scene>
         <!--User Profile View Controller-->
         <scene sceneID="jtB-0M-62G">
@@ -1291,7 +1285,7 @@ Apache License
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="48K-CO-jAF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1519" y="-5460"/>
+            <point key="canvasLocation" x="2426.0869565217395" y="-5460.326086956522"/>
         </scene>
         <!--Big Picture View Controller-->
         <scene sceneID="hAu-H7-Ovt">
@@ -1323,7 +1317,7 @@ Apache License
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vC7-uA-JyZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2312" y="-5460"/>
+            <point key="canvasLocation" x="3218.840579710145" y="-5460.326086956522"/>
         </scene>
         <!--日常-->
         <scene sceneID="lOJ-Cp-s4N">
@@ -1884,7 +1878,25 @@ Apache License
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UXu-zC-Bbe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="92.753623188405811" y="-4663.04347826087"/>
+            <point key="canvasLocation" x="-384" y="-4675"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="obJ-xc-Cih">
+            <objects>
+                <navigationController storyboardIdentifier="rate event navigation view controller" automaticallyAdjustsScrollViewInsets="NO" id="bGU-yG-UHQ" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="0Au-Ez-89I">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="mqu-ji-hxO" kind="relationship" relationship="rootViewController" id="i1P-aI-zmO"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4vg-la-wtU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-168.11594202898553" y="-5460.326086956522"/>
         </scene>
     </scenes>
     <resources>
@@ -1895,7 +1907,7 @@ Apache License
         <image name="user" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="yWY-SI-ViN"/>
+        <segue reference="x52-9n-f72"/>
         <segue reference="cPP-sI-aVY"/>
         <segue reference="pku-hT-yzD"/>
     </inferredMetricsTieBreakers>

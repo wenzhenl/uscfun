@@ -7,22 +7,27 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 class RateEventViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var submitButton: UIButton!
+    @IBOutlet weak var stopRateButtonItem: UIBarButtonItem!
     
     var event: Event!
     var otherMembers = [AVUser]()
     var otherMemberScore = [CGFloat]()
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = ""
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        
         self.tableView.scrollsToTop = true
         self.tableView.tableFooterView = UIView()
+        self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 50, 0)
         self.tableView.separatorStyle = .none
-        self.toolBar.barTintColor = UIColor.white
         self.submitButton.layer.cornerRadius = self.submitButton.frame.size.height / 2.0
         self.submitButton.backgroundColor = UIColor.buttonBlue
         
@@ -35,6 +40,30 @@ class RateEventViewController: UIViewController {
     }
     
     @IBAction func submitRatings(_ sender: UIButton) {
+        var ratings = [Rating]()
+        for i in 0..<otherMemberScore.count {
+            let rating = Rating(rating: Double(otherMemberScore[i]), targetEvent: event, targetMember: otherMembers[i], ratedBy: AVUser.current()!)
+            ratings.append(rating)
+        }
+        submitButton.isEnabled = false
+        stopRateButtonItem.isEnabled = false
+        Rating.submitAll(ratings: ratings) {
+            succeeded, error in
+            if succeeded {
+                print("submit ratings successfully")
+                SVProgressHUD.showSuccess(withStatus: "提交成功")
+                SVProgressHUD.dismiss(withDelay: TimeInterval(2.0))
+                self.presentingViewController?.dismiss(animated: true, completion: nil)
+            }
+            
+            if error != nil {
+                print("failed to submit ratings: \(error!)")
+                self.submitButton.isEnabled = true
+                self.stopRateButtonItem.isEnabled = true
+                SVProgressHUD.showInfo(withStatus: "网络错误")
+                SVProgressHUD.dismiss(withDelay: TimeInterval(2.0))
+            }
+        }
     }
     
     @IBAction func stopRating(_ sender: UIBarButtonItem) {

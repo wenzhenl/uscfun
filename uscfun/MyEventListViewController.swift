@@ -488,6 +488,7 @@ class MyEventListViewController: UIViewController {
     func deleteEvent(eventId: String) {
         print("delete event cell starts")
         guard let section = sectionForEvent(eventId: eventId) else { return }
+        guard let event = EventRequest.myOngoingEvents[eventId] else { return }
         let alertVC = UIAlertController(title: "请确认微活动已经完结，不再需要继续讨论。完结活动可以在活动历史中查看。", message: nil, preferredStyle: .actionSheet)
         let okay = UIAlertAction(title: "确认删除", style: .destructive) {
             _ in
@@ -500,6 +501,14 @@ class MyEventListViewController: UIViewController {
                             self.tableView.reloadData()
                         } else {
                             self.tableView.deleteSections(IndexSet([section]), with: .fade)
+                        }
+                        /// let user rate event for finalized event
+                        if event.status == .isFinalized {
+                            guard let rateEventNavVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentiferOfRateEventNavigationViewController) as? UINavigationController, let rateVC = rateEventNavVC.contentViewController as? RateEventViewController else {
+                                return
+                            }
+                            rateVC.event = event
+                            self.present(rateEventNavVC, animated: true, completion: nil)
                         }
                     }
                 }

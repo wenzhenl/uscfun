@@ -27,8 +27,8 @@
                             <constraint firstAttribute="height" constant="50" id="jg8-jw-Num"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CgS-EE-ohd">
-                        <rect key="frame" x="8" y="58" width="50" height="45.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CgS-EE-ohd">
+                        <rect key="frame" x="18" y="58" width="30.5" height="45.5"/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -51,11 +51,10 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="CgS-EE-ohd" firstAttribute="top" secondItem="PDm-Ev-nIp" secondAttribute="bottom" id="2VY-5p-Tj5"/>
-                    <constraint firstItem="CgS-EE-ohd" firstAttribute="leading" secondItem="PDm-Ev-nIp" secondAttribute="leading" id="6PG-L7-mnD"/>
                     <constraint firstItem="7VT-MP-jDT" firstAttribute="leading" secondItem="PDm-Ev-nIp" secondAttribute="trailing" constant="8" symbolic="YES" id="6Q1-bp-S4l"/>
                     <constraint firstAttribute="trailingMargin" secondItem="7VT-MP-jDT" secondAttribute="trailing" id="EAU-Ct-Z7a"/>
-                    <constraint firstItem="CgS-EE-ohd" firstAttribute="trailing" secondItem="PDm-Ev-nIp" secondAttribute="trailing" id="Fy3-jM-Lk9"/>
                     <constraint firstAttribute="bottomMargin" secondItem="CgS-EE-ohd" secondAttribute="bottom" id="GB2-zE-BTm"/>
+                    <constraint firstItem="CgS-EE-ohd" firstAttribute="centerX" secondItem="PDm-Ev-nIp" secondAttribute="centerX" id="GZR-0X-fDJ"/>
                     <constraint firstItem="PDm-Ev-nIp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="Q6G-bw-4ww"/>
                     <constraint firstItem="PDm-Ev-nIp" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="uLK-H3-qdg"/>
                     <constraint firstItem="7VT-MP-jDT" firstAttribute="centerY" secondItem="PDm-Ev-nIp" secondAttribute="centerY" id="xWc-te-wqB"/>
