@@ -259,37 +259,36 @@ extension AppDelegate: AVIMClientDelegate {
         
         print("fetching unread messages starts")
         print("should skip unread: \(UserDefaults.shouldSkipUnreadAfterLaunch)")
-        if UserDefaults.shouldSkipUnreadAfterLaunch {
-            conversation.markAsReadInBackground()
+        if unread <= 0 {
             UserDefaults.shouldSkipUnreadAfterLaunch = false
             return
-        } else {
-            if unread <= 0 {
-                return
-            }
-            conversation.queryMessagesFromServer(withLimit: UInt(unread)) {
-                objects, error in
-                if let messages = objects as? [AVIMTypedMessage] {
-                    for message in messages {
-                        print(message.text ?? "")
-                        
-                        guard let notificationTypeCode = message.attributes?["snType"] as? Int, let notificationType = SystemNotificationType(rawValue: notificationTypeCode) else {
-                            print("cannot parse message attributes")
+        }
+        conversation.queryMessagesFromServer(withLimit: UInt(unread)) {
+            objects, error in
+            if let messages = objects as? [AVIMTypedMessage] {
+                for message in messages {
+                    print(message.text ?? "")
+                    
+                    guard let notificationTypeCode = message.attributes?["snType"] as? Int, let notificationType = SystemNotificationType(rawValue: notificationTypeCode) else {
+                        print("cannot parse message attributes")
+                        return
+                    }
+                    if notificationType == SystemNotificationType.urgentMessage {
+                        guard let urgentMessage = message.attributes?["urgentMessage"] as? String else {
+                            print("urgentMessage notification message missing")
                             return
                         }
-                        if notificationType == SystemNotificationType.urgentMessage {
-                            guard let urgentMessage = message.attributes?["urgentMessage"] as? String else {
-                                print("urgentMessage notification message missing")
-                                return
-                            }
-                            let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
-                            let alertView = SCLAlertView(appearance: appearance)
-                            alertView.addButton("我知道了") {
-                                print("user read urgent message")
-                            }
-                            alertView.showNotice("紧急通知", subTitle: urgentMessage)
+                        let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
+                        let alertView = SCLAlertView(appearance: appearance)
+                        alertView.addButton("我知道了") {
+                            print("user read urgent message")
                         }
-                        else if notificationType == SystemNotificationType.eventCreated {
+                        alertView.showNotice("紧急通知", subTitle: urgentMessage)
+                    }
+                    else if notificationType == SystemNotificationType.eventCreated {
+                        if UserDefaults.shouldSkipUnreadAfterLaunch {
+                            print("skip unread eventCreated after launch")
+                        } else {
                             print("received system notification event created")
                             guard let eventId = message.attributes?["eventId"] as? String else {
                                 print("eventCreated notification eventId missing")
@@ -297,7 +296,11 @@ extension AppDelegate: AVIMClientDelegate {
                             }
                             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newEventAvailable"), object: nil, userInfo: ["eventId": eventId])
                         }
-                        else if notificationType == SystemNotificationType.eventUpdated {
+                    }
+                    else if notificationType == SystemNotificationType.eventUpdated {
+                        if UserDefaults.shouldSkipUnreadAfterLaunch {
+                            print("skip unread event updated after launch")
+                        } else {
                             print("received system notification event updated")
                             guard let eventId = message.attributes?["eventId"] as? String else {
                                 print("eventUpdated notification eventId missing")
@@ -305,25 +308,25 @@ extension AppDelegate: AVIMClientDelegate {
                             }
                             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updatedEventAvailable"), object: nil, userInfo: ["eventId": eventId])
                         }
-                        else if notificationType == SystemNotificationType.newVersionReleased {
-                            print("received system notification new version release")
-                            guard let newVersion = message.attributes?["newVersion"] as? String, let description = message.attributes?["newVersionDescription"] as? String else {
-                                print("newVersionReleased notification newVersion missing")
-                                return
-                            }
-                            UserDefaults.latestVersion = newVersion
-                            UserDefaults.newVersionDescription = description
+                    }
+                    else if notificationType == SystemNotificationType.newVersionReleased {
+                        print("received system notification new version release")
+                        guard let newVersion = message.attributes?["newVersion"] as? String, let description = message.attributes?["newVersionDescription"] as? String else {
+                            print("newVersionReleased notification newVersion missing")
+                            return
                         }
+                        UserDefaults.latestVersion = newVersion
+                        UserDefaults.newVersionDescription = description
                     }
                 }
-                
-                if error != nil {
-                    print(error!)
-                }
             }
-            conversation.markAsReadInBackground()
+            
+            if error != nil {
+                print(error!)
+            }
         }
-        
+        conversation.markAsReadInBackground()
+        UserDefaults.shouldSkipUnreadAfterLaunch = false
         print("fetching unread messages ends")
     }
 }
