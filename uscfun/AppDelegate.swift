@@ -70,9 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // PRE-LOAD DATA
         if UserDefaults.hasLoggedIn {
             userDidLoggedIn()
-            EventRequest.preLoadData()
-            UserDefaults.hasPreloadedMyOngoingEvents = true
-            UserDefaults.hasPreloadedPublicEvents = true
+            EventRequest.preLoadDataInBackground()
         }
         
         // choose login scene or home scene based on if loggedin
