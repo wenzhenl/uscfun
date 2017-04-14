@@ -31,6 +31,7 @@ class UserProfileViewController: UIViewController {
     
     let numberOfPreservedSection = 5
    
+    var overallRating: CGFloat = 2.5
     var genderTitle: String!
  
     var attendedEvents = OrderedDictionary<String, Event>()
@@ -45,10 +46,10 @@ class UserProfileViewController: UIViewController {
         
         other = User(user: user)
         self.title = other.nickname
-//        if user != AVUser.current()! {
-//            let messageImage = #imageLiteral(resourceName: "send").scaleTo(width: 22, height: 22)
-//            self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: messageImage, style: .plain, target: self, action: #selector(sendMessage))
-//        }
+        if other.username == USCFunConstants.systemAdministratorClientId && user != AVUser.current()! {
+            let messageImage = #imageLiteral(resourceName: "send").scaleTo(width: 22, height: 22)
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: messageImage, style: .plain, target: self, action: #selector(sendMessage))
+        }
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 
         let fetchGroup = DispatchGroup()
@@ -80,6 +81,15 @@ class UserProfileViewController: UIViewController {
             self.populateSections()
             self.tableView.reloadData()
         }
+        
+        do {
+            self.overallRating = CGFloat(try LeanEngine.fetchOverallRating(of: user.objectId!))
+        } catch let error {
+            print("failed to fetch overall rating: \(error)")
+            SVProgressHUD.showError(withStatus: "无法获取信用评级")
+            SVProgressHUD.dismiss(withDelay: TimeInterval(1.5))
+        }
+        
         self.populateSections()
     }
     
@@ -225,7 +235,7 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
             let cell = Bundle.main.loadNibNamed("CreditRecordTableViewCell", owner: self, options: nil)?.first as! CreditRecordTableViewCell
             cell.titleLabel.text = "信用等级："
             cell.ratingBar.isUserInteractionEnabled = false
-            cell.ratingBar.rating = 2.5
+            cell.ratingBar.rating = self.overallRating
             cell.ratingBar.ratingMin = 1.0
             cell.ratingBar.allowsPartialStar = true
             cell.ratingBar.isIndicator = true

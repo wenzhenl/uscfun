@@ -58,4 +58,29 @@ class Rating {
             handler(false, error)
         }
     }
+    
+    static func submitAll(ratings: [Rating], handler: @escaping (_ succeeded: Bool, _ error: NSError?) -> Void) {
+        var ratingObjects = [AVObject]()
+        for rating in ratings {
+            let ratingObject = AVObject(className: RatingKeyConstants.classNameOfRating)
+            ratingObject.setObject(rating.rating, forKey: RatingKeyConstants.keyOfRating)
+            let eventObject = AVObject(className: EventKeyConstants.classNameOfEvent, objectId: rating.targetEvent.objectId!)
+            ratingObject.setObject(eventObject, forKey: RatingKeyConstants.keyOfTargetEvent)
+            ratingObject.setObject(rating.targetMember, forKey: RatingKeyConstants.keyOfTargetMember)
+            ratingObject.setObject(rating.ratedBy, forKey: RatingKeyConstants.keyOfRatedBy)
+            ratingObjects.append(ratingObject)
+        }
+        
+        AVObject.saveAll(inBackground: ratingObjects) {
+            succeeded, error in
+            if succeeded {
+                print("submit ratings successfully")
+                handler(true, nil)
+            }
+            if error != nil {
+                print("failed to submit ratings: \(error!)")
+                handler(false, error! as NSError?)
+            }
+        }
+    }
 }

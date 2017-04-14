@@ -36,6 +36,8 @@ struct LeanEngineFunctions {
     static let nameOfMuteConversation = "muteConversation"
     static let nameOfUnmuteConversation = "unmuteConversation"
     static let nameOfCheckIfMutedInConversation = "isMutedInConversation"
+    
+    static let nameOfFetchOverallRating = "fetchOverallRating"
 }
 
 class LeanEngine {
@@ -104,5 +106,20 @@ class LeanEngine {
         }
         
         return isMuted
+    }
+    
+    static func fetchOverallRating(of userId: String)throws -> Double {
+        var error: NSError?
+        let result = AVCloud.callFunction(LeanEngineFunctions.nameOfFetchOverallRating, withParameters: ["userId": userId], error: &error)
+        if error != nil {
+            print("failed to fetch overall rating: \(error!)")
+            throw error!
+        }
+        
+        guard let overallRating = result as? Double else {
+            print("cannot parse fetch overall rating return value")
+            throw NSError(domain: USCFunErrorConstants.domain, code: USCFunErrorConstants.kUSCFunErrorCannotParseLeanEnginResult, userInfo: nil)
+        }
+        return overallRating
     }
 }
