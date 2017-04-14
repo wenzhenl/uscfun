@@ -260,6 +260,7 @@ extension AppDelegate: AVIMClientDelegate {
         }
         conversation.queryMessagesFromServer(withLimit: UInt(unread)) {
             objects, error in
+            
             if let messages = objects as? [AVIMTypedMessage] {
                 for message in messages {
                     print(message.text ?? "")
@@ -319,9 +320,10 @@ extension AppDelegate: AVIMClientDelegate {
             if error != nil {
                 print(error!)
             }
+            
+            UserDefaults.shouldSkipUnreadAfterLaunch = false
         }
         conversation.markAsReadInBackground()
-        UserDefaults.shouldSkipUnreadAfterLaunch = false
         print("fetching unread messages ends")
     }
 }
