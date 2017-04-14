@@ -86,8 +86,8 @@ class UserProfileViewController: UIViewController {
             self.overallRating = CGFloat(try LeanEngine.fetchOverallRating(of: user.objectId!))
         } catch let error {
             print("failed to fetch overall rating: \(error)")
-            SVProgressHUD.showError(withStatus: "无法获取信用评级")
-            SVProgressHUD.dismiss(withDelay: TimeInterval(1.5))
+            SVProgressHUD.showInfo(withStatus: "获取信用评级失败")
+            SVProgressHUD.dismiss(withDelay: TimeInterval(2))
         }
         
         self.populateSections()
@@ -174,11 +174,6 @@ class UserProfileViewController: UIViewController {
             print("conversation controller view will disappear")
             viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
             SVProgressHUD.dismiss()
-        }
-        
-        conversation.configureBarButtonItemStyle(.singleProfile) {
-            action in
-            print("single prifle here")
         }
         self.navigationController?.pushViewController(conversation, animated: true)
     }

@@ -48,7 +48,7 @@ class PageViewController: UIViewController {
         view.bringSubview(toFront: pageControl)
         
         pageControl.currentPageIndicatorTintColor = UIColor.avatarYellow
-        pageControl.tintColor = UIColor.darkText
+        pageControl.tintColor = UIColor.white
         pageControl.isUserInteractionEnabled = false
         pageControl.numberOfPages = welcomeCards.count
         pageControl.currentPage = 0
