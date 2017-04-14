@@ -848,9 +848,9 @@ extension Event {
     
     var finalizedColor: UIColor {
         if let index = self.objectId?.hash {
-            return USCFunConstants.avatarColorOptions[abs(index) % USCFunConstants.avatarColorOptions.count]
+            return USCFunConstants.conversationColorOptions[abs(index) % USCFunConstants.conversationColorOptions.count]
         }
-        return USCFunConstants.avatarColorOptions[0]
+        return USCFunConstants.conversationColorOptions[0]
     }
     
     var whitePaper: UIImage {

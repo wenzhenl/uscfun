@@ -29,6 +29,11 @@ class USCFunConstants {
                                      UIColor.avatar43, UIColor.avatar44, UIColor.avatar45, UIColor.avatar46,
                                      UIColor.avatar47, UIColor.avatar48, UIColor.avatar49, UIColor.avatar50]
     
+    static let conversationColorOptions = [UIColor.avatarBlue, UIColor.avatarCyan, UIColor.avatarPink,
+                                           UIColor.avatarGolden, UIColor.avatarOrange, UIColor.avatarTomato,
+                                           UIColor.avatarGreen]
+    
+    
     static let indexOfMyEventList = 0
     static let indexOfEventList = 1
     static let indexOfNotification = 2
