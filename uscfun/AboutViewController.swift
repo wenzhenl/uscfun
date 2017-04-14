@@ -15,6 +15,7 @@ class AboutViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.view.backgroundColor = UIColor.white
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         self.view.backgroundColor = UIColor.white
         self.title = "关于"
         tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)

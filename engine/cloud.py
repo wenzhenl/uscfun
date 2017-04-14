@@ -352,6 +352,12 @@ def isMutedInConversation(**params):
         print "check if muted in conversation ends"
         raise LeanEngineError('check if muted in conversation failed')
 
+@engine.define
+def fetchOverallRating(**params):
+    print "fetch overall rating starts"
+    return 2.5
+    print "fetch overall rating ends"
+
 @engine.after_save('_Conversation')
 def after_conversation_save(conversation):
     print("after conversation save started")
