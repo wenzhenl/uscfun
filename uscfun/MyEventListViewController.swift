@@ -489,7 +489,13 @@ class MyEventListViewController: UIViewController {
         print("delete event cell starts")
         guard let section = sectionForEvent(eventId: eventId) else { return }
         guard let event = EventRequest.myOngoingEvents[eventId] else { return }
-        let alertVC = UIAlertController(title: "请确认微活动已经完结，不再需要继续讨论。完结活动可以在活动历史中查看。", message: nil, preferredStyle: .actionSheet)
+        var notice = ""
+        if event.status == .isFinalized {
+            notice = "请确认微活动已经完结，不再需要继续讨论。完结活动可以在活动历史中查看。"
+        } else {
+            notice = "请确认你要删除微活动。删除后可以在我的活动历史中查看。"
+        }
+        let alertVC = UIAlertController(title: notice, message: nil, preferredStyle: .actionSheet)
         let okay = UIAlertAction(title: "确认删除", style: .destructive) {
             _ in
             EventRequest.myOngoingEvents[eventId]?.close(for: AVUser.current()!) {
@@ -501,6 +507,16 @@ class MyEventListViewController: UIViewController {
                             self.tableView.reloadData()
                         } else {
                             self.tableView.deleteSections(IndexSet([section]), with: .fade)
+                        }
+                        /// quit user from conversation
+                        LeanEngine.quitConversation(clientId: AVUser.current()!.username!, conversationId: event.conversationId) {
+                            succeeded, error in
+                            if succeeded {
+                                print("quit conversation after delete event successfully")
+                            }
+                            if error != nil {
+                                print("failed to quit conversation after delete event: \(error!)")
+                            }
                         }
                         /// let user rate event for finalized event
                         if event.status == .isFinalized {

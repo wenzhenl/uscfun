@@ -363,7 +363,7 @@ def after_conversation_save(conversation):
     print("after conversation save started")
     conversation_id = conversation.get('objectId')
     print "conversationId: " + conversation_id
-    welcomeMessage = "[系统]大家对活动有任何疑问，欢迎在此讨论！"
+    welcomeMessage = "大家对活动有任何疑问，欢迎在此讨论！[USC小管家]"
     headers = {'Content-Type': 'application/json', \
         'X-LC-Id': APP_ID, \
         'X-LC-Key': MASTER_KEY + ',master'}
