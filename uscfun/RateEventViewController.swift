@@ -13,20 +13,21 @@ class RateEventViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var submitButton: UIButton!
-    @IBOutlet weak var stopRateButtonItem: UIBarButtonItem!
     
     var event: Event!
     var otherMembers = [AVUser]()
     var otherMemberScore = [CGFloat]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = ""
+        self.title = "评价队友"
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
-        
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+
         self.tableView.scrollsToTop = true
         self.tableView.tableFooterView = UIView()
-        self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 50, 0)
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         self.tableView.separatorStyle = .none
         self.submitButton.layer.cornerRadius = self.submitButton.frame.size.height / 2.0
         self.submitButton.backgroundColor = UIColor.buttonBlue
@@ -46,7 +47,6 @@ class RateEventViewController: UIViewController {
             ratings.append(rating)
         }
         submitButton.isEnabled = false
-        stopRateButtonItem.isEnabled = false
         Rating.submitAll(ratings: ratings) {
             succeeded, error in
             if succeeded {
@@ -59,15 +59,10 @@ class RateEventViewController: UIViewController {
             if error != nil {
                 print("failed to submit ratings: \(error!)")
                 self.submitButton.isEnabled = true
-                self.stopRateButtonItem.isEnabled = true
                 SVProgressHUD.showInfo(withStatus: "网络错误")
                 SVProgressHUD.dismiss(withDelay: TimeInterval(2.0))
             }
         }
-    }
-    
-    @IBAction func stopRating(_ sender: UIBarButtonItem) {
-        self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -91,11 +86,7 @@ extension RateEventViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.section == 0 {
-            let cell = Bundle.main.loadNibNamed("TitleTextViewTableViewCell", owner: self, options: nil)?.first as! TitleTextViewTableViewCell
-            cell.titleLabel.textAlignment = .center
-            cell.titleLabel.textColor = UIColor.darkGray
-            cell.titleLabel.font = UIFont.boldSystemFont(ofSize: 15)
-            cell.titleLabel.text = "评价队友"
+            let cell = Bundle.main.loadNibNamed("TextViewTableViewCell", owner: self, options: nil)?.first as! TextViewTableViewCell
             cell.textView.delegate = self
             cell.textView.isSelectable = true
             cell.textView.textColor = UIColor.darkText
@@ -107,7 +98,7 @@ extension RateEventViewController: UITableViewDelegate, UITableViewDataSource {
             let oneStarAlert = "注意一颗星表明该成员是无故爽约！"
             let rangeOfOneStarAlert = (notice as NSString).range(of: oneStarAlert)
             attributedNotice.addAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15)], range: rangeOfOneStarAlert)
-            let creditLink = "【信用等级说明】"
+            let creditLink = "信用等级说明"
             let rangeOfCreditLink = (notice as NSString).range(of: creditLink)
             attributedNotice.addAttributes([NSForegroundColorAttributeName: UIColor.blue], range: rangeOfCreditLink)
             attributedNotice.addAttributes([NSLinkAttributeName: USCFunConstants.creditRecordURL], range: rangeOfCreditLink)
