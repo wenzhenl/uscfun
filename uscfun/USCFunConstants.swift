@@ -93,6 +93,14 @@ struct EventKeyConstants {
     static let keyOfSystemNotificationOfUpdatedEvents = "updatedEventIds"
 }
 
+struct RatingKeyConstants {
+    static let classNameOfRating = "Rating"
+    static let keyOfRating = "rating"
+    static let keyOfTargetEvent = "targetEvent"
+    static let keyOfTargetMember = "targetMember"
+    static let keyOfRatedBy = "ratedBy"
+}
+
 enum UIUserInterfaceIdiom : Int {
     case unspecified
     case phone

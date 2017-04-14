@@ -36,6 +36,10 @@ struct USCFunErrorConstants {
     static let kUSCFunErrorEventInvalidUpdateData = 30005
     static let kUSCFunErrorEventCancelFailedDueToExistingMember = 30006
     
+    /// error code for Rating
+    static let kUSCFunErrorInvalidRating = 50000
+    static let kUSCFunErrorDuplicateRating = 50001
+    
     /// error code from LeanCloud
     static let kLeanCloudErrorSaveOptionError = 305
     
@@ -86,6 +90,10 @@ extension NSError {
                 return "更新数据不符合要求"
             case USCFunErrorConstants.kUSCFunErrorEventCancelFailedDueToExistingMember:
                 return "无法取消，已经有人参加了"
+            case USCFunErrorConstants.kUSCFunErrorInvalidRating:
+                return "无效的评分"
+            case USCFunErrorConstants.kUSCFunErrorDuplicateRating:
+                return "已经评价过了"
             default:
                 return "系统错误，请稍后再试"
             }

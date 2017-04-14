@@ -53,6 +53,7 @@
 		0A5332CF1E6D23A400C50186 /* OpenSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5332CE1E6D23A400C50186 /* OpenSourceViewController.swift */; };
 		0A5332D21E6D2F0A00C50186 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5332D11E6D2F0A00C50186 /* NotificationViewController.swift */; };
 		0A5830CB1DD45A2800E06B4A /* OrderedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5830CA1DD45A2800E06B4A /* OrderedDictionary.swift */; };
+		0A5C3E741EA052C2009CF4CA /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5C3E731EA052C2009CF4CA /* Rating.swift */; };
 		0A6834BE1D56858C002E9B0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6834BD1D56858C002E9B0D /* AppDelegate.swift */; };
 		0A6834C51D56858C002E9B0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A6834C41D56858C002E9B0D /* Assets.xcassets */; };
 		0A6834C81D56858C002E9B0D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A6834C61D56858C002E9B0D /* LaunchScreen.storyboard */; };
@@ -189,6 +190,7 @@
 		0A5332CE1E6D23A400C50186 /* OpenSourceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSourceViewController.swift; sourceTree = "<group>"; };
 		0A5332D11E6D2F0A00C50186 /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		0A5830CA1DD45A2800E06B4A /* OrderedDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderedDictionary.swift; sourceTree = "<group>"; };
+		0A5C3E731EA052C2009CF4CA /* Rating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
 		0A6834BA1D56858C002E9B0D /* uscfun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = uscfun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A6834BD1D56858C002E9B0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0A6834C41D56858C002E9B0D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -346,6 +348,7 @@
 				0A5830CA1DD45A2800E06B4A /* OrderedDictionary.swift */,
 				0AA4562C1E8D019D0026A5DC /* LeanCloudExtension.swift */,
 				0A37CCE61E90FED7000CC7E7 /* NSErrorExtension.swift */,
+				0A5C3E731EA052C2009CF4CA /* Rating.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -793,6 +796,7 @@
 				0A427FAD1D97F579007A96BE /* TextViewTableViewCell.swift in Sources */,
 				0A963DB71D716E6400E0532F /* NicknameViewController.swift in Sources */,
 				0AB8F5A01E9C6AC200079E33 /* ConversationMoreViewController.swift in Sources */,
+				0A5C3E741EA052C2009CF4CA /* Rating.swift in Sources */,
 				0A8483681E6841A700B7B29A /* TandemLabelTableViewCell.swift in Sources */,
 				0A9834121E64577300A5D894 /* NewEventOptionalsViewController.swift in Sources */,
 				0A9CB44F1D6FF8D800608D27 /* USCFunConstants.swift in Sources */,
