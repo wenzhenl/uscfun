@@ -20,11 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        if UserDefaults.hasOpenedRemoteNotification {
-            //--MARK: register for notification
-            registerForPushNotifications(application: application)
-        }
-        
         //--MARK: register wechat account
         WXApi.registerApp("wx8f761834a81e3579")
         
@@ -124,12 +119,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
         print("applicationWillEnterForeground")
-
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
         
         print("APPLICATION DID BECOME ACTIVE")
+        
+        if UserDefaults.hasOpenedRemoteNotification {
+            //--MARK: register for notification
+            registerForPushNotifications(application: application)
+        }
         
         let num = application.applicationIconBadgeNumber
         if num != 0 {
