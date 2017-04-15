@@ -493,7 +493,7 @@ class EventRequest {
                     thereIsUnfetchedOldMyOngoingEvents = events.count >= USCFunConstants.QUERYLIMIT
                 case (.mypublic, .newer):
                     if events.count >= USCFunConstants.QUERYLIMIT {
-                        thereIsUnfetchedOldMyOngoingEvents = true
+                        thereIsUnfetchedPublicEvents = true
                     }
                 case (.mypublic, .older):
                         thereIsUnfetchedPublicEvents = events.count >= USCFunConstants.QUERYLIMIT
