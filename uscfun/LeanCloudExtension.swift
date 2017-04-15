@@ -38,7 +38,6 @@ struct LeanEngineFunctions {
     static let nameOfCheckIfMutedInConversation = "isMutedInConversation"
     
     static let nameOfFetchOverallRating = "fetchOverallRating"
-    static let nameOfCreateConversationWithAdmin = "createConversationWithAdmin"
 }
 
 class LeanEngine {
@@ -122,9 +121,5 @@ class LeanEngine {
             throw NSError(domain: USCFunErrorConstants.domain, code: USCFunErrorConstants.kUSCFunErrorCannotParseLeanEnginResult, userInfo: nil)
         }
         return overallRating
-    }
-    
-    static func createConversationWithAdmin(for clientId: String) {
-        AVCloud.callFunction(LeanEngineFunctions.nameOfCreateConversationWithAdmin, withParameters: ["clientId": clientId])
     }
 }
