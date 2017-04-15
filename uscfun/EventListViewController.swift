@@ -498,7 +498,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = UIColor.white
-        if indexPath.section == EventRequest.publicEvents.count && EventRequest.thereIsUnfetchedPublicEvents && UserDefaults.hasPreloadedPublicEvents {
+        if indexPath.section == self.numberOfSection - 1 && EventRequest.thereIsUnfetchedPublicEvents && UserDefaults.hasPreloadedPublicEvents {
             print("about to fetch older data")
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
             EventRequest.fetchOlderPublicEventsInBackground {
@@ -524,7 +524,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             
             var status = ""
             if EventRequest.thereIsUnfetchedPublicEvents {
-                status = "正在加载 ..."
+                status = "正在加载···"
             } else {
                 status = "已经是最后一个微活动"
             }

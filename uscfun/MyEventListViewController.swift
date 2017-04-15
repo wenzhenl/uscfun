@@ -580,7 +580,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = UIColor.white
-        if indexPath.section == EventRequest.myOngoingEvents.count && EventRequest.thereIsUnfetchedOldMyOngoingEvents && UserDefaults.hasPreloadedMyOngoingEvents {
+        if indexPath.section == self.numberOfSection - 1 && EventRequest.thereIsUnfetchedOldMyOngoingEvents && UserDefaults.hasPreloadedMyOngoingEvents {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
             EventRequest.fetchOlderMyOngoingEventsInBackground {
                 succeeded, numberOfNewEvents, error in
@@ -780,7 +780,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
             
             var status = ""
             if EventRequest.thereIsUnfetchedOldMyOngoingEvents {
-                status = "正在加载 ..."
+                status = "正在加载···"
             } else {
                 status = "已经是最后一个微活动"
             }
