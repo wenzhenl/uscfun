@@ -456,6 +456,7 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.moreButton.isHidden = true
             default:
                 cell.moreButton.isHidden = false
+                cell.chatButton.isEnabled = false
             }
             cell.moreButton.accessibilityHint = event.objectId!
             cell.moreButton.addTarget(self, action: #selector(deleteEvent(sender:)), for: .touchUpInside)
@@ -540,7 +541,10 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if EventRequest.publicEvents.count > 0 && indexPath.section > 0 {
-            performSegue(withIdentifier: identifierToEventDetail, sender: tableView.cellForRow(at: indexPath))
+            let event = eventForSection(section: indexPath.section)
+            if event.status == .isPending || event.status == .isSecured {
+                performSegue(withIdentifier: identifierToEventDetail, sender: tableView.cellForRow(at: indexPath))
+            }
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
