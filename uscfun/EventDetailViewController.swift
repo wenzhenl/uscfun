@@ -249,6 +249,7 @@ class EventDetailViewController: UIViewController {
     }
     
     func joinEventDecided() {
+        
         SVProgressHUD.show()
         self.event.add(newMember: AVUser.current()!) {
             succeeded, error in
@@ -286,7 +287,28 @@ class EventDetailViewController: UIViewController {
         }
     }
     
+    func joinEventAlertIfLastSeatLeft() {
+        if event.remainingSeats == 1 {
+            let alertVC = UIAlertController(title: "请注意这已经是最后一个席位，加入后微活动立即约定成功，不可退出了！", message: nil, preferredStyle: .actionSheet)
+            let join = UIAlertAction(title: "继续参加", style: .default) {
+                _ in
+                self.joinEventDecided()
+            }
+            let cancel = UIAlertAction(title: "我再想想", style: .cancel, handler: nil)
+            alertVC.addAction(join)
+            alertVC.addAction(cancel)
+            self.present(alertVC, animated: true, completion: nil)
+        } else {
+            self.joinEventDecided()
+        }
+    }
+    
     func joinEvent() {
+        
+        guard event.remainingSeats > 0 else {
+            self.displayInfo(info: "已经没有位子了")
+            return
+        }
         
         if !UserDefaults.hasRemindedUserBeSeriousAboutJoining {
             let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
@@ -300,7 +322,7 @@ class EventDetailViewController: UIViewController {
             }
             alertView.showWarning("参与须知", subTitle: "欢迎参加微活动！请确定你的确有时间完成该活动，活动约定成功前你可以选择退出。约定成功后如果有事无法参加，请及时与队友沟通，无故爽约将会影响到你的信誉等级！")
         } else {
-            joinEventDecided()
+            joinEventAlertIfLastSeatLeft()
         }
     }
     
