@@ -77,3 +77,7 @@ curl -X POST \
 -H "Content-Type: application/json" \
 -d '{"from_peer": "sys", "message": "{\"_lctype\":-1,\"_lctext\":\"这是一个纯文本消息\",\"_lcattrs\":{\"snType\":3, \"newVersion\":\"3.0.7\", \"newVersionDescription\":\"更新了很多很多内容\"}}", "conv_id": "58de6a89128fe1005dcffa08"}' \
 https://leancloud.cn/1.1/rtm/broadcast/subscriber
+
+/// conversation error
+Error Domain=LCCKConversationViewController Code=4401 "INVALID_MESSAGING_TARGET 您已被被管理员移除该群" UserInfo={NSLocalizedDescription=INVALID_MESSAGING_TARGET 您已被被管理员移除该群, code=4401}
+

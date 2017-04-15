@@ -290,7 +290,7 @@ class EventDetailViewController: UIViewController {
     func joinEventAlertIfLastSeatLeft() {
         if event.remainingSeats == 1 {
             let alertVC = UIAlertController(title: "请注意这已经是最后一个席位，加入后微活动立即约定成功，不可退出了！", message: nil, preferredStyle: .actionSheet)
-            let join = UIAlertAction(title: "继续参加", style: .default) {
+            let join = UIAlertAction(title: "继续参加", style: .destructive) {
                 _ in
                 self.joinEventDecided()
             }
@@ -315,7 +315,7 @@ class EventDetailViewController: UIViewController {
             let alertView = SCLAlertView(appearance: appearance)
             alertView.addButton("确定参加") {
                 UserDefaults.hasRemindedUserBeSeriousAboutJoining = true
-                self.joinEventDecided()
+                self.joinEventAlertIfLastSeatLeft()
             }
             alertView.addButton("手滑了") {
                 print("user decide not to join after reminder")

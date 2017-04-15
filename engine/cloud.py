@@ -475,20 +475,22 @@ def after_event_update(event):
         # if event is finalized, send finalized message
         remain_people = event.get('remainingSeats')
         if remain_people <= 0:
-            conversation = event.get('conversation')
-            conversation_id = conversation.get('objectId')
-            finalizedMessage = "微活动约定成功！系统已经设定此对话为私有对话。"
-            finalizedMessage += "这条信息以下只有队员才可以发言！【日常小管家】"
-            headers = {'Content-Type': 'application/json', \
-                'X-LC-Id': APP_ID, \
-                'X-LC-Key': MASTER_KEY + ',master'}
-            data = {"from_peer": admin, \
-                    "message": "{\"_lctype\":-1,\"_lctext\": \"" + finalizedMessage + "\", \
-                    \"_lcattrs\":{\"reason\": \"finalized\"}}", \
-                     "conv_id": conversation_id, "transient": False}
-            requests.post(messages_url, data=json.dumps(data), headers=headers)
-            conversation.set(key_of_finalized_message, True)
-            conversation.save()
+            conversationPointer = event.get('conversation')
+            conversation_id = conversationPointer.get('objectId')
+            conversation = Query('_Conversation').get(conversation_id)
+            if conversation.has(key_of_finalized_message) == False:
+                finalizedMessage = "微活动约定成功！系统已经设定此对话为私有对话。"
+                finalizedMessage += "这条信息以下只有队员才可以发言！【日常小管家】"
+                headers = {'Content-Type': 'application/json', \
+                    'X-LC-Id': APP_ID, \
+                    'X-LC-Key': MASTER_KEY + ',master'}
+                data = {"from_peer": admin, \
+                        "message": "{\"_lctype\":-1,\"_lctext\": \"" + finalizedMessage + "\", \
+                        \"_lcattrs\":{\"reason\": \"finalized\"}}", \
+                         "conv_id": conversation_id, "transient": False}
+                requests.post(messages_url, data=json.dumps(data), headers=headers)
+                conversation.set(key_of_finalized_message, True)
+                conversation.save()
 
 @engine.define
 def _receiversOffline(**params):
