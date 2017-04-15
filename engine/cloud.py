@@ -284,6 +284,43 @@ def subscribeToSystemConversation(**params):
         raise LeanEngineError('client id and institution must be not empty')
 
 @engine.define
+def createConversationWithAdmin(**params):
+    print "create conversation with admin starts"
+    if 'clientId' in params:
+        client_id = params['clientId']
+        print "clientId" + client_id
+        Conversation = Object.extend('_Conversation')
+        query1 = Conversation.query
+        query2 = Conversation.query
+        query3 = Conversation.query
+        query1.equal_to('unique', True)
+        query2.contains_all('m', [client_id, admin])
+        query = Query.and_(query1, query2)
+        query_list = query.find()
+        if len(query_list) > 0:
+            print "find conversation with admin"
+            conversation = query_list[0]
+            if not (conversation.get('hasSentAdminWelcome') == True):
+                print "has not send admin welcome"
+                welcomeMessage = "欢迎使用USC日常，如果在使用中有任何问题，或者对USC日常有任何建议都请告诉我！"
+                conversation_id = conversation.get('objectId')
+                print "conversationId: " + conversation_id
+                headers = {'Content-Type': 'application/json', \
+                    'X-LC-Id': APP_ID, \
+                    'X-LC-Key': MASTER_KEY + ',master'}
+                data = {"from_peer": admin, \
+                        "message": "{\"_lctype\":-1,\"_lctext\": \"" + welcomeMessage + "\", \
+                        \"_lcattrs\":{\"reason\": \"welcome\"}}", \
+                         "conv_id": conversation_id, "transient": False}
+                requests.post(messages_url, data=json.dumps(data), headers=headers)
+                conversation.set('hasSentAdminWelcome', True)
+                conversation.save()
+        print "create conversation with admin ends"
+    else:
+        print 'client id cannot be empty'
+        raise LeanEngineError('failed to create conversation with admin')
+
+@engine.define
 def joinConversation(**params):
     print "join conversation starts"
     if 'clientId' in params and 'conversationId' in params:
@@ -401,17 +438,27 @@ def fetchOverallRating(**params):
 @engine.after_save('_Conversation')
 def after_conversation_save(conversation):
     print("after conversation save started")
-    conversation_id = conversation.get('objectId')
-    print "conversationId: " + conversation_id
-    welcomeMessage = "大家对活动有任何疑问，欢迎在此讨论！【日常小管家】"
-    headers = {'Content-Type': 'application/json', \
-        'X-LC-Id': APP_ID, \
-        'X-LC-Key': MASTER_KEY + ',master'}
-    data = {"from_peer": admin, \
-            "message": "{\"_lctype\":-1,\"_lctext\": \"" + welcomeMessage + "\", \
-            \"_lcattrs\":{\"reason\": \"welcome\"}}", \
-             "conv_id": conversation_id, "transient": False}
-    requests.post(messages_url, data=json.dumps(data), headers=headers)
+    if conversation.get('sys') == True:
+        print("system conversation created")
+        return
+    else:
+        welcomeMessage = ""
+        if conversation.get('unique') == True:
+            print("conversation with admin created")
+            welcomeMessage = "欢迎使用USC日常，如果在使用中有任何问题，或者对USC日常有任何建议都请告诉我！"
+        else:
+            print("event conversation created")
+            welcomeMessage = "大家对活动有任何疑问，欢迎在此讨论！【日常小管家】"
+        conversation_id = conversation.get('objectId')
+        print "conversationId: " + conversation_id
+        headers = {'Content-Type': 'application/json', \
+            'X-LC-Id': APP_ID, \
+            'X-LC-Key': MASTER_KEY + ',master'}
+        data = {"from_peer": admin, \
+                "message": "{\"_lctype\":-1,\"_lctext\": \"" + welcomeMessage + "\", \
+                \"_lcattrs\":{\"reason\": \"welcome\"}}", \
+                 "conv_id": conversation_id, "transient": False}
+        requests.post(messages_url, data=json.dumps(data), headers=headers)
 
 @engine.after_save('Event')
 def after_event_save(event):

@@ -98,6 +98,9 @@ class MeViewController: UIViewController {
             SVProgressHUD.showError(withStatus: "无法连接网络")
             return
         }
+        
+        LeanEngine.createConversationWithAdmin(for: AVUser.current()!.username!)
+
         conversationViewController.isEnableAutoJoin = true
         conversationViewController.hidesBottomBarWhenPushed = true
         conversationViewController.isDisableTitleAutoConfig = true
@@ -110,13 +113,14 @@ class MeViewController: UIViewController {
         conversationViewController.viewDidAppearBlock = {
             (viewController, animated) in
             print("conversation controller view did appear")
-            viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+//            viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         }
         
         conversationViewController.viewWillDisappearBlock = {
             (viewController, animated) in
             print("conversation controller view will disappear")
-            viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+            (viewController as! LCCKConversationViewController).chatBar.resignFirstResponder()
+            //            viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
             SVProgressHUD.dismiss()
         }
         
