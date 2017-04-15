@@ -208,13 +208,12 @@ class EventListViewController: UIViewController {
     
     func handleRefresh() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        let numberOfPublicEventsBeforeUpdate = EventRequest.publicEvents.count
         EventRequest.fetchNewerPublicEventsInBackground() {
-            succeeded, error in
+            succeeded, numberOfNewEvents, error in
             if succeeded {
-                let numberOfPublicEventsAfterUpdate = EventRequest.publicEvents.count
-                if numberOfPublicEventsAfterUpdate > numberOfPublicEventsBeforeUpdate {
-                    self.displayInfo(info: "\(numberOfPublicEventsAfterUpdate - numberOfPublicEventsBeforeUpdate)个新的微活动")
+                print("successfully fetched \(numberOfNewEvents) new events")
+                if numberOfNewEvents > 0 {
+                    self.displayInfo(info: "\(numberOfNewEvents) 个新的微活动")
                 }
                 self.refreshControl.endRefreshing()
                 self.tableView.reloadData()
@@ -497,12 +496,17 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = UIColor.white
         if indexPath.section == EventRequest.publicEvents.count && EventRequest.thereIsUnfetchedPublicEvents {
+            print("about to fetch older data")
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
             EventRequest.fetchOlderPublicEventsInBackground {
-                succeeded, error in
+                succeeded, numberOfNewEvents, error in
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 if succeeded {
+                    print("successfully fetch \(numberOfNewEvents) old events")
                     self.tableView.reloadData()
+                }
+                if error != nil {
+                    print("failed to fetch older data: \(error!)")
                 }
             }
         }

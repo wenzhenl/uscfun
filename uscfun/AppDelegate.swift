@@ -44,7 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
         LoginKit.delegate = self
         
-        
         /// check if it is a new version
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
             print("version: \(version)")
@@ -156,9 +155,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         
         print("application will terminate")
-        
-        UserDefaults.hasPreloadedMyOngoingEvents = false
-        UserDefaults.hasPreloadedPublicEvents = false
     }
     
     func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
@@ -175,7 +171,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        
         print("deviceToken: \(deviceToken)")
         AVOSCloud.handleRemoteNotifications(withDeviceToken: deviceToken)
     }
@@ -331,6 +326,10 @@ extension AppDelegate: LoginDelegate {
         
         /// should skip unread system notification messages
         UserDefaults.shouldSkipUnreadAfterLaunch = true
+        /// should preload my ongoing events
+        UserDefaults.hasPreloadedMyOngoingEvents = false
+        /// should preload public events
+        UserDefaults.hasPreloadedPublicEvents = false
         
         LCChatKit.sharedInstance().fetchProfilesBlock = {
             userIds, completionHandler in

@@ -155,8 +155,9 @@ class MyEventListViewController: UIViewController {
     func handlePostNewEvent() {
         self.tabBarController?.selectedIndex = USCFunConstants.indexOfMyEventList
         EventRequest.fetchNewerMyOngoingEventsInBackground {
-            succeeded, error in
+            succeeded, numberOfNewEvents, error in
             if succeeded {
+                print("successfully fetched \(numberOfNewEvents) new events")
                 self.tableView.reloadData()
             }
             
@@ -341,15 +342,14 @@ class MyEventListViewController: UIViewController {
     }
     
     func handleRefresh() {
-        let numberOfMyOngoingEventsBeforeUpdate = EventRequest.myOngoingEvents.count
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         EventRequest.fetchNewerMyOngoingEventsInBackground() {
-            succeeded, error in
+            succeeded, numberOfNewEvents, error in
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
             if succeeded {
-                let numberOfMyOngoingEventsAfterUpdate = EventRequest.myOngoingEvents.count
-                if numberOfMyOngoingEventsAfterUpdate > numberOfMyOngoingEventsBeforeUpdate {
-                    print("\(numberOfMyOngoingEventsAfterUpdate - numberOfMyOngoingEventsBeforeUpdate)个新的微活动")
+                print("successfully fetch \(numberOfNewEvents) new my ongoing events")
+                if numberOfNewEvents > 0 {
+                    self.displayInfo(info: "\(numberOfNewEvents) 个新微活动")
                 }
                 self.refreshController.endRefreshing()
                 self.tableView.reloadData()
@@ -583,9 +583,10 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
         if indexPath.section == EventRequest.myOngoingEvents.count && EventRequest.thereIsUnfetchedOldMyOngoingEvents {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
             EventRequest.fetchOlderMyOngoingEventsInBackground {
-                succeeded, error in
+                succeeded, numberOfNewEvents, error in
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 if succeeded {
+                    print("successfully fetch \(numberOfNewEvents) old events")
                     self.tableView.reloadData()
                 }
             }

@@ -121,7 +121,7 @@ class EventRequest {
     
     static func preLoadDataInBackground() {
         EventRequest.fetchNewerMyOngoingEventsInBackground {
-            succeeded, error in
+            succeeded, numberOfNewEvents, error in
             UserDefaults.hasPreloadedMyOngoingEvents = true
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "finishedPreloadingMyOngoingEvents"), object: nil, userInfo: ["succeeded": succeeded])
             if error != nil {
@@ -130,7 +130,7 @@ class EventRequest {
         }
         
         EventRequest.fetchNewerPublicEventsInBackground {
-            succeeded, error in
+            succeeded, numberOfNewEvents, error in
             UserDefaults.hasPreloadedPublicEvents = true
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "finishedPreloadingPublicEvents"), object: nil, userInfo: ["succeeded": succeeded])
             if error != nil {
@@ -366,13 +366,13 @@ class EventRequest {
         fetchEvents(for: .myongoing, by: .newer, inBackground: false, currentCreatedTime: newestCreatedAtOfMyOngoingEvents, handler: nil)
     }
     
-    static func fetchNewerMyOngoingEventsInBackground(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+    static func fetchNewerMyOngoingEventsInBackground(handler: ((_ succeeded: Bool, _ numberOfNewEvents: Int, _ error: Error?) -> Void)?) {
         fetchEvents(for: .myongoing, by: .newer, inBackground: true, currentCreatedTime: newestCreatedAtOfMyOngoingEvents, handler: handler)
     }
     
     //--MARK: functions for fetch older my ongoing events
 
-    static func fetchOlderMyOngoingEventsInBackground(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+    static func fetchOlderMyOngoingEventsInBackground(handler: ((_ succeeded: Bool, _ numberOfNewEvents: Int, _ error: Error?) -> Void)?) {
         fetchEvents(for: .myongoing, by: .older, inBackground: true, currentCreatedTime: oldestCreatedAtOfMyOngoingEvents, handler: handler)
     }
     
@@ -382,17 +382,17 @@ class EventRequest {
         fetchEvents(for: .mypublic, by: .newer, inBackground: false, currentCreatedTime: newestCreatedAtOfPublicEvents, handler: nil)
     }
 
-    static func fetchNewerPublicEventsInBackground(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+    static func fetchNewerPublicEventsInBackground(handler: ((_ succeeded: Bool, _ numberOfNewEvents: Int, _ error: Error?) -> Void)?) {
         fetchEvents(for: .mypublic, by: .newer, inBackground: true, currentCreatedTime: newestCreatedAtOfPublicEvents, handler: handler)
     }
     
     //--MARK: functions for fetch older my ongoing events
 
-    static func fetchOlderPublicEventsInBackground(handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+    static func fetchOlderPublicEventsInBackground(handler: ((_ succeeded: Bool, _ numberOfNewEvents: Int, _ error: Error?) -> Void)?) {
         fetchEvents(for: .mypublic, by: .older, inBackground: true, currentCreatedTime: oldestCreatedAtOfPublicEvents, handler: handler)
     }
     
-    static func fetchEvents(for source: EventSource, by type: FetchType, inBackground: Bool, currentCreatedTime: Date, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+    static func fetchEvents(for source: EventSource, by type: FetchType, inBackground: Bool, currentCreatedTime: Date, handler: ((_ succeeded: Bool, _ numberOfNewEvents: Int, _ error: Error?) -> Void)?) {
         let query = AVQuery(className: EventKeyConstants.classNameOfEvent)
         
         /// sort events by createdAt, always fetch the newest created events
@@ -437,14 +437,14 @@ class EventRequest {
         query.limit = USCFunConstants.QUERYLIMIT
         
         fetchEvents(for: source, by: type, inBackground: inBackground, with: query) {
-            succeeded, error in
-            handler?(succeeded, error)
+            succeeded, numberOfNewEvents, error in
+            handler?(succeeded, numberOfNewEvents, error)
         }
     }
     
     //--MARK: private function for handling fetched events
 
-    private static func fetchEvents(for source: EventSource, by type: FetchType, inBackground: Bool, with query: AVQuery, handler: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
+    private static func fetchEvents(for source: EventSource, by type: FetchType, inBackground: Bool, with query: AVQuery, handler: ((_ succeeded: Bool, _ numberOfNewEvents: Int, _ error: Error?) -> Void)?) {
         
         var concurrentQueue: DispatchQueue!
         
@@ -460,11 +460,11 @@ class EventRequest {
             error, events in
             if error != nil {
                 print(error!)
-                handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: error!.localizedDescription))
+                handler?(false, 0, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: error!.localizedDescription))
                 return
             }
             guard let events = events else {
-                handler?(false, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: "cannot get events"))
+                handler?(false, 0, EventRequestError.systemError(localizedDescriotion: "网络错误，无法加载数据", debugDescription: "cannot get events"))
                 return
             }
             
@@ -485,22 +485,18 @@ class EventRequest {
                 
                 /// judge if there is more old data based on fetched number
                 switch (source, type) {
-                case (.myongoing, .newer):
-                    if !UserDefaults.hasPreloadedMyOngoingEvents {
-                        thereIsUnfetchedOldMyOngoingEvents = events.count >= USCFunConstants.QUERYLIMIT
-                    }
-                case (.mypublic, .newer):
-                    if !UserDefaults.hasPreloadedPublicEvents {
-                        thereIsUnfetchedPublicEvents = events.count >= USCFunConstants.QUERYLIMIT
-                    }
-                case (.myongoing, .older):
+                case (.myongoing, .newer), (.myongoing, .older):
                     thereIsUnfetchedOldMyOngoingEvents = events.count >= USCFunConstants.QUERYLIMIT
-                case (.mypublic, .older):
-                    thereIsUnfetchedPublicEvents = events.count >= USCFunConstants.QUERYLIMIT
+                case (.mypublic, .newer), (.mypublic, .older):
+                        thereIsUnfetchedPublicEvents = events.count >= USCFunConstants.QUERYLIMIT
                 default:
                     break
                 }
                 
+                print("number of new events fetched: \(events.count)")
+                print("there is unfetched old my ongoing events: \(thereIsUnfetchedOldMyOngoingEvents)")
+                print("there is unfetched old public events: \(thereIsUnfetchedPublicEvents)")
+
                 if type == .newer && events.count >= USCFunConstants.QUERYLIMIT {
                     eventsCopy.removeAll()
                     newestCreatedAt = timeOf1970
@@ -510,6 +506,8 @@ class EventRequest {
                 if type == .current {
                     print("updated events for \(source) number: \(events.count)")
                 }
+                
+                var numberOfNewEvents = 0
                 
                 for event in events {
                     if event.createdAt! > newestCreatedAt {
@@ -521,11 +519,14 @@ class EventRequest {
                     switch (source, type) {
                     case (_, .current):
                         eventsCopy[event.objectId!] = event
+                        numberOfNewEvents += 1
                     case (.myongoing, _):
                         eventsCopy[event.objectId!] = event
+                        numberOfNewEvents += 1
                     case (.mypublic, _):
                         if !event.members.contains(AVUser.current()!) {
                             eventsCopy[event.objectId!] = event
+                            numberOfNewEvents += 1
                         }
                     }
                 }
@@ -543,7 +544,7 @@ class EventRequest {
                 }
                 
                 DispatchQueue.main.async {
-                    handler?(true, nil)
+                    handler?(true, numberOfNewEvents, nil)
                 }
             }
         }
