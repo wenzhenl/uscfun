@@ -346,6 +346,8 @@ extension AppDelegate: LoginDelegate {
                         let user = LCCKUser(userId: object.value(forKey: UserKeyConstants.keyOfNickname) as! String!, name: object.value(forKey: UserKeyConstants.keyOfNickname) as! String!, avatarURL: URL(string: object.value(forKey: UserKeyConstants.keyOfAvatarUrl) as! String))
                         users.append(user!)
                     }
+                } else {
+                    users += Array(repeating: LCCKUser(clientId: "正在加载..."), count: userIds.count)
                 }
             }
             if completionHandler != nil {
