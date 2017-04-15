@@ -20,6 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        if UserDefaults.hasOpenedRemoteNotification {
+            //--MARK: register for notification
+            registerForPushNotifications(application: application)
+        }
+        
         //--MARK: register wechat account
         WXApi.registerApp("wx8f761834a81e3579")
         
@@ -185,6 +190,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func updateRemainingTime() {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "needToUpdateRemainingTime"), object: nil, userInfo: nil)
+    }
+    
+    func registerForPushNotifications(application: UIApplication) {
+        let notificationSettings = UIUserNotificationSettings(types: [UIUserNotificationType.badge, .sound, .alert], categories: nil)
+        application.registerUserNotificationSettings(notificationSettings)
     }
 }
 

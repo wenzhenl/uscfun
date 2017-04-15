@@ -298,7 +298,7 @@ class EventDetailViewController: UIViewController {
             alertView.addButton("手滑了") {
                 print("user decide not to join after reminder")
             }
-            alertView.showWarning("参与须知", subTitle: "欢迎参加微活动！请确定你的确想要完成该活动，活动约定成功前你可以选择退出。约定成功后如果有事无法参加，请及时与队友沟通，无故爽约将会影响到你的信誉等级！")
+            alertView.showWarning("参与须知", subTitle: "欢迎参加微活动！请确定你的确有时间完成该活动，活动约定成功前你可以选择退出。约定成功后如果有事无法参加，请及时与队友沟通，无故爽约将会影响到你的信誉等级！")
         } else {
             joinEventDecided()
         }

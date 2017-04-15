@@ -22,7 +22,7 @@ Event = leancloud.Object.extend('Event')
 queryUser = leancloud.Query('_User')
 queryConv = leancloud.Query('_Conversation')
 
-for i in xrange(200):
+for i in xrange(2):
     point = leancloud.GeoPoint(39.9, 116.4)
     creator = queryUser.get('58f07058a0bb9f006a89f511')
     conversation = queryConv.get('58f078d92f301e006cf2b656')
@@ -31,7 +31,7 @@ for i in xrange(200):
     event.set('maximumAttendingPeople', 20)
     event.set('remainingSeats', 1)
     event.set('minimumAttendingPeople', 20)
-    event.set('due', time.time() + 1200.0)
+    event.set('due', time.time() + 120.0)
     event.set('createdBy', creator)
     event.set('members', [creator])
     event.set('neededBy', [creator])
