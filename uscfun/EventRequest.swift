@@ -485,9 +485,17 @@ class EventRequest {
                 
                 /// judge if there is more old data based on fetched number
                 switch (source, type) {
-                case (.myongoing, .newer), (.myongoing, .older):
+                case (.myongoing, .newer):
+                    if events.count >= USCFunConstants.QUERYLIMIT {
+                        thereIsUnfetchedOldMyOngoingEvents = true
+                    }
+                case (.myongoing, .older):
                     thereIsUnfetchedOldMyOngoingEvents = events.count >= USCFunConstants.QUERYLIMIT
-                case (.mypublic, .newer), (.mypublic, .older):
+                case (.mypublic, .newer):
+                    if events.count >= USCFunConstants.QUERYLIMIT {
+                        thereIsUnfetchedOldMyOngoingEvents = true
+                    }
+                case (.mypublic, .older):
                         thereIsUnfetchedPublicEvents = events.count >= USCFunConstants.QUERYLIMIT
                 default:
                     break
