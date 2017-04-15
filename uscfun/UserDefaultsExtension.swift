@@ -415,24 +415,6 @@ extension UserDefaults {
         }
     }
     
-    /// clean public events regularly every 5 minutes
-    class var shouldCleanPublicEvents: Bool {
-        if Date().timeIntervalSince(lastPublicEventsCleanedAt) > TimeInterval(5*60) {
-            return true
-        }
-        return false
-    }
-    
-    class var lastPublicEventsCleanedAt: Date {
-        get {
-            let interval = UserDefaults.standard.double(forKey: "lastPublicEventsCleanedAt")
-            return Date(timeIntervalSince1970: interval)
-        }
-        set {
-            UserDefaults.standard.setValue(newValue.timeIntervalSince1970, forKey: "lastPublicEventsCleanedAt")
-        }
-    }
-    
     /// remind user to be serious first time join an event
     class var hasRemindedUserBeSeriousAboutJoining: Bool {
         get {
