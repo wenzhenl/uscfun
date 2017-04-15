@@ -71,7 +71,7 @@ class EventDetailViewController: UIViewController {
         
         creator = User(user: event.createdBy)
         
-        setupJoinButton()
+        setupButtons()
         populateSections()
         
         view.addSubview(infoLabel)
@@ -95,7 +95,7 @@ class EventDetailViewController: UIViewController {
         self.tableView.reloadSections(IndexSet([timeCellIndex]), with: .automatic)
     }
     
-    func setupJoinButton() {
+    func setupButtons() {
         switch event.relationWithMe {
         case .createdByMe:
             joinButton.setTitle("修改微活动", for: .normal)
@@ -109,6 +109,17 @@ class EventDetailViewController: UIViewController {
             joinButton.setTitle("报名参加", for: .normal)
             joinButton.backgroundColor = UIColor.buttonPink
             joinButton.setTitleColor(UIColor.white, for: .normal)
+        }
+        
+        if event.relationWithMe == .noneOfMyBusiness {
+            switch event.status {
+            case .isSecured, .isPending:
+                joinButton.isHidden = false
+                chatButton.isHidden = false
+            default:
+                joinButton.isHidden = true
+                chatButton.isHidden = true
+            }
         }
     }
     
@@ -673,7 +684,7 @@ extension EventDetailViewController: UITableViewDelegate, UITableViewDataSource 
 extension EventDetailViewController: EditEventViewControllerDelegate {
     func userDidUpdatedEvent(event: Event) {
         self.event = event
-        self.setupJoinButton()
+        self.setupButtons()
         self.populateSections()
         self.tableView.reloadData()
     }
