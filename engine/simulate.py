@@ -17,17 +17,29 @@ from datetime import datetime
 import time
 import requests
 
+from random import choice
+
 leancloud.init("0ddsmQXAJt5gVLLE604DtE4U-gzGzoHsz", "XRGhgA5IwbqTWzosKRh3nzRY")
 Event = leancloud.Object.extend('Event')
 queryUser = leancloud.Query('_User')
 queryConv = leancloud.Query('_Conversation')
+Conversation = leancloud.Object.extend('_Conversation')
 
+flag = "1"
 for i in xrange(2):
     point = leancloud.GeoPoint(39.9, 116.4)
-    creator = queryUser.get('58f07058a0bb9f006a89f511')
-    conversation = queryConv.get('58f078d92f301e006cf2b656')
+    queryUser.exists('username')
+    users = queryUser.find()
+    creator = users[choice(range(0, len(users)))]
+    name = flag + "test test test " + str(i)
+    conversation = Conversation()
+    conversation.set('name', name)
+    conversation.set('m', [creator.get('username')])
+    conversation.save()
+    queryConv.equal_to('name', name)
+    conversations = queryConv.find()
     event = Event()
-    event.set('name', 'final test clean data when enter background' + str(i))
+    event.set('name', name)
     event.set('maximumAttendingPeople', 20)
     event.set('remainingSeats', 1)
     event.set('minimumAttendingPeople', 20)
@@ -35,7 +47,7 @@ for i in xrange(2):
     event.set('createdBy', creator)
     event.set('members', [creator])
     event.set('neededBy', [creator])
-    event.set('conversation', conversation)
+    event.set('conversation', conversations[0])
     event.set('isCancelled', False)
     event.set('institution', 'usc')
     event.set('startTime', time.time() + 3600*5)
