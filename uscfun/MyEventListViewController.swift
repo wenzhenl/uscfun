@@ -580,7 +580,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = UIColor.white
-        if indexPath.section == EventRequest.myOngoingEvents.count && EventRequest.thereIsUnfetchedOldMyOngoingEvents {
+        if indexPath.section == EventRequest.myOngoingEvents.count && EventRequest.thereIsUnfetchedOldMyOngoingEvents && UserDefaults.hasPreloadedMyOngoingEvents {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
             EventRequest.fetchOlderMyOngoingEventsInBackground {
                 succeeded, numberOfNewEvents, error in
@@ -749,7 +749,9 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
         if EventRequest.myOngoingEvents.count == 0 {
             return CGFloat.leastNormalMagnitude
         }
-                
+        if section == self.numberOfSection - 1 {
+            return 20
+        }
         if section > 0 {
             let event = eventForSection(section: section)
             if event.status == .isFinalized {
@@ -774,14 +776,29 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        
-        let px = 1 / UIScreen.main.scale
-        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: 10 + px))
-        let frame = CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: px)
-        let line = UIView(frame: frame)
-        line.backgroundColor = self.tableView.separatorColor
-        footerView.addSubview(line)
-        return footerView
+        if section == self.numberOfSection - 1 {
+            
+            var status = ""
+            if EventRequest.thereIsUnfetchedOldMyOngoingEvents {
+                status = "正在加载 ..."
+            } else {
+                status = "已经是最后一个微活动"
+            }
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: 20))
+            label.text = status
+            label.textAlignment = .center
+            label.textColor = UIColor.lightGray
+            label.font = UIFont.systemFont(ofSize: 13)
+            return label
+        } else {
+            let px = 1 / UIScreen.main.scale
+            let footerView = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: 10 + px))
+            let frame = CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: px)
+            let line = UIView(frame: frame)
+            line.backgroundColor = self.tableView.separatorColor
+            footerView.addSubview(line)
+            return footerView
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

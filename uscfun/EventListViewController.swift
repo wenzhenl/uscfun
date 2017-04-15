@@ -490,12 +490,15 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
         if EventRequest.publicEvents.count == 0 {
             return CGFloat.leastNormalMagnitude
         }
+        if section == self.numberOfSection - 1 {
+            return 20
+        }
         return 10
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = UIColor.white
-        if indexPath.section == EventRequest.publicEvents.count && EventRequest.thereIsUnfetchedPublicEvents {
+        if indexPath.section == EventRequest.publicEvents.count && EventRequest.thereIsUnfetchedPublicEvents && UserDefaults.hasPreloadedPublicEvents {
             print("about to fetch older data")
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
             EventRequest.fetchOlderPublicEventsInBackground {
@@ -514,6 +517,25 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         view.tintColor = UIColor.clear
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if section == self.numberOfSection - 1 {
+            
+            var status = ""
+            if EventRequest.thereIsUnfetchedPublicEvents {
+                status = "正在加载 ..."
+            } else {
+                status = "已经是最后一个微活动"
+            }
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: 20))
+            label.text = status
+            label.textAlignment = .center
+            label.textColor = UIColor.lightGray
+            label.font = UIFont.systemFont(ofSize: 13)
+            return label
+        }
+        return nil
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
