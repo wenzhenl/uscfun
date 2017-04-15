@@ -19,6 +19,7 @@ from email.MIMEText import MIMEText
 from string import digits
 from random import choice
 
+import time
 import datetime
 import requests
 import json
@@ -50,6 +51,45 @@ messages_url = 'https://api.leancloud.cn/1.1/rtm/messages'
 # messages_url = 'https://us-api.leancloud.cn/1.1/rtm/messages'
 
 engine = Engine(app)
+
+key_of_finalized_message = "hasSentFinalizedMessage"
+
+@engine.define
+def monitorEventStatus():
+    print 'monitor event status starts'
+    Event = Object.extend('Event')
+    query1 = Event.query
+    query2 = Event.query
+    now_stamp = time.time()
+    last_minute_stamp = now_stamp - 60
+    query1.greater_than_or_equal_to('due', last_minute_stamp)
+    query2.less_than('due', now_stamp)
+    query = Query.and_(query1, query2)
+    query.include('conversation')
+    query_list = query.find()
+    for event in query_list:
+        conversation = event.get('conversation')
+        if conversation.has(key_of_finalized_message) == False:
+            max_people = event.get('maximumAttendingPeople')
+            min_people = event.get('minimumAttendingPeople')
+            remain_people = event.get('remainingSeats')
+            due_stamp = event.get('due')
+            # test if event is finalized
+            if (due_stamp > now_stamp and remain_people <= 0) or (due_stamp <= now_stamp and max_people - remain_people >= min_people):
+                conversation_id = conversation.get('objectId')
+                finalizedMessage = "微活动约定成功！系统已经设定此对话为私有对话。"
+                finalizedMessage += "这条信息以下只有队员才可以发言！【日常小管家】"
+                headers = {'Content-Type': 'application/json', \
+                    'X-LC-Id': APP_ID, \
+                    'X-LC-Key': MASTER_KEY + ',master'}
+                data = {"from_peer": admin, \
+                        "message": "{\"_lctype\":-1,\"_lctext\": \"" + finalizedMessage + "\", \
+                        \"_lcattrs\":{\"reason\": \"finalized\"}}", \
+                         "conv_id": conversation_id, "transient": False}
+                requests.post(messages_url, data=json.dumps(data), headers=headers)
+                conversation.set(key_of_finalized_message, True)
+                conversation.save()
+    print 'monitor event status ends'
 
 @engine.define
 def checkIfEmailIsTaken(**params):
@@ -431,6 +471,24 @@ def after_event_update(event):
                 ",\"eventId\": \"" + eventId + "\"}}", \
                  "conv_id": conversation_id}
         requests.post(subscriber_url, data=json.dumps(data), headers=headers)
+
+        # if event is finalized, send finalized message
+        remain_people = event.get('remainingSeats')
+        if remain_people <= 0:
+            conversation = event.get('conversation')
+            conversation_id = conversation.get('objectId')
+            finalizedMessage = "微活动约定成功！系统已经设定此对话为私有对话。"
+            finalizedMessage += "这条信息以下只有队员才可以发言！【日常小管家】"
+            headers = {'Content-Type': 'application/json', \
+                'X-LC-Id': APP_ID, \
+                'X-LC-Key': MASTER_KEY + ',master'}
+            data = {"from_peer": admin, \
+                    "message": "{\"_lctype\":-1,\"_lctext\": \"" + finalizedMessage + "\", \
+                    \"_lcattrs\":{\"reason\": \"finalized\"}}", \
+                     "conv_id": conversation_id, "transient": False}
+            requests.post(messages_url, data=json.dumps(data), headers=headers)
+            conversation.set(key_of_finalized_message, True)
+            conversation.save()
 
 @engine.define
 def _receiversOffline(**params):
