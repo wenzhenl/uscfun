@@ -364,7 +364,6 @@ class MyEventListViewController: UIViewController {
             viewController in
             viewController?.navigationItem.title = event.name
             viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-//            viewController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray, NSFontAttributeName: UIFont.systemFont(ofSize: 15)]
         }
         
         conversationViewController.viewDidAppearBlock = {
@@ -413,16 +412,27 @@ class MyEventListViewController: UIViewController {
                     } else {
                         self.tableView.deleteSections(IndexSet([section]), with: .fade)
                     }
+                    
                     /// quit user from conversation
-                    LeanEngine.quitConversation(clientId: AVUser.current()!.username!, conversationId: event.conversationId) {
-                        succeeded, error in
-                        if succeeded {
-                            print("quit conversation after delete event successfully")
+                    LCChatKit.sharedInstance().conversationService.fetchConversation(withConversationId: event.conversationId) {
+                        conversation, error in
+                        guard let conversation = conversation else {
+                            if error != nil {
+                                print("failed to fetch conversation \(error!)")
+                            }
+                            return
                         }
-                        if error != nil {
-                            print("failed to quit conversation after delete event: \(error!)")
+                        conversation.quit {
+                            succeeded, error in
+                            if succeeded {
+                                print("quit conversation successfully after close event")
+                            }
+                            if error != nil {
+                                print("failed to quit conversation after close event \(error!)")
+                            }
                         }
                     }
+
                     /// let user rate event for finalized event
                     if event.status == .isFinalized {
                         guard let rateEventNavVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentiferOfRateEventNavigationViewController) as? UINavigationController, let rateVC = rateEventNavVC.contentViewController as? RateEventViewController else {
