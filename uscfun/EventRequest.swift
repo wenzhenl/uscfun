@@ -104,7 +104,26 @@ class EventRequest {
             }
             if object != nil {
                 if let event = Event(data: object) {
-                    handler(nil, event)
+                    /// if event is my ongoing event, fetch conversation also
+                    if let existEvent = EventRequest.myOngoingEvents[event.objectId!] {
+                        if let conversation = existEvent.conversation {
+                            event.conversation = conversation
+                            handler(nil, event)
+                        } else {
+                            LCChatKit.sharedInstance().conversationService.fetchConversation(withConversationId: event.conversationId) {
+                                conversation, error in
+                                guard let conversation = conversation else {
+                                    if error != nil {
+                                        print("failed to fetch conversation \(error!)")
+                                    }
+                                    handler(EventRequestError.systemError(localizedDescriotion: "无法获取对话", debugDescription: error!.localizedDescription), nil)
+                                    return
+                                }
+                                event.conversation = conversation
+                                handler(nil, event)
+                            }
+                        }
+                    }
                 } else {
                     handler(EventRequestError.systemError(localizedDescriotion: "无法解析活动数据", debugDescription: error!.localizedDescription), nil)
                 }
