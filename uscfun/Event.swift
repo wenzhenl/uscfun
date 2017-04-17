@@ -71,73 +71,149 @@ class Event {
     //--MARK: required information
     
     /// The name of the event
-    var name: String
+    private var _name: String
+    
+    var name: String {
+        return _name
+    }
     
     /// The maximum number of members of the event
-    var maximumAttendingPeople: Int
+    private var _maximumAttendingPeople: Int
+    
+    var maximumAttendingPeople: Int {
+        return _maximumAttendingPeople
+    }
     
     /// The remaining seats of the event, when posting the event, this number is the result
     /// of the target maximum number of members minus the number of people agreed to attend
     /// pre-hand.
-    var remainingSeats: Int
+    private var _remainingSeats: Int
+    
+    var remainingSeats: Int {
+        return _remainingSeats
+    }
     
     /// The minimumAttendingPeople is the minimum people required for this event, after the
     /// due, the event meets the minimumAttendingPeople will be considered as finalized,
     /// otherwise, the event will be cancled.
-    var minimumAttendingPeople: Int
+    private var _minimumAttendingPeople: Int
+    
+    var minimumAttendingPeople: Int {
+        return _minimumAttendingPeople
+    }
     
     /// The deadline for joining the event.
     /// After the due, no people can join the event.
     /// The event will be finalized or cancled.
-    var due: Date
+    private var _due: Date
+    
+    var due: Date {
+        return _due
+    }
     
     //--MARK: optional settings
     
     /// The start time of the event
-    var startTime: Date?
+    private var _startTime: Date?
+    
+    var startTime: Date? {
+        return _startTime
+    }
     
     /// The end time of the event
-    var endTime: Date?
+    private var _endTime: Date?
+    
+    var endTime: Date? {
+        return _endTime
+    }
     
     /// The location name of the event
-    var location: String?
+    private var _location: String?
+    
+    var location: String? {
+        return _location
+    }
     
     /// The geographical coordinate of the location
-    var whereCreated: AVGeoPoint?
+    private var _whereCreated: AVGeoPoint?
+    
+    var whereCreated: AVGeoPoint? {
+        return _whereCreated
+    }
     
     /// The additional information that the creator wants others to know
-    var note: String?
+    private var _note: String?
+    
+    var note: String? {
+        return _note
+    }
     
     //--MARK: system properties of event
     
     /// The creator of the event
-    var createdBy: AVUser
+    private var _createdBy: AVUser
+    
+    var createdBy: AVUser {
+        return _createdBy
+    }
     
     /// The id of the associated conversation of the event
-    var conversationId: String
+    private var _conversationId: String
+    
+    var conversationId: String {
+        return _conversationId
+    }
     
     /// The members of the event including creator
-    var members: [AVUser]
+    private var _members: [AVUser]
+    
+    var members: [AVUser] {
+        return _members
+    }
     
     /// The members who still need the event
-    var neededBy: [AVUser]
+    private var _neededBy: [AVUser]
+    
+    var neededBy: [AVUser] {
+        return _neededBy
+    }
     
     /// The flag indicates that the event has been cancelled explicitly
-    var isCancelled: Bool
+    private var _isCancelled: Bool
+    
+    var isCancelled: Bool {
+        return _isCancelled
+    }
     
     /// The institution that the event belongs to
-    var institution: String
+    private var _institution: String
+    
+    var institution: String {
+        return _institution
+    }
     
     //--MARK: properties added by Leancloud
     
     /// The objectId fetched from Leancloud
-    var objectId: String?
+    private var _objectId: String?
+    
+    var objectId: String? {
+        return _objectId
+    }
     
     /// The creation time fetched from Leancloud
-    var createdAt: Date?
+    private var _createdAt: Date?
+    
+    var createdAt: Date? {
+        return _createdAt
+    }
     
     /// The update time fetched from Leancloud
-    var updatedAt: Date?
+    private var _updatedAt: Date?
+    
+    var updatedAt: Date? {
+        return _updatedAt
+    }
     
     var status: EventStatus {
         let now = Date()
@@ -171,17 +247,17 @@ class Event {
     ///   is not created yet.
     
     init(name: String, maximumAttendingPeople: Int, remainingSeats: Int, minimumAttendingPeople: Int, due: Date, createdBy: AVUser) {
-        self.name = name
-        self.maximumAttendingPeople = maximumAttendingPeople
-        self.remainingSeats = remainingSeats
-        self.minimumAttendingPeople = minimumAttendingPeople
-        self.due = due
-        self.createdBy = createdBy
-        self.conversationId = ""
-        self.members = [createdBy]
-        self.neededBy = [createdBy]
-        self.isCancelled = false
-        self.institution = createdBy.email!.institutionCode!
+        self._name = name
+        self._maximumAttendingPeople = maximumAttendingPeople
+        self._remainingSeats = remainingSeats
+        self._minimumAttendingPeople = minimumAttendingPeople
+        self._due = due
+        self._createdBy = createdBy
+        self._conversationId = ""
+        self._members = [createdBy]
+        self._neededBy = [createdBy]
+        self._isCancelled = false
+        self._institution = createdBy.email!.institutionCode!
     }
     
     
@@ -201,94 +277,94 @@ class Event {
             print("failed to create Event from AVObject: no name")
             return nil
         }
-        self.name = name
+        self._name = name
 
         guard let maximumAttendingPeople = data.value(forKey: EventKeyConstants.keyOfMaximumAttendingPeople) as? Int else {
             print("failed to create Event from AVObject: no maximum attending people")
             return nil
         }
-        self.maximumAttendingPeople = maximumAttendingPeople
+        self._maximumAttendingPeople = maximumAttendingPeople
 
         guard let remainingSeats = data.value(forKey: EventKeyConstants.keyOfRemainingSeats) as? Int else {
             print("failed to create Event from AVObject: no remaining seats")
             return nil
         }
-        self.remainingSeats = remainingSeats
+        self._remainingSeats = remainingSeats
 
         guard let minimumAttendingPeople = data.value(forKey: EventKeyConstants.keyOfMinimumAttendingPeople) as? Int else {
             print("failed to create Event from AVObject: no minimum attending people")
             return nil
         }
-        self.minimumAttendingPeople = minimumAttendingPeople
+        self._minimumAttendingPeople = minimumAttendingPeople
 
         guard let due = data.value(forKey: EventKeyConstants.keyOfDue) as? Double else {
             print("failed to create Event from AVObject: no due")
             return nil
         }
-        self.due = Date(timeIntervalSince1970: due)
+        self._due = Date(timeIntervalSince1970: due)
 
         guard let createdBy = data.object(forKey: EventKeyConstants.keyOfCreatedBy) as? AVUser else {
             print("failed to create Event from AVObject: no createdBy")
             return nil
         }
-        self.createdBy = createdBy
+        self._createdBy = createdBy
         
         guard let conversation = data.value(forKey: EventKeyConstants.keyOfConversation) as? AVObject, let conversationId = conversation.objectId else {
             print("failed to create Event from AVObject: no conversation")
             return nil
         }
-        self.conversationId = conversationId
+        self._conversationId = conversationId
 
         guard let members = data.value(forKey: EventKeyConstants.keyOfMembers) as? [AVUser] else {
             print("failed to create Event from AVObject: no members")
             return nil
         }
-        self.members = members
+        self._members = members
 
         guard let neededBy = data.value(forKey: EventKeyConstants.keyOfNeededBy) as? [AVUser] else {
             print("failed to create Event from AVObject: no neededBy")
             return nil
         }
-        self.neededBy = neededBy
+        self._neededBy = neededBy
         
         guard let isCancelled = data.value(forKey: EventKeyConstants.keyOfIsCancelled) as? Bool else {
             print("failed to create Event from AVObject: no isCancelled")
             return nil
         }
-        self.isCancelled = isCancelled
+        self._isCancelled = isCancelled
         
         guard let institution = data.value(forKey: EventKeyConstants.keyOfInstitution) as? String else {
             print("failed to create Event from AVObject: no institution")
             return nil
         }
-        self.institution = institution
+        self._institution = institution
         
         
         /// check other optional attributes
         if let startTime = data.value(forKey: EventKeyConstants.keyOfStartTime) as? Double {
-            self.startTime = Date(timeIntervalSince1970: startTime)
+            self._startTime = Date(timeIntervalSince1970: startTime)
         }
         
         if let endTime = data.value(forKey: EventKeyConstants.keyOfEndTime) as? Double {
-            self.endTime = Date(timeIntervalSince1970: endTime)
+            self._endTime = Date(timeIntervalSince1970: endTime)
         }
         
         if let location = data.value(forKey: EventKeyConstants.keyOfLocation) as? String {
-            self.location = location
+            self._location = location
         }
         
         if let whereCreated = data.value(forKey: EventKeyConstants.keyOfWhereCreated) as? AVGeoPoint {
-            self.whereCreated = whereCreated
+            self._whereCreated = whereCreated
         }
         
         if let note = data.value(forKey: EventKeyConstants.keyOfNote) as? String {
-            self.note = note
+            self._note = note
         }
         
         /// check attributes added by Leancloud
-        self.objectId = data.objectId
-        self.createdAt = data.createdAt
-        self.updatedAt = data.updatedAt
+        self._objectId = data.objectId
+        self._createdAt = data.createdAt
+        self._updatedAt = data.updatedAt
     }
     
     /// Posts an event to server, it consists of three steps: creating transient conversation, creating conversation and save data to server
@@ -306,7 +382,7 @@ class Event {
                 return
             }
             print("successfully created conversation with id \(conversationId)")
-            self.conversationId = conversationId
+            self._conversationId = conversationId
             self.saveDataToSever {
                 succeeded, error in
                 if succeeded {
@@ -400,9 +476,9 @@ class Event {
         eventObject.addUniqueObject(newMember, forKey: EventKeyConstants.keyOfNeededBy)
         do {
             try eventObject.save(with: option)
-            self.remainingSeats -= 1
-            self.members.append(newMember)
-            self.neededBy.append(newMember)
+            self._remainingSeats -= 1
+            self._members.append(newMember)
+            self._neededBy.append(newMember)
             handler(true, nil)
         } catch let error {
             print("cannot add member \(error)")
@@ -447,9 +523,9 @@ class Event {
         eventObject.remove(member, forKey: EventKeyConstants.keyOfNeededBy)
         do {
             try eventObject.save(with: option)
-            self.remainingSeats += 1
-            self.members.remove(at: memberIndex)
-            self.neededBy.remove(at: neededIndex)
+            self._remainingSeats += 1
+            self._members.remove(at: memberIndex)
+            self._neededBy.remove(at: neededIndex)
             handler(true, nil)
         } catch let error {
             print("cannot remove member \(error)")
@@ -516,31 +592,31 @@ class Event {
         do {
             try eventObject.save(with: option)
             if let updatedDue = eventObject.value(forKey: EventKeyConstants.keyOfDue) as? Double {
-                self.due = Date(timeIntervalSince1970: updatedDue)
+                self._due = Date(timeIntervalSince1970: updatedDue)
             }
             if let updatedMaximumAttendingPeople = eventObject.value(forKey: EventKeyConstants.keyOfMaximumAttendingPeople) as? Int {
-                self.maximumAttendingPeople = updatedMaximumAttendingPeople
+                self._maximumAttendingPeople = updatedMaximumAttendingPeople
             }
             if let updatedRemainingSeats = eventObject.value(forKey: EventKeyConstants.keyOfRemainingSeats) as? Int {
-                self.remainingSeats = updatedRemainingSeats
+                self._remainingSeats = updatedRemainingSeats
             }
             if let updatedMinimumAttendingPeople = eventObject.value(forKey: EventKeyConstants.keyOfMinimumAttendingPeople) as? Int {
-                self.minimumAttendingPeople = updatedMinimumAttendingPeople
+                self._minimumAttendingPeople = updatedMinimumAttendingPeople
             }
             if let updatedStartTime = eventObject.value(forKey: EventKeyConstants.keyOfStartTime) as? Double {
-                self.startTime = Date(timeIntervalSince1970: updatedStartTime)
+                self._startTime = Date(timeIntervalSince1970: updatedStartTime)
             }
             if let updatedEndTime = eventObject.value(forKey: EventKeyConstants.keyOfEndTime) as? Double {
-                self.endTime = Date(timeIntervalSince1970: updatedEndTime)
+                self._endTime = Date(timeIntervalSince1970: updatedEndTime)
             }
             if let updatedLocation = eventObject.value(forKey: EventKeyConstants.keyOfLocation) as? String {
-                self.location = updatedLocation
+                self._location = updatedLocation
             }
             if let updatedWhereCreated = eventObject.value(forKey: EventKeyConstants.keyOfWhereCreated) as? AVGeoPoint {
-                self.whereCreated = updatedWhereCreated
+                self._whereCreated = updatedWhereCreated
             }
             if let updatedNote = eventObject.value(forKey: EventKeyConstants.keyOfNote) as? String {
-                self.note = updatedNote
+                self._note = updatedNote
             }
             
             handler(true, nil)
@@ -582,7 +658,7 @@ class Event {
         eventObject.setObject(true, forKey: EventKeyConstants.keyOfIsCancelled)
         do {
             try eventObject.save(with: option)
-            self.isCancelled = true
+            self._isCancelled = true
             handler(true, nil)
         } catch let error {
             print("cannot cancel event \(error)")
@@ -614,7 +690,7 @@ class Event {
         eventObject.remove(member, forKey: EventKeyConstants.keyOfNeededBy)
         do {
             try eventObject.save(with: option)
-            neededBy.remove(at: neededIndex)
+            self._neededBy.remove(at: neededIndex)
             handler(true, nil)
         } catch let error {
             print("cannot close event for member \(error)")
