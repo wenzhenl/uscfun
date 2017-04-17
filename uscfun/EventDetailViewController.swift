@@ -219,21 +219,6 @@ class EventDetailViewController: UIViewController {
                     }
                 }
             }
-            
-            guard let conversationRecords = ConversationList.parseConversationRecords(), var conversationRecord = conversationRecords[self.event.conversationId] else {
-                print("unable to set conversation to read")
-                return
-            }
-            if conversationRecord.isUnread {
-                conversationRecord.isUnread = false
-                do {
-                    try ConversationList.addRecord(conversationId: self.event.conversationId, record: conversationRecord)
-                    print("reset conversation successfully")
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userReadMessage"), object: nil, userInfo: nil)
-                } catch let error {
-                    print("reset conversation to read failed: \(error)")
-                }
-            }
         }
         
         if event.members.contains(AVUser.current()!) {

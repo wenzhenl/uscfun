@@ -90,7 +90,7 @@ class MyEventListViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateEvent(notification:)), name: NSNotification.Name(rawValue: "userDidUpdateEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleCancelEvent(notification:)), name: NSNotification.Name(rawValue: "userDidCancelEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdatedEventAvailable(notification:)), name: NSNotification.Name(rawValue: "updatedEventAvailable"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handlerNewMessage(notification:)), name: NSNotification.Name(rawValue: "newMessageForMyEvents"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handlerNewMessage(notification:)), name: NSNotification.Name(rawValue: LCCKNotificationMessageReceived), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handlerReadNewMessage), name: NSNotification.Name(rawValue: "userReadMessage"), object: nil)
 
         view.addSubview(infoLabel)
@@ -225,98 +225,13 @@ class MyEventListViewController: UIViewController {
     }
     
     func handlerNewMessage(notification: Notification) {
-        guard let userInfo = notification.userInfo as? [String: Any], let action = userInfo["action"] as? String, let conversationId = userInfo["conversationId"] as? String, let message = userInfo["message"] as? AVIMTypedMessage else {
-            print("failed to parse new message notification")
+        guard let object = notification.object as? [String: Any], let conversation = object["conversation"] as? AVIMConversation else {
+            print("failed to parse message received notification")
             return
         }
-        
-        var text = ""
-        let mediaType = MessageMediaType(rawValue: Int(message.mediaType))!
-        switch mediaType {
-        case .plain:
-            text = message.text ?? ""
-        case .image:
-            text = "[图片]"
-        case .audio:
-            text = "[语音信息]"
-        case .video:
-            text = "[视频信息]"
-        case .geolocation:
-            text = "[位置]"
-        case .file:
-            text = "[文件]"
-        }
-        
-        guard let conversationRecords = ConversationList.parseConversationRecords(), let conversationRecord = conversationRecords[conversationId] else {
-            /// if the conversation is not in record yet
-            print("conversation is not in record yet")
-            for id in EventRequest.myOngoingEvents.keys {
-                let event = EventRequest.myOngoingEvents[id]!
-                if event.conversationId == conversationId {
-                    var newRecord: ConversationRecord?
-                    if action == "send" {
-                        newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: false, lastUpdatedAt: Int64(Date().timeIntervalSince1970 * 1000))
-                    }
-                    else if action == "receive" {
-                        if message.clientId == AVUser.current()!.username {
-                            newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: false, lastUpdatedAt: message.sendTimestamp)
-                        } else {
-                            newRecord = ConversationRecord(eventId: event.objectId!, latestMessage: text, isUnread: true, lastUpdatedAt: message.sendTimestamp)
-                        }
-                    }
-                    if newRecord != nil {
-                        do {
-                            try ConversationList.addRecord(conversationId: conversationId, record: newRecord!)
-                        } catch let error {
-                            print("save conversation record failed: \(error)")
-                        }
-                    }
-                    EventRequest.setEvent(event: event, with: event.objectId!, for: .myongoing) {
-                        self.tableView.reloadData()
-                        return
-                    }
-                    return
-                }
-            }
-            return
-        }
-        
-        /// if the conversation is already in record
-        
-        guard let event = EventRequest.myOngoingEvents[conversationRecord.eventId] else {
-            print("receive new message for events not mine")
-            return
-        }
-        
-        print("handle new message by sendTime \(message.sendTimestamp)")
-        print("conversation last updated at: \(conversationRecord.lastUpdatedAt!)")
-        
-        var newRecord: ConversationRecord?
-        if action == "send" {
-            print("send message for new record")
-            newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: false, lastUpdatedAt: Int64(Date().timeIntervalSince1970 * 1000))
-        }
-        else if action == "receive" {
-            if message.clientId! == AVUser.current()!.username! && conversationRecord.lastUpdatedAt! < message.sendTimestamp {
-                newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: false, lastUpdatedAt: message.sendTimestamp)
-            } else if conversationRecord.lastUpdatedAt! < message.sendTimestamp {
-                print("received real new message")
-                if conversationRecord.isUnread == false {
-                    print("adding badge number: \(self.numberOfNewMessages)")
-                    self.numberOfNewMessages += 1
-                }
-                
-                newRecord = ConversationRecord(eventId: conversationRecord.eventId, latestMessage: text, isUnread: true, lastUpdatedAt: message.sendTimestamp)
-            }
-        }
-        if newRecord != nil {
-            do {
-                try ConversationList.addRecord(conversationId: conversationId, record: newRecord!)
-                EventRequest.setEvent(event: event, with: event.objectId!, for: .myongoing) {
-                    self.tableView.reloadData()
-                }
-            } catch let error {
-                print("save conversation record failed: \(error)")
+        if let eventId = eventIdForConversationId(conversationId: conversation.conversationId!) {
+            EventRequest.setEvent(event: EventRequest.myOngoingEvents[eventId]!, with: eventId, for: .myongoing) {
+                self.tableView.reloadData()
             }
         }
     }
@@ -390,6 +305,16 @@ class MyEventListViewController: UIViewController {
         }
     }
     
+    func eventIdForConversationId(conversationId: String) -> String? {
+        for eventId in EventRequest.myOngoingEvents.keys {
+            let event = EventRequest.myOngoingEvents[eventId]!
+            if event.conversationId == conversationId {
+                return eventId
+            }
+        }
+        return nil
+    }
+    
     func sectionForEvent(eventId: String) -> Int? {
         guard let eventIndex = EventRequest.myOngoingEvents.keys.index(of: eventId) else { return nil }
         return eventIndex + 1
@@ -453,22 +378,6 @@ class MyEventListViewController: UIViewController {
             print("conversation controller view will disappear")
             viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
             SVProgressHUD.dismiss()
-            
-            guard let conversationRecords = ConversationList.parseConversationRecords(), var conversationRecord = conversationRecords[event.conversationId] else {
-                print("unable to set conversation to read")
-                return
-            }
-            if conversationRecord.isUnread {
-                conversationRecord.isUnread = false
-                self.numberOfNewMessages -= 1
-                do {
-                    try ConversationList.addRecord(conversationId: event.conversationId, record: conversationRecord)
-                    self.tableView.reloadData()
-                    print("reset conversation successfully")
-                } catch let error {
-                    print("reset conversation to read failed: \(error)")
-                }
-            }
         }
         
         conversationViewController.configureBarButtonItemStyle(.more) {
@@ -633,12 +542,12 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 let cell = Bundle.main.loadNibNamed("FinalizedEventSnapshotTableViewCell", owner: self, options: nil)?.first as! FinalizedEventSnapshotTableViewCell
                 
                 var isUnread = false
-                var latestMessage = "点击查看"
-                if let record = event.conversationRecord {
-                    isUnread = record.isUnread
-                    if record.latestMessage != nil {
-                        latestMessage = record.latestMessage!
-                    }
+                var latestMessage = "有一条新消息"
+                
+                if let conversation = event.conversation, let lastMessage = conversation.lastMessage {
+                    latestMessage = lastMessage.shortDescription
+                    isUnread = conversation.lcck_unreadCount > 0
+                    print("number of unread message \(conversation.lcck_unreadCount)")
                 }
                 
                 if isUnread {
@@ -695,12 +604,13 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 
                 var isUnread = false
                 var latestMessage = "有一条新消息"
-                if let record = event.conversationRecord {
-                    isUnread = record.isUnread
-                    if record.latestMessage != nil {
-                        latestMessage = record.latestMessage!
-                    }
+                
+                if let conversation = event.conversation, let lastMessage = conversation.lastMessage {
+                    latestMessage = lastMessage.shortDescription
+                    isUnread = conversation.lcck_unreadCount > 0
+                    print("number of unread message \(conversation.lcck_unreadCount)")
                 }
+                
                 if isUnread {
                     cell.ifReadView.layer.cornerRadius = 4
                     cell.ifReadView.backgroundColor = event.finalizedColor
@@ -902,13 +812,19 @@ extension Event {
         return .noneOfMyBusiness
     }
     
-    var conversationRecord: ConversationRecord? {
-        if let records = ConversationList.parseConversationRecords() {
-            if let record = records[self.conversationId] {
-                return record
+    var conversation: AVIMConversation? {
+        var fetchedConversation: AVIMConversation?
+        LCChatKit.sharedInstance().conversationService.fetchConversation(withConversationId: self.conversationId) {
+            conversation, error in
+            guard let conversation = conversation else {
+                if error != nil {
+                    print("failed to fetch conversation last message: \(error!)")
+                }
+                return
             }
+            fetchedConversation = conversation
         }
-        return nil
+        return fetchedConversation
     }
 }
 
@@ -917,5 +833,30 @@ extension MyEventListViewController: UIScrollViewDelegate {
         if self.refreshController.isRefreshing {
             self.handleRefresh()
         }
+    }
+}
+
+extension AVIMMessage {
+    var shortDescription: String {
+        guard let message = self as? AVIMTypedMessage else {
+            return ""
+        }
+        var text = ""
+        let mediaType = MessageMediaType(rawValue: Int(message.mediaType))!
+        switch mediaType {
+        case .plain:
+            text = message.text ?? ""
+        case .image:
+            text = "[图片]"
+        case .audio:
+            text = "[语音信息]"
+        case .video:
+            text = "[视频信息]"
+        case .geolocation:
+            text = "[位置]"
+        case .file:
+            text = "[文件]"
+        }
+        return text
     }
 }

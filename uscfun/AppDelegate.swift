@@ -413,36 +413,6 @@ extension AppDelegate: LoginDelegate {
             }
         }
         
-        LCChatKit.sharedInstance().sendMessageHookBlock = {
-            conversationController, message, completion in
-            guard let conversationId = conversationController?.conversationId, let message = message else {
-                print("something goes wrong with send message hook")
-                completion?(true, nil)
-                return
-            }
-            
-            print("catched send message \(message)")
-            
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newMessageForMyEvents"), object: nil, userInfo: ["action": "send", "conversationId": conversationId, "message": message])
-            completion?(true, nil)
-        }
-        
-        LCChatKit.sharedInstance().filterMessagesBlock = {
-            conversation, messages, completion in
-            guard let conversationId = conversation?.conversationId,
-                let message = messages?.last,
-                conversationId == message.conversationId else {
-                print("something goes wrong with filter message hook")
-                completion?(messages, nil)
-                return
-            }
-            
-            print("catched \(conversationId) filtered message \(message.conversationId)")
-            
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newMessageForMyEvents"), object: nil, userInfo: ["action": "receive", "conversationId": conversationId, "message": message])
-            completion?(messages, nil)
-        }
-        
         LCChatKit.sharedInstance().open(withClientId: AVUser.current()!.username!) {
             succeed, error in
             if succeed {

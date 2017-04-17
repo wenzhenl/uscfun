@@ -638,10 +638,9 @@ extension Event: Comparable {
             if lhs.status == .isFinalized && rhs.status != .isFinalized { return true }
             if lhs.status != .isFinalized && rhs.status == .isFinalized { return false }
             
-            if let lhsLastUpdatedAt = lhs.conversationRecord?.lastUpdatedAt, let rhsLastUpdatedAt = rhs.conversationRecord?.lastUpdatedAt {
-                return lhsLastUpdatedAt > rhsLastUpdatedAt
+            if let lhsConversation = lhs.conversation, let rhsConversation = rhs.conversation {
+                return lhsConversation.lastMessageAt! > rhsConversation.lastMessageAt!
             }
-
             return lhs.updatedAt! > rhs.updatedAt!
         }
         
