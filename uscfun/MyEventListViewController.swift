@@ -485,60 +485,73 @@ class MyEventListViewController: UIViewController {
         deleteEvent(eventId: sender.accessibilityHint!)
     }
     
-    func deleteEvent(eventId: String) {
+    func deleteEventDecided(eventId: String) {
         print("delete event cell starts")
-        guard let section = sectionForEvent(eventId: eventId) else { return }
-        guard let event = EventRequest.myOngoingEvents[eventId] else { return }
-        var notice = ""
-        if event.status == .isFinalized {
-            notice = "请确认微活动已经完结，不再需要继续讨论。完结活动可以在活动历史中查看。"
-        } else {
-            notice = "请确认你要删除微活动。删除后可以在我的活动历史中查看。"
+        guard let event = EventRequest.myOngoingEvents[eventId] else {
+            print("failed to delete event cell: cannot find event")
+            return
         }
-        let alertVC = UIAlertController(title: notice, message: nil, preferredStyle: .actionSheet)
-        let okay = UIAlertAction(title: "确认删除", style: .destructive) {
-            _ in
-            EventRequest.myOngoingEvents[eventId]?.close(for: AVUser.current()!) {
-                succeeded, error in
-                if succeeded {
-                    EventRequest.removeEvent(with: eventId, for: .myongoing) {
-                        print("about to delete finalized event")
-                        if EventRequest.myOngoingEvents.count == 0 {
-                            self.tableView.reloadData()
-                        } else {
-                            self.tableView.deleteSections(IndexSet([section]), with: .fade)
+        guard let section = sectionForEvent(eventId: eventId) else {
+            print("failed to delete event cell: cannot find section")
+            return
+        }
+        EventRequest.myOngoingEvents[eventId]?.close(for: AVUser.current()!) {
+            succeeded, error in
+            if succeeded {
+                EventRequest.removeEvent(with: eventId, for: .myongoing) {
+                    if EventRequest.myOngoingEvents.count == 0 {
+                        self.tableView.reloadData()
+                    } else {
+                        self.tableView.deleteSections(IndexSet([section]), with: .fade)
+                    }
+                    /// quit user from conversation
+                    LeanEngine.quitConversation(clientId: AVUser.current()!.username!, conversationId: event.conversationId) {
+                        succeeded, error in
+                        if succeeded {
+                            print("quit conversation after delete event successfully")
                         }
-                        /// quit user from conversation
-                        LeanEngine.quitConversation(clientId: AVUser.current()!.username!, conversationId: event.conversationId) {
-                            succeeded, error in
-                            if succeeded {
-                                print("quit conversation after delete event successfully")
-                            }
-                            if error != nil {
-                                print("failed to quit conversation after delete event: \(error!)")
-                            }
-                        }
-                        /// let user rate event for finalized event
-                        if event.status == .isFinalized {
-                            guard let rateEventNavVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentiferOfRateEventNavigationViewController) as? UINavigationController, let rateVC = rateEventNavVC.contentViewController as? RateEventViewController else {
-                                return
-                            }
-                            rateVC.event = event
-                            self.present(rateEventNavVC, animated: true, completion: nil)
+                        if error != nil {
+                            print("failed to quit conversation after delete event: \(error!)")
                         }
                     }
-                }
-                
-                if error != nil {
-                    self.displayInfo(info: error!.customDescription)
+                    /// let user rate event for finalized event
+                    if event.status == .isFinalized {
+                        guard let rateEventNavVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: USCFunConstants.storyboardIdentiferOfRateEventNavigationViewController) as? UINavigationController, let rateVC = rateEventNavVC.contentViewController as? RateEventViewController else {
+                            return
+                        }
+                        rateVC.event = event
+                        self.present(rateEventNavVC, animated: true, completion: nil)
+                    }
                 }
             }
+            
+            if error != nil {
+                self.displayInfo(info: error!.customDescription)
+            }
         }
+        print("delete event cell ends")
+    }
+    
+    func deleteEvent(eventId: String) {
+        guard let event = EventRequest.myOngoingEvents[eventId] else { return }
         
-        let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-        alertVC.addAction(okay)
-        alertVC.addAction(cancel)
-        self.present(alertVC, animated: true, completion: nil)
+        if !UserDefaults.hasWarnedAboutDeletingFinalizedEvent && event.status == .isFinalized {
+            UserDefaults.hasWarnedAboutDeletingFinalizedEvent = true
+            let alertVC = UIAlertController(title: "请确认微活动已经完结，不再需要继续讨论。完结活动可以在活动历史中查看。",
+                                            message: nil,
+                                            preferredStyle: .actionSheet)
+            let okay = UIAlertAction(title: "确认删除", style: .destructive) {
+                _ in
+                self.deleteEventDecided(eventId: eventId)
+            }
+            
+            let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+            alertVC.addAction(okay)
+            alertVC.addAction(cancel)
+            self.present(alertVC, animated: true, completion: nil)
+        } else {
+            deleteEventDecided(eventId: eventId)
+        }
     }
 }
 

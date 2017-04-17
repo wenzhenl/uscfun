@@ -425,6 +425,16 @@ extension UserDefaults {
         }
     }
     
+    /// warn user about deleting finalized event
+    class var hasWarnedAboutDeletingFinalizedEvent: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "hasWarnedAboutDeletingFinalizedEvent")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "hasWarnedAboutDeletingFinalizedEvent")
+        }
+    }
+    
     /// display welcome pages for new user
     class var hasShownWelcomePages: Bool {
         get {
