@@ -638,10 +638,9 @@ extension Event: Comparable {
             if lhs.status == .isFinalized && rhs.status != .isFinalized { return true }
             if lhs.status != .isFinalized && rhs.status == .isFinalized { return false }
             
-            if let lhsConversation = lhs.conversation, let rhsConversation = rhs.conversation {
-                return lhsConversation.lastMessageAt! > rhsConversation.lastMessageAt!
-            }
-            return lhs.updatedAt! > rhs.updatedAt!
+            let lhsLastUpdatedAt = lhs.conversation?.lastMessageAt ?? lhs.updatedAt!
+            let rhsLastUpdatedAt = rhs.conversation?.lastMessageAt ?? rhs.updatedAt!
+            return lhsLastUpdatedAt > rhsLastUpdatedAt
         }
         
         /// order is: finalized < secured < pending < failed < cancelled
