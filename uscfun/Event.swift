@@ -299,7 +299,7 @@ class Event {
     
     func post(handler: @escaping (_ succeeded: Bool, _ error: NSError?) -> Void) {
         
-        LCChatKit.sharedInstance().createConversation(withMembers: [], type: LCCKConversationType.group, unique: false) {
+        LCChatKit.sharedInstance().conversationService.createConversation(withMembers: [], type: LCCKConversationType.group, unique: false) {
             conversation, error in
             guard let conversationId = conversation?.conversationId else {
                 handler(false, error as NSError?)
