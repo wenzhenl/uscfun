@@ -85,21 +85,21 @@ class NewEventPreviewViewController: UIViewController {
         
         let event = Event(name: UserDefaults.newEventName!, maximumAttendingPeople: UserDefaults.newEventMaxPeople, remainingSeats: UserDefaults.newEventMaxPeople - UserDefaults.newEventNumReserved, minimumAttendingPeople: UserDefaults.newEventMinPeople, due: UserDefaults.newEventDue, createdBy: AVUser.current()!)
         
-        if UserDefaults.newEventStartTime > Date() {
-            event.startTime = UserDefaults.newEventStartTime
-        }
-        
-        if UserDefaults.newEventEndTime > Date() && UserDefaults.newEventEndTime > UserDefaults.newEventStartTime {
-            event.endTime = UserDefaults.newEventEndTime
-        }
-        
-        event.location = UserDefaults.newEventLocation
-        
-        if UserDefaults.newEventLocationLatitude != 0 || UserDefaults.newEventLocationLongitude != 0 {
-            event.whereCreated = AVGeoPoint(latitude: UserDefaults.newEventLocationLatitude, longitude: UserDefaults.newEventLocationLongitude)
-        }
-        
-        event.note = UserDefaults.newEventNote
+//        if UserDefaults.newEventStartTime > Date() {
+//            event.startTime = UserDefaults.newEventStartTime
+//        }
+//        
+//        if UserDefaults.newEventEndTime > Date() && UserDefaults.newEventEndTime > UserDefaults.newEventStartTime {
+//            event.endTime = UserDefaults.newEventEndTime
+//        }
+//        
+//        event.location = UserDefaults.newEventLocation
+//        
+//        if UserDefaults.newEventLocationLatitude != 0 || UserDefaults.newEventLocationLongitude != 0 {
+//            event.whereCreated = AVGeoPoint(latitude: UserDefaults.newEventLocationLatitude, longitude: UserDefaults.newEventLocationLongitude)
+//        }
+//        
+//        event.note = UserDefaults.newEventNote
         
         event.post() {
             succeeded, error in

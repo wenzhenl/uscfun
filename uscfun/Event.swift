@@ -713,10 +713,7 @@ extension Event: Comparable {
         if lhs.members.contains(AVUser.current()!) && rhs.members.contains(AVUser.current()!) {
             if lhs.status == .isFinalized && rhs.status != .isFinalized { return true }
             if lhs.status != .isFinalized && rhs.status == .isFinalized { return false }
-            
-            let lhsLastUpdatedAt = lhs.conversation?.lastMessageAt ?? lhs.updatedAt!
-            let rhsLastUpdatedAt = rhs.conversation?.lastMessageAt ?? rhs.updatedAt!
-            return lhsLastUpdatedAt > rhsLastUpdatedAt
+            return lhs.updatedAt! > rhs.updatedAt!
         }
         
         /// order is: finalized < secured < pending < failed < cancelled

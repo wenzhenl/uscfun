@@ -541,14 +541,8 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
             if event.status == .isFinalized {
                 let cell = Bundle.main.loadNibNamed("FinalizedEventSnapshotTableViewCell", owner: self, options: nil)?.first as! FinalizedEventSnapshotTableViewCell
                 
-                var isUnread = false
-                var latestMessage = "有一条新消息"
-                
-                if let conversation = event.conversation, let lastMessage = conversation.lastMessage {
-                    latestMessage = lastMessage.shortDescription
-                    isUnread = conversation.lcck_unreadCount > 0
-                    print("number of unread message \(conversation.lcck_unreadCount)")
-                }
+                let isUnread = false
+                let latestMessage = "点击查看"
                 
                 if isUnread {
                     cell.ifReadView.layer.cornerRadius = 4
@@ -602,14 +596,8 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 cell.chatButton.accessibilityHint = event.objectId
                 cell.chatButton.addTarget(self, action: #selector(joinDiscussion(sender:)), for: .touchUpInside)
                 
-                var isUnread = false
-                var latestMessage = "有一条新消息"
-                
-                if let conversation = event.conversation, let lastMessage = conversation.lastMessage {
-                    latestMessage = lastMessage.shortDescription
-                    isUnread = conversation.lcck_unreadCount > 0
-                    print("number of unread message \(conversation.lcck_unreadCount)")
-                }
+                let isUnread = false
+                let latestMessage = "点击查看"
                 
                 if isUnread {
                     cell.ifReadView.layer.cornerRadius = 4
@@ -810,21 +798,6 @@ extension Event {
             return .joinedByMe
         }
         return .noneOfMyBusiness
-    }
-    
-    var conversation: AVIMConversation? {
-        var fetchedConversation: AVIMConversation?
-        LCChatKit.sharedInstance().conversationService.fetchConversation(withConversationId: self.conversationId) {
-            conversation, error in
-            guard let conversation = conversation else {
-                if error != nil {
-                    print("failed to fetch conversation last message: \(error!)")
-                }
-                return
-            }
-            fetchedConversation = conversation
-        }
-        return fetchedConversation
     }
 }
 
