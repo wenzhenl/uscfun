@@ -551,8 +551,13 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
             if event.status == .isFinalized {
                 let cell = Bundle.main.loadNibNamed("FinalizedEventSnapshotTableViewCell", owner: self, options: nil)?.first as! FinalizedEventSnapshotTableViewCell
                 
-                let isUnread = false
-                let latestMessage = "点击查看"
+                var isUnread = false
+                var latestMessage = "点击查看"
+                
+                if let conversation = event.conversation {
+                    latestMessage = conversation.lastMessage?.shortDescription ?? ""
+                    isUnread = conversation.lcck_unreadCount > 0
+                }
                 
                 if isUnread {
                     cell.ifReadView.layer.cornerRadius = 4
@@ -606,8 +611,13 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 cell.chatButton.accessibilityHint = event.objectId
                 cell.chatButton.addTarget(self, action: #selector(joinDiscussion(sender:)), for: .touchUpInside)
                 
-                let isUnread = false
-                let latestMessage = "点击查看"
+                var isUnread = false
+                var latestMessage = "点击查看"
+                
+                if let conversation = event.conversation {
+                    latestMessage = conversation.lastMessage?.shortDescription ?? ""
+                    isUnread = conversation.lcck_unreadCount > 0
+                }
                 
                 if isUnread {
                     cell.ifReadView.layer.cornerRadius = 4

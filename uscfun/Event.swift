@@ -232,6 +232,9 @@ class Event {
         }
     }
     
+    /// optional conversation
+    var conversation: AVIMConversation?
+    
     /// Creates an 'Event' instance with the required parameters
     ///
     /// - parameter name:                    The name of the event

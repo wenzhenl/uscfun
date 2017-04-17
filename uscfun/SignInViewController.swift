@@ -144,7 +144,6 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                 self.findBackPasswordButtonItem.isEnabled = true
                 if succeed {
                     print("login successfully")
-                    EventRequest.preLoadDataInBackground()
                     let appDelegate = UIApplication.shared.delegate! as! AppDelegate
                     let initialViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
                     appDelegate.window?.rootViewController = initialViewController

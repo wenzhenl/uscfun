@@ -8,6 +8,7 @@
 
 import Foundation
 import AVOSCloud
+import ChatKit
 
 /// possible errors with event
 enum EventRequestError: Error {
@@ -516,43 +517,91 @@ class EventRequest {
                 }
                 
                 var numberOfNewEvents = 0
-                
-                for event in events {
-                    if event.createdAt! > newestCreatedAt {
-                        newestCreatedAt = event.createdAt!
+
+                /// fetch conversations for my ongoing events
+                if (source, type) == (.myongoing, .newer) || (source, type) == (.myongoing, .older) {
+                    print("about to fetch conversations for my ongoing events")
+                    var conversationList = [String: Event]()
+                    for event in events {
+                        conversationList[event.conversationId] = event
                     }
-                    if event.createdAt! < oldestCreatedAt {
-                        oldestCreatedAt = event.createdAt!
-                    }
-                    switch (source, type) {
-                    case (_, .current):
-                        eventsCopy[event.objectId!] = event
-                        numberOfNewEvents += 1
-                    case (.myongoing, _):
-                        eventsCopy[event.objectId!] = event
-                        numberOfNewEvents += 1
-                    case (.mypublic, _):
-                        if !event.members.contains(AVUser.current()!) {
+                    LCChatKit.sharedInstance().conversationService.fetchConversations(withConversationIds: Set(conversationList.keys)) {
+                        conversations, error in
+                        
+                        guard let conversations = conversations as? [AVIMConversation] else {
+                            if error != nil {
+                                print("fetch events conversations failed: \(error!)")
+                                DispatchQueue.main.async {
+                                    handler?(true, 0, nil)
+                                }
+                            }
+                            return
+                        }
+                        
+                        print("fetch conversation successfully")
+                        for conversation in conversations {
+                            conversationList[conversation.conversationId!]?.conversation = conversation
+                        }
+                        
+                        for event in conversationList.values {
+                            if event.createdAt! > newestCreatedAt {
+                                newestCreatedAt = event.createdAt!
+                            }
+                            if event.createdAt! < oldestCreatedAt {
+                                oldestCreatedAt = event.createdAt!
+                            }
                             eventsCopy[event.objectId!] = event
                             numberOfNewEvents += 1
                         }
+                        
+                        _myOngoingEvents = eventsCopy
+                        newestCreatedAtOfMyOngoingEvents = newestCreatedAt
+                        oldestCreatedAtOfMyOngoingEvents = oldestCreatedAt
+                        
+                        DispatchQueue.main.async {
+                            handler?(true, numberOfNewEvents, nil)
+                        }
                     }
                 }
-                
-                /// restore data
-                switch source {
-                case .myongoing:
-                    _myOngoingEvents = eventsCopy
-                    newestCreatedAtOfMyOngoingEvents = newestCreatedAt
-                    oldestCreatedAtOfMyOngoingEvents = oldestCreatedAt
-                case .mypublic:
-                    _publicEvents = eventsCopy
-                    newestCreatedAtOfPublicEvents = newestCreatedAt
-                    oldestCreatedAtOfPublicEvents = oldestCreatedAt
-                }
-                
-                DispatchQueue.main.async {
-                    handler?(true, numberOfNewEvents, nil)
+                else {
+                    for event in events {
+                        
+                        if event.createdAt! > newestCreatedAt {
+                            newestCreatedAt = event.createdAt!
+                        }
+                        if event.createdAt! < oldestCreatedAt {
+                            oldestCreatedAt = event.createdAt!
+                        }
+                        switch (source, type) {
+                        case (_, .current):
+                            eventsCopy[event.objectId!] = event
+                            numberOfNewEvents += 1
+                        case (.myongoing, _):
+                            eventsCopy[event.objectId!] = event
+                            numberOfNewEvents += 1
+                        case (.mypublic, _):
+                            if !event.members.contains(AVUser.current()!) {
+                                eventsCopy[event.objectId!] = event
+                                numberOfNewEvents += 1
+                            }
+                        }
+                    }
+                    
+                    /// restore data
+                    switch source {
+                    case .myongoing:
+                        _myOngoingEvents = eventsCopy
+                        newestCreatedAtOfMyOngoingEvents = newestCreatedAt
+                        oldestCreatedAtOfMyOngoingEvents = oldestCreatedAt
+                    case .mypublic:
+                        _publicEvents = eventsCopy
+                        newestCreatedAtOfPublicEvents = newestCreatedAt
+                        oldestCreatedAtOfPublicEvents = oldestCreatedAt
+                    }
+                    
+                    DispatchQueue.main.async {
+                        handler?(true, numberOfNewEvents, nil)
+                    }
                 }
             }
         }

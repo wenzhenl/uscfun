@@ -67,7 +67,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // PRE-LOAD DATA
         if UserDefaults.hasLoggedIn {
             userDidLoggedIn()
-            EventRequest.preLoadDataInBackground()
         }
         
         // choose login scene or home scene based on if loggedin
@@ -413,7 +412,8 @@ extension AppDelegate: LoginDelegate {
         LCChatKit.sharedInstance().open(withClientId: AVUser.current()!.username!) {
             succeed, error in
             if succeed {
-                print("LCChatKit open successfully")
+                print("LCChatKit open successfully, start preloading data")
+                EventRequest.preLoadDataInBackground()
             }
             
             if error != nil {
