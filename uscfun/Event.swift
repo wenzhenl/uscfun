@@ -246,13 +246,22 @@ class Event {
     /// - warning: the conversation id for discussing the event
     ///   is not created yet.
     
-    init(name: String, maximumAttendingPeople: Int, remainingSeats: Int, minimumAttendingPeople: Int, due: Date, createdBy: AVUser) {
+    init(name: String, maximumAttendingPeople: Int, remainingSeats: Int, minimumAttendingPeople: Int,
+         due: Date,createdBy: AVUser,
+         startTime: Date?, endTime: Date?,
+         location: String?, whereCreated: AVGeoPoint?,
+         note: String?) {
         self._name = name
         self._maximumAttendingPeople = maximumAttendingPeople
         self._remainingSeats = remainingSeats
         self._minimumAttendingPeople = minimumAttendingPeople
         self._due = due
         self._createdBy = createdBy
+        self._startTime = startTime
+        self._endTime = endTime
+        self._location = location
+        self._whereCreated = whereCreated
+        self._note = note
         self._conversationId = ""
         self._members = [createdBy]
         self._neededBy = [createdBy]

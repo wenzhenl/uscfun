@@ -83,24 +83,30 @@ class NewEventPreviewViewController: UIViewController {
     
     @IBAction func post(_ sender: UIBarButtonItem) {
         
-        let event = Event(name: UserDefaults.newEventName!, maximumAttendingPeople: UserDefaults.newEventMaxPeople, remainingSeats: UserDefaults.newEventMaxPeople - UserDefaults.newEventNumReserved, minimumAttendingPeople: UserDefaults.newEventMinPeople, due: UserDefaults.newEventDue, createdBy: AVUser.current()!)
+        var startTime: Date?
+        var endTime: Date?
+        var whereCreated: AVGeoPoint?
         
-//        if UserDefaults.newEventStartTime > Date() {
-//            event.startTime = UserDefaults.newEventStartTime
-//        }
-//        
-//        if UserDefaults.newEventEndTime > Date() && UserDefaults.newEventEndTime > UserDefaults.newEventStartTime {
-//            event.endTime = UserDefaults.newEventEndTime
-//        }
-//        
-//        event.location = UserDefaults.newEventLocation
-//        
-//        if UserDefaults.newEventLocationLatitude != 0 || UserDefaults.newEventLocationLongitude != 0 {
-//            event.whereCreated = AVGeoPoint(latitude: UserDefaults.newEventLocationLatitude, longitude: UserDefaults.newEventLocationLongitude)
-//        }
-//        
-//        event.note = UserDefaults.newEventNote
+        if UserDefaults.newEventStartTime > Date() {
+            startTime = UserDefaults.newEventStartTime
+        }
         
+        if UserDefaults.newEventEndTime > Date() && UserDefaults.newEventEndTime > UserDefaults.newEventStartTime {
+            endTime = UserDefaults.newEventEndTime
+        }
+        
+        if UserDefaults.newEventLocationLatitude != 0 || UserDefaults.newEventLocationLongitude != 0 {
+            whereCreated = AVGeoPoint(latitude: UserDefaults.newEventLocationLatitude, longitude: UserDefaults.newEventLocationLongitude)
+        }
+        
+        let event = Event(name: UserDefaults.newEventName!, maximumAttendingPeople: UserDefaults.newEventMaxPeople,
+                          remainingSeats: UserDefaults.newEventMaxPeople - UserDefaults.newEventNumReserved,
+                          minimumAttendingPeople: UserDefaults.newEventMinPeople,
+                          due: UserDefaults.newEventDue, createdBy: AVUser.current()!,
+                          startTime: startTime, endTime: endTime,
+                          location: UserDefaults.newEventLocation,
+                          whereCreated: whereCreated,
+                          note: UserDefaults.newEventNote)
         event.post() {
             succeeded, error in
             SVProgressHUD.dismiss()
