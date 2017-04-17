@@ -54,7 +54,6 @@ class ConversationMoreViewController: UIViewController {
     
     func populateSections() {
         
-     
         if event.status == .isFinalized {
             memberAvatars.removeAll()
             memberAvatars.append(creator.avatar ?? #imageLiteral(resourceName: "user-4"))
@@ -102,42 +101,30 @@ class ConversationMoreViewController: UIViewController {
     
     func switchMuteMode(switchElement: UISwitch) {
         print("current mute state: \(switchElement.isOn)")
+        
+        guard let conversation = event.conversation else {
+            print("conversation is missing from my ongoing event")
+            return
+        }
+        
         if !switchElement.isOn {
-            LCChatKit.sharedInstance().conversationService.fetchConversation(withConversationId: event.conversationId) {
-                conversation, error in
-                guard let conversation = conversation else {
-                    if error != nil {
-                        print("failed to fetch conversation \(error)")
-                    }
-                    return
+            conversation.unmute {
+                succeeded, error in
+                if succeeded {
+                    print("unmute conversation successfully")
                 }
-                conversation.unmute {
-                    succeeded, error in
-                    if succeeded {
-                        print("unmute conversation successfully")
-                    }
-                    if error != nil {
-                        print("failed to unmute conversation \(error!)")
-                    }
+                if error != nil {
+                    print("failed to unmute conversation \(error!)")
                 }
             }
         } else {
-            LCChatKit.sharedInstance().conversationService.fetchConversation(withConversationId: event.conversationId) {
-                conversation, error in
-                guard let conversation = conversation else {
-                    if error != nil {
-                        print("failed to fetch conversation \(error)")
-                    }
-                    return
+            conversation.mute {
+                succeeded, error in
+                if succeeded {
+                    print("mute conversation successfully")
                 }
-                conversation.mute {
-                    succeeded, error in
-                    if succeeded {
-                        print("mute conversation successfully")
-                    }
-                    if error != nil {
-                        print("failed to mute conversation \(error!)")
-                    }
+                if error != nil {
+                    print("failed to mute conversation \(error!)")
                 }
             }
         }
@@ -214,13 +201,8 @@ extension ConversationMoreViewController: UITableViewDelegate, UITableViewDataSo
             let cell = Bundle.main.loadNibNamed("LabelSwitchTableViewCell", owner: self, options: nil)?.first as! LabelSwitchTableViewCell
             cell.mainLabel.text = "消息免打扰"
             cell.mainLabel.textColor = UIColor.darkText
-            do {
-                let isMuted = try LeanEngine.isMutedInConversation(clientId: AVUser.current()!.username!, conversationId: event.conversationId)
-                cell.mainSwitch.isOn = isMuted
-                cell.mainSwitch.addTarget(self, action: #selector(switchMuteMode(switchElement:)), for: .valueChanged)
-            } catch let error {
-                print("failed to fetch if is muted \(error)")
-            }
+            cell.mainSwitch.isOn = event.conversation?.muted ?? false
+            cell.mainSwitch.addTarget(self, action: #selector(switchMuteMode(switchElement:)), for: .valueChanged)
             cell.selectionStyle = .none
             return cell
         case .statusCell:

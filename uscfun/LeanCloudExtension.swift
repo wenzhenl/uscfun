@@ -31,27 +31,11 @@ struct LeanEngineFunctions {
     static let nameOfCheckIfConfirmationCodeMatches = "checkIfConfirmationCodeMatches"
     static let nameOfCreateSystemConversationIfNotExists = "createSystemConversationIfNotExists"
     static let nameOfSubscribeToSystemConversation = "subscribeToSystemConversation"
-    static let nameOfCheckIfMutedInConversation = "isMutedInConversation"
     
     static let nameOfFetchOverallRating = "fetchOverallRating"
 }
 
 class LeanEngine {
-    
-    static func isMutedInConversation(clientId: String, conversationId: String)throws -> Bool {
-        var error: NSError?
-        let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfMutedInConversation, withParameters: ["clientId": clientId, "conversationId": conversationId], error: &error)
-        if error != nil {
-            throw error!
-        }
-        
-        guard let isMuted = result as? Bool else {
-            print("cannot parse check if muted in conversation return value")
-            throw NSError(domain: USCFunErrorConstants.domain, code: USCFunErrorConstants.kUSCFunErrorCannotParseLeanEnginResult, userInfo: nil)
-        }
-        
-        return isMuted
-    }
     
     static func fetchOverallRating(of userId: String)throws -> Double {
         var error: NSError?
