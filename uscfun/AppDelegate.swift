@@ -342,6 +342,7 @@ extension AppDelegate: LoginDelegate {
         
         LCChatKit.sharedInstance().fetchProfilesBlock = {
             userIds, completionHandler in
+            print("fetch profile block starts")
             var users = [LCCKUser]()
             if let userIds = userIds {
                 let query = AVQuery(className: "_User")
@@ -352,12 +353,16 @@ extension AppDelegate: LoginDelegate {
                         users.append(user!)
                     }
                 } else {
-                    users += Array(repeating: LCCKUser(clientId: "正在加载..."), count: userIds.count)
+                    let user = LCCKUser(userId: "", name: "", avatarURL: URL(string: ""))
+                    for _ in userIds {
+                        users.append(user!)
+                    }
                 }
             }
             if completionHandler != nil {
                 completionHandler!(users, nil)
             }
+            print("fetch profile block ends")
         }
         
         LCChatKit.sharedInstance().fetchConversationHandler = {
