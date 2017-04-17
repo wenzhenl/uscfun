@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ChatKit
 
 enum ConversationDetailCell {
     case labelSwitchCell
@@ -101,24 +102,42 @@ class ConversationMoreViewController: UIViewController {
     
     func switchMuteMode(switchElement: UISwitch) {
         print("current mute state: \(switchElement.isOn)")
-        if switchElement.isOn {
-            LeanEngine.muteConversation(clientId: AVUser.current()!.username!, conversationId: event.conversationId) {
-                succeeded, error in
-                if succeeded {
-                    print("mute conversation successfully")
+        if !switchElement.isOn {
+            LCChatKit.sharedInstance().conversationService.fetchConversation(withConversationId: event.conversationId) {
+                conversation, error in
+                guard let conversation = conversation else {
+                    if error != nil {
+                        print("failed to fetch conversation \(error)")
+                    }
+                    return
                 }
-                if error != nil {
-                    print(error!)
+                conversation.unmute {
+                    succeeded, error in
+                    if succeeded {
+                        print("unmute conversation successfully")
+                    }
+                    if error != nil {
+                        print("failed to unmute conversation \(error!)")
+                    }
                 }
             }
         } else {
-            LeanEngine.unmuteConversation(clientId: AVUser.current()!.username!, conversationId: event.conversationId) {
-                succeeded, error in
-                if succeeded {
-                    print("unmute conversation successfully")
+            LCChatKit.sharedInstance().conversationService.fetchConversation(withConversationId: event.conversationId) {
+                conversation, error in
+                guard let conversation = conversation else {
+                    if error != nil {
+                        print("failed to fetch conversation \(error)")
+                    }
+                    return
                 }
-                if error != nil {
-                    print(error!)
+                conversation.mute {
+                    succeeded, error in
+                    if succeeded {
+                        print("mute conversation successfully")
+                    }
+                    if error != nil {
+                        print("failed to mute conversation \(error!)")
+                    }
                 }
             }
         }

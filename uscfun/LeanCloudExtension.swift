@@ -31,40 +31,12 @@ struct LeanEngineFunctions {
     static let nameOfCheckIfConfirmationCodeMatches = "checkIfConfirmationCodeMatches"
     static let nameOfCreateSystemConversationIfNotExists = "createSystemConversationIfNotExists"
     static let nameOfSubscribeToSystemConversation = "subscribeToSystemConversation"
-    static let nameOfMuteConversation = "muteConversation"
-    static let nameOfUnmuteConversation = "unmuteConversation"
     static let nameOfCheckIfMutedInConversation = "isMutedInConversation"
     
     static let nameOfFetchOverallRating = "fetchOverallRating"
 }
 
 class LeanEngine {
-    
-    static func muteConversation(clientId: String, conversationId: String, handler: ((_ succeeded: Bool, _ error: NSError?) -> Void)?) {
-        AVCloud.callFunction(inBackground: LeanEngineFunctions.nameOfMuteConversation, withParameters: ["clientId": clientId, "conversationId": conversationId]) {
-            result, error in
-            if let succeeded = result as? Bool, succeeded == true {
-                handler?(true, nil)
-                return
-            }
-            if error != nil {
-                handler?(false, error as NSError?)
-            }
-        }
-    }
-    
-    static func unmuteConversation(clientId: String, conversationId: String, handler: ((_ succeeded: Bool, _ error: NSError?) -> Void)?) {
-        AVCloud.callFunction(inBackground: LeanEngineFunctions.nameOfUnmuteConversation, withParameters: ["clientId": clientId, "conversationId": conversationId]) {
-            result, error in
-            if let succeeded = result as? Bool, succeeded == true {
-                handler?(true, nil)
-                return
-            }
-            if error != nil {
-                handler?(false, error as NSError?)
-            }
-        }
-    }
     
     static func isMutedInConversation(clientId: String, conversationId: String)throws -> Bool {
         var error: NSError?
