@@ -370,7 +370,7 @@ def after_event_update(event):
             conversation_id = conversationPointer.get('objectId')
             conversation = Query('_Conversation').get(conversation_id)
             if conversation.has(key_of_finalized_message) == False:
-                finalizedMessage = "微活动约定成功！系统已经设定此对话为私有对话。"
+                finalizedMessage = "微活动约定成功！系统已经将对话设为私有。"
                 finalizedMessage += "这条信息以下只有队员才可以发言！【日常小管家】"
                 headers = {'Content-Type': 'application/json', \
                     'X-LC-Id': APP_ID, \
