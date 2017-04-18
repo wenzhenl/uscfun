@@ -752,7 +752,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
             if EventRequest.thereIsUnfetchedOldMyOngoingEvents {
                 status = "正在加载···"
             } else {
-                status = "已经是最后一个微活动"
+                status = ""
             }
             let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: 20))
             label.text = status

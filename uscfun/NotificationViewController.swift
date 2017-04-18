@@ -25,6 +25,12 @@ class NotificationViewController: UIViewController {
     
     var conversation: AVIMConversation?
     
+    var numberOfNewNotifications: Int = 0 {
+        didSet {
+            self.tabBarController?.tabBar.items![USCFunConstants.indexOfNotification].badgeValue = numberOfNewNotifications > 0 ? "\(numberOfNewNotifications)" : nil
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,6 +40,9 @@ class NotificationViewController: UIViewController {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         self.tableView.tableFooterView = UIView()
         self.tableView.backgroundColor = UIColor.backgroundGray
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNewMessageReceived(notification:)), name: NSNotification.Name(rawValue: LCCKNotificationMessageReceived), object: nil)
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,6 +63,21 @@ class NotificationViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+    }
+    
+    func handleNewMessageReceived(notification: Notification) {
+        
+        print("new message received")
+        
+        
+        guard let object = notification.object as? [String: Any], let conversation = object["conversation"] as? AVIMConversation else {
+            print("failed to parse message received notification")
+            return
+        }
+        
+        if conversation.conversationId == self.conversation?.conversationId {
+            self.numberOfNewNotifications = 1
+        }
     }
     
     func checkNotification() {
@@ -77,10 +101,11 @@ class NotificationViewController: UIViewController {
         }
         
         conversationViewController.viewWillDisappearBlock = {
-            (viewController, animated) in
+            [unowned self](viewController, animated) in
             print("conversation controller view will disappear")
             viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
             SVProgressHUD.dismiss()
+            self.numberOfNewNotifications = 0
         }
         
         self.navigationController?.pushViewController(conversationViewController, animated: true)
