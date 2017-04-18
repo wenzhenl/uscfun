@@ -98,37 +98,42 @@ class EventRequest {
         query.includeKey(EventKeyConstants.keyOfNeededBy)
         query.getObjectInBackground(withId: objectId) {
             object, error in
-            if error != nil {
-                print(error!.localizedDescription)
-                handler(EventRequestError.systemError(localizedDescriotion: "网络错误，无法获取数据", debugDescription: error!.localizedDescription), nil)
-            }
-            if object != nil {
-                if let event = Event(data: object) {
-                    /// if event is my ongoing event, fetch conversation also
-                    if let existEvent = EventRequest.myOngoingEvents[event.objectId!] {
-                        if let conversation = existEvent.conversation {
-                            event.conversation = conversation
-                            handler(nil, event)
-                        } else {
-                            LCChatKit.sharedInstance().conversationService.fetchConversation(withConversationId: event.conversationId) {
-                                conversation, error in
-                                guard let conversation = conversation else {
-                                    if error != nil {
-                                        print("failed to fetch conversation \(error!)")
-                                    }
-                                    handler(EventRequestError.systemError(localizedDescriotion: "无法获取对话", debugDescription: error!.localizedDescription), nil)
-                                    return
-                                }
-                                event.conversation = conversation
-                                handler(nil, event)
-                            }
-                        }
-                    }
+            
+            guard let event = Event(data: object) else {
+                if error != nil {
+                    print("failed to fetch event: \(error!)")
+                    handler(EventRequestError.systemError(localizedDescriotion: "网络错误，无法获取数据", debugDescription: error!.localizedDescription), nil)
                 } else {
-                    handler(EventRequestError.systemError(localizedDescriotion: "无法解析活动数据", debugDescription: error!.localizedDescription), nil)
+                    handler(EventRequestError.systemError(localizedDescriotion: "网络错误，无法获取数据", debugDescription: "unknown reason"), nil)
                 }
+                return
             }
             
+            /// if it is not my ongoing event, return directly
+            if !EventRequest.myOngoingEvents.keys.contains(event.objectId!) {
+                handler(nil, event)
+            } else {
+                let existEvent = EventRequest.myOngoingEvents[event.objectId!]!
+                if let conversation = existEvent.conversation {
+                    event.conversation = conversation
+                    handler(nil, event)
+                } else {
+                    LCChatKit.sharedInstance().conversationService.fetchConversation(withConversationId: event.conversationId) {
+                        conversation, error in
+                        guard let conversation = conversation else {
+                            if error != nil {
+                                print("failed to fetch conversation: \(error!)")
+                                handler(EventRequestError.systemError(localizedDescriotion: "网络错误，无法获取数据", debugDescription: error!.localizedDescription), nil)
+                            } else {
+                                handler(EventRequestError.systemError(localizedDescriotion: "网络错误，无法获取数据", debugDescription: "failed to fetch conversation"), nil)
+                            }
+                            return
+                        }
+                        event.conversation = conversation
+                        handler(nil, event)
+                    }
+                }
+            }
         }
     }
     
