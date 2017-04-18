@@ -11,9 +11,9 @@ import Eureka
 
 class UpdateProfileViewController: FormViewController {
     
-    var nickname: String? {
+    var nickname: String {
         get {
-            return (form.rowBy(tag: "nickname") as! TextRow).value
+            return (form.rowBy(tag: "nickname") as! TextRow).value ?? ""
         }
         set {
             (form.rowBy(tag: "nickname") as! TextRow).value = newValue
@@ -68,7 +68,7 @@ class UpdateProfileViewController: FormViewController {
                     cell.textField.textColor = UIColor.darkGray
                 }
                 .onChange { row in
-                    self.nickname = row.value
+                    self.nickname = row.value ?? ""
                 }
             <<< AlertRow<String>("gender") {
                 $0.title = "性别"
@@ -87,7 +87,7 @@ class UpdateProfileViewController: FormViewController {
                 }.onChange { row in
                     self.selfIntroduction = row.value
                 }
-        nickname = UserDefaults.nickname
+        nickname = UserDefaults.nickname!
         gender = UserDefaults.gender.rawValue
         selfIntroduction = UserDefaults.selfIntroduction
         oldNickName = UserDefaults.nickname
