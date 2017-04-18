@@ -229,6 +229,15 @@ class MyEventListViewController: UIViewController {
             return
         }
         if let eventId = eventIdForConversationId(conversationId: conversation.conversationId!) {
+            
+            /// update conversation record
+            let newRecord = ConversationRecord(eventId: eventId, latestMessage: "", isUnread: true, lastUpdatedAt: nil)
+            do {
+                try ConversationList.addRecord(conversationId: conversation.conversationId!, record: newRecord)
+            } catch let error {
+                print("failed to save new record \(error)")
+            }
+            
             EventRequest.setEvent(event: EventRequest.myOngoingEvents[eventId]!, with: eventId, for: .myongoing) {
                 self.tableView.reloadData()
             }
@@ -245,6 +254,14 @@ class MyEventListViewController: UIViewController {
         }
         
         if let eventId = eventIdForConversationId(conversationId: conversationId) {
+            
+            let newRecord = ConversationRecord(eventId: eventId, latestMessage: "", isUnread: false, lastUpdatedAt: nil)
+            do {
+                try ConversationList.addRecord(conversationId: conversationId, record: newRecord)
+            } catch let error {
+                print("failed to save new record \(error)")
+            }
+            
             EventRequest.setEvent(event: EventRequest.myOngoingEvents[eventId]!, with: eventId, for: .myongoing) {
                 self.tableView.reloadData()
             }
@@ -572,8 +589,10 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 
                 if let conversation = event.conversation {
                     latestMessage = conversation.lastMessage?.shortDescription ?? ""
-                    isUnread = conversation.lcck_unreadCount > 0
-                    print("number of unread: \(conversation.lcck_unreadCount)")
+                }
+                
+                if let conversationRecord = event.conversationRecord {
+                    isUnread = conversationRecord.isUnread
                 }
                 
                 if isUnread {
@@ -633,8 +652,10 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 
                 if let conversation = event.conversation {
                     latestMessage = conversation.lastMessage?.shortDescription ?? ""
-                    isUnread = conversation.lcck_unreadCount > 0
-                    print("number of unread: \(conversation.lcck_unreadCount)")
+                }
+                
+                if let conversationRecord = event.conversationRecord {
+                    isUnread = conversationRecord.isUnread
                 }
                 
                 if isUnread {
@@ -836,6 +857,10 @@ extension Event {
             return .joinedByMe
         }
         return .noneOfMyBusiness
+    }
+    
+    var conversationRecord: ConversationRecord? {
+        return ConversationList.parseConversationRecords()?[self.conversationId]
     }
 }
 
