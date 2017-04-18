@@ -36,6 +36,8 @@
 		0A427FAE1D97F579007A96BE /* TextViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A427FAC1D97F579007A96BE /* TextViewTableViewCell.xib */; };
 		0A427FB11D97F627007A96BE /* ImageViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A427FAF1D97F627007A96BE /* ImageViewTableViewCell.swift */; };
 		0A427FB21D97F627007A96BE /* ImageViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A427FB01D97F627007A96BE /* ImageViewTableViewCell.xib */; };
+		0A46C89C1EA60E4400462992 /* ImageLabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A46C89A1EA60E4400462992 /* ImageLabelTableViewCell.swift */; };
+		0A46C89D1EA60E4400462992 /* ImageLabelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A46C89B1EA60E4400462992 /* ImageLabelTableViewCell.xib */; };
 		0A4965BD1E9F42F600161B15 /* RatingBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4965BC1E9F42F600161B15 /* RatingBar.swift */; };
 		0A4965BF1E9F4AE500161B15 /* RateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4965BE1E9F4AE500161B15 /* RateEventViewController.swift */; };
 		0A4965C21E9F4BBB00161B15 /* RateMemberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4965C01E9F4BBB00161B15 /* RateMemberTableViewCell.swift */; };
@@ -172,6 +174,8 @@
 		0A427FAC1D97F579007A96BE /* TextViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextViewTableViewCell.xib; sourceTree = "<group>"; };
 		0A427FAF1D97F627007A96BE /* ImageViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewTableViewCell.swift; sourceTree = "<group>"; };
 		0A427FB01D97F627007A96BE /* ImageViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageViewTableViewCell.xib; sourceTree = "<group>"; };
+		0A46C89A1EA60E4400462992 /* ImageLabelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLabelTableViewCell.swift; sourceTree = "<group>"; };
+		0A46C89B1EA60E4400462992 /* ImageLabelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageLabelTableViewCell.xib; sourceTree = "<group>"; };
 		0A4965BC1E9F42F600161B15 /* RatingBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingBar.swift; sourceTree = "<group>"; };
 		0A4965BE1E9F4AE500161B15 /* RateEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateEventViewController.swift; sourceTree = "<group>"; };
 		0A4965C01E9F4BBB00161B15 /* RateMemberTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateMemberTableViewCell.swift; sourceTree = "<group>"; };
@@ -430,6 +434,8 @@
 				0A6F0B831E9F689800BB2FA7 /* CreditRecordTableViewCell.xib */,
 				0AA546F41E9F978F00AE5DD9 /* CompletedEventSnapshotTableViewCell.swift */,
 				0AA546F51E9F978F00AE5DD9 /* CompletedEventSnapshotTableViewCell.xib */,
+				0A46C89A1EA60E4400462992 /* ImageLabelTableViewCell.swift */,
+				0A46C89B1EA60E4400462992 /* ImageLabelTableViewCell.xib */,
 			);
 			name = TableViewCells;
 			sourceTree = "<group>";
@@ -686,6 +692,7 @@
 				0A5332CB1E6C304900C50186 /* SegmentedTableViewCell.xib in Resources */,
 				0A8483611E683ED500B7B29A /* TimeDisplayTableViewCell.xib in Resources */,
 				0A8483691E6841A700B7B29A /* TandemLabelTableViewCell.xib in Resources */,
+				0A46C89D1EA60E4400462992 /* ImageLabelTableViewCell.xib in Resources */,
 				0AD46F3E1E974F01001DAF93 /* MyEventSnapshotTableViewCell.xib in Resources */,
 				0A8483751E68592B00B7B29A /* MapViewTableViewCell.xib in Resources */,
 				0AE5C54A1DB1DFB500B455F4 /* ProfileTableViewCell.xib in Resources */,
@@ -793,6 +800,7 @@
 				0A52FD681DB098F8000D17D8 /* LCCKUser.m in Sources */,
 				0A963DB31D7122D000E0532F /* SignInViewController.swift in Sources */,
 				0A6D92321E669965008501B9 /* EventSnapshotTableViewCell.swift in Sources */,
+				0A46C89C1EA60E4400462992 /* ImageLabelTableViewCell.swift in Sources */,
 				0A427FAD1D97F579007A96BE /* TextViewTableViewCell.swift in Sources */,
 				0A963DB71D716E6400E0532F /* NicknameViewController.swift in Sources */,
 				0AB8F5A01E9C6AC200079E33 /* ConversationMoreViewController.swift in Sources */,
