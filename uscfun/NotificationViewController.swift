@@ -33,6 +33,7 @@ class NotificationViewController: UIViewController {
         self.navigationController?.view.backgroundColor = UIColor.white
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         self.tableView.tableFooterView = UIView()
+        self.tableView.backgroundColor = UIColor.backgroundGray
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -98,11 +99,24 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
+        if conversation?.lastMessage == nil {
+            return self.tableView.frame.height - 44.0
+        }
+        
         return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        if conversation?.lastMessage == nil {
+            return 1 / UIScreen.main.scale
+        }
+        
+        return 10
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

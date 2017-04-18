@@ -52,7 +52,7 @@ class RateEventViewController: UIViewController {
             if succeeded {
                 print("submit ratings successfully")
                 SVProgressHUD.showSuccess(withStatus: "提交成功")
-                SVProgressHUD.dismiss(withDelay: TimeInterval(2.0))
+                SVProgressHUD.dismiss(withDelay: TimeInterval(1.5))
                 self.presentingViewController?.dismiss(animated: true, completion: nil)
             }
             
@@ -60,7 +60,7 @@ class RateEventViewController: UIViewController {
                 print("failed to submit ratings: \(error!)")
                 self.submitButton.isEnabled = true
                 SVProgressHUD.showInfo(withStatus: "网络错误")
-                SVProgressHUD.dismiss(withDelay: TimeInterval(2.0))
+                SVProgressHUD.dismiss(withDelay: TimeInterval(1.5))
             }
         }
     }
