@@ -158,6 +158,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         
         print("application will terminate")
+        
+        LCChatKit.sharedInstance().close() {
+            succeed, error in
+            if succeed {
+                print("LCChatKit closed successfully")
+            }
+            else if error != nil {
+                print("failed to close LCChatKit \(error!)")
+            }
+        }
+        
+        LoginKit.systemNotificationClient?.close {
+            succeed, error in
+            if succeed {
+                print("system client closed successfully")
+            }
+            else if error != nil {
+                print("failed to close system client \(error!)")
+            }
+        }
     }
     
     func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {

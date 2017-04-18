@@ -225,15 +225,7 @@ class MyEventListViewController: UIViewController {
     }
     
     func handlerNewMessage(notification: Notification) {
-        guard let object = notification.object as? [String: Any], let conversation = object["conversation"] as? AVIMConversation else {
-            print("failed to parse message received notification")
-            return
-        }
-        if let eventId = eventIdForConversationId(conversationId: conversation.conversationId!) {
-            EventRequest.setEvent(event: EventRequest.myOngoingEvents[eventId]!, with: eventId, for: .myongoing) {
-                self.tableView.reloadData()
-            }
-        }
+        self.tableView.reloadData()
     }
     
     func handleUpdatedEventAvailable(notification: Notification) {
@@ -557,6 +549,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 if let conversation = event.conversation {
                     latestMessage = conversation.lastMessage?.shortDescription ?? ""
                     isUnread = conversation.lcck_unreadCount > 0
+                    print("number of unread: \(conversation.lcck_unreadCount)")
                 }
                 
                 if isUnread {
@@ -617,6 +610,7 @@ extension MyEventListViewController: UITableViewDelegate, UITableViewDataSource 
                 if let conversation = event.conversation {
                     latestMessage = conversation.lastMessage?.shortDescription ?? ""
                     isUnread = conversation.lcck_unreadCount > 0
+                    print("number of unread: \(conversation.lcck_unreadCount)")
                 }
                 
                 if isUnread {
