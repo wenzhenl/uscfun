@@ -193,7 +193,7 @@ class EventDetailViewController: UIViewController {
         }
         
         conversationViewController.viewWillDisappearBlock = {
-            (viewController, animated) in
+            [unowned self](viewController, animated) in
             print("conversation controller view will disappear")
             viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
             SVProgressHUD.dismiss()
@@ -216,6 +216,9 @@ class EventDetailViewController: UIViewController {
                         }
                     }
                 }
+            } else {
+                /// notify my event list to update if needed
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userReturnedFromConversation"), object: nil, userInfo: ["conversationId": self.event.conversationId])
             }
         }
         

@@ -90,8 +90,8 @@ class MyEventListViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateEvent(notification:)), name: NSNotification.Name(rawValue: "userDidUpdateEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleCancelEvent(notification:)), name: NSNotification.Name(rawValue: "userDidCancelEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdatedEventAvailable(notification:)), name: NSNotification.Name(rawValue: "updatedEventAvailable"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handlerNewMessage(notification:)), name: NSNotification.Name(rawValue: LCCKNotificationMessageReceived), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handlerReadNewMessage), name: NSNotification.Name(rawValue: "userReadMessage"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNewMessageReceived(notification:)), name: NSNotification.Name(rawValue: LCCKNotificationMessageReceived), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleReturnedFromConversation(notification:)), name: NSNotification.Name(rawValue: "userReturnedFromConversation"), object: nil)
 
         view.addSubview(infoLabel)
         self.navigationController?.navigationBar.isTranslucent = false
@@ -219,13 +219,36 @@ class MyEventListViewController: UIViewController {
         self.tableView.reloadData()
     }
     
-    func handlerReadNewMessage() {
-        self.numberOfNewMessages -= 1
-        self.tableView.reloadData()
+    func handleNewMessageReceived(notification: Notification) {
+        
+        print("new message received")
+
+        
+        guard let object = notification.object as? [String: Any], let conversation = object["conversation"] as? AVIMConversation else {
+            print("failed to parse message received notification")
+            return
+        }
+        if let eventId = eventIdForConversationId(conversationId: conversation.conversationId!) {
+            EventRequest.setEvent(event: EventRequest.myOngoingEvents[eventId]!, with: eventId, for: .myongoing) {
+                self.tableView.reloadData()
+            }
+        }
     }
     
-    func handlerNewMessage(notification: Notification) {
-        self.tableView.reloadData()
+    func handleReturnedFromConversation(notification: Notification) {
+        
+        print("returned from conversation")
+        
+        guard let conversationId = notification.userInfo?["conversationId"] as? String else {
+            print("failed to parse returned from conversation notification")
+            return
+        }
+        
+        if let eventId = eventIdForConversationId(conversationId: conversationId) {
+            EventRequest.setEvent(event: EventRequest.myOngoingEvents[eventId]!, with: eventId, for: .myongoing) {
+                self.tableView.reloadData()
+            }
+        }
     }
     
     func handleUpdatedEventAvailable(notification: Notification) {
@@ -369,6 +392,7 @@ class MyEventListViewController: UIViewController {
             print("conversation controller view will disappear")
             viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
             SVProgressHUD.dismiss()
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userReturnedFromConversation"), object: nil, userInfo: ["conversationId": event.conversationId])
         }
         
         conversationViewController.configureBarButtonItemStyle(.more) {

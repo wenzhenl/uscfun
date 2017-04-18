@@ -725,7 +725,10 @@ extension Event: Comparable {
         if lhs.members.contains(AVUser.current()!) && rhs.members.contains(AVUser.current()!) {
             if lhs.status == .isFinalized && rhs.status != .isFinalized { return true }
             if lhs.status != .isFinalized && rhs.status == .isFinalized { return false }
-            return lhs.updatedAt! > rhs.updatedAt!
+                        
+            let lhsUpdatedAt = lhs.conversation?.lastMessageAt ?? lhs.updatedAt!
+            let rhsUpdatedAt = rhs.conversation?.lastMessageAt ?? rhs.updatedAt!
+            return lhsUpdatedAt > rhsUpdatedAt
         }
         
         /// order is: finalized < secured < pending < failed < cancelled
