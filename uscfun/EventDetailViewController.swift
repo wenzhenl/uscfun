@@ -273,6 +273,7 @@ class EventDetailViewController: UIViewController {
                 joinEventGroup.notify(queue: DispatchQueue.main) {
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidJoinEvent"), object: nil, userInfo: ["eventId": self.event.objectId!])
                     self.exitAfter = .join
+                    self.navigationController?.tabBarController?.selectedIndex = USCFunConstants.indexOfMyEventList
                     _ = self.navigationController?.popViewController(animated: true)
                 }
             }
