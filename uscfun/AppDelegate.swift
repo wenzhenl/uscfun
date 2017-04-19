@@ -436,6 +436,22 @@ extension AppDelegate: LoginDelegate {
             }
         }
         
+        LCChatKit.sharedInstance().didSelectConversationsListCellBlock = {
+            indexPath, conversation, conversationListViewController in
+            guard let conversationVC = LCCKConversationViewController(conversationId: conversation?.conversationId) else {
+                print("cannot fetch conversation for conversation list")
+                return
+            }
+            conversationVC.hidesBottomBarWhenPushed = true
+            
+            conversationVC.viewDidLoadBlock = {
+                viewController in
+                viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+            }
+
+            conversationListViewController?.navigationController?.pushViewController(conversationVC, animated: true)
+        }
+        
         LCChatKit.sharedInstance().open(withClientId: AVUser.current()!.username!) {
             succeed, error in
             if succeed {

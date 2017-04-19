@@ -94,33 +94,41 @@ class MeViewController: UIViewController {
     }
     
     func sendFeedback() {
-        guard let conversationViewController = LCCKConversationViewController(peerId: USCFunConstants.systemAdministratorClientId) else {
-            SVProgressHUD.showError(withStatus: "无法连接网络")
-            return
+        if AVUser.current()!.username! != USCFunConstants.systemAdministratorClientId {
+            guard let conversationViewController = LCCKConversationViewController(peerId: USCFunConstants.systemAdministratorClientId) else {
+                SVProgressHUD.showInfo(withStatus: "无法连接网络")
+                SVProgressHUD.dismiss(withDelay: TimeInterval(1.5))
+                return
+            }
+            conversationViewController.isEnableAutoJoin = true
+            conversationViewController.hidesBottomBarWhenPushed = true
+            conversationViewController.isDisableTitleAutoConfig = true
+            conversationViewController.disablesAutomaticKeyboardDismissal = false
+            conversationViewController.viewDidLoadBlock = {
+                viewController in
+                viewController?.navigationItem.title = "日常小管家"
+                viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+            }
+            conversationViewController.viewDidAppearBlock = {
+                (viewController, animated) in
+                print("conversation controller view did appear")
+                viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+            }
+            
+            conversationViewController.viewWillDisappearBlock = {
+                (viewController, animated) in
+                print("conversation controller view will disappear")
+                viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                SVProgressHUD.dismiss()
+            }
+            
+            self.navigationController?.pushViewController(conversationViewController, animated: true)
+        } else {
+            let conversationList = LCCKConversationListViewController()
+            conversationList.hidesBottomBarWhenPushed = true
+            conversationList.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+            self.navigationController?.pushViewController(conversationList, animated: true)
         }
-        conversationViewController.isEnableAutoJoin = true
-        conversationViewController.hidesBottomBarWhenPushed = true
-        conversationViewController.isDisableTitleAutoConfig = true
-        conversationViewController.disablesAutomaticKeyboardDismissal = false
-        conversationViewController.viewDidLoadBlock = {
-            viewController in
-            viewController?.navigationItem.title = "日常小管家"
-            viewController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        }
-        conversationViewController.viewDidAppearBlock = {
-            (viewController, animated) in
-            print("conversation controller view did appear")
-            viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-        }
-        
-        conversationViewController.viewWillDisappearBlock = {
-            (viewController, animated) in
-            print("conversation controller view will disappear")
-            viewController?.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-            SVProgressHUD.dismiss()
-        }
-        
-        self.navigationController?.pushViewController(conversationViewController, animated: true)
     }
 
     let textOfAllowEventHistroyViewed = "公开活动历史"
