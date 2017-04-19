@@ -396,7 +396,14 @@ extension AppDelegate: LoginDelegate {
         
         LCChatKit.sharedInstance().conversationInvalidedHandler = {
             conversationId, vc, user, error in
-            print(error!)
+            if error != nil {
+                print(error!)
+            } else {
+                print("conversation is invalid")
+            }
+            
+            SVProgressHUD.showInfo(withStatus: "加载失败，请重新进入")
+            SVProgressHUD.dismiss(withDelay: TimeInterval(1.5))
         }
         
         LCChatKit.sharedInstance().loadLatestMessagesHandler = {
