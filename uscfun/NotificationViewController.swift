@@ -125,11 +125,6 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        if conversation?.lastMessage == nil {
-            return self.tableView.frame.height - 44.0
-        }
-        
         return UITableViewAutomaticDimension
     }
     
@@ -138,31 +133,19 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
         return 1 / UIScreen.main.scale
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        if conversation?.lastMessage == nil {
-            let cell = Bundle.main.loadNibNamed("EmptySectionPlaceholderTableViewCell", owner: self, options: nil)?.first as! EmptySectionPlaceholderTableViewCell
-            cell.mainTextView.text = "你好像还没有收到任何通知"
-            cell.selectionStyle = .none
-            return cell
-        }
-        else {
-            let cell = Bundle.main.loadNibNamed("ImageLabelTableViewCell", owner: self, options: nil)?.first as! ImageLabelTableViewCell
-            cell.avatarImageView.image = #imageLiteral(resourceName: "officialAvatar")
-            cell.nameLabel.text = "日常小管家"
-            cell.messageLabel.text = conversation?.lastMessage?.shortDescription
-            return cell
-        }
+        let cell = Bundle.main.loadNibNamed("ImageLabelTableViewCell", owner: self, options: nil)?.first as! ImageLabelTableViewCell
+        cell.avatarImageView.image = #imageLiteral(resourceName: "officialAvatar")
+        cell.nameLabel.text = "日常小管家"
+        cell.messageLabel.text = conversation?.lastMessage?.shortDescription
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if conversation?.lastMessage != nil {
-            checkNotification()
-        }
+        checkNotification()
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
