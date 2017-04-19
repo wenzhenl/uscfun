@@ -47,18 +47,20 @@ class NotificationViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        LCChatKit.sharedInstance().conversationService.fetchConversation(withPeerId: USCFunConstants.systemAdministratorClientId) {
-            conversation, error in
-            
-            guard let conversation = conversation else {
-                if error != nil {
-                    print("failed to fetch admin conversation \(error!)")
+        if conversation == nil {
+            LCChatKit.sharedInstance().conversationService.fetchConversation(withPeerId: USCFunConstants.systemAdministratorClientId) {
+                conversation, error in
+                
+                guard let conversation = conversation else {
+                    if error != nil {
+                        print("failed to fetch admin conversation \(error!)")
+                    }
+                    return
                 }
-                return
+                self.conversation = conversation
             }
-            self.conversation = conversation
-            self.tableView.reloadData()
         }
+        self.tableView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -137,11 +139,7 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        if conversation?.lastMessage == nil {
-            return 1 / UIScreen.main.scale
-        }
-        
-        return 10
+        return 1 / UIScreen.main.scale
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
