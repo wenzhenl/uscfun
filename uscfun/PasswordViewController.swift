@@ -85,6 +85,6 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     func passwordDidChanged() {
         password = passwordTextField.text
         errorLabel.isHidden = true
-        print("current password: \(password)")
+        print("current password: \(String(describing: password))")
     }
 }

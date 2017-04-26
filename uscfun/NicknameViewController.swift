@@ -93,7 +93,7 @@ class NicknameViewController: UIViewController, UITextFieldDelegate {
         
         if textField.markedTextRange == nil {
             nickname = nicknameTextField.text
-            print("current nickname: \(nickname)")
+            print("current nickname: \(String(describing: nickname))")
         }
         
         errorLabel.isHidden = true
