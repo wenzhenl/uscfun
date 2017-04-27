@@ -104,6 +104,7 @@
     }
 
     #creator {
+        padding-top: 0.75em;
         width: 100%;
         height:70px;
         line-height: 70px;
@@ -172,8 +173,8 @@
         <img style=" width: 60px; height: 60px;" src="/static/images/clip2.png"/>
         <div id="numRemainSeats">{{event.get('remainingSeats')}}</div>
         </div>
-        <p class="content" style="float: left; width: 50%;">已经报名：{{event.get('maximumAttendingPeople') - event.get('remainingSeats')}}人</p>
-        <p class="content" style="float: right; width: 50%;">最少成行：{{event.get('minimumAttendingPeople')}}人</p>
+        <p class="content" style="float: left; width: 50%;">已经报名 {{event.get('maximumAttendingPeople') - event.get('remainingSeats')}}人</p>
+        <p class="content" style="float: right; width: 50%;">最少成行 {{event.get('minimumAttendingPeople')}}人</p>
         <p class="title" style="clear: both;">微活动报名截止：</p>
         <p class="content">{{momentjs(event.get('due')).fromNow()}}</p>
         {% if event.get('startTime') %}
@@ -190,7 +191,7 @@
         {% endif %}
         {% if event.get('note') %}
         <p class="title">补充说明：</p>
-        <p>{{event.get('note')}}</p>
+        <p style="font-size: 16px;">{{event.get('note')}}</p>
         {% endif %}
     </div>
 
