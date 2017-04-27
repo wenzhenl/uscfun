@@ -39,7 +39,7 @@ class USCFunConstants {
     static let indexOfNotification = 2
     static let indexOfMe = 3
     
-    static let basicURL = "http://richang.avosapps.us/"
+    static let basicURL = "http://uscfun.leanapp.cn/"
     static let urlOfPrivacy = basicURL + "agreement"
     static let shareEventURL = basicURL + "events/"
     static let appURL = "itms-apps://itunes.apple.com/app/id1163062860"
