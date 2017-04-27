@@ -220,9 +220,20 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
             cell.avatarButton.contentMode = .scaleAspectFit
             cell.avatarButton.addTarget(self, action: #selector(avatarTapped), for: .touchUpInside)
             if other.gender != nil && other.gender != Gender.unknown {
-                cell.genderLabel.text = other.gender!.rawValue
+                switch other.gender! {
+                case .male:
+                    cell.genderContainerView.backgroundColor = UIColor.buttonBlue
+                    cell.genderImageView.image = #imageLiteral(resourceName: "male")
+                    cell.genderContainerView.layer.cornerRadius = 8
+                case .female:
+                    cell.genderContainerView.backgroundColor = UIColor.buttonPink
+                    cell.genderImageView.image = #imageLiteral(resourceName: "female")
+                    cell.genderContainerView.layer.cornerRadius = 8
+                default:
+                    break
+                }
             } else {
-                cell.genderLabel.text = ""
+                cell.genderContainerView.isHidden = true
             }
             cell.selectionStyle = .none
             return cell

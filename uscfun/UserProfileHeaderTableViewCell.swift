@@ -10,8 +10,9 @@ import UIKit
 
 class UserProfileHeaderTableViewCell: UITableViewCell {
     @IBOutlet weak var avatarButton: UIButton!
-    @IBOutlet weak var genderLabel: UILabel!
     @IBOutlet weak var officialBadgeButton: UIButton!
+    @IBOutlet weak var genderImageView: UIImageView!
+    @IBOutlet weak var genderContainerView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
