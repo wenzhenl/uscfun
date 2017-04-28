@@ -224,11 +224,11 @@ extension UserProfileViewController: UITableViewDataSource, UITableViewDelegate{
                 case .male:
                     cell.genderContainerView.backgroundColor = UIColor.buttonBlue
                     cell.genderImageView.image = #imageLiteral(resourceName: "male")
-                    cell.genderContainerView.layer.cornerRadius = 8
+                    cell.genderContainerView.layer.cornerRadius = 10
                 case .female:
                     cell.genderContainerView.backgroundColor = UIColor.buttonPink
                     cell.genderImageView.image = #imageLiteral(resourceName: "female")
-                    cell.genderContainerView.layer.cornerRadius = 8
+                    cell.genderContainerView.layer.cornerRadius = 10
                 default:
                     break
                 }
