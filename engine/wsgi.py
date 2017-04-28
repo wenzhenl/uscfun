@@ -22,6 +22,7 @@ leancloud.use_region('US')
 
 application = engine
 
+# application = leancloud.HttpsRedirectMiddleware(application)
 
 if __name__ == '__main__':
     # 只在本地开发环境执行的代码

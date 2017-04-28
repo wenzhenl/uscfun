@@ -43,25 +43,24 @@ class LoginKit {
     }
     
     static func checkIfConfirmationCodeMatches(email: String, code: String)throws -> Bool {
-//        var error: NSError?
-//        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-//        let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfConfirmationCodeMatches, withParameters: ["email": email, "code": code], error: &error)
-//        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-//        
-//        if error != nil {
-//            print(error!)
-//            throw error!
-//        }
-//        
-//        guard let isMatched = result as? Bool else {
-//            print("failed to check if confirmation code match: cannot parse return value")
-//            throw NSError(domain: USCFunErrorConstants.domain,
-//                          code: USCFunErrorConstants.kUSCFunErrorLeanEngineResultsNotExpected,
-//                          userInfo: [NSLocalizedDescriptionKey: "failed to check if confirmation code match: cannot parse return value"])
-//        }
-//        
-//        return isMatched
-        return true
+        var error: NSError?
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        let result = AVCloud.callFunction(LeanEngineFunctions.nameOfCheckIfConfirmationCodeMatches, withParameters: ["email": email, "code": code], error: &error)
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        
+        if error != nil {
+            print(error!)
+            throw error!
+        }
+        
+        guard let isMatched = result as? Bool else {
+            print("failed to check if confirmation code match: cannot parse return value")
+            throw NSError(domain: USCFunErrorConstants.domain,
+                          code: USCFunErrorConstants.kUSCFunErrorLeanEngineResultsNotExpected,
+                          userInfo: [NSLocalizedDescriptionKey: "failed to check if confirmation code match: cannot parse return value"])
+        }
+        
+        return isMatched
     }
     
     static func requestConfirmationCode(email: String)throws {
