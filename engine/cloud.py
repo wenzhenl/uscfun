@@ -7,6 +7,7 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+from leancloud import HttpsRedirectMiddleware
 from leancloud import Engine
 from leancloud import LeanEngineError
 from leancloud import Object
@@ -50,6 +51,7 @@ subscription_url = 'https://leancloud.cn/1.1/rtm/conversation/subscription'
 subscriber_url = 'https://leancloud.cn/1.1/rtm/broadcast/subscriber'
 messages_url = 'https://us-api.leancloud.cn/1.1/rtm/messages'
 
+app = HttpsRedirectMiddleware(app)
 engine = Engine(app)
 
 key_of_finalized_message = "hasSentFinalizedMessage"
