@@ -21,7 +21,6 @@ class NewEventNameViewController: UIViewController {
             return (textView.text ?? "").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         }
         set {
-            textView.text = newValue
             nextBarButton.isEnabled = !newValue.isEmpty
             placeholderLabel.text = newValue.isEmpty ? "请写下你要发起的微活动名称" : ""
             UserDefaults.newEventName = newValue
@@ -50,6 +49,7 @@ class NewEventNameViewController: UIViewController {
         self.textView.delegate = self
         self.textView.textContainer.lineFragmentPadding = 0
         eventName = UserDefaults.newEventName ?? ""
+        textView.text = UserDefaults.newEventName
         self.textView.becomeFirstResponder()
     }
     
