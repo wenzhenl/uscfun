@@ -47,8 +47,8 @@ snNewVersionReleased = 3
 # messages_url = 'https://api.leancloud.cn/1.1/rtm/messages'
 
 conversation_url = "https://us-api.leancloud.cn/1.1/classes/_Conversation"
-subscription_url = 'https://leancloud.cn/1.1/rtm/conversation/subscription'
-subscriber_url = 'https://leancloud.cn/1.1/rtm/broadcast/subscriber'
+subscription_url = 'https://us-api.leancloud.cn/1.1/rtm/conversation/subscription'
+subscriber_url = 'https://us-api.leancloud.cn/1.1/rtm/broadcast/subscriber'
 messages_url = 'https://us-api.leancloud.cn/1.1/rtm/messages'
 
 app = HttpsRedirectMiddleware(app)
@@ -127,8 +127,7 @@ def requestConfirmationCode(**params):
             print "toaddr: " + toaddr
             password = "580230richang"
 
-            # code = ''.join(choice(digits) for i in xrange(6))
-            code = "123456"
+            code = ''.join(choice(digits) for i in xrange(6))
             print "code: " + code
             ConfirmationCode = Object.extend('ConfirmationCode')
             query = Query(ConfirmationCode)
@@ -430,7 +429,7 @@ def _receiversOffline(**params):
             'badge': 'Increment',
             'sound': 'default',
             # 使用开发证书
-            '_profile': 'dev',
+            '_profile': 'dis',
             'alert': short_content,
         }
         print('_receiversOffline end')
