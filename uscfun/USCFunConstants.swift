@@ -107,6 +107,10 @@ struct RatingKeyConstants {
     static let keyOfRatedBy = "ratedBy"
 }
 
+struct InstallationKeyConstants {
+    static let keyOfChannels = "channels"
+}
+
 enum UIUserInterfaceIdiom : Int {
     case unspecified
     case phone

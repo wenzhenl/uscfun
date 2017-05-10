@@ -241,7 +241,16 @@ class EventDetailViewController: UIViewController {
             succeeded, error in
             SVProgressHUD.dismiss()
             if succeeded {
+                /// subscribe event push notification
+                let current = AVInstallation.current()
+                current.addUniqueObject(self.event.objectId!, forKey: InstallationKeyConstants.keyOfChannels)
+                current.saveInBackground()
+                let push = AVPush()
+                push.setChannel(self.event.objectId!)
+                push.setMessage(UserDefaults.nickname! + "加入了你的微活动:" + self.event.name)
+                push.sendInBackground()
                 
+                /// join event conversation
                 LCChatKit.sharedInstance().conversationService.fetchConversation(withConversationId: self.event.conversationId) {
                     conversation, error in
                     guard let conversation = conversation else {
@@ -345,6 +354,15 @@ class EventDetailViewController: UIViewController {
                 succeeded, error in
                 SVProgressHUD.dismiss()
                 if succeeded {
+                    
+                    /// unsubscribe event push notification
+                    let current = AVInstallation.current()
+                    current.remove(self.event.objectId!, forKey: InstallationKeyConstants.keyOfChannels)
+                    current.saveInBackground()
+                    let push = AVPush()
+                    push.setChannel(self.event.objectId!)
+                    push.setMessage(UserDefaults.nickname! + "退出了你的微活动:" + self.event.name)
+                    push.sendInBackground()
                     
                     LCChatKit.sharedInstance().conversationService.fetchConversation(withConversationId: self.event.conversationId) {
                         conversation, error in
