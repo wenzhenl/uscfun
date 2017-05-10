@@ -364,6 +364,7 @@ class EventDetailViewController: UIViewController {
                     push.setMessage(UserDefaults.nickname! + "退出了你的微活动:" + self.event.name)
                     push.sendInBackground()
                     
+                    /// quit event conversation
                     LCChatKit.sharedInstance().conversationService.fetchConversation(withConversationId: self.event.conversationId) {
                         conversation, error in
                         guard let conversation = conversation else {

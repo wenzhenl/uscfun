@@ -254,7 +254,7 @@ class EditEventViewController: FormViewController {
             if succeeded {
                 delegate?.userDidUpdatedEvent(event: event)
                 EventRequest.setEvent(event: event, with: event.objectId!, for: .myongoing) {
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidUpdateEvent"), object: nil, userInfo: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userDidUpdateEvent"), object: nil, userInfo: ["eventId": self.event.objectId!])
                     self.presentingViewController?.dismiss(animated: true, completion: nil)
                 }
             }

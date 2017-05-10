@@ -213,6 +213,21 @@ class MyEventListViewController: UIViewController {
     }
     
     func handleUpdateEvent(notification: Notification) {
+        guard let info = notification.userInfo as? [String: String], let eventId = info["eventId"] else {
+            print("cannot parse update event notification")
+            return
+        }
+        
+        guard let event = EventRequest.myOngoingEvents[eventId] else {
+            print("cannot find updated event in my ongoing events")
+            return
+        }
+        
+        let push = AVPush()
+        push.setChannel(eventId)
+        push.setMessage(UserDefaults.nickname! + "修改了微活动:" + event.name)
+        push.sendInBackground()
+        
         self.tableView.reloadData()
     }
     
