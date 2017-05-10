@@ -127,7 +127,8 @@ def requestConfirmationCode(**params):
             print "toaddr: " + toaddr
             password = "580230richang"
 
-            code = ''.join(choice(digits) for i in xrange(6))
+            # code = ''.join(choice(digits) for i in xrange(6))
+            code = "123456"
             print "code: " + code
             ConfirmationCode = Object.extend('ConfirmationCode')
             query = Query(ConfirmationCode)
@@ -429,7 +430,7 @@ def _receiversOffline(**params):
             'badge': 'Increment',
             'sound': 'default',
             # 使用开发证书
-            '_profile': 'dis',
+            '_profile': 'prod',
             'alert': short_content,
         }
         print('_receiversOffline end')
