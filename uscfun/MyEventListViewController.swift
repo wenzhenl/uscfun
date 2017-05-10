@@ -90,6 +90,7 @@ class MyEventListViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateEvent(notification:)), name: NSNotification.Name(rawValue: "userDidUpdateEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleCancelEvent(notification:)), name: NSNotification.Name(rawValue: "userDidCancelEvent"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdatedEventAvailable(notification:)), name: NSNotification.Name(rawValue: "updatedEventAvailable"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNewEventAvailable(notification:)), name: NSNotification.Name(rawValue: "newEventAvailable"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNewMessageReceived(notification:)), name: NSNotification.Name(rawValue: LCCKNotificationMessageReceived), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleReturnedFromConversation(notification:)), name: NSNotification.Name(rawValue: "userReturnedFromConversation"), object: nil)
 
@@ -213,6 +214,19 @@ class MyEventListViewController: UIViewController {
     
     func handleUpdateEvent(notification: Notification) {
         self.tableView.reloadData()
+    }
+    
+    func handleNewEventAvailable(notification: Notification) {
+        guard let info = notification.userInfo as? [String: String], let eventId = info["eventId"] else {
+            print("cannot parse UpdatedEventAvailable notification")
+            return
+        }
+        /// if this is the event that I just post,  subscribe to event push notification
+        if EventRequest.myOngoingEvents.keys.contains(eventId) {
+            let current = AVInstallation.current()
+            current.addUniqueObject(eventId, forKey: InstallationKeyConstants.keyOfChannels)
+            current.saveInBackground()
+        }
     }
     
     func handleCancelEvent(notification: Notification) {
