@@ -233,14 +233,20 @@ class MyEventListViewController: UIViewController {
     
     func handleNewEventAvailable(notification: Notification) {
         guard let info = notification.userInfo as? [String: String], let eventId = info["eventId"] else {
-            print("cannot parse UpdatedEventAvailable notification")
+            print("cannot parse NewEventAvailable notification")
             return
         }
-        /// if this is the event that I just post,  subscribe to event push notification
-        if EventRequest.myOngoingEvents.keys.contains(eventId) {
-            let current = AVInstallation.current()
-            current.addUniqueObject(eventId, forKey: InstallationKeyConstants.keyOfChannels)
-            current.saveInBackground()
+
+        EventRequest.fetchEvent(with: eventId) {
+            error, event in
+            if let event = event {
+                /// subscribe event push notifications that I just post
+                if event.createdBy == AVUser.current()! {
+                    let current = AVInstallation.current()
+                    current.addUniqueObject(eventId, forKey: InstallationKeyConstants.keyOfChannels)
+                    current.saveInBackground()
+                }
+            }
         }
     }
     

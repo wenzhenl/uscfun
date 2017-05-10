@@ -176,7 +176,7 @@ class EventListViewController: UIViewController {
     
     func handleNewEventAvailable(notification: Notification) {
         guard let info = notification.userInfo as? [String: String], let eventId = info["eventId"] else {
-            print("cannot parse UpdatedEventAvailable notification")
+            print("cannot parse NewEventAvailable notification")
             return
         }
         EventRequest.fetchEvent(with: eventId) {
