@@ -127,8 +127,8 @@ def requestConfirmationCode(**params):
             print "toaddr: " + toaddr
             password = "580230richang"
 
-            # code = ''.join(choice(digits) for i in xrange(6))
-            code = "123456"
+            code = ''.join(choice(digits) for i in xrange(6))
+            # code = "123456"
             print "code: " + code
             ConfirmationCode = Object.extend('ConfirmationCode')
             query = Query(ConfirmationCode)
