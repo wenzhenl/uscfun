@@ -11,3 +11,4 @@ engine/*.pyc
 engine/runtime.txt
 engine/test.py
 engine/static/js/*
+build/
